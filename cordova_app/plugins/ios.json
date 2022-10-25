@@ -1,0 +1,121 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-actionsheet": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-advanced-http": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-android-window-background": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-review": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-bambuser": {
+      "BAMBUSER_CAMERA_USAGE_DESCRIPTION": "Access camera to stream live",
+      "BAMBUSER_MIC_USAGE_DESCRIPTION": "Access microphone to stream live",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-battery-status": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-facebook-connect": {
+      "APP_ID": "123456789",
+      "APP_NAME": "myApplication",
+      "FACEBOOK_URL_SCHEME_SUFFIX": " ",
+      "OTHER_APP_SCHEMES": " ",
+      "FACEBOOK_AUTO_LOG_APP_EVENTS": "true",
+      "FACEBOOK_HYBRID_APP_EVENTS": "false",
+      "FACEBOOK_ADVERTISER_ID_COLLECTION": "true",
+      "FACEBOOK_ANDROID_SDK_VERSION": "11.3.0",
+      "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
+      "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-media": {
+      "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-networkinterface": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-safariviewcontroller": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-sign-in-with-apple": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-x-toast": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "skwas-cordova-plugin-datetimepicker": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    }
+  }
+}

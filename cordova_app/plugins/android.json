@@ -1,0 +1,131 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-actionsheet": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-advanced-http": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-android-window-background": {
+      "WINDOW_BACKGROUND_COLOR": "#ffffff",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-review": {
+      "ANDROID_PLAY_CORE_VERSION": "1.8.+",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-bambuser": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-battery-status": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-facebook-connect": {
+      "APP_ID": "123456789",
+      "APP_NAME": "myApplication",
+      "FACEBOOK_URL_SCHEME_SUFFIX": " ",
+      "OTHER_APP_SCHEMES": " ",
+      "FACEBOOK_AUTO_LOG_APP_EVENTS": "true",
+      "FACEBOOK_HYBRID_APP_EVENTS": "false",
+      "FACEBOOK_ADVERTISER_ID_COLLECTION": "true",
+      "FACEBOOK_ANDROID_SDK_VERSION": "11.3.0",
+      "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
+      "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+      "ANDROID_ICON_ACCENT": "#FF00FFFF",
+      "ANDROID_FIREBASE_PERFORMANCE_MONITORING": "false",
+      "ANDROID_PLAY_SERVICES_TAGMANAGER_VERSION": "18.0.1",
+      "ANDROID_PLAY_SERVICES_AUTH_VERSION": "20.0.1",
+      "ANDROID_FIREBASE_ANALYTICS_VERSION": "20.0.2",
+      "ANDROID_FIREBASE_MESSAGING_VERSION": "23.0.0",
+      "ANDROID_FIREBASE_CONFIG_VERSION": "21.0.1",
+      "ANDROID_FIREBASE_PERF_VERSION": "20.0.4",
+      "ANDROID_FIREBASE_AUTH_VERSION": "21.0.1",
+      "ANDROID_FIREBASE_INAPPMESSAGING_VERSION": "20.1.1",
+      "ANDROID_FIREBASE_FIRESTORE_VERSION": "24.0.1",
+      "ANDROID_FIREBASE_FUNCTIONS_VERSION": "20.0.1",
+      "ANDROID_FIREBASE_IID_VERSION": "21.1.0",
+      "ANDROID_FIREBASE_INSTALLATIONS_VERSION": "17.0.0",
+      "ANDROID_FIREBASE_CRASHLYTICS_VERSION": "18.2.7",
+      "ANDROID_FIREBASE_CRASHLYTICS_NDK_VERSION": "18.2.7",
+      "ANDROID_GSON_VERSION": "2.8.9",
+      "ANDROID_FIREBASE_PERF_GRADLE_PLUGIN_VERSION": "1.4.1",
+      "ANDROID_GRPC_OKHTTP": "1.32.2",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-media": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-networkinterface": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-safariviewcontroller": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-sign-in-with-apple": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-x-toast": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "skwas-cordova-plugin-datetimepicker": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    }
+  }
+}

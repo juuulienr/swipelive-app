@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget version="1.0.0" android-versionCode="10000" android-versionName="1.0.0" defaultlocale="fr" id="com.swipelive.app" ios-CFBundleVersion="1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Swipe Live</name>
+    <description>Application Swipe Live</description>
+    <author email="contact@swipelive.fr" href="http://cordova.io">Swipe Live</author>
+    <content src="index.html"/>
+    <access origin="*"/>
+    <allow-navigation href="*"/>
+    <allow-intent href="*"/>
+
+    <platform name="browser">
+        <preference name="SplashScreen" value="res/screen/browser/screen.png"/>
+        <preference name="SplashScreenBackgroundColor" value="#ffffff"/>
+        <preference name="SplashScreenWidth" value="128"/>
+        <preference name="SplashScreenHeight" value="128"/>
+    </platform>
+
+    <platform name="android">
+        <allow-intent href="market:*"/>
+        <feature name="SocialSharing">
+            <param name="android-package" value="nl.xservices.plugins.SocialSharing"/>
+        </feature>
+        <splash density="port-ldpi" src="res/screen/android/screen-ldpi-portrait.png"/>
+        <splash density="port-mdpi" src="res/screen/android/screen-mdpi-portrait.png"/>
+        <splash density="port-hdpi" src="res/screen/android/screen-hdpi-portrait.png"/>
+        <splash density="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.png"/>
+        <splash density="port-xxhdpi" src="res/screen/android/screen-xxhdpi-portrait.png"/>
+        <splash density="port-xxxhdpi" src="res/screen/android/screen-xxxhdpi-portrait.png"/>
+        <splash density="land-ldpi" src="res/screen/android/screen-ldpi-landscape.png"/>
+        <splash density="land-mdpi" src="res/screen/android/screen-mdpi-landscape.png"/>
+        <splash density="land-hdpi" src="res/screen/android/screen-hdpi-landscape.png"/>
+        <splash density="land-xhdpi" src="res/screen/android/screen-xhdpi-landscape.png"/>
+        <splash density="land-xxhdpi" src="res/screen/android/screen-xxhdpi-landscape.png"/>
+        <splash density="land-xxxhdpi" src="res/screen/android/screen-xxxhdpi-landscape.png"/>
+        <icon density="ldpi" src="res/icon/android/ldpi.png"/>
+        <icon density="mdpi" src="res/icon/android/mdpi.png"/>
+        <icon density="hdpi" src="res/icon/android/hdpi.png"/>
+        <icon density="xhdpi" src="res/icon/android/xhdpi.png"/>
+        <icon density="xxhdpi" src="res/icon/android/xxhdpi.png"/>
+        <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png"/>
+    </platform>
+
+    <platform name="ios">
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
+        <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
+            <string>L'accès à la caméra est nécessaire pour prendre des photos</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+            <string>L'accès à la galerie est nécessaire pour récupérer des photos</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>L'accès à la localisation est nécessaire pour accéder à votre position</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
+            <string>L'accès à la galerie est nécessaire pour ajouter des photos</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="ITSAppUsesNonExemptEncryption">
+            <false />
+        </edit-config>
+        <config-file parent="com.apple.developer.in-app-payments" target="*-Debug.plist">
+            <array>
+                <string>merchant.com.swipelive.app</string>
+            </array>
+        </config-file>
+        <config-file parent="com.apple.developer.in-app-payments" target="*-Release.plist">
+            <array>
+                <string>merchant.com.swipelive.app</string>
+            </array>
+        </config-file>
+        <feature name="SocialSharing">
+            <param name="ios-package" value="SocialSharing"/>
+        </feature>
+        <preference name="deployment-target" value="12.0" />
+        <preference name="UseSwiftLanguageVersion" value="5" />
+        <splash src="res/screen/ios/Default@2x~universal~anyany.png"/>
+        <splash src="res/screen/ios/Default@2x~universal~comany.png"/>
+        <splash src="res/screen/ios/Default@2x~universal~comcom.png"/>
+        <splash src="res/screen/ios/Default@3x~universal~anyany.png"/>
+        <splash src="res/screen/ios/Default@3x~universal~anycom.png"/>
+        <splash src="res/screen/ios/Default@3x~universal~comany.png"/>
+
+        <icon height="1024" src="res/icon/ios/icon-1024.png" width="1024"/>
+        <icon height="20" src="res/icon/ios/icon-20.png" width="20"/>
+        <icon height="48" src="res/icon/ios/icon-24@2x.png" width="48"/>
+        <icon height="29" src="res/icon/ios/icon-29.png" width="29"/>
+        <icon height="58" src="res/icon/ios/icon-29@2x.png" width="58"/>
+        <icon height="87" src="res/icon/ios/icon-29@3x.png" width="87"/>
+        <icon height="40" src="res/icon/ios/icon-40.png" width="40"/>
+        <icon height="80" src="res/icon/ios/icon-40@2x.png" width="80"/>
+        <icon height="88" src="res/icon/ios/icon-44@2x.png" width="88"/>
+        <icon height="50" src="res/icon/ios/icon-50.png" width="50"/>
+        <icon height="100" src="res/icon/ios/icon-50@2x.png" width="100"/>
+        <icon height="57" src="res/icon/ios/icon-57.png" width="57"/>
+        <icon height="114" src="res/icon/ios/icon-57@2x.png" width="114"/>
+        <icon height="60" src="res/icon/ios/icon-60.png" width="60"/>
+        <icon height="120" src="res/icon/ios/icon-60@2x.png" width="120"/>
+        <icon height="180" src="res/icon/ios/icon-60@3x.png" width="180"/>
+        <icon height="72" src="res/icon/ios/icon-72.png" width="72"/>
+        <icon height="144" src="res/icon/ios/icon-72@2x.png" width="144"/>
+        <icon height="76" src="res/icon/ios/icon-76.png" width="76"/>
+        <icon height="152" src="res/icon/ios/icon-76@2x.png" width="152"/>
+        <icon height="167" src="res/icon/ios/icon-167.png" width="167"/>
+        <icon height="172" src="res/icon/ios/icon-86@2x.png" width="172"/>
+        <icon height="196" src="res/icon/ios/icon-98@2x.png" width="196"/>
+        <icon height="196" src="res/icon/ios/icon-98@2x.png" width="196"/>
+        <icon height="216" src="res/icon/ios/icon-108@2x.png" width="216"/>
+        <icon height="180" src="res/icon/ios/icon-180.png" width="180"/>
+    </platform>
+
+    <preference name="android-targetSdkVersion" value="30"/>
+    <preference name="android-minSdkVersion" value="22"/>
+    <preference name="GradlePluginKotlinEnabled" value="true"/>
+    <preference name="AllowInlineMediaPlayback" value="true"/>
+    <preference name="AndroidXEnabled" value="true"/>
+    <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
+    <preference name="DisallowOverscroll" value="true"/>
+    <preference name="orientation" value="portrait"/>
+    
+    <preference name="ShowSplashScreenSpinner" value="false"/>
+    <preference name="StatusBarOverlaysWebView" value="false"/>
+    <preference name="StatusBarBackgroundColor" value="#ffffff"/>
+    <preference name="StatusBarStyle" value="default"/>
+    <preference name="InAppBrowserStatusBarStyle" value="lightcontent"/>
+</widget>
