@@ -270,14 +270,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-whitelist": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-whitelist@1.3.5"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "skwas-cordova-plugin-datetimepicker": {
     "source": {
       "type": "registry",
@@ -298,6 +290,14 @@
     "source": {
       "type": "registry",
       "id": "https://github.com/breautek/cordova-plugin-statusbar#430e7df32c0937d46e3a596b37ecbd50a42cb9c3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-whitelist": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-whitelist@1.3.5"
     },
     "is_top_level": true,
     "variables": {}

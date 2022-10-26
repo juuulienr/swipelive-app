@@ -83,13 +83,13 @@
                 "ANDROID_FIREBASE_PERF_GRADLE_PLUGIN_VERSION": "1.4.1",
                 "ANDROID_GRPC_OKHTTP": "1.32.2"
             },
-            "cordova-plugin-whitelist": {},
             "skwas-cordova-plugin-datetimepicker": {},
             "cordova-plugin-x-socialsharing": {
                 "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
                 "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
             },
-            "cordova-plugin-statusbar": {}
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-whitelist": {}
         },
         "platforms": [
             "ios",
@@ -99,7 +99,7 @@
     },
     "devDependencies": {
         "cordova": "^11.0.0",
-        "cordova-android": "^10.1.2",
+        "cordova-android": "^9.1.0",
         "cordova-browser": "^6.0.0",
         "cordova-ios": "^6.2.0",
         "cordova-plugin-actionsheet": "^2.3.3",

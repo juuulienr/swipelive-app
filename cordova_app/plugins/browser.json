@@ -89,9 +89,6 @@
     "cordova-plugin-vibration": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-x-socialsharing": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
@@ -102,6 +99,9 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "skwas-cordova-plugin-datetimepicker": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

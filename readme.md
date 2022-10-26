@@ -55,7 +55,6 @@ android.enableJetifier=true
 
 
 
-
 III) Congiguration des certificats dans Firebase/Apple 
 
 1) Créer un APP ID dans Identifier --> https://developer.apple.com/account/resources/identifiers/list

@@ -39,6 +39,10 @@
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-camera": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-device": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -117,6 +121,9 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "skwas-cordova-plugin-datetimepicker": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },
