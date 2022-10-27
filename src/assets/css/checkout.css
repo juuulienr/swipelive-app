@@ -694,11 +694,6 @@
   z-index: 1000000000;
 }
 
-#stripe-payment-element-errors {
-  color: #ff0000;
-  margin-top: 10px;
-}
-
 .product--quantity--detail {
   display: flex;
   flex-direction: column;

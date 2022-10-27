@@ -12,7 +12,6 @@ import VueObserveVisibility from 'vue-observe-visibility';
 if (window.location.protocol === 'file:') {
   Vue.config.productionTip = true;
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
-  window.localStorage.setItem("stripe_pk", "pk_test_aIJETJxn5e12xD24xXy0ovEg");
   window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");
 
   Pusher.logToConsole = true;
@@ -24,7 +23,6 @@ if (window.location.protocol === 'file:') {
 } else {
   Vue.config.productionTip = false;
   window.localStorage.setItem("baseUrl", "http://127.0.0.1:8000");
-  window.localStorage.setItem("stripe_pk", "pk_test_aIJETJxn5e12xD24xXy0ovEg");
   window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");
 } 
 

@@ -211,7 +211,6 @@ export default {
       firstname: null,
       lastname: null,
       baseUrl: window.localStorage.getItem("baseUrl"),
-      stripe_pk: window.localStorage.getItem("stripe_pk"),
       errorFirstname: false,
       errorLastname: false,
       errorEmail: false,

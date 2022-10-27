@@ -265,7 +265,6 @@ export default {
       tokenAccount: null,
       tokenPerson: null,
       baseUrl: window.localStorage.getItem("baseUrl"),
-      stripe_pk: window.localStorage.getItem("stripe_pk"),
       waiting: false,
       errorFirstname: false,
       errorLastname: false,
@@ -382,77 +381,6 @@ export default {
     }, 
     async submit() {
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorDob && !this.errorBusinessType && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren) {
-        const stripe = Stripe(this.stripe_pk);
-
-        if (this.businessType == 'company') {
-          const accountResult = await stripe.createToken('account', {
-            business_type: 'company',
-            company: {
-              name: this.company,
-              tax_id: this.siren,
-              address: {
-                line1: this.address,
-                city: this.city,
-                postal_code: this.zip,
-              },
-              owners_provided: true,
-              directors_provided: true,
-              executives_provided: true,
-            },
-            tos_shown_and_accepted: true,
-          });
-
-          const personResult = await stripe.createToken('person', {
-            person: {
-              first_name: this.firstname,
-              last_name: this.lastname,
-              email: this.email,
-              dob: {
-                day: parseInt(this.day),
-                month: parseInt(this.month),
-                year: parseInt(this.year)
-              },
-              address: {
-                line1: this.address,
-                city: this.city,
-                postal_code: this.zip
-              },
-              relationship: {
-                representative: true,
-                owner: true,
-              }
-            },
-          });
-
-          if (accountResult.token && personResult.token) {
-            this.tokenAccount = accountResult.token.id;
-            this.tokenPerson = personResult.token.id;
-          }
-        } else if (this.businessType == 'individual') {
-          const accountResult = await stripe.createToken('account', {
-            business_type: 'individual',
-            individual: {
-              first_name: this.firstname,
-              last_name: this.lastname,
-              email: this.email,
-              dob: {
-                day: parseInt(this.day),
-                month: parseInt(this.month),
-                year: parseInt(this.year)
-              },
-              address: {
-                line1: this.address,
-                city: this.city,
-                postal_code: this.zip,
-              },
-            },
-            tos_shown_and_accepted: true,
-          });
-
-          if (accountResult.token) {
-            this.tokenAccount = accountResult.token.id;
-          }
-        }
 
         window.cordova.plugin.http.setDataSerializer('json');
         var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "picture": this.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "dob": this.dob, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "tokenAccount": this.tokenAccount, "tokenPerson": this.tokenPerson };
