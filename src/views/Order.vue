@@ -15,10 +15,11 @@
         <div class="top-author">
           <div class="top-author--container" style="margin-bottom: 15px;">
             <div class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-              <img :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
+              <img v-if="order.vendor.user.picture" :src="baseUrl + '/uploads/' + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
+              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <div>
-                <div><span>08 Nov 2021</span></div>
-                <span>Julien REIGNIER</span>
+                <div><span>{{ order.createdAt }}</span></div>
+                <span>{{ order.vendor.businessName }}</span>
               </div>
             </div>
           </div>
@@ -45,13 +46,13 @@
                 <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #999;">{{ order.total | formatPrice }}€</h6>
               </div>
               <div class="css-9jay18">
-                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Comission SwipeLive</p>
+                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Commission SwipeLive</p>
                 <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #999; font-weight: 500">-{{ order.fees | formatPrice }}€</h6>
               </div>
               <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
               <div class="css-9jay18">
                 <h6 class="MuiTypography-root MuiTypography-subtitle1 css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
-                <div class="MuiBox-root css-s2uf1z"><h6 class="MuiTypography-root MuiTypography-subtitle1 css-kdhaao" style="font-weight: 600;">18,70€</h6></div>
+                <div class="MuiBox-root css-s2uf1z"><h6 class="MuiTypography-root MuiTypography-subtitle1 css-kdhaao" style="font-weight: 600;">{{ remaining | formatPrice }}€</h6></div>
               </div>
             </div>
           </div>
@@ -61,20 +62,20 @@
           <div class="MuiCardHeader-root css-15x3obx">
             <div class="MuiCardHeader-content css-11qjisw">
               <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j">Suivi du colis</span>
-              <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="float: right;font-size: 13px;font-weight: 500;color: hsl(240deg 5% 72%);margin-top: 3px;">15445454545</span>
+              <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="float: right;font-size: 13px;font-weight: 500;color: hsl(240deg 5% 72%);margin-top: 3px;">N°130340304</span>
             </div>
           </div>
           <div class="MuiCardContent-root css-18mhetb">
             <ul class="MuiTimeline-root MuiTimeline-positionRight css-1oa1nt">
               <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
-                <div class="MuiTimelineSeparator-root css-11tgw8h"><span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledPrimary css-1f06y3u"></span><span class="MuiTimelineConnector-root css-fz3k0c"></span></div>
+                <div class="MuiTimelineSeparator-root css-11tgw8h"><span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledSuccess css-1f06y3u"></span><span class="MuiTimelineConnector-root css-fz3k0c" style="background-color: #18cea0;"></span></div>
                 <div class="MuiTypography-root MuiTypography-body1 MuiTimelineContent-root MuiTimelineContent-positionRight css-hg5jyh">
                   <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">Commande validée</h6>
                   <span class="MuiTypography-root MuiTypography-caption css-6f545k">22 Mar 2022 14h46</span>
                 </div>
               </li>
               <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
-                <div class="MuiTimelineSeparator-root css-11tgw8h"><span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledSuccess css-1f06y3t"></span><span class="MuiTimelineConnector-root css-fz3k0c"></span></div>
+                <div class="MuiTimelineSeparator-root css-11tgw8h"><span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledSuccess css-1f06y3u"></span><span class="MuiTimelineConnector-root css-fz3k0c"></span></div>
     
                 <div class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;"><path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/></svg> Imprimer le bon de livraison</div>
                <!--  <div class="MuiTypography-root MuiTypography-body1 MuiTimelineContent-root MuiTimelineContent-positionRight css-hg5jyh">
@@ -107,7 +108,7 @@
                 <div class="MuiTimelineSeparator-root css-11tgw8h"><span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledError css-1f06y3t"></span></div>
                 <div class="MuiTypography-root MuiTypography-body1 MuiTimelineContent-root MuiTimelineContent-positionRight css-hg5jyh">
                   <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: hsl(240deg 5% 72%); font-weight: 500;">Commande terminée</h6>
-                  <span class="MuiTypography-root MuiTypography-caption css-6f545k" style="color: hsl(240deg 5% 72%);">Nous avons transféré vos 18,70€ vers votre porte-monnaie</span>
+                  <span class="MuiTypography-root MuiTypography-caption css-6f545k" style="color: hsl(240deg 5% 72%);">28 Mar 2022 1:46 PM</span>
                 </div>
               </li>
             </ul>
@@ -1642,6 +1643,7 @@ export default {
   data() {
     return {
       order: null,
+      remaining: null,
       id: this.$route.params.id,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
@@ -1659,6 +1661,9 @@ export default {
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.order = JSON.parse(response.data);
+      this.remaining = parseFloat(this.order.total) - parseFloat(this.order.fees);
+      this.remaining = this.remaining.toFixed(2);
+      console.log(this.remaining);
     }, (response) => {
       console.log(response.error);
     });

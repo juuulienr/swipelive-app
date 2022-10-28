@@ -28,14 +28,14 @@
         </div>
 
         <div class="top-author">
-          <div v-if="user.purchases.length > 0" class="top-author--container">
-            <div @click="goOrder(purchase.id)" v-for="purchase in user.purchases" v-if="purchase.status == 'succeeded'" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-              <img src="https://minimal-assets-api.vercel.app/assets/images/products/product_2.jpg" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
+          <div v-if="purchases" class="top-author--container">
+            <div @click="goOrder(purchase.id)" v-for="purchase in purchases" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+              <img v-if="purchase.lineItems[0].product.uploads" :src="baseUrl + '/uploads/' + purchase.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
               <div>
-                <div><span>08 Nov 2021</span></div>
-                <span>Julien REIGNIER</span>
+                <div><span>{{ purchase.createdAt }}</span></div>
+                <span>{{ purchase.vendor.businessName }}</span>
               </div>
-              <span class="css-4ioo3c">{{ purchase.total | formatPrice }}€</span>
+              <span class="css-4ioo3c" style="color: rgb(223, 104, 104); background-color: rgb(251, 239, 239);">{{ purchase.total | formatPrice }}€</span>
             </div>
           </div>
           <div v-else style="text-align: center; margin-top: 30px;">
@@ -45,7 +45,7 @@
 
 
           <!-- <div v-if="isSales"> -->
-           <!--  <div v-if="sales">
+            <div v-if="sales">
               <div v-for="sale in sales" class="items">
                 <div class="one_item">
                   <router-link :to="{ name: 'Order', params: { id: sale.id }}">
@@ -68,7 +68,7 @@
             <div v-else style="text-align: center; margin-top: 30px;">
               Vous n'avez pas de vente
             </div>
-          </div> -->
+          </div>
         <!-- </div> -->
       </div>
     </div>
@@ -591,6 +591,8 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      sales: null,
+      purchases: null,
     }
   },
   filters: {
@@ -602,17 +604,18 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
-    // window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //   var result = JSON.parse(response.data);
-    //   console.log(result);
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      var result = JSON.parse(response.data);
+      console.log(result);
 
-    //   if (result) {
-    //     this.sales = result.sales;
-    //     this.purchases = result.purchases;
-    //   }
-    // }, (response) => {
-    //   console.log(response.error);
-    // });
+      if (result) {
+        this.sales = result.sales;
+        this.purchases = result.purchases;
+        console.log(this.purchases);
+      }
+    }, (response) => {
+      console.log(response.error);
+    });
   },
   methods: {
     goOrder(id) {

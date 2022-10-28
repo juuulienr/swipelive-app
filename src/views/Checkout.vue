@@ -107,7 +107,7 @@
         </div>
 
         <div style="margin: 30px auto">
-          <div @click="nativePayment()" style="text-align: center;">
+          <div @click="payment()" style="text-align: center;">
             <div class="btn-swipe">Paiement</div>
           </div>
         </div>
@@ -308,12 +308,13 @@ export default {
     });
   },
   methods: { 
-    async nativePayment() {
+    async payment() {
     	try {
-  			const trustshare = window.trustshare('sandbox_pk_1LQaPGXimq3JzXalAiMh4SerMvdwZ0oF');
   			var url = "https://checkout.trustshare.io/process?s=" + this.client_secret;
   			const result = await this.openUrl(url);
     		console.log(result);
+
+  			// const trustshare = window.trustshare('sandbox_pk_1LQaPGXimq3JzXalAiMh4SerMvdwZ0oF');
     		// const result = await trustshare.sdk.v1.confirmPaymentIntent(this.client_secret);
     		// const result = await trustshare.sdk.v1.confirmVerification(this.client_secret);
     		// console.log(result);
@@ -397,8 +398,17 @@ export default {
               console.log('opened');
             } else if (result.event === 'loaded') {
               console.log('loaded');
+				      // setInterval(() => {
+				      //   this.dismissSafari();
+				      //   clearInterval();
+				      // }, 10000);
             } else if (result.event === 'closed') {
               console.log('closed');
+
+		          // setInterval(() => {
+		          //   clearInterval();
+		          //   this.$router.push({ name: 'Feed' });
+		          // }, 3000);
             }
           }, (error) => {
             console.log("KO: " + error);
@@ -408,6 +418,9 @@ export default {
         }
       });
     },
+    dismissSafari() {
+			window.SafariViewController.hide();
+    }
   }
 };
 
