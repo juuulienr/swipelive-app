@@ -13,7 +13,8 @@ import Home from '@/views/Home'
 import About from '@/views/About'
 import Product from '@/views/Product'
 import Profile from '@/views/Profile'
-import Checkout from '@/views/Checkout'
+import Shipping from '@/views/Shipping'
+import Payment from '@/views/Payment'
 import GridProducts from '@/views/GridProducts'
 import ListOrders from '@/views/ListOrders'
 import ListMessages from '@/views/ListMessages'
@@ -87,9 +88,13 @@ export default new Router({
       name: 'Product',
       component: Product
     }, {
-      path: '/checkout/:quantity/:product/:variant?',
-      name: 'Checkout',
-      component: Checkout
+      path: '/shipping/:quantity/:product/:variant?',
+      name: 'Shipping',
+      component: Shipping
+    }, {
+      path: '/payment/:url?',
+      name: 'Payment',
+      component: Payment
     }, {
       path: '/prelive/step1',
       name: 'PreLive',

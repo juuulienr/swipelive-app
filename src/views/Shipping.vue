@@ -4,7 +4,7 @@
       <svg @click="goBack()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
         <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
       </svg>
-      <h5 style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Checkout</h5>
+      <h5 style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Livraison</h5>
     </div>
     <div class="checkout" style="margin-top: 50px;">
       <div class="checkout__body">
@@ -106,12 +106,13 @@
           </div>
         </div>
 
-        <div style="margin: 30px auto">
-          <div @click="payment()" style="text-align: center;">
+        <div v-if="url" @click="payment()" style="margin: 30px auto">
+          <div style="text-align: center;">
             <div class="btn-swipe">Paiement</div>
           </div>
         </div>
       </div>
+
 
 
       <!-- shipping to home -->
@@ -248,7 +249,7 @@
 <script>
 
 export default {
-  name: 'Checkout',
+  name: 'Shipping',
   data() {
     return {
       product: this.$route.params.product,
@@ -277,6 +278,7 @@ export default {
       city: null,
       search: null,
       points: null,
+      url: null
     }
   },
   filters: {
@@ -303,24 +305,14 @@ export default {
     window.cordova.plugin.http.post(this.baseUrl + "/user/api/payment", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
       console.log(JSON.parse(response.data));
       this.client_secret = JSON.parse(response.data);
+  		this.url = "https://checkout.trustshare.io/process?s=" + this.client_secret;
     }, (response) => {
       console.log(response.error);
     });
   },
   methods: { 
     async payment() {
-    	try {
-  			var url = "https://checkout.trustshare.io/process?s=" + this.client_secret;
-  			const result = await this.openUrl(url);
-    		console.log(result);
-
-  			// const trustshare = window.trustshare('sandbox_pk_1LQaPGXimq3JzXalAiMh4SerMvdwZ0oF');
-    		// const result = await trustshare.sdk.v1.confirmPaymentIntent(this.client_secret);
-    		// const result = await trustshare.sdk.v1.confirmVerification(this.client_secret);
-    		// console.log(result);
-    	} catch (error) {
-    		console.log(error);
-    	}
+      this.$router.push({ name: 'Payment', params: { url: this.url } });
     },
     hideShipping() {
       this.popupShipping = false;
@@ -389,34 +381,6 @@ export default {
           console.log(response.error);
         });
       }
-    },
-    openUrl(url) {
-      window.SafariViewController.isAvailable((available) => {
-        if (available) {
-          window.SafariViewController.show({ url: url }, (result) => {
-            if (result.event === 'opened') {
-              console.log('opened');
-            } else if (result.event === 'loaded') {
-              console.log('loaded');
-				      // setInterval(() => {
-				      //   this.dismissSafari();
-				      //   clearInterval();
-				      // }, 10000);
-            } else if (result.event === 'closed') {
-              console.log('closed');
-
-		          // setInterval(() => {
-		          //   clearInterval();
-		          //   this.$router.push({ name: 'Feed' });
-		          // }, 3000);
-            }
-          }, (error) => {
-            console.log("KO: " + error);
-          })
-        } else {
-          window.cordova.InAppBrowser.open(url, '_system', 'location=no');
-        }
-      });
     },
     dismissSafari() {
 			window.SafariViewController.hide();
