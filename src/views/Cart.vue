@@ -46,7 +46,7 @@
         </div>
 
         <div style="margin: 30px auto">
-          <div @click="goShipping()" style="text-align: center;">
+          <div @click="goCheckout()" style="text-align: center;">
             <div class="btn-swipe">Acheter</div>
           </div>
         </div>
@@ -1051,8 +1051,8 @@ export default {
       this.subTotal = this.subTotal.toFixed(2);
       this.total = this.subTotal;
     },
-    goShipping() {
-      this.$router.push({ name: 'Shipping', params: { quantity: this.quantity, product: this.product, variant: this.variant.length ? this.variant : null } });
+    goCheckout() {
+      this.$router.push({ name: 'Checkout', params: { quantity: this.quantity, product: this.product, variant: this.variant.length ? this.variant : null } });
     },
   }
 };
