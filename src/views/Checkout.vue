@@ -54,13 +54,13 @@
 
 
         <!-- shippingAddress -->
-        <div class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+        <div v-if="shippingMethod != 'relay'" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
           <div class="MuiCardHeader-content css-11qjisw">
             <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Adresse de livraison</span>
           </div>
         </div>
 
-        <div v-if="shippingAddress" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
+        <div v-if="shippingAddress && shippingMethod != 'relay'" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
             <div class="card-title">
               {{ firstname }} {{ lastname }}
@@ -74,7 +74,7 @@
             </div>
           </div>
         </div>
-        <div v-else class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
+        <div v-else-if="!shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
           <div @click="showShippingAddress()" class="top-author--container" style="">
             <div class="top-author--item">
               <div>
@@ -82,6 +82,25 @@
                 <div><span></span></div>
               </div>
               <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+            </div>
+          </div>
+        </div>
+
+         
+        <!-- shippingAddress -->
+        <div v-if="shippingMethod == 'relay' && pointSelected" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+          <div class="MuiCardHeader-content css-11qjisw">
+            <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Détails de la livraison</span>
+          </div>
+        </div>
+        <div v-if="shippingMethod == 'relay' && pointSelected" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
+          <div class="card-body parcelshop-card-body">
+            <div class="card-title">
+              <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ pointSelected.name }}
+            </div>
+            <div class="card-text">
+              <div>{{ pointSelected.house_number }} {{ pointSelected.street }}</div>
+              <div>{{ pointSelected.zip }} {{ pointSelected.city }}</div>
             </div>
           </div>
         </div>
@@ -140,25 +159,6 @@
 				        	</div>
 				        </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-         
-        <!-- shippingAddress -->
-        <div v-if="shippingMethod == 'relay' && pointSelected" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
-          <div class="MuiCardHeader-content css-11qjisw">
-            <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Détails de la livraison</span>
-          </div>
-        </div>
-        <div v-if="shippingMethod == 'relay' && pointSelected" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
-          <div class="card-body parcelshop-card-body">
-            <div class="card-title">
-              <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ pointSelected.name }}
-            </div>
-            <div class="card-text">
-              <div>{{ pointSelected.house_number }} {{ pointSelected.street }}</div>
-              <div>{{ pointSelected.zip }} {{ pointSelected.city }}</div>
             </div>
           </div>
         </div>
