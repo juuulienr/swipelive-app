@@ -21,17 +21,17 @@
       </div>
 
       <!-- promo -->
-    <!--   <div @click="showPromo()" :style="{'top': safeareaTop2 }" class="video-page__influencer-badge4" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
+      <div @click="showPromo()" :style="{'top': safeareaTop2 }" class="video-page__influencer-badge4" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 9px; fill: white;"><path d="M536.5 170.7l-135.7-131.9c-9.453-9.219-24.67-9-33.94 .5c-9.234 9.5-9.016 24.69 .5 33.94l135.5 131.7C519 221.1 528 242.8 528 265.8s-8.969 44.63-25.3 60.95l-111.7 112.4c-9.344 9.406-9.312 24.59 .0938 33.94C395.8 477.7 401.9 480 408 480c6.172 0 12.33-2.359 17.02-7.078l111.7-112.3C562 335.3 576 301.6 576 265.8S562 196.2 536.5 170.7zM463.6 225.6L286.4 48.4C277.4 39.38 259.6 32 246.8 32H60C44.54 32 32 44.54 32 60v186.8c0 12.76 7.381 30.58 16.4 39.6l177.2 177.2c21.87 21.87 57.32 21.87 79.2 .002l158.8-158.8C485.5 282.9 485.5 247.5 463.6 225.6zM144 176c-17.67 0-32-14.32-32-32c0-17.68 14.33-32 32-32s32 14.32 32 32C176 161.7 161.7 176 144 176z"></path></svg>
           </span>
         </div>
-      </div> -->
+      </div>
 
 
       <!-- multistream -->
-    <!--   <div @click="actionSheet()" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4" style="position: absolute; height: 40px; z-index: 1000; left: 30px; background: transparent;">
+      <div @click="actionSheet()" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4" style="position: absolute; height: 40px; z-index: 1000; left: 30px; background: transparent;">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count" style="display: flex; align-items: center;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 32px; height: 32px; margin-left: 10px;fill: #fe2c55;"><defs></defs><path class="fa-primary" d="M288 200C257.1 200 232 225.1 232 256S257.1 312 288 312S344 286.9 344 256S318.9 200 288 200z"/><path class="fa-secondary" d="M64 256c0-51.5 16.98-99.91 49.13-139.1c11.05-13.78 8.844-33.94-4.953-45c-13.75-10.97-33.89-8.812-44.98 4.938C22.44 126.8 0 190.7 0 256c0 65.28 22.44 129.2 63.19 180C69.52 443.9 78.8 448 88.17 448c7.031 0 14.09-2.312 20-7.031c13.8-11.06 16-31.22 4.953-45C80.98 355.9 64 307.5 64 256zM512.8 75.96c-11.09-13.78-31.23-15.97-44.98-4.938c-13.8 11.06-16 31.22-4.953 45C495 156.1 512 204.5 512 256c0 51.5-16.98 99.91-49.13 139.1c-11.05 13.78-8.844 33.94 4.953 45C473.7 445.7 480.8 448 487.8 448c9.375 0 18.66-4.094 24.98-11.97C553.6 385.2 576 321.3 576 256C576 190.7 553.6 126.8 512.8 75.96zM392.3 149.1c-9.962 8.75-10.95 23.91-2.19 33.87c34.97 39.78 34.97 104.5 0 144.3c-8.758 9.969-7.772 25.12 2.19 33.87c4.567 3.1 10.21 5.969 15.84 5.969c6.678 0 13.32-2.75 18.06-8.156c50.33-57.25 50.33-150.4 0-207.7C417.4 142.2 402.3 141.2 392.3 149.1zM183.7 149.1C173.8 141.2 158.6 142.2 149.8 152.2c-50.33 57.25-50.33 150.4 0 207.7c4.739 5.406 11.39 8.156 18.06 8.156c5.614 0 11.28-1.969 15.84-5.969c9.962-8.75 10.95-23.91 2.19-33.87c-34.97-39.78-34.97-104.5 0-144.3C194.7 173.9 193.7 158.7 183.7 149.1z" style="fill: white;"/></svg>
@@ -42,7 +42,7 @@
             </svg>
           </span>
         </div>
-      </div> -->
+      </div>
 
       <!-- multistream popup -->
       <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupFacebook" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;"> 
