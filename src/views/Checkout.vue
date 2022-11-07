@@ -68,7 +68,8 @@
             <div class="card-text">
               <div>{{ address }}</div>
               <div>{{ zip }} {{ city }}</div>
-              <span style="float: right; margin-top: -51px;">
+              <div>{{ country }}</div>
+              <span style="float: right; margin-top: -62px;">
               	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"/></svg>
               </span>
             </div>
@@ -186,7 +187,7 @@
       </div>
 
 
-      <div @click="payment()" style="position: fixed; bottom: 0px; width: 100%; background: white; padding: 25px; padding-bottom: calc(env(safe-area-inset-bottom) + 25px); border-top: 1px solid rgba(22, 24, 35, 0.12); z-index: 100;">
+      <div @click="payment()" style="position: fixed; bottom: 0px; width: 100%; background: white; padding: 25px; padding-bottom: calc(env(safe-area-inset-bottom) + 10px); border-top: 1px solid rgba(22, 24, 35, 0.12); z-index: 100;">
         <div style="text-align: center;">
           <div class="btn-swipe">Payer</div>
         </div>
@@ -218,15 +219,9 @@
 
           <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
             <fieldset>
-              <legend>Adresse</legend>
-              <input type="text" v-model="address">
-            </fieldset>
-          </div>
-
-          <div class="form--input--item">
-            <fieldset>
-              <legend>Complément d'adresse</legend>
-              <input type="text" v-model="address2">
+              <legend>Adresse</legend>	
+              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" country="fr" type="text" v-model="address" placeholder="">
+            	</vue-google-autocomplete>
             </fieldset>
           </div>
           
@@ -244,6 +239,13 @@
                 <input type="text" v-model="city">
               </fieldset>
             </div>
+          </div>
+
+          <div class="form--input--item" :class="{'form--input--item--error': errorCountry }">
+            <fieldset>
+              <legend>Pays</legend>
+              <input type="text" v-model="country">
+            </fieldset>
           </div>
 
           <div class="form--input--item">
@@ -276,27 +278,25 @@
 			    </div>
 
 			    <div v-if="tabMap">
-			    	<div v-if="points && locationMarkers.length > 0">
-		    			<gmap-map :zoom="14" :center="center" style="width:100%; height: calc(100vh - 300px); margin-top: 15px;">
-			    			<gmap-marker :key="index" v-for="(m, index) in locationMarkers" :position="m.position" @click="updateMapSelected(m.position,index)"></gmap-marker>
-		    			</gmap-map>
-			    		<div v-if="mapSelected">
-				    		<div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="margin-top: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
-				    			<div class="card-body parcelshop-card-body">
-				    				<div class="card-title">
-				    					<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.name }}
-				    				</div>
-				    				<div class="card-text">
-				    					<div>{{ mapSelected.house_number }} {{ mapSelected.street }}</div>
-				    					<div>{{ mapSelected.zip }} {{ mapSelected.city }}</div>
-				    				</div>
-				    			</div>
-				    		</div>
-				    		<div @click="saveRelay(mapSelected)" style="text-align: center;">
-				    			<div class="btn-swipe">Selectionner</div>
-				    		</div>
+	    			<gmap-map v-if="points && locationMarkers.length > 0" :zoom="13" :center="center" :options="mapOptions" style="width:100%; height: calc(100vh - 360px); margin-top: 15px;">
+		    			<gmap-marker :key="index" v-for="(m, index) in locationMarkers" :position="m.position" @click="updateMapSelected(m.position,index)"></gmap-marker>
+	    			</gmap-map>
+		    		<div v-if="mapSelected">
+			    		<div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="margin-top: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
+			    			<div class="card-body parcelshop-card-body">
+			    				<div class="card-title">
+			    					<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.name }}
+			    				</div>
+			    				<div class="card-text">
+			    					<div>{{ mapSelected.house_number }} {{ mapSelected.street }}</div>
+			    					<div>{{ mapSelected.zip }} {{ mapSelected.city }}</div>
+			    				</div>
+			    			</div>
 			    		</div>
-			    	</div>
+			    		<div @click="saveRelay(mapSelected)" style="text-align: center;">
+			    			<div class="btn-swipe">Selectionner</div>
+			    		</div>
+		    		</div>
 			    </div>
 			    <div v-if="tabList">
 	          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="margin-top: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
@@ -376,13 +376,27 @@
 
 
 <style scoped src="../assets/css/checkout.css"></style>
+<style>
+	
+.pac-container {
+  display: initial !important;
+  z-index: 1000000000000000;
+}
+
+.hdpi.pac-logo:after {
+  background: none !important;
+  height: 0px !important;
+}
+</style>
 
 <script>
 
 import Pusher from 'pusher-js';
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 export default {
   name: 'Checkout',
+  components: { VueGoogleAutocomplete },
   data() {
     return {
       product: this.$route.params.product,
@@ -396,7 +410,7 @@ export default {
       client_secret: null,      
       subTotal: null,
       total: null,
-      shippingAddress: true,
+      shippingAddress: false,
       tabMap: true,
       tabList: false,
       popupShippingAddress: false,
@@ -407,12 +421,14 @@ export default {
       errorAddress: false,
       errorZip: false,
       errorCity: false,
+      errorCountry: false,
       firstname: "Julien",
       lastname: "Reignier",
-      address: "87 chemin de la lune",
-      address2: null,
-      zip: "01700",
-      city: "Miribel",
+      address: null,
+      zip: null,
+      city: null,
+      country: null,
+      countryShort: null,
       points: null,
       point: null,
       pointSelected: null,
@@ -420,6 +436,16 @@ export default {
       mapSelected: null,
       center: null,
       locationMarkers: [],
+      mapOptions: {
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        disableDefaultUi: false,
+        clickableIcons: false
+      }
     }
   },
   filters: {
@@ -462,6 +488,7 @@ export default {
       this.errorAddress = false;
       this.errorZip = false;
       this.errorCity = false;
+      this.errorCountry = false;
 
       if (!this.firstname) {
         this.errorFirstname = true;
@@ -483,7 +510,11 @@ export default {
         this.errorCity = true;
       }
 
-      if (!this.errorFirstname && !this.errorLastname && !this.errorAddress && !this.errorZip && !this.errorCity) {
+      if (!this.country) {
+        this.errorCountry = true;
+      }
+
+      if (!this.errorFirstname && !this.errorLastname && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry) {
         this.popupShippingAddress = false;
         this.shippingAddress = true;
       }
@@ -495,10 +526,9 @@ export default {
       this.tabList = false;
       this.locationMarkers = [];
       this.mapSelected = null;
-      this.center = null;
 
       window.cordova.plugin.http.setDataSerializer('json');
-      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": "FR", "carrier": "mondial_relay", "postal_code": this.zip }, {}, (response) => {
+      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "carrier": "mondial_relay", "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "radius": "10000" }, {}, (response) => {
         this.points = JSON.parse(response.data);
         console.log(this.points);
         this.points.map((point) => {
@@ -509,8 +539,7 @@ export default {
 
         	this.locationMarkers.push({ position: marker });
 
-        	if (!this.center) {
-		        this.center = marker;
+        	if (!this.mapSelected) {
 		        this.mapSelected = point;
         	}
         });
@@ -554,16 +583,32 @@ export default {
     	this.shippingMethod = "address";
     },
     updateMapSelected(position, index) {
-    	console.log(index);
       this.mapSelected = this.points[index];
       var marker = {
         lat: position.lat,
         lng: position.lng
       };
-    	console.log(marker);
+    	console.log(marker);  
       this.center = marker;
-    }
-  }
+    },
+    getAddressData(addressData, placeResultData, id) {
+    	console.log(addressData);
+    	console.log(placeResultData);
+    	this.address = addressData.route;
+    	this.zip = addressData.postal_code;
+    	this.city = addressData.locality;
+    	this.country = addressData.country;
+    	this.countryShort = placeResultData.address_components[5].short_name;
+
+      var marker = {
+        lat: addressData.latitude,
+        lng: addressData.longitude
+      };
+      this.center = marker;
+      console.log(this.center);
+      console.log(this.countryShort);
+    },
+	}
 };
 
 </script>

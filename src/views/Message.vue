@@ -138,7 +138,7 @@
     position: absolute;
     left: 0;
     top: 8px;
-    padding: .5rem
+    padding: .5rem 15px;
   }
 
   .checkout__title {
