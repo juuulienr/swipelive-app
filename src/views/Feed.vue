@@ -558,7 +558,7 @@
       <Product :product="product" @clicked="onClickChild"/>
     </div>
     <div v-if="popupProduct" style="background-color: white;bottom: 0px;position: absolute;z-index: 2147483647;">
-      <div @click="showCart()" style="padding: 15px 15px 50px; background-color: white; width: 100vw;">
+      <div @click="showCart()" style="padding: 15px 15px 25px; background-color: white; width: 100vw;">
         <div class="btn-swipe2" style="padding: 8px 65px; display: flex; align-items: center; justify-content: space-between; border-radius: 10px;">
           <span>
             <div v-if="variant && variant.price" class="btn-swipe" style="color: white; text-align: center; font-size: 15px; width: 100%; background-color: rgb(24, 206, 160); padding: 0px; border-radius: 7px; font-weight: 600;">{{ variant.price| formatPrice }}€</div>

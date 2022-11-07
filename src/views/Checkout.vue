@@ -220,12 +220,12 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
             <fieldset>
               <legend>Adresse</legend>	
-              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" country="fr" type="text" v-model="address" placeholder="">
+              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" country="fr" type="text" v-model="address" placeholder="">
             	</vue-google-autocomplete>
             </fieldset>
           </div>
           
-          <div class="form--input">
+          <div class="form--input" style="grid-template-columns: 140px 1fr;">
             <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
               <fieldset>
                 <legend>Code postal</legend>
@@ -549,6 +549,10 @@ export default {
     },
     hideRelay() {
       this.popupRelay = false;
+
+      if (!this.pointSelected) {
+    		this.shippingMethod = null;
+      }
     },
     saveRelay(point) {
     	this.pointSelected = point;
@@ -591,10 +595,22 @@ export default {
     	console.log(marker);  
       this.center = marker;
     },
+    handleError(error) {
+    	alert(error);
+    },
+    updateAddressData(addressData) {
+    	console.log(addressData);
+    	var data = addressData.split(',');
+    	if (data.length > 1) {
+    		this.$refs.address.update(data[0]);
+    	}
+    },
     getAddressData(addressData, placeResultData, id) {
     	console.log(addressData);
     	console.log(placeResultData);
-    	this.address = addressData.route;
+    	var street = addressData.street_number + ' ' + addressData.route;
+    	this.$refs.address.update(street);
+    	this.address = street;
     	this.zip = addressData.postal_code;
     	this.city = addressData.locality;
     	this.country = addressData.country;
@@ -607,6 +623,7 @@ export default {
       this.center = marker;
       console.log(this.center);
       console.log(this.countryShort);
+      console.log(this.address);
     },
 	}
 };
