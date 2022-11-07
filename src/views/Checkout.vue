@@ -69,6 +69,7 @@
               <div>{{ address }}</div>
               <div>{{ zip }} {{ city }}</div>
               <div>{{ country }}</div>
+              <div>{{ phone }}</div>
               <span style="float: right; margin-top: -62px;">
               	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"/></svg>
               </span>
@@ -248,7 +249,7 @@
             </fieldset>
           </div>
 
-          <div class="form--input--item">
+          <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
             <fieldset>
               <legend>Téléphone</legend>
               <input type="text" v-model="phone">
@@ -422,6 +423,7 @@ export default {
       errorZip: false,
       errorCity: false,
       errorCountry: false,
+      errorPhone: false,
       firstname: "Julien",
       lastname: "Reignier",
       address: null,
@@ -489,6 +491,7 @@ export default {
       this.errorZip = false;
       this.errorCity = false;
       this.errorCountry = false;
+      this.errorPhone = false;
 
       if (!this.firstname) {
         this.errorFirstname = true;
@@ -514,7 +517,11 @@ export default {
         this.errorCountry = true;
       }
 
-      if (!this.errorFirstname && !this.errorLastname && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry) {
+      if (!this.phone) {
+        this.errorPhone = true;
+      }
+
+      if (!this.errorFirstname && !this.errorLastname && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
         this.popupShippingAddress = false;
         this.shippingAddress = true;
       }
@@ -599,11 +606,11 @@ export default {
     	alert(error);
     },
     updateAddressData(addressData) {
-    	console.log(addressData);
     	var data = addressData.split(',');
-    	if (data.length > 1) {
-    		this.$refs.address.update(data[0]);
-    	}
+    	console.log(data);
+    	console.log(data[0]);
+    	this.$refs.address.update(data[0]);
+    	this.address = data[0];
     },
     getAddressData(addressData, placeResultData, id) {
     	console.log(addressData);
