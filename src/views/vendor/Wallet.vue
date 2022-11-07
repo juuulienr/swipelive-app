@@ -71,7 +71,7 @@
             </p>
           </div>
         </div>
-
+    	</div>
 
 
       <!-- add bank account -->

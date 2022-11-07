@@ -45,6 +45,7 @@
         <div class="technology" style="font-weight: 600;">Description</div>
         <p style="margin-top: 10px; font-size: 15px; color: #999;">{{ product.description }}</p>
       </div>
+  	</div>
 <!-- 
       <div v-if="unavailable == true" class="btn-swipe" style="background: #dcdde1; color: #333 !important; margin-bottom: 50px; margin-top: 25px;" :style="{'bottom': safeareaBottom }">Épuisé</div>
       <div v-else @click="addToCart()" class="btn-swipe" style=" margin-bottom: 50px; margin-top: 25px;" :style="{'bottom': safeareaBottom }">Ajouter au panier</div> -->
@@ -495,7 +496,7 @@ hr {
 .product--quantity--detail {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
 }
 .product--quantity--detail > span {
   margin: 8px 0px 0px;

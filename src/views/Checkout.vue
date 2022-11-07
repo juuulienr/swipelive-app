@@ -276,27 +276,31 @@
 			    </div>
 
 			    <div v-if="tabMap">
-			    	<div v-if="points">
-			    		<div class="map" style="height: calc(100vh - 315px); width:100%"></div>
-			    		<div class="card panel-item" style="margin-top: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
-			    			<div class="card-body parcelshop-card-body">
-			    				<div class="card-title">
-			    					<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ points[0].name }}
-			    				</div>
-			    				<div class="card-text">
-			    					<div>{{ points[0].house_number }} {{ points[0].street }}</div>
-			    					<div>{{ points[0].zip }} {{ points[0].city }}</div>
-			    				</div>
-			    			</div>
+			    	<div v-if="points && locationMarkers.length > 0">
+		    			<gmap-map :zoom="14" :center="center" style="width:100%; height: calc(100vh - 300px); margin-top: 15px;">
+			    			<gmap-marker :key="index" v-for="(m, index) in locationMarkers" :position="m.position" @click="updateMapSelected(m.position,index)"></gmap-marker>
+		    			</gmap-map>
+			    		<div v-if="mapSelected">
+				    		<div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="margin-top: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
+				    			<div class="card-body parcelshop-card-body">
+				    				<div class="card-title">
+				    					<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.name }}
+				    				</div>
+				    				<div class="card-text">
+				    					<div>{{ mapSelected.house_number }} {{ mapSelected.street }}</div>
+				    					<div>{{ mapSelected.zip }} {{ mapSelected.city }}</div>
+				    				</div>
+				    			</div>
+				    		</div>
+				    		<div @click="saveRelay(mapSelected)" style="text-align: center;">
+				    			<div class="btn-swipe">Selectionner</div>
+				    		</div>
 			    		</div>
-			        <div @click="saveRelay(points[0])" style="text-align: center;">
-			          <div class="btn-swipe">Selectionner</div>
-			        </div>
 			    	</div>
 			    </div>
 			    <div v-if="tabList">
 	          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="margin-top: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
-	            <div @click="showRelayInfoPopup(index)" class="card-body parcelshop-card-body">
+	            <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
 	              <div class="card-title">
 	                <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ point.name }}
 	              </div>
@@ -413,6 +417,9 @@ export default {
       point: null,
       pointSelected: null,
       shippingMethod: null,
+      mapSelected: null,
+      center: null,
+      locationMarkers: [],
     }
   },
   filters: {
@@ -486,10 +493,27 @@ export default {
     	this.shippingMethod = "relay";
       this.tabMap = true;
       this.tabList = false;
+      this.locationMarkers = [];
+      this.mapSelected = null;
+      this.center = null;
 
       window.cordova.plugin.http.setDataSerializer('json');
       window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": "FR", "carrier": "mondial_relay", "postal_code": this.zip }, {}, (response) => {
         this.points = JSON.parse(response.data);
+        console.log(this.points);
+        this.points.map((point) => {
+	        var marker = {
+	          lat: parseFloat(point.latitude),
+	          lng: parseFloat(point.longitude)
+	        };
+
+        	this.locationMarkers.push({ position: marker });
+
+        	if (!this.center) {
+		        this.center = marker;
+		        this.mapSelected = point;
+        	}
+        });
       }, function(response) {
         console.log(response.error);
       });
@@ -502,8 +526,8 @@ export default {
       this.popupRelay = false;
       this.popupRelayInfo = false;
     },
-    showRelayInfoPopup(index) {
-    	this.point = this.points[index];
+    showRelayInfoPopup(point) {
+    	this.point = point;
       this.popupRelayInfo = true;
     },
     hideRelayInfo() {
@@ -529,6 +553,16 @@ export default {
     changeToAddress() {
     	this.shippingMethod = "address";
     },
+    updateMapSelected(position, index) {
+    	console.log(index);
+      this.mapSelected = this.points[index];
+      var marker = {
+        lat: position.lat,
+        lng: position.lng
+      };
+    	console.log(marker);
+      this.center = marker;
+    }
   }
 };
 

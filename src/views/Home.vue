@@ -75,27 +75,29 @@
 
 
     <!-- search -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupSearch" style="overflow-y: scroll; height: calc(100vh - 60px);"><div class="list_persone">
-      <div class="suggested show">
-        <div v-if="results && results.length" class="row">
-          <div v-for="user in results" class="col-6">
-            <router-link :to="{ name: 'Profile', params: { id: user.id } }">
-              <div class="personne">
-			          <img v-if="user.picture" class="user" :src="baseUrl + '/uploads/' + user.picture">
-			    			<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
-                <h5 class="name">{{ user.vendor.businessName }}</h5>
-                <p v-if="user.followers.length > 1" class="sous_name">{{user.followers.length }} abonnés</p>
-                <p v-else class="sous_name">{{user.followers.length }} abonné</p>
-              </div>
-            </router-link>
-          </div>
-        </div>
-        <div v-else-if="searchValue && searchValue.length > 2" style="margin-top: 50px;">
-        	Aucun résultat
-        </div>
-        <div v-else style="margin-top: 50px;">
-        </div>
-      </div>
+    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupSearch" style="overflow-y: scroll;height: calc(100vh - 60px);">
+    	<div class="list_persone">
+    		<div class="suggested show">
+    			<div v-if="results && results.length" class="row">
+    				<div v-for="user in results" class="col-6">
+    					<router-link :to="{ name: 'Profile', params: { id: user.id } }">
+    						<div class="personne">
+    							<img v-if="user.picture" class="user" :src="baseUrl + '/uploads/' + user.picture">
+    							<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+    							<h5 class="name">{{ user.vendor.businessName }}</h5>
+    							<p v-if="user.followers.length > 1" class="sous_name">{{user.followers.length }} abonnés</p>
+    							<p v-else class="sous_name">{{user.followers.length }} abonné</p>
+    						</div>
+    					</router-link>
+    				</div>
+    			</div>
+    			<div v-else-if="searchValue && searchValue.length > 2" style="margin-top: 50px;">
+    				Aucun résultat
+    			</div>
+    			<div v-else style="margin-top: 50px;">
+    			</div>
+    		</div>
+    	</div>
     </div>
   </main>
 </template>

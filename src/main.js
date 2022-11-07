@@ -7,6 +7,7 @@ import router from './router/index';
 import Bugsnag from '@bugsnag/js';
 import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue-observe-visibility';
+import * as VueGoogleMaps from "vue2-google-maps";
 
 
 if (window.location.protocol === 'file:') {
@@ -28,7 +29,12 @@ if (window.location.protocol === 'file:') {
 
 Vue.use(VueObserveVisibility);
 Vue.use(Vue2TouchEvents);
-
+Vue.use(VueGoogleMaps, {
+	load: {
+		key: "AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w",
+		libraries: "places"
+	}
+});
 
 
 const init = () => {

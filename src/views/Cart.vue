@@ -747,7 +747,7 @@
 .product--quantity--detail {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
 }
 .product--quantity--detail > span {
   margin: 8px 0px 0px;
