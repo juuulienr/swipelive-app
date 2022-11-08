@@ -221,7 +221,7 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
             <fieldset>
               <legend>Adresse</legend>	
-              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" country="fr" type="text" v-model="address" placeholder="">
+              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @focus="focusAddressInput" @blur="blurAddressInput" country="fr" type="text" v-model="address" placeholder="">
             	</vue-google-autocomplete>
             </fieldset>
           </div>
@@ -379,9 +379,9 @@
 <style scoped src="../assets/css/checkout.css"></style>
 <style>
 	
-.pac-container {
+.display-mode {
   display: initial !important;
-  z-index: 1000000000000000;
+  z-index: 100000000000;
 }
 
 .hdpi.pac-logo:after {
@@ -479,6 +479,9 @@ export default {
   },
   methods: {
     showShippingAddress() {
+    	if (document.getElementsByClassName('pac-container').length) {
+	    	document.getElementsByClassName('pac-container')[0].remove();
+    	}
       this.popupShippingAddress = true;
     },
     hideShippingAddress() {
@@ -632,6 +635,12 @@ export default {
       console.log(this.countryShort);
       console.log(this.address);
     },
+    blurAddressInput() {
+	    document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+    },
+    focusAddressInput() {
+	    document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+    }
 	}
 };
 
