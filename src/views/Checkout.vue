@@ -67,8 +67,7 @@
             </div>
             <div class="card-text">
               <div>{{ address }}</div>
-              <div>{{ zip }} {{ city }}</div>
-              <div>{{ country }}</div>
+              <div>{{ zip }} {{ city }}, {{ country }}</div>
               <div>{{ phone }}</div>
               <span style="float: right; margin-top: -62px;">
               	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"/></svg>
@@ -221,7 +220,7 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
             <fieldset>
               <legend>Adresse</legend>	
-              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @focus="focusAddressInput" @blur="blurAddressInput" country="fr" type="text" v-model="address" placeholder="">
+              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" country="fr" type="text" v-model="address" placeholder="">
             	</vue-google-autocomplete>
             </fieldset>
           </div>
@@ -388,6 +387,22 @@
   background: none !important;
   height: 0px !important;
 }
+
+.pac-item {
+  padding: 3px 12px !important;
+  border: none !important;
+}
+
+.hdpi .pac-icon {
+  display: none !important;
+}
+
+.pac-container {
+	box-shadow: 0 6px 19px 0 #d9d9d9 !important;
+	border-top: none !important;
+	border-radius: 7px !important;
+	padding: 7px 3px !important;
+}
 </style>
 
 <script>
@@ -437,6 +452,7 @@ export default {
       shippingMethod: null,
       mapSelected: null,
       center: null,
+      showAutocomplete: false,
       locationMarkers: [],
       mapOptions: {
         zoomControl: true,
@@ -636,10 +652,19 @@ export default {
       console.log(this.address);
     },
     blurAddressInput() {
-	    document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+    	this.showAutocomplete = false;
+		  document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
     },
     focusAddressInput() {
-	    document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+    	this.showAutocomplete = true;
+    },
+    inputChangeAddressInput(input) {
+    	console.log(input.newVal);
+    	if (input.newVal.length > 2 && this.showAutocomplete) {
+	    	document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+    	} else {
+		    document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+    	}
     }
 	}
 };
