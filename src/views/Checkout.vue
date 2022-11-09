@@ -171,12 +171,12 @@
             <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Mode de paiement</span>
           </div>
         </div>
-        <div class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
+        <div @click="showPopupPayment()" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div class="card-body parcelshop-card-body">
             <div class="card-title">
 	            <div class="top-author--item">
 	              <div>
-	                <span>Paypal</span>
+	                <span>{{ paymentType }}</span>
 	                <div><span></span></div>
 	              </div>
 	              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
@@ -217,6 +217,13 @@
             </div>
           </div>
 
+          <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
+            <fieldset>
+              <legend>Téléphone</legend>
+              <input type="text" v-model="phone">
+            </fieldset>
+          </div>
+
           <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
             <fieldset>
               <legend>Adresse</legend>	
@@ -248,15 +255,60 @@
             </fieldset>
           </div>
 
-          <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
-            <fieldset>
-              <legend>Téléphone</legend>
-              <input type="text" v-model="phone">
-            </fieldset>
-          </div>
-
           <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto; background: #fe2c55">Enregistrer</div>
         </div>
+      </div>
+
+
+      <!-- payment method -->
+      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupPayment" style="overflow-y: scroll; height: 100%;"> 
+        <div class="checkout__header">
+          <div @click="hidePopupPayment()" class="checkout__close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
+          </div>
+          <div class="checkout__title"> Mode de paiement</div>
+        </div>
+        <div style="padding: 15px;">
+	        <div @click="savePayment('Apple Pay')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 20px;">
+	          <div class="card-body parcelshop-card-body">
+	            <div class="card-title">
+		            <div class="top-author--item">
+		              <div>
+		                <span>Apple Pay</span>
+		                <div><span></span></div>
+		              </div>
+		              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+		            </div>
+	            </div>
+	          </div>
+	        </div>
+	        <div @click="savePayment('Carte bancaire')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 20px;">
+	          <div class="card-body parcelshop-card-body">
+	            <div class="card-title">
+		            <div class="top-author--item">
+		              <div>
+		                <span>Carte bancaire</span>
+		                <div><span></span></div>
+		              </div>
+		              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+		            </div>
+	            </div>
+	          </div>
+	        </div>
+	        <div @click="savePayment('Paypal')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
+	          <div class="card-body parcelshop-card-body">
+	            <div class="card-title">
+		            <div class="top-author--item">
+		              <div>
+		                <span>Paypal</span>
+		                <div><span></span></div>
+		              </div>
+		              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+		            </div>
+	            </div>
+	          </div>
+	        </div>
+      	</div>
       </div>
 
 
@@ -434,6 +486,7 @@ export default {
       shippingAddress: false,
       tabMap: true,
       tabList: false,
+      popupPayment: false,
       popupShippingAddress: false,
       popupRelay: false,
       popupRelayInfo: false,
@@ -458,6 +511,7 @@ export default {
       mapSelected: null,
       center: null,
       showAutocomplete: false,
+      paymentType: "Apple Pay",
       locationMarkers: [],
       mapOptions: {
         zoomControl: true,
@@ -600,6 +654,16 @@ export default {
     saveRelayInfo() {
       this.popupRelayInfo = false;
     },
+    showPopupPayment() {
+    	this.popupPayment = true;
+    },
+    hidePopupPayment() {
+    	this.popupPayment = false;
+    },
+    savePayment(paymentType) {
+    	this.paymentType = paymentType;
+    	this.popupPayment = false;
+    },
     showMap() {
       this.tabMap = true;
       this.tabList = false;
@@ -612,7 +676,7 @@ export default {
       this.$router.back();
     },
     payment() {
-      this.$router.push({ name: 'Feed' });
+      // this.$router.push({ name: 'Feed' });
     },
     changeToAddress() {
     	this.shippingMethod = "address";
@@ -639,13 +703,20 @@ export default {
     getAddressData(addressData, placeResultData, id) {
     	console.log(addressData);
     	console.log(placeResultData);
-    	var street = addressData.street_number + ' ' + addressData.route;
+    	
+    	if (addressData.street_number) {
+    		var street = addressData.street_number + ' ' + addressData.route;
+    		this.countryShort = placeResultData.address_components[5].short_name;
+    	} else {
+    		var street = addressData.route;
+    		this.countryShort = placeResultData.address_components[4].short_name;
+    	}
+
     	this.$refs.address.update(street);
     	this.address = street;
     	this.zip = addressData.postal_code;
     	this.city = addressData.locality;
     	this.country = addressData.country;
-    	this.countryShort = placeResultData.address_components[5].short_name;
 
       var marker = {
         lat: addressData.latitude,
