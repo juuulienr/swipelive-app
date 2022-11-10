@@ -53,6 +53,8 @@
         </div>
 
 
+
+
         <!-- shippingAddress -->
         <div v-if="shippingMethod != 'relay'" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
           <div class="MuiCardHeader-content css-11qjisw">
@@ -62,9 +64,7 @@
 
         <div v-if="shippingAddress && shippingMethod != 'relay'" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
-            <div class="card-title">
-              {{ firstname }} {{ lastname }}
-            </div>
+            <div class="card-title">{{ name }}</div>
             <div class="card-text">
               <div>{{ address }}</div>
               <div>{{ zip }} {{ city }}</div>
@@ -120,7 +120,7 @@
               <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px;"/>
               <div>
                 <span>Mondial Relais</span>
-                <div><span>Livraison 1 à 3 jours - 2,90€</span></div>
+                <div><span>À partir de 2,90€</span></div>
               </div>
               <div style="margin-right: 5px;">
 				        <div class="filter--choice">
@@ -142,8 +142,8 @@
             <div @click="changeToAddress()" class="top-author--item">
               <img :src="require(`@/assets/img/colissimo.svg`)" style="border-radius: 0px;"/>
               <div>
-                <span>Colissimo</span>
-                <div><span>Livraison 3 à 5 jours - 8,40€</span></div>
+                <span>Colissimo Domicile</span>
+                <div><span>À partir de 7,90€</span></div>
               </div>
               <div style="margin-right: 5px;">
 				        <div class="filter--choice">
@@ -173,10 +173,11 @@
         </div>
         <div @click="showPopupPayment()" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div class="card-body parcelshop-card-body">
-            <div class="card-title">
+            <div class="top-author--container">
 	            <div class="top-author--item">
 	              <div>
-	                <span>{{ paymentType }}</span>
+	                <span v-if="paymentType">{{ paymentType }}</span>
+	                <span v-else>Ajouter un mode de paiement</span>
 	                <div><span></span></div>
 	              </div>
 	              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
@@ -202,19 +203,11 @@
           <div class="checkout__title"> Adresse de livraison</div>
         </div>
         <div style="padding: 15px;">
-          <div class="form--input">
-            <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
-              <fieldset>
-                <legend>Prénom</legend>
-                <input type="text" v-model="firstname">
-              </fieldset>
-            </div>
-            <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
-              <fieldset>
-                <legend>Nom</legend>
-                <input type="text" v-model="lastname">
-              </fieldset>
-            </div>
+          <div class="form--input--item" :class="{'form--input--item--error': errorName }">
+            <fieldset>
+              <legend>Nom et prénom</legend>
+              <input type="text" v-model="name">
+            </fieldset>
           </div>
 
           <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
@@ -227,7 +220,7 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
             <fieldset>
               <legend>Adresse</legend>	
-              <vue-google-autocomplete ref="address" id="map" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" country="fr" type="text" v-model="address" placeholder="">
+              <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu', 'ch']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder="">
             	</vue-google-autocomplete>
             </fieldset>
           </div>
@@ -236,7 +229,7 @@
             <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
               <fieldset>
                 <legend>Code postal</legend>
-                <input type="text" v-model="zip">
+                <input type="text" v-model="zip" inputmode="numeric">
               </fieldset>
             </div>
 
@@ -251,7 +244,7 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorCountry }">
             <fieldset>
               <legend>Pays</legend>
-              <input type="text" v-model="country">
+              <input @click="selectCountry()" type="text" v-model="country" readonly>
             </fieldset>
           </div>
 
@@ -337,7 +330,7 @@
 			    		<div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="margin-top: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
 			    			<div class="card-body parcelshop-card-body">
 			    				<div class="card-title">
-			    					<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.name }}
+			    					<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.carrier }} {{ mapSelected.name }}
 			    				</div>
 			    				<div class="card-text">
 			    					<div>{{ mapSelected.house_number }} {{ mapSelected.street }}</div>
@@ -354,7 +347,7 @@
 	          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="margin-top: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
 	            <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
 	              <div class="card-title">
-	                <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ point.name }}
+	                <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>{{ point.carrier }} {{ point.name }}
 	              </div>
 	              <div class="card-text">
 	                <div>{{ point.house_number }} {{ point.street }}</div>
@@ -393,32 +386,32 @@
         		</div>
         	</div>
 
-      		<div v-if="point.formatted_opening_times">
-      			<div style="margin-bottom: 7px; font-weight: 600; margin-top: 20px;">Horaires d'ouverture</div>
-      			<ul style="text-transform: capitalize;">
-      				<li v-if="point.formatted_opening_times[0].length">
-      					Lundi : <span v-for="(hour, index2) in point.formatted_opening_times[0]">{{ hour }} </span>
-      				</li>
-      				<li v-if="point.formatted_opening_times[1].length">
-      					Mardi : <span v-for="(hour, index2) in point.formatted_opening_times[1]">{{ hour }} </span>
-      				</li>
-      				<li v-if="point.formatted_opening_times[2].length">
-      					Mercredi : <span v-for="(hour, index2) in point.formatted_opening_times[2]">{{ hour }} </span>
-      				</li>
-      				<li v-if="point.formatted_opening_times[3].length">
-      					Jeudi : <span v-for="(hour, index2) in point.formatted_opening_times[3]">{{ hour }} </span>
-      				</li>
-      				<li v-if="point.formatted_opening_times[4].length">
-      					Vendredi : <span v-for="(hour, index2) in point.formatted_opening_times[4]">{{ hour }} </span>
-      				</li>
-      				<li v-if="point.formatted_opening_times[5].length">
-      					Samedi : <span v-for="(hour, index2) in point.formatted_opening_times[5]">{{ hour }} </span>
-      				</li>
-      				<li v-if="point.formatted_opening_times[6].length">
-      					Dimanche : <span v-for="(hour, index2) in point.formatted_opening_times[6]">{{ hour }} </span>
-      				</li>
-      			</ul>
-          </div>
+        	<div v-if="point.formatted_opening_times">
+        		<div style="margin-bottom: 7px; font-weight: 600; margin-top: 20px;">Horaires d'ouverture</div>
+        		<ul style="text-transform: capitalize;">
+        			<li v-if="point.formatted_opening_times[0].length">
+        				Lundi : <span v-for="(hour, index2) in point.formatted_opening_times[0]">{{ hour }} </span>
+        			</li>
+        			<li v-if="point.formatted_opening_times[1].length">
+        				Mardi : <span v-for="(hour, index2) in point.formatted_opening_times[1]">{{ hour }} </span>
+        			</li>
+        			<li v-if="point.formatted_opening_times[2].length">
+        				Mercredi : <span v-for="(hour, index2) in point.formatted_opening_times[2]">{{ hour }} </span>
+        			</li>
+        			<li v-if="point.formatted_opening_times[3].length">
+        				Jeudi : <span v-for="(hour, index2) in point.formatted_opening_times[3]">{{ hour }} </span>
+        			</li>
+        			<li v-if="point.formatted_opening_times[4].length">
+        				Vendredi : <span v-for="(hour, index2) in point.formatted_opening_times[4]">{{ hour }} </span>
+        			</li>
+        			<li v-if="point.formatted_opening_times[5].length">
+        				Samedi : <span v-for="(hour, index2) in point.formatted_opening_times[5]">{{ hour }} </span>
+        			</li>
+        			<li v-if="point.formatted_opening_times[6].length">
+        				Dimanche : <span v-for="(hour, index2) in point.formatted_opening_times[6]">{{ hour }} </span>
+        			</li>
+        		</ul>
+        	</div>
 	        <div @click="saveRelay(point)" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto; background: #fe2c55">Selectionner</div>
         </div>
       </div>
@@ -490,15 +483,14 @@ export default {
       popupShippingAddress: false,
       popupRelay: false,
       popupRelayInfo: false,
-      errorFirstname: false,
-      errorLastname: false,
+      errorName: false,
       errorAddress: false,
       errorZip: false,
       errorCity: false,
       errorCountry: false,
       errorPhone: false,
-      firstname: "Julien",
-      lastname: "Reignier",
+      name: "Julien REIGNIER",
+      phone: "0666666666",
       address: null,
       zip: null,
       city: null,
@@ -511,7 +503,7 @@ export default {
       mapSelected: null,
       center: null,
       showAutocomplete: false,
-      paymentType: "Apple Pay",
+      paymentType: null,
       locationMarkers: [],
       mapOptions: {
         zoomControl: true,
@@ -546,6 +538,12 @@ export default {
     this.subTotal = this.subTotal.toFixed(2);
     this.total = this.subTotal;
 
+    // window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
+    //   console.log(JSON.parse(response.data));
+    // }, (response) => {
+    //   console.log(response.error);
+    // });
+
     window.cordova.plugin.http.post(this.baseUrl + "/user/api/payment", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
       console.log(JSON.parse(response.data));
     }, (response) => {
@@ -563,20 +561,15 @@ export default {
       this.popupShippingAddress = false;
     },
     saveShippingAddress() {
-      this.errorFirstname = false;
-      this.errorLastname = false;
+      this.errorName = false;
       this.errorAddress = false;
       this.errorZip = false;
       this.errorCity = false;
       this.errorCountry = false;
       this.errorPhone = false;
 
-      if (!this.firstname) {
-        this.errorFirstname = true;
-      }
-
-      if (!this.lastname) {
-        this.errorLastname = true;
+      if (!this.name) {
+        this.errorName = true;
       }
 
       if (!this.address) {
@@ -599,38 +592,57 @@ export default {
         this.errorPhone = true;
       }
 
-      if (!this.errorFirstname && !this.errorLastname && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
+      if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
         this.popupShippingAddress = false;
         this.shippingAddress = true;
       }
     },
     showRelayPopup() {
-      this.popupRelay = true;
-    	this.shippingMethod = "relay";
-      this.tabMap = true;
-      this.tabList = false;
-      this.locationMarkers = [];
-      this.mapSelected = null;
+    	switch (this.country) {
+    		case "France":
+			    this.countryShort = "FR";
+	    		break;
+	    	case "Belgique":
+			    this.countryShort = "BE";
+	    		break;
+	    	case "Suisse":
+			    this.countryShort = "CH";
+	    		break;
+	    	case "Luxembourg":
+			    this.countryShort = "LU";
+	    		break;
+			  default:
+			    this.countryShort = null;
+    	}
 
-      window.cordova.plugin.http.setDataSerializer('json');
-      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "carrier": "mondial_relay", "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "radius": "10000" }, {}, (response) => {
-        this.points = JSON.parse(response.data);
-        console.log(this.points);
-        this.points.map((point) => {
-	        var marker = {
-	          lat: parseFloat(point.latitude),
-	          lng: parseFloat(point.longitude)
-	        };
+    	if (this.countryShort) {
+	      this.popupRelay = true;
+	    	this.shippingMethod = "relay";
+	      this.tabMap = true;
+	      this.tabList = false;
+	      this.locationMarkers = [];
+	      this.mapSelected = null;
 
-        	this.locationMarkers.push({ position: marker });
+	      window.cordova.plugin.http.setDataSerializer('json');
+	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "radius": "10000" }, {}, (response) => {
+	        this.points = JSON.parse(response.data);
+	        console.log(this.points);
+	        this.points.map((point) => {
+		        var marker = {
+		          lat: parseFloat(point.latitude),
+		          lng: parseFloat(point.longitude)
+		        };
 
-        	if (!this.mapSelected) {
-		        this.mapSelected = point;
-        	}
-        });
-      }, function(response) {
-        console.log(response.error);
-      });
+	        	this.locationMarkers.push({ position: marker });
+
+	        	if (!this.mapSelected) {
+			        this.mapSelected = point;
+	        	}
+	        });
+	      }, function(response) {
+	        console.log(response.error);
+	      });
+    	}
     },
     hideRelay() {
       this.popupRelay = false;
@@ -682,21 +694,18 @@ export default {
     	this.shippingMethod = "address";
     },
     updateMapSelected(position, index) {
-      this.mapSelected = this.points[index];
       var marker = {
         lat: position.lat,
         lng: position.lng
       };
-    	console.log(marker);  
+      this.mapSelected = this.points[index];
       this.center = marker;
     },
     handleError(error) {
-    	alert(error);
+    	console.log(error);
     },
     updateAddressData(addressData) {
     	var data = addressData.split(',');
-    	console.log(data);
-    	console.log(data[0]);
     	this.$refs.address.update(data[0]);
     	this.address = data[0];
     },
@@ -723,9 +732,6 @@ export default {
         lng: addressData.longitude
       };
       this.center = marker;
-      console.log(this.center);
-      console.log(this.countryShort);
-      console.log(this.address);
     },
     blurAddressInput() {
     	this.showAutocomplete = false;
@@ -741,6 +747,31 @@ export default {
     	} else {
 		    document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
     	}
+    },
+    selectCountry() {
+    	var data = {
+    		numbers: [
+    			{description: "France"},
+    			{description: "Belgique"},
+    			{description: "Suisse"},
+    			{description: "Luxembourg"},
+    		],
+    	};
+
+	    var config = {
+	    	title: "",
+	    	items:[
+	    		[data.numbers]
+	    	],
+	    	positiveButtonText: "Choisir",
+	    	negativeButtonText: "Annuler"
+	    };
+
+	    window.SelectorCordovaPlugin.showSelector(config, (result) => {
+	    	this.country = result[0].description;
+	    }, (error) => {
+	    	console.log(error);
+	    });
     }
 	}
 };

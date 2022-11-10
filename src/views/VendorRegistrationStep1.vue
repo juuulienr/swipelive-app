@@ -17,7 +17,7 @@
       </div>
 
       <div style="margin-top: 10px; text-align: center; margin: 15px;">
-        Notre commission : 0,70€ + 8% sur chaque vente. <span style="color: rgb(34, 154, 22); font-weight: 600;"> Vous gagnez, nous gagnons ! </span>
+        Notre commission : 8% sur chaque vente. <span style="color: rgb(34, 154, 22); font-weight: 600;"> Vous gagnez, nous gagnons ! </span>
       </div>
 
       <div class="account-type" style="margin-top: 25px;">

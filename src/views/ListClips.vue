@@ -271,18 +271,17 @@
 
 
     <!-- product popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupProduct" style="overflow-y: scroll; height: 90%; padding-bottom: 110px;">
+    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupProduct" style="overflow-y: scroll; height: 95%; padding-bottom: 80px;">
       <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;"><path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/></svg>
       <Product :product="product" @clicked="onClickChild"/>
     </div>
-    <div v-if="popupProduct" style="background-color: white;bottom: 0px;position: absolute;z-index: 2147483647;">
-      <div @click="showCart()" style="padding: 15px 15px 25px; background-color: white; width: 100vw;">
-        <div class="btn-swipe2" style="padding: 8px 65px; display: flex; align-items: center; justify-content: space-between; border-radius: 10px;">
-          <span>
-            <div v-if="variant && variant.price" class="btn-swipe" style="color: white; text-align: center; font-size: 15px; width: 100%; background-color: rgb(24, 206, 160); padding: 0px; border-radius: 7px; font-weight: 600;">{{ variant.price | formatPrice }}€</div>
-            <div v-else class="btn-swipe" style="color: white; text-align: center; font-size: 15px; width: 100%; background-color: rgb(24, 206, 160); padding: 0px; border-radius: 7px; font-weight: 600;">{{ product.price | formatPrice }}€</div>
-          </span>
-          <hr style="border: 1px solid white; height: 20px; margin-bottom: 7.5px; margin-top: 7.5px;">Acheter
+    <div v-if="popupProduct" style="background-color: white;bottom: 25px; position: fixed; z-index: 2147483647;">
+      <div style="padding: 15px 15px 25px; background-color: white; width: 100vw; display: flex;">
+        <div @click="showCart()" class="btn-swipe2" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; width: calc(50vw - 15px); background: linear-gradient(90deg,#ff9000,#ff5000);">
+        	Ajouter
+        </div>
+        <div @click="goCheckout()" class="btn-swipe2" style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; width: calc(50vw - 15px);">
+        	Acheter
         </div>
       </div>
     </div>
@@ -1012,7 +1011,10 @@ export default {
     },
     onClickChild (variant) {
       this.variant = variant;
-    }
+    },
+    goCheckout() {
+    	this.$router.push({ name: 'Checkout', params: { quantity: 1, product: this.product, variant: this.variant.length ? this.variant : null } });
+    },
   }
 };
 </script>
