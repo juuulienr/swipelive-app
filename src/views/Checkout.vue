@@ -143,7 +143,6 @@
             </div>
             <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;" />
             <div @click="changeToAddress()" class="top-author--item">
-              <!-- <img :src="require(`@/assets/img/colissimo.svg`)" style="border-radius: 0px;"/> -->
               <div>
                 <span>Colissimo</span>
                 <div><span>À partir de 7,90€</span></div>
@@ -203,7 +202,7 @@
           <div @click="hideShippingAddress()" class="checkout__close-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
           </div>
-          <div class="checkout__title"> Adresse de livraison</div>
+          <div class="checkout__title">Adresse de livraison</div>
         </div>
         <div style="padding: 15px;">
           <div class="form--input--item" :class="{'form--input--item--error': errorName }">
@@ -262,12 +261,12 @@
           <div @click="hidePopupPayment()" class="checkout__close-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
           </div>
-          <div class="checkout__title"> Mode de paiement</div>
+          <div class="checkout__title">Mode de paiement</div>
         </div>
         <div style="padding: 15px;">
 	        <div @click="savePayment('Apple Pay')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 15px;">
 	          <div class="card-body parcelshop-card-body">
-	            <div class="card-title">
+	            <div>
 		            <div class="top-author--item">
 		              <div>
 		                <span>Apple Pay</span>
@@ -280,7 +279,7 @@
 	        </div>
 	        <div @click="savePayment('Carte bancaire')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 15px;">
 	          <div class="card-body parcelshop-card-body">
-	            <div class="card-title">
+	            <div>
 		            <div class="top-author--item">
 		              <div>
 		                <span>Carte bancaire</span>
@@ -293,7 +292,7 @@
 	        </div>
 	        <div @click="savePayment('Paypal')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
 	          <div class="card-body parcelshop-card-body">
-	            <div class="card-title">
+	            <div>
 		            <div class="top-author--item">
 		              <div>
 		                <span>Paypal</span>
@@ -314,7 +313,7 @@
           <div @click="hideRelay()" class="checkout__close-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
           </div>
-          <div class="checkout__title"> Choisir un point relais</div>
+          <div class="checkout__title">Choisir un point relais</div>
         </div>
         <div style="padding: 15px;">
 
@@ -575,6 +574,10 @@ export default {
         this.errorName = true;
       }
 
+      if (!this.phone) {
+        this.errorPhone = true;
+      }
+
       if (!this.address) {
         this.errorAddress = true;
       }
@@ -591,16 +594,6 @@ export default {
         this.errorCountry = true;
       }
 
-      if (!this.phone) {
-        this.errorPhone = true;
-      }
-
-      if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
-        this.popupShippingAddress = false;
-        this.shippingAddress = true;
-      }
-    },
-    showRelayPopup() {
     	switch (this.country) {
     		case "France":
 			    this.countryShort = "FR";
@@ -616,8 +609,15 @@ export default {
 	    		break;
 			  default:
 			    this.countryShort = null;
+        	this.errorCountry = true;
     	}
 
+      if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
+        this.popupShippingAddress = false;
+        this.shippingAddress = true;
+      }
+    },
+    showRelayPopup() {
     	if (this.countryShort) {
 	      this.popupRelay = true;
 	    	this.shippingMethod = "relay";
