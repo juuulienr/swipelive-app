@@ -65,8 +65,7 @@
         <div v-if="shippingAddress && shippingMethod != 'relay'" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
             <div class="card-title">
-    					<img :src="require(`@/assets/img/colissimo.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
-    					{{ name }}
+    					<img :src="require(`@/assets/img/colissimo.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ name }}
             </div>
             <div class="card-text">
               <div>{{ address }}</div>
