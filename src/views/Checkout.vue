@@ -64,7 +64,10 @@
 
         <div v-if="shippingAddress && shippingMethod != 'relay'" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
-            <div class="card-title">{{ name }}</div>
+            <div class="card-title">
+    					<img :src="require(`@/assets/img/colissimo.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+    					{{ name }}
+            </div>
             <div class="card-text">
               <div>{{ address }}</div>
               <div>{{ zip }} {{ city }}</div>
@@ -97,9 +100,11 @@
         <div v-if="shippingMethod == 'relay' && pointSelected" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div class="card-body parcelshop-card-body">
             <div class="card-title">
-              <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ pointSelected.name }}
+    					<img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+    					{{ pointSelected.carrier }}
             </div>
             <div class="card-text">
+              <div>{{ pointSelected.name }}</div>
               <div>{{ pointSelected.house_number }} {{ pointSelected.street }}</div>
               <div>{{ pointSelected.zip }} {{ pointSelected.city }}</div>
             </div>
@@ -117,9 +122,8 @@
         <div v-if="shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
           <div class="top-author--container" style="">
             <div @click="showRelayPopup()" class="top-author--item">
-              <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px;"/>
               <div>
-                <span>Mondial Relais</span>
+                <span>Point relais</span>
                 <div><span>À partir de 2,90€</span></div>
               </div>
               <div style="margin-right: 5px;">
@@ -140,9 +144,9 @@
             </div>
             <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;" />
             <div @click="changeToAddress()" class="top-author--item">
-              <img :src="require(`@/assets/img/colissimo.svg`)" style="border-radius: 0px;"/>
+              <!-- <img :src="require(`@/assets/img/colissimo.svg`)" style="border-radius: 0px;"/> -->
               <div>
-                <span>Colissimo Domicile</span>
+                <span>Colissimo</span>
                 <div><span>À partir de 7,90€</span></div>
               </div>
               <div style="margin-right: 5px;">
@@ -262,7 +266,7 @@
           <div class="checkout__title"> Mode de paiement</div>
         </div>
         <div style="padding: 15px;">
-	        <div @click="savePayment('Apple Pay')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 20px;">
+	        <div @click="savePayment('Apple Pay')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 15px;">
 	          <div class="card-body parcelshop-card-body">
 	            <div class="card-title">
 		            <div class="top-author--item">
@@ -275,7 +279,7 @@
 	            </div>
 	          </div>
 	        </div>
-	        <div @click="savePayment('Carte bancaire')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 20px;">
+	        <div @click="savePayment('Carte bancaire')" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12); margin-bottom: 15px;">
 	          <div class="card-body parcelshop-card-body">
 	            <div class="card-title">
 		            <div class="top-author--item">
@@ -330,7 +334,7 @@
 			    		<div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="margin-top: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
 			    			<div class="card-body parcelshop-card-body">
 			    				<div class="card-title">
-			    					<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.carrier }} {{ mapSelected.name }}
+    								<img :src="require(`@/assets/img/` + mapSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.name }}
 			    				</div>
 			    				<div class="card-text">
 			    					<div>{{ mapSelected.house_number }} {{ mapSelected.street }}</div>
@@ -347,7 +351,7 @@
 	          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="margin-top: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
 	            <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
 	              <div class="card-title">
-	                <img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>{{ point.carrier }} {{ point.name }}
+    							<img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ point.name }}
 	              </div>
 	              <div class="card-text">
 	                <div>{{ point.house_number }} {{ point.street }}</div>
@@ -377,7 +381,7 @@
         	<div class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
         		<div class="card-body parcelshop-card-body">
         			<div class="card-title">
-        				<img :src="require(`@/assets/img/relay.svg`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ point.name }}
+    						<img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ point.name }}
         			</div>
         			<div class="card-text">
         				<div>{{ point.house_number }} {{ point.street }}</div>
