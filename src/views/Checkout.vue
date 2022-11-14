@@ -549,7 +549,24 @@ export default {
     this.total = this.subTotal;
     this.name = this.user.firstname + ' ' + this.user.lastname;
 
-    if (this.shippingAddress && this.countryShort) {
+    if (this.user && this.user.shippingAddresses.length) {
+    	console.log(this.user.shippingAddresses);
+    	this.name = this.user.shippingAddresses[0].name;
+    	this.phone = this.user.shippingAddresses[0].phone;
+    	this.address = this.user.shippingAddresses[0].houseNumber + " " + this.user.shippingAddresses[0].address;
+    	this.zip = this.user.shippingAddresses[0].zip;
+    	this.city = this.user.shippingAddresses[0].city;
+    	this.country = this.user.shippingAddresses[0].country;
+    	this.countryShort = this.user.shippingAddresses[0].countryCode;
+
+      var marker = {
+        lat: this.user.shippingAddresses[0].latitude,
+        lng: this.user.shippingAddresses[0].longitude
+      };
+
+      this.center = marker;
+      this.shippingAddress = true;
+
     	this.getShippingPrice();
     }
   },
@@ -626,6 +643,22 @@ export default {
         this.shippingAddress = true;
 
         this.getShippingPrice();
+
+        var houseNumber = this.address.split(' ', 1)[0];
+        var street = this.address.split(houseNumber)[1].trim();
+        var httpParams = { "address": street, "houseNumber": houseNumber, "city": this.city, "zip": this.zip, "country": this.country, "countryCode": this.countryShort, "phone": this.phone, "name": this.name, "longitude": this.center.lng.toString(), "latitude": this.center.lat.toString() };
+
+        if (this.user.shippingAddresses.length > 0) {
+        	var url = this.baseUrl + "/user/api/shipping/address/edit/" + this.user.shippingAddresses[0].id;
+        } else {
+        	var url = this.baseUrl + "/user/api/shipping/address";
+        }
+
+        window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(response);
+        }, (response) => {
+          console.log(response);
+        });
       }
     },
     showRelayPopup() {
