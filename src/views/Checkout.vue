@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <!-- order -->
+        <!-- order summary -->
         <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-13dslnb" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; border-radius: 15px;">
           <div v-if="product" class="checkout__row checkout__product-info-row" style="align-items: center; justify-content: space-between;">
             <div class="checkout__product-info" style="padding-right: 0px;">
@@ -39,7 +39,8 @@
               </div> -->
               <div class="css-9jay18">
                 <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Livraison</p>
-                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">-</h6>
+                <h6 v-if="shippingPrice" class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">{{ shippingPrice | formatPrice }}€</h6>
+                <h6 v-else class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">-</h6>
               </div>
               <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
               <div class="css-9jay18">
@@ -55,14 +56,14 @@
 
 
 
-        <!-- shippingAddress -->
-        <div v-if="shippingMethod != 'relay'" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+        <!-- domicile -->
+        <div v-if="shippingMethod != 'service_point'" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
           <div class="MuiCardHeader-content css-11qjisw">
             <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Adresse de livraison</span>
           </div>
         </div>
 
-        <div v-if="shippingAddress && shippingMethod != 'relay'" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
+        <div v-if="shippingAddress && shippingMethod != 'service_point'" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
             <div class="card-title">
     					<img :src="require(`@/assets/img/colissimo.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ name }}
@@ -90,13 +91,13 @@
         </div>
 
          
-        <!-- shippingAddress -->
-        <div v-if="shippingMethod == 'relay' && pointSelected" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+        <!-- service_point -->
+        <div v-if="shippingMethod == 'service_point' && pointSelected" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
           <div class="MuiCardHeader-content css-11qjisw">
             <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Détails de la livraison</span>
           </div>
         </div>
-        <div v-if="shippingMethod == 'relay' && pointSelected" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
+        <div v-if="shippingMethod == 'service_point' && pointSelected" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div class="card-body parcelshop-card-body">
             <div class="card-title">
     					<img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
@@ -112,7 +113,7 @@
 
 
 
-				<!-- carrier -->
+				<!-- shippinh method -->
         <div v-if="shippingAddress" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
           <div class="MuiCardHeader-content css-11qjisw">
             <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Option de livraison</span>
@@ -121,9 +122,9 @@
         <div v-if="shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
           <div class="top-author--container" style="">
             <div @click="showRelayPopup()" class="top-author--item">
-              <div>
-                <span>Point relais</span>
-                <div><span>À partir de 2,90€</span></div>
+              <div v-if="shippingProducts && shippingProducts.service_point">
+                <span style="text-transform: capitalize;">Point relais</span>
+                <div><span v-if="service.carrier == 'mondial_relay'" v-for="service in shippingProducts.service_point">À partir de {{ service.price | formatPrice }}</span></div>
               </div>
               <div style="margin-right: 5px;">
 				        <div class="filter--choice">
@@ -131,9 +132,12 @@
 				        		<div class="gender--choice">
 				        			<label>
 				        				<span>
-				        					<svg v-if="shippingMethod == 'relay'" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" focusable="false" viewBox="0 0 24 24" style="fill: #18cea0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path></svg>
-				        					<svg v-else class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" focusable="false" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path></svg>
-				        					<svg v-if="shippingMethod == 'relay'" class="svg--point" focusable="false" viewBox="0 0 24 24" style="fill: #18cea0"><path d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"></path></svg>
+				        					<svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" viewBox="0 0 24 24" v-bind:style="isServicePoints">
+				        						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
+				        					</svg>
+				        					<svg v-if="shippingMethod == 'service_point'" class="svg--point" viewBox="0 0 24 24" style="fill: #18cea0">
+				        						<path d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"></path>
+				        					</svg>
 				        				</span>
 				        			</label>
 				        		</div>
@@ -143,9 +147,9 @@
             </div>
             <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;" />
             <div @click="changeToAddress()" class="top-author--item">
-              <div>
-                <span>Colissimo</span>
-                <div><span>À partir de 7,90€</span></div>
+              <div v-if="shippingProducts && shippingProducts.domicile">
+                <span style="text-transform: capitalize;">{{ shippingProducts.domicile[0].carrier }}</span>
+                <div><span>À partir de {{ shippingProducts.domicile[0].price }}</span></div>
               </div>
               <div style="margin-right: 5px;">
 				        <div class="filter--choice">
@@ -153,9 +157,12 @@
 				        		<div class="gender--choice">
 				        			<label>
 				        				<span>
-				        					<svg v-if="shippingMethod == 'address'" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" focusable="false" viewBox="0 0 24 24" style="fill: #18cea0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path></svg>
-				        					<svg v-else class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" focusable="false" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path></svg>
-				        					<svg v-if="shippingMethod == 'address'" class="svg--point" focusable="false" viewBox="0 0 24 24" style="fill: #18cea0"><path d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"></path></svg>
+				        					<svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" viewBox="0 0 24 24" v-bind:style="isDomicile">
+				        						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
+				        					</svg>
+				        					<svg v-if="shippingMethod == 'address'" class="svg--point" viewBox="0 0 24 24" style="fill: #18cea0">
+				        						<path d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"></path>
+				        					</svg>
 				        				</span>
 				        			</label>
 				        		</div>
@@ -195,6 +202,7 @@
           <div class="btn-swipe">Payer</div>
         </div>
       </div>
+
 
       <!-- shipping to home -->
       <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupShippingAddress" style="overflow-y: scroll; height: 100%;"> 
@@ -459,7 +467,6 @@
 
 <script>
 
-import Pusher from 'pusher-js';
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 export default {
@@ -473,10 +480,10 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       sendcloud_pk: window.localStorage.getItem("sendcloud_pk"),
-      pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
+      user: JSON.parse(window.localStorage.getItem("user")),
       carriers: [],
-      client_secret: null,      
       subTotal: null,
+      shippingPrice: null,
       total: null,
       shippingAddress: false,
       tabMap: true,
@@ -491,8 +498,8 @@ export default {
       errorCity: false,
       errorCountry: false,
       errorPhone: false,
-      name: "Julien REIGNIER",
-      phone: "0666666666",
+      name: null,
+      phone: "+33666666666",
       address: null,
       zip: null,
       city: null,
@@ -506,6 +513,7 @@ export default {
       center: null,
       showAutocomplete: false,
       paymentType: null,
+      shippingProducts: null,
       locationMarkers: [],
       mapOptions: {
         zoomControl: true,
@@ -539,19 +547,20 @@ export default {
 
     this.subTotal = this.subTotal.toFixed(2);
     this.total = this.subTotal;
+    this.name = this.user.firstname + ' ' + this.user.lastname;
 
-    // window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
-    //   console.log(JSON.parse(response.data));
-    // }, (response) => {
-    //   console.log(response.error);
-    // });
-
-    window.cordova.plugin.http.post(this.baseUrl + "/user/api/payment", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
-      console.log(JSON.parse(response.data));
-    }, (response) => {
-      console.log(response.error);
-    });
+    if (this.shippingAddress && this.countryShort) {
+    	this.getShippingPrice();
+    }
   },
+	computed: {
+		isServicePoints() {
+			return this.shippingMethod == "service_point" ? 'fill: #18cea0' : '';
+		},
+		isDomicile() {
+			return this.shippingMethod == "domicile" ? 'fill: #18cea0' : '';
+		}
+	},
   methods: {
     showShippingAddress() {
     	if (document.getElementsByClassName('pac-container').length) {
@@ -615,12 +624,14 @@ export default {
       if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
         this.popupShippingAddress = false;
         this.shippingAddress = true;
+
+        this.getShippingPrice();
       }
     },
     showRelayPopup() {
     	if (this.countryShort) {
 	      this.popupRelay = true;
-	    	this.shippingMethod = "relay";
+	    	this.shippingMethod = "service_point";
 	      this.tabMap = true;
 	      this.tabList = false;
 	      this.locationMarkers = [];
@@ -629,7 +640,6 @@ export default {
 	      window.cordova.plugin.http.setDataSerializer('json');
 	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "radius": "10000" }, {}, (response) => {
 	        this.points = JSON.parse(response.data);
-	        console.log(this.points);
 	        this.points.map((point) => {
 		        var marker = {
 		          lat: parseFloat(point.latitude),
@@ -658,6 +668,14 @@ export default {
     	this.pointSelected = point;
       this.popupRelay = false;
       this.popupRelayInfo = false;
+
+      console.log(this.shoppingProducts);
+      console.log(this.shoppingProducts["service_point"]);
+      this.shoppingProducts.service_point.map((method) => {
+      	if (method.carrier == point.carrier) {
+      		this.shippingPrice = method.price;
+      	}
+      });
     },
     showRelayInfoPopup(point) {
     	this.point = point;
@@ -694,7 +712,8 @@ export default {
       // this.$router.push({ name: 'Feed' });
     },
     changeToAddress() {
-    	this.shippingMethod = "address";
+    	this.shippingMethod = "domicile";
+      this.shippingPrice = this.shoppingProducts.domicile[0].price;
     },
     updateMapSelected(position, index) {
       var marker = {
@@ -774,6 +793,16 @@ export default {
 	    	this.country = result[0].description;
 	    }, (error) => {
 	    	console.log(error);
+	    });
+    },
+    getShippingPrice() {
+	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "weight": this.product ? this.product.weight : this.variant.weight, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
+	      console.log(JSON.parse(response.data));
+	    	this.shippingProducts = JSON.parse(response.data);
+	    	console.log(this.shippingProducts.domicile);
+	    	console.log(this.shippingProducts.service_point);
+	    }, (response) => {
+	      console.log(response.error);
 	    });
     }
 	}

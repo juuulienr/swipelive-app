@@ -127,6 +127,15 @@
           </div>
         </div>
 
+
+        <div class="form--input--item">
+          <fieldset>
+            <legend>Pays</legend>
+            <input @click="selectCountry()" type="text">
+          </fieldset>
+        </div>
+
+
         <div @click="submitStep2()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">S'inscrire</div>
       </div>
     </div>
@@ -519,6 +528,32 @@ export default {
         this.step2 = false;
       }
     },
+    selectCountry() {
+    	var data = {
+    		numbers: [
+    			{description: "France"},
+    			{description: "Belgique"},
+    			{description: "Suisse"},
+    			{description: "Luxembourg"},
+    		],
+    	};
+
+	    var config = {
+	    	title: "",
+	    	items:[
+	    		[data.numbers]
+	    	],
+	    	positiveButtonText: "Choisir",
+	    	negativeButtonText: "Annuler"
+	    };
+
+	    window.SelectorCordovaPlugin.showSelector(config, (result) => {
+	    	// this.country = result[0].description;
+	    	console.log(result[0].description);
+	    }, (error) => {
+	    	console.log(error);
+	    });
+    }
   }  
 };
 </script>

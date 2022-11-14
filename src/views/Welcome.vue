@@ -47,12 +47,12 @@
             </div>
             <div class="channel-name-2qzLW">Inscription Vendeur</div>
           </div>
-          <div @click="goInfluencer()" class="channel-item-wrapper-2gBWB" style="margin-bottom: 7px;">
+      <!--     <div @click="goInfluencer()" class="channel-item-wrapper-2gBWB" style="margin-bottom: 7px;">
             <div class="channel-icon-wrapper-2eYxZ">
               <div class="channel-icon-33qGs" :style="{'background-image': 'url(' + require('@/assets/img/star.png') + ')'}"></div>
             </div>
             <div class="channel-name-2qzLW">Inscription Influenceur</div>
-          </div>
+          </div> -->
         </div>
         <div class="manage" style="margin-bottom: 20px;">
           En continuant, vous acceptez nos 
@@ -378,13 +378,13 @@ export default {
       }
     },
     facebook() {
-      // window.facebookConnectPlugin.login(['public_profile', 'email'])
-      // .then(succ => {
-      //   console.log(JSON.stringify(succ));
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // });
+      window.facebookConnectPlugin.login(['public_profile', 'email'])
+      .then(succ => {
+        console.log(JSON.stringify(succ));
+      })
+      .catch(err => {
+        console.log(err);
+      });
     },
     apple() {
       // window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] },
