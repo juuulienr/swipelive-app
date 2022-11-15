@@ -1018,7 +1018,7 @@ export default {
         this.stopLive();
       }
 
-      if (this.token) {
+      if (this.user && this.user.vendor) {
       	var url = this.baseUrl + "/user/api/feed";
       	var auth = { Authorization: "Bearer " + this.token };
       } else {

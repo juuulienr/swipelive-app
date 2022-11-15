@@ -553,14 +553,17 @@ export default {
     });
 
     if (this.user && this.token) {
-    	httpHeader = { Authorization: "Bearer " + this.token };
-    	var url = this.baseUrl + "/user/api/clips/trending";
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, httpHeader, (response) => {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.following = JSON.parse(response.data);
         console.log(this.following);
       }, (response) => {
         console.log(response.error);
       });
+    }
+
+    if (this.user && this.user.vendor) {
+    	httpHeader = { Authorization: "Bearer " + this.token };
+    	var url = this.baseUrl + "/user/api/clips/trending";
     } else {
     	var url = this.baseUrl + "/api/clips/trending";
     }
