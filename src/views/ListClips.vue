@@ -689,13 +689,18 @@ export default {
 
       if (this.type == "profile") {
         var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
-        var token = null;
+        var auth = null;
       } else {
-        var url = this.baseUrl + "/api/clips/" + this.type;
-        var token = null;
+        if (this.token) {
+        	var url = this.baseUrl + "/user/api/clips/" + this.type;
+        	var auth = { Authorization: "Bearer " + this.token };
+        } else {
+        	var url = this.baseUrl + "/api/clips/" + this.type;
+       	 	var auth = null;
+        }
       }
 
-      this.http.get(url, {}, token, (response) => {
+      this.http.get(url, {}, auth, (response) => {
         var result = JSON.parse(response.data);
         console.log(result);
 

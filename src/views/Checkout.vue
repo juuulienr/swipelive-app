@@ -160,7 +160,7 @@
 				        					<svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" viewBox="0 0 24 24" v-bind:style="isDomicile">
 				        						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
 				        					</svg>
-				        					<svg v-if="shippingMethod == 'address'" class="svg--point" viewBox="0 0 24 24" style="fill: #18cea0">
+				        					<svg v-if="shippingMethod == 'domicile'" class="svg--point" viewBox="0 0 24 24" style="fill: #18cea0">
 				        						<path d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"></path>
 				        					</svg>
 				        				</span>
@@ -484,6 +484,9 @@ export default {
       carriers: [],
       subTotal: null,
       shippingPrice: null,
+      shippingMethodId: null,
+      shippingName: null,
+      shippingCarrier: null,
       total: null,
       shippingAddress: false,
       tabMap: true,
@@ -529,7 +532,9 @@ export default {
   },
   filters: {
     formatPrice(value) {
-    	return value.replace('.', ',');
+    	if (value) {
+    		return value.replace('.', ',');
+    	}
     }
   },
   created() {
@@ -702,11 +707,14 @@ export default {
       this.popupRelay = false;
       this.popupRelayInfo = false;
 
-      console.log(this.shoppingProducts);
-      console.log(this.shoppingProducts["service_point"]);
-      this.shoppingProducts.service_point.map((method) => {
+      console.log(this.shippingProducts);
+      this.shippingProducts.service_point.map((method) => {
       	if (method.carrier == point.carrier) {
       		this.shippingPrice = method.price;
+      		this.shippingMethodId = method.id;
+      		this.shippingName = method.name;
+      		this.shippingCarrier = method.carrier;
+      		this.total = this.total + this.shippingPrice;
       	}
       });
     },
@@ -742,11 +750,21 @@ export default {
       this.$router.back();
     },
     payment() {
-      // this.$router.push({ name: 'Feed' });
+    	console.log(this.pointSelected);
+	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/success", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
+	      console.log(JSON.parse(response.data));
+      	this.$router.push({ name: 'Feed' });
+	    }, (response) => {
+	      console.log(response.error);
+	    });
     },
     changeToAddress() {
     	this.shippingMethod = "domicile";
-      this.shippingPrice = this.shoppingProducts.domicile[0].price;
+      this.shippingMethodId = this.shippingProducts.domicile[0].id;
+      this.shippingName = this.shippingProducts.domicile[0].name;
+      this.shippingPrice = this.shippingProducts.domicile[0].price;
+      this.shippingCarrier = this.shippingProducts.domicile[0].carrier;
+      this.total = this.total + this.shippingPrice;
     },
     updateMapSelected(position, index) {
       var marker = {

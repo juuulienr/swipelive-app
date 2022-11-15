@@ -5,7 +5,7 @@
         <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 8px; padding: 0.5rem 0px;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: #161823;"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
         </div>
-        <div class="checkout__title" v-if="order" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Commande N°{{ order.id }}</div>
+        <div class="checkout__title" v-if="order" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Commande N°{{ order.number }}</div>
         <div @click="actionSheet()" class="checkout__right-btn" style="position: absolute; right: 15px; top: 8px; padding: 0.5rem 0px;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px;fill: #161823;border-radius: 30px;"><path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path></svg>
         </div>
@@ -43,16 +43,23 @@
             <div class="css-ikzlcq">
               <div class="css-9jay18">
                 <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Sous Total</p>
-                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #999;">{{ order.total | formatPrice }}€</h6>
+                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #999;">{{ order.subTotal | formatPrice }}€</h6>
               </div>
-              <div class="css-9jay18">
+              <div v-if="user.id == order.buyer.id" class="css-9jay18">
+                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Livraison</p>
+                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #999; font-weight: 500">+{{ order.shippingPrice | formatPrice }}€</h6>
+              </div>
+              <div v-if="user.id == order.vendor.id" class="css-9jay18">
                 <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Commission SwipeLive</p>
                 <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #999; font-weight: 500">-{{ order.fees | formatPrice }}€</h6>
               </div>
               <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
               <div class="css-9jay18">
                 <h6 class="MuiTypography-root MuiTypography-subtitle1 css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
-                <div class="MuiBox-root css-s2uf1z"><h6 class="MuiTypography-root MuiTypography-subtitle1 css-kdhaao" style="font-weight: 600;">{{ remaining | formatPrice }}€</h6></div>
+                <div class="MuiBox-root css-s2uf1z">
+                	<h6 v-if="user.id == order.vendor.id" class="MuiTypography-root MuiTypography-subtitle1 css-kdhaao" style="font-weight: 600;">{{ remaining | formatPrice }}€</h6>
+                	<h6 v-else class="MuiTypography-root MuiTypography-subtitle1 css-kdhaao" style="font-weight: 600;">{{ order.total | formatPrice }}€</h6>
+                </div>
               </div>
             </div>
           </div>
@@ -1654,7 +1661,9 @@ export default {
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.order = JSON.parse(response.data);
-      this.remaining = parseFloat(this.order.total) - parseFloat(this.order.fees);
+      console.log(this.order);
+      console.log(this.user);
+      this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);
       this.remaining = this.remaining.toFixed(2);
       console.log(this.remaining);
     }, (response) => {

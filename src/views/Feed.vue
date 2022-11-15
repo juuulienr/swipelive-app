@@ -1018,7 +1018,15 @@ export default {
         this.stopLive();
       }
 
-      this.http.get(this.baseUrl + "/api/feed", {}, {}, (response) => {
+      if (this.token) {
+      	var url = this.baseUrl + "/user/api/feed";
+      	var auth = { Authorization: "Bearer " + this.token };
+      } else {
+      	var url = this.baseUrl + "/api/feed";
+      	var auth = {};
+      }
+
+      this.http.get(url, {}, auth, (response) => {
         var result = JSON.parse(response.data);
         console.log(result.length);
 

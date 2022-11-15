@@ -158,6 +158,7 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);  
     window.StatusBar.styleDefault();
+    console.log(this.user.vendor.dob);
   },
   methods: {
     async submit() {

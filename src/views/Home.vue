@@ -552,20 +552,24 @@ export default {
       console.log(response.error);
     });
 
-    window.cordova.plugin.http.get(this.baseUrl + "/api/clips/trending", {}, httpHeader, (response) => {
-      this.clips = JSON.parse(response.data);
-    }, (response) => {
-      console.log(response.error);
-    });
-
     if (this.user && this.token) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    	httpHeader = { Authorization: "Bearer " + this.token };
+    	var url = this.baseUrl + "/user/api/clips/trending";
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, httpHeader, (response) => {
         this.following = JSON.parse(response.data);
         console.log(this.following);
       }, (response) => {
         console.log(response.error);
       });
+    } else {
+    	var url = this.baseUrl + "/api/clips/trending";
     }
+
+    window.cordova.plugin.http.get(url, {}, httpHeader, (response) => {
+      this.clips = JSON.parse(response.data);
+    }, (response) => {
+      console.log(response.error);
+    });
   },
   methods: {
     swipeHandler(dir) {

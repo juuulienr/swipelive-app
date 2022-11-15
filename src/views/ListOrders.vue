@@ -18,7 +18,7 @@
           </div>
         </div>
 
-        <div class="tags" style="display: flex; margin: 20px 0px 5px; align-items: center; overflow-x: scroll;">
+        <div v-if="sales" class="tags" style="display: flex; margin: 20px 0px 5px; align-items: center; overflow-x: scroll;">
           <div style="display: flex; flex-wrap: initial;">
             <div style="background-color: white; color: rgb(254, 44, 85); padding: 5px 20px; border-radius: 30px; font-size: 14px; border: 1px solid rgb(254, 44, 85); margin-right: 10px; width: 70px; margin-left: 15px;">Tout</div>
             <div style="background-color: rgb(238, 238, 238); color: rgb(102, 102, 102); text-align: center; padding: 5px 20px; border-radius: 30px; width: 115px; margin-right: 10px; font-size: 14px;">À imprimer</div>
@@ -28,48 +28,30 @@
         </div>
 
         <div class="top-author">
-          <div v-if="purchases" class="top-author--container">
+          <div v-if="sales && sales.length" class="top-author--container">
+            <div @click="goOrder(sale.id)" v-for="sale in sales" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+              <img v-if="sale.lineItems[0].product.uploads" :src="baseUrl + '/uploads/' + sale.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
+              <div>
+                <div><span>{{ sale.createdAt }}</span></div>
+                <span>{{ sale.buyer.firstname }} {{ sale.buyer.lastname }}</span>
+              </div>
+              <span class="css-4ioo3c" style="color: #1ED7A6; background-color: #e6fff7;">{{ sale.total | formatPrice }}€</span>
+            </div>
+          </div>
+          <div v-if="purchases && purchases.length" class="top-author--container">
             <div @click="goOrder(purchase.id)" v-for="purchase in purchases" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
               <img v-if="purchase.lineItems[0].product.uploads" :src="baseUrl + '/uploads/' + purchase.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
               <div>
                 <div><span>{{ purchase.createdAt }}</span></div>
                 <span>{{ purchase.vendor.businessName }}</span>
               </div>
-              <span class="css-4ioo3c" style="color: rgb(223, 104, 104); background-color: rgb(251, 239, 239);">{{ purchase.total | formatPrice }}€</span>
+              <span class="css-4ioo3c" style="color: rgb(223, 104, 104); background-color: #fbefef;">{{ purchase.total | formatPrice }}€</span>
             </div>
           </div>
-          <div v-else style="text-align: center; margin-top: 30px;">
+          <div v-if="!purchases && !sales && !loading" style="text-align: center; margin-top: 30px;">
             Aucune transaction
           </div>
         </div>
-
-
-          <!-- <div v-if="isSales"> -->
-            <div v-if="sales">
-              <div v-for="sale in sales" class="items">
-                <div class="one_item">
-                  <router-link :to="{ name: 'Order', params: { id: sale.id }}">
-                    <div class="row align-items-center">
-                      <div class="col-9">
-                        <div class="info">
-                          <div class="title">Commande N°{{ sale.id }}</div>
-                          <p class="desc">{{ sale.buyer.businessName }}</p>
-                          <div style="color: #1ED7A6">En attente de livraison</div>
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="price">{{ sale.total | formatPrice }}€</div>
-                      </div>
-                    </div>
-                  </router-link>
-                </div>
-              </div>
-            </div>
-            <div v-else style="text-align: center; margin-top: 30px;">
-              Vous n'avez pas de vente
-            </div>
-          </div>
-        <!-- </div> -->
       </div>
     </div>
   </main>
@@ -593,6 +575,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       sales: null,
       purchases: null,
+      loading: true
     }
   },
   filters: {
@@ -608,11 +591,9 @@ export default {
       var result = JSON.parse(response.data);
       console.log(result);
 
-      if (result) {
-        this.sales = result.sales;
-        this.purchases = result.purchases;
-        console.log(this.purchases);
-      }
+      this.sales = result.sales;
+      this.purchases = result.purchases;
+      this.loading = false;
     }, (response) => {
       console.log(response.error);
     });
