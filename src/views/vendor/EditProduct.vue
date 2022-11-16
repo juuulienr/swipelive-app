@@ -85,28 +85,27 @@
             </fieldset>
           </div>
         </div>
-
-
-        <div v-if="!variants.length" class="form--input">
+         
+        <div v-if="!variants.length" class="form--input" style="grid-template-columns: 1fr 60px;">
           <div class="form--input--item" :class="{'form--input--item--error': errorWeight }">
-            <fieldset>
-              <legend>Format du colis</legend>
-              <select required v-model="product.weight">
-                <option value="" :selected="!product.weigh">Choisir un format</option>
-                <option value="small" :selected="'small' === product.weight">Petit : 0 à 1kg</option>
-                <option value="medium" :selected="'medium' === product.weight">Moyen : 1 à 2kg</option>
-                <option value="large" :selected="'large' === product.weight">Grand : 2kg et +</option>
-              </select>
-            </fieldset>
+          	<fieldset>
+          		<legend>Poids</legend>
+          		<input type="text"  v-model="product.weight" inputmode="decimal">
+          	</fieldset>
           </div>
           <div class="form--input--item">
             <fieldset>
-              <legend>Quantité</legend>
-              <input type="text" v-model="product.quantity" inputmode="decimal">
+              <input @click="selectWeightUnit('product')" type="text" v-model="product.weightUnit" readonly>
             </fieldset>
           </div>
         </div>
 
+        <div class="form--input--item">
+          <fieldset>
+            <legend>Quantité</legend>
+            <input type="text" v-model="product.quantity" inputmode="decimal">
+          </fieldset>
+        </div>
 
         <!-- variants -->
         <div class="title-wrapper-3KgEa">
@@ -144,7 +143,7 @@
 
 
       <!-- popup variant -->
-      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupVariant" style="overflow-y: scroll; height: 60%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupVariant" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
         <div class="checkout__header">
           <div @click="hideVariant()" class="checkout__close-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
@@ -233,7 +232,7 @@
 
 
       <!-- edit variant -->
-      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupEditVariant" style="overflow-y: scroll; height: 50%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupEditVariant" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
         <div class="checkout__header">
           <div @click="hideEditVariant()" class="checkout__close-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
@@ -267,24 +266,26 @@
               </div>
             </div>
 
-            <div class="form--input">
-              <div class="form--input--item" :class="{'form--input--item--error': !variant.weight }">
-                <fieldset>
-                  <legend>Format du colis</legend>
-                  <select required v-model="variant.weight">
-                    <option value="" :selected="!variant.weigh">Choisir un format</option>
-                    <option value="small">Petit</option>
-                    <option value="medium">Moyen</option>
-                    <option value="large">Grand</option>
-                  </select>
-                </fieldset>
-              </div>
-              <div class="form--input--item" :class="{'form--input--item--error': variant.quantity == 0 }">
-                <fieldset>
-                  <legend>Quantité</legend>
-                  <input type="text" v-model="variant.quantity" inputmode="decimal">
-                </fieldset>
-              </div>
+		         
+		        <div class="form--input" style="grid-template-columns: 1fr 60px;">
+		          <div class="form--input--item" :class="{'form--input--item--error': !variant.weight }">
+		          	<fieldset>
+		          		<legend>Poids</legend>
+		          		<input type="text"  v-model="variant.weight" inputmode="decimal">
+		          	</fieldset>
+		          </div>
+		          <div class="form--input--item">
+		            <fieldset>
+		              <input @click="selectWeightUnit('variant')" type="text" v-model="variant.weightUnit" readonly>
+		            </fieldset>
+		          </div>
+		        </div>
+
+            <div class="form--input--item" :class="{'form--input--item--error': variant.quantity == 0 }">
+              <fieldset>
+                <legend>Quantité</legend>
+                <input type="text" v-model="variant.quantity" inputmode="decimal">
+              </fieldset>
             </div>
 
             <div @click="saveEditVariant()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto;">Enregistrer</div>
@@ -786,10 +787,13 @@ export default {
           	if (this.variants[index].compareAtPrice && this.variants[index].compareAtPrice.includes(',')) {
            	 	this.variants[index].compareAtPrice = this.variants[index].compareAtPrice.replace(',','.');
           	}
+          	if (this.variants[index].weight) {
+          		this.variants[index].weight = this.variants[index].weight.replace(',','.');
+          	}
           });
         }
 
-        var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight, "online": true, "options" : this.options ? this.options : null, "variants" : this.options && this.variants ? this.variants : null };
+        var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight.replace(',','.'), "weightUnit": this.product.weightUnit, "online": true, "options" : this.options ? this.options : null, "variants" : this.options && this.variants ? this.variants : null };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/user/api/products/edit/" + this.id, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(response);
@@ -998,7 +1002,7 @@ export default {
 
         if (this.variant.id) {
           window.cordova.plugin.http.setDataSerializer('json');
-          var httpParams = { "title": this.variant.title, "price": this.variant.price.replace(",","."), "compareAtPrice": this.variant.compareAtPrice ? this.variant.compareAtPrice.replace(",",".") : null, "quantity": this.variant.quantity, "weight": this.variant.weight };
+          var httpParams = { "title": this.variant.title, "price": this.variant.price.replace(",","."), "compareAtPrice": this.variant.compareAtPrice ? this.variant.compareAtPrice.replace(",",".") : null, "quantity": this.variant.quantity, "weight": this.variant.weight, "weightUnit": this.variant.weightUnit };
 
           await window.cordova.plugin.http.post(this.baseUrl + "/user/api/variant/edit/" + this.variant.id, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
             console.log(response);
@@ -1020,7 +1024,7 @@ export default {
       this.visible = ""; 
     },
     editVariant(index) {
-      this.variant = { "id": this.variants[index].id, "title": this.variants[index].title, "price": this.variants[index].price, "compareAtPrice": this.variants[index].compareAtPrice ? this.variants[index].compareAtPrice : null, "quantity": this.variants[index].quantity ? this.variants[index].quantity : 0, "position": this.variants[index].position, "option1": this.variants[index].option1, "option2": this.variants[index].option2, "weight" : this.variants[index].weight };
+      this.variant = { "id": this.variants[index].id, "title": this.variants[index].title, "price": this.variants[index].price, "compareAtPrice": this.variants[index].compareAtPrice ? this.variants[index].compareAtPrice : null, "quantity": this.variants[index].quantity ? this.variants[index].quantity : 0, "position": this.variants[index].position, "option1": this.variants[index].option1, "option2": this.variants[index].option2, "weight" : this.variants[index].weight, "weightUnit" : this.variants[index].weightUnit };
 
       console.log(this.variant);
       this.popupEditVariant = true;
@@ -1095,7 +1099,7 @@ export default {
           this.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
           this.valuesOption1.map((element, index) => {
             this.valuesOption2.map((element2, index2) => {
-              array.push({ "title": element + " / " + element2, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": count, "option1": element, "option2": element2, "weight" : this.product.weight });
+              array.push({ "title": element + " / " + element2, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": count, "option1": element, "option2": element2, "weight" : this.product.weight, "weightUnit" : this.product.weightUnit });
               count++;
             });
           });
@@ -1110,7 +1114,7 @@ export default {
 
         } else {
           this.valuesOption1.map((element, index) => {
-            array.push({ "title": element, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": index + 1, "option1": element, "option2": "", "weight" : this.product.weight });
+            array.push({ "title": element, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": index + 1, "option1": element, "option2": "", "weight" : this.product.weight, "weightUnit" : this.product.weightUnit });
           });
 
           array.map((element, index) => {
@@ -1129,7 +1133,35 @@ export default {
         this.errorCompareAtPrice = false;
         this.popupVariant = false;
       }
-    }
+    },
+    selectWeightUnit(type) {
+    	var data = {
+    		numbers: [
+    			{description: "kg"},
+    			{description: "g"},
+    		],
+    	};
+
+	    var config = {
+	    	title: "",
+	    	items:[
+	    		[data.numbers]
+	    	],
+	    	positiveButtonText: "Choisir",
+	    	negativeButtonText: "Annuler"
+	    };
+
+	    window.SelectorCordovaPlugin.showSelector(config, (result) => {
+	    	console.log(result);
+	    	if (type == 'product') {
+	    		this.product.weightUnit = result[0].description;
+	    	} else {
+	    		this.variant.weightUnit = result[0].description;
+	    	}
+	    }, (error) => {
+	    	console.log(error);
+	    });
+    },
   }
 };
 

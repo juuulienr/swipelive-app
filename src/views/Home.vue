@@ -27,7 +27,7 @@
 
     <div v-if="categories" class="people-section" style="background: white; padding: 65px 0px 0px;">
       <div class="people" style="min-height: 140px;">
-        <router-link v-for="category in categories" :to="{ name: 'GridProducts', params: { id: category.id, name: category.name }}">
+        <router-link v-for="category in categories" :key="category.id" :to="{ name: 'GridProducts', params: { id: category.id, name: category.name }}">
           <div class="one-people text-center">
             <div class="people-img">
               <img v-if="category.picture" :src="require(`@/assets/img/` + category.picture)" style="border: 2px solid #FE2C55; padding: 3px; background: #fff; width: 86px; height: 86px; border-radius: 100%; margin: 0 auto;">
@@ -564,8 +564,10 @@ export default {
     if (this.user && this.user.vendor) {
     	httpHeader = { Authorization: "Bearer " + this.token };
     	var url = this.baseUrl + "/user/api/clips/trending";
+    	var url2 = this.baseUrl + "/user/api/user/search";
     } else {
     	var url = this.baseUrl + "/api/clips/trending";
+    	var url2 = this.baseUrl + "/api/user/search";
     }
 
     window.cordova.plugin.http.get(url, {}, httpHeader, (response) => {
@@ -598,7 +600,7 @@ export default {
     }, 
     changed() {
     	if (this.searchValue.length > 2) {
-	      window.cordova.plugin.http.get(this.baseUrl + "/api/user/search", { "search": this.searchValue }, {}, (response) => {
+	      window.cordova.plugin.http.get(url2, { "search": this.searchValue }, httpHeader, (response) => {
 	        this.results = JSON.parse(response.data);
 	      }, (response) => {
 	        console.log(response.error);

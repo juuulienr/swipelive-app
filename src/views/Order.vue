@@ -14,12 +14,20 @@
       <div v-if="order" class="checkout__body">
         <div class="top-author">
           <div class="top-author--container" style="margin-bottom: 15px;">
-            <div class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+            <div v-if="user.id == order.buyer.id" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
               <img v-if="order.vendor.user.picture" :src="baseUrl + '/uploads/' + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <div>
                 <div><span>{{ order.createdAt }}</span></div>
                 <span>{{ order.vendor.businessName }}</span>
+              </div>
+            </div>
+            <div v-if="user.id == order.vendor.id" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+              <img v-if="order.buyer.picture" :src="baseUrl + '/uploads/' + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
+              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
+              <div>
+                <div><span>{{ order.createdAt }}</span></div>
+                <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
               </div>
             </div>
           </div>

@@ -75,7 +75,7 @@
 
 
       <!-- add bank account -->
-      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupBankAccount" style="overflow-y: scroll; height: 30%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupBankAccount" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
         <div class="checkout__header" style="padding: 15px;">
           <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;"> Ajouter un compte</div>
           <div @click="hideBankAccount()" class="checkout__right-btn" style="padding-right: 12px;">
@@ -128,7 +128,7 @@
 
 
       <!-- withdraw -->
-      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupWithdraw" style="overflow-y: scroll; height: 35%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupWithdraw" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
         <div class="checkout__header" style="padding: 15px;">
           <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;"> Retrait</div>
           <div @click="hideWithdraw()" class="checkout__right-btn" style="padding-right: 12px;">

@@ -1,11 +1,5 @@
 <template>
   <div v-if="product" class="product">
-    <header v-if="id">
-      <a @click="$router.go(-1)">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
-      </a>
-    </header>
-
     <div v-if="product.uploads" style="width: 100vw;">
       <VueSlickCarousel v-bind="settings">
         <div class="vue-slick" v-for="upload in product.uploads" v-bind:key="upload.id">
@@ -603,7 +597,6 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       safeareaBottom: '30px',
-      description: false,
       settings: {
         dots: true,
       }
@@ -621,20 +614,6 @@ export default {
 
     if (window.cordova && window.cordova.platformId === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 30px)';
-    }
-
-    if (this.id) {
-      window.StatusBar.overlaysWebView(false);
-      window.StatusBar.styleDefault();
-      
-      window.cordova.plugin.http.get(this.baseUrl + "/api/products/" + this.id, {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
-        this.product = JSON.parse(response.data);
-        this.loadOptions();
-      }, (response) => {
-        console.log(response.error);
-      });
-    } else {
-      this.loadOptions();
     }
   },
   methods: {
@@ -746,13 +725,6 @@ export default {
         if (!this.variant) {
           this.unavailable = true;          
         }
-      }
-    },
-    showDescription() {
-      if (this.description) {
-        this.description = false;
-      } else {
-        this.description = true;
       }
     },
   }
