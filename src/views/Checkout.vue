@@ -39,7 +39,7 @@
               </div> -->
               <div class="css-9jay18">
                 <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Livraison</p>
-                <h6 v-if="shippingPrice" class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">{{ shippingPrice | formatPrice }}€</h6>
+                <h6 v-if="shippingPrice" class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">+{{ shippingPrice | formatPrice }}€</h6>
                 <h6 v-else class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">-</h6>
               </div>
               <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
@@ -122,9 +122,13 @@
         <div v-if="shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
           <div class="top-author--container" style="">
             <div @click="showRelayPopup()" class="top-author--item">
-              <div v-if="shippingProducts && shippingProducts.service_point">
+              <div>
                 <span style="text-transform: capitalize;">Point relais</span>
-                <div><span v-if="service.carrier == 'mondial_relay'" v-for="service in shippingProducts.service_point">À partir de {{ service.price | formatPrice }}</span></div>
+                <div v-if="shippingProducts && shippingProducts.service_point">
+                	<span v-if="service.carrier == 'mondial_relay'" v-for="service in shippingProducts.service_point">
+                		À partir de {{ service.price | formatPrice }}€
+                	</span>
+                </div>
               </div>
               <div style="margin-right: 5px;">
 				        <div class="filter--choice">
@@ -147,9 +151,11 @@
             </div>
             <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;" />
             <div @click="changeToAddress()" class="top-author--item">
-              <div v-if="shippingProducts && shippingProducts.domicile">
-                <span style="text-transform: capitalize;">{{ shippingProducts.domicile[0].carrier }}</span>
-                <div><span>À partir de {{ shippingProducts.domicile[0].price }}</span></div>
+              <div>
+                <span style="text-transform: capitalize;">Domicile</span>
+                <div v-if="shippingProducts && shippingProducts.domicile">
+                	<span>À partir de {{ shippingProducts.domicile[0].price | formatPrice }}€</span>
+                </div>
               </div>
               <div style="margin-right: 5px;">
 				        <div class="filter--choice">
@@ -340,11 +346,14 @@
 			    		<div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="margin-top: 15px; margin-bottom: 15px; border-radius: 15px; border: 1px solid rgba(145,158,171,.24);">
 			    			<div class="card-body parcelshop-card-body">
 			    				<div class="card-title">
+			    					<div>Le plus proche</div>
     								<img :src="require(`@/assets/img/` + mapSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ mapSelected.name }}
 			    				</div>
 			    				<div class="card-text">
 			    					<div>{{ mapSelected.house_number }} {{ mapSelected.street }}</div>
 			    					<div>{{ mapSelected.zip }} {{ mapSelected.city }}</div>
+			    					<div v-if="shippingProducts && shippingProducts.service_point && service.carrier == mapSelected.carrier" v-for="service in shippingProducts.service_point">Prix : {{ service.price | formatPrice }}€</div>
+                	</span>
 			    				</div>
 			    			</div>
 			    		</div>
@@ -362,7 +371,8 @@
 	              <div class="card-text">
 	                <div>{{ point.house_number }} {{ point.street }}</div>
 	                <div>{{ point.zip }} {{ point.city }}</div>
-	                <span style="float: right; margin-top: -51px;">
+			    				<div v-if="shippingProducts && shippingProducts.service_point && service.carrier == point.carrier" v-for="service in shippingProducts.service_point">Prix : {{ service.price | formatPrice }}€</div>
+	                <span style="float: right; margin-top: -65px;">
 	                	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
 	                		<path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
 	                	</svg>
@@ -714,7 +724,9 @@ export default {
       		this.shippingMethodId = method.id;
       		this.shippingName = method.name;
       		this.shippingCarrier = method.carrier;
-      		this.total = this.total + this.shippingPrice;
+      		this.total = parseFloat(this.total) + parseFloat(this.shippingPrice);
+      		this.total = this.total.toString();
+      		console.log(this.total);
       	}
       });
     },
@@ -751,7 +763,7 @@ export default {
     },
     payment() {
     	console.log(this.pointSelected);
-	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/success", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
+	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/success", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null, "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, }, { Authorization: "Bearer " + this.token }, (response) => {
 	      console.log(JSON.parse(response.data));
       	this.$router.push({ name: 'Feed' });
 	    }, (response) => {
@@ -763,8 +775,10 @@ export default {
       this.shippingMethodId = this.shippingProducts.domicile[0].id;
       this.shippingName = this.shippingProducts.domicile[0].name;
       this.shippingPrice = this.shippingProducts.domicile[0].price;
-      this.shippingCarrier = this.shippingProducts.domicile[0].carrier;
-      this.total = this.total + this.shippingPrice;
+  		this.shippingCarrier = this.shippingProducts.domicile[0].carrier;
+  		this.total = parseFloat(this.total) + parseFloat(this.shippingPrice);
+  		this.total = this.total.toString();
+  		console.log(this.total);
     },
     updateMapSelected(position, index) {
       var marker = {
@@ -847,7 +861,7 @@ export default {
 	    });
     },
     getShippingPrice() {
-	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "weight": this.product ? this.product.weight : this.variant.weight, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
+	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
 	      console.log(JSON.parse(response.data));
 	    	this.shippingProducts = JSON.parse(response.data);
 	    	console.log(this.shippingProducts.domicile);

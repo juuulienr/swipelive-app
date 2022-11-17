@@ -1,1649 +1,1672 @@
 .slick-dots {
-  bottom: 10px !important;
+	bottom: 10px !important;
 }
 
 .slick-dots li, .slick-dots li button {
-  width: 10px !important;
+	width: 10px !important;
 }
 
 .slick-dots li button:before {
-  opacity: 1 !important; 
-  color: #fff !important;
+	opacity: 1 !important; 
+	color: #fff !important;
 }
 
 .slick-dots li.slick-active button:before {
-  color: #fe2c55 !important;
+	color: #fe2c55 !important;
 }
 
 .b-dashboard {
-  display: none !important;
+	display: none !important;
 }
 
 .b-status-bar {
-  display: none !important;
+	display: none !important;
 }
 .not-found__center {
-  margin: 0 auto;
-  text-align: center;
-  color: #222
+	margin: 0 auto;
+	text-align: center;
+	color: #222
 }
 
 .icon svg {
-  height: 100%;
-  width: 1.5em;
+	height: 100%;
+	width: 1.5em;
 }
 
 .not-found__header {
-  font-size: 3em;
-  font-weight: 300;
-  margin: 2rem 0
+	font-size: 3em;
+	font-weight: 300;
+	margin: 2rem 0
 }
 
 @media (max-width:500px) {
-  .not-found__header {
-    font-size: 10vw
-  }
+	.not-found__header {
+		font-size: 10vw
+	}
 }
 
 .not-found__content {
-  max-width: 420px;
-  text-align: center;
-  line-height: 1.4;
-  margin: 0 auto;
-  padding: 0 1rem
+	max-width: 420px;
+	text-align: center;
+	line-height: 1.4;
+	margin: 0 auto;
+	padding: 0 1rem
 }
 
 .not-found__content a {
-  color: #ea573c
+	color: #ea573c
 }
 
 .video-page {
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  width: 100%;
-  margin: 0 auto
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	width: 100%;
+	margin: 0 auto
 }
 
 @media (min-width:425px) {
-  .video-page {
-    max-width: 425px
-  }
+	.video-page {
+		max-width: 425px
+	}
 }
 
 @media (max-width:425px) {
-  .video-page {
-    position: fixed;
-    overflow-y: hidden;
-    height: 100%;
-    top: 0
-  }
+	.video-page {
+		position: fixed;
+		overflow-y: hidden;
+		height: 100%;
+		top: 0
+	}
 }
 
 .video-page__product-box {
-  padding: 1.25rem 1rem;
-  position: absolute;
-  left: 20px;
-  background-color: #fff;
-  border-radius: 1.5rem;
-  -webkit-transition: bottom .2s linear;
-  transition: bottom .2s linear;
-  z-index: 20;
-  box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
-  width: calc(100vw - 40px);
+	padding: 1.25rem 1rem;
+	position: absolute;
+	left: 20px;
+	background-color: #fff;
+	border-radius: 1.5rem;
+	-webkit-transition: bottom .2s linear;
+	transition: bottom .2s linear;
+	z-index: 20;
+	box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
+	width: calc(100vw - 40px);
 }
 
 .video-page__product-box.video-page__product-box--active {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  bottom: 0;
-  padding: 0
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	bottom: 0;
+	padding: 0
 }
 
 .video-page__product-box.video-page__product-box--active .video-page__info {
-  display: flex;
-  justify-content: space-between;
-  padding-left: 0;
-  width: 100%
+	display: flex;
+	justify-content: space-between;
+	padding-left: 0;
+	width: 100%
 }
 
 .video-page__product-box.video-page__product-box--active .video-page__price-row {
-  width: 75%;
-  display: block
+	width: 75%;
+	display: block
 }
 
 .video-page__product-box.video-page__product-box--active .video-page__name {
-  white-space: normal;
-  overflow: initial;
-  text-overflow: clip
+	white-space: normal;
+	overflow: initial;
+	text-overflow: clip
 }
 
 .video-page__product-box.video-page__product-box--active .mobile-gallery {
-  padding-left: 2rem;
-  padding-right: 2rem
+	padding-left: 2rem;
+	padding-right: 2rem
 }
 
 .video-page__product-box.video-page__product-box--active .video-page__discount-pill-container {
-  position: static
+	position: static
 }
 
 .video-page__product-box .inventory-option__label {
-  font-size: .94rem
+	font-size: .94rem
 }
 
 .video-page__product-box--inner-holder {
-  position: relative;
-  padding: 2rem 1.5rem 170px 2rem;
-  overflow: auto;
-  height: 100%
+	position: relative;
+	padding: 2rem 1.5rem 170px 2rem;
+	overflow: auto;
+	height: 100%
 }
 
 .video-page__image img {
-  width: 96px; 
-  height: 96px; 
-  border-radius: 10px;
-  object-fit: cover;
+	width: 96px; 
+	height: 96px; 
+	border-radius: 10px;
+	object-fit: cover;
 }
 
 .video-page__product-top {
-  display: flex;
-  align-items: center;
-  width: 100%
+	display: flex;
+	align-items: center;
+	width: 100%
 }
 
 .video-page__info {
-  padding-left: 1rem;
-  width: 75%
+	padding-left: 1rem;
+	width: 75%
 }
 
 .video-page__name {
-  margin-top: 0;
-  font-size: 1rem;
-  margin-bottom: .3rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 600;
+	margin-top: 0;
+	font-size: 1rem;
+	margin-bottom: .3rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight: 600;
 }
 
 .video-page__vendor {
-  margin-bottom: 0;
-  margin-top: 0;
-  color: rgba(38, 38, 38, .5);
-  font-size: .75rem;
-  font-weight: 700
+	margin-bottom: 0;
+	margin-top: 0;
+	color: rgba(38, 38, 38, .5);
+	font-size: .75rem;
+	font-weight: 700
 }
 
 .video-page__price-row {
-  display: flex;
-  margin-top: .6rem
+	display: flex;
+	margin-top: .6rem
 }
 
 .video-page__msrp {
-  font-size: .9rem;
-  color: rgba(38, 38, 38, .5);
-  text-decoration: line-through
+	font-size: .9rem;
+	color: rgba(38, 38, 38, .5);
+	text-decoration: line-through
 }
 
 .video-page__price {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333;
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: #333;
 }
 
 .video-page__btn {
-  margin-left: auto;
-  align-self: flex-end
+	margin-left: auto;
+	align-self: flex-end
 }
 
 .video-page__btn--active {
-  position: absolute;
-  z-index: 3;
-  width: 100%;
-  bottom: 15px;
-  text-align: center;
-  left: 0
+	position: absolute;
+	z-index: 3;
+	width: 100%;
+	bottom: 15px;
+	text-align: center;
+	left: 0
 }
 
 .video-page__btn--active button {
-  box-shadow: 0 13px 18px 0 rgba(0, 0, 0, .25)
+	box-shadow: 0 13px 18px 0 rgba(0, 0, 0, .25)
 }
 
 .video-page__discount-pill-container {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  left: 0;
-  bottom: 142px;
-  z-index: 4
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	left: 0;
+	bottom: 142px;
+	z-index: 4
 }
 
 .video-page__discount-pill-container .video-page__discount-pill {
-  display: inline-block;
-  border-radius: 25px;
-  color: #fff;
-  font-size: .9rem;
-  background-color: #3a3a3a;
-  border: 3px solid #fff;
-  padding: .2rem 1rem
+	display: inline-block;
+	border-radius: 25px;
+	color: #fff;
+	font-size: .9rem;
+	background-color: #3a3a3a;
+	border: 3px solid #fff;
+	padding: .2rem 1rem
 }
 
 .video-page__discount-pill-container .video-page__discount-pill.video-page__discount-pill--blue {
-  background-color: #46b1cd
+	background-color: #46b1cd
 }
 
 .video-page__discount-pill-container .video-page__discount-pill.video-page__discount-pill--red {
-  background-color: #ea573c
+	background-color: #ea573c
 }
 
 .video-page__discount-pill-container .video-page__discount-pill.video-page__discount-pill--yellow {
-  background-color: #ffac00
+	background-color: #ffac00
 }
 
 .video-page__close-btn {
-  transform: rotate(-90deg);
-  position: absolute;
-  top: 15px;
-  left: 10px;
-  z-index: 4;
-  display: none;
-  border-radius: 50%;
-  font-size: 1rem;
-  padding: .45rem .5rem .5rem;
-  width: 38px;
-  height: 38px;
-  transition: color, background-color .5s ease-in-out
+	transform: rotate(-90deg);
+	position: absolute;
+	top: 15px;
+	left: 10px;
+	z-index: 4;
+	display: none;
+	border-radius: 50%;
+	font-size: 1rem;
+	padding: .45rem .5rem .5rem;
+	width: 38px;
+	height: 38px;
+	transition: color, background-color .5s ease-in-out
 }
 
 .video-page__close-btn.video-page__close-btn--active {
-  display: block
+	display: block
 }
 
 .video-page__close-btn.video-page__close-btn--dark {
-  background-color: rgba(0, 0, 0, .5);
-  color: #fff
+	background-color: rgba(0, 0, 0, .5);
+	color: #fff
 }
 
 .video-page__video-player--active {
-  z-index: 3;
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  height: 147px;
-  width: 88px;
-  border: 6px solid #fff;
-  border-radius: .35rem;
-  box-shadow: 0 0 20px -2px rgba(58, 58, 58, .4)
+	z-index: 3;
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	height: 147px;
+	width: 88px;
+	border: 6px solid #fff;
+	border-radius: .35rem;
+	box-shadow: 0 0 20px -2px rgba(58, 58, 58, .4)
 }
 
 .video-page__video-player--active .video-player__video {
-  height: 136px;
-  width: 76px
+	height: 136px;
+	width: 76px
 }
 
 .video-page__free-shipping {
-  font-weight: 700;
-  margin-top: 2rem;
-  border-bottom: 1px solid rgba(58, 58, 58, .2);
-  margin-bottom: 1rem;
-  padding-bottom: 1rem
+	font-weight: 700;
+	margin-top: 2rem;
+	border-bottom: 1px solid rgba(58, 58, 58, .2);
+	margin-bottom: 1rem;
+	padding-bottom: 1rem
 }
 
 .video-page__free-shipping .icon--truck {
-  padding-right: .5rem
+	padding-right: .5rem
 }
 
 .video-page__actions-btns {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  z-index: 20;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .5);
-  padding: 1rem .22rem;
-  text-align: center
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	z-index: 20;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .5);
+	padding: 1rem .22rem;
+	text-align: center
 }
 
 .video-page__actions-btns button {
-  text-align: center;
-  color: #fff;
-  height: auto;
-  line-height: 1.15;
-  padding: 0 .5em;
-  margin-top: 1rem
+	text-align: center;
+	color: #fff;
+	height: auto;
+	line-height: 1.15;
+	padding: 0 .5em;
+	margin-top: 1rem
 }
 
 .video-page__actions-btns button span {
-  font-weight: 400;
-  display: block
+	font-weight: 400;
+	display: block
 }
 
 .video-page__actions-btns button:first-child {
-  margin-top: 0
+	margin-top: 0
 }
 
 
 .video-page__actions-btns .video-page__like-btn.video-page__actions-btn--liked path {
-  fill: #ea573c;
-  stroke: #ea573c
+	fill: #ea573c;
+	stroke: #ea573c
 }
 
 .video-page__actions-btns.video-page__actions-btns--active {
-  background-color: transparent;
-  z-index: 3
+	background-color: transparent;
+	z-index: 3
 }
 
 .video-page__actions-btns.video-page__actions-btns--active button {
-  color: #262626
+	color: #262626
 }
 
 .video-page__actions-btns.video-page__actions-btns--active .video-page__like-btn path {
-  stroke: #262626
+	stroke: #262626
 }
 
 .video-page__actions-btns.video-page__actions-btns--active .video-page__like-btn.video-page__actions-btn--liked path {
-  fill: #ea573c;
-  stroke: #ea573c
+	fill: #ea573c;
+	stroke: #ea573c
 }
 
 .video-page__actions-btns.video-page__actions-btns--active .video-page__share-btn path {
-  fill: #262626
+	fill: #262626
 }
 
 .video-page__influencer-badge {
-  display: flex;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  padding: .3rem 3.5rem .2rem .35rem;
-  margin: 6px 15px 6px 0px;
-  align-items: center;
+	display: flex;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	padding: .3rem 3.5rem .2rem .35rem;
+	margin: 6px 15px 6px 0px;
+	align-items: center;
 }
 
 .video-page__influencer-badge .video-page__influencer-username {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 22px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 22px;
 }
 
 .video-page__influencer-badge .video-page__influencer-img {
-  padding-right: .8rem
+	padding-right: .8rem
 }
 
 .video-page__influencer-badge .video-page__influencer-video-count {
-  position: relative;
-  display: block;
-  color: #fff;
-  font-size: .8rem
+	position: relative;
+	display: block;
+	color: #fff;
+	font-size: .8rem
 }
 
 .video-page__influencer-badge .video-page__influencer-video-count .icon--watched-video {
-  vertical-align: text-top
+	vertical-align: text-top
 }
 
 .video-page__influencer-badge-send {
-  display: flex;
-  position: absolute;
-  left: 15px;
-  z-index: 20;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  padding: .3rem 3.5rem .2rem .35rem;
-  align-items: center;
+	display: flex;
+	position: absolute;
+	left: 15px;
+	z-index: 20;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	padding: .3rem 3.5rem .2rem .35rem;
+	align-items: center;
 }
 
 .video-page__influencer-badge-send .video-page__influencer-username {
-  color: rgba(255,255,255,0.6);
-  font-size: 15px;
-  font-weight: 600;
+	color: rgba(255,255,255,0.6);
+	font-size: 15px;
+	font-weight: 600;
 }
 
 .video-page__influencer-badge-send .video-page__influencer-img {
-  padding-right: .8rem
+	padding-right: .8rem
 }
 
 .video-page__influencer-badge-send .video-page__influencer-video-count {
-  position: relative;
-  display: block;
-  color: #fff;
-  font-size: .8rem
+	position: relative;
+	display: block;
+	color: #fff;
+	font-size: .8rem
 }
 
 .video-page__influencer-badge-send .video-page__influencer-video-count .icon--watched-video {
-  vertical-align: text-top
+	vertical-align: text-top
 }
 
 .video-page__influencer-badge2 {
-  display: flex;
-  position: absolute;
-  left: 15px;
-  z-index: 20;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  padding: 3px 5px;
-  align-items: center;
+	display: flex;
+	position: absolute;
+	left: 15px;
+	z-index: 20;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	padding: 3px 5px;
+	align-items: center;
 }
 
 .video-page__influencer-badge3 {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  position: absolute;
-  left: 192px;
-  height: 46px;
-  z-index: 20;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  padding: 0.5rem;
-  padding-right: 0.7rem;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	position: absolute;
+	left: 192px;
+	height: 46px;
+	z-index: 20;
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	padding: 0.5rem;
+	padding-right: 0.7rem;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
 }
 
 .video-page__influencer-badge2 .video-page__influencer-username2 {
-  color: #fff;
-  font-weight: 600;
-  font-size: .85rem;
+	color: #fff;
+	font-weight: 600;
+	font-size: .85rem;
 }
 
 .video-page__influencer-badge2 .video-page__influencer-img2 {
-  padding-right: .8rem
+	padding-right: .8rem
 }
 
 .video-page__influencer-badge2 .video-page__influencer-video-count2 {
-  position: relative;
-  display: block;
-  color: #fff;
-  font-size: .8rem
+	position: relative;
+	display: block;
+	color: #fff;
+	font-size: .8rem
 }
 
 .video-page__influencer-badge2 .video-page__influencer-video-count .icon__watched {
-  vertical-align: text-top
+	vertical-align: text-top
 }
 
 
 
 .video-page__influencer-badge4 {
-  display: flex;
-  position: absolute;
-  z-index: 20;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  align-items: center
+	display: flex;
+	position: absolute;
+	z-index: 20;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	align-items: center
 }
 
 .video-page__influencer-badge4 .video-page__influencer-username {
-  color: #fff;
-  font-weight: 700;
-  font-size: .85rem
+	color: #fff;
+	font-weight: 700;
+	font-size: .85rem
 }
 
 .video-page__influencer-badge4 .video-page__influencer-img {
-  padding-right: .8rem
+	padding-right: .8rem
 }
 
 .video-page__influencer-badge4 .video-page__influencer-video-count {
-  position: relative;
-  display: block;
-  color: #fff;
-  font-size: .8rem
+	position: relative;
+	display: block;
+	color: #fff;
+	font-size: .8rem
 }
 
 .video-page__influencer-badge4 .video-page__influencer-video-count .icon--watched-video {
-  vertical-align: text-top
+	vertical-align: text-top
 }
 
 
 .video-page__influencer-badge5 {
-  display: flex;
-  position: absolute;
-  z-index: 20;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  align-items: center
+	display: flex;
+	position: absolute;
+	z-index: 20;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	align-items: center
 }
 
 .video-page__influencer-badge5 .video-page__influencer-username {
-  color: #fff;
-  font-weight: 700;
-  font-size: .85rem
+	color: #fff;
+	font-weight: 700;
+	font-size: .85rem
 }
 
 .video-page__influencer-badge5 .video-page__influencer-img {
-  padding-right: .8rem
+	padding-right: .8rem
 }
 
 .video-page__influencer-badge5 .video-page__influencer-video-count {
-  position: relative;
-  display: block;
-  color: #fff;
-  font-size: .8rem
+	position: relative;
+	display: block;
+	color: #fff;
+	font-size: .8rem
 }
 
 .video-page__influencer-badge5 .video-page__influencer-video-count .icon--watched-video {
-  vertical-align: text-top
+	vertical-align: text-top
 }
 
 
 .video-page__influencer-badge6 {
-  display: flex;
-  position: absolute;
-  z-index: 20;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  align-items: center
+	display: flex;
+	position: absolute;
+	z-index: 20;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	align-items: center
 }
 
 .video-page__influencer-badge6 .video-page__influencer-username {
-  color: #fff;
-  font-weight: 700;
-  font-size: .85rem
+	color: #fff;
+	font-weight: 700;
+	font-size: .85rem
 }
 
 .video-page__influencer-badge6 .video-page__influencer-img {
-  padding-right: .8rem
+	padding-right: .8rem
 }
 
 .video-page__influencer-badge6 .video-page__influencer-video-count {
-  position: relative;
-  display: block;
-  color: #fff;
-  font-size: .8rem
+	position: relative;
+	display: block;
+	color: #fff;
+	font-size: .8rem
 }
 
 .video-page__influencer-badge6 .video-page__influencer-video-count .icon--watched-video {
-  vertical-align: text-top
+	vertical-align: text-top
 }
 
 
 .video-page__influencer-badge7 {
-  display: flex;
-  position: absolute;
-  z-index: 20;
-  border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
-  align-items: center
+	display: flex;
+	position: absolute;
+	z-index: 20;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, .25);
+	align-items: center
 }
 
 .video-page__influencer-badge7 .video-page__influencer-username {
-  color: #fff;
-  font-weight: 700;
-  font-size: .85rem
+	color: #fff;
+	font-weight: 700;
+	font-size: .85rem
 }
 
 .video-page__influencer-badge7 .video-page__influencer-img {
-  padding-right: .8rem
+	padding-right: .8rem
 }
 
 .video-page__influencer-badge7 .video-page__influencer-video-count {
-  position: relative;
-  display: block;
-  color: #fff;
-  font-size: .8rem
+	position: relative;
+	display: block;
+	color: #fff;
+	font-size: .8rem
 }
 
 .video-page__influencer-badge7 .video-page__influencer-video-count .icon--watched-video {
-  vertical-align: text-top
+	vertical-align: text-top
 }
 
 .video-page__login-popup {
-  border-radius: 25px;
-  border: 1px solid #262626;
-  background-color: rgba(0, 0, 0, .3);
-  padding: .5rem;
-  position: absolute;
-  top: 0;
-  right: 50px;
-  justify-content: center;
-  display: none
+	border-radius: 25px;
+	border: 1px solid #262626;
+	background-color: rgba(0, 0, 0, .3);
+	padding: .5rem;
+	position: absolute;
+	top: 0;
+	right: 50px;
+	justify-content: center;
+	display: none
 }
 
 .video-page__login-popup.video-page__login-popup--active {
-  display: flex;
-  color: #fff
+	display: flex;
+	color: #fff
 }
 
 .video-page__login-popup>span {
-  padding: .2rem .4rem
+	padding: .2rem .4rem
 }
 
 .video-page__share-popup {
-  padding: 1.35rem 1.75rem;
-  position: absolute;
-  width: 100%;
-  bottom: -80%;
-  background-color: #fff;
-  border-top-left-radius: 2.5rem;
-  border-top-right-radius: 2.5rem;
-  transition: bottom .2s linear;
-  z-index: 4
+	padding: 1.35rem 1.75rem;
+	position: absolute;
+	width: 100%;
+	bottom: -80%;
+	background-color: #fff;
+	border-top-left-radius: 2.5rem;
+	border-top-right-radius: 2.5rem;
+	transition: bottom .2s linear;
+	z-index: 4
 }
 
 .video-page__share-popup.video-page__share-popup--active {
-  bottom: 0
+	bottom: 0
 }
 
 .video-page__share-popup-share-options {
-  display: flex;
-  justify-content: center
+	display: flex;
+	justify-content: center
 }
 
 .video-page__share-popup-title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 1rem
+	text-align: center;
+	font-weight: 700;
+	font-size: 1rem
 }
 
 .scrollToMe {
-  -webkit-mask-image: -webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(rgb(0, 0, 0)));
+	-webkit-mask-image: -webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(rgb(0, 0, 0)));
 }
 
 .video-page__description {
-  margin-top: .5rem;
-  color: rgba(38, 38, 38, .5);
+	margin-top: .5rem;
+	color: rgba(38, 38, 38, .5);
 }
 
 .video-page__description-paragraph {
-  line-height: 1.5;
+	line-height: 1.5;
 }
 
 .video-page__description-paragraph img {
-  max-width: 100%;
+	max-width: 100%;
 }
 
 .video-page__description-label {
-  font-weight: 700;
-  padding-bottom: 1rem;
-  font-size: .94rem;
-  color: #262626;
+	font-weight: 700;
+	padding-bottom: 1rem;
+	font-size: .94rem;
+	color: #262626;
 }
 
 .video-page__overlay {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  background-color: rgba(38, 38, 38, .5);
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	background-color: rgba(38, 38, 38, .5);
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 5
 }
 
 .video-page__overlay .default-spinner {
-  width: 5rem
+	width: 5rem
 }
 
 .video-page__gallery {
-  min-height: 150px
+	min-height: 150px
 }
 
 .video-page__video-overlay {
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  background-color: #262626;
-  transition: opacity .3s linear;
-  position: absolute;
-  opacity: 0;
-  z-index: 0
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background-color: #262626;
+	transition: opacity .3s linear;
+	position: absolute;
+	opacity: 0;
+	z-index: 0
 }
 
 .video-page__video-overlay.video-page__video-overlay--active {
-  z-index: 1;
-  opacity: 1
+	z-index: 1;
+	opacity: 1
 }
 
 .video-page__video-overlay.video-page__video-overlay--share-active {
-  z-index: 4;
-  opacity: .6
+	z-index: 4;
+	opacity: .6
 }
 
 .video-page__share-popup-share-option {
-  text-align: center;
-  padding: 1.2rem .625rem 1.7rem;
-  color: rgba(0, 0, 0, .5);
-  font-size: .7rem;
-  text-decoration: none;
-  white-space: nowrap
+	text-align: center;
+	padding: 1.2rem .625rem 1.7rem;
+	color: rgba(0, 0, 0, .5);
+	font-size: .7rem;
+	text-decoration: none;
+	white-space: nowrap
 }
 
 .video-page__share-popup-share-option .icon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: .5rem
+	font-size: 2rem;
+	display: block;
+	margin-bottom: .5rem
 }
 
 .video-page__create-screen-name {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  z-index: 4;
-  background-color: #fff;
-  height: 100%;
-  padding: .8rem
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 4;
+	background-color: #fff;
+	height: 100%;
+	padding: .8rem
 }
 
 .video-page__login-popup-buy {
-  padding: 1.35rem 1.75rem;
-  position: fixed;
-  bottom: -80%;
-  background-color: #fff;
-  border-top-left-radius: 2.5rem;
-  border-top-right-radius: 2.5rem;
-  transition: bottom .2s linear;
-  z-index: 4;
-  left: 0;
-  right: 0;
-  width: 100%;
-  margin: 0 auto;
-  text-align: center
+	padding: 1.35rem 1.75rem;
+	position: fixed;
+	bottom: -80%;
+	background-color: #fff;
+	border-top-left-radius: 2.5rem;
+	border-top-right-radius: 2.5rem;
+	transition: bottom .2s linear;
+	z-index: 4;
+	left: 0;
+	right: 0;
+	width: 100%;
+	margin: 0 auto;
+	text-align: center
 }
 
 @media (min-width:425px) {
-  .video-page__login-popup-buy {
-    max-width: 425px
-  }
+	.video-page__login-popup-buy {
+		max-width: 425px
+	}
 }
 
 .video-page__login-popup-buy .default-button {
-  width: 100%;
-  margin-bottom: .7rem
+	width: 100%;
+	margin-bottom: .7rem
 }
 
 .video-page__login-popup-buy .icon {
-  font-size: 6rem;
-  margin: 1rem 0 2rem
+	font-size: 6rem;
+	margin: 1rem 0 2rem
 }
 
 .video-page__login-popup-buy.video-page__login-popup-buy--active {
-  bottom: 0
+	bottom: 0
 }
 
 
 .rq0escxv {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 .qttc61fc {
-  border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
 }
 .qt6c0cv9 {
-  padding-bottom: 0;
+	padding-bottom: 0;
 }
 .q1gqmpn5 {
-  animation-name: eeh53dpm-B;
+	animation-name: eeh53dpm-B;
 }
 
 @keyframes eeh53dpm-B {
-  0% {
-    opacity: .7;
-  }
+	0% {
+		opacity: .7;
+	}
 
-  100% {
-    opacity: 1;
-  }
+	100% {
+		opacity: 1;
+	}
 }
 
 .pq6dq46d {
-  display: inline-flex;
+	display: inline-flex;
 }
 .pcp91wgn {
-  padding-left: 6px;
+	padding-left: 6px;
 }
 .p8fzw8mz {
-  padding-right: 6px;
+	padding-right: 6px;
 }
 .m8weaby5 {
-  animation-duration: .7s;
+	animation-duration: .7s;
 }
 .l44iypv3 {
-  background-color: hsl(350, 87%, 55%);
+	background-color: hsl(350, 87%, 55%);
 }
 .kdgqqoy6 {
-  border-top-right-radius: 4px;
+	border-top-right-radius: 4px;
 }
 .jk6sbkaj {
-  border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
 }
 .jbu8tgem {
-  animation-timing-function: cubic-bezier(.39,.575,.565,1);
+	animation-timing-function: cubic-bezier(.39,.575,.565,1);
 }
 .jb3vyjys {
-  padding-top: 0;
+	padding-top: 0;
 }
 .ihh4hy1g {
-  border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 4px;
 }
 .ee40wjg4 {
-  animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
 }
 .datstx6m {
-  height: 100%;
+	height: 100%;
 }
 .bp9cbjyn {
-  align-items: center;
+	align-items: center;
 }
 .afxn4irw {
-  animation-direction: alternate;
+	animation-direction: alternate;
 }
 
 .qv66sw1b {
-  word-break: break-word;
+	word-break: break-word;
 }
 .lrazzd5p {
-  font-weight: 600;
+	font-weight: 600;
 }
 .ljqsnud1 {
-  color: #ffffff;
+	color: #ffffff;
 }
 .j5wam9gi {
-  line-height: 1.2308;
+	line-height: 1.2308;
 }
 .ik7dh3pa {
-  -webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 }
 .hpfvmrgz {
-  min-width: 0;
+	min-width: 0;
 }
 .e9vueds3 {
-  font-size: .8125rem;
+	font-size: .8125rem;
 }
 .d2edcug0 {
-  max-width: 100%;
+	max-width: 100%;
 }
 .c1et5uql {
-  word-wrap: break-word;
+	word-wrap: break-word;
 }
 .a8c37x1j {
-  display: block;
+	display: block;
 }
 
 
 .css-1dko8fk {
-  height: 70px;
-  display: flex;
-  position: relative;
-  align-items: center;
-  padding-left: 20px;
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  background: white;
-  z-index: 10000000;
-  border-top: 1px solid rgba(145,158,171,.24);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+	height: 70px;
+	display: flex;
+	position: relative;
+	align-items: center;
+	padding-left: 20px;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	background: white;
+	z-index: 10000000;
+	border-top: 1px solid rgba(145,158,171,.24);
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
 }
 
 .css-miqn2j {
-  line-height: 1.4375em;
-  font-size: 1rem;
-  font-weight: 400;
-  color: rgb(33, 43, 54);
-  box-sizing: border-box;
-  cursor: text;
-  display: inline-flex;
-  align-items: center;
-  width: 100%;
-  position: relative;
-  height: 100%;
+	line-height: 1.4375em;
+	font-size: 1rem;
+	font-weight: 400;
+	color: rgb(33, 43, 54);
+	box-sizing: border-box;
+	cursor: text;
+	display: inline-flex;
+	align-items: center;
+	width: 100%;
+	position: relative;
+	height: 100%;
 }
 
 .css-9gu6qp {
-  font: inherit;
-  letter-spacing: inherit;
-  color: currentcolor;
-  padding: 4px 0px 5px;
-  border: 0px;
-  box-sizing: content-box;
-  background: none;
-  height: 1.4375em;
-  margin: 0px;
-  -webkit-tap-highlight-color: transparent;
-  display: block;
-  min-width: 0px;
-  width: 100%;
-  animation-name: mui-auto-fill-cancel;
-  animation-duration: 10ms;
-  font-size: 15px;
+	font: inherit;
+	letter-spacing: inherit;
+	color: currentcolor;
+	padding: 4px 0px 5px;
+	border: 0px;
+	box-sizing: content-box;
+	background: none;
+	height: 1.4375em;
+	margin: 0px;
+	-webkit-tap-highlight-color: transparent;
+	display: block;
+	min-width: 0px;
+	width: 100%;
+	animation-name: mui-auto-fill-cancel;
+	animation-duration: 10ms;
+	font-size: 15px;
 }
 
 .css-il3d4y.Mui-disabled {
-  background-color: transparent;
-  color: rgba(145, 158, 171, 0.8);
+	background-color: transparent;
+	color: rgba(145, 158, 171, 0.8);
 }
 
 .css-il3d4y.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
+	pointer-events: none;
+	cursor: default;
 }
 .css-il3d4y {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0px;
-  border: 0px;
-  margin: 0px 8px;
-  cursor: pointer;
-  user-select: none;
-  vertical-align: middle;
-  appearance: none;
-  text-decoration: none;
-  text-align: center;
-  flex: 0 0 auto;
-  font-size: 1.5rem;
-  padding: 8px;
-  border-radius: 50%;
-  overflow: visible;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  color: #f0284a;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+	background-color: transparent;
+	outline: 0px;
+	border: 0px;
+	margin: 0px 8px;
+	cursor: pointer;
+	user-select: none;
+	vertical-align: middle;
+	appearance: none;
+	text-decoration: none;
+	text-align: center;
+	flex: 0 0 auto;
+	font-size: 1.5rem;
+	padding: 8px;
+	border-radius: 50%;
+	overflow: visible;
+	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	color: #f0284a;
 }
 
 .purchases {
-  animation: slide 0.5s forwards;
-  animation-delay: 2s;
-  left: -300px;
+	animation: slide 0.5s forwards;
+	animation-delay: 2s;
+	left: -300px;
 }
 
 .entrances {
-  animation: slide 0.5s forwards;
-  animation-delay: 2s;
-  left: -300px;
+	animation: slide 0.5s forwards;
+	animation-delay: 2s;
+	left: -300px;
 }
 
 .store-products-item__login-popup.store-products-item__login-popup--active {
-    bottom: 0;
+	bottom: 0;
 }
 
 .store-products-item__login-popup {
-  position: fixed;
-  width: 100%;
-  bottom: -80%;
-  background-color: #fff;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  animation-duration: 400ms !important;
-  animation-iteration-count: 1 !important;
-  animation-fill-mode: both !important;
-  animation-name: keyframe_d37zz3 !important;
-  z-index: 1000000000;
+	position: fixed;
+	width: 100%;
+	bottom: -80%;
+	background-color: #fff;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	animation-duration: 400ms !important;
+	animation-iteration-count: 1 !important;
+	animation-fill-mode: both !important;
+	animation-name: keyframe_d37zz3 !important;
+	z-index: 1000000000;
 }
 
 @keyframes keyframe_d37zz3 {
-  0% {
-    opacity: 0;
-    transform: translate(0px, 100%);
-  }
+	0% {
+		opacity: 0;
+		transform: translate(0px, 100%);
+	}
 
-  100% {
-    opacity: 1;
-    transform: none;
-  }
+	100% {
+		opacity: 1;
+		transform: none;
+	}
 }
 
 .store-products-item__overlay {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  background-color: rgba(38,38,38,.5);
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 99999;
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	background-color: rgba(38,38,38,.5);
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99999;
 }
 
 .shop--item {
-  background-color: rgb(255, 255, 255);
-  color: rgb(33, 43, 54);
-  overflow: hidden;
-  position: relative;
-  border-radius: 16px;
-  z-index: 0;
+	background-color: rgb(255, 255, 255);
+	color: rgb(33, 43, 54);
+	overflow: hidden;
+	position: relative;
+	border-radius: 16px;
+	z-index: 0;
 }
 .shop--item > div:first-of-type > div > img {
-  object-fit: cover;
-  max-width: 100%;
+	object-fit: cover;
+	max-width: 100%;
 }
 .shop--item--details {
-  display: flex;
-  flex-direction: column;
-  padding-top: 10px;
+	display: flex;
+	flex-direction: column;
+	padding-top: 10px;
 }
 .shop--item--name {
-  font-weight: 600;
-  line-height: 1.57143;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  text-decoration: none;
-  padding-bottom: 5px;
+	font-weight: 600;
+	line-height: 1.57143;
+	font-size: 12px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+	text-decoration: none;
+	padding-bottom: 5px;
 }
 .shop--item--name:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 .shop--item--details > div {
-  margin: 0px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+	margin: 0px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .color {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 }
 .color > span {
-  margin-left: -4px;
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgb(255, 255, 255);
-  box-shadow: rgb(0 0 0 / 24%) -1px 1px 2px inset;
+	margin-left: -4px;
+	border-radius: 50%;
+	width: 16px;
+	height: 16px;
+	border: 2px solid rgb(255, 255, 255);
+	box-shadow: rgb(0 0 0 / 24%) -1px 1px 2px inset;
 }
 .price {
-  font-weight: 600;
-  line-height: 1.5;
-  font-size: 1rem;
-  margin: 0px 0px 0px 4px;
+	font-weight: 600;
+	line-height: 1.5;
+	font-size: 1rem;
+	margin: 0px 0px 0px 4px;
 }
 .last-price {
-  font-weight: 400;
-  color: rgb(145, 158, 171);
-  text-decoration: line-through;
+	font-weight: 400;
+	color: rgb(145, 158, 171);
+	text-decoration: line-through;
 }
 .shop--part {
-  display: grid;
-  grid-template-columns: repeat(3,1fr)!important;
-  gap: 10px;
+	display: grid;
+	grid-template-columns: repeat(3,1fr)!important;
+	gap: 10px;
 }
 
 .stjgntxs {
-  overflow-y: hidden;
+	overflow-y: hidden;
 }
 .pmk7jnqg {
-  position: absolute;
+	position: absolute;
 }
 .ni8dbmo4 {
-  overflow-x: hidden;
+	overflow-x: hidden;
 }
 .n7fi1qx3 {
-  right: 0;
+	right: 0;
 }
 .kr520xx4 {
-  top: 0;
+	top: 0;
 }
 .hzruof5a {
-  pointer-events: none;
+	pointer-events: none;
 }
 .etr7akla {
-  width: 100px;
+	width: 100px;
 }
 .bt9ki6u7 {
-  bottom: 0px;
+	bottom: 0px;
 }
 .bipmatt0 {
-  height: inherit;
+	height: inherit;
 }
 ._g19 {
-  height: 48px;
-  position: absolute;
-  width: 48px;
+	height: 48px;
+	position: absolute;
+	width: 48px;
 }
 
 .btn-swipe2 {
-  background: rgb(24, 206, 160);
-  color: white !important;
-  font-weight: 600;
-  margin: 0 auto;
-  padding: 12px 36px;
-  font-size: 15px;
-  text-align: center;
+	background: rgb(24, 206, 160);
+	color: white !important;
+	font-weight: 600;
+	margin: 0 auto;
+	padding: 12px 36px;
+	font-size: 15px;
+	text-align: center;
 }
 
+.feed::-webkit-scrollbar {
+	display: none;
+}
+.feed {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.scrollToMe::-webkit-scrollbar {
+	display: none;
+}
+.scrollToMe {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.store-products-item__login-popup::-webkit-scrollbar {
+	display: none;
+}
+.store-products-item__login-popup {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+
 .KeyframeAnimation-js_5 {
-  animation-name: KeyframeAnimation-js_5;
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_5;
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 
 .KeyframeAnimation-js_6 {
-  animation-name: KeyframeAnimation-js_6;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 7.25s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_6;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 7.25s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_7 {
-  animation-name: KeyframeAnimation-js_7;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_7;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_8 {
-  animation-name: KeyframeAnimation-js_8;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_8;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_9 {
-  animation-name: KeyframeAnimation-js_9;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_9;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_10 {
-  animation-name: KeyframeAnimation-js_10;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_10;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_11 {
-  animation-name: KeyframeAnimation-js_11;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_11;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_12 {
-  animation-name: KeyframeAnimation-js_12;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_12;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_13 {
-  animation-name: KeyframeAnimation-js_13;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_13;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_14 {
-  animation-name: KeyframeAnimation-js_14;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_14;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_15 {
-  animation-name: KeyframeAnimation-js_15;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_15;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_16 {
-  animation-name: KeyframeAnimation-js_16;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_16;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_17 {
-  animation-name: KeyframeAnimation-js_17;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_17;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_18 {
-  animation-name: KeyframeAnimation-js_18;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_18;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_19 {
-  animation-name: KeyframeAnimation-js_19;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_19;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_20 {
-  animation-name: KeyframeAnimation-js_20;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_20;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_21 {
-  animation-name: KeyframeAnimation-js_21;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_21;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_22 {
-  animation-name: KeyframeAnimation-js_22;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_22;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_23 {
-  animation-name: KeyframeAnimation-js_23;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_23;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_24 {
-  animation-name: KeyframeAnimation-js_24;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_24;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_25 {
-  animation-name: KeyframeAnimation-js_25;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_25;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_26 {
-  animation-name: KeyframeAnimation-js_26;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_26;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_27 {
-  animation-name: KeyframeAnimation-js_27;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_27;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_28 {
-  animation-name: KeyframeAnimation-js_28;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_28;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_29 {
-  animation-name: KeyframeAnimation-js_29;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_29;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 .KeyframeAnimation-js_30 {
-  animation-name: KeyframeAnimation-js_30;
-  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  animation-duration: 3s;
-  animation-iteration-count: 1;
+	animation-name: KeyframeAnimation-js_30;
+	animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	animation-duration: 3s;
+	animation-iteration-count: 1;
 }
 
 
 @keyframes KeyframeAnimation-js_5 {
-  0% {
-      transform: translateY(0px);
-  }
+	0% {
+		transform: translateY(0px);
+	}
 
-  100% {
-      transform: translateY(-450px);
-  }
+	100% {
+		transform: translateY(-450px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_7 {
-  0% {
-    transform: scale(0.5);
-  }
+	0% {
+		transform: scale(0.5);
+	}
 
-  40% {
-    opacity: 1;
-    transform: scale(0.65);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.1);
-  }
+	40% {
+		opacity: 1;
+		transform: scale(0.65);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.1);
+	}
 }
 
 @keyframes KeyframeAnimation-js_6 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(5.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(5.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_8 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(15.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(15.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_9 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(2.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(2.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_10 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-15.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-15.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_11 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-7.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-7.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_12 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-22.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-22.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_13 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(8.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(8.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes KeyframeAnimation-js_14 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(1.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(1.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_15 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(7.78px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(7.78px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_16 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-40.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-40.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_17 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-24.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-24.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_18 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-17.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-17.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_19 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-2px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-2px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_20 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-30.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-30.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_21 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-21.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-21.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_22 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(8.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(8.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_23 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(11.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(11.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_24 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(27.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(27.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_25 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(13.25px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(13.25px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_26 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-13.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-13.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_27 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(36.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(36.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_28 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(25.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(25.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_29 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(1.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(1.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
 @keyframes KeyframeAnimation-js_30 {
-  0% {
-      animation-timing-function: ease-in-out;
-      transform: translateX(0px);
-  }
+	0% {
+		animation-timing-function: ease-in-out;
+		transform: translateX(0px);
+	}
 
-  50% {
-      transform: translateX(-5.36px);
-  }
-  100% {
-      transform: translateX(0px);
-  }
+	50% {
+		transform: translateX(-5.36px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 
@@ -1651,15 +1674,15 @@
 /* But it does not work with newer browsers, the below doesn't hide the play button parent div */
 
 video::-webkit-media-controls-panel {
-  display: none!important;
-  -webkit-appearance: none;
+	display: none!important;
+	-webkit-appearance: none;
 }
 
 /* Old shadow dom for play button */
 
 video::-webkit-media-controls-play-button {
-  display: none!important;
-  -webkit-appearance: none;
+	display: none!important;
+	-webkit-appearance: none;
 }
 
 /* New shadow dom for play button */
@@ -1667,11 +1690,11 @@ video::-webkit-media-controls-play-button {
 /* This one works! */
 
 video::-webkit-media-controls-start-playback-button {
-  display: none!important;
-  -webkit-appearance: none;
+	display: none!important;
+	-webkit-appearance: none;
 }
 
 
 @keyframes slide {
-    100% { left: 15px; }
+	100% { left: 15px; }
 }

@@ -6,7 +6,6 @@
     </div>
     <div class="checkout">
       <div class="cards-main">
-
         <lottie :options="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
 
         <p style="margin: 30px 15px;text-align: center;font-size: 16px;">
@@ -81,7 +80,7 @@
   font-size: 1.3em;
   font-weight: 500;
 }
-.btn-follow .btn {
+.btn {
   background: #FE2C55;
   -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
@@ -89,29 +88,6 @@
   font-weight: bold;
   margin: 10px 0px;
   border-radius: 30px;
-}
-.login-button-31D24.highlight-1TvcX {
-  color: #fff;
-  background: #FE2C55;
-  border: none;
-}
-
-.login-button-31D24 {
-  width: 100%;
-  height: 44px;
-  line-height: 44px;
-  text-align: center;
-  color: #161823;
-  border: 1px solid rgba(22,24,35,.12);
-  background: none;
-  border-radius: 2px;
-  font-size: 16px;
-  line-height: 44px;
-  font-weight: 600;
-  position: relative;
-  margin-top: 32px;
-  padding: 0;
-  cursor: pointer;
 }
 
 </style>

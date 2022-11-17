@@ -6,9 +6,6 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: #161823;"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
         </div>
         <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Ma boutique</div>
-        <div @click="showPromo()" class="checkout__right-btn" style="position: absolute; right: 15px; top: 8px; padding: 0.5rem 0px;">
-          <div style="color: #1877F2; font-weight: 600;">Promotion</div>
-        </div>
       </div>
       <div @click="actionSheet()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 15px 30px;">Ajouter un produit</div>
       <div v-if="products" class="items">
@@ -21,61 +18,6 @@
               <div class="price" style="color: #e74c3c" v-else-if="product.variants.length && stocks[index] == 0">Qté : {{ stocks[index] }} | Prix : {{ prices[index] | formatPrice }}€</div>
               <div class="price" v-else-if="product.quantity > 0">Qté : {{ product.quantity }} | Prix : {{ product.price | formatPrice }}€</div>
               <div class="price" style="color: #e74c3c" v-else>Qté : {{ product.quantity }} | Prix : {{ product.price | formatPrice }}€</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- promo popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupPromo" style="overflow-y: scroll; height: 100%; padding: 15px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
-      <div @click="hidePromo()" style="float: right;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #999;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
-      </div>
-      <div style="display: flex; justify-content: center;">
-        <div class="video-page__influencer-username2" style="font-size: 17px; font-weight: 600;">Promotion</div>
-      </div>
-      <div class="items" style="margin-top: 20px; margin-bottom: 20px;">
-        <div v-if="addPromo">
-          <div class="form--input--item" :class="{'form--input--item--error': errorTitle }">
-            <fieldset>
-              <legend>Titre</legend>
-              <input type="text" v-model="title" placeholder="Ex: PROMO10">
-            </fieldset>
-          </div>
-            
-          <div class="form--input">
-            <div class="form--input--item" :class="{'form--input--item--error': errorType }">
-              <fieldset>
-                <legend>Remise</legend>
-                <select v-model="type">
-                  <option value="percent" selected>Pourcentage</option>
-                  <option value="euro">Euro</option>
-                </select>
-              </fieldset>
-            </div>
-            <div class="form--input--item" :class="{'form--input--item--error': errorDiscount }">
-              <fieldset>
-                <legend>Valeur</legend>
-                <input type="text" v-model="discount">
-              </fieldset>
-            </div>
-          </div>
-          <br>
-          <div @click="savePromo()" class="btn-swipe" style="color: white; text-align: center;">Enregistrer</div>
-        </div>
-        <div v-if="listPromo">
-          <div class="top-author--container" style="border: 2px dashed #f1f0f0; border-radius: 15px;">
-            <div class="top-author--item">
-              <img :src="require(`@/assets/img/gift.png`)" style="width: 48px; height: 48px;">
-              <div>
-                <span>{{ title }}</span>
-                <div>
-                  <span v-if="type == 'percent'">Réduction : {{ discount }}%</span>
-                  <span v-else>Réduction : {{ discount }}€</span>
-                </div>
-              </div>
-              <div @click="deletePromo()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: #fe2c55;margin: 0px auto;padding: 5px 24px;border: 1px solid #fe2c55;border-radius: 30px;font-size: 11px; font-weight: 600">Supprimer</div>
             </div>
           </div>
         </div>
@@ -469,12 +411,6 @@ export default {
       stocks: [],
       prices: [],
       products: null,
-      popupPromo: false,
-      type: null,
-      title: null,
-      discount: null,
-      listPromo: false,
-      addPromo: true,
     }
   },
   filters: {
@@ -518,64 +454,28 @@ export default {
   methods: {
     actionSheet() {
       this.$router.push({ name: 'AddProduct' });
-      // var options = {
-      //   buttonLabels: ['Ajouter Manuellement', 'Importer depuis Shopify'],
-      //   addCancelButtonWithLabel: 'Annuler',
-      //   androidEnableCancelButton : true,
-      //   winphoneEnableCancelButton : true
-      // };
-      // window.plugins.actionsheet.show(options, (index) => {
-      //   console.log(index);
-      //   if (index == 1) {
-      //     this.$router.push({ name: 'AddProduct' });
-      //   } else if (index == 2) {
-      //     this.$router.push({ name: 'AddProduct' });
-      //   }
-      // }, (error) => {
-      //   console.log(error);
-      // });
+      var options = {
+        buttonLabels: ['Ajouter Manuellement', 'Importer depuis Shopify'],
+        addCancelButtonWithLabel: 'Annuler',
+        androidEnableCancelButton : true,
+        winphoneEnableCancelButton : true
+      };
+      window.plugins.actionsheet.show(options, (index) => {
+        console.log(index);
+        if (index == 1) {
+          this.$router.push({ name: 'AddProduct' });
+        } else if (index == 2) {
+          this.$router.push({ name: 'AddProduct' });
+        }
+      }, (error) => {
+        console.log(error);
+      });
     },
     editProduct(id) {
       this.$router.push({ name: 'EditProduct', params: { id: id } });
     },
     goBack() {
       this.$router.push({ name: 'Account' });
-    },
-    showPromo() {
-      this.popupPromo = true;
-    },
-    savePromo() {
-      this.errorTitle = false;
-      this.errorType = false;
-      this.errorDiscount = false;
-
-      if (!this.discount) {
-        this.errorDiscount = true;
-      }
-
-      if (!this.title) {
-        this.errorTitle = true;
-      }
-
-      if (!this.type) {
-        this.errorType = true;
-      }
-
-      if (!this.errorTitle && !this.errorType && !this.errorDiscount) {
-        this.listPromo = true;
-        this.addPromo = false;
-      }
-    },
-    listPromo() {
-      this.listPromo = true;
-      this.addPromo = false;
-    },
-    hidePromo() {
-      this.popupPromo = false;
-    },
-    deletePromo() {
-      this.listPromo = false;
-      this.addPromo = true;
     },
   }
 };
