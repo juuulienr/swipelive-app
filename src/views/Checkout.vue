@@ -686,7 +686,7 @@ export default {
 	      this.mapSelected = null;
 
 	      window.cordova.plugin.http.setDataSerializer('json');
-	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "radius": "10000" }, {}, (response) => {
+	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "carrier": "mondial_relay,chronopost", "radius": "10000" }, {}, (response) => {
 	        this.points = JSON.parse(response.data);
 	        this.points.map((point) => {
 		        var marker = {
