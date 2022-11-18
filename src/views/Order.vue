@@ -97,8 +97,11 @@
                 	<span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledSuccess css-1f06y3u"></span>
                 	<span class="MuiTimelineConnector-root css-fz3k0c"></span>
                 </div>
-                <div class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
+                <div v-if="order.pdf" @click="shopPopupLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
                 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;"><path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/></svg> Imprimer le bon de livraison
+                </div>
+                <div v-else @click="generateLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
+                	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;"><path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/></svg> Générer le bon de livraison
                 </div>
               </li>
               <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
@@ -168,6 +171,22 @@
           </div>
         </div> 
       </div>
+
+
+
+      <!-- print label -->
+      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupLabel" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+        <div class="checkout__header" style="padding: 15px;">
+          <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;"> Imprimer l'étiquette</div>
+          <div @click="hidePopupLabel()" class="checkout__right-btn" style="padding-right: 12px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
+          </div>
+        </div>
+        <div>
+	        <iframe :src="baseUrl + /uploads/ + order.pdf" width="100%" height="100%" style="border: none; width: -webkit-fill-available; height: calc(100vh - 65px);"></iframe>
+        </div>
+      </div>
+
     </div>
   </main>
 </template>
@@ -183,6 +202,7 @@ export default {
     return {
       order: null,
       remaining: null,
+      popupLabel: false,
       id: this.$route.params.id,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
@@ -204,21 +224,6 @@ export default {
       this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);
       this.remaining = this.remaining.toFixed(2);
       console.log(this.remaining);
-
-      // if (!this.order.tracking_number && (this.user == this.order.vendor.id)) {
-      if (!this.order.tracking_number) {
-		    window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-      		var result = JSON.parse(response.data);
-		    	console.log(result);
-		    	console.log(result.parcel);
-		    	console.log(result.parcel.id);
-		    	console.log(result.parcel.tracking_number);
-		    	console.log(result.parcel.label);
-		    	console.log(result.parcel.label.label_printer);
-		    }, (response) => {
-		      console.log(response.error);
-		    });
-      }
     }, (response) => {
       console.log(response.error);
     });
@@ -247,6 +252,25 @@ export default {
   	},
     goBack() {
       this.$router.push({ name: 'ListOrders' });
+    },
+    hidePopupLabel() {
+    	this.popupLabel = false;
+    },
+    shopPopupLabel() {
+    	this.popupLabel = true;
+    },
+    generateLabel() {
+      // if (!this.order.tracking_number && (this.user == this.order.vendor.id)) {
+      if (!this.order.trackingNumber) {
+		    window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+      		var result = JSON.parse(response.data);
+      		this.order.trackingNumber = result.tracking_number;
+      		this.order.pdf = result.pdf;
+      		console.log(this.order);
+		    }, (response) => {
+		      console.log(response.error);
+		    });
+      }
     }
   }
 };
