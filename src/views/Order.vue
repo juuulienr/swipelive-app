@@ -205,13 +205,16 @@ export default {
       this.remaining = this.remaining.toFixed(2);
       console.log(this.remaining);
 
-      if (!this.order.tracking_number && (this.user == this.order.vendor.id)) {
+      // if (!this.order.tracking_number && (this.user == this.order.vendor.id)) {
+      if (!this.order.tracking_number) {
 		    window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-		    	console.log(response);
-		    	console.log(response.id);
-		    	console.log(response.tracking_number);
-		    	console.log(response.label);
-		    	console.log(response.label.label_printer);
+      		var result = JSON.parse(response.data);
+		    	console.log(result);
+		    	console.log(result.parcel);
+		    	console.log(result.parcel.id);
+		    	console.log(result.parcel.tracking_number);
+		    	console.log(result.parcel.label);
+		    	console.log(result.parcel.label.label_printer);
 		    }, (response) => {
 		      console.log(response.error);
 		    });

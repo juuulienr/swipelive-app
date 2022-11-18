@@ -339,7 +339,7 @@
 			    </div>
 
 			    <div v-if="tabMap">
-	    			<gmap-map v-if="points && locationMarkers.length > 0" :zoom="13" :center="center" :options="mapOptions" style="width:100%; height: calc(100vh - 360px); margin-top: 15px;">
+	    			<gmap-map v-if="points && locationMarkers.length > 0" :zoom="13" :center="center" :options="mapOptions" style="width:100%; height: calc(100vh - 390px); margin-top: 15px;">
 		    			<gmap-marker :key="index" v-for="(m, index) in locationMarkers" :position="m.position" @click="updateMapSelected(m.position,index)"></gmap-marker>
 	    			</gmap-map>
 		    		<div v-if="mapSelected">
@@ -685,6 +685,7 @@ export default {
 	      this.locationMarkers = [];
 	      this.mapSelected = null;
 
+	      console.log(this.center);
 	      window.cordova.plugin.http.setDataSerializer('json');
 	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "carrier": "mondial_relay,chronopost", "radius": "10000" }, {}, (response) => {
 	        this.points = JSON.parse(response.data);
@@ -720,13 +721,14 @@ export default {
       console.log(this.shippingProducts);
       this.shippingProducts.service_point.map((method) => {
       	if (method.carrier == point.carrier) {
+      		if (this.shippingPrice) {
+	      		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
+      		}
       		this.shippingPrice = method.price;
       		this.shippingMethodId = method.id;
       		this.shippingName = method.name;
       		this.shippingCarrier = method.carrier;
-      		this.total = parseFloat(this.total) + parseFloat(this.shippingPrice);
-      		this.total = this.total.toString();
-      		console.log(this.total);
+		      this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
       	}
       });
     },
@@ -774,11 +776,14 @@ export default {
     	this.shippingMethod = "domicile";
       this.shippingMethodId = this.shippingProducts.domicile[0].id;
       this.shippingName = this.shippingProducts.domicile[0].name;
+
+  		if (this.shippingPrice) {
+    		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
+  		}
+
       this.shippingPrice = this.shippingProducts.domicile[0].price;
   		this.shippingCarrier = this.shippingProducts.domicile[0].carrier;
-  		this.total = parseFloat(this.total) + parseFloat(this.shippingPrice);
-  		this.total = this.total.toString();
-  		console.log(this.total);
+      this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
     },
     updateMapSelected(position, index) {
       var marker = {
