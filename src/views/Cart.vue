@@ -59,25 +59,25 @@
 
 <script>
 
-export default {
-  name: 'Cart',
-  props: ['product', 'variant'],
-  data() {
-    return {
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      quantity: 1,
-      subTotal: null,
-      total: null,
-      promotion: false
-    }
-  },
-  filters: {
-    formatPrice(value) {
-    	return value.replace('.', ',');
-    }
-  },
-  created() {
+  export default {
+    name: 'Cart',
+    props: ['product', 'variant'],
+    data() {
+      return {
+        baseUrl: window.localStorage.getItem("baseUrl"),
+        token: window.localStorage.getItem("token"),
+        quantity: 1,
+        subTotal: null,
+        total: null,
+        promotion: false
+      }
+    },
+    filters: {
+      formatPrice(value) {
+       return value.replace('.', ',');
+     }
+   },
+   created() {
     console.log(this.product);
     this.updateCart();
   },

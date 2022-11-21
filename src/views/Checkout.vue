@@ -440,6 +440,9 @@
 </template>
 
 
+
+
+
 <style scoped src="../assets/css/checkout.css"></style>
 <style>
 	
@@ -575,9 +578,11 @@ export default {
     	this.countryShort = this.user.shippingAddresses[0].countryCode;
 
       var marker = {
-        lat: this.user.shippingAddresses[0].latitude,
-        lng: this.user.shippingAddresses[0].longitude
+        lat: parseFloat(this.user.shippingAddresses[0].latitude),
+        lng: parseFloat(this.user.shippingAddresses[0].longitude)
       };
+
+      console.log(marker);
 
       this.center = marker;
       this.shippingAddress = true;
