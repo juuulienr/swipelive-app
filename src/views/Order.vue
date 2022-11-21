@@ -259,9 +259,6 @@ export default {
       		var result = JSON.parse(response.data);
       		this.order.trackingNumber = result.tracking_number;
       		this.order.pdf = result.pdf;
-
-       
-
       		console.log(this.order);
 		    }, (response) => {
 		      console.log(response.error);
