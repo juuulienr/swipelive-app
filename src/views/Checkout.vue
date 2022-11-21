@@ -779,6 +779,7 @@ export default {
     },
     changeToAddress() {
     	this.shippingMethod = "domicile";
+      this.pointSelected = null;
       this.shippingMethodId = this.shippingProducts.domicile[0].id;
       this.shippingName = this.shippingProducts.domicile[0].name;
 

@@ -81,7 +81,7 @@
             </div>
           </div>
           <div class="MuiCardContent-root css-18mhetb">
-            <ul class="MuiTimeline-root MuiTimeline-positionRight css-1oa1nt">
+            <ul v-if="order.orderStatuses" class="MuiTimeline-root MuiTimeline-positionRight css-1oa1nt">
               <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
                 <div class="MuiTimelineSeparator-root css-11tgw8h">
                 	<span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledSuccess css-1f06y3u"></span>
@@ -95,7 +95,7 @@
               <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
                 <div class="MuiTimelineSeparator-root css-11tgw8h">
                 	<span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledSuccess css-1f06y3u"></span>
-                	<span class="MuiTimelineConnector-root css-fz3k0c"></span>
+                	<span class="MuiTimelineConnector-root css-fz3k0c" style="background-color: #18cea0;"></span>
                 </div>
                 <div v-if="order.pdf" @click="showLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
                 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;"><path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/></svg> Imprimer le bon de livraison
@@ -104,7 +104,17 @@
                 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;"><path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/></svg> Générer le bon de livraison
                 </div>
               </li>
-              <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
+              <li v-for="status in order.orderStatuses" class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
+                <div class="MuiTimelineSeparator-root css-11tgw8h">
+                  <span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledSuccess css-1f06y3u"></span>
+                  <span class="MuiTimelineConnector-root css-fz3k0c" style="background-color: #18cea0;"></span>
+                </div>
+                <div class="MuiTypography-root MuiTypography-body1 MuiTimelineContent-root MuiTimelineContent-positionRight css-hg5jyh">
+                  <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">{{ status.message }}</h6>
+                  <span class="MuiTypography-root MuiTypography-caption css-6f545k">{{ status.updateAt }}</span>
+                </div>
+              </li>
+        <!--       <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
                 <div class="MuiTimelineSeparator-root css-11tgw8h">
                 	<span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledInfo css-1f06y3t"></span>
                 	<span class="MuiTimelineConnector-root css-fz3k0c"></span>
@@ -113,8 +123,8 @@
                   <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: hsl(240deg 5% 72%); font-weight: 500;">Commande en préparation</h6>
                   <span class="MuiTypography-root MuiTypography-caption css-6f545k" style="color: hsl(240deg 5% 72%);">23 Mar 2022 1:46 PM</span>
                 </div>
-              </li>
-              <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
+              </li> -->
+   <!--            <li class="MuiTimelineItem-root MuiTimelineItem-positionRight MuiTimelineItem-missingOppositeContent css-1rcbby2">
                 <div class="MuiTimelineSeparator-root css-11tgw8h">
                 	<span class="MuiTimelineDot-root MuiTimelineDot-filled MuiTimelineDot-filledInfo css-1f06y3t"></span>
                 	<span class="MuiTimelineConnector-root css-fz3k0c"></span>
@@ -151,12 +161,12 @@
                   <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: hsl(240deg 5% 72%); font-weight: 500;">Commande terminée</h6>
                   <span class="MuiTypography-root MuiTypography-caption css-6f545k" style="color: hsl(240deg 5% 72%);">28 Mar 2022 1:46 PM</span>
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
 
-       <div class="top-author" style="margin-top: 15px;">
+     <!--   <div class="top-author" style="margin-top: 15px;">
           <div class="top-author--container">
             <div class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
               <div style="margin: 0px;">
@@ -169,7 +179,7 @@
               </div>
             </div>
           </div>
-        </div> 
+        </div>  -->
       </div>
 
 
@@ -205,10 +215,8 @@ export default {
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.order = JSON.parse(response.data);
-      console.log(this.order);
       this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);
       this.remaining = this.remaining.toFixed(2);
-      console.log(this.remaining);
     }, (response) => {
       console.log(response.error);
     });
@@ -259,7 +267,6 @@ export default {
       		var result = JSON.parse(response.data);
       		this.order.trackingNumber = result.tracking_number;
       		this.order.pdf = result.pdf;
-      		console.log(this.order);
 		    }, (response) => {
 		      console.log(response.error);
 		    });
