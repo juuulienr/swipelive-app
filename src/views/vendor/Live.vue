@@ -64,7 +64,7 @@
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <input name="category" type="radio" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonCheckedIcon" class="svg--point">
@@ -82,7 +82,7 @@
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <input name="category" type="radio" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonCheckedIcon" class="svg--point">
@@ -95,7 +95,7 @@
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <input name="category" type="radio" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonCheckedIcon" class="svg--point">
@@ -113,7 +113,7 @@
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <input name="category" type="radio" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonCheckedIcon" class="svg--point">
@@ -126,7 +126,7 @@
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <input name="category" type="radio" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonCheckedIcon" class="svg--point">
@@ -397,7 +397,8 @@ export default {
   },
   filters: {
     formatPrice(value) {
-    	return value.replace('.', ',');
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   created() {

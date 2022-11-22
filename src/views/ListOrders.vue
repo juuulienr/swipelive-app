@@ -11,7 +11,7 @@
       <div class="checkout__body">
         <div style="width: calc(100vw - 30px);margin: 0px 15px 0px 15px;">
           <div class="chat--left--head--input" style="border-radius: 8px;">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="MuiBox-root css-1q8h0dm iconify iconify--eva">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
             <input ref="search" type="text" placeholder="Rechercher" style="height: 1.75em"/>
@@ -74,7 +74,8 @@ export default {
   },
   filters: {
     formatPrice(value) {
-    	return value.replace('.', ',');
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   created() {    

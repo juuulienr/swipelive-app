@@ -13,32 +13,32 @@
           <div class="product--quantity--detail">
             <div class="product--quantity--input">
               <button @click="decreaseQuantity()">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-540lu8 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M19 13H5a1 1 0 0 1 0-2h14a1 1 0 0 1 0 2z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="css-540lu8 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M19 13H5a1 1 0 0 1 0-2h14a1 1 0 0 1 0 2z"></path></svg>
               </button>
               <span>{{ quantity }}</span>
               <button @click="increaseQuantity()">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-540lu8 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="css-540lu8 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2z"></path></svg>
               </button>
             </div>
           </div>
         </div>
 
-        <div v-if="subTotal && total" class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-13dslnb">
-          <div class="MuiCardContent-root css-18mhetb">
+        <div v-if="subTotal && total" class="css-13dslnb">
+          <div class="css-18mhetb">
             <div class="css-ikzlcq">
               <div class="css-9jay18">
-                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Sous Total</p>
-                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">{{ subTotal | formatPrice }}€</h6>
+                <p class="css-11r9ii4">Sous Total</p>
+                <h6 class="css-yemnbq">{{ subTotal | formatPrice }}€</h6>
               </div>
               <div v-if="promotion" class="css-9jay18">
-                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4" style="color: #18cea0; font-weight: 600;">PROMO10</p>
-                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #18cea0; font-weight: 600;">-10,00€</h6>
+                <p class="css-11r9ii4" style="color: #18cea0; font-weight: 600;">PROMO10</p>
+                <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 600;">-10,00€</h6>
               </div>
-              <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby">
+              <hr class="css-ss6lby">
               <div class="css-9jay18">
-                <h6 class="MuiTypography-root MuiTypography-subtitle1 css-k9tjo5" style="font-weight: 600;">Total</h6>
-                <div class="MuiBox-root css-s2uf1z">
-                  <h6 class="MuiTypography-root MuiTypography-subtitle1 css-kdhaao" style="font-weight: 600;">{{ total | formatPrice }}€</h6>
+                <h6 class="css-k9tjo5" style="font-weight: 600;">Total</h6>
+                <div class="css-s2uf1z">
+                  <h6 class="css-kdhaao" style="font-weight: 600;">{{ total | formatPrice }}€</h6>
                 </div>
               </div>
             </div>
@@ -59,25 +59,26 @@
 
 <script>
 
-  export default {
-    name: 'Cart',
-    props: ['product', 'variant'],
-    data() {
-      return {
-        baseUrl: window.localStorage.getItem("baseUrl"),
-        token: window.localStorage.getItem("token"),
-        quantity: 1,
-        subTotal: null,
-        total: null,
-        promotion: false
-      }
-    },
-    filters: {
-      formatPrice(value) {
-       return value.replace('.', ',');
-     }
-   },
-   created() {
+export default {
+  name: 'Cart',
+  props: ['product', 'variant'],
+  data() {
+    return {
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      quantity: 1,
+      subTotal: null,
+      total: null,
+      promotion: false
+    }
+  },
+  filters: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  },
+  created() {
     console.log(this.product);
     this.updateCart();
   },

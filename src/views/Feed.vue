@@ -702,7 +702,8 @@ export default {
   },
   filters: {
     formatPrice(value) {
-    	return value.replace('.', ',');
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   created() {

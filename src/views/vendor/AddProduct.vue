@@ -699,8 +699,8 @@ export default {
 	},
   filters: {
     formatPrice(value) {
-    	console.log(value);
-    	return value.toString().replace('.', ',');
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   created() {    

@@ -8,14 +8,14 @@
     </div>
     <div class="checkout" style="margin-top: 50px; margin-bottom: 125px;">
       <div class="checkout__body">
-        <div class="MuiCardHeader-root css-15x3obx" style="padding-top: 0px; padding-bottom: 10px;">
-          <div class="MuiCardHeader-content css-11qjisw">
-            <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j">Récapitulatif</span>
+        <div class="css-15x3obx" style="padding-top: 0px; padding-bottom: 10px;">
+          <div class="css-11qjisw">
+            <span class="css-jef1j">Récapitulatif</span>
           </div>
         </div>
 
         <!-- order summary -->
-        <div class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-13dslnb" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; border-radius: 15px;">
+        <div class="css-13dslnb" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; border-radius: 15px;">
           <div v-if="product" class="checkout__row checkout__product-info-row" style="align-items: center; justify-content: space-between;">
             <div class="checkout__product-info" style="padding-right: 0px;">
               <img v-if="product.uploads" :src="baseUrl + '/uploads/' + product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;" />
@@ -26,27 +26,27 @@
             </div>
             <div class="product--quantity--detail">x{{ quantity }}</div>
           </div>
-          <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 5px; margin-top: 5px;"/>
-          <div class="MuiCardContent-root css-18mhetb">
+          <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px;"/>
+          <div class="css-18mhetb">
             <div class="css-ikzlcq">
               <div class="css-9jay18">
-                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Sous-total</p>
-                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">{{ subTotal | formatPrice }}€</h6>
+                <p class="css-11r9ii4">Sous-total</p>
+                <h6 class="css-yemnbq">{{ subTotal | formatPrice }}€</h6>
               </div>
 <!--               <div class="css-9jay18">
-                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4" style="color: #18cea0; font-weight: 600;">PROMO10</p>
-                <h6 class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq" style="color: #18cea0; font-weight: 600;">-10,00€</h6>
+                <p class="css-11r9ii4" style="color: #18cea0; font-weight: 600;">PROMO10</p>
+                <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 600;">-10,00€</h6>
               </div> -->
               <div class="css-9jay18">
-                <p class="MuiTypography-root MuiTypography-body2 css-11r9ii4">Livraison</p>
-                <h6 v-if="shippingPrice" class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">+{{ shippingPrice | formatPrice }}€</h6>
-                <h6 v-else class="MuiTypography-root MuiTypography-subtitle2 css-yemnbq">-</h6>
+                <p class="css-11r9ii4">Livraison</p>
+                <h6 v-if="shippingPrice" class="css-yemnbq">+{{ shippingPrice | formatPrice }}€</h6>
+                <h6 v-else class="css-yemnbq">-</h6>
               </div>
-              <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
+              <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
               <div class="css-9jay18">
-                <h6 class="MuiTypography-root MuiTypography-subtitle1 css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
-                <div class="MuiBox-root css-s2uf1z">
-                  <h6 class="MuiTypography-root MuiTypography-subtitle1 css-kdhaao" style="font-weight: 600;">{{ total | formatPrice }}€</h6>
+                <h6 class="css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
+                <div class="css-s2uf1z">
+                  <h6 class="css-kdhaao" style="font-weight: 600;">{{ total | formatPrice }}€</h6>
                 </div>
               </div>
             </div>
@@ -57,9 +57,9 @@
 
 
         <!-- domicile -->
-        <div v-if="shippingMethod != 'service_point'" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
-          <div class="MuiCardHeader-content css-11qjisw">
-            <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Adresse de livraison</span>
+        <div v-if="shippingMethod != 'service_point'" class="css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+          <div class="css-11qjisw">
+            <span class="css-jef1j" style="display: initial;">Adresse de livraison</span>
           </div>
         </div>
 
@@ -92,9 +92,9 @@
 
          
         <!-- service_point -->
-        <div v-if="shippingMethod == 'service_point' && pointSelected" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
-          <div class="MuiCardHeader-content css-11qjisw">
-            <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Détails de la livraison</span>
+        <div v-if="shippingMethod == 'service_point' && pointSelected" class="css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+          <div class="css-11qjisw">
+            <span class="css-jef1j" style="display: initial;">Détails de la livraison</span>
           </div>
         </div>
         <div v-if="shippingMethod == 'service_point' && pointSelected" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
@@ -114,9 +114,9 @@
 
 
 				<!-- shippinh method -->
-        <div v-if="shippingAddress" class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
-          <div class="MuiCardHeader-content css-11qjisw">
-            <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Option de livraison</span>
+        <div v-if="shippingAddress" class="css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+          <div class="css-11qjisw">
+            <span class="css-jef1j" style="display: initial;">Option de livraison</span>
           </div>
         </div>
         <div v-if="shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
@@ -136,7 +136,7 @@
 				        		<div class="gender--choice">
 				        			<label>
 				        				<span>
-				        					<svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" viewBox="0 0 24 24" v-bind:style="isServicePoints">
+				        					<svg class="css-12qyrmm" viewBox="0 0 24 24" v-bind:style="isServicePoints">
 				        						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
 				        					</svg>
 				        					<svg v-if="shippingMethod == 'service_point'" class="svg--point" viewBox="0 0 24 24" style="fill: #18cea0">
@@ -149,7 +149,7 @@
 				        </div>
               </div>
             </div>
-            <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;" />
+            <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;" />
             <div @click="changeToAddress()" class="top-author--item">
               <div>
                 <span style="text-transform: capitalize;">Domicile</span>
@@ -163,7 +163,7 @@
 				        		<div class="gender--choice">
 				        			<label>
 				        				<span>
-				        					<svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-12qyrmm" viewBox="0 0 24 24" v-bind:style="isDomicile">
+				        					<svg class="css-12qyrmm" viewBox="0 0 24 24" v-bind:style="isDomicile">
 				        						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
 				        					</svg>
 				        					<svg v-if="shippingMethod == 'domicile'" class="svg--point" viewBox="0 0 24 24" style="fill: #18cea0">
@@ -181,9 +181,9 @@
 
          
         <!-- payment -->
-        <div class="MuiCardHeader-root css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
-          <div class="MuiCardHeader-content css-11qjisw">
-            <span class="MuiTypography-root MuiTypography-h6 MuiCardHeader-title css-jef1j" style="display: initial;">Mode de paiement</span>
+        <div class="css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
+          <div class="css-11qjisw">
+            <span class="css-jef1j" style="display: initial;">Mode de paiement</span>
           </div>
         </div>
         <div @click="showPopupPayment()" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
@@ -330,14 +330,12 @@
           <div class="checkout__title">Choisir un point relais</div>
         </div>
         <div style="padding: 15px;">
-
 			    <div class="images_filter">
 			      <ul>
 			        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#fe2c55'} : {'color': '#999'}]" style="font-weight: 600">Carte </li>
 			        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#fe2c55'} : {'color': '#999'}]" style="font-weight: 600">Liste des relais </li>
 			      </ul>
 			    </div>
-
 			    <div v-if="tabMap">
 	    			<gmap-map v-if="points && locationMarkers.length > 0" :zoom="13" :center="center" :options="mapOptions" style="width:100%; height: calc(100vh - 390px); margin-top: 15px;">
 		    			<gmap-marker :key="index" v-for="(m, index) in locationMarkers" :position="m.position" @click="updateMapSelected(m.position,index)"></gmap-marker>
@@ -438,8 +436,6 @@
     </div>
   </main>
 </template>
-
-
 
 
 
@@ -545,9 +541,8 @@ export default {
   },
   filters: {
     formatPrice(value) {
-    	if (value) {
-    		return value.replace('.', ',');
-    	}
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   created() {
