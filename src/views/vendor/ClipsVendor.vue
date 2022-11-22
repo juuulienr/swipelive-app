@@ -8,7 +8,7 @@
         <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Mes clips</div>
       </div>
 
-      <div v-if="!loading" class="checkout__body" style="overflow: scroll;">
+      <div v-if="!loading" class="checkout__body" style="overflow: scroll; margin-top: 55px;">
         <div class="images" style="margin-bottom: 50px;">
           <div v-if="clips && clips.length" class="row" style="margin: 0px;">
             <div v-for="clip in clips" class="col-6 col-img" style="padding: 5px;">
