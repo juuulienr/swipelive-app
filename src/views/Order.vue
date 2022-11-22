@@ -80,8 +80,9 @@
         <div class="css-1h7d8f3" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; margin-top: 15px; border-radius: 15px;">
           <div class="css-15x3obx">
             <div class="css-11qjisw">
-              <span class="css-jef1j">Suivre le colis</span>
-              <span v-if="order.trackingNumber" class="css-jef1j" style="float: right;font-size: 13px;font-weight: 500;color: hsl(240deg 5% 72%);margin-top: 3px;">N°{{ order.trackingNumber }}</span>
+              <span class="css-jef1j">Informations</span>
+              <span v-if="order.trackingNumber" class="css-jef1j" style="float: right;font-size: 13px;font-weight: 500;color: hsl(240deg 5% 72%);margin-top: 3px;">{{ order.trackingNumber }}</span>
+              <!-- lien vers le site -->
             </div>
           </div>
           <div class="css-18mhetb">
@@ -92,11 +93,11 @@
                 	<span class="css-fz3k0c" style="background-color: #18cea0;"></span>
                 </div>
                 <div class="css-hg5jyh">
-                  <h6 class="css-yemnbq">Commande reçu</h6>
+                  <h6 class="css-yemnbq">Commande N°{{ order.number }}</h6>
                   <span class="css-6f545k">{{ order.createdAt }}</span>
                 </div>
               </li>
-              <li class="css-1rcbby2">
+              <li v-if="user.id == order.vendor.id" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                 	<span class="css-1f06y3u"></span>
                 	<span class="css-fz3k0c" style="background-color: #18cea0;"></span>
@@ -112,14 +113,64 @@
                   </svg> Générer le bon de livraison
                 </div>
               </li>
-              <li v-for="status in order.orderStatuses" class="css-1rcbby2">
+              <li v-for="status in order.orderStatuses" class="css-1rcbby2" v-if="status.status != 'no-label' || status.status != 'announcing'">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u"></span>
                   <span class="css-fz3k0c" style="background-color: #18cea0;"></span>
                 </div>
                 <div class="css-hg5jyh">
-                  <h6 class="css-yemnbq">{{ status.message }}</h6>
+                  <h6 class="css-yemnbq" v-if="status.status == 'ready-to-send'">En préparation</h6>
+                  <h6 class="css-yemnbq" v-else-if="status.status == 'delivered'">Livré</h6>
+                  <h6 class="css-yemnbq" v-else>{{ status.message }}</h6>
                   <span class="css-6f545k">{{ status.updateAt }}</span>
+                </div>
+              </li>
+              <li class="css-1rcbby2">
+                <div class="css-11tgw8h">
+                  <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
+                  <span class="css-fz3k0c"></span>
+                </div>
+                <div class="css-hg5jyh">
+                  <h6 class="css-yemnbq">En préparation</h6>
+                </div>
+              </li>
+              <li class="css-1rcbby2">
+                <div class="css-11tgw8h">
+                  <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
+                  <span class="css-fz3k0c"></span>
+                </div>
+                <div class="css-hg5jyh">
+                  <h6 class="css-yemnbq">Pris en charge par <span style="text-transform: capitalize;">{{ order.shippingCarrier }}</span></h6>
+                </div>
+              </li>
+
+              <li class="css-1rcbby2">
+                <div class="css-11tgw8h">
+                  <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
+                  <span class="css-fz3k0c"></span>
+                </div>
+                <div class="css-hg5jyh">
+                  <h6 class="css-yemnbq">En cours de livraison</h6>
+                </div>
+              </li>
+
+              <li v-if="order.servicePointId" class="css-1rcbby2">
+                <div class="css-11tgw8h">
+                  <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
+                  <span class="css-fz3k0c"></span>
+                </div>
+                <div class="css-hg5jyh">
+                  <h6 class="css-yemnbq">Disponible au point relais</h6>
+                </div>
+              </li>
+
+              <li class="css-1rcbby2">
+                <div class="css-11tgw8h">
+                  <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
+                  <span class="css-fz3k0c"></span>
+                </div>
+                <div class="css-hg5jyh">
+                  <h6 class="css-yemnbq">Livré</h6>
                 </div>
               </li>
             </ul>
