@@ -18,7 +18,7 @@
       <div v-if="order" class="checkout__body">
         <div class="top-author">
           <div class="top-author--container" style="margin-bottom: 15px;">
-            <div v-if="user.id == order.buyer.id" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+            <div v-if="user.email == order.buyer.email" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
               <img v-if="order.vendor.user.picture" :src="baseUrl + '/uploads/' + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <div>
@@ -26,7 +26,7 @@
                 <span>{{ order.vendor.businessName }}</span>
               </div>
             </div>
-            <div v-if="user.id == order.vendor.id" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+            <div v-if="user.email == order.vendor.user.email" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
               <img v-if="order.buyer.picture" :src="baseUrl + '/uploads/' + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <div>
@@ -57,11 +57,11 @@
                 <p class="css-11r9ii4">Sous-total</p>
                 <h6 class="css-yemnbq" style="color: #999;">{{ order.subTotal | formatPrice }}€</h6>
               </div>
-              <div v-if="user.id == order.buyer.id" class="css-9jay18">
+              <div v-if="user.email == order.buyer.email" class="css-9jay18">
                 <p class="css-11r9ii4">Livraison</p>
                 <h6 class="css-yemnbq" style="color: #999; font-weight: 500">+{{ order.shippingPrice | formatPrice }}€</h6>
               </div>
-              <div v-if="user.id == order.vendor.id" class="css-9jay18">
+              <div v-if="user.email == order.vendor.user.email" class="css-9jay18">
                 <p class="css-11r9ii4">Commission SwipeLive</p>
                 <h6 class="css-yemnbq" style="color: #999; font-weight: 500">-{{ order.fees | formatPrice }}€</h6>
               </div>
@@ -69,18 +69,33 @@
               <div class="css-9jay18">
                 <h6 class="css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
                 <div class="css-s2uf1z">
-                	<h6 v-if="user.id == order.vendor.id" class="css-kdhaao" style="font-weight: 600;">{{ remaining | formatPrice }}€</h6>
-                	<h6 v-if="user.id == order.buyer.id" class="css-kdhaao" style="font-weight: 600;">{{ order.total | formatPrice }}€</h6>
+                	<h6 v-if="user.email == order.vendor.user.email" class="css-kdhaao" style="font-weight: 600;">{{ remaining | formatPrice }}€</h6>
+                	<h6 v-if="user.email == order.buyer.email" class="css-kdhaao" style="font-weight: 600;">{{ order.total | formatPrice }}€</h6>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <br> 
-        <span class="css-6f545k" v-if="order.expectedDelivery">Livraison prévu pour le {{ order.expectedDelivery }}</span>
+       <div v-if="order.shippingStatus == 'delivered' && order.status == 'open'" class="top-author" style="margin-top: 15px;">
+          <div class="top-author--container">
+            <div class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+              <div style="margin: 0px;">
+                <div style="text-align: center;margin-bottom: 5px;font-weight: 600; color: #333">
+                  <span style="text-align: center;font-size: 16px;padding-bottom: 5px;margin: 0 auto; color: #333">Es-tu satisfait(e) de ta commande ? </span>
+                </div>
+                <div><span>Si ta commande correspond à la description, clique sur le bouton "Tout est correct" ou cette transaction sera cloturé automatiquement dans 48 heures.</span></div>
+                <div @click="goToMessage()" class="btn-swipe" style="color: #999;text-align: center;width: 100%;background: white; padding: 10px 24px;border: 1px solid #999;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 8px;height: 44px; justify-content: center;">Signaler un problème</div>
+                <div @click="closeOrder()" class="btn-swipe" style="color: white;text-align: center; background: rgb(254, 44, 85); padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;margin-top: 10px;height: 44px; justify-content: center;"> Tout est correct</div>
+              </div>
+            </div>
+          </div>
+        </div> 
 
-        <div class="css-1h7d8f3" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; margin-top: 15px; border-radius: 15px;">
+        <br>
+        <span class="css-6f545k" v-if="order.expectedDelivery && order.status == 'open'">Livraison prévu pour le {{ order.expectedDelivery }}</span>
+
+        <div class="css-1h7d8f3" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; margin-top: 15px; border-radius: 15px; margin-bottom: 20px;">
           <div class="css-15x3obx">
             <div class="css-11qjisw">
               <span class="css-jef1j">Informations</span>
@@ -89,7 +104,7 @@
           </div>
           <div class="css-18mhetb">
             <ul v-if="order.orderStatuses" class="css-1oa1nt">
-              <li v-if="user.id == order.vendor.id && order.shippingStatus == 'ready-to-send'" class="css-1rcbby2">
+              <li v-if="user.email == order.vendor.user.email && order.shippingStatus == 'ready-to-send'" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                 	<span class="css-1f06y3u"></span>
                 	<span class="css-fz3k0c" style="background-color: #18cea0;"></span>
@@ -112,18 +127,18 @@
                 </div>
                 <div class="css-hg5jyh">
                   <h6 class="css-yemnbq">En préparation</h6>
-                  <span class="css-6f545k">{{ order.updatedAt }}</span>
+                  <span class="css-6f545k">{{ order.createdAt }}</span>
                 </div>
               </li>
               <li v-for="status in order.orderStatuses" class="css-1rcbby2" v-show="status.status != 'no-label' && status.status != 'announcing' && status.status != 'ready-to-send' && status.status != 'announced' && status.status != 'cancelling-upstream'">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u"></span>
-                  <span class="css-fz3k0c" style="background-color: #18cea0;"></span>
+                  <span v-if="status.status != 'delivered' && status.status != 'cancelled'" class="css-fz3k0c" style="background-color: #18cea0;"></span>
                 </div>
                 <div class="css-hg5jyh">
-                  <h6 class="css-yemnbq" v-if="status.status == 'delivered'">Livré</h6>
-                  <h6 class="css-yemnbq" v-else-if="status.status == 'cancelled'">Annulé</h6>
-                  <h6 class="css-yemnbq" v-else>{{ status.message }}</h6>
+                  <h6 v-if="status.status == 'delivered'" class="css-yemnbq">Livré</h6>
+                  <h6 v-else-if="status.status == 'cancelled'" class="css-yemnbq">Annulé</h6>
+                  <h6 v-else class="css-yemnbq">{{ status.message }}</h6>
                   <span class="css-6f545k">{{ status.updateAt }}</span>
                 </div>
               </li>
@@ -157,7 +172,6 @@
               <li v-if="filteredStatus('delivered')" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
-                  <span class="css-fz3k0c"></span>
                 </div>
                 <div class="css-hg5jyh">
                   <h6 class="css-yemnbq">Livré</h6>
@@ -166,21 +180,6 @@
             </ul>
           </div>
         </div>
-
-       <div v-if="order.shippingStatus == 'delivered' && order.status == 'open'" class="top-author" style="margin-top: 15px;">
-          <div class="top-author--container">
-            <div class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-              <div style="margin: 0px;">
-                <div style="text-align: center;margin-bottom: 5px;font-weight: 600; color: #333">
-                  <span style="text-align: center;font-size: 16px;padding-bottom: 5px;margin: 0 auto; color: #333">Es-tu satisfait(e) de ta commande ? </span>
-                </div>
-                <div><span>Si ta commande correspond à la description, clique sur le bouton "Tout est correct" ou cette transaction sera cloturé automatiquement dans 48 heures.</span></div>
-                <div @click="goToMessage()" class="btn-swipe" style="color: #999;text-align: center;width: 100%;background: white; padding: 10px 24px;border: 1px solid #999;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 8px;height: 44px; justify-content: center;">Signaler un problème</div>
-                <div class="btn-swipe" style="color: white;text-align: center; background: rgb(254, 44, 85); padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;margin-top: 10px;height: 44px; justify-content: center;"> Tout est correct</div>
-              </div>
-            </div>
-          </div>
-        </div> 
       </div>
     </div>
   </main>
@@ -290,7 +289,14 @@ export default {
           window.cordova.InAppBrowser.open(url, '_system', 'location=no');
         }
       });
-    }
+    },
+    closeOrder() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/closed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.order = JSON.parse(response.data);
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
   }
 };
 

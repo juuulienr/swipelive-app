@@ -764,13 +764,14 @@ export default {
       this.$router.back();
     },
     payment() {
-    	console.log(this.pointSelected);
-	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/success", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null, "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, }, { Authorization: "Bearer " + this.token }, (response) => {
-	      console.log(JSON.parse(response.data));
-      	this.$router.push({ name: 'Feed' });
-	    }, (response) => {
-	      console.log(response.error);
-	    });
+      if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
+  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null, "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, }, { Authorization: "Bearer " + this.token }, (response) => {
+  	      console.log(JSON.parse(response.data));
+        	this.$router.push({ name: 'Feed' });
+  	    }, (response) => {
+  	      console.log(response.error);
+  	    });
+      }
     },
     changeToAddress() {
     	this.shippingMethod = "domicile";

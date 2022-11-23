@@ -19,8 +19,7 @@
 
         <div class="images_filter" style="margin: 15px;">
           <ul>
-            <li class="active" style="font-weight: 600;color: #fe2c55">Chat </li>
-            <!-- <li style="color: #999">Influenceurs </li> -->
+            <li class="active" style="font-weight: 600;color: #fe2c55">Messages </li>
             <li style="color: #999">Litiges </li>
           </ul>
         </div>
