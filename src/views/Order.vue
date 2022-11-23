@@ -22,8 +22,8 @@
               <img v-if="order.vendor.user.picture" :src="baseUrl + '/uploads/' + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <div>
-                <span>{{ order.vendor.businessName }}</span>
                 <div><span>{{ order.createdAt }}</span></div>
+                <span>{{ order.vendor.businessName }}</span>
               </div>
             </div>
             <div v-if="user.id == order.vendor.id" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
@@ -77,6 +77,9 @@
           </div>
         </div>
 
+        <br> 
+        <span class="css-6f545k" v-if="order.expectedDelivery">Livraison prévu pour le {{ order.expectedDelivery }}</span>
+
         <div class="css-1h7d8f3" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; margin-top: 15px; border-radius: 15px;">
           <div class="css-15x3obx">
             <div class="css-11qjisw">
@@ -86,23 +89,12 @@
           </div>
           <div class="css-18mhetb">
             <ul v-if="order.orderStatuses" class="css-1oa1nt">
-              <li class="css-1rcbby2">
-                <div class="css-11tgw8h">
-                	<span class="css-1f06y3u"></span>
-                	<span class="css-fz3k0c" style="background-color: #18cea0;"></span>
-                </div>
-                <div class="css-hg5jyh">
-                  <h6 class="css-yemnbq">Commande N°{{ order.number }}</h6>
-                  <span class="css-6f545k" v-if="order.expectedDelivery">Prévu pour le {{ order.expectedDelivery }}</span>
-                  <span class="css-6f545k" v-else>{{ order.createdAt }}</span>
-                </div>
-              </li>
               <li v-if="user.id == order.vendor.id && order.shippingStatus == 'ready-to-send'" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                 	<span class="css-1f06y3u"></span>
                 	<span class="css-fz3k0c" style="background-color: #18cea0;"></span>
                 </div>
-                <div v-if="order.pdf" @click="showLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
+                <div v-if="order.pdf && order.trackingNumber" @click="showLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
                 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
                     <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
                   </svg> Imprimer le bon de livraison
@@ -123,18 +115,19 @@
                   <span class="css-6f545k">{{ order.updatedAt }}</span>
                 </div>
               </li>
-              <li v-for="status in order.orderStatuses" class="css-1rcbby2" v-show="status.status != 'no-label' && status.status != 'announcing' && status.status != 'ready-to-send' && status.status != 'announced'">
+              <li v-for="status in order.orderStatuses" class="css-1rcbby2" v-show="status.status != 'no-label' && status.status != 'announcing' && status.status != 'ready-to-send' && status.status != 'announced' && status.status != 'cancelling-upstream'">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u"></span>
                   <span class="css-fz3k0c" style="background-color: #18cea0;"></span>
                 </div>
                 <div class="css-hg5jyh">
                   <h6 class="css-yemnbq" v-if="status.status == 'delivered'">Livré</h6>
+                  <h6 class="css-yemnbq" v-else-if="status.status == 'cancelled'">Annulé</h6>
                   <h6 class="css-yemnbq" v-else>{{ status.message }}</h6>
                   <span class="css-6f545k">{{ status.updateAt }}</span>
                 </div>
               </li>
-              <li class="css-1rcbby2">
+              <li v-if="filteredStatus('')" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
                   <span class="css-fz3k0c"></span>
@@ -143,7 +136,7 @@
                   <h6 class="css-yemnbq">Pris en charge par <span style="text-transform: capitalize;">{{ order.shippingCarrier }}</span></h6>
                 </div>
               </li>
-              <li class="css-1rcbby2">
+              <li v-if="filteredStatus('')" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
                   <span class="css-fz3k0c"></span>
@@ -152,7 +145,7 @@
                   <h6 class="css-yemnbq">En cours de livraison</h6>
                 </div>
               </li>
-              <li v-if="order.servicePointId" class="css-1rcbby2">
+              <li v-if="filteredStatus('') && order.servicePointId" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
                   <span class="css-fz3k0c"></span>
@@ -267,25 +260,22 @@ export default {
       });
     },
     generateLabel() {
-      if (!this.order.tracking_number && (this.user == this.order.vendor.id)) {
-		    window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          this.order = JSON.parse(response.data);
-          this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);
-          this.remaining = this.remaining.toFixed(2);
-		    }, (response) => {
-		      console.log(response.error);
-		    });
-      }
+	    window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.order = JSON.parse(response.data);
+        this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);
+        this.remaining = this.remaining.toFixed(2);
+	    }, (response) => {
+	      console.log(response.error);
+	    });
     },
     filteredStatus(status) {
       var isEqual = true;
       this.order.orderStatuses.filter((orderStatus) => { 
         console.log(status == orderStatus.status);
-        if (status == orderStatus.status) {
+        if (status == orderStatus.status || "cancelling-upstream" == orderStatus.status || "cancelled" == orderStatus.status) {
           isEqual = false;
         }
       });
-
       return isEqual;
     },
     openUrl(url) {
