@@ -8,7 +8,7 @@
         <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Transactions</div>
       </div>
 
-      <div v-if="orders && orders.length" class="checkout__body">
+      <div class="checkout__body">
        <div style="width: calc(100vw - 30px);margin: 0px 15px 0px 15px;">
           <div class="chat--left--head--input" style="border-radius: 8px;">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
@@ -17,7 +17,7 @@
             <input ref="search" type="text" placeholder="Rechercher" style="height: 1.75em"/>
           </div>
         </div>
-        <div v-if="user.vendor" class="tags" style="display: flex; margin: 12px 0px 5px; align-items: center; overflow-x: scroll;">
+        <div v-if="user.vendor" class="tags" style="display: flex; margin: 20px 0px 5px; align-items: center; overflow-x: scroll;">
           <div style="display: flex; flex-wrap: initial;">
             <div class="tag-tab" style="background-color: white; color: rgb(254, 44, 85);border: 1px solid rgb(254, 44, 85); margin-left: 10px;">Tout</div>
             <div class="tag-tab">À imprimer</div>
@@ -25,7 +25,7 @@
             <div class="tag-tab">Terminé</div>
           </div>
         </div>
-        <div class="top-author">
+        <div v-if="orders && orders.length" class="top-author">
         	<div class="top-author--container">
         		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
         			<img v-if="order.lineItems[0].product.uploads" :src="baseUrl + '/uploads/' + order.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
@@ -40,11 +40,11 @@
           </div>
         </div>
       </div>
-      <div v-else class="checkout__body">
+    <!--   <div v-else class="checkout__body">
         <div style="text-align: center; margin-top: 100px;">
           Aucune transaction
         </div>
-      </div>
+      </div> -->
     </div>
   </main>
 </template>

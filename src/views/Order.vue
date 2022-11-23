@@ -92,8 +92,7 @@
           </div>
         </div> 
 
-        <br>
-        <span class="css-6f545k" v-if="order.expectedDelivery && order.status == 'open'">Livraison prévu pour le {{ order.expectedDelivery }}</span>
+        <div class="css-6f545k" v-if="order.expectedDelivery && order.status == 'open'">Livraison prévu pour le {{ order.expectedDelivery }}</div>
 
         <div class="css-1h7d8f3" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; margin-top: 15px; border-radius: 15px; margin-bottom: 20px;">
           <div class="css-15x3obx">
@@ -103,7 +102,7 @@
             </div>
           </div>
           <div class="css-18mhetb">
-            <ul v-if="order.orderStatuses" class="css-1oa1nt">
+            <ul class="css-1oa1nt">
               <li v-if="user.email == order.vendor.user.email && order.shippingStatus == 'ready-to-send'" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                 	<span class="css-1f06y3u"></span>
