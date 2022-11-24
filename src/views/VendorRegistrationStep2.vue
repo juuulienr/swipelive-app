@@ -107,7 +107,8 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>
-            <input type="text" v-model="address">
+              <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu', 'ch']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder="">
+              </vue-google-autocomplete>
           </fieldset>
         </div>
         
@@ -131,7 +132,7 @@
         <div class="form--input--item">
           <fieldset>
             <legend>Pays</legend>
-            <input @click="selectCountry()" type="text">
+            <input @click="selectCountry()" type="text" readonly>
           </fieldset>
         </div>
 
@@ -242,10 +243,44 @@
 
 </style>
 
+<style>
+  
+.display-mode {
+  display: initial !important;
+  z-index: 100000000000;
+}
+
+.hdpi.pac-logo:after {
+  background: none !important;
+  height: 0px !important;
+}
+
+.pac-item {
+  padding: 3px 12px !important;
+  border: none !important;
+  font-size: 14px !important;
+}
+
+.hdpi .pac-icon {
+  display: none !important;
+}
+
+.pac-item-query {
+  font-size: 14px !important;
+}
+
+.pac-container {
+  box-shadow: 0 6px 19px 0 #d9d9d9 !important;
+  border-top: none !important;
+  border-radius: 7px !important;
+  padding: 7px 3px !important;
+}
+</style>
 
 <script>
 
 import AuthAPI from "../services/authAPI.js";
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 import Rolldate from 'rolldate';
 
 export default {
@@ -271,8 +306,6 @@ export default {
       zip: null,
       city: null,
       picture: null,
-      tokenAccount: null,
-      tokenPerson: null,
       baseUrl: window.localStorage.getItem("baseUrl"),
       waiting: false,
       errorFirstname: false,
@@ -287,8 +320,10 @@ export default {
       errorZip: false,
       errorCity: false,
       errorSummary: false,
+      errorCountry: false,
       errorPassword: false,
       errorRegistration: null,
+      showAutocomplete: false,
     }
   },
   created() {
@@ -374,6 +409,10 @@ export default {
         this.errorCity = true;
       }
 
+      if (!this.country) {
+        this.errorCountry = true;
+      }
+
       if (this.businessType == "company") {
         if (!this.company) {
           this.errorCompany = true;
@@ -383,8 +422,26 @@ export default {
           this.errorSiren = true;
         }
       }
+      
+      switch (this.country) {
+        case "France":
+          this.countryShort = "FR";
+          break;
+        case "Belgique":
+          this.countryShort = "BE";
+          break;
+        case "Suisse":
+          this.countryShort = "CH";
+          break;
+        case "Luxembourg":
+          this.countryShort = "LU";
+          break;
+        default:
+          this.countryShort = null;
+          this.errorCountry = true;
+      }
 
-      if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren) {
+      if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSireny && !this.errorCountry) {
         this.submit();
       }
     }, 
@@ -392,7 +449,7 @@ export default {
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorDob && !this.errorBusinessType && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren) {
 
         window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "picture": this.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "dob": this.dob, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "tokenAccount": this.tokenAccount, "tokenPerson": this.tokenPerson };
+        var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "picture": this.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "dob": this.dob, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
@@ -528,6 +585,47 @@ export default {
         this.step2 = false;
       }
     },
+    handleError(error) {
+      console.log(error);
+    },
+    updateAddressData(addressData) {
+      var data = addressData.split(',');
+      this.$refs.address.update(data[0]);
+      this.address = data[0];
+    },
+    getAddressData(addressData, placeResultData, id) {
+      console.log(addressData);
+      console.log(placeResultData);
+      
+      if (addressData.street_number) {
+        var street = addressData.street_number + ' ' + addressData.route;
+        this.countryShort = placeResultData.address_components[5].short_name;
+      } else {
+        var street = addressData.route;
+        this.countryShort = placeResultData.address_components[4].short_name;
+      }
+
+      this.$refs.address.update(street);
+      this.address = street;
+      this.zip = addressData.postal_code;
+      this.city = addressData.locality;
+      this.country = addressData.country;
+    },
+    blurAddressInput() {
+      this.showAutocomplete = false;
+      document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+    },
+    focusAddressInput() {
+      this.showAutocomplete = true;
+    },
+    inputChangeAddressInput(input) {
+      console.log(input.newVal);
+      if (input.newVal.length > 2 && this.showAutocomplete) {
+        document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+      } else {
+        document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+      }
+    },
     selectCountry() {
     	var data = {
     		numbers: [
@@ -548,8 +646,7 @@ export default {
 	    };
 
 	    window.SelectorCordovaPlugin.showSelector(config, (result) => {
-	    	// this.country = result[0].description;
-	    	console.log(result[0].description);
+	    	this.country = result[0].description;
 	    }, (error) => {
 	    	console.log(error);
 	    });

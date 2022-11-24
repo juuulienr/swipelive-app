@@ -33,10 +33,10 @@
                 <p class="css-11r9ii4">Sous-total</p>
                 <h6 class="css-yemnbq">{{ subTotal | formatPrice }}€</h6>
               </div>
-              <div class="css-9jay18">
+            <!--   <div class="css-9jay18">
                 <p class="css-11r9ii4" style="color: #18cea0; font-weight: 600;">PROMO10</p>
                 <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 600;">-10,00€</h6>
-              </div>
+              </div> -->
               <div class="css-9jay18">
                 <p class="css-11r9ii4">Livraison</p>
                 <h6 v-if="shippingPrice" class="css-yemnbq">+{{ shippingPrice | formatPrice }}€</h6>
@@ -65,7 +65,8 @@
         <div v-if="shippingAddress && shippingMethod != 'service_point'" class="card panel-item" style="border-radius: 15px; border: 1px solid rgba(22, 24, 35, 0.12);">
           <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
             <div class="card-title">
-    					<img :src="require(`@/assets/img/colissimo.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/> {{ name }}
+    					<!-- <img :src="require(`@/assets/img/colissimo.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>  -->
+              {{ name }}
             </div>
             <div class="card-text">
               <div>{{ address }}</div>
@@ -125,9 +126,7 @@
               <div>
                 <span style="text-transform: capitalize;">Point relais</span>
                 <div v-if="shippingProducts && shippingProducts.service_point">
-                	<span v-if="service.carrier == 'mondial_relay'" v-for="service in shippingProducts.service_point">
-                		À partir de {{ service.price | formatPrice }}€
-                	</span>
+                	<span>À partir de {{ shippingProducts.service_point[0].price | formatPrice }}€</span>
                 </div>
               </div>
               <div style="margin-right: 5px;">
@@ -577,11 +576,8 @@ export default {
         lng: parseFloat(this.user.shippingAddresses[0].longitude)
       };
 
-      console.log(marker);
-
       this.center = marker;
       this.shippingAddress = true;
-
     	this.getShippingPrice();
     }
   },
@@ -718,7 +714,6 @@ export default {
       this.popupRelay = false;
       this.popupRelayInfo = false;
 
-      console.log(this.shippingProducts);
       this.shippingProducts.service_point.map((method) => {
       	if (method.carrier == point.carrier) {
       		if (this.shippingPrice) {
@@ -871,8 +866,6 @@ export default {
 	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, "countryShort": this.countryShort, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
 	      console.log(JSON.parse(response.data));
 	    	this.shippingProducts = JSON.parse(response.data);
-	    	console.log(this.shippingProducts.domicile);
-	    	console.log(this.shippingProducts.service_point);
 	    }, (response) => {
 	      console.log(response.error);
 	    });

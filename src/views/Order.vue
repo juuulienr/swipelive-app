@@ -92,7 +92,7 @@
           </div>
         </div> 
 
-        <div class="css-6f545k" v-if="order.expectedDelivery && order.status == 'open'">Livraison prévu pour le {{ order.expectedDelivery }}</div>
+        <!-- <div class="css-6f545k" v-if="order.expectedDelivery && order.status == 'open'">Livraison prévu pour le {{ order.expectedDelivery }}</div> -->
 
         <div class="css-1h7d8f3" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; margin-top: 15px; border-radius: 15px; margin-bottom: 20px;">
           <div class="css-15x3obx">
