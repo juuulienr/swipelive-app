@@ -33,10 +33,10 @@
                 <p class="css-11r9ii4">Sous-total</p>
                 <h6 class="css-yemnbq">{{ subTotal | formatPrice }}€</h6>
               </div>
-<!--               <div class="css-9jay18">
+              <div class="css-9jay18">
                 <p class="css-11r9ii4" style="color: #18cea0; font-weight: 600;">PROMO10</p>
                 <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 600;">-10,00€</h6>
-              </div> -->
+              </div>
               <div class="css-9jay18">
                 <p class="css-11r9ii4">Livraison</p>
                 <h6 v-if="shippingPrice" class="css-yemnbq">+{{ shippingPrice | formatPrice }}€</h6>
@@ -52,7 +52,6 @@
             </div>
           </div>
         </div>
-
 
 
 
@@ -91,6 +90,7 @@
         </div>
 
          
+
         <!-- service_point -->
         <div v-if="shippingMethod == 'service_point' && pointSelected" class="css-15x3obx" style="padding-top: 20px; padding-bottom: 10px;">
           <div class="css-11qjisw">
@@ -868,7 +868,7 @@ export default {
 	    });
     },
     getShippingPrice() {
-	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
+	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, "countryShort": this.countryShort, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
 	      console.log(JSON.parse(response.data));
 	    	this.shippingProducts = JSON.parse(response.data);
 	    	console.log(this.shippingProducts.domicile);
