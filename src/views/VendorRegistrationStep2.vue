@@ -107,7 +107,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>
-              <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu', 'ch']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder="">
+              <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder="">
               </vue-google-autocomplete>
           </fieldset>
         </div>
@@ -430,9 +430,6 @@ export default {
         case "Belgique":
           this.countryShort = "BE";
           break;
-        case "Suisse":
-          this.countryShort = "CH";
-          break;
         case "Luxembourg":
           this.countryShort = "LU";
           break;
@@ -631,7 +628,6 @@ export default {
     		numbers: [
     			{description: "France"},
     			{description: "Belgique"},
-    			{description: "Suisse"},
     			{description: "Luxembourg"},
     		],
     	};
