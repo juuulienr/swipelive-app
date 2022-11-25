@@ -13,7 +13,7 @@
     </div>
 
     <!-- login popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popup" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
       <div style="padding: 15px;">
         <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
           <h5 style="font-weight: 600; margin-bottom: 0px; color: rgb(22, 24, 35); font-size: 18px;">Swipe Live</h5>
@@ -63,7 +63,7 @@
 
 
     <!-- email popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupEmail" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popupEmail" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
       <div style="padding: 15px;">
         <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
           <svg @click="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
@@ -107,7 +107,7 @@
 
 
     <!-- user registration popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupUserRegistration" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
       <div style="padding: 15px;">
         <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
           <svg @click="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
@@ -155,7 +155,7 @@
 
 
     <!-- forgot password popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupPassword" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
       <div style="padding: 15px;">
         <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
           <svg @click="checkEmail()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">

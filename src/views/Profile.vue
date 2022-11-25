@@ -27,8 +27,8 @@
       </div>
 
       <div class="btn-follow" style="display: flex; justify-content: center; align-items: center;">
-        <div @click="updateFollow()" v-if="following" class="btn-swipe" style="color: #fe2c55; text-align: center; width: fit-content; background: white; padding: 10px 40px; border: 1px solid #fe2c55; border-radius: 30px; margin-right: 10px;">Abonné</div>
-        <div @click="updateFollow()" v-else class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #fe2c55; padding: 10px 40px; border: 1px solid #fe2c55; border-radius: 30px; margin-right: 10px;">S'abonner</div>
+        <div v-if="following" @click="updateFollow()" class="btn-swipe" style="color: #fe2c55; text-align: center; width: fit-content; background: white; padding: 10px 40px; border: 1px solid #fe2c55; border-radius: 30px; margin-right: 10px;">Abonné</div>
+        <div v-else @click="updateFollow()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #fe2c55; padding: 10px 40px; border: 1px solid #fe2c55; border-radius: 30px; margin-right: 10px;">S'abonner</div>
         <svg v-if="following" @click="sendMessage(profile.id)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 26px;height: 26px;margin-left: 7px;fill: rgb(153, 153, 153);"><path d="M256 31.1c-141.4 0-255.1 93.13-255.1 208c0 47.62 19.91 91.25 52.91 126.3c-14.87 39.5-45.87 72.88-46.37 73.25c-6.623 7-8.374 17.25-4.624 26C5.816 474.3 14.38 480 24 480c61.49 0 109.1-25.75 139.1-46.25c28.1 9 60.16 14.25 92.9 14.25c141.4 0 255.1-93.13 255.1-207.1S397.4 31.1 256 31.1zM256 416c-28.25 0-56.24-4.25-83.24-12.75c-9.516-3.068-19.92-1.461-28.07 4.338c-22.1 16.25-58.54 35.29-102.7 39.66c11.1-15.12 29.75-40.5 40.74-69.63l.1289-.3398c4.283-11.27 1.791-23.1-6.43-32.82C47.51 313.1 32.06 277.6 32.06 240c0-97 100.5-176 223.1-176c123.5 0 223.1 79 223.1 176S379.5 416 256 416zM256 216c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24s24-10.75 24-24C280 226.7 269.3 216 256 216zM384 216c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24s24-10.75 24-24C408 226.7 397.3 216 384 216zM128 216c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24S152 253.3 152 240C152 226.7 141.3 216 128 216z"></path></svg>
       </div>
 
@@ -68,7 +68,7 @@
 
       <div v-if="shop" class="items" style="margin-top: 20px;">
         <div v-if="profile && profile.vendor.products" class="shop--part" style="margin: 0px;">
-          <div v-for="product in profile.vendor.products" class="shop--item" v-if="product.archived == false">
+          <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--item">
             <div @click="goProduct(product.id)">
               <div style="text-align:center;">
                 <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" style="padding: 5px; width: calc(50vw - 45px); height: calc(50vw - 45px); object-fit: cover; border-radius: 10px;">
@@ -77,7 +77,8 @@
             <div @click="goProduct(product.id)" class="shop--item--details">
               <div class="shop--item--name" style="margin-top: 0px; height: 45px; font-weight: 500; line-height: 1.24; text-align: center; justify-content: center;">{{ product.title }}</div>
               <div>
-                <div class="btn-swipe" style="color: white; text-align: center; font-size: 14px; width: 100%; background: rgb(24, 206, 160); padding: 9px; border-radius: 7px; font-weight: 600;"> {{ product.price | formatPrice }}€ <span v-if="product.compareAtPrice" style="opacity: 0.7; text-decoration: line-through; font-weight: 500; padding-left: 5px; font-size: 13px; line-height: 18px;">{{ product.compareAtPrice | formatPrice }}€ </span>
+                <div class="btn-swipe" style="color: white; text-align: center; font-size: 14px; width: 100%; background: rgb(24, 206, 160); padding: 9px; border-radius: 7px; font-weight: 600;"> {{ product.price | formatPrice }}€ 
+                  <span v-if="product.compareAtPrice" style="opacity: 0.7; text-decoration: line-through; font-weight: 500; padding-left: 5px; font-size: 13px; line-height: 18px;">{{ product.compareAtPrice | formatPrice }}€ </span>
                 </div>
               </div>
             </div>

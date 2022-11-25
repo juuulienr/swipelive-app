@@ -7,7 +7,7 @@
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
-        <div class="checkout__title" v-if="order" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Commande N°{{ order.number }}</div>
+        <div v-if="order" class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Commande N°{{ order.number }}</div>
         <div @click="actionSheet()" class="checkout__right-btn" style="position: absolute; right: 15px; top: 8px; padding: 0.5rem 0px;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px;fill: #161823;border-radius: 30px;">
             <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
@@ -43,7 +43,7 @@
               <img v-if="lineItem.product.uploads" :src="baseUrl + '/uploads/' + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;" />
               <div style="padding-right: 30px;">
                 <h5 class="checkout__name" style="margin-bottom: 5px; font-weight: 600; font-size: 14px; margin-right: 10px;"> {{ lineItem.product.title }} </h5>
-                <div class="checkout__attr" v-if="lineItem.variant"><span> {{ lineItem.variant.title }} </span></div>
+                <div v-if="lineItem.variant" class="checkout__attr"><span> {{ lineItem.variant.title }} </span></div>
               </div>
             </div>
             <div class="product--quantity--detail">x{{ lineItem.quantity }}</div>
@@ -92,7 +92,7 @@
           </div>
         </div> 
 
-        <!-- <div class="css-6f545k" v-if="order.expectedDelivery && order.status == 'open'">Livraison prévu pour le {{ order.expectedDelivery }}</div> -->
+        <!-- <div v-if="order.expectedDelivery && order.status == 'open'" class="css-6f545k">Livraison prévu pour le {{ order.expectedDelivery }}</div> -->
 
         <div class="css-1h7d8f3" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; margin-top: 15px; border-radius: 15px; margin-bottom: 20px;">
           <div class="css-15x3obx">

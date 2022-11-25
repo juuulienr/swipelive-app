@@ -45,7 +45,7 @@
       </div>
 
       <!-- multistream popup -->
-      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupFacebook" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;"> 
+      <div v-if="popupFacebook" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;"> 
         <div @click="hideFacebook()" style="float: right;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #999;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
         </div>
@@ -141,7 +141,7 @@
 
     
       <!-- promo popup -->
-      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupPromo" style="overflow-y: scroll; height: 100%; top: 60%; padding: 15px;"> 
+      <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 60%; padding: 15px;"> 
         <div @click="hidePromo()" style="float: right;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #999;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
         </div>
@@ -320,7 +320,7 @@
 
 
       <!-- popup orders -->
-      <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupOrders" style="overflow-y: scroll; height: 100%; top: 60%; padding: 15px;"> 
+      <div v-if="popupOrders" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 60%; padding: 15px;"> 
         <div @click="hideOrders()" style="float: right;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #999;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
         </div>

@@ -10,8 +10,8 @@
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none;border: 3px solid #fe2c55; padding: 3px;"/>
         </div>
         <div class="per_inf">
-          <h5 class="name" style="font-size: 18px; font-weight: 600; padding-bottom: 25px; margin-bottom: 0px;" v-if="user.vendor">{{ user.vendor.businessName }}</h5>
-          <h5 class="name" style="font-size: 18px; font-weight: 600; padding-bottom: 25px; margin-bottom: 0px;" v-else>{{ user.firstname }} {{ user.lastname }}</h5>
+          <h5 v-if="user.vendor" class="name" style="font-size: 18px; font-weight: 600; padding-bottom: 25px; margin-bottom: 0px;">{{ user.vendor.businessName }}</h5>
+          <h5 v-else class="name" style="font-size: 18px; font-weight: 600; padding-bottom: 25px; margin-bottom: 0px;">{{ user.firstname }} {{ user.lastname }}</h5>
         </div>
       </div>
       <div v-if="user.vendor" @click="goPrelive()" class="btn-follow">
@@ -440,6 +440,7 @@ export default {
     logout() {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user');
+      window.localStorage.removeItem('lineItems');
       this.$router.push({ name: 'Welcome' });
     },
     goBack() {

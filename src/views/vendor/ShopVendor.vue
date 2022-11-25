@@ -10,7 +10,7 @@
       <div @click="actionSheet()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 15px 30px;">Ajouter un produit</div>
       <div v-if="products" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
-          <div @click="editProduct(product.id)" v-for="(product, index) in products" v-if="product.archived == false" class="product--item">
+          <div v-for="(product, index) in products" v-if="product.archived == false" @click="editProduct(product.id)" class="product--item">
             <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" alt="Product">
             <div class="details">
               <div class="title">{{ product.title }}</div>

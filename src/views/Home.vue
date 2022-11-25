@@ -41,7 +41,7 @@
     <div v-if="following && following.length" class="favourite" style="padding-top: 10px; margin-bottom: 15px;">
     	<h2 style="font-weight: 600; font-size: 17px; margin-left: 10px;">Abonnements</h2>
     	<div class="list_persone" style="display:flex;">
-    		<div v-for="(user, index) in following" v-if="user.type == 'vendor'" style="padding: 0px 15px;">
+    		<div v-if="user.type == 'vendor'" v-for="(user, index) in following" style="padding: 0px 15px;">
     			<router-link :to="{ name: 'Profile', params: { id: user.id } }">
     				<div class="personne">
     					<img v-if="user.picture" :src="baseUrl + '/uploads/' + user.picture" class="user">
@@ -75,7 +75,7 @@
 
 
     <!-- search -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupSearch" style="overflow-y: scroll;height: calc(100vh - 60px);">
+    <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll;height: calc(100vh - 60px);">
     	<div class="list_persone">
     		<div class="suggested show">
     			<div v-if="results && results.length" class="row">

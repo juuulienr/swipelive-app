@@ -14,10 +14,10 @@
           <div class="title">{{ product.title }}</div>
         </div>
         <div class="col-3" style="text-align: center; padding-left: 0px;">
-          <div class="new-price" style="color: #333;" v-if="variant && variant.price">{{ variant.price | formatPrice }}€</div>
-          <div class="new-price" style="color: #333;" v-else>{{ product.price | formatPrice }}€</div>
-          <div class="last-price" style="font-size: 13px; font-weight: 500;" v-if="variant && variant.compareAtPrice">{{ variant.compareAtPrice | formatPrice }}€</div>
-          <div class="last-price" style="font-size: 13px; font-weight: 500;" v-if="!variant && product.compareAtPrice">{{ product.compareAtPrice | formatPrice }}€</div>
+          <div v-if="variant && variant.price" class="new-price" style="color: #333;">{{ variant.price | formatPrice }}€</div>
+          <div v-else class="new-price" style="color: #333;">{{ product.price | formatPrice }}€</div>
+          <div v-if="variant && variant.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ variant.compareAtPrice | formatPrice }}€</div>
+          <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
         </div>
       </div>
       <div v-if="product.options.length" style="margin-top: 25px;">

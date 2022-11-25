@@ -209,7 +209,7 @@
                 <div class="video-page__price">
                   <div class="video-page__price-line">
                     <div class="video-page__price"> {{ clip.product.price | formatPrice }}€ 
-                      <span style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 500;" v-if="clip.product.compareAtPrice" class="disc">{{ clip.product.compareAtPrice | formatPrice }}€</span>
+                      <span v-if="clip.product.compareAtPrice" style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 500;" class="disc">{{ clip.product.compareAtPrice | formatPrice }}€</span>
                     </div>
                   </div>
                 </div>
@@ -250,7 +250,7 @@
         <img @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000">
         
         <!-- video -->
-        <div :ref="'player' + index" :id="'player' + index" v-if="videos[index].value" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
+        <div v-if="videos[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
         
         <!-- visible -->
         <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}" style="position: absolute; z-index: 1000000; width: 50px; height: 50px; left: calc(50% - 25px); top: calc(50% - 25px);"></div>
@@ -271,7 +271,7 @@
 
 
     <!-- product popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupProduct" style="overflow-y: scroll; height: 95%; padding-bottom: 80px;">
+    <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; padding-bottom: 80px;">
       <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;"><path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/></svg>
       <Product :product="product" @clicked="onClickChild"/>
     </div>
@@ -287,7 +287,7 @@
     </div>
 
     <!-- cart popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupCart" style="height: 45%;">
+    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 45%;">
       <div @click="hideCart()" style="position: absolute; background: white; padding: 15px; width: 100%; z-index: 1000000000; text-align: center; border-top-left-radius: 20px; border-top-right-radius: 20px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
@@ -299,7 +299,7 @@
 
 
     <!-- shop popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupShop" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;">
+    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;">
       <div @click="hideShop()" style="float: right;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #999;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
       </div>
@@ -309,7 +309,7 @@
       </div>
       <div v-if="shop" class="items" style="margin-top: 5px; margin-bottom: 20px;">
         <div class="shop--part" style="margin: 0px;">
-          <div v-for="product in shop.products" class="shop--item" v-if="product.archived == false" style="margin-bottom: 10px;">
+          <div v-for="product in shop.products" v-if="product.archived == false" class="shop--item" style="margin-bottom: 10px;">
             <div @click="showProduct(product)">
               <div style="text-align:center;">
                 <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">

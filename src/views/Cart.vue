@@ -7,7 +7,7 @@
             <img v-if="lineItem.product.uploads" :src="baseUrl + '/uploads/' + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;">
             <div>
               <h5 class="checkout__name" style="margin-bottom: 5px; font-weight: 600;"> {{ lineItem.product.title }} </h5>
-              <div class="checkout__attr" v-if="lineItem.variant"><span> {{ lineItem.variant.title }} </span></div>
+              <div v-if="lineItem.variant" class="checkout__attr"><span> {{ lineItem.variant.title }} </span></div>
             </div>
           </div>
           <div class="product--quantity--detail">
@@ -36,7 +36,7 @@
 
         <div v-if="subTotal" style="margin: 30px auto">
           <div @click="goCheckout()" style="text-align: center;">
-            <div class="btn-swipe">Acheter</div>
+            <div class="btn-swipe">Paiement</div>
           </div>
         </div>
       </div>
@@ -55,12 +55,11 @@
 
 export default {
   name: 'Cart',
-  props: ['lineItems'],
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      quantity: 1,
+      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       subTotal: null
     }
   },
@@ -73,16 +72,16 @@ export default {
   created() {
     this.updateCart();
   },
-  methods: { 
+  methods: {
     increaseQuantity(lineItem, index) {
       if (lineItem.variant) {
         if (lineItem.variant.quantity > lineItem.quantity) {
-          lineItem.quantity += 1;
+          this.lineItems[index].quantity += 1;
           this.updateCart();
         }
       } else {
         if (lineItem.product.quantity > lineItem.quantity) {
-          lineItem.quantity += 1;
+          this.lineItems[index].quantity += 1;
           this.updateCart();
         }
       }
@@ -90,7 +89,7 @@ export default {
     decreaseQuantity(lineItem, index) {
       console.log(lineItem);
       if (lineItem.quantity > 1) {
-        lineItem.quantity -= 1;
+        this.lineItems[index].quantity -= 1;
         this.updateCart();
       } else {
         this.lineItems.splice(index, 1);
@@ -99,15 +98,20 @@ export default {
     },
     updateCart() {
       this.subTotal = null;
-      this.lineItems.map(lineItem => {
-        if (lineItem.variant) {
-          this.subTotal += lineItem.variant.price * lineItem.quantity;
-        } else {
-          this.subTotal += lineItem.product.price * lineItem.quantity;
-        }
-      });
 
-      this.subTotal = this.subTotal.toFixed(2);
+      if (this.lineItems.length) {
+        this.lineItems.map(lineItem => {
+          if (lineItem.variant) {
+            this.subTotal += lineItem.variant.price * lineItem.quantity;
+          } else {
+            this.subTotal += lineItem.product.price * lineItem.quantity;
+          }
+        });
+
+        this.subTotal = this.subTotal.toFixed(2);
+        window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
+        console.log(JSON.parse(window.localStorage.getItem("lineItems")));
+      }
     },
     goCheckout() {
       // this.$router.push({ name: 'Checkout', params: { quantity: this.quantity, product: this.product, variant: this.variant } });
