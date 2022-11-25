@@ -868,18 +868,54 @@ export default {
       this.variant = null;
     },
     addToCart() {
+      this.popupProduct = false;
+      this.popupCart = false;
+      this.popupShop = false;
+
+      this.lineItems = window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [];
+      console.log(JSON.parse(window.localStorage.getItem("lineItems")));
+
       if (this.lineItems.length) {
         var exist = false;
+        var newVendor = false;
+        var nameVendor = null;
+        
         this.lineItems.map(lineItem => {
-          if (lineItem.product.id === this.product.id) {
-            exist = true;
-            lineItem.quantity += 1;
-          }
-          if (lineItem.variant && lineItem.variant.id === this.variant.id) {
-            exist = true;
-            lineItem.quantity += 1;
+          if (lineItem.product.vendor.id != this.product.vendor.id) {
+            newVendor = true;
+            nameVendor = lineItem.product.vendor.businessName;
           }
         });
+
+        if (!newVendor) {
+          this.lineItems.map(lineItem => {
+            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
+              exist = true;
+              lineItem.quantity += 1;
+            } else if (lineItem.product.id == this.product.id) {
+              if (!this.variant) {
+                exist = true;
+                lineItem.quantity += 1;
+              }
+            }
+          });
+        } else {
+          exist = true;
+          navigator.notification.confirm(
+            'Ce produit va remplacer votre ancien panier',
+            (buttonIndex) => {
+              console.log('You selected button ' + buttonIndex);
+              if (buttonIndex == 2) {
+                this.lineItems = [];
+                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
+                console.log(this.lineItems);
+                window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
+              }
+            },   
+            'Nouveau panier ?', 
+            ['Conserver','Nouveau'] 
+          );
+        }
 
         if (!exist) {
           this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
@@ -891,10 +927,10 @@ export default {
       window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
       console.log(JSON.parse(window.localStorage.getItem("lineItems")));
 
-      this.popupProduct = false;
-      this.popupCart = false;
-      this.popupShop = false;
     },
+    // newCart(vendorName) {
+    
+    // },
     showCart() {
       this.popupProduct = false;
       this.popupShop = false;

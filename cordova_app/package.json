@@ -44,7 +44,6 @@
             },
             "cordova-plugin-actionsheet": {},
             "cordova-plugin-device": {},
-            "cordova-plugin-sign-in-with-apple": {},
             "cordova-plugin-vibration": {},
             "cordova-plugin-facebook-connect": {
                 "APP_ID": "123456789",
@@ -90,7 +89,8 @@
             },
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
-            "cordova-wheel-selector-plugin": {}
+            "cordova-wheel-selector-plugin": {},
+            "cordova-plugin-dialogs": {}
         },
         "platforms": [
             "ios",
@@ -114,6 +114,7 @@
         "cordova-plugin-battery-status": "^2.0.3",
         "cordova-plugin-camera": "^5.0.3",
         "cordova-plugin-device": "^2.0.3",
+        "cordova-plugin-dialogs": "^2.0.2",
         "cordova-plugin-file": "^6.0.2",
         "cordova-plugin-firebasex": "^14.0.0",
         "cordova-plugin-inappbrowser": "^5.0.0",
@@ -121,7 +122,6 @@
         "cordova-plugin-network-information": "^2.0.2",
         "cordova-plugin-networkinterface": "^2.0.0",
         "cordova-plugin-safariviewcontroller": "^2.0.0",
-        "cordova-plugin-sign-in-with-apple": "^0.1.2",
         "cordova-plugin-splashscreen": "^6.0.0",
         "cordova-plugin-statusbar": "github:breautek/cordova-plugin-statusbar#430e7df32c0937d46e3a596b37ecbd50a42cb9c3",
         "cordova-plugin-vibration": "^3.1.1",

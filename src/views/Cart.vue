@@ -22,7 +22,6 @@
             </div>
           </div>
         </div>
-
         <div v-if="subTotal" class="css-13dslnb">
           <div class="css-18mhetb">
             <div class="css-9jay18">
@@ -33,7 +32,6 @@
             </div>
           </div>
         </div>
-
         <div v-if="subTotal" style="margin: 30px auto">
           <div @click="goCheckout()" style="text-align: center;">
             <div class="btn-swipe">Paiement</div>
@@ -109,12 +107,13 @@ export default {
         });
 
         this.subTotal = this.subTotal.toFixed(2);
-        window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
-        console.log(JSON.parse(window.localStorage.getItem("lineItems")));
       }
+
+      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
+      console.log(JSON.parse(window.localStorage.getItem("lineItems")));
     },
     goCheckout() {
-      // this.$router.push({ name: 'Checkout', params: { quantity: this.quantity, product: this.product, variant: this.variant } });
+      this.$router.push({ name: 'Checkout' });
     },
   }
 };

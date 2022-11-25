@@ -15,16 +15,16 @@
         </div>
 
         <!-- order summary -->
-        <div class="css-13dslnb" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; border-radius: 15px;">
-          <div v-if="product" class="checkout__row checkout__product-info-row" style="align-items: center; justify-content: space-between;">
+        <div v-if="lineItems && lineItems.length" class="css-13dslnb" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; border-radius: 15px;">
+          <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; justify-content: space-between;">
             <div class="checkout__product-info" style="padding-right: 0px;">
-              <img v-if="product.uploads" :src="baseUrl + '/uploads/' + product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;" />
+              <img v-if="lineItem.product.uploads" :src="baseUrl + '/uploads/' + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;" />
               <div style="padding-right: 30px;">
-              <h5 class="checkout__name" style="margin-bottom: 5px; font-weight: 600; font-size: 14px; margin-right: 10px;"> {{ product.title }} </h5>
-              <div v-if="variant" class="checkout__attr"><span> {{ variant.title }} </span></div>
+                <h5 class="checkout__name" style="margin-bottom: 5px; font-weight: 600; font-size: 14px; margin-right: 10px;"> {{ lineItem.product.title }} </h5>
+                <div v-if="lineItem.variant" class="checkout__attr"><span> {{ lineItem.variant.title }} </span></div>
               </div>
             </div>
-            <div class="product--quantity--detail">x{{ quantity }}</div>
+            <div class="product--quantity--detail">x{{ lineItem.quantity }}</div>
           </div>
           <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px;"/>
           <div class="css-18mhetb">
@@ -482,9 +482,7 @@ export default {
   components: { VueGoogleAutocomplete },
   data() {
     return {
-      product: this.$route.params.product,
-      variant: this.$route.params.variant,
-      quantity: this.$route.params.quantity,
+      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       sendcloud_pk: window.localStorage.getItem("sendcloud_pk"),
@@ -548,17 +546,19 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
-    console.log(this.product);
-    console.log(this.variant);
+    if (this.lineItems.length) {
+      this.lineItems.map(lineItem => {
+        if (lineItem.variant) {
+          this.subTotal += lineItem.variant.price * lineItem.quantity;
+        } else {
+          this.subTotal += lineItem.product.price * lineItem.quantity;
+        }
+      });
 
-    if (this.variant) {
-      this.subTotal = this.variant.price * this.quantity;
-    } else {
-      this.subTotal = this.product.price * this.quantity;
+      this.subTotal = this.subTotal.toFixed(2);
+      this.total = this.subTotal;
     }
 
-    this.subTotal = this.subTotal.toFixed(2);
-    this.total = this.subTotal;
     this.name = this.user.firstname + ' ' + this.user.lastname;
 
     if (this.user && this.user.shippingAddresses.length) {
@@ -760,12 +760,12 @@ export default {
     },
     payment() {
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
-  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null, "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, }, { Authorization: "Bearer " + this.token }, (response) => {
-  	      console.log(JSON.parse(response.data));
-        	this.$router.push({ name: 'Feed' });
-  	    }, (response) => {
-  	      console.log(response.error);
-  	    });
+  	    // window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "product": this.product.id, "variant": this.variant ? this.variant.id : null, "quantity": this.quantity, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null, "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, }, { Authorization: "Bearer " + this.token }, (response) => {
+  	    //   console.log(JSON.parse(response.data));
+        // 	this.$router.push({ name: 'Feed' });
+  	    // }, (response) => {
+  	    //   console.log(response.error);
+  	    // });
       }
     },
     changeToAddress() {
@@ -863,7 +863,7 @@ export default {
 	    });
     },
     getShippingPrice() {
-	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "weight": this.product ? this.product.weight : this.variant.weight, "weightUnit": this.product.weightUnit ? this.product.weightUnit : this.variant.weightUnit, "countryShort": this.countryShort, "quantity": this.quantity }, { Authorization: "Bearer " + this.token }, (response) => {
+	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
 	      console.log(JSON.parse(response.data));
 	    	this.shippingProducts = JSON.parse(response.data);
 	    }, (response) => {

@@ -87,7 +87,7 @@ export default new Router({
       name: 'Product',
       component: Product
     }, {
-      path: '/checkout/:quantity/:product/:variant?',
+      path: '/checkout',
       name: 'Checkout',
       component: Checkout
     }, {

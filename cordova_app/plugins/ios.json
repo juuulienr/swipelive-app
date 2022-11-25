@@ -80,9 +80,6 @@
     "cordova-plugin-safariviewcontroller": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-sign-in-with-apple": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -110,6 +107,9 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-wheel-selector-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-dialogs": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },
