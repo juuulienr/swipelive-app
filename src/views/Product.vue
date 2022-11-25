@@ -111,6 +111,8 @@ export default {
     if (window.cordova && window.cordova.platformId === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 30px)';
     }
+
+    this.loadOptions();
   },
   methods: {
     addToCart() {

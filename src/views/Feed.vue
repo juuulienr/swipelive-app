@@ -3,10 +3,12 @@
     <div v-if="data.length" v-for="(feed, index) in data" style="position: relative; height: 100vh; scroll-snap-align: start; scroll-snap-stop: always; z-index: 10000000;">
       <!-- live -->
       <div v-if="feed.type == 'live' && feed.value" class="live" v-touch:swipe="swipeHandler">
+
         <!-- loader -->
-        <div v-if="loading"  class="css-vhzttx" style="backdrop-filter: saturate(180%) blur(45px); background-color: rgba(25, 25, 25, 0.8);top: 0px;z-index: 10; width: 100%;height: 100%;position: absolute;"></div>
+        <div v-if="loading" class="css-vhzttx" style="backdrop-filter: saturate(180%) blur(45px); background-color: rgba(25, 25, 25, 0.8);top: 0px;z-index: 10; width: 100%;height: 100%;position: absolute;"></div>
         <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="baseUrl + '/uploads/' + feed.value.vendor.user.picture" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
         <img v-else-if="loading && !feed.value.vendor.user.picture" :src="require(`@/assets/img/anonyme.jpg`)" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
+
 
         <!-- love -->
         <div v-if="feed.value" class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
@@ -132,6 +134,7 @@
           </div>
         </div>
 
+
         <!-- profil -->
         <div v-if="feed.value.vendor" class="video-page__influencer-badge2" :style="{'top': safeareaTop }" style="padding-right: 9px;">
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-img2">
@@ -157,6 +160,7 @@
           </div>
         </div>
         
+
         <!-- account -->
         <div @click="goToAccount()" class="video-page__influencer-badge2" :style="{'top': safeareaTop5 }" style="width: 40px;right: 15px; left: initial;border-radius: 50%;padding: 0px;font-size: 14px; background: transparent;">
           <div v-if="user" class="video-page__influencer-img2" style="color: white;font-weight: 500;padding: 0px;text-align: center;line-height: 25px;">
@@ -178,24 +182,16 @@
             <span style="padding-left: 5px; color: white; font-weight: 600;">{{ viewers }}</span>
           </span>
         </div>
-        
-        <!-- promo -->
-    <!--     <div v-if="promo" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge7" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
-          <div class="video-page__influencer-username-holder">
-            <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 9px; fill: white;"><path d="M536.5 170.7l-135.7-131.9c-9.453-9.219-24.67-9-33.94 .5c-9.234 9.5-9.016 24.69 .5 33.94l135.5 131.7C519 221.1 528 242.8 528 265.8s-8.969 44.63-25.3 60.95l-111.7 112.4c-9.344 9.406-9.312 24.59 .0938 33.94C395.8 477.7 401.9 480 408 480c6.172 0 12.33-2.359 17.02-7.078l111.7-112.3C562 335.3 576 301.6 576 265.8S562 196.2 536.5 170.7zM463.6 225.6L286.4 48.4C277.4 39.38 259.6 32 246.8 32H60C44.54 32 32 44.54 32 60v186.8c0 12.76 7.381 30.58 16.4 39.6l177.2 177.2c21.87 21.87 57.32 21.87 79.2 .002l158.8-158.8C485.5 282.9 485.5 247.5 463.6 225.6zM144 176c-17.67 0-32-14.32-32-32c0-17.68 14.33-32 32-32s32 14.32 32 32C176 161.7 161.7 176 144 176z"></path></svg>
-            </span>
-          </div>
-        </div> -->
-        
+
+
         <!-- cart -->
-<!--         <div v-if="cart" :style="{'top': safeareaTop4 }" class="video-page__influencer-badge6" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
+        <div @click="showCart()" :style="{'top': safeareaTop4 }" class="video-page__influencer-badge6" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 40px; height: 40px; padding: 9px; fill: white;"><path d="M416 160h-72V120C344 53.83 290.2 0 224 0S104 53.83 104 120V160H32C14.33 160 0 174.3 0 192v240C0 476.2 35.82 512 80 512h288c44.18 0 80-35.82 80-80V192C448 174.3 433.7 160 416 160zM152 120C152 80.3 184.3 48 224 48s72 32.3 72 72V160h-144V120zM128 248C114.8 248 104 237.3 104 224S114.8 200 128 200S152 210.8 152 224S141.3 248 128 248zM320 248c-13.25 0-24-10.75-24-24S306.8 200 320 200S344 210.8 344 224S333.3 248 320 248z"/></svg>
             </span>
           </div>
-        </div> -->
+        </div>
 
 
         <!-- comments -->
@@ -238,6 +234,7 @@
           </div>
         </div>
         
+
         <!-- list of products -->
         <div v-if="feed.value.vendor" :style="{'bottom': safeareaBottom }" @click="showShop(feed.value.vendor)" class="video-page__influencer-badge5" style="position: absolute; width: 40px; height: 40px; left: 15px; z-index: 1000; border-radius: 8px;">
           <div class="video-page__influencer-username-holder">
@@ -246,6 +243,7 @@
             </span>
           </div>
         </div>
+
 
         <!-- send comment -->
         <div @click="openPopup()" class="video-page__influencer-badge-send" style="padding: 0.5rem 1.5rem 0.5rem; left: 65px; right: 125px;" :style="{'bottom': safeareaBottom }">
@@ -256,6 +254,7 @@
             </span>
           </div>
         </div>
+
         
         <!-- share -->
         <div @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4" style="position: absolute; width: 40px; height: 40px; right: 70px; z-index: 1000;">
@@ -266,8 +265,10 @@
           </div>
         </div>
         
+
         <!-- like -->
         <img @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000">
+
 
         <!-- visible -->
         <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}" style="position: absolute; z-index: 1000000; width: 50px; height: 50px; left: calc(50% - 25px); top: calc(50% - 25px);"></div>
@@ -443,22 +444,22 @@
         </div>
         
         <!-- promo -->
-    <!--     <div v-if="promo" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge7" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
+<!--         <div v-if="promo" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge7" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 9px; fill: white;"><path d="M536.5 170.7l-135.7-131.9c-9.453-9.219-24.67-9-33.94 .5c-9.234 9.5-9.016 24.69 .5 33.94l135.5 131.7C519 221.1 528 242.8 528 265.8s-8.969 44.63-25.3 60.95l-111.7 112.4c-9.344 9.406-9.312 24.59 .0938 33.94C395.8 477.7 401.9 480 408 480c6.172 0 12.33-2.359 17.02-7.078l111.7-112.3C562 335.3 576 301.6 576 265.8S562 196.2 536.5 170.7zM463.6 225.6L286.4 48.4C277.4 39.38 259.6 32 246.8 32H60C44.54 32 32 44.54 32 60v186.8c0 12.76 7.381 30.58 16.4 39.6l177.2 177.2c21.87 21.87 57.32 21.87 79.2 .002l158.8-158.8C485.5 282.9 485.5 247.5 463.6 225.6zM144 176c-17.67 0-32-14.32-32-32c0-17.68 14.33-32 32-32s32 14.32 32 32C176 161.7 161.7 176 144 176z"></path></svg>
             </span>
           </div>
-        </div> -->
+        </div>  -->
         
         <!-- cart -->
-<!--         <div v-if="cart" :style="{'top': safeareaTop4 }" class="video-page__influencer-badge6" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
+        <div @click="showCart()" :style="{'top': safeareaTop4 }" class="video-page__influencer-badge6" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000; border-radius: 8px;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 40px; height: 40px; padding: 9px; fill: white;"><path d="M416 160h-72V120C344 53.83 290.2 0 224 0S104 53.83 104 120V160H32C14.33 160 0 174.3 0 192v240C0 476.2 35.82 512 80 512h288c44.18 0 80-35.82 80-80V192C448 174.3 433.7 160 416 160zM152 120C152 80.3 184.3 48 224 48s72 32.3 72 72V160h-144V120zM128 248C114.8 248 104 237.3 104 224S114.8 200 128 200S152 210.8 152 224S141.3 248 128 248zM320 248c-13.25 0-24-10.75-24-24S306.8 200 320 200S344 210.8 344 224S333.3 248 320 248z"/></svg>
             </span>
           </div>
-        </div> -->
+        </div>
 
         <!-- comments -->
         <div v-if="comments[index].value.length" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="max-height: 200px; display: -ms-flexbox; position: absolute; left: 15px; z-index: 2; overflow-y: scroll;">
@@ -558,7 +559,7 @@
     </div>
     <div v-if="popupProduct" style="background-color: white;bottom: 25px; position: fixed; z-index: 2147483647;">
       <div style="padding: 15px 15px 25px; background-color: white; width: 100vw; display: flex;">
-        <div @click="showCart()" class="btn-swipe2" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; width: calc(50vw - 15px); background: linear-gradient(90deg,#ff9000,#ff5000);">
+        <div @click="addToCart()" class="btn-swipe2" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; width: calc(50vw - 15px); background: linear-gradient(90deg,#ff9000,#ff5000);">
         	Ajouter
         </div>
         <div @click="goCheckout()" class="btn-swipe2" style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; width: calc(50vw - 15px);">
@@ -568,19 +569,19 @@
     </div>
 
     <!-- cart popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupCart" style="height: 45%;">
+    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 95%;">
       <div @click="hideCart()" style="position: absolute; background: white; padding: 15px; width: 100%; z-index: 1000000000; text-align: center; border-top-left-radius: 20px; border-top-right-radius: 20px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
         <h5 style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Panier</h5>
       </div>
-      <Cart :product="product" :variant="variant"/>
+      <Cart :lineItems="lineItems"/>
     </div>
 
 
     <!-- shop popup -->
-    <div class="store-products-item__login-popup store-products-item__login-popup--active" v-if="popupShop" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;">
+    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;">
       <div @click="hideShop()" style="float: right;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #999;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
       </div>
@@ -640,16 +641,17 @@ export default {
       following: [],
       comments: [],
       purchases: [],
-      product: [],
-      variant: [],
+      product: null,
+      variant: null,
+      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       shop: [],
       viewers: 0,
       display: 1,
       visible: 0,
       loading: true,
       popup: false,
-      promo: false,
-      cart: false,
+      promo: true,
+      cart: true,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
@@ -800,8 +802,8 @@ export default {
           this.comments[this.visible].value = [];
           this.display = 1;
           this.viewers = 0;
-          this.product = [];
-          this.variant = [];
+          this.product = null;
+          this.variant = null;
           this.stopLive();
           this.visible = index;
 
@@ -844,7 +846,6 @@ export default {
 
               player2.scaleMode = "aspectFill";
               player2.play();
-
             }, 500);
 
             if (this.comments[index].value.length > 0) {
@@ -856,13 +857,25 @@ export default {
     },
     showProduct(product) {
       this.product = product;
+      this.variant = null;
       this.popupShop = false;
       this.popupCart = false;
       this.popupProduct = true;
     },
     hideProduct() {
       this.popupProduct = false;
-      this.product = [];
+      this.product = null;
+      this.variant = null;
+    },
+    addToCart(vendor) {
+      // if (!this.lineItems) {
+        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
+        window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
+        console.log(JSON.parse(window.localStorage.getItem("lineItems")));
+      // }
+      this.popupProduct = false;
+      this.popupCart = false;
+      this.popupShop = false;
     },
     showCart() {
       this.popupProduct = false;
@@ -872,7 +885,7 @@ export default {
     hideCart() {
       this.popupCart = false;
       this.popupShop = false;
-      this.popupProduct = true;
+      this.popupProduct = false;
     },
     showShop(shop) {
       this.shop = shop;
@@ -1330,7 +1343,7 @@ export default {
     resume() {
       console.log("User is using the feed");
       navigator.splashscreen.hide();
-      this.refresh();
+      // this.refresh();
     },
     follow(id) { 
     	if (this.user && this.token) {
@@ -1558,11 +1571,12 @@ export default {
     share() {
       window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
     },
-    onClickChild (variant) {
+    onClickChild(variant) {
+      console.log(variant);
       this.variant = variant;
     },
     goCheckout() {
-    	this.$router.push({ name: 'Checkout', params: { quantity: 1, product: this.product, variant: this.variant.length ? this.variant : null } });
+    	this.$router.push({ name: 'Checkout', params: { product: this.product, variant: this.variant, quantity: 1 } });
     },
   }
 };

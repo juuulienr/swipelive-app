@@ -8,7 +8,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
-            <input @click="search()" v-on:keyup="changed" v-model="searchValue" type="text" placeholder="Rechercher"/>
+            <input ref="search" @click="search()" v-on:keyup="changed" v-model="searchValue" type="text" placeholder="Rechercher"/>
           </div>
         </div>
         <div v-if="!popupSearch">
@@ -91,11 +91,6 @@
     					</router-link>
     				</div>
     			</div>
-    			<div v-else-if="searchValue && searchValue.length > 2" style="margin-top: 50px;">
-    				Aucun résultat
-    			</div>
-    			<div v-else style="margin-top: 50px;">
-    			</div>
     		</div>
     	</div>
     </div>
@@ -143,14 +138,12 @@ export default {
 
     if (this.user && this.user.vendor) {
     	httpHeader = { Authorization: "Bearer " + this.token };
-    	var url = this.baseUrl + "/user/api/clips/trending";
-    	var url2 = this.baseUrl + "/user/api/user/search";
+    	var urlTrending = this.baseUrl + "/user/api/clips/trending";
     } else {
-    	var url = this.baseUrl + "/api/clips/trending";
-    	var url2 = this.baseUrl + "/api/user/search";
+    	var urlTrending = this.baseUrl + "/api/clips/trending";
     }
 
-    window.cordova.plugin.http.get(url, {}, httpHeader, (response) => {
+    window.cordova.plugin.http.get(urlTrending, {}, httpHeader, (response) => {
       this.clips = JSON.parse(response.data);
     }, (response) => {
       console.log(response.error);
@@ -171,7 +164,7 @@ export default {
     },
     search(c) {
       this.popupSearch = true;
-      // this.$nextTick(() => this.$refs.search.focus());
+      this.$nextTick(() => this.$refs.search.focus());
     },
     hideSearch() {
       this.popupSearch = false;
@@ -180,7 +173,15 @@ export default {
     }, 
     changed() {
     	if (this.searchValue.length > 2) {
-	      window.cordova.plugin.http.get(url2, { "search": this.searchValue }, httpHeader, (response) => {
+        if (this.user && this.user.vendor) {
+          var httpHeader = { Authorization: "Bearer " + this.token };
+          var urlSearch = this.baseUrl + "/user/api/user/search";
+        } else {
+          var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+          var urlSearch = this.baseUrl + "/api/user/search";
+        }
+
+	      window.cordova.plugin.http.get(urlSearch, { "search": this.searchValue }, httpHeader, (response) => {
 	        this.results = JSON.parse(response.data);
 	      }, (response) => {
 	        console.log(response.error);
