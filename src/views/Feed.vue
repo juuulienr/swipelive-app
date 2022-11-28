@@ -905,10 +905,10 @@ export default {
             'Ce produit va remplacer votre ancien panier',
             (buttonIndex) => {
               console.log('You selected button ' + buttonIndex);
-              if (buttonIndex == 2) {
+              window.cordova.platformId == "browser" ? id = 1 : id = 2;
+              if (buttonIndex == id) {
                 this.lineItems = [];
                 this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
-                console.log(this.lineItems);
                 window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
               }
             },   
@@ -926,11 +926,7 @@ export default {
 
       window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
       console.log(JSON.parse(window.localStorage.getItem("lineItems")));
-
     },
-    // newCart(vendorName) {
-    
-    // },
     showCart() {
       this.popupProduct = false;
       this.popupShop = false;
@@ -1630,7 +1626,10 @@ export default {
       this.variant = variant;
     },
     goCheckout() {
-    	this.$router.push({ name: 'Checkout', params: { product: this.product, variant: this.variant, quantity: 1 } });
+      this.lineItems = [];
+      this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
+      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
+      this.$router.push({ name: 'Checkout' });
     },
   }
 };

@@ -251,6 +251,7 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       id: this.$route.params.id,
       name: this.$route.params.name,
       category: null,
@@ -289,7 +290,10 @@ export default {
       this.variant = variant;
     },
     goCheckout() {
-    	this.$router.push({ name: 'Checkout', params: { quantity: 1, product: this.product, variant: this.variant.length ? this.variant : null } });
+      this.lineItems = [];
+      this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
+      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
+      this.$router.push({ name: 'Checkout' });
     },
   }
 };
