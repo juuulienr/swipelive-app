@@ -762,6 +762,7 @@ export default {
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
   	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
   	      console.log(JSON.parse(response.data));
+          window.localStorage.removeItem('lineItems');
         	this.$router.push({ name: 'Feed' });
   	    }, (response) => {
   	      console.log(response.error);

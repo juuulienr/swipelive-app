@@ -905,7 +905,11 @@ export default {
             'Ce produit va remplacer votre ancien panier',
             (buttonIndex) => {
               console.log('You selected button ' + buttonIndex);
-              window.cordova.platformId == "browser" ? id = 1 : id = 2;
+              if (window.cordova.platformId == "browser") {
+                var id = 1;
+              } else {
+                var id = 2;
+              }
               if (buttonIndex == id) {
                 this.lineItems = [];
                 this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
