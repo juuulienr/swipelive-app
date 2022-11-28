@@ -14,7 +14,7 @@
         <div v-if="!popupSearch">
           <div @click="goAccount()" class="video-page__influencer-badge2" style="width: 40px; border-radius: 50%; padding: 0px; font-size: 14px; background: transparent;">
             <div v-if="user" class="video-page__influencer-img2" style="color: white;font-weight: 500;padding: 0px;text-align: center;line-height: 25px;">
-              <img v-if="user.picture" :src="baseUrl + '/uploads/' + user.picture" style="border-radius: 50%; width: 40px; height: 40px; border: 2px solid #fff; object-fit: cover;">
+              <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 40px; height: 40px; border: 2px solid #fff; object-fit: cover;">
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 40px; height: 40px; border: 2px solid #fff; object-fit: cover;">
             </div>
             <div v-else class="video-page__influencer-img2" style="color: white;font-weight: 500;padding: 0px;text-align: center;line-height: 25px; object-fit: cover;">
@@ -44,7 +44,7 @@
     		<div v-if="user.type == 'vendor'" v-for="(user, index) in following" style="padding: 0px 15px;">
     			<router-link :to="{ name: 'Profile', params: { id: user.id } }">
     				<div class="personne">
-    					<img v-if="user.picture" :src="baseUrl + '/uploads/' + user.picture" class="user">
+    					<img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user">
     					<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
     					<h5 class="name">{{ user.vendor.businessName }}</h5>
     					<p v-if="user.followers.length > 1" class="sous_name">{{user.followers.length }} abonnés</p>
@@ -62,8 +62,8 @@
           <div v-for="(clip, index) in clips" class="col-6 col-img">
             <router-link :to="{ name: 'ListClips', params: { type: 'trending', index: index }}">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 100%">
-              <img :src="baseUrl + '/uploads/' + clip.product.uploads[0].filename" style="width: 48px; height: 48px; border: 2px solid white; border-radius: 30px; padding: 2; background: white; position: absolute; left: 39%; top: 81%; box-shadow: rgb(96 121 159 / 12%) 0px 7px 14px 0px, rgb(0 33 60 / 12%) 0px 3px 6px 0px; object-fit: cover;">
-              <img v-if="clip.vendor.user.picture" :src="baseUrl + '/uploads/' + clip.vendor.user.picture" style="width: 24px;height: 24px;border: 1px solid white;border-radius: 30px;position: absolute;left: 12px;top: 12px; object-fit: cover; z-index: 10000;">
+              <img :src="cloudinary256x256 + clip.product.uploads[0].filename" style="width: 48px; height: 48px; border: 2px solid white; border-radius: 30px; padding: 2; background: white; position: absolute; left: 39%; top: 81%; box-shadow: rgb(96 121 159 / 12%) 0px 7px 14px 0px, rgb(0 33 60 / 12%) 0px 3px 6px 0px; object-fit: cover;">
+              <img v-if="clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 24px;height: 24px;border: 1px solid white;border-radius: 30px;position: absolute;left: 12px;top: 12px; object-fit: cover; z-index: 10000;">
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 24px;height: 24px;border: 1px solid white;border-radius: 30px;position: absolute;left: 12px;top: 12px; object-fit: cover; z-index: 10000;">
               <div style="position: absolute; left: 42px; top: 15px; color: white; font-weight: 600; font-size: 13px; z-index: 10000;">{{ clip.vendor.businessName }}</div>
               <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25));border-radius: 10px;height: 100%;position: absolute;z-index: 10;width: calc(100% - 10px);top: 5px;"></div>
@@ -82,7 +82,7 @@
     				<div v-for="user in results" class="col-6">
     					<router-link :to="{ name: 'Profile', params: { id: user.id } }">
     						<div class="personne">
-    							<img v-if="user.picture" class="user" :src="baseUrl + '/uploads/' + user.picture">
+    							<img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
     							<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
     							<h5 class="name">{{ user.vendor.businessName }}</h5>
     							<p v-if="user.followers.length > 1" class="sous_name">{{user.followers.length }} abonnés</p>
@@ -108,6 +108,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       categories: null,
       clips: null,
       following: null,

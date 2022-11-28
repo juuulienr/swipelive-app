@@ -11,7 +11,7 @@
       <div v-if="products" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in products" v-if="product.archived == false" @click="editProduct(product.id)" class="product--item">
-            <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" alt="Product">
+            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" alt="Product">
             <div class="details">
               <div class="title">{{ product.title }}</div>
               <div class="price" v-if="product.variants.length && stocks[index] > 0">Qté : {{ stocks[index] }} | Prix : {{ prices[index] | formatPrice }}€</div>
@@ -408,6 +408,7 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       stocks: [],
       prices: [],
       products: null,

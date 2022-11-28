@@ -53,7 +53,7 @@
           <div v-for="(image, index) in images" :key="image.id">
             <span>
               <span>
-                <img :src="baseUrl + '/uploads/' + image.filename">
+                <img :src="cloudinary256x256 + image.filename">
               </span>
             </span>
             <button @click="deleteImage(index, image.id)">
@@ -649,6 +649,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       visible: "",
@@ -861,7 +862,7 @@ export default {
         console.log(imageUri);
         window.cordova.plugin.http.setDataSerializer('json');
         if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/products/edit/upload/add" + this.product.id, {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/products/edit/upload/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
             console.log(response);
             var result = JSON.parse(response.data);
             this.images.push(result);

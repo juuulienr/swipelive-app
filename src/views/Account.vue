@@ -6,7 +6,7 @@
     <div v-if="user" class="info_profile">
       <div>
         <div class="img_profile">
-          <img v-if="user.picture" :src="baseUrl + '/uploads/' + user.picture" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #fe2c55; padding: 3px;"/>
+          <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #fe2c55; padding: 3px;"/>
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none;border: 3px solid #fe2c55; padding: 3px;"/>
         </div>
         <div class="per_inf">
@@ -416,6 +416,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
     }
   },
   created() {

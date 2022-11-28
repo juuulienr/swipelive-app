@@ -20,7 +20,7 @@
               </div>
               <div class="col-3 col-img">
                 <div class="img_item">
-                  <img v-if="element.product.uploads.length" :src="baseUrl + '/uploads/' + element.product.uploads[0].filename" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover;">
+                  <img v-if="element.product.uploads.length" :src="cloudinary256x256 + element.product.uploads[0].filename" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover;">
                 </div>
               </div>
               <div class="col-6" style="padding-left: 0px; padding-right: 0px;">
@@ -102,6 +102,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       liveProducts: [],
       dragging: false,
       pending: false

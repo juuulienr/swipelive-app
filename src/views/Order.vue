@@ -19,7 +19,7 @@
         <div class="top-author">
           <div class="top-author--container" style="margin-bottom: 15px;">
             <div v-if="user.email == order.buyer.email" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-              <img v-if="order.vendor.user.picture" :src="baseUrl + '/uploads/' + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
+              <img v-if="order.vendor.user.picture" :src="cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <div>
                 <div><span>{{ order.createdAt }}</span></div>
@@ -27,7 +27,7 @@
               </div>
             </div>
             <div v-if="user.email == order.vendor.user.email" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-              <img v-if="order.buyer.picture" :src="baseUrl + '/uploads/' + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
+              <img v-if="order.buyer.picture" :src="cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
               <div>
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
@@ -40,7 +40,7 @@
         <div class="css-13dslnb" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; border-radius: 15px;">
           <div v-for="lineItem in order.lineItems" class="checkout__row checkout__product-info-row" style="align-items: center;">
             <div class="checkout__product-info" style="padding-right: 0px;">
-              <img v-if="lineItem.product.uploads" :src="baseUrl + '/uploads/' + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;" />
+              <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;" />
               <div style="padding-right: 30px;">
                 <h5 class="checkout__name" style="margin-bottom: 5px; font-weight: 600; font-size: 14px; margin-right: 10px;"> {{ lineItem.product.title }} </h5>
                 <div v-if="lineItem.variant" class="checkout__attr"><span> {{ lineItem.variant.title }} </span></div>
@@ -199,6 +199,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
     }
   },
   filters: {

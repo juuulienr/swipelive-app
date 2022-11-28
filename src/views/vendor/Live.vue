@@ -244,7 +244,7 @@
       <div v-if="comments.length" :style="{'bottom': safeareaBottom }" class="scrollToMe" ref="scrollToMe">
         <div v-for="comment in comments" class="video-page__influencer-badge" style="padding: 4px 15px 5px 7px; width: fit-content;">
           <div class="video-page__influencer-img" style="padding-right: 7px;">
-            <img v-if="comment.user.picture" :src="baseUrl + '/uploads/' + comment.user.picture" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
+            <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
           </div>
           <div class="video-page__influencer-username-holder">
@@ -262,7 +262,7 @@
       <div v-if="liveProducts.length" class="video-page__product-box" :style="{'bottom': safeareaBottom3 }">
         <div class="video-page__product-top">
           <div class="video-page__image">
-            <img v-if="liveProducts[0].product.uploads" :src="baseUrl + '/uploads/' + liveProducts[0].product.uploads[0].filename">
+            <img v-if="liveProducts[0].product.uploads" :src="cloudinary256x256 + liveProducts[0].product.uploads[0].filename">
           </div>
           <div class="video-page__info">
             <div style="height: 38px;">
@@ -352,6 +352,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       comments: [],
       purchases: [],
       liveProducts: [],

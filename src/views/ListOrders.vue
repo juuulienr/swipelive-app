@@ -28,7 +28,7 @@
         <div v-if="orders && orders.length" class="top-author">
         	<div class="top-author--container">
         		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-        			<img v-if="order.lineItems[0].product.uploads" :src="baseUrl + '/uploads/' + order.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
+        			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
         			<div>
         				<div><span>{{ order.createdAt }}</span></div>
         				<span v-if="user.email == order.buyer.email">{{ order.vendor.businessName }} (Achat)</span>
@@ -61,6 +61,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       orders: null,
     }
   },

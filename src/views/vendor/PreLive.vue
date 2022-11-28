@@ -21,7 +21,7 @@
         <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-top: 15px;flex-shrink: 0;border-width: 0px 0px thin;border-style: solid;border-color: rgba(145, 158, 171, 0.24);">
         <div v-if="products.length"  class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in products" :key="product.id" v-if="product.archived == false" class="product--item">
-            <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" alt="Product">
+            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" alt="Product">
             <div class="details">
               <div class="title">{{ product.title }}</div>
               <div class="price">Qté : {{ product.quantity }} | Prix : {{ product.price | formatPrice }}€</div>
@@ -186,6 +186,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       products: [],
       selected: [],
       isCheckAll: false,

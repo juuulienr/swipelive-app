@@ -10,7 +10,7 @@
     </div>
     <div v-if="profile" class="info_profile">
       <div class="img_profile">
-        <img v-if="profile.picture" :src="baseUrl + '/uploads/' + profile.picture" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #fe2c55; padding: 3px;"/>
+        <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #fe2c55; padding: 3px;"/>
         <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; image-orientation: none;border: 2 dashed #fe2c55; padding: 3px;"/>
       </div>
 
@@ -60,7 +60,7 @@
           <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
             <router-link v-if="clip.status == 'available'" :to="{ name: 'ListClips', params: { type: 'profile', index: index, profileId: profile.id }}">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%">
-              <img :src="baseUrl + '/uploads/' + clip.product.uploads[0].filename" style="width: 48px; height: 48px; border: 2px solid white; border-radius: 30px; background: white; position: absolute; left: 39%; top: 81%; box-shadow: rgb(96 121 159 / 12%) 0px 7px 14px 0px, rgb(0 33 60 / 12%) 0px 3px 6px 0px; object-fit: cover;">
+              <img :src="cloudinary256x256 + clip.product.uploads[0].filename" style="width: 48px; height: 48px; border: 2px solid white; border-radius: 30px; background: white; position: absolute; left: 39%; top: 81%; box-shadow: rgb(96 121 159 / 12%) 0px 7px 14px 0px, rgb(0 33 60 / 12%) 0px 3px 6px 0px; object-fit: cover;">
             </router-link>
           </div>
         </div>
@@ -71,7 +71,7 @@
           <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--item">
             <div @click="goProduct(product.id)">
               <div style="text-align:center;">
-                <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" style="padding: 5px; width: calc(50vw - 45px); height: calc(50vw - 45px); object-fit: cover; border-radius: 10px;">
+                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="padding: 5px; width: calc(50vw - 45px); height: calc(50vw - 45px); object-fit: cover; border-radius: 10px;">
               </div>
             </div>
             <div @click="goProduct(product.id)" class="shop--item--details">
@@ -373,6 +373,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       profile: null,
       notif: true,
       followers: null

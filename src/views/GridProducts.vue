@@ -18,7 +18,7 @@
         <div v-for="product in category.products" v-if="product.archived == false && user.vendor && product.vendor.id != user.vendor.id" class="shop--item">
           <div @click="showProduct(product)">
             <div style="text-align:center;">
-              <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" style="padding: 5px; width: calc(50vw - 45px); height: calc(50vw - 45px); object-fit: cover; border-radius: 12px;">
+              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="padding: 5px; width: calc(50vw - 45px); height: calc(50vw - 45px); object-fit: cover; border-radius: 12px;">
             </div>
           </div>
           <div @click="showProduct(product)" class="shop--item--details">
@@ -252,6 +252,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       user: JSON.parse(window.localStorage.getItem("user")),
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       id: this.$route.params.id,
       name: this.$route.params.name,
       category: null,

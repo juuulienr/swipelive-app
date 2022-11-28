@@ -6,7 +6,7 @@
 
         <!-- loader -->
         <div v-if="loading" class="css-vhzttx" style="backdrop-filter: saturate(180%) blur(45px); background-color: rgba(25, 25, 25, 0.8);top: 0px;z-index: 10; width: 100%;height: 100%;position: absolute;"></div>
-        <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="baseUrl + '/uploads/' + feed.value.vendor.user.picture" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
+        <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
         <img v-else-if="loading && !feed.value.vendor.user.picture" :src="require(`@/assets/img/anonyme.jpg`)" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
 
 
@@ -138,7 +138,7 @@
         <!-- profil -->
         <div v-if="feed.value.vendor" class="video-page__influencer-badge2" :style="{'top': safeareaTop }" style="padding-right: 9px;">
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-img2">
-            <img v-if="feed.value.vendor.user.picture" :src="baseUrl + '/uploads/' + feed.value.vendor.user.picture" style="border-radius: 50%; width: 38px; height: 38px; border: 1px solid #fff; object-fit: cover;">
+            <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="border-radius: 50%; width: 38px; height: 38px; border: 1px solid #fff; object-fit: cover;">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 38px; height: 38px; border: 1px solid #fff; object-fit: cover;">
           </div>
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-username-holder2" style="padding-right: 12px;">
@@ -164,7 +164,7 @@
         <!-- account -->
         <div @click="goToAccount()" class="video-page__influencer-badge2" :style="{'top': safeareaTop5 }" style="width: 40px;right: 15px; left: initial;border-radius: 50%;padding: 0px;font-size: 14px; background: transparent;">
           <div v-if="user" class="video-page__influencer-img2" style="color: white;font-weight: 500;padding: 0px;text-align: center;line-height: 25px;">
-            <img v-if="user.picture" :src="baseUrl + '/uploads/' + user.picture" style="border-radius: 50%; width: 38px; height: 38px; object-fit: cover;">
+            <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 38px; height: 38px; object-fit: cover;">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 38px; height: 38px; object-fit: cover;">
           </div>
           <div v-else class="video-page__influencer-img2" style="color: white;font-weight: 500;padding: 0px;text-align: center;line-height: 25px; object-fit: cover;">
@@ -198,7 +198,7 @@
         <div v-if="comments[index].value.length" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="max-height: 200px; display: -ms-flexbox; position: absolute; left: 15px; z-index: 2; overflow-y: scroll;">
           <div v-for="comment in comments[index].value" class="video-page__influencer-badge" style="padding: 4px 15px 5px 7px; width: fit-content;">
             <div class="video-page__influencer-img" style="padding-right: 7px;">
-              <img v-if="comment.user.picture" :src="baseUrl + '/uploads/' + comment.user.picture" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
+              <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
             </div>
             <div class="video-page__influencer-username-holder">
@@ -215,7 +215,7 @@
         <div v-if="feed.value.liveProducts.length > 0" @click="showProduct(feed.value.liveProducts[display - 1].product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
-              <img v-if="feed.value.liveProducts[display - 1].product.uploads" :src="baseUrl + '/uploads/' + feed.value.liveProducts[display - 1].product.uploads[0].filename">
+              <img v-if="feed.value.liveProducts[display - 1].product.uploads" :src="cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
             </div>
             <div class="video-page__info">
               <div style="height: 38px;">
@@ -279,7 +279,7 @@
         
         <!-- loader -->
         <div v-if="loading" class="css-vhzttx" style="backdrop-filter: saturate(180%) blur(45px); background-color: rgba(25, 25, 25, 0.8);top: 0px;z-index: 10; width: 100%;height: 100%;position: absolute;"></div>
-        <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="baseUrl + '/uploads/' + feed.value.vendor.user.picture" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
+        <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
         <img v-else-if="loading && feed.value.vendor && !feed.value.vendor.user.picture" :src="require(`@/assets/img/anonyme.jpg`)" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
 
         
@@ -410,7 +410,7 @@
         <!-- profil -->
         <div v-if="feed.value.vendor" class="video-page__influencer-badge2" :style="{'top': safeareaTop }" style="padding-right: 9px;">
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-img2">
-            <img v-if="feed.value.vendor.user.picture" :src="baseUrl + '/uploads/' + feed.value.vendor.user.picture" style="border-radius: 50%; width: 38px; height: 38px; border: 1px solid #fff; object-fit: cover;">
+            <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="border-radius: 50%; width: 38px; height: 38px; border: 1px solid #fff; object-fit: cover;">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 38px; height: 38px; border: 1px solid #fff; object-fit: cover;">
           </div>
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-username-holder2" style="padding-right: 12px;">
@@ -435,7 +435,7 @@
         <!-- account -->
         <div @click="goToAccount()" class="video-page__influencer-badge2" :style="{'top': safeareaTop5 }" style="width: 40px;right: 15px; left: initial;border-radius: 50%;padding: 0px;font-size: 14px; background: transparent;">
           <div v-if="user" class="video-page__influencer-img2" style="color: white;font-weight: 500;padding: 0px;text-align: center;line-height: 25px;">
-            <img v-if="user.picture" :src="baseUrl + '/uploads/' + user.picture" style="border-radius: 50%; width: 38px; height: 38px; object-fit: cover;">
+            <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 38px; height: 38px; object-fit: cover;">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 38px; height: 38px; object-fit: cover;">
           </div>
           <div v-else class="video-page__influencer-img2" style="color: white;font-weight: 500;padding: 0px;text-align: center;line-height: 25px; object-fit: cover;">
@@ -465,7 +465,7 @@
         <div v-if="comments[index].value.length" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="max-height: 200px; display: -ms-flexbox; position: absolute; left: 15px; z-index: 2; overflow-y: scroll;">
           <div v-for="comment in comments[index].value" class="video-page__influencer-badge" style="padding: 4px 15px 5px 7px; width: fit-content;">
             <div class="video-page__influencer-img" style="padding-right: 7px;">
-              <img v-if="comment.user.picture" :src="baseUrl + '/uploads/' + comment.user.picture" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
+              <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
             </div>
             <div class="video-page__influencer-username-holder">
@@ -482,7 +482,7 @@
         <div v-if="feed.value.product" @click="showProduct(feed.value.product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
-              <img v-if="feed.value.product.uploads" :src="baseUrl + '/uploads/' + feed.value.product.uploads[0].filename">
+              <img v-if="feed.value.product.uploads" :src="cloudinary256x256 + feed.value.product.uploads[0].filename">
             </div>
             <div class="video-page__info">
               <div style="height: 38px;">
@@ -586,7 +586,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #999;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
       </div>
       <div style="display: flex;">
-        <img :src="baseUrl + '/uploads/' + shop.user.picture" style="border-radius: 50%; width: 32px; height: 32px; border: 2px solid rgb(255, 255, 255); object-fit: cover; margin-right: 6px;">
+        <img :src="cloudinary256x256 + shop.user.picture" style="border-radius: 50%; width: 32px; height: 32px; border: 2px solid rgb(255, 255, 255); object-fit: cover; margin-right: 6px;">
         <div class="video-page__influencer-username2" style="margin-top: 6px; font-size: 14px; font-weight: 500;">{{ shop.businessName }}</div>
       </div>
       <div v-if="shop" class="items" style="margin-top: 5px; margin-bottom: 20px;">
@@ -594,7 +594,7 @@
           <div v-if="product.archived == false" v-for="product in shop.products" class="shop--item" style="margin-bottom: 10px;">
             <div @click="showProduct(product)">
               <div style="text-align:center;">
-                <img v-if="product.uploads.length" :src="baseUrl + '/uploads/' + product.uploads[0].filename" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">
+                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">
                 <div style="position: absolute; top: 15px;">
                   <div class="btn-swipe" style="color: white; text-align: center; font-size: 12px; background: rgb(24, 206, 160); padding: 3px 10px; border-radius: 7px; font-weight: 600;"> {{ product.price| formatPrice }}€
                   </div>
@@ -638,12 +638,17 @@ export default {
       data: [],
       videos: [],
       user: JSON.parse(window.localStorage.getItem("user")),
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      bambuserId: window.localStorage.getItem("bambuserId"),
+      pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
+      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       following: [],
       comments: [],
       purchases: [],
       product: null,
       variant: null,
-      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       shop: [],
       viewers: 0,
       display: 1,
@@ -652,10 +657,6 @@ export default {
       popup: false,
       promo: true,
       cart: true,
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      bambuserId: window.localStorage.getItem("bambuserId"),
-      pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
       safeareaBottom: '15px',
       safeareaBottom2: '70px',
       safeareaBottom3: '210px',

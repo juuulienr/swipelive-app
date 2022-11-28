@@ -3,7 +3,7 @@
     <div v-if="product.uploads" style="width: 100vw;">
       <VueSlickCarousel v-bind="settings">
         <div class="vue-slick" v-for="upload in product.uploads" v-bind:key="upload.id">
-          <img :src="baseUrl + '/uploads/' + upload.filename">
+          <img :src="cloudinary750x750 + upload.filename">
         </div>
       </VueSlickCarousel>
     </div>
@@ -91,6 +91,7 @@ export default {
       selected2: "",
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      cloudinary750x750: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_750,w_750/',
       safeareaBottom: '30px',
       settings: {
         dots: true,

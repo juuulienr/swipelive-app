@@ -5,8 +5,7 @@
         <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
       </svg>
       <h5 v-if="step1" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Informations personnelles</h5>
-      <h5 v-else-if="step2" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Informations société</h5>
-      <h5 v-else style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Vérification</h5>
+      <h5 v-else style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Informations société</h5>
     </div>
     <div style="padding: 15px; margin-top: 70px;">
       <!-- step1 -->
@@ -15,7 +14,7 @@
           <span @click="uploadSheet()">
             <span v-if="picture">
               <span>
-                <img :src="baseUrl + '/uploads/' + picture">
+                <img :src="cloudinary256x256 + picture">
               </span>
             </span>
             <div v-else>
@@ -288,6 +287,8 @@ export default {
   data() {
     return {
       businessType: this.$route.params.businessType,
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      baseUrl: window.localStorage.getItem("baseUrl"),
       step1: true,
       step2: false,
       email: null,
@@ -306,7 +307,6 @@ export default {
       zip: null,
       city: null,
       picture: null,
-      baseUrl: window.localStorage.getItem("baseUrl"),
       waiting: false,
       errorFirstname: false,
       errorLastname: false,

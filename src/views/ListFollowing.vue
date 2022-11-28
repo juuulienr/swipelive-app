@@ -19,7 +19,7 @@
     <div v-if="tabFollowers && !loading" class="top-author">
       <div v-if="followers && followers.length" class="top-author--container">
         <div v-for="user in followers" class="top-author--item">
-          <img v-if="user.picture" class="user" :src="baseUrl + '/uploads/' + user.picture">
+          <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
     			<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
           <div>
             <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
@@ -35,7 +35,7 @@
     <div v-if="tabFollowing && !loading" class="top-author">
       <div v-if="following && following.length" class="top-author--container">
         <div v-for="user in following" class="top-author--item">
-          <img v-if="user.picture"class="user" :src="baseUrl + '/uploads/' + user.picture">
+          <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
     			<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
           <div>
             <span>{{ user.vendor.businessName }}</span>
@@ -137,6 +137,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       tabFollowers: true,
       tabFollowing: false,
       followers: null,

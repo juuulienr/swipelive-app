@@ -16,8 +16,7 @@
             <span @click="uploadSheet()" style="width: 128px; height:128px;">
               <span>
                 <span>
-                  <img v-if="preview" :src="preview">
-                  <img v-else-if="user.picture" :src="baseUrl + '/uploads/' + user.picture">
+                  <img v-if="user.picture" :src="cloudinary256x256 + user.picture">
                   <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
                 </span>
               </span>
@@ -136,6 +135,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       errorEmail: false,
       errorFirstname: false,
       errorLastname: false,
@@ -152,7 +152,6 @@ export default {
       day: null,
       month: null,
       year: null,
-      preview: null
     }
   },
   created() {    
@@ -304,7 +303,6 @@ export default {
     uploadImage(options) {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
-        this.preview = imageUri;
         window.cordova.plugin.http.setDataSerializer('json');
         if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
@@ -315,7 +313,6 @@ export default {
             console.log(response.error);
           });
         }
-        this.preview = null;
       }, (error) => {
         console.log("Impossible de récupérer l'image : " + error);
       }, options);

@@ -50,7 +50,7 @@
           <div v-for="(image, index) in images" :key="image.id">
             <span>
               <span>
-                <img :src="baseUrl + '/uploads/' + image.filename">
+                <img :src="cloudinary256x256 + image.filename">
               </span>
             </span>
             <button @click="deleteImage(index, image.id)">
@@ -650,6 +650,7 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       visible: "",
       title: "",
       description: "",
