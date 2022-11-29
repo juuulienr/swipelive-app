@@ -43,6 +43,9 @@
     "cordova-plugin-device": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
     "cordova-plugin-facebook-connect": {
       "APP_ID": "123456789",
       "APP_NAME": "myApplication",
@@ -86,6 +89,9 @@
     "cordova-plugin-vibration": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
     "cordova-plugin-x-socialsharing": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
@@ -95,16 +101,10 @@
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "skwas-cordova-plugin-datetimepicker": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-dialogs": {
+    "skwas-cordova-plugin-datetimepicker": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
