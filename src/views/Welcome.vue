@@ -1,75 +1,90 @@
 <template>
   <div>
-    <div class="logo">
-      <img :src="require(`@/assets/img/logo.png`)" style="position: absolute; z-index: 15000; width: 200px; left: calc(50% - 100px); top: 60px;">
-    </div>
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
         <video style="height: 100vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
-    <div v-if="!popup && !popupEmail && !popupPassword && !popupUserRegistration" @click="open()" class="btn-swipe" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15000;color: white; left: 25px; width: calc(100vw - 50px); text-align: center;">
+    <div v-if="!popup && !popupEmail && !popupPassword && !popupUserRegistration" @click="open()" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15000; left: 25px; width: calc(100vw - 50px); bottom: 40px; font-size: 1.0625rem; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">
       Accéder
     </div>
 
     <!-- login popup -->
-    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
       <div style="padding: 15px;">
-        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: rgb(22, 24, 35); font-size: 18px;">Swipe Live</h5>
+        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px 25px;;">
+          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Bienvenue sur Swipe Live</h5>
         </div>
 
         <div class="social-container-NE2xk">
-          <div @click="checkEmail()" class="channel-item-wrapper-2gBWB">
+          <div @click="userRegistration()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
-              <div class="channel-icon-33qGs" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAANlBMVEVHcEwAAAAJChIMDBkWGCIOEBcOEBcJCg8QEhwNDxQUFiAAAAAAAAAVFyMDBAYQEhsWGCMAAAD5xs1FAAAAEHRSTlMA7zAQ33+jXkIgxt/B72+Q9PCfEQAAASBJREFUSMftVMsSgyAM5CUEENT//9k2aEesQNLeOtM9EciSLCwI8cd30GDNugbrmPnwzN5hWJRprTB9mM9guD0NhFC2DIEgYP9G7WNfAkYB/4oUXQLbsGe4XMMGwnVLIHvCHuorfItJgiAJpta8q06khul6aGFIyLilfkXlIsZ+0gn3PBga6yXPsJKB07WkmUJxUAohlUGgX4+pzRo8470tZ/6iWU/O29JOssB/1grA//K35LONctvkHDJHB8xbhZn6mdQlHRGHVbLc7sgD5x19ZKXxh81HuWmcP0N95yOGwzX5ptKVJpvSfcR8dTsGZMiWCUt11Tg4nG/8Zr7bbG7vhAViWxwe1nKbjT1tz8tHFbdZ2S3QWXNRdn0zWvtFPAAmbxZPKTUEzQAAAABJRU5ErkJggg==');"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 6H3v16h22V6H3.5zM4 7.7V21h20V7.7l-9.65 9.65-.35.36-.35-.36L4 7.71zM23.3 7H4.7l9.3 9.3L23.3 7z"></path></svg>
             </div>
-            <div class="channel-name-2qzLW">Continuer avec un email</div>
+            <div class="channel-name-2qzLW">S'inscrire par email</div>
           </div>
           <div @click="facebook()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
-              <div class="channel-icon-33qGs" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsBAMAAADsqkcyAAAALVBMVEVHcEwYdfEYdvIXd/IYd+8Xd+8Xd/IXd/IQcO8Yd/IXd/EXd/IYdvMXdvIYd/JU6UsnAAAADnRSTlMAgKDGQCFa7xDfkK9/bxPrucEAAAFTSURBVCjPbdM/S8NAFADwh9Ua/Idx6lSKOEuhg+IQMjtIKWRxKNncOokIQhCcXKSfIIsgTqGrS/ETCH4Da/+EtHKfwbvkvcu75t5ydz+Ou5d3eQBFOJcfUdp5ewQjNs9EHqvQUE9gZMy3tMr9Xc03gsUd6Z4w4hP5y+Q/62baPtDrh+NOLIdFnkZMeqJSlWOqktkgvQVk0eZnhJpnckJn/ILmKY4q5iULvzx6qPD7KJ+3YJt4JPkU5/dwRdwCqNN8Bk2aHrLvXYLHWN+zsnMGkY1TEDYWyPMgkI/uBMG1wT/0UrvIsck1vHJs8oEoapWY3MfPGZhc1GIBL/k4cV1f1sR1x1jkmi3vNuzbOAQnqnImL2lWWf0oz1UeQvnGjH2VarLOE1YGxqOimzyTp9hXTyafUyESzkvdO/W45JS1Wq/kd96YvbjgtLHWxq+Sdy58XP4DJ30Z99MJep4AAAAASUVORK5CYII=');"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28">
+                <path fill="#1877F2" d="M14 4a10 10 0 011.56 19.88v-6.99h2.33l.45-2.89h-2.78v-1.88c0-.79.39-1.56 1.63-1.56h1.26V8.1s-1.14-.2-2.24-.2c-2.28 0-3.77 1.4-3.77 3.9V14H9.9v2.9h2.54v6.98A10.01 10.01 0 0114 4z"></path>
+              </svg>
             </div>
             <div class="channel-name-2qzLW">Continuer avec Facebook</div>
           </div>
-         <!--  <div v-if="platformiOS" @click="apple()" class="channel-item-wrapper-2gBWB">
+          <div @click="google()" class="channel-item-wrapper-2gBWB" style="margin-bottom: 10px;">
             <div class="channel-icon-wrapper-2eYxZ">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2697 2C16.409 3.18387 15.9052 4.34936 15.1683 5.20627C14.3998 6.04939 13.1691 6.69506 11.9709 6.61148C11.8148 5.47353 12.4213 4.26303 13.1009 3.52461C13.8694 2.68607 15.2029 2.04409 16.2697 2ZM20.1919 8.82358C20.0541 8.90017 17.8421 10.1304 17.8666 12.6362C17.8943 15.6652 20.7154 16.6654 20.75 16.6764C20.7332 16.7462 20.3085 18.1211 19.2505 19.5162C18.3665 20.7451 17.4399 21.9464 15.9701 21.9684C15.2711 21.9833 14.7993 21.7962 14.3076 21.6013C13.7945 21.3979 13.2598 21.1859 12.4229 21.1859C11.5362 21.1859 10.9778 21.4046 10.4393 21.6155C9.9737 21.7979 9.52296 21.9745 8.88762 21.9987C7.48694 22.0474 6.41716 20.6872 5.50148 19.4694C3.67209 16.9841 2.24671 12.4644 4.1571 9.3895C5.08266 7.88142 6.77178 6.90972 8.57548 6.884C9.37005 6.86838 10.1322 7.15321 10.8003 7.40287C11.3108 7.59363 11.7664 7.76386 12.1394 7.76386C12.4677 7.76386 12.911 7.6002 13.4276 7.40949C14.2414 7.10901 15.2371 6.74139 16.2516 6.84083C16.945 6.8592 18.9206 7.09524 20.1949 8.8219L20.1919 8.82358Z" fill="#161823"/>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28">
+                <path fill="#4285F4" d="M23.6 14.23c0-.71-.06-1.4-.18-2.05H14v3.87h5.38a4.6 4.6 0 01-2 3.02v2.5h3.24c1.89-1.73 2.98-4.3 2.98-7.34z"></path>
+                <path fill="#34A853" d="M14 24c2.7 0 4.96-.9 6.62-2.42l-3.23-2.51c-.9.6-2.04.95-3.39.95-2.6 0-4.8-1.76-5.6-4.12H5.06v2.6A10 10 0 0014 24z"></path>
+                <path fill="#FBBC05" d="M8.4 15.9a6.01 6.01 0 010-3.8V9.5H5.06a10 10 0 000 9l3.34-2.6z"></path>
+                <path fill="#EA4335" d="M14 7.98c1.47 0 2.79.5 3.82 1.5L20.7 6.6A10 10 0 005.06 9.5l3.34 2.6c.8-2.36 3-4.12 5.6-4.12z"></path>
+              </svg>
+            </div>
+            <div class="channel-name-2qzLW">Continuer avec Google</div>
+          </div>
+      <!--     <div class="channel-item-wrapper-2gBWB">
+            <div class="channel-icon-wrapper-2eYxZ">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="none">
+                <path fill="currentColor" d="M17.6066 8.58285C16.1086 8.58285 14.9127 9.45809 14.1322 9.45809C13.3139 9.45809 12.2313 8.63148 10.9347 8.63148C8.49253 8.63148 6 10.6008 6 14.2841C6 16.5937 6.91896 19.0128 8.05193 20.5809C9.03383 21.906 9.88985 23 11.1109 23C12.332 23 12.8733 22.2099 14.3839 22.2099C15.9072 22.2099 16.2596 22.9757 17.6066 22.9757C18.9284 22.9757 19.8222 21.7965 20.653 20.6296C21.5972 19.2924 21.9874 18.0038 22 17.9309C21.9245 17.9066 19.3816 16.9098 19.3816 14.0896C19.3816 11.6462 21.3832 10.5643 21.4965 10.4792C20.1747 8.63148 18.1605 8.58285 17.6066 8.58285ZM16.9017 7.02687C17.5059 6.32182 17.9465 5.34933 17.9465 4.37684C17.9465 4.24312 17.9339 4.1094 17.9087 4C16.9142 4.03647 15.7183 4.63212 15.0134 5.43442C14.4595 6.05438 13.9308 7.02687 13.9308 8.01152C13.9308 8.15739 13.9559 8.30326 13.9685 8.35189C14.0315 8.36404 14.1322 8.3762 14.2329 8.3762C15.1267 8.3762 16.247 7.80486 16.9017 7.02687Z"></path>
               </svg>
             </div>
             <div class="channel-name-2qzLW">Continuer avec Apple</div>
           </div> -->
-          <hr style="border-color: #ff2773; margin: 30px 0px;">
-          <div @click="goVendor()" class="channel-item-wrapper-2gBWB">
-            <div class="channel-icon-wrapper-2eYxZ">
-              <div class="channel-icon-33qGs" :style="{'background-image': 'url(' + require('@/assets/img/store.png') + ')'}"></div>
-            </div>
-            <div class="channel-name-2qzLW">Inscription Vendeur</div>
+          <div class="manage" style="margin-bottom: 10px; color: #ff2773;">
+            Continuer en tant qu'invité 
           </div>
-      <!--     <div @click="goInfluencer()" class="channel-item-wrapper-2gBWB" style="margin-bottom: 7px;">
-            <div class="channel-icon-wrapper-2eYxZ">
-              <div class="channel-icon-33qGs" :style="{'background-image': 'url(' + require('@/assets/img/star.png') + ')'}"></div>
+
+          <div class="tv-signin-dialog__separator">
+            <div class="tv-signin-dialog__separator-text">ou</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <div @click="goVendor()" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;">
+              <img :src="require('@/assets/img/store.png')" style="width: 24px; min-height: 24px; width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
+              <div style="font-size: 15px; font-size: 15px; color: #525c66; font-weight: 500;">Vendeur</div>
             </div>
-            <div class="channel-name-2qzLW">Inscription Influenceur</div>
-          </div> -->
+            <div @click="goInfluencer()" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;">
+              <img :src="require('@/assets/img/star.png')" style="width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
+              <div style="font-size: 15px; color: #525c66; font-weight: 500;">Influenceur</div>
+            </div>
+          </div>
         </div>
-        <div class="manage" style="margin-bottom: 20px;">
-          En continuant, vous acceptez nos 
-          <span @click="openUrl('https://swipelive.fr/mentions-legales')" style="color: #007bff; text-decoration: underline;"> Mentions légales</span>
+        <div class="manage" style="margin-bottom: 30px; margin-top: 15px; color: #525c66;">
+          Déjà un compte ? 
+          <span @click="checkEmail()" style="color: #ff2773; text-decoration: underline;"> Connexion</span>
         </div>
       </div>
     </div>
 
 
     <!-- email popup -->
-    <div v-if="popupEmail" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popupEmail" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
       <div style="padding: 15px;">
-        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
+        <div style="background: white; width: 100%; text-align: center; padding: 0px 15px 15px; margin: 10px 0px 30px;">
           <svg @click="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: rgb(22, 24, 35); font-size: 18px;">Connexion</h5>
+          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Connexion</h5>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginEmail }">
@@ -80,40 +95,31 @@
         </div>
         <div v-if="errorEmail" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Email obligatoire</div>
 
-        <div class="form--input--item" :class="{'form--input--item--error': errorLoginPassword }">
+        <div class="form--input--item" :class="{'form--input--item--error': errorLoginPassword }" style="margin-bottom: 15px;">
           <fieldset>
             <legend>Mot de passe</legend>
             <input type="password" v-model="loginPassword">
           </fieldset>
         </div>
         <div v-if="errorLoginPassword" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Mot de passe obligatoire</div>
-        <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: #999 !important; font-size: 13px; font-weight: 500; margin-top: -10px;">
+        <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: #999 !important; font-size: 13px; font-weight: 400;">
           Mot de passe oublié ?
         </div>
-        <div @click="login()" class="btn-swipe" style="color: white; margin: 15px auto 0px; text-align: center;">
+        <div @click="login()" class="btn-swipe" style="color: white; margin: 40px auto 30px; text-align: center;">
           Se connecter
-        </div>
-
-        <div class="footer-bottom-wrapper-1a-rL" style="margin-bottom: 10px;">
-          <div class="toggle-2SAdO is-modal-1F8S3">
-            <div>Pas encore de compte ?</div>
-            <div @click="userRegistration()" class="big-2_yje red-NZrsR link-2j8GS" style="margin-left: 5px; color: #ff2773 !important; font-weight: bold;">
-              Inscription
-            </div>
-          </div>
         </div>
       </div>
     </div>
 
 
     <!-- user registration popup -->
-    <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
       <div style="padding: 15px;">
         <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
           <svg @click="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: rgb(22, 24, 35); font-size: 18px;">Inscription</h5>
+          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Inscription</h5>
         </div>
 
         
@@ -155,13 +161,13 @@
 
 
     <!-- forgot password popup -->
-    <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+    <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
       <div style="padding: 15px;">
         <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
           <svg @click="checkEmail()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: rgb(22, 24, 35); font-size: 18px;">Mot de passe oublié</h5>
+          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Mot de passe oublié</h5>
         </div>
 
         <p style="font-size: 13px; color: #999; text-align: center; margin-bottom: 20px;">Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
@@ -224,7 +230,7 @@ svg {
 .social-container-NE2xk .channel-item-wrapper-2gBWB {
   width: 100%;
   min-height: 50px;
-  border: 1px solid rgba(22,24,35,.12);
+  border: 1px solid #e0e3eb;
   box-sizing: border-box;
   border-radius: 30px;
   display: flex;
@@ -232,7 +238,7 @@ svg {
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  padding: 0 12px 0 0;
+  padding: 0px 40px;
   cursor: pointer;
   background: white;
 }
@@ -245,8 +251,8 @@ svg {
   flex: 1;
   text-align: center;
   font-size: 15px;
-  color: #161823;
-  font-weight: 600;
+  color: #525c66;
+  font-weight: 500;
 }
 
 .social-container-NE2xk {
@@ -256,13 +262,13 @@ svg {
 }
 
 .manage {
-  font-weight: 500;
+  font-weight: 400;
   padding-bottom: 20px;
-  font-size: 12px;
+  font-size: 15px;
   margin: 0 auto;
   text-align: center;
   padding: 10px 40px;
-  color: #666;
+  color: #8c8c8c;
 }
 
 .video-page__video-player--active .video-player__video {
@@ -286,7 +292,40 @@ svg {
   align-items: center;
   font-size: 14px;
   line-height: 18px;
-  color: #161823;
+  color: #8c8c8c;
+}
+
+.tv-signin-dialog__separator {
+    margin-bottom: 26px;
+    padding-top: 6px;
+    position: relative;
+    text-align: center;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.tv-signin-dialog__separator-text {
+    background-color: #fff;
+    border-radius: 50%;
+    color: #6a6d78;
+    display: inline-block;
+    padding: 0 15px;
+    position: relative;
+}
+
+.tv-signin-dialog__separator:before {
+    background-color: #e0e3eb;
+    content: "";
+    display: block;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 15px;
+}
+
+.form--input--item {
+  margin-bottom: 25px;
 }
 
 </style>
@@ -319,7 +358,6 @@ export default {
       errorEmail: false,
       errorPassword: false,
       reset: false,
-      platformiOS: false,
       safeareaBottom: '40px',
     }
   },
@@ -333,7 +371,6 @@ export default {
     }
 
     if (window.cordova && (window.cordova.platformId === "ios")) {
-      this.platformiOS = true;
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 40px)';
     }
 
@@ -386,15 +423,8 @@ export default {
         console.log(err);
       });
     },
-    apple() {
-      // window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] },
-      //   function(succ){
-      //     console.log(JSON.stringify(succ));
-      //   },
-      //   function(err){
-      //     console.log(JSON.stringify(err))
-      //   }
-      // );
+    google() {
+      // ajouter google
     },
     open() {
       this.errorLoginEmail = false;

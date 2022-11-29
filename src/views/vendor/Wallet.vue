@@ -75,7 +75,7 @@
 
 
       <!-- add bank account -->
-      <div v-if="popupBankAccount" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+      <div v-if="popupBankAccount" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; "> 
         <div class="checkout__header" style="padding: 15px;">
           <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;"> Ajouter un compte</div>
           <div @click="hideBankAccount()" class="checkout__right-btn" style="padding-right: 12px;">
@@ -95,7 +95,7 @@
 
 
       <!-- history -->
-      <div v-if="popupHistory" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+      <div v-if="popupHistory" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; "> 
         <div class="checkout__header" style="padding: 15px;">
           <div @click="hideHistory()" class="checkout__close-btn" style="position: absolute; left: initial; top: 8px; padding: 0.5rem 0px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: #161823;"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
@@ -128,7 +128,7 @@
 
 
       <!-- withdraw -->
-      <div v-if="popupWithdraw" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; box-shadow: rgba(0, 0, 0, 1) 0px 10px 5px 0px;"> 
+      <div v-if="popupWithdraw" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; "> 
         <div class="checkout__header" style="padding: 15px;">
           <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;"> Retrait</div>
           <div @click="hideWithdraw()" class="checkout__right-btn" style="padding-right: 12px;">
