@@ -19,7 +19,7 @@
         </div>
         <div v-if="user.vendor" class="tags" style="display: flex; margin: 20px 0px 5px; align-items: center; overflow-x: scroll;">
           <div style="display: flex; flex-wrap: initial;">
-            <div class="tag-tab" style="background-color: white; color: rgb(254, 44, 85);border: 1px solid rgb(254, 44, 85); margin-left: 10px;">Tout</div>
+            <div class="tag-tab" style="background-color: white; color: #ff2773;border: 1px solid #ff2773; margin-left: 10px;">Tout</div>
             <div class="tag-tab">À imprimer</div>
             <div class="tag-tab">En cours</div>
             <div class="tag-tab">Terminé</div>

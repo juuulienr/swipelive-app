@@ -327,7 +327,7 @@
   box-shadow: 0 0 9px -2px rgb(0 0 0 / 50%);
 }
 .video-page__influencer-badge-end .video-page__influencer-username {
-  color: #fe2c55; 
+  color: #ff2773; 
   font-weight: 600; 
   font-size: 14px;
 }
@@ -785,7 +785,7 @@
 
 
 .btn-start {
-  background: #FE2C55;
+  background: #ff2773;
   position: absolute;
   bottom: 100px;
   left: calc(50vw - 64px);

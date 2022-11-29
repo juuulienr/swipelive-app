@@ -40,7 +40,7 @@
             </div>
             <div class="channel-name-2qzLW">Continuer avec Apple</div>
           </div> -->
-          <hr style="border-color: #FE2C55; margin: 30px 0px;">
+          <hr style="border-color: #ff2773; margin: 30px 0px;">
           <div @click="goVendor()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <div class="channel-icon-33qGs" :style="{'background-image': 'url(' + require('@/assets/img/store.png') + ')'}"></div>
@@ -97,7 +97,7 @@
         <div class="footer-bottom-wrapper-1a-rL" style="margin-bottom: 10px;">
           <div class="toggle-2SAdO is-modal-1F8S3">
             <div>Pas encore de compte ?</div>
-            <div @click="userRegistration()" class="big-2_yje red-NZrsR link-2j8GS" style="margin-left: 5px; color: #FE2C55 !important; font-weight: bold;">
+            <div @click="userRegistration()" class="big-2_yje red-NZrsR link-2j8GS" style="margin-left: 5px; color: #ff2773 !important; font-weight: bold;">
               Inscription
             </div>
           </div>

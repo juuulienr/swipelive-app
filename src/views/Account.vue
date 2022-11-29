@@ -6,8 +6,8 @@
     <div v-if="user" class="info_profile">
       <div>
         <div class="img_profile">
-          <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #fe2c55; padding: 3px;"/>
-          <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none;border: 3px solid #fe2c55; padding: 3px;"/>
+          <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #ff2773; padding: 3px;"/>
+          <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; image-orientation: none;border: 3px solid #ff2773; padding: 3px;"/>
         </div>
         <div class="per_inf">
           <h5 v-if="user.vendor" class="name" style="font-size: 18px; font-weight: 600; padding-bottom: 25px; margin-bottom: 0px;">{{ user.vendor.businessName }}</h5>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div v-if="user.vendor" @click="goPrelive()" class="btn-follow">
-        <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #fe2c55; margin: 0px auto; padding: 12px 40px; border: 1px solid #fe2c55; border-radius: 30px; margin-bottom: 30px;">Lancer un live</div>
+        <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 12px 40px; border: 1px solid #ff2773; border-radius: 30px; margin-bottom: 30px;">Lancer un live</div>
       </div>
 
       <div v-if="user.vendor" class="profile--follow" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 12px 0px; margin: 20px 40px;">
@@ -187,7 +187,7 @@
 }
 
 .my_profile1 .info_profile .btn-follow .btn {
-  background: #FE2C55;
+  background: #ff2773;
   -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   padding: 10px 42px;
@@ -288,7 +288,7 @@ header img {
 }
 
 .my_profile1 .info_user .btn-follow .btn {
-  background: #FE2C55;
+  background: #ff2773;
   -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   padding: 10px 42px;

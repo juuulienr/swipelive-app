@@ -30,7 +30,7 @@
         <router-link v-for="category in categories" :key="category.id" :to="{ name: 'GridProducts', params: { id: category.id, name: category.name }}">
           <div class="one-people text-center">
             <div class="people-img">
-              <img v-if="category.picture" :src="require(`@/assets/img/` + category.picture)" style="border: 2px solid #FE2C55; padding: 3px; background: #fff; width: 86px; height: 86px; border-radius: 100%; margin: 0 auto;">
+              <img v-if="category.picture" :src="require(`@/assets/img/` + category.picture)" style="border: 2px solid #ff2773; padding: 3px; background: #fff; width: 86px; height: 86px; border-radius: 100%; margin: 0 auto;">
             </div>
             <p>{{ category.name }}</p>
           </div>

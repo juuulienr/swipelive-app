@@ -7,7 +7,7 @@
         </div>
         <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Mon porte-monnaie</div>
         <div v-if="!user.vendor.bankAccounts.length" @click="showBankAccount()" class="checkout__right-btn" style="position: absolute; right: 15px; top: 8px; padding: 0.5rem 0px;">
-          <div style="color: #FE2C55; font-weight: 600;">Configurer</div>
+          <div style="color: #ff2773; font-weight: 600;">Configurer</div>
         </div>
       </div>
 
@@ -231,7 +231,7 @@ svg {
 }
 
 .cards-main .card_1 {
-  background: #FE2C55;
+  background: #ff2773;
 }
 
 .cards-main .my_card {
@@ -275,7 +275,7 @@ svg {
 
 .login-button-31D24.highlight-1TvcX {
   color: #fff;
-  background: #FE2C55;
+  background: #ff2773;
   border: none;
 }
 

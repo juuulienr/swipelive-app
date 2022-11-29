@@ -44,7 +44,7 @@
             </svg>
             Kbis + Pièce d'identité obligatoire
           </div>
-          <div @click="goStep2('company')" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #fe2c55; margin: 0px auto; padding: 5px 24px; border: 1px solid #fe2c55; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 20px;">Sélectionner</div>
+          <div @click="goStep2('company')" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 5px 24px; border: 1px solid #ff2773; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 20px;">Sélectionner</div>
         </div><br>
         <div class="bloc--container" style="padding: 20px; margin: 0px auto; text-align: left;">
           <h5 style="text-align: center; font-weight: 600; font-size: 15px; text-transform: uppercase;">Particulier</h5>
@@ -63,7 +63,7 @@
             </svg>
             Aucun justificatif
           </div>
-          <div @click="goStep2('individual')" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #fe2c55; margin: 0px auto; padding: 5px 24px; border: 1px solid #fe2c55; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 20px;">Sélectionner</div>
+          <div @click="goStep2('individual')" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 5px 24px; border: 1px solid #ff2773; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 20px;">Sélectionner</div>
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@
 <style scoped>
 
 .cards-main .card_1 {
-  background: #FE2C55;
+  background: #ff2773;
 }
 
 .cards-main .my_card {
@@ -81,7 +81,7 @@
   font-weight: 500;
 }
 .btn {
-  background: #FE2C55;
+  background: #ff2773;
   -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   padding: 10px 42px;

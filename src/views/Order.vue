@@ -86,7 +86,7 @@
                 </div>
                 <div><span>Si ta commande correspond à la description, clique sur le bouton "Tout est correct" ou cette transaction sera cloturé automatiquement dans 48 heures.</span></div>
                 <div @click="goToMessage()" class="btn-swipe" style="color: #999;text-align: center;width: 100%;background: white; padding: 10px 24px;border: 1px solid #999;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 8px;height: 44px; justify-content: center;">Signaler un problème</div>
-                <div @click="closeOrder()" class="btn-swipe" style="color: white;text-align: center; background: rgb(254, 44, 85); padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;margin-top: 10px;height: 44px; justify-content: center;"> Tout est correct</div>
+                <div @click="closeOrder()" class="btn-swipe" style="color: white;text-align: center; background: #ff2773; padding: 10px 24px;border: 1px solid #ff2773;border-radius: 8px;font-size: 14px;font-weight: 600;margin-top: 10px;height: 44px; justify-content: center;"> Tout est correct</div>
               </div>
             </div>
           </div>
@@ -108,12 +108,12 @@
                 	<span class="css-1f06y3u"></span>
                 	<span class="css-fz3k0c" style="background-color: #18cea0;"></span>
                 </div>
-                <div v-if="order.pdf && order.trackingNumber" @click="showLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
+                <div v-if="order.pdf && order.trackingNumber" @click="showLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: #ff2773;margin-left: 12px;padding: 10px 24px;border: 1px solid #ff2773;border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
                 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
                     <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
                   </svg> Imprimer le bon de livraison
                 </div>
-                <div v-else @click="generateLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: rgb(254, 44, 85);margin-left: 12px;padding: 10px 24px;border: 1px solid rgb(254, 44, 85);border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
+                <div v-else @click="generateLabel()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: #ff2773;margin-left: 12px;padding: 10px 24px;border: 1px solid #ff2773;border-radius: 8px;font-size: 14px;font-weight: 600;height: 44px;"> 
                 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
                     <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
                   </svg> Générer le bon de livraison

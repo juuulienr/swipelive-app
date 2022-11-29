@@ -108,7 +108,7 @@
         <div class="title-wrapper-3KgEa">
           <div style="margin-top: 0px;">
             <div style="font-size: 16px; margin-top: 10px;">Variantes</div>
-            <div v-if="variants.length" @click="addVariant()" style="color: #fe2c55; margin-top: 10px;">Modifier</div>
+            <div v-if="variants.length" @click="addVariant()" style="color: #ff2773; margin-top: 10px;">Modifier</div>
             <div v-else class="profil--slide" style="margin-top: 10px;">
               <input type="checkbox" v-model="checkedVariants" class="slider" id="slider1" @change="addVariant()">
               <label for="slider1">
@@ -167,10 +167,10 @@
                 </div>
               </div>
               <div class="col-2">
-                <svg @click="addValueOption1()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 36px; height: 36px; fill: #fe2c55; margin-top: 9px; border: 1px solid #fe2c55; padding: 4px; border-radius: 30px;">
+                <svg @click="addValueOption1()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 36px; height: 36px; fill: #ff2773; margin-top: 9px; border: 1px solid #ff2773; padding: 4px; border-radius: 30px;">
                   <defs></defs>
                   <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
-                  style="fill: rgb(254, 44, 85);"></path>
+                  style="fill: #ff2773;"></path>
                   <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
                   style="fill: white;"></path>
                 </svg>
@@ -205,10 +205,10 @@
                 </div>
               </div>
               <div class="col-2">
-                <svg @click="addValueOption2()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 36px; height: 36px; fill: #fe2c55; margin-top: 30px; border: 1px solid #fe2c55; padding: 4px; border-radius: 30px;">
+                <svg @click="addValueOption2()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 36px; height: 36px; fill: #ff2773; margin-top: 30px; border: 1px solid #ff2773; padding: 4px; border-radius: 30px;">
                   <defs></defs>
                   <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
-                  style="fill: rgb(254, 44, 85);"></path>
+                  style="fill: #ff2773;"></path>
                   <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
                   style="fill: white;"></path>
                 </svg>
@@ -222,7 +222,7 @@
           </div>
           <div v-else @click="addOption()">
             <hr><br>
-            <div style="color: #FE2C55; font-weight: 500; margin-top: 15px;">Ajouter une 2ème option</div>
+            <div style="color: #ff2773; font-weight: 500; margin-top: 15px;">Ajouter une 2ème option</div>
           </div>
 
 
@@ -239,7 +239,7 @@
           </div>
           <div class="checkout__title"> Modifier</div>
           <div class="checkout__right-btn">
-            <div @click="deleteVariant(variant.id)" style="color: #FE2C55; font-weight: 600;">Supprimer</div>
+            <div @click="deleteVariant(variant.id)" style="color: #ff2773; font-weight: 600;">Supprimer</div>
           </div>
         </div>
         <div style="padding: 0px 15px;">
@@ -311,8 +311,8 @@
   margin: 0 .25rem 0.5rem;
   border-radius: 25px;
   background: white;
-  color: #fe2c55;
-  border: 1px solid #fe2c55;
+  color: #ff2773;
+  border: 1px solid #ff2773;
   font-weight: 600;
 }
 
@@ -324,7 +324,7 @@
   transform: translateY(7%);
   font-size: 1.5em;
   cursor: pointer;
-  color: #fe2c55;
+  color: #ff2773;
   font-weight: 600;
 }
 

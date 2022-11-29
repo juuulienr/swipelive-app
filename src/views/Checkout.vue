@@ -263,7 +263,7 @@
             </fieldset>
           </div>
 
-          <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto; background: #fe2c55">Enregistrer</div>
+          <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto; background: #ff2773">Enregistrer</div>
         </div>
       </div>
 
@@ -331,8 +331,8 @@
         <div style="padding: 15px;">
 			    <div class="images_filter">
 			      <ul>
-			        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#fe2c55'} : {'color': '#999'}]" style="font-weight: 600">Carte </li>
-			        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#fe2c55'} : {'color': '#999'}]" style="font-weight: 600">Liste des relais </li>
+			        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600">Carte </li>
+			        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600">Liste des relais </li>
 			      </ul>
 			    </div>
 			    <div v-if="tabMap">
@@ -429,7 +429,7 @@
         			</li>
         		</ul>
         	</div>
-	        <div @click="saveRelay(point)" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto; background: #fe2c55">Selectionner</div>
+	        <div @click="saveRelay(point)" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto; background: #ff2773">Selectionner</div>
         </div>
       </div>
     </div>

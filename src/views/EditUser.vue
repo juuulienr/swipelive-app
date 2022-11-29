@@ -7,7 +7,7 @@
         </div>
         <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Mon Profil</div>
         <div class="checkout__right-btn" style="position: absolute; right: 15px; top: 8px; padding: 0.5rem 0px;">
-          <div @click="submit()" style="color: #FE2C55; font-weight: 600;">Enregistrer</div>
+          <div @click="submit()" style="color: #ff2773; font-weight: 600;">Enregistrer</div>
         </div>
       </div>
       <div style="padding: 15Px;">
@@ -115,7 +115,7 @@
 
 <style scoped>
 .btn-follow .btn {
-  background: #FE2C55;
+  background: #ff2773;
   -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   padding: 10px 42px;

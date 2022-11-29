@@ -1,5 +1,5 @@
 <template>
-  <main style="background: #fe2c55;">
+  <main style="background: #ff2773;">
     <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; color: white; line-height: 42px; margin-top: calc(env(safe-area-inset-bottom) + 30px);">Comment ça marche ?</h5>
     <div v-if="step1" class="step1">
       <div class="container" style="margin-top: 30%;">
@@ -31,7 +31,7 @@
         Glisser vers le haut <br />
         pour passer au live suivant
       </h5>
-      <div @click="next()" class="btn-swipe" style="color: rgb(254, 44, 85); margin: 0px 20px; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px); background: white;">Suivant</div>
+      <div @click="next()" class="btn-swipe" style="color: #ff2773; margin: 0px 20px; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px); background: white;">Suivant</div>
     </div>
 
     <div v-if="step2" class="step2">
@@ -60,7 +60,7 @@
         Glisser vers la gauche <br />
         pour voir le profil du live
       </h5>
-      <div @click="next2()" class="btn-swipe" style="color: rgb(254, 44, 85); margin: 0px 20px; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px); background: white;">Suivant</div>
+      <div @click="next2()" class="btn-swipe" style="color: #ff2773; margin: 0px 20px; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px); background: white;">Suivant</div>
     </div>
 
     <div v-if="step3" class="step3">
@@ -89,7 +89,7 @@
         Glisser vers la droite <br />
         pour accéder à l'accueil
       </h5>
-      <div @click="goFeed()" class="btn-swipe" style="color: rgb(254, 44, 85); margin: 0px 20px; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px); background: white;">J'ai compris</div>
+      <div @click="goFeed()" class="btn-swipe" style="color: #ff2773; margin: 0px 20px; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px); background: white;">J'ai compris</div>
     </div>
   </main>
 </template>
@@ -102,7 +102,7 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   background: #fe2c55;
+   background: #ff2773;
    height: 375px;
    padding: 0;
    border-radius: 10px;

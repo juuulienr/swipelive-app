@@ -10,8 +10,8 @@
     </div>
     <div v-if="profile" class="info_profile">
       <div class="img_profile">
-        <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #fe2c55; padding: 3px;"/>
-        <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; image-orientation: none;border: 2 dashed #fe2c55; padding: 3px;"/>
+        <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; image-orientation: none; border: 3px solid #ff2773; padding: 3px;"/>
+        <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%; image-orientation: none;border: 2 dashed #ff2773; padding: 3px;"/>
       </div>
 
       <div v-if="profile.vendor" class="per_inf">
@@ -27,8 +27,8 @@
       </div>
 
       <div class="btn-follow" style="display: flex; justify-content: center; align-items: center;">
-        <div v-if="following" @click="updateFollow()" class="btn-swipe" style="color: #fe2c55; text-align: center; width: fit-content; background: white; padding: 10px 40px; border: 1px solid #fe2c55; border-radius: 30px; margin-right: 10px;">Abonné</div>
-        <div v-else @click="updateFollow()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #fe2c55; padding: 10px 40px; border: 1px solid #fe2c55; border-radius: 30px; margin-right: 10px;">S'abonner</div>
+        <div v-if="following" @click="updateFollow()" class="btn-swipe" style="color: #ff2773; text-align: center; width: fit-content; background: white; padding: 10px 40px; border: 1px solid #ff2773; border-radius: 30px; margin-right: 10px;">Abonné</div>
+        <div v-else @click="updateFollow()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; padding: 10px 40px; border: 1px solid #ff2773; border-radius: 30px; margin-right: 10px;">S'abonner</div>
         <svg v-if="following" @click="sendMessage(profile.id)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 26px;height: 26px;margin-left: 7px;fill: rgb(153, 153, 153);"><path d="M256 31.1c-141.4 0-255.1 93.13-255.1 208c0 47.62 19.91 91.25 52.91 126.3c-14.87 39.5-45.87 72.88-46.37 73.25c-6.623 7-8.374 17.25-4.624 26C5.816 474.3 14.38 480 24 480c61.49 0 109.1-25.75 139.1-46.25c28.1 9 60.16 14.25 92.9 14.25c141.4 0 255.1-93.13 255.1-207.1S397.4 31.1 256 31.1zM256 416c-28.25 0-56.24-4.25-83.24-12.75c-9.516-3.068-19.92-1.461-28.07 4.338c-22.1 16.25-58.54 35.29-102.7 39.66c11.1-15.12 29.75-40.5 40.74-69.63l.1289-.3398c4.283-11.27 1.791-23.1-6.43-32.82C47.51 313.1 32.06 277.6 32.06 240c0-97 100.5-176 223.1-176c123.5 0 223.1 79 223.1 176S379.5 416 256 416zM256 216c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24s24-10.75 24-24C280 226.7 269.3 216 256 216zM384 216c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24s24-10.75 24-24C408 226.7 397.3 216 384 216zM128 216c-13.25 0-24 10.74-24 24c0 13.25 10.75 24 24 24S152 253.3 152 240C152 226.7 141.3 216 128 216z"></path></svg>
       </div>
 
@@ -50,8 +50,8 @@
     <div v-if="profile" class="images_sec">
       <div class="images_filter">
         <ul>
-          <li v-if="profile.vendor.clips" @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#fe2c55'} : {'color': '#999'}]" style="font-weight: 600;">Replay <span :style="[live ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px;">{{ profile.vendor.clips.length }}</span></li>
-          <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#fe2c55'} : {'color': '#999'}]" style="font-weight: 600;">Produits <span :style="[shop ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px; color: #fe2c55;">{{ profile.vendor.products.length }}</span></li>
+          <li v-if="profile.vendor.clips" @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600;">Replay <span :style="[live ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px;">{{ profile.vendor.clips.length }}</span></li>
+          <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600;">Produits <span :style="[shop ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ profile.vendor.products.length }}</span></li>
         </ul>
       </div>
 
@@ -147,7 +147,7 @@ header img {
 }
 
 .my_profile1 .info_profile .btn-follow .btn {
-  background: #FE2C55;
+  background: #ff2773;
   -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
   padding: 10px 42px;

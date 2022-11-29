@@ -81,7 +81,7 @@ li {
 
 .login-button-31D24.highlight-1TvcX {
   color: #fff;
-  background: #FE2C55;
+  background: #ff2773;
   border: none;
 }
 
