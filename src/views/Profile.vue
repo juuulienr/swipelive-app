@@ -50,8 +50,8 @@
     <div v-if="profile" class="images_sec">
       <div class="images_filter">
         <ul>
-          <li v-if="profile.vendor.clips" @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600;">Replay <span :style="[live ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px;">{{ profile.vendor.clips.length }}</span></li>
-          <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600;">Produits <span :style="[shop ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ profile.vendor.products.length }}</span></li>
+          <li v-if="profile.vendor.clips" @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773'} : {'color': '#525c66'}]" style="font-weight: 600;">Replay <span :style="[live ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px;">{{ profile.vendor.clips.length }}</span></li>
+          <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773'} : {'color': '#525c66'}]" style="font-weight: 600;">Produits <span :style="[shop ? {'background': '#f1f0f0'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 9px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ profile.vendor.products.length }}</span></li>
         </ul>
       </div>
 
@@ -275,7 +275,7 @@ header img {
   line-height: 1.57143;
   font-size: 13px;
   font-weight: 500;
-  color: #637381;
+  color: #525c66;
   margin: 0px;
 }
 .profile--follow > hr {

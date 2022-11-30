@@ -206,8 +206,7 @@ header img {
   width: 100%;
   bottom: -80%;
   background-color: #fff;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 15px;
   animation-duration: 400ms !important;
   animation-iteration-count: 1 !important;
   animation-fill-mode: both !important;

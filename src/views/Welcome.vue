@@ -5,15 +5,15 @@
         <video style="height: 100vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
-    <div v-if="!popup && !popupEmail && !popupPassword && !popupUserRegistration" @click="open()" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15000; left: 25px; width: calc(100vw - 50px); bottom: 40px; font-size: 1.0625rem; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">
+    <div v-if="!popup && !popupEmail && !popupPassword && !popupUserRegistration" @click="open()" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15000; left: 25px; width: calc(100vw - 50px); bottom: 40px; font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">
       Accéder
     </div>
 
-    <!-- login popup -->
-    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
+    <!-- welcome popup -->
+    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active"> 
       <div style="padding: 15px;">
-        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px 25px;;">
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Bienvenue sur Swipe Live</h5>
+        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 5px 0px 25px;">
+          <h5 style="font-weight: 500; margin-bottom: 0px; color: #000; font-size: 18px;">Bienvenue sur Swipe Live</h5>
         </div>
 
         <div class="social-container-NE2xk">
@@ -69,7 +69,7 @@
             </div>
           </div>
         </div>
-        <div class="manage" style="margin-bottom: 30px; margin-top: 15px; color: #525c66;">
+        <div class="manage" style="margin-bottom: 30px; margin-top: 15px; color: #525c66; font-weight: 500;">
           Déjà un compte ? 
           <span @click="checkEmail()" style="color: #ff2773; text-decoration: underline;"> Connexion</span>
         </div>
@@ -77,35 +77,38 @@
     </div>
 
 
-    <!-- email popup -->
-    <div v-if="popupEmail" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
+    <!-- login email popup -->
+    <div v-if="popupEmail" class="store-products-item__login-popup store-products-item__login-popup--active"> 
       <div style="padding: 15px;">
-        <div style="background: white; width: 100%; text-align: center; padding: 0px 15px 15px; margin: 10px 0px 30px;">
-          <svg @click="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
-            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-          </svg>
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Connexion</h5>
+        <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
+          <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+            </svg>
+          </div>
+          <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Connexion</div>
         </div>
+
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginEmail }">
           <fieldset>
             <legend>Email</legend>
             <input type="text" v-model="loginEmail" style="text-transform: lowercase;">
           </fieldset>
+          <div v-if="errorLoginEmail" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Email obligatoire</div>
         </div>
-        <div v-if="errorEmail" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Email obligatoire</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginPassword }" style="margin-bottom: 15px;">
           <fieldset>
             <legend>Mot de passe</legend>
             <input type="password" v-model="loginPassword">
           </fieldset>
+          <div v-if="errorLoginPassword" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Mot de passe obligatoire</div>
         </div>
-        <div v-if="errorLoginPassword" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Mot de passe obligatoire</div>
-        <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: #999 !important; font-size: 13px; font-weight: 400;">
+        <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: #525c66 !important; font-size: 13px; font-weight: 400;">
           Mot de passe oublié ?
         </div>
-        <div @click="login()" class="btn-swipe" style="color: white; margin: 40px auto 30px; text-align: center;">
+        <div @click="login()" class="btn-swipe" style="font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px; margin: 30px auto;">
           Se connecter
         </div>
       </div>
@@ -113,31 +116,45 @@
 
 
     <!-- user registration popup -->
-    <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
+    <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%"> 
       <div style="padding: 15px;">
-        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
-          <svg @click="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
-            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-          </svg>
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Inscription</h5>
+        <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
+          <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+            </svg>
+          </div>
+          <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Inscription</div>
+        </div>
+
+        <div class="general--profile">
+          <span>
+        <!--     <span v-if="picture">
+              <span>
+                <img :src="cloudinary256x256 + picture">
+              </span>
+            </span> -->
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-v73erd iconify iconify--ic" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M3 8c0 .55.45 1 1 1s1-.45 1-1V6h2c.55 0 1-.45 1-1s-.45-1-1-1H5V2c0-.55-.45-1-1-1s-1 .45-1 1v2H1c-.55 0-1 .45-1 1s.45 1 1 1h2v2z" fill="currentColor"></path><circle cx="13" cy="14" r="3" fill="currentColor"></circle><path d="M21 6h-3.17l-1.24-1.35A1.99 1.99 0 0 0 15.12 4h-6.4c.17.3.28.63.28 1c0 1.1-.9 2-2 2H6v1c0 1.1-.9 2-2 2c-.37 0-.7-.11-1-.28V20c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5z" fill="currentColor"></path></svg>
+              <span style="font-weight: 400;">Photo de profil</span>
+            </div>
+          </span>
         </div>
 
         
-        <div class="form--input"> 
-        	<div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
-        		<fieldset>
-        			<legend>Prénom</legend>
-        			<input type="text" v-model="firstname">
-        		</fieldset>
-        	</div>
+      	<div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
+      		<fieldset>
+      			<legend>Prénom</legend>
+      			<input type="text" v-model="firstname">
+      		</fieldset>
+      	</div>
 
-        	<div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
-        		<fieldset>
-        			<legend>Nom</legend>
-        			<input type="text" v-model="lastname">
-        		</fieldset>
-        	</div>
-        </div>
+      	<div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
+      		<fieldset>
+      			<legend>Nom</legend>
+      			<input type="text" v-model="lastname">
+      		</fieldset>
+      	</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
@@ -153,7 +170,7 @@
           </fieldset>
         </div>
 
-        <div @click="register()" class="btn-swipe" style="color: white; margin: 15px auto 30px; text-align: center;">
+        <div @click="register()" class="btn-swipe" style="color: white; margin: 15px auto 30px;  text-align: center;  position: fixed;  bottom: 0px;  width: calc(100vw - 30px);">
           S'inscrire
         </div>
       </div>
@@ -161,25 +178,27 @@
 
 
     <!-- forgot password popup -->
-    <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="border-radius: 30px; "> 
+    <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active"> 
       <div style="padding: 15px;">
-        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 10px 0px;">
-          <svg @click="checkEmail()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
-            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-          </svg>
-          <h5 style="font-weight: 600; margin-bottom: 0px; color: #000; font-size: 18px;">Mot de passe oublié</h5>
+        <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
+          <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+            </svg>
+          </div>
+          <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Mot de passe oublié</div>
         </div>
 
-        <p style="font-size: 13px; color: #999; text-align: center; margin-bottom: 20px;">Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+        <p style="font-size: 13px; color: #525c66; text-align: center; margin-bottom: 30px; font-weight: 400;">Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
         <div class="form--input--item" :class="{'form--input--item--error': errorEmailRecovery }">
           <fieldset>
             <legend>Email</legend>
             <input type="text" v-model="forgotEmail">
           </fieldset>
+          <div v-if="errorEmailRecovery" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Email obligatoire</div>
+          <div v-if="reset" style="font-size: 13px; color: rgb(66, 210, 164); margin-top: 5px;">Un mail a été envoyé pour réinitialiser votre mot de passe.</div>
         </div>
-        <div v-if="errorEmailRecovery" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Email obligatoire</div>
-        <div v-if="reset" style="font-size: 13px; color: rgb(66, 210, 164); margin-bottom: 12px; text-align: center; font-weight: 600;">Un mail a été envoyé pour réinitialiser votre mot de passe.</div>
-        <div @click="submitPassword()" class="btn-swipe" style="color: white; margin: 0px auto 30px; text-align: center;">
+        <div @click="submitPassword()" class="btn-swipe" style="margin: 30px auto; font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">
           Envoyer
         </div>
       </div>
@@ -198,6 +217,7 @@
   width: 100%;
   bottom: -80%;
   background-color: #fff;
+  border-radius: 15px;
   animation-duration: 400ms !important;
   animation-iteration-count: 1 !important;
   animation-fill-mode: both !important;
@@ -326,6 +346,78 @@ svg {
 
 .form--input--item {
   margin-bottom: 25px;
+}
+
+.general--profile {
+  padding-bottom: 45px;
+}
+
+.general--profile > span {
+  width: 144px;
+  height: 144px;
+  margin: auto;
+  border-radius: 50%;
+  display: block;
+  padding: 8px;
+  border: 1px dashed rgba(145, 158, 171, 0.32);
+  position: relative;
+}
+
+.general--profile > span > span {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  display: flex;
+  overflow: hidden;
+  border-radius: 50%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.general--profile > span > span > span {
+  line-height: 0;
+  display: block;
+  overflow: hidden;
+  z-index: 8;
+  width: 100%;
+  height: 100%;
+  background-size: cover !important;
+}
+
+.general--profile > span > span > span img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.general--profile > span div {
+  display: flex;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: #525c66;
+  background-color: rgb(244, 246, 248);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.general--profile > span div span {
+  line-height: 1.5;
+  font-size: 0.75rem;
+}
+
+.general--profile > span div svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 8px;
 }
 
 </style>

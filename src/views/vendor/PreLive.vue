@@ -8,7 +8,7 @@
     </div>
     <div class="checkout" style="margin-top: 50px;">
       <div class="items">
-        <div class="my_form_check" style="font-size: 14px; color: #637381; font-weight: 400;">
+        <div class="my_form_check" style="font-size: 14px; color: #525c66; font-weight: 400;">
           Tout selectionner
           <div class="profil--slide">
             <input @click="checkAll()" type="checkbox" class="slider" id="sliderAll">

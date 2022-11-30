@@ -342,6 +342,7 @@
   animation-fill-mode: both !important;
   animation-name: keyframe_d37zz3 !important;
   z-index: 1000000000;
+  border-radius: 15px;
 }
 
 .btn-swipe {
@@ -518,7 +519,7 @@
 }
 
 select::placeholder {
-  color: #999;
+  color: #525c66;
 }
 
 
@@ -630,7 +631,7 @@ select::placeholder {
   line-height: 1.57143;
   font-size: 14px;
   font-weight: 400;
-  color: rgb(99, 115, 129);
+  color: #525c66;
 }
 
 textarea::-webkit-scrollbar {

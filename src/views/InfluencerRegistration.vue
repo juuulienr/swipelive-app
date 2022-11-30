@@ -7,7 +7,7 @@
       <h5 style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Inscription Influenceur</h5>
     </div>
     <div style="padding: 15px; margin-top: 50px; margin-bottom: 30px;">
-      <p style="color: #999;text-align: center;font-size: 14px; margin-bottom: 30px;">Faites la promotion de produits disponible sur Swipe Live et gagnez de l'argent en les partageant avec vos abonnés.</p>
+      <p style="color: #525c66;text-align: center;font-size: 14px; margin-bottom: 30px;">Faites la promotion de produits disponible sur Swipe Live et gagnez de l'argent en les partageant avec vos abonnés.</p>
 
       <div class="form--input" style="margin-top: 15px;">
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">

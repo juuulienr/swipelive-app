@@ -257,7 +257,7 @@ header img {
 	line-height: 1.5;
 	font-size: 0.75rem;
 	font-weight: 400;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .product--rating > div {
 	position: absolute !important;
@@ -284,7 +284,7 @@ header img {
 	line-height: 1.57143;
 	font-size: 0.875rem;
 	font-weight: 400;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .product--rate {
 	display: flex;
@@ -399,7 +399,7 @@ hr {
 	right: 7px;
 	top: calc(50% - 0.5em);
 	pointer-events: none;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .product--size--detail > div > select {
 	appearance: none;
@@ -424,7 +424,7 @@ hr {
 	padding-right: 32px;
 }
 .product--size--detail > span {
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	line-height: 1.5;
 	font-size: 0.75rem;
 	font-weight: 400;
@@ -445,7 +445,7 @@ hr {
 	line-height: 1.5;
 	font-size: 0.75rem;
 	font-weight: 400;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .product--quantity--input {
 	padding: 4px 6px;

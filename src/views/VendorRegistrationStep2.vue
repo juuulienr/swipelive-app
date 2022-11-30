@@ -24,20 +24,18 @@
           </span>
         </div>
 
-        <div class="form--input">
-          <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
-            <fieldset>
-              <legend>Prénom</legend>
-              <input type="text" v-model="firstname">
-            </fieldset>
-          </div>
+        <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
+          <fieldset>
+            <legend>Prénom</legend>
+            <input type="text" v-model="firstname">
+          </fieldset>
+        </div>
 
-          <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
-            <fieldset>
-              <legend>Nom</legend>
-              <input type="text" v-model="lastname">
-            </fieldset>
-          </div>
+        <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
+          <fieldset>
+            <legend>Nom</legend>
+            <input type="text" v-model="lastname">
+          </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
@@ -47,11 +45,25 @@
           </fieldset>
         </div>
         
-        <div @click="openDatePicker()" class="form--input--item" :class="{'form--input--item--error': errorDob }">
-          <fieldset>
-            <legend>Date de naissance</legend>
-            <input type="text" id="date" v-model="dob" required>
-          </fieldset>
+        <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
+          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+            <fieldset>
+              <legend>Jour</legend>
+              <input type="text" id="date" v-model="dob" required>
+            </fieldset>
+          </div>
+          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+            <fieldset>
+              <legend>Mois</legend>
+              <input type="text" id="date" v-model="dob" required>
+            </fieldset>
+          </div>
+          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+            <fieldset>
+              <legend>Année</legend>
+              <input type="text" id="date" v-model="dob" required>
+            </fieldset>
+          </div>
         </div>
         <div v-if="errorDob" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
         
@@ -206,7 +218,7 @@
   flex-direction: column;
   justify-content: center;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   background-color: rgb(244, 246, 248);
   border-radius: 50%;
   cursor: pointer;

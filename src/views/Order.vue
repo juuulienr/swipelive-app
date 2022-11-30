@@ -55,15 +55,15 @@
             <div class="css-ikzlcq">
               <div class="css-9jay18">
                 <p class="css-11r9ii4">Sous-total</p>
-                <h6 class="css-yemnbq" style="color: #999;">{{ order.subTotal | formatPrice }}€</h6>
+                <h6 class="css-yemnbq" style="color: #525c66;">{{ order.subTotal | formatPrice }}€</h6>
               </div>
               <div v-if="user.email == order.buyer.email" class="css-9jay18">
                 <p class="css-11r9ii4">Livraison</p>
-                <h6 class="css-yemnbq" style="color: #999; font-weight: 500">+{{ order.shippingPrice | formatPrice }}€</h6>
+                <h6 class="css-yemnbq" style="color: #525c66; font-weight: 500">+{{ order.shippingPrice | formatPrice }}€</h6>
               </div>
               <div v-if="user.email == order.vendor.user.email" class="css-9jay18">
                 <p class="css-11r9ii4">Commission SwipeLive</p>
-                <h6 class="css-yemnbq" style="color: #999; font-weight: 500">-{{ order.fees | formatPrice }}€</h6>
+                <h6 class="css-yemnbq" style="color: #525c66; font-weight: 500">-{{ order.fees | formatPrice }}€</h6>
               </div>
               <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
               <div class="css-9jay18">
@@ -85,7 +85,7 @@
                   <span style="text-align: center;font-size: 16px;padding-bottom: 5px;margin: 0 auto; color: #333">Es-tu satisfait(e) de ta commande ? </span>
                 </div>
                 <div><span>Si ta commande correspond à la description, clique sur le bouton "Tout est correct" ou cette transaction sera cloturé automatiquement dans 48 heures.</span></div>
-                <div @click="goToMessage()" class="btn-swipe" style="color: #999;text-align: center;width: 100%;background: white; padding: 10px 24px;border: 1px solid #999;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 8px;height: 44px; justify-content: center;">Signaler un problème</div>
+                <div @click="goToMessage()" class="btn-swipe" style="color: #525c66;text-align: center;width: 100%;background: white; padding: 10px 24px;border: 1px solid #525c66;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 8px;height: 44px; justify-content: center;">Signaler un problème</div>
                 <div @click="closeOrder()" class="btn-swipe" style="color: white;text-align: center; background: #ff2773; padding: 10px 24px;border: 1px solid #ff2773;border-radius: 8px;font-size: 14px;font-weight: 600;margin-top: 10px;height: 44px; justify-content: center;"> Tout est correct</div>
               </div>
             </div>

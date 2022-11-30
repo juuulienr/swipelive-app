@@ -854,7 +854,7 @@ span.filter--choice {
   appearance: none;
   text-decoration: none;
   border-radius: 50%;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   padding: 8px;
   line-height: 1.57143;
   font-size: 0.875rem;
@@ -887,7 +887,7 @@ span.filter--choice > svg {
   width: 24px;
   height: 24px;
   position: absolute;
-  fill: rgb(99, 115, 129);
+  fill: #525c66;
 }
 span.filter--choice > input:checked ~ svg {
   fill: rgb(0, 171, 85);
@@ -934,7 +934,7 @@ span.filter--choice > input:checked ~ .svg--point {
   line-height: 1.5;
   font-size: 0.75rem;
   font-weight: 500;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   display: flex;
   align-items: center;
 }

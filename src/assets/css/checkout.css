@@ -311,7 +311,7 @@
 }
 
 .checkout__link .checkout__link-text {
-  color: #999;
+  color: #525c66;
   font-size: .9rem;
   font-weight: 500;
 }
@@ -704,7 +704,7 @@
   line-height: 1.5;
   font-size: 0.75rem;
   font-weight: 500;
-  color: rgb(99, 115, 129);
+  color: #525c66;
 }
 .product--quantity--input {
   padding: 4px 6px;
@@ -799,7 +799,7 @@
   line-height: 1.57143;
   font-size: 15px;
   font-weight: 500;
-  color: rgb(99, 115, 129);
+  color: #525c66;
 }
 
 .css-yemnbq {
@@ -866,7 +866,7 @@
   max-height: 2em;
   align-items: center;
   white-space: nowrap;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   margin-left: 8px;
 }
 .css-nw750j {
@@ -957,7 +957,7 @@
   appearance: none;
   text-decoration: none;
   border-radius: 50%;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   padding: 8px;
 }
 
@@ -1029,7 +1029,7 @@
   line-height: 1.5;
   font-size: 14px;
   font-weight: 400;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   display: flex;
   align-items: center;
 }
@@ -1187,7 +1187,7 @@
     appearance: none;
     text-decoration: none;
     border-radius: 50%;
-    color: rgb(99, 115, 129);
+    color: #525c66;
     padding: 8px;
     line-height: 1.57143;
     font-size: 0.875rem;
@@ -1220,7 +1220,7 @@
     width: 24px;
     height: 24px;
     position: absolute;
-    fill: rgb(99, 115, 129);
+    fill: #525c66;
 }
 .filter--choice > div > div > label > span > .svg--point {
     display: block !important;

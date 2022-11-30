@@ -11,8 +11,8 @@
 
     <div v-if="user.vendor" class="images_filter" style="margin: 15px;">
       <ul>
-        <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600">Abonnés </li>
-        <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600">Abonnement </li>
+        <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2773'} : {'color': '#525c66'}]" style="font-weight: 600">Abonnés </li>
+        <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2773'} : {'color': '#525c66'}]" style="font-weight: 600">Abonnement </li>
       </ul>
     </div>
 
@@ -94,7 +94,7 @@
   line-height: 1.5;
   font-size: 14px;
   font-weight: 400;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   display: flex;
   align-items: center;
 }

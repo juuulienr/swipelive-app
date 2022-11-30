@@ -331,8 +331,8 @@
         <div style="padding: 15px;">
 			    <div class="images_filter">
 			      <ul>
-			        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600">Carte </li>
-			        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#ff2773'} : {'color': '#999'}]" style="font-weight: 600">Liste des relais </li>
+			        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#ff2773'} : {'color': '#525c66'}]" style="font-weight: 600">Carte </li>
+			        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#ff2773'} : {'color': '#525c66'}]" style="font-weight: 600">Liste des relais </li>
 			      </ul>
 			    </div>
 			    <div v-if="tabMap">

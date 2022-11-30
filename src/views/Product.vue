@@ -37,7 +37,7 @@
 
       <div style="margin: 25px 0px 15px;">
         <div class="technology" style="font-weight: 600;">Description</div>
-        <p style="margin-top: 10px; font-size: 15px; color: #999;">{{ product.description }}</p>
+        <p style="margin-top: 10px; font-size: 15px; color: #525c66;">{{ product.description }}</p>
       </div>
   	</div>
   </div>
@@ -58,7 +58,7 @@
 
 .slick-dots li button:before {
   opacity: 1 !important; 
-  color: #999 !important;
+  color: #525c66 !important;
 }
 
 .slick-dots li.slick-active button:before {

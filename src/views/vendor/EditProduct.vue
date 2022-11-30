@@ -337,6 +337,7 @@
   width: 100%;
   bottom: -80%;
   background-color: #fff;
+  border-radius: 15px;
   animation-duration: 400ms !important;
   animation-iteration-count: 1 !important;
   animation-fill-mode: both !important;
@@ -518,7 +519,7 @@
 }
 
 select::placeholder {
-  color: #999;
+  color: #525c66;
 }
 
 
@@ -630,7 +631,7 @@ select::placeholder {
   line-height: 1.57143;
   font-size: 14px;
   font-weight: 400;
-  color: rgb(99, 115, 129);
+  color: #525c66;
 }
 
 textarea::-webkit-scrollbar {

@@ -139,7 +139,7 @@
           <div>
             <!-- https://lottiefiles.com/98454-success -->
           </div>
-          <div style="color: #999;text-align: center;">
+          <div style="color: #525c66;text-align: center;">
             Le transfert vers le compte bancaire peut prendre jusqu'à 5 jours ouvrés. 
           </div>
         </div>
@@ -325,6 +325,7 @@ svg {
   width: 100%;
   bottom: -80%;
   background-color: #fff;
+  border-radius: 15px;
   animation-duration: 400ms !important;
   animation-iteration-count: 1 !important;
   animation-fill-mode: both !important;
@@ -346,7 +347,7 @@ svg {
     justify-content: space-between;
 }
 .current--balance--two > p:first-of-type {
-    color: rgb(99, 115, 129);
+    color: #525c66;
 }
 .current--balance--two > p {
     line-height: 1.57143;
@@ -425,7 +426,7 @@ svg {
   line-height: 1.5;
   font-size: 14px;
   font-weight: 400;
-  color: rgb(99, 115, 129);
+  color: #525c66;
   display: flex;
   align-items: center;
 }

@@ -696,7 +696,7 @@
 	line-height: 1.5;
 	font-size: 0.75rem;
 	font-weight: 500;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .product--quantity--input {
 	padding: 4px 6px;
@@ -795,7 +795,7 @@
 	line-height: 1.57143;
 	font-size: 15px;
 	font-weight: 500;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 
 .css-yemnbq {
@@ -870,7 +870,7 @@
 	max-height: 2em;
 	align-items: center;
 	white-space: nowrap;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	margin-left: 8px;
 }
 .css-nw750j {

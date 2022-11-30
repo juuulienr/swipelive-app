@@ -20,7 +20,7 @@
         <div class="images_filter" style="margin: 15px;">
           <ul>
             <li class="active" style="font-weight: 600;color: #ff2773">Messages </li>
-            <li style="color: #999">Litiges </li>
+            <li style="color: #525c66">Litiges </li>
           </ul>
         </div>
 

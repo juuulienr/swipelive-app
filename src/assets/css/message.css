@@ -468,7 +468,7 @@ svg {
 .top-author--item > div > div {
 	line-height: 1.5;
 	font-size: 0.75rem;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	display: flex;
 	align-items: center;
 }
@@ -513,7 +513,7 @@ h4 {
 .container--nav {
 	line-height: 1.5;
 	font-size: 1rem;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	margin-bottom: 40px;
 }
 .container--nav ol {
@@ -656,7 +656,7 @@ h4 {
 .chat--head--profil--name span {
 	line-height: 1.57143;
 	font-size: 0.875rem;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .chat--head--button > button {
 	display: inline-flex;
@@ -680,7 +680,7 @@ h4 {
 	padding: 8px;
 	border-radius: 50%;
 	overflow: visible;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 .chat--head--button > button:hover {
@@ -759,7 +759,7 @@ h4 {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	display: flex;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .chat--message--item--text {
 	max-width: 320px;
@@ -869,7 +869,7 @@ h4 {
 	flex: 0 0 auto;
 	border-radius: 50%;
 	overflow: visible;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 	padding: 5px;
 	font-size: 1.125rem;
@@ -1016,7 +1016,7 @@ h4 {
 	padding: 8px;
 	border-radius: 50%;
 	overflow: visible;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 .chat--left--head--btn button:hover {
@@ -1148,7 +1148,7 @@ h4 {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	display: block;
 }
 
@@ -1244,7 +1244,7 @@ h4 {
 	overflow: visible;
 	position: relative;
 	right: -5px;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 .chat--reduced .chat--left--head > div:last-of-type button svg {
@@ -1332,7 +1332,7 @@ h4 {
 .detail--chat--right--head p {
 	line-height: 1.57143;
 	font-size: 0.875rem;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .detail--chat--right--btn {
 	display: inline-flex;
@@ -1384,7 +1384,7 @@ h4 {
 	height: 16px;
 	margin-top: 4px;
 	margin-right: 8px;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
 .detail--chat--right--item p {
 	flex-grow: 1;
@@ -1407,7 +1407,7 @@ h4 {
 	overflow: hidden;
 	align-items: center;
 	justify-content: center;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	border-radius: 8px;
 	background-color: rgba(145, 158, 171, 0.16);
 }
@@ -1430,7 +1430,7 @@ h4 {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	display: block;
 }
 .detail--chat--right {
@@ -1450,7 +1450,7 @@ h4 {
 	flex: 0 0 auto;
 	font-size: 1.5rem;
 	padding: 8px;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	z-index: 150;
 	width: 32px;
 	height: 32px;

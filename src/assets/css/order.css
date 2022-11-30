@@ -686,7 +686,7 @@ svg {
 }
 
 .checkout__link .checkout__link-text {
-	color: #999;
+	color: #525c66;
 	font-size: .9rem;
 	font-weight: 500;
 }
@@ -1072,7 +1072,7 @@ svg {
 	line-height: 1.5;
 	font-size: 0.75rem;
 	font-weight: 500;
-	color: #999;
+	color: #525c66;
 }
 .product--quantity--input {
 	padding: 4px 6px;
@@ -1161,7 +1161,7 @@ svg {
 	line-height: 1.57143;
 	font-size: 14px;
 	font-weight: 500;
-	color: #999;
+	color: #525c66;
 }
 
 .css-yemnbq {
@@ -1228,7 +1228,7 @@ svg {
 	max-height: 2em;
 	align-items: center;
 	white-space: nowrap;
-	color: #999;
+	color: #525c66;
 	margin-left: 8px;
 }
 .css-nw750j {
@@ -1319,7 +1319,7 @@ svg {
 	appearance: none;
 	text-decoration: none;
 	border-radius: 50%;
-	color: #999;
+	color: #525c66;
 	padding: 8px;
 }
 
@@ -1390,7 +1390,7 @@ svg {
 	line-height: 1.5;
 	font-size: 14px;
 	font-weight: 400;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 	display: flex;
 	align-items: center;
 }
@@ -1486,5 +1486,5 @@ svg {
 	line-height: 1.5;
 	font-size: 14px;
 	font-weight: 400;
-	color: rgb(99, 115, 129);
+	color: #525c66;
 }
