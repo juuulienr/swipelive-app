@@ -59,14 +59,14 @@
           </div>
 
           <div style="display: flex; justify-content: space-between;">
-            <div @click="goVendor()" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;">
+            <div @click="goVendor()" style="width: 100%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb; margin: 0 auto;">
               <img :src="require('@/assets/img/store.png')" style="width: 24px; min-height: 24px; width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
               <div style="font-size: 15px; font-size: 15px; color: #525c66; font-weight: 500;">Vendeur</div>
             </div>
-            <div @click="goInfluencer()" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;">
+           <!--  <div @click="goInfluencer()" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;">
               <img :src="require('@/assets/img/star.png')" style="width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
               <div style="font-size: 15px; color: #525c66; font-weight: 500;">Influenceur</div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="manage" style="margin-bottom: 30px; margin-top: 15px; color: #525c66; font-weight: 500;">
@@ -140,7 +140,6 @@
             </div>
           </span>
         </div>
-
         
       	<div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
       		<fieldset>
@@ -170,7 +169,7 @@
           </fieldset>
         </div>
 
-        <div @click="register()" class="btn-swipe" style="color: white; margin: 15px auto 30px;  text-align: center;  position: fixed;  bottom: 0px;  width: calc(100vw - 30px);">
+        <div @click="register()" class="btn-swipe" style="color: white; position: fixed; bottom: 35px; text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
           S'inscrire
         </div>
       </div>

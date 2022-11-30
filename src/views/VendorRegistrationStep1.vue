@@ -1,7 +1,7 @@
 <template>
   <main style="padding: 15px;">
     <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
-      <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -12,12 +12,20 @@
       <div style="font-weight: 500; margin-bottom: 20px; text-align: center; font-size: 16px;">Selectionner le type de vendeur :</div>
       <div style="display: flex; justify-content: space-between;">
         <div @click="goStep2('company')" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px;">
-          <img :src="require('@/assets/img/store.png')" style="width: 24px; min-height: 24px; width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
-          <div style="font-size: 15px; font-size: 15px; color: #525c66; font-weight: 500;">Professionnel</div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 32px; height: 32px; margin-bottom: 12px;">
+            <defs></defs>
+            <path d="M191.35 414.77L208 344l-32-56h96l-32 56 16.65 70.77L224 480zM224 256A128 128 0 1 0 96 128a128 128 0 0 0 128 128z" class="fa-secondary" style="fill: #c4cacf;"></path>
+            <path d="M319.8 288.6L224 480l-95.8-191.4C56.9 292 0 350.3 0 422.4V464a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" class="fa-primary" style="fill: #637381;"></path>
+          </svg>
+          <div style="font-size: 14px;color: rgb(82, 92, 102);font-weight: 500;">Professionnel</div>
         </div>
         <div @click="goStep2('individual')" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px;">
-          <img :src="require('@/assets/img/star.png')" style="width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
-          <div style="font-size: 15px; color: #525c66; font-weight: 500;">Particulier</div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 32px; height: 32px; margin-bottom: 12px;">
+            <defs></defs>
+            <path d="M352 128A128 128 0 1 1 224 0a128 128 0 0 1 128 128z" class="fa-secondary" style="fill: #c4cacf;"></path>
+            <path d="M313.6 288h-16.7a174.1 174.1 0 0 1-145.8 0h-16.7A134.43 134.43 0 0 0 0 422.4V464a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48v-41.6A134.43 134.43 0 0 0 313.6 288z" class="fa-primary" style="fill: #637381;"></path>
+          </svg>
+          <div style="font-size: 14px;color: rgb(82, 92, 102);font-weight: 500;">Particulier</div>
         </div>
       </div><br>
 
@@ -34,13 +42,12 @@
 
       <div style="margin-top: 20px; text-align: center; margin: 15px;">
         Notre commission : 9% sur chaque vente. <br> <br> 
-
         <div style="font-weight: 400; text-align: left; font-size: 14px; color: #525c66;">
          5% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées.
          <br><br>
          + 3% de frais bancaire.
         </div> <br>  <br> 
-        <span style="font-weight: 600; color: #ff2773; font-size: 20px;"> Vous gagnez, nous gagnons ! </span>
+        <span style="font-weight: 500; color: #ff2773; font-size: 20px;"> Vous gagnez, nous gagnons ! </span>
       </div>
     </div>
   </main>

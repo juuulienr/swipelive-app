@@ -1,13 +1,15 @@
 <template>
-  <main>
-    <div style="position: absolute; background: white; padding: 15px; width: 100%; z-index: 1000000000; text-align: center;">
-      <svg @click="goBack()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
-        <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-      </svg>
-      <h5 v-if="step1" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Informations personnelles</h5>
-      <h5 v-else style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Informations société</h5>
+  <main style="padding: 15px;">
+    <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+        </svg>
+      </div>
+      <div v-if="step1" class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Informations personnelles</div>
+      <div v-else class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Informations société</div>
     </div>
-    <div style="padding: 15px; margin-top: 70px;">
+    <div>
       <!-- step1 -->
       <div v-if="step1" class="step1">
         <div class="general--profile">
@@ -19,7 +21,7 @@
             </span>
             <div v-else>
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-v73erd iconify iconify--ic" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M3 8c0 .55.45 1 1 1s1-.45 1-1V6h2c.55 0 1-.45 1-1s-.45-1-1-1H5V2c0-.55-.45-1-1-1s-1 .45-1 1v2H1c-.55 0-1 .45-1 1s.45 1 1 1h2v2z" fill="currentColor"></path><circle cx="13" cy="14" r="3" fill="currentColor"></circle><path d="M21 6h-3.17l-1.24-1.35A1.99 1.99 0 0 0 15.12 4h-6.4c.17.3.28.63.28 1c0 1.1-.9 2-2 2H6v1c0 1.1-.9 2-2 2c-.37 0-.7-.11-1-.28V20c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5z" fill="currentColor"></path></svg>
-              <span>Photo de profil</span>
+              <span style="font-weight: 400;">Photo de profil</span>
             </div>
           </span>
         </div>
@@ -38,10 +40,10 @@
           </fieldset>
         </div>
 
-        <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
+        <div class="form--input--item">
           <fieldset>
-            <legend>Email</legend>
-            <input type="text" v-model="email" style="text-transform: lowercase;">
+            <legend>Téléphone</legend>
+            <input type="text" placeholder="+33" required>
           </fieldset>
         </div>
         
@@ -49,23 +51,30 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
             <fieldset>
               <legend>Jour</legend>
-              <input type="text" id="date" v-model="dob" required>
+              <input type="text" id="date1" v-model="dob" required inputmode="decimal">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
             <fieldset>
               <legend>Mois</legend>
-              <input type="text" id="date" v-model="dob" required>
+              <input type="text" id="date2" v-model="dob" required inputmode="decimal">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
             <fieldset>
               <legend>Année</legend>
-              <input type="text" id="date" v-model="dob" required>
+              <input type="text" id="date3" v-model="dob" required inputmode="decimal">
             </fieldset>
           </div>
         </div>
         <div v-if="errorDob" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
+
+        <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
+          <fieldset>
+            <legend>Email</legend>
+            <input type="text" v-model="email" style="text-transform: lowercase;">
+          </fieldset>
+        </div>
         
         <div class="form--input--item" :class="{'form--input--item--error': errorPassword }">
           <fieldset>
@@ -74,7 +83,7 @@
           </fieldset>
         </div>
 
-        <div @click="submitStep1()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">Suivant</div>
+        <div @click="submitStep1()" class="btn-swipe" style="color: white; position: fixed; bottom: 35px; text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
       </div>
 
 
@@ -89,15 +98,6 @@
           </fieldset>
         </div>
 
-
-        <div class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
-          <fieldset>
-            <legend>Nom commercial</legend>
-            <input type="text" v-model="businessName">
-          </fieldset>
-        </div>
-
-
         <div v-if="businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorSiren }">
           <fieldset>
             <legend>SIREN</legend>
@@ -105,30 +105,20 @@
           </fieldset>
         </div>
         <div v-if="errorSiren" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">SIREN (9 chiffres)</div>
-        
-
-        <div class="form--input--item" :class="{'form--input--item--error': errorSummary }">
-          <fieldset style="height: 90px;">
-            <legend>Brève description de l'activité</legend>
-            <textarea v-model="summary" style="height: 90px; margin-top: 10px;" maxlength="120"></textarea>
-          </fieldset>
-        </div>
-
 
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>
-              <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder="">
+              <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder=""></vue-google-autocomplete>
               </vue-google-autocomplete>
           </fieldset>
         </div>
-        
 
-        <div class="form--input">
+        <div class="form--input" style="grid-template-columns: 140px 1fr;">
           <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
             <fieldset>
               <legend>Code postal</legend>
-              <input type="text" v-model="zip">
+              <input type="text" v-model="zip" inputmode="decimal">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorCity }">
@@ -139,7 +129,6 @@
           </div>
         </div>
 
-
         <div class="form--input--item">
           <fieldset>
             <legend>Pays</legend>
@@ -147,8 +136,21 @@
           </fieldset>
         </div>
 
+        <div class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
+          <fieldset>
+            <legend>Nom visible par les clients</legend>
+            <input type="text" v-model="businessName">
+          </fieldset>
+        </div>
 
-        <div @click="submitStep2()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">S'inscrire</div>
+        <div class="form--input--item" :class="{'form--input--item--error': errorSummary }">
+          <fieldset style="height: 90px;">
+            <legend>Brève description de l'activité</legend>
+            <textarea v-model="summary" style="height: 90px; margin-top: 10px;" maxlength="120"></textarea>
+          </fieldset>
+        </div>
+
+        <div @click="submitStep2()" class="btn-swipe" style="color: white; position: fixed; bottom: 35px; text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">S'inscrire</div>
       </div>
     </div>
   </main>
@@ -164,7 +166,7 @@
 }
 
 .general--profile {
-  padding-bottom: 30px;
+  padding-bottom: 45px;
 }
 
 .general--profile > span {

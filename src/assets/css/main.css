@@ -1075,7 +1075,8 @@ select {
   padding: 12.5px 14px;
   outline: none;
   width: 95%;
-  font-weight: 400;
+  font-weight: 500;
+  color: #525c66;
 }
 
 .form--input--item select {
