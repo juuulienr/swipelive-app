@@ -1,19 +1,19 @@
 <template>
   <main>
-    <div class="checkout__header" style="padding: 10px 15px; position: fixed; top: 0px; z-index: 10000000; background: white; width: 100%; border-bottom: 1px solid #e0e3eb;">
+    <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Notifications</div>
     </div>
-    <div class="checkout__body" style="overflow: scroll; margin-top: 75px; margin-bottom: 100px;">
-      <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center;">Soyez informé !</h5>
+    <div class="checkout__body" style="overflow: scroll; padding: 15px;">
+      <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; margin-top: 30px;">Soyez informé !</h5>
       <br />
-      <div style="font-weight: 500;font-size: 15px; text-align: center;">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.
+      <div style="font-weight: 500;font-size: 15px; text-align: left;">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.
       </div>
 
       <div style="margin: 60px auto 0px;">
         <lottie :options="defaultOptions" v-on:animCreated="handleAnimation"/>
       </div>
 
-      <div style="color: white;position: fixed; bottom: calc(env(safe-area-inset-bottom) + 0px);text-align: center;width: calc(100vw);line-height: 1.41176;letter-spacing: -0.025em;padding: 15px;background: transparent;">
+      <div style="color: white;position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px);line-height: 1.41176;letter-spacing: -0.025em;padding: 15px 15px 0px; background: transparent;">
         <div @click="notif()" class="btn-swipe" style="color: white;text-align: center;line-height: 1.41176;letter-spacing: -0.025em;">Activer les notifications</div>
       </div>
       <!-- <div class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Activer les notifications</div> -->
@@ -23,14 +23,6 @@
 </template>
 
 <style>
-
-.store-products-item__login-popup::-webkit-scrollbar {
-  display: none;
-}
-.store-products-item__login-popup {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
 
 .checkout__body::-webkit-scrollbar {
   display: none;

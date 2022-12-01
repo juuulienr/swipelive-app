@@ -1,39 +1,35 @@
 <template>
-  <main style="padding: 0px 15px 15px;">
-    <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
+  <main>
+    <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Comment ça marche ?</div>
     </div>
-    <div v-if="step1" class="step1">
-      <div class="container">
-        <img :src="require(`@/assets/img/swipe-up.png`)" style="width: 300px;">
+    <div class="checkout__body" style="overflow: scroll; padding: 15px;">
+      <div v-if="step1" class="step1">
+        <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; margin-top: 30px;">Glisser vers le haut</h5>
+        <div style="font-weight: 500;font-size: 17px; text-align: center;">Pour passer d'un live à un autre</div>
+        <div class="container">
+          <img :src="require(`@/assets/img/swipe-up.png`)" style="width: 300px;">
+        </div>
+        <div @click="next()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">J'ai compris</div>
       </div>
-      <h5 style="font-weight: 500; margin-bottom: 0px; font-size: 25px; text-align: center; color: #000; line-height: 40px; margin-top: 20px;">
-        Glisser vers le haut <br />
-        pour passer au live suivant
-      </h5>
-      <div @click="next()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
-    </div>
 
-    <div v-if="step2" class="step2">
-      <div class="container">
-        <img :src="require(`@/assets/img/swipe-left.png`)" style="width: 300px;">
+      <div v-if="step2" class="step2">
+        <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; margin-top: 30px;">Glisser vers la gauche</h5>
+        <div style="font-weight: 500;font-size: 17px; text-align: center;">Pour voir le profil du présentateur</div>
+        <div class="container">
+          <img :src="require(`@/assets/img/swipe-left.png`)" style="width: 300px;">
+        </div>
+        <div @click="next2()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">J'ai compris</div>
       </div>
-      <h5 style="font-weight: 500; margin-bottom: 0px; font-size: 25px; text-align: center; color: #000; line-height: 40px; margin-top: 20px;">
-        Glisser vers la gauche <br />
-        pour voir le profil
-      </h5>
-      <div @click="next2()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
-    </div>
 
-    <div v-if="step3" class="step3">
-      <div class="container">
-        <img :src="require(`@/assets/img/swipe-right.png`)" style="width: 300px;">
+      <div v-if="step3" class="step3">
+        <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; margin-top: 30px;">Glisser vers la droite</h5>
+        <div style="font-weight: 500;font-size: 17px; text-align: center;">Pour accéder à ta page d'accueil personnalisée</div>
+        <div class="container">
+          <img :src="require(`@/assets/img/swipe-right.png`)" style="width: 300px;">
+        </div>
+        <div @click="goFeed()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Tout est OK</div>
       </div>
-      <h5 style="font-weight: 500; margin-bottom: 0px; font-size: 25px; text-align: center; color: #000; line-height: 40px; margin-top: 20px;">
-        Glisser vers la droite <br />
-        pour accéder à l'accueil
-      </h5>
-      <div @click="goFeed()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">J'ai compris</div>
     </div>
   </main>
 </template>
@@ -42,7 +38,7 @@
 
 
  main .container {
-    margin-top: 30%;
+    margin-top: 10%;
     position: relative;
     display: flex;
     align-items: center;
