@@ -1,5 +1,5 @@
 <template>
-  <main style="padding: 15px;">
+  <main style="padding: 0px 15px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
       <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
@@ -46,7 +46,7 @@
          5% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées.
          <br><br>
          + 3% de frais bancaire.
-        </div> <br>  <br> 
+        </div> <br>
         <span style="font-weight: 500; color: #ff2773; font-size: 20px;"> Vous gagnez, nous gagnons ! </span>
       </div>
     </div>

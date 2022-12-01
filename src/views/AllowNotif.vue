@@ -1,28 +1,62 @@
 <template>
   <main>
-    <div style="padding: 15px;">
-      <div class="logo" style="margin: 0px auto 10px;">
-        <img :src="require(`@/assets/img/notif2.png`)" style="width: 48px; height: 48px; margin-top: 30px;" />
-        <span style="float: right; line-height: 50px; margin-right: 10px; font-size: 13px; color: #007bff;">PLUS TARD</span>
-      </div>
-      <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px;">Soyez informé quand...</h5>
+    <div class="checkout__header" style="padding: 10px 15px; position: fixed; top: 0px; z-index: 10000000; background: white; width: 100%; border-bottom: 1px solid #e0e3eb;">
+      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Notifications</div>
+    </div>
+    <div class="checkout__body" style="overflow: scroll; margin-top: 75px; margin-bottom: 100px;">
+      <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center;">Soyez informé !</h5>
       <br />
-      <div style="font-weight: 600; font-size: 16px;">Cela fonctionne mieux avec les notifications, bien mieux !</div>
-      <img :src="require(`@/assets/img/notif.png`)" style="height: 350px; margin-top: 60px;"/>
-      <div @click="notif()" class="btn-swipe" style="color: white; margin: 15px auto 0px; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">Autoriser les notifications</div>
+      <div style="font-weight: 500;font-size: 15px; text-align: center;">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.
+      </div>
+
+      <div style="margin: 60px auto 0px;">
+        <lottie :options="defaultOptions" v-on:animCreated="handleAnimation"/>
+      </div>
+
+      <div style="color: white;position: fixed; bottom: calc(env(safe-area-inset-bottom) + 0px);text-align: center;width: calc(100vw);line-height: 1.41176;letter-spacing: -0.025em;padding: 15px;background: transparent;">
+        <div @click="notif()" class="btn-swipe" style="color: white;text-align: center;line-height: 1.41176;letter-spacing: -0.025em;">Activer les notifications</div>
+      </div>
+      <!-- <div class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Activer les notifications</div> -->
+      <!-- <div style="color: #929dad; margin: 10px; color: rgb(146, 157, 173); position: fixed; bottom: 35px; font-weight: 400; left: calc(50vw - 30px);">Passer pour l'instant</div> -->
     </div>
   </main>
 </template>
 
+<style>
+
+.store-products-item__login-popup::-webkit-scrollbar {
+  display: none;
+}
+.store-products-item__login-popup {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.checkout__body::-webkit-scrollbar {
+  display: none;
+}
+.checkout__body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+</style>
 
 <script>
 
 import AuthAPI from "../services/authAPI.js";
+import Lottie from 'vue-lottie';
+import * as animationData from '../assets/img/bell.json';
 
 export default {
   name: 'AllowNotif',
+  components: {
+    'lottie': Lottie
+  },
   data() {
     return {
+      defaultOptions: {animationData: animationData},
+      animationSpeed: 1,
     }
   },
   created() {
@@ -34,7 +68,10 @@ export default {
   methods: {
     notif() {
       this.$router.push({ name: 'Onboarding' });
-    }
+    },
+    handleAnimation: function (anim) {
+      this.anim = anim;
+    },
   }  
 };
 </script>

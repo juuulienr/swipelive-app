@@ -1,5 +1,5 @@
 <template>
-  <main style="padding: 15px;">
+  <main style="padding: 0px 15px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
       <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
@@ -83,7 +83,7 @@
           </fieldset>
         </div>
 
-        <div @click="submitStep1()" class="btn-swipe" style="color: white; position: fixed; bottom: 35px; text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
+        <div @click="submitStep1()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
       </div>
 
 
@@ -150,7 +150,7 @@
           </fieldset>
         </div>
 
-        <div @click="submitStep2()" class="btn-swipe" style="color: white; position: fixed; bottom: 35px; text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">S'inscrire</div>
+        <div @click="submitStep2()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">S'inscrire</div>
       </div>
     </div>
   </main>

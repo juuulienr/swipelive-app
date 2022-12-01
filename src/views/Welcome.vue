@@ -2,21 +2,48 @@
   <div>
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
-        <video style="height: 100vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
+        <video style="height: 100vh; object-fit: cover; position: absolute; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
-    <div v-if="!popup && !popupEmail && !popupPassword && !popupUserRegistration" @click="open()" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15000; left: 25px; width: calc(100vw - 50px); bottom: 40px; font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">
+    <div v-if="!popup && !popupEmail && !popupPassword && !popupUserRegistration" @click="open()" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15; left: 25px; width: calc(100vw - 50px); bottom: 40px; font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">
       Accéder
     </div>
 
     <!-- welcome popup -->
-    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active"> 
-      <div style="padding: 15px;">
-        <div style="background: white; width: 100%; text-align: center; padding: 15px; padding-top: 0px; margin: 5px 0px 25px;">
-          <h5 style="font-weight: 500; margin-bottom: 0px; color: #000; font-size: 18px;">Bienvenue sur Swipe Live</h5>
+    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%;"> 
+      <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%; box-shadow: 0 4px 8px 0 rgb(0 0 0 / 4%);">
+        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Connexion ou inscription</div>
+      </div>
+      <div class="checkout__body" style="overflow: scroll; padding: 15px;">
+        <div class="form--input--item" :class="{'form--input--item--error': errorLoginEmail }" style="margin-top: 25px">
+          <fieldset>
+            <legend>Email</legend>
+            <input type="text" v-model="loginEmail" style="text-transform: lowercase;">
+          </fieldset>
+          <div v-if="errorLoginEmail" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Email obligatoire</div>
         </div>
 
-        <div class="social-container-NE2xk">
+        <div class="form--input--item" :class="{'form--input--item--error': errorLoginPassword }" style="margin-bottom: 15px;">
+          <fieldset>
+            <legend>Mot de passe</legend>
+            <input type="password" v-model="loginPassword">
+          </fieldset>
+          <div v-if="errorLoginPassword" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Mot de passe obligatoire</div>
+        </div>
+
+        <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 15px 0px 10px;">
+          <div @click="login()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">Se connecter</div>
+        </div>
+
+        <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: rgb(82, 92, 102) !important; font-size: 13px; font-weight: 400; text-align: center; margin-bottom: 20px;">
+          Mot de passe oublié ?
+        </div>
+
+        <div class="tv-signin-dialog__separator">
+          <div class="tv-signin-dialog__separator-text">ou</div>
+        </div>
+
+        <div class="social-container-NE2xk" style="padding: 0px;">
           <div @click="userRegistration()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 6H3v16h22V6H3.5zM4 7.7V21h20V7.7l-9.65 9.65-.35.36-.35-.36L4 7.71zM23.3 7H4.7l9.3 9.3L23.3 7z"></path></svg>
@@ -31,7 +58,7 @@
             </div>
             <div class="channel-name-2qzLW">Continuer avec Facebook</div>
           </div>
-          <div @click="google()" class="channel-item-wrapper-2gBWB" style="margin-bottom: 10px;">
+          <div @click="google()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28">
                 <path fill="#4285F4" d="M23.6 14.23c0-.71-.06-1.4-.18-2.05H14v3.87h5.38a4.6 4.6 0 01-2 3.02v2.5h3.24c1.89-1.73 2.98-4.3 2.98-7.34z"></path>
@@ -42,54 +69,30 @@
             </div>
             <div class="channel-name-2qzLW">Continuer avec Google</div>
           </div>
-      <!--     <div class="channel-item-wrapper-2gBWB">
+          <div class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="none">
                 <path fill="currentColor" d="M17.6066 8.58285C16.1086 8.58285 14.9127 9.45809 14.1322 9.45809C13.3139 9.45809 12.2313 8.63148 10.9347 8.63148C8.49253 8.63148 6 10.6008 6 14.2841C6 16.5937 6.91896 19.0128 8.05193 20.5809C9.03383 21.906 9.88985 23 11.1109 23C12.332 23 12.8733 22.2099 14.3839 22.2099C15.9072 22.2099 16.2596 22.9757 17.6066 22.9757C18.9284 22.9757 19.8222 21.7965 20.653 20.6296C21.5972 19.2924 21.9874 18.0038 22 17.9309C21.9245 17.9066 19.3816 16.9098 19.3816 14.0896C19.3816 11.6462 21.3832 10.5643 21.4965 10.4792C20.1747 8.63148 18.1605 8.58285 17.6066 8.58285ZM16.9017 7.02687C17.5059 6.32182 17.9465 5.34933 17.9465 4.37684C17.9465 4.24312 17.9339 4.1094 17.9087 4C16.9142 4.03647 15.7183 4.63212 15.0134 5.43442C14.4595 6.05438 13.9308 7.02687 13.9308 8.01152C13.9308 8.15739 13.9559 8.30326 13.9685 8.35189C14.0315 8.36404 14.1322 8.3762 14.2329 8.3762C15.1267 8.3762 16.247 7.80486 16.9017 7.02687Z"></path>
               </svg>
             </div>
             <div class="channel-name-2qzLW">Continuer avec Apple</div>
-          </div> -->
-          <div class="manage" style="margin-bottom: 10px; color: #ff2773;">
-            Continuer en tant qu'invité 
           </div>
-
-          <div class="tv-signin-dialog__separator">
-            <div class="tv-signin-dialog__separator-text">ou</div>
-          </div>
-
-          <div style="display: flex; justify-content: space-between;">
-            <div @click="goVendor()" style="width: 100%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb; margin: 0 auto;">
-              <img :src="require('@/assets/img/store.png')" style="width: 24px; min-height: 24px; width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
-              <div style="font-size: 15px; font-size: 15px; color: #525c66; font-weight: 500;">Vendeur</div>
-            </div>
-           <!--  <div @click="goInfluencer()" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;">
-              <img :src="require('@/assets/img/star.png')" style="width: 32px; min-height: 32px; background-repeat: no-repeat; background-size: cover; background-position: 50%; margin-bottom: 20px;"/>
-              <div style="font-size: 15px; color: #525c66; font-weight: 500;">Influenceur</div>
-            </div> -->
-          </div>
-        </div>
-        <div class="manage" style="margin-bottom: 30px; margin-top: 15px; color: #525c66; font-weight: 500;">
-          Déjà un compte ? 
-          <span @click="checkEmail()" style="color: #ff2773; text-decoration: underline;"> Connexion</span>
         </div>
       </div>
     </div>
 
 
     <!-- login email popup -->
-    <div v-if="popupEmail" class="store-products-item__login-popup store-products-item__login-popup--active"> 
-      <div style="padding: 15px;">
-        <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
-          <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
-              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-            </svg>
-          </div>
-          <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Connexion</div>
+    <div v-if="popupEmail" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%;"> 
+      <div class="checkout__header" style="padding: 10px 15px; position: fixed; top: 0px; z-index: 10000000; background: white; width: 100%; border-bottom: 1px solid #e0e3eb;">
+        <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 6px; padding: 6px 0px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+          </svg>
         </div>
-
-
+        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Connexion</div>
+      </div>
+      <div  style="overflow: scroll; margin-top: 75px; margin-bottom: 100px; padding: 15px;">
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginEmail }">
           <fieldset>
             <legend>Email</legend>
@@ -108,9 +111,9 @@
         <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: #525c66 !important; font-size: 13px; font-weight: 400;">
           Mot de passe oublié ?
         </div>
-        <div @click="login()" class="btn-swipe" style="font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px; margin: 30px auto;">
-          Se connecter
-        </div>
+      </div>
+      <div style="color: white;position: fixed; bottom: calc(env(safe-area-inset-bottom) + 0px);text-align: center;width: calc(100vw);line-height: 1.41176;letter-spacing: -0.025em;padding: 15px;background: transparent;">
+        <div @click="login()" class="btn-swipe" style="color: white;text-align: center;line-height: 1.41176;letter-spacing: -0.025em;">Se connecter</div>
       </div>
     </div>
 
@@ -118,8 +121,8 @@
     <!-- user registration popup -->
     <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%"> 
       <div style="padding: 15px;">
-        <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
-          <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+        <div class="checkout__header" style="padding: 40px 5px 40px 5px;">
+          <div @click="open()" class="checkout__close-btn" style="position: absolute; left: initial; top: 36px; padding: 6px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
               <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
             </svg>
@@ -169,7 +172,7 @@
           </fieldset>
         </div>
 
-        <div @click="register()" class="btn-swipe" style="color: white; position: fixed; bottom: 35px; text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
+        <div @click="register()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
           S'inscrire
         </div>
       </div>
@@ -248,10 +251,10 @@ svg {
 
 .social-container-NE2xk .channel-item-wrapper-2gBWB {
   width: 100%;
-  min-height: 50px;
+  min-height: 48px;
   border: 1px solid #e0e3eb;
   box-sizing: border-box;
-  border-radius: 30px;
+  border-radius: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -418,6 +421,13 @@ svg {
   height: 24px;
   margin-bottom: 8px;
 }
+.store-products-item__login-popup::-webkit-scrollbar {
+  display: none;
+}
+.store-products-item__login-popup {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
 </style>
 
@@ -518,6 +528,8 @@ export default {
       // ajouter google
     },
     open() {
+      window.StatusBar.overlaysWebView(false);  
+      window.StatusBar.styleDefault();
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;

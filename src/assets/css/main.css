@@ -229,7 +229,7 @@ body.dark-mode {
 }
 
 .checkout__body {
-  height: calc(100% - 70px);
+  height: calc(100% - 50px);
   overflow: auto
 }
 
@@ -590,6 +590,55 @@ body.dark-mode {
 .c-button.c-button--icon-left .c-button__label+.c-button__icon {
   margin-right: 6px;
 }
+.top-author--container {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 20px;
+}
+.top-author--item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.top-author--item > img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  user-select: none;
+  object-fit: cover;
+}
+.top-author--item > div:first-of-type {
+  margin: 0px 0px 0px 16px;
+  flex-grow: 1;
+}
+.top-author--item > div > span {
+  font-weight: 600;
+  line-height: 1.57143;
+}
+
+.top-author--item > div > div {
+  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 400;
+  color: #525c66;
+  display: flex;
+  align-items: center;
+}
+.top-author--item > div > div > svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+
 
 .c-icon--regular {
   width: 24px;
@@ -1051,7 +1100,7 @@ select {
   border: 0px;
   vertical-align: top;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #333;
   cursor: text;
   display: inline-flex;
