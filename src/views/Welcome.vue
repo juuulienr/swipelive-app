@@ -2,10 +2,10 @@
   <div>
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
-        <video style="height: 100vh; object-fit: cover; position: absolute; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <video style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
       </div>
     </div>
-    <div v-if="!popup && !popupPassword && !popupUserRegistration" @click="open()" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15; left: 25px; width: calc(100vw - 50px); bottom: 40px; font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">
+    <div v-if="!popup && !popupPassword && !popupUserRegistration" @click="open()" class="btn-open" :style="{'bottom': safeareaBottom }">
       Accéder
     </div>
 
@@ -20,7 +20,6 @@
             <legend>Email</legend>
             <input type="text" v-model="loginEmail" style="text-transform: lowercase;">
           </fieldset>
-          <div v-if="errorLoginEmail" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Email obligatoire</div>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginPassword }" style="margin-bottom: 15px;">
@@ -28,11 +27,17 @@
             <legend>Mot de passe</legend>
             <input type="password" v-model="loginPassword">
           </fieldset>
-          <div v-if="errorLoginPassword" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Mot de passe obligatoire</div>
         </div>
 
         <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 15px 0px 10px;">
-          <div @click="login()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">Se connecter</div>
+          <div @click="login()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">
+            <span v-if="loading">
+              <svg viewBox="25 25 50 50" class="loading">
+                <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+              </svg>
+            </span>
+            <span v-else>Se connecter</span>
+          </div>
         </div>
 
         <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: rgb(82, 92, 102) !important; font-size: 13px; font-weight: 400; text-align: center; margin-bottom: 20px;">
@@ -136,7 +141,12 @@
         </div>
 
         <div @click="register()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; margin-top: 20px;">
-          S'inscrire
+          <span v-if="loading">
+            <svg viewBox="25 25 50 50" class="loading">
+              <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+            </svg>
+          </span>
+          <span v-else>S'inscrire</span>
         </div>
       </div>
     </div>
@@ -157,18 +167,18 @@
           <lottie :options="defaultOptions" :width="200" v-on:animCreated="handleAnimation"/>
         </div>
 
-        <p style="font-size: 13px; color: #525c66; text-align: left; margin-bottom: 30px; font-weight: 400;">Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+        <p v-if="isReset" style="font-size: 13px; color: #525c66; text-align: left; margin-bottom: 30px; font-weight: 400;">Un mail a été envoyé pour réinitialiser votre mot de passe.</p>
+        <p v-else style="font-size: 13px; color: #ff2773; text-align: left; margin-bottom: 30px; font-weight: 400;">Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+
         <div class="form--input--item" :class="{'form--input--item--error': errorEmailRecovery }">
           <fieldset>
             <legend>Email</legend>
             <input type="text" v-model="forgotEmail">
           </fieldset>
-          <div v-if="errorEmailRecovery" style="font-size: 13px; color: rgb(255, 0, 0); margin-top: 5px;">Email obligatoire</div>
-          <div v-if="reset" style="font-size: 13px; color: rgb(66, 210, 164); margin-top: 5px;">Un mail a été envoyé pour réinitialiser votre mot de passe.</div>
         </div>
 
         <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 0px 0px 10px;">
-          <div @click="submitPassword()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">Réinitialiser</div>
+          <div @click="resetPassword()" class="btn-swipe" :disabled="isReset ? disabled : ''" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">Réinitialiser</div>
         </div>
       </div>
     </div>
@@ -176,6 +186,24 @@
 </template>
 
 <style scoped>
+
+.btn-open {
+  position: fixed; 
+  z-index: 15; 
+  left: 25px; 
+  width: calc(100vw - 50px); 
+  bottom: 40px; 
+  font-size: 15px; 
+  line-height: 1.41176; 
+  letter-spacing: -0.025em; 
+  border-radius: 16px; 
+  color: rgb(255, 255, 255); 
+  box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; 
+  font-weight: 500; 
+  text-align: center; 
+  background: rgb(255 39 115); 
+  padding: 15px;
+}
 
 .store-products-item__login-popup.store-products-item__login-popup--active {
   bottom: 0;
@@ -285,32 +313,32 @@ svg {
 }
 
 .tv-signin-dialog__separator {
-    margin-bottom: 26px;
-    padding-top: 6px;
-    position: relative;
-    text-align: center;
-    -webkit-user-select: none;
-    user-select: none;
+  margin-bottom: 26px;
+  padding-top: 6px;
+  position: relative;
+  text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .tv-signin-dialog__separator-text {
-    background-color: #fff;
-    border-radius: 50%;
-    color: #6a6d78;
-    display: inline-block;
-    padding: 0 15px;
-    position: relative;
+  background-color: #fff;
+  border-radius: 50%;
+  color: #6a6d78;
+  display: inline-block;
+  padding: 0 15px;
+  position: relative;
 }
 
 .tv-signin-dialog__separator:before {
-    background-color: #e0e3eb;
-    content: "";
-    display: block;
-    height: 1px;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 15px;
+  background-color: #e0e3eb;
+  content: "";
+  display: block;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 15px;
 }
 
 .form--input--item {
@@ -423,17 +451,19 @@ export default {
       errorLoginPassword: false,
       errorLoginEmail: false,
       errorEmailRecovery: false,
-      email: null,
-      firstname: null,
-      lastname: null,
-      password: null,
       errorFirstname: false,
       errorLastname: false,
       errorEmail: false,
       errorPassword: false,
+      email: null,
+      firstname: null,
+      lastname: null,
+      password: null,
       reset: false,
       picture: null,
       safeareaBottom: '40px',
+      loading: false,
+      isReset: false
     }
   },
   created() {
@@ -479,12 +509,14 @@ export default {
       if (!this.errorLoginEmail && !this.errorLoginPassword) {
         window.cordova.plugin.http.setDataSerializer('json');
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+        this.loading = true;
 
         await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", { "username": this.loginEmail, "password": this.loginPassword }, httpHeader, (response) => {
           var result = JSON.parse(response.data);
           window.localStorage.setItem("token", result.token);
           this.$router.push({ name: 'Feed' });
         }, (response) => {
+          this.loading = false;
           console.log(response);
         });
       }
@@ -527,7 +559,7 @@ export default {
       this.popupPassword = false;
       this.popupUserRegistration = true;
     },
-    submitPassword() {
+    resetPassword() {
       this.errorEmailRecovery = false;
 
       // envoyer mail pour reinitialiser mdp
@@ -535,8 +567,8 @@ export default {
         this.errorEmailRecovery = true;
       }
 
-      if (!this.errorEmailRecovery) {
-        this.reset = true;
+      if (!this.errorEmailRecovery && !this.isReset) {
+        this.isReset = true;
       }
     },
     openUrl(url) {
@@ -584,7 +616,8 @@ export default {
         this.errorLastname = true;
       }
 
-      if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname) {
+      if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.loading) {
+        this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
         var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "businessType": null };
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
@@ -594,6 +627,7 @@ export default {
           window.localStorage.setItem("user", response.data);
           this.authenticate();
         }, (response) => {
+          this.loading = false;
           console.log(response.error);
         });
       }
