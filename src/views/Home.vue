@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div style="position: absolute; background: white; padding: 10px 20px 15px; width: 100%; z-index: 11; text-align: center;">
+    <div style="position: absolute; background: white; padding: 10px 20px 15px; width: 100%; z-index: 110; text-align: center;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div v-if="!popupSearch">
           <div @click="goAccount()" class="video-page__influencer-badge2" style="width: 46px; border-radius: 50%; padding: 0px; font-size: 14px; background: transparent;">
@@ -100,7 +100,7 @@
     			<div v-if="results && results.length" class="row">
             <div v-for="user in results" class="col-6" style="padding-right: 5px; padding-left: 5px;">
               <div class="personne" style=" box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px; padding: 20px 20px; border-radius: 16px; margin-bottom: 10px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
-                <img @click="goToProfile(user.id)" v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;" />
+                <img @click="goToProfile(user.id)" v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;" />
                 <img @click="goToProfile(user.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;" />
                 <h5 @click="goToProfile(user.id)" class="name" style="font-size: 15px; font-weight: 500;">{{ user.vendor.businessName }} 
                   <svg viewBox="0 0 24 24" aria-label="Compte certifié" role="img" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px; height: 19px; margin-bottom: 3px; fill: rgb(255, 39, 115);">
