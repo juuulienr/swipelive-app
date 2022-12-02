@@ -180,7 +180,6 @@
           <div v-if="listPromo">
             <div class="top-author--container" style="border: 2px dashed #f1f0f0; border-radius: 15px;">
               <div class="top-author--item">
-                <img :src="require(`@/assets/img/gift.png`)" style="width: 48px; height: 48px;">
                 <div>
                   <span>{{ title }}</span>
                   <div>

@@ -1063,15 +1063,7 @@ export default {
         this.stopLive();
       }
 
-      if (this.user && this.user.vendor) {
-      	var url = this.baseUrl + "/user/api/feed";
-      	var auth = { Authorization: "Bearer " + this.token };
-      } else {
-      	var url = this.baseUrl + "/api/feed";
-      	var auth = {};
-      }
-
-      this.http.get(url, {}, auth, (response) => {
+      this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
         var result = JSON.parse(response.data);
         console.log(result.length);
 
@@ -1178,12 +1170,8 @@ export default {
       if (this.data[this.visible].type == "live") {
         this.pusher.unsubscribe(this.data[this.visible].value.channel);
 
-        if (this.token) {
-          this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, 
+        this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, 
             (response) => { console.log(response.error); });
-        } else {
-          this.http.put(this.baseUrl + "/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, {}, (response) => {}, (response) => { console.log(response.error); });
-        }
       }
     },
     startLive(value) {
@@ -1191,13 +1179,9 @@ export default {
       channel.bind("pusher:subscription_succeeded", (response) => {
         console.log("subscription_succeeded : " + response);
 
-        if (this.token) {
-          this.http.put(this.baseUrl + "/user/api/live/" + value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => { 
-            console.log(response.error); 
-          });
-        } else {
-          this.http.put(this.baseUrl + "/api/live/" + value.id + "/update/viewers", {}, {}, (response) => {}, (response) => { console.log(response.error); });
-        }
+        this.http.put(this.baseUrl + "/user/api/live/" + value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => { 
+          console.log(response.error); 
+        });
       });
 
       channel.bind("pusher:subscription_error", (response) => {

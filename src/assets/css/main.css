@@ -1175,6 +1175,58 @@ select {
   width: auto;
 }
 
+.chat--left--head--input {
+  display: inline-flex;
+  flex-direction: row;
+  position: relative;
+  min-width: 0px;
+  padding: 0px;
+  border: 0px;
+  vertical-align: top;
+  line-height: 1.4375em;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgb(33, 43, 54);
+  cursor: text;
+  align-items: center;
+  width: 100%;
+  border-radius: 30px;
+  padding-left: 14px;
+  border: 2px solid #e0e3eb;
+}
+.chat--left--head--input svg {
+  display: flex;
+  height: 0.01em;
+  max-height: 2em;
+  align-items: center;
+  white-space: nowrap;
+  margin-right: 8px;
+  color: rgb(145, 158, 171);
+  width: 20px;
+  height: 20px;
+}
+
+.chat--left--head--input input {
+  font: inherit;
+  letter-spacing: inherit;
+  color: currentcolor;
+  border: 0;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  padding: 8.5px 14px 8.5px 0;
+  outline: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #525c66;
+}
+
 .form--input--item--active fieldset {
   border: solid 2px #ff2773;
 }
@@ -1284,6 +1336,47 @@ select {
 }
 .general--profile > div:first-of-type > span div:hover {
   opacity: .72;
+}
+
+svg.loading {
+  width: 18px;
+  height: 18px;
+  -webkit-transform-origin: center;
+  transform-origin: center;
+  -webkit-animation: rotate 2s linear infinite;
+  animation: rotate 2s linear infinite;
+  display: initial!important;
+}
+
+svg.loading circle {
+  fill: none;
+  stroke: white;
+  stroke-width: 4px;
+  stroke-dasharray: 1,200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  -webkit-animation: dash 1.5s ease-in-out infinite;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dashoffset: -125px;
+  }
 }
 
 

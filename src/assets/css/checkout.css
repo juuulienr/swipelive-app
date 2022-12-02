@@ -1069,56 +1069,6 @@
   margin: 0 10px 0 0;
 }
 
-.chat--left--head--input {
-  display: inline-flex;
-  flex-direction: row;
-  position: relative;
-  min-width: 0px;
-  padding: 0px;
-  border: 0px;
-  vertical-align: top;
-  line-height: 1.4375em;
-  font-size: 1rem;
-  font-weight: 400;
-  color: rgb(33, 43, 54);
-  cursor: text;
-  align-items: center;
-  width: 100%;
-  border-radius: 30px;
-  padding-left: 14px;
-  border: solid 1px rgba(145, 158, 171, 0.24);
-}
-.chat--left--head--input svg {
-  display: flex;
-  height: 0.01em;
-  max-height: 2em;
-  align-items: center;
-  white-space: nowrap;
-  margin-right: 8px;
-  color: rgb(145, 158, 171);
-  width: 20px;
-  height: 20px;
-}
-
-.chat--left--head--input input {
-  font: inherit;
-  letter-spacing: inherit;
-  color: currentcolor;
-  border: 0;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  background: none;
-  height: 1.4375em;
-  margin: 0;
-  -webkit-tap-highlight-color: transparent;
-  display: block;
-  min-width: 0;
-  width: 100%;
-  padding: 8.5px 14px 8.5px 0;
-  outline: none;
-  font-size: 14px;
-}
-
 .checkout_payment_type:focus {
   border: 1px solid #000;
 }

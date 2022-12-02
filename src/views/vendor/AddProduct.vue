@@ -34,7 +34,6 @@
                   <div class="media-select__input-content">
                     <button class="c-button c-button--default c-button--default c-button--primary c-button--inline c-button--truncated c-button--icon-left" type="button" style="border: none; height: 100px;">
                       <span class="c-button__content" style="display: grid;">
-                        <img :src="require(`@/assets/img/upload.svg`)" style="width: 72px; height: 72px; margin: 0 auto;">
                         <span class="c-button__label">
                           <span style="font-size: 14px; color: #333;">Ajouter des images</span>
                         </span>

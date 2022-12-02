@@ -693,13 +693,8 @@ export default {
         var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
         var auth = null;
       } else {
-        if (this.token) {
         	var url = this.baseUrl + "/user/api/clips/" + this.type;
         	var auth = { Authorization: "Bearer " + this.token };
-        } else {
-        	var url = this.baseUrl + "/api/clips/" + this.type;
-       	 	var auth = null;
-        }
       }
 
       this.http.get(url, {}, auth, (response) => {
