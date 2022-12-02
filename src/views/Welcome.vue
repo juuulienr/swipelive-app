@@ -2,7 +2,7 @@
   <div>
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
-        <video style="height: 100vh; object-fit: cover; position: absolute; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
+        <video style="height: 100vh; object-fit: cover; position: absolute; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
       </div>
     </div>
     <div v-if="!popup && !popupPassword && !popupUserRegistration" @click="open()" :style="{'bottom': safeareaBottom }" style="position: fixed; z-index: 15; left: 25px; width: calc(100vw - 50px); bottom: 40px; font-size: 15px; line-height: 1.41176; letter-spacing: -0.025em; border-radius: 16px; color: rgb(255, 255, 255); box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; font-weight: 500; text-align: center; background: rgb(255 39 115); padding: 15px;">

@@ -6,8 +6,6 @@
     </div>
     <div class="checkout">
       <div class="cards-main">
-        <lottie :options="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
-
         <p style="margin: 30px 15px;text-align: center;font-size: 16px;">
           <span style="font-weight: 600; font-size: 17px;">{{ user.vendor.businessName }}</span><br> Voici quelques statistiques du live. 
         </p>
@@ -93,14 +91,9 @@
 </style>
 
 <script>
-import Lottie from 'vue-lottie';
-import * as animationData from '../../assets/img/trophy.json';
 
 export default {
   name: 'PostLive',
-  components: {
-    'lottie': Lottie
-  },
   data() {
     return {
       id: this.$route.params.id,
@@ -108,8 +101,6 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
-      defaultOptions: {animationData: animationData},
-      animationSpeed: 1,
     }
   },
   created() {    
@@ -122,9 +113,6 @@ export default {
     },
     goBack() {
       this.$router.push({ name: 'Account' });
-    },
-    handleAnimation: function (anim) {
-      this.anim = anim;
     },
   }
 };

@@ -16,7 +16,6 @@
       <div style="color: white;position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px);line-height: 1.41176;letter-spacing: -0.025em;padding: 15px 15px 0px; background: transparent;">
         <div @click="notif()" class="btn-swipe" style="color: white;text-align: center;line-height: 1.41176;letter-spacing: -0.025em;">Activer les notifications</div>
       </div>
-      <!-- <div class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Activer les notifications</div> -->
       <!-- <div style="color: #929dad; margin: 10px; color: rgb(146, 157, 173); position: fixed; bottom: 35px; font-weight: 400; left: calc(50vw - 30px);">Passer pour l'instant</div> -->
     </div>
   </main>
@@ -63,6 +62,7 @@ export default {
     },
     handleAnimation: function (anim) {
       this.anim = anim;
+      this.anim.setSpeed(this.animationSpeed);
     },
   }  
 };

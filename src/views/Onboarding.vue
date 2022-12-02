@@ -8,7 +8,7 @@
         <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; margin-top: 30px;">Glisser vers le haut</h5>
         <div style="font-weight: 500;font-size: 17px; text-align: center;">Pour passer d'un live à un autre</div>
         <div class="container">
-          <img :src="require(`@/assets/img/swipe-up.png`)" style="width: 300px;">
+          <video style="height: 300px; width: 300px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/swipe-up.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
         <div @click="next()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">J'ai compris</div>
       </div>
@@ -17,7 +17,7 @@
         <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; margin-top: 30px;">Glisser vers la gauche</h5>
         <div style="font-weight: 500;font-size: 17px; text-align: center;">Pour voir le profil du présentateur</div>
         <div class="container">
-          <img :src="require(`@/assets/img/swipe-left.png`)" style="width: 300px;">
+          <video style="height: 300px; width: 300px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/swipe-left.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
         <div @click="next2()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">J'ai compris</div>
       </div>
@@ -26,7 +26,7 @@
         <h5 style="font-weight: 600; margin-bottom: 0px; font-size: 25px; text-align: center; margin-top: 30px;">Glisser vers la droite</h5>
         <div style="font-weight: 500;font-size: 17px; text-align: center;">Pour accéder à ta page d'accueil personnalisée</div>
         <div class="container">
-          <img :src="require(`@/assets/img/swipe-right.png`)" style="width: 300px;">
+          <video style="height: 300px; width: 300px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/swipe-right.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
         <div @click="goFeed()" class="btn-swipe" style="color: white; position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Tout est OK</div>
       </div>
