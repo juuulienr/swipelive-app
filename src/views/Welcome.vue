@@ -2,7 +2,8 @@
   <div>
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
-        <video style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <video v-if="isAndroid" style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <video v-else style="height: 100vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
     <div v-if="!popup && !popupPassword && !popupUserRegistration" @click="open()" class="btn-open" :style="{'bottom': safeareaBottom }">
@@ -15,6 +16,9 @@
         <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Connexion ou inscription</div>
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 15px;">
+
+        <div v-if="errorLoginEmail || errorLoginPassword" style="font-size: 13px; color: red; margin-bottom: 5px; text-align: center; font-weight: 400;">Identifiant ou mot de passe incorrect</div>
+
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginEmail }" style="margin-top: 15px">
           <fieldset>
             <legend>Email</legend>
@@ -28,6 +32,8 @@
             <input type="password" v-model="loginPassword">
           </fieldset>
         </div>
+
+
 
         <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 15px 0px 10px;">
           <div @click="login()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">
@@ -463,6 +469,7 @@ export default {
       picture: null,
       safeareaBottom: '40px',
       loading: false,
+      isAndroid: false,
       isReset: false
     }
   },
@@ -477,6 +484,10 @@ export default {
 
     if (window.cordova && (window.cordova.platformId === "ios")) {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 40px)';
+    }
+
+    if (window.cordova && (window.cordova.platformId === "android")) {
+      this.isAndroid = true;
     }
 
     if (window.device) {
@@ -500,7 +511,11 @@ export default {
 
       if (!this.loginEmail) {
         this.errorLoginEmail = true;
-      } 
+      } else {
+        if (!this.validEmail(this.loginEmail)) {
+          this.errorLoginEmail = true;
+        }
+      }
 
       if (!this.loginPassword) {
         this.errorLoginPassword = true;
@@ -517,6 +532,8 @@ export default {
           this.$router.push({ name: 'Feed' });
         }, (response) => {
           this.loading = false;
+          this.errorLoginPassword = true;
+          this.errorLoginEmail = true;
           console.log(response);
         });
       }

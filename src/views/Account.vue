@@ -38,7 +38,7 @@
         </div>
         <div v-else class="btn-follow" style="display: flex; margin-top: 20px;">
           <div @click="goToVendorRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(255, 39, 115); padding: 10px 20px; border-radius: 10px; font-weight: 500; font-size: 14px; margin: 0px; width: calc(50vw - 25px); margin-right: 20px;">Devenir vendeur</div>
-          <div class="btn-swipe" disabled style="color: white; text-align: center; width: fit-content; background: rgb(0, 132, 255); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir affilié</div>
+          <div class="btn-swipe" disabled style="color: white; text-align: center; width: fit-content; background: rgb(0, 132, 255); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
         </div>
 
         <div v-if="user.vendor" class="profile--follow" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 12px 0px;">

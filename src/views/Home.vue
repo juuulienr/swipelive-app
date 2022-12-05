@@ -110,10 +110,10 @@
                 <p @click="goToProfile(user.id)" v-if="user.followers.length > 1" class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{user.followers.length }} abonnés</p>
                 <p @click="goToProfile(user.id)" v-else class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{user.followers.length }} abonné</p>
 
-                <div @click="follow(user.id)" class="btn-swipe" :style="[isFollowing == true ? {'padding': '6px 12px'} : {'padding': '5px 12px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'}]" style="color: white; margin-top: 18px; font-size: 13px; margin: 15px 15px 0px; border-radius: 30px;">
+                <div @click="follow(user.id)" class="btn-swipe" :style="[isFollowing == true ? {'padding': '5px 12px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '6px 12px'}]" style="color: white; margin-top: 18px; font-size: 13px; margin: 15px 15px 0px; border-radius: 30px;">
                   <span v-if="loading">
                     <svg viewBox="25 25 50 50" class="loading">
-                      <circle :style="[isFollowing == true ? {'stroke': 'white'} : {'stroke': 'rgba(99, 99, 99, 0.4)'}]" cx="50" cy="50" r="20"></circle>
+                      <circle :style="[isFollowing == true ? {'stroke': 'rgba(99, 99, 99, 0.4)'} : {'stroke': 'white'}]" cx="50" cy="50" r="20"></circle>
                     </svg>
                   </span>
                   <span v-else-if="isFollowing == true">Abonné</span>
