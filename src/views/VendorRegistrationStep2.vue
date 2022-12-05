@@ -63,13 +63,6 @@
         </div>
         <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
 
-
-        <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
-          <fieldset>
-            <legend>Email</legend>
-            <input type="text" v-model="user.email" style="text-transform: lowercase;">
-          </fieldset>
-        </div>
         
         <VuePhoneNumberInput v-model="user.phone" :translations="{
           countrySelectorLabel: 'Code pays',
@@ -80,6 +73,13 @@
           :preferred-countries="['FR', 'BE', 'LU', 'CH']"
           @update="onUpdate"
         />
+
+        <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
+          <fieldset>
+            <legend>Email</legend>
+            <input type="text" v-model="user.email" style="text-transform: lowercase;">
+          </fieldset>
+        </div>
 
         <div @click="submitStep1()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
       </div>
@@ -303,6 +303,15 @@
 .country-selector__label {
   color: #525c66 !important;
 }
+
+.dots-text {
+  color: #525c66 !important;
+}
+
+button.flex.align-center.country-selector__list__item.selected {
+  background: white !important;
+}
+
 
 </style>
 

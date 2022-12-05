@@ -501,6 +501,15 @@
 .country-selector__label {
   color: #525c66 !important;
 }
+
+.dots-text {
+  color: #525c66 !important;
+}
+
+button.flex.align-center.country-selector__list__item.selected {
+  background: white !important;
+}
+
 </style>
 
 <script>

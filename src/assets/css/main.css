@@ -1170,7 +1170,6 @@ select {
   top: 0px;
   transform: translate(14px, -9px) scale(0.75);
   transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  z-index: 1;
   pointer-events: none;
   width: auto;
 }
