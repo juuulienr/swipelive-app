@@ -36,34 +36,34 @@
           </fieldset>
         </div>
 
-        <div class="form--input--item">
+        <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
           <fieldset>
             <legend>Téléphone</legend>
-            <input type="text" placeholder="+33" required>
+            <input type="text" v-model="lastname">
           </fieldset>
         </div>
-        
+
         <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
-          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+          <div class="form--input--item">
             <fieldset>
               <legend>Jour</legend>
-              <input type="text" id="date1" v-model="dob" required inputmode="decimal">
+              <input type="text" required v-model="day" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
-          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+          <div class="form--input--item">
             <fieldset>
               <legend>Mois</legend>
-              <input type="text" id="date2" v-model="dob" required inputmode="decimal">
+              <input type="text" required v-model="month" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
-          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+          <div class="form--input--item" :class="{'form--input--item--error': errorYear }">
             <fieldset>
               <legend>Année</legend>
-              <input type="text" id="date3" v-model="dob" required inputmode="decimal">
+              <input type="text" required v-model="year" inputmode="decimal" minlength="4" maxlength="4" style="width: 80%">
             </fieldset>
           </div>
         </div>
-        <div v-if="errorDob" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
+        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
@@ -220,43 +220,22 @@ export default {
       password: null,
       firstname: null,
       lastname: null,
-      summary: null,
-      dob: null,
       day: null,
       month: null,
       year: null,
-      businessName: null,
-      company: null,
-      siren: null,
-      address: null,
-      zip: null,
-      city: null,
       picture: null,
-      waiting: false,
+      phone: null,
       errorFirstname: false,
       errorLastname: false,
       errorEmail: false,
-      errorDob: false,
-      errorBusinessType: false,
-      errorBusinessName: false,
-      errorCompany: false,
-      errorSiren: false,
-      errorAddress: false,
-      errorZip: false,
-      errorCity: false,
-      errorSummary: false,
-      errorCountry: false,
+      errorYear: false,
       errorPassword: false,
+      errorPhone: null,
       errorRegistration: null,
       showAutocomplete: false,
     }
   },
   created() {
-    var isAuthenticated = AuthAPI.isAuthenticated();
-    if (isAuthenticated) {
-      this.$router.push({ name: 'Feed' });
-    }
-    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
   },

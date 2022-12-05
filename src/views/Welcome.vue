@@ -33,8 +33,6 @@
           </fieldset>
         </div>
 
-
-
         <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 15px 0px 10px;">
           <div @click="login()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">
             <span v-if="loading">
@@ -658,7 +656,6 @@ export default {
       var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
       
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
-        console.log(response);
         var result = JSON.parse(response.data);
         window.localStorage.setItem("token", result.token);
         this.$router.push({ name: 'AllowNotif' });

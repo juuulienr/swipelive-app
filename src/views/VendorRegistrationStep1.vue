@@ -11,14 +11,6 @@
     <div style="margin-bottom: 20px;">
       <div style="font-weight: 500; margin-bottom: 20px; text-align: center; font-size: 16px;">Selectionner le type de vendeur :</div>
       <div style="display: flex; justify-content: space-between;">
-        <div @click="goStep2('company')" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 32px; height: 32px; margin-bottom: 12px;">
-            <defs></defs>
-            <path d="M191.35 414.77L208 344l-32-56h96l-32 56 16.65 70.77L224 480zM224 256A128 128 0 1 0 96 128a128 128 0 0 0 128 128z" class="fa-secondary" style="fill: #c4cacf;"></path>
-            <path d="M319.8 288.6L224 480l-95.8-191.4C56.9 292 0 350.3 0 422.4V464a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" class="fa-primary" style="fill: #637381;"></path>
-          </svg>
-          <div style="font-size: 14px;color: rgb(82, 92, 102);font-weight: 500;">Professionnel</div>
-        </div>
         <div @click="goStep2('individual')" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 32px; height: 32px; margin-bottom: 12px;">
             <defs></defs>
@@ -26,6 +18,14 @@
             <path d="M313.6 288h-16.7a174.1 174.1 0 0 1-145.8 0h-16.7A134.43 134.43 0 0 0 0 422.4V464a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48v-41.6A134.43 134.43 0 0 0 313.6 288z" class="fa-primary" style="fill: #637381;"></path>
           </svg>
           <div style="font-size: 14px;color: rgb(82, 92, 102);font-weight: 500;">Particulier</div>
+        </div>
+        <div @click="goStep2('company')" style="width: 48%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 16px; border: 1px solid #e0e3eb;box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 32px; height: 32px; margin-bottom: 12px;">
+            <defs></defs>
+            <path d="M191.35 414.77L208 344l-32-56h96l-32 56 16.65 70.77L224 480zM224 256A128 128 0 1 0 96 128a128 128 0 0 0 128 128z" class="fa-secondary" style="fill: #c4cacf;"></path>
+            <path d="M319.8 288.6L224 480l-95.8-191.4C56.9 292 0 350.3 0 422.4V464a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" class="fa-primary" style="fill: #637381;"></path>
+          </svg>
+          <div style="font-size: 14px;color: rgb(82, 92, 102);font-weight: 500;">Professionnel</div>
         </div>
       </div><br>
 
@@ -153,11 +153,6 @@ export default {
     return {}
   },
   created() {
-    var isAuthenticated = AuthAPI.isAuthenticated();
-    if (isAuthenticated) {
-      this.$router.push({ name: 'Feed' });
-    }
-    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
   },
@@ -166,7 +161,7 @@ export default {
       this.$router.push({ name: 'VendorRegistrationStep2', params: { businessType: businessType } });
     },
     goBack() {
-      this.$router.push({ name: 'Welcome' });
+      this.$router.back();
     },
   }
 };

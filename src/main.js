@@ -10,6 +10,7 @@ import VueObserveVisibility from 'vue-observe-visibility';
 import * as VueGoogleMaps from "vue2-google-maps";
 
 
+
 if (window.location.protocol === 'file:') {
   Vue.config.productionTip = true;
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");

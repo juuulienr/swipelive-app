@@ -87,12 +87,12 @@
         <div v-if="shop" class="items" style="margin-top: 20px;">
           <div v-if="profile && profile.vendor.products" class="shop--part" style="margin: 0px;">
             <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--item">
-              <div @click="goProduct(product.id)">
+              <div>
                 <div>
                   <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
                 </div>
               </div>
-              <div @click="goProduct(product.id)" class="shop--item--details">
+              <div class="shop--item--details">
                 <div class="shop--item--name">{{ product.title }}</div>
                 <div class="shop--item--price">
                   <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#000'}]"> {{ product.price | formatPrice }}€ 

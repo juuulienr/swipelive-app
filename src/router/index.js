@@ -14,7 +14,7 @@ import About from '@/views/About'
 import Product from '@/views/Product'
 import Profile from '@/views/Profile'
 import Checkout from '@/views/Checkout'
-import GridProducts from '@/views/GridProducts'
+import Category from '@/views/Category'
 import ListOrders from '@/views/ListOrders'
 import ListMessages from '@/views/ListMessages'
 import Message from '@/views/Message'
@@ -51,11 +51,11 @@ export default new Router({
       name: 'InfluencerRegistration',
       component: InfluencerRegistration
     }, {
-      path: '/registration/step1',
+      path: '/vendor/step1',
       name: 'VendorRegistrationStep1',
       component: VendorRegistrationStep1
     }, {
-      path: '/registration/step2/:businessType',
+      path: '/vendor/step2/:businessType',
       name: 'VendorRegistrationStep2',
       component: VendorRegistrationStep2
     }, {
@@ -72,8 +72,8 @@ export default new Router({
       component: Feed
     }, {
       path: '/category/:id/:name?',
-      name: 'GridProducts',
-      component: GridProducts
+      name: 'Category',
+      component: Category
     }, {
       path: '/products/add',
       name: 'AddProduct',

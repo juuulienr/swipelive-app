@@ -39,7 +39,7 @@
     <div v-if="categories" class="people-section" style="background: white; padding: 75px 0px 0px;">
       <h2 style="font-weight: 500; font-size: 17px; margin-left: 10px;">Catégories</h2>
       <div class="people" style="padding: 0px 10px;">
-        <router-link v-for="category in categories" :key="category.id" :to="{ name: 'GridProducts', params: { id: category.id, name: category.name }}">
+        <router-link v-for="category in categories" :key="category.id" :to="{ name: 'Category', params: { id: category.id, name: category.name }}">
           <div class="one-people text-center">
             <div class="people-img">
               <img v-if="category.picture" :src="require(`@/assets/img/` + category.picture)" style="width: 100px; height: 100px; margin: 0 auto;">

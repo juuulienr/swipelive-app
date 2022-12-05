@@ -14,9 +14,9 @@
       <div v-if="step1" class="step1">
         <div class="general--profile">
           <span @click="uploadSheet()">
-            <span v-if="picture">
+            <span v-if="user.picture">
               <span>
-                <img :src="cloudinary256x256 + picture">
+                <img :src="cloudinary256x256 + user.picture">
               </span>
             </span>
             <div v-else>
@@ -25,63 +25,61 @@
             </div>
           </span>
         </div>
+        <div v-if="errorPicture" style="text-align: center; font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 30px; margin-top: -15px;">Une image ou un logo est obligatoire</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
             <legend>Prénom</legend>
-            <input type="text" v-model="firstname">
+            <input type="text" required v-model="user.firstname">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
           <fieldset>
             <legend>Nom</legend>
-            <input type="text" v-model="lastname">
+            <input type="text" required v-model="user.lastname">
           </fieldset>
         </div>
 
-        <div class="form--input--item">
-          <fieldset>
-            <legend>Téléphone</legend>
-            <input type="text" placeholder="+33" required>
-          </fieldset>
-        </div>
-        
         <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
-          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+          <div class="form--input--item">
             <fieldset>
               <legend>Jour</legend>
-              <input type="text" id="date1" v-model="dob" required inputmode="decimal">
+              <input type="text" required v-model="user.day" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
-          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+          <div class="form--input--item">
             <fieldset>
               <legend>Mois</legend>
-              <input type="text" id="date2" v-model="dob" required inputmode="decimal">
+              <input type="text" required v-model="user.month" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
-          <div class="form--input--item" :class="{'form--input--item--error': errorDob }">
+          <div class="form--input--item" :class="{'form--input--item--error': errorYear }">
             <fieldset>
               <legend>Année</legend>
-              <input type="text" id="date3" v-model="dob" required inputmode="decimal">
+              <input type="text" required v-model="user.year" inputmode="decimal" minlength="4" maxlength="4" style="width: 80%">
             </fieldset>
           </div>
         </div>
-        <div v-if="errorDob" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
+        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
+
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" v-model="email" style="text-transform: lowercase;">
+            <input type="text" v-model="user.email" style="text-transform: lowercase;">
           </fieldset>
         </div>
         
-        <div class="form--input--item" :class="{'form--input--item--error': errorPassword }">
-          <fieldset>
-            <legend>Mot de passe</legend>
-            <input type="password" v-model="password">
-          </fieldset>
-        </div>
+        <VuePhoneNumberInput v-model="user.phone" :translations="{
+          countrySelectorLabel: 'Code pays',
+          countrySelectorError: 'Choisir un pays',
+          phoneNumberLabel: 'Numéro de téléphone',
+          example: 'Exemple :'}"
+          :border-radius="10"
+          :preferred-countries="['FR', 'BE', 'LU', 'CH']"
+          @update="onUpdate"
+        />
 
         <div @click="submitStep1()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
       </div>
@@ -110,7 +108,6 @@
           <fieldset>
             <legend>Adresse</legend>
               <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder=""></vue-google-autocomplete>
-              </vue-google-autocomplete>
           </fieldset>
         </div>
 
@@ -132,20 +129,20 @@
         <div class="form--input--item">
           <fieldset>
             <legend>Pays</legend>
-            <input @click="selectCountry()" type="text" readonly>
+            <input type="text" @click="selectCountry()" v-model="country">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
           <fieldset>
-            <legend>Nom visible par les clients</legend>
+            <legend>Pseudo (visible par les clients)</legend>
             <input type="text" v-model="businessName">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorSummary }">
           <fieldset style="height: 90px;">
-            <legend>Brève description de l'activité</legend>
+            <legend>Présentation (visible par les clients)</legend>
             <textarea v-model="summary" style="height: 90px; margin-top: 10px;" maxlength="120"></textarea>
           </fieldset>
         </div>
@@ -157,14 +154,6 @@
 </template>
 
 <style scoped>
-.rolldate-container header {
-  font-size: 16px  !important;
-}
-
-.rolldate-btn {
-  font-size: 15px !important;
-}
-
 .general--profile {
   padding-bottom: 45px;
 }
@@ -288,32 +277,56 @@
   border-radius: 7px !important;
   padding: 7px 3px !important;
 }
+
+.vue-phone-number-input {
+  margin-bottom: 34px !important;
+}
+.country-selector__input {
+  border: 2px solid #e0e3eb !important;
+  height: 50px !important;
+}
+
+.input-tel__input {
+  border: 2px solid #e0e3eb !important;
+  height: 50px !important;
+  box-shadow: none !important;
+}
+
+.country-selector__country-flag {
+  top: 25px !important;
+}
+
+.input-tel__label {
+  color: #525c66 !important;
+}
+
+.country-selector__label {
+  color: #525c66 !important;
+}
+
 </style>
 
 <script>
 
 import AuthAPI from "../services/authAPI.js";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import Rolldate from 'rolldate';
+import VuePhoneNumberInput from 'vue-phone-number-input';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
 export default {
   name: 'VendorRegistrationStep2',
+  components: { VueGoogleAutocomplete, VuePhoneNumberInput },
   data() {
     return {
       businessType: this.$route.params.businessType,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      user: JSON.parse(window.localStorage.getItem("user")),
       step1: true,
       step2: false,
       email: null,
-      password: null,
-      firstname: null,
-      lastname: null,
       summary: null,
-      dob: null,
-      day: null,
-      month: null,
-      year: null,
       businessName: null,
       company: null,
       siren: null,
@@ -321,11 +334,10 @@ export default {
       zip: null,
       city: null,
       picture: null,
-      waiting: false,
       errorFirstname: false,
       errorLastname: false,
       errorEmail: false,
-      errorDob: false,
+      errorYear: false,
       errorBusinessType: false,
       errorBusinessName: false,
       errorCompany: false,
@@ -335,61 +347,64 @@ export default {
       errorCity: false,
       errorSummary: false,
       errorCountry: false,
-      errorPassword: false,
+      errorPhone: false,
+      errorPicture: false,
       errorRegistration: null,
       showAutocomplete: false,
+      test: null,
     }
   },
   created() {
-    var isAuthenticated = AuthAPI.isAuthenticated();
-    if (isAuthenticated) {
-      this.$router.push({ name: 'Feed' });
-    }
-    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
   },
   methods: {
     submitStep1() {
       this.errorEmail = false;
-      this.errorPassword = false;
       this.errorFirstname = false;
       this.errorLastname = false;
-      this.errorDob = false;
+      this.errorYear = false;
+      this.errorPhone = false;
+      this.errorPicture = false;
 
-      if (!this.email) {
+      if (!this.user.email) {
         this.errorEmail = true;
       } else {
-        if (!this.validEmail(this.email)) {
+        if (!this.validEmail(this.user.email)) {
           this.errorEmail = true;
         }
       }
 
-      if (!this.password) {
-        this.errorPassword = true;
-      }
-
-      if (!this.firstname) {
+      if (!this.user.firstname) {
         this.errorFirstname = true;
       }
 
-      if (!this.lastname) {
+      if (!this.user.lastname) {
         this.errorLastname = true;
       }
 
-      if (!this.dob) {
-        this.errorDob = true;
+      console.log(this.user.phone);
+      if (!this.user.phone) {
+        this.errorPhone = true;
+      }
+
+      if (!this.user.picture) {
+        this.errorPicture = true;
+      }
+
+      if (!this.user.day && !this.user.month && !this.user.year) {
+        this.errorYear = true;
       } else {
         var today = new Date();
         var eighteenYearsAgo = today.setFullYear(today.getFullYear()-18);
         eighteenYearsAgo = new Date(eighteenYearsAgo);
 
-        if (eighteenYearsAgo < new Date(this.dob)) {
-          this.errorDob = true;
+        if (eighteenYearsAgo < new Date(this.user.year)) {
+          this.errorYear = true;
         }
       }
 
-      if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.errorDob) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorPhone && !this.errorPicture) {
         this.step1 = false;
         this.step2 = true;
       }
@@ -457,16 +472,15 @@ export default {
       }
     }, 
     async submit() {
-      if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorDob && !this.errorBusinessType && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorYear && !this.errorBusinessType && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren) {
 
         window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "picture": this.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "dob": this.dob, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
-        var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+        var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
 
-        await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
+        await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(response);
           window.localStorage.setItem("user", response.data);
-          this.authenticate();
+          this.$router.push({ name: 'Account' });
         }, (response) => {
           console.log(JSON.parse(response.error));
           this.errorRegistration = JSON.parse(response.error);
@@ -476,54 +490,6 @@ export default {
     validEmail(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
-    },
-    async authenticate() {
-      var httpParams = { "username": this.email, "password": this.password };
-      var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-      
-      await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
-        console.log(response);
-        var result = JSON.parse(response.data);
-        window.localStorage.setItem("token", result.token);
-        this.$router.push({ name: 'AllowNotif' });
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    openDatePicker() {
-      this.dob = null;
-
-      if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
-        window.cordova.plugins.DateTimePicker.show({
-          mode: "date",
-          allowFutureDates: false,
-          success: (newDate) => {
-            console.log(newDate);
-            console.log(newDate.getDate());
-            console.log(newDate.getMonth());
-
-            if (newDate.getDate() > 9) {
-              this.day = newDate.getDate();
-            } else {
-              this.day = "0" + newDate.getDate();
-            }
-
-            this.month = newDate.getMonth() + 1;
-            if (this.month < 10) {
-              this.month = "0" + newDate.getMonth();
-            }
-
-            this.year = newDate.getFullYear();
-            this.dob = "" + this.day + "/" + this.month + "/" + this.year + "";
-          }
-        });
-      } else {
-        this.day = "12";
-        this.month = "06";
-        this.year = "1996";
-        this.dob = "" + this.day + "/" + this.month + "/" + this.year + "";
-        console.log(this.dob);
-      }
     },
     uploadSheet() {
       var options = {
@@ -575,7 +541,7 @@ export default {
         console.log(imageUri);
         
         window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
+        if (window.cordova && (window.cordova.platformId === "android" ||window.cordova.platformId === "ios")) {
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/api/registration/picture", {}, { Authorization: "Bearer " }, imageUri, 'picture', (response) => {
           	console.log(JSON.parse(response.data));
             this.picture = JSON.parse(response.data);
@@ -660,6 +626,15 @@ export default {
 	    }, (error) => {
 	    	console.log(error);
 	    });
+    }, 
+    onUpdate(event) {
+      if (event.isValid) {
+        this.errorPhone = false;
+        this.user.phone = event.e164;
+      } else {
+        this.errorPhone = true;
+      }
+      console.log(event);
     }
   }  
 };

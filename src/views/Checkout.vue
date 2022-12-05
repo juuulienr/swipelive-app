@@ -225,12 +225,15 @@
             </fieldset>
           </div>
 
-          <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
-            <fieldset>
-              <legend>Téléphone</legend>
-              <input type="text" v-model="phone">
-            </fieldset>
-          </div>
+          <VuePhoneNumberInput v-model="phone" :translations="{
+            countrySelectorLabel: 'Code pays',
+            countrySelectorError: 'Choisir un pays',
+            phoneNumberLabel: 'Numéro de téléphone',
+            example: 'Exemple :'}"
+            :border-radius="10"
+            :preferred-countries="['FR', 'BE', 'LU', 'CH']"
+            @update="onUpdate"
+          />
 
           <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
             <fieldset>
@@ -471,15 +474,45 @@
 	border-radius: 7px !important;
 	padding: 7px 3px !important;
 }
+
+
+.vue-phone-number-input {
+  margin-bottom: 34px !important;
+}
+.country-selector__input {
+  border: 2px solid #e0e3eb !important;
+  height: 50px !important;
+}
+
+.input-tel__input {
+  border: 2px solid #e0e3eb !important;
+  height: 50px !important;
+  box-shadow: none !important;
+}
+
+.country-selector__country-flag {
+  top: 25px !important;
+}
+
+.input-tel__label {
+  color: #525c66 !important;
+}
+
+.country-selector__label {
+  color: #525c66 !important;
+}
 </style>
 
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import VuePhoneNumberInput from 'vue-phone-number-input';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
+
 
 export default {
   name: 'Checkout',
-  components: { VueGoogleAutocomplete },
+  components: { VueGoogleAutocomplete, VuePhoneNumberInput },
   data() {
     return {
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
@@ -509,7 +542,7 @@ export default {
       errorCountry: false,
       errorPhone: false,
       name: null,
-      phone: "+33666666666",
+      phone: null,
       address: null,
       zip: null,
       city: null,
@@ -871,6 +904,15 @@ export default {
 	    }, (response) => {
 	      console.log(response.error);
 	    });
+    },
+    onUpdate(event) {
+      if (event.isValid) {
+        this.errorPhone = false;
+        this.phone = event.e164;
+      } else {
+        this.errorPhone = true;
+      }
+      console.log(event);
     }
 	}
 };

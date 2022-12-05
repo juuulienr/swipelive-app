@@ -1,19 +1,22 @@
 <template>
-  <main class="products">
-    <div class="checkout">
-      <div class="checkout__header" style="padding: 15px;">
-        <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 8px; padding: 0.5rem 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: #161823;"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
-        </div>
-        <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Mon Profil</div>
-        <div class="checkout__right-btn" style="position: absolute; right: 15px; top: 8px; padding: 0.5rem 0px;">
-          <div @click="submit()" style="color: #ff2773; font-weight: 600;">Enregistrer</div>
-        </div>
+  <main class="my_profile1" style="padding: 0px 15px 15px;">
+    <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: fixed; left: initial; top: 0px; padding: 6px 0px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+        </svg>
       </div>
-      <div style="padding: 15Px;">
-        <div class="general--profile" style="margin-bottom: 25px;">
+      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Profil</div>
+      <div @click="submit()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
+        <div style="color: #ff2773; font-weight: 600;">Enregistrer</div>
+      </div>
+    </div>
+
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+      <div>
+        <div class="general--profile" style="padding-top: 10px;">
           <div>
-            <span @click="uploadSheet()" style="width: 128px; height:128px;">
+            <span @click="uploadSheet()">
               <span>
                 <span>
                   <img v-if="user.picture" :src="cloudinary256x256 + user.picture">
@@ -24,44 +27,74 @@
           </div>
         </div>
 
-        <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
+        <h2 style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px;">Informations personnelles</h2>
+        <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
-            <legend>Nom commercial</legend>
-            <input type="text" v-model="user.vendor.businessName">
+            <legend>Prénom</legend>
+            <input type="text" required v-model="user.firstname">
           </fieldset>
         </div>
 
-        <div class="form--input">
-          <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
-            <fieldset>
-              <legend>Prénom</legend>
-              <input type="text" v-model="user.firstname">
-            </fieldset>
-          </div>
-
-          <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
-            <fieldset>
-              <legend>Nom</legend>
-              <input type="text" v-model="user.lastname">
-            </fieldset>
-          </div>
+        <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
+          <fieldset>
+            <legend>Nom</legend>
+            <input type="text" required v-model="user.lastname">
+          </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" v-model="user.email">
+            <input type="text" disabled v-model="user.email" style="text-transform: lowercase;">
           </fieldset>
         </div>
 
-        <div v-if="user.vendor" @click="openDatePicker()" class="form--input--item" :class="{'form--input--item--error': errorDob }">
+        <div class="form--input--item">
           <fieldset>
-            <legend>Date de naissance</legend>
-            <input type="text" id="date" v-model="user.vendor.dob">
+            <legend>Téléphone</legend>
+            <input type="text" v-model="user.phone">
           </fieldset>
         </div>
-        <div v-if="errorDob" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
-      
+
+        <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
+          <div class="form--input--item">
+            <fieldset>
+              <legend>Jour</legend>
+              <input type="text" required v-model="user.day" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
+            </fieldset>
+          </div>
+          <div class="form--input--item">
+            <fieldset>
+              <legend>Mois</legend>
+              <input type="text" required v-model="user.month" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
+            </fieldset>
+          </div>
+          <div class="form--input--item" :class="{'form--input--item--error': errorYear }">
+            <fieldset>
+              <legend>Année</legend>
+              <input type="text" required v-model="user.year" inputmode="decimal" minlength="4" maxlength="4" style="width: 80%">
+            </fieldset>
+          </div>
+        </div>
+        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
+
+
+
+        <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px; margin-top: 30px;">Informations vendeur</h2>
+        <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
+          <fieldset>
+            <legend>Pseudo (visible par les clients)</legend>
+            <input type="text" v-model="user.vendor.businessName">
+          </fieldset>
+        </div>
+
+        <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorSummary }">
+          <fieldset style="height: 90px;">
+            <legend>Présentation (visible par les clients)</legend>
+            <textarea v-model="user.vendor.summary" style="height: 90px; margin-top: 10px;" maxlength="120"></textarea>
+          </fieldset>
+        </div>
+
         <div v-if="user.vendor && user.vendor.businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorCompany }">
           <fieldset>
             <legend>Nom de société</legend>
@@ -76,19 +109,12 @@
           </fieldset>
         </div>
         <div v-if="errorSiren" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">SIREN (9 chiffres)</div>
-        
-
-        <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorSummary }">
-          <fieldset style="height: 90px;">
-            <legend>Brève description de l'activité</legend>
-            <textarea v-model="user.vendor.summary" style="height: 90px; margin-top: 10px;" maxlength="120"></textarea>
-          </fieldset>
-        </div>
 
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
-            <legend>Adresse</legend>
-            <input type="text" v-model="user.vendor.address">
+            <legend>Adresse</legend>  
+            <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="user.vendor.address">
+            </vue-google-autocomplete>
           </fieldset>
         </div>
 
@@ -106,7 +132,14 @@
               <input type="text" v-model="user.vendor.city">
             </fieldset>
           </div>
-        </div><br>
+        </div>
+
+        <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorCountry }">
+          <fieldset>
+            <legend>Pays</legend>
+            <input @click="selectCountry()" type="text" readonly v-model="user.vendor.country">
+          </fieldset>
+        </div>
       </div>
     </div>
   </main>
@@ -126,32 +159,34 @@
 </style>
 
 <script>
-import Rolldate from 'rolldate';
+
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 export default {
   name: 'EditUser',
+  components: { VueGoogleAutocomplete },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      showAutocomplete: false,
+      errorPhone: false,
       errorEmail: false,
       errorFirstname: false,
       errorLastname: false,
       errorSummary: false,
       errorBusinessName: false,
       errorBusinessType: false,
-      errorDob: false,
+      errorYear: false,
       errorAddress: false,
       errorCompany: false,
       errorSiren: false,
       errorZip: false,
       errorCity: false,
+      errorCountry: false,
       vendor: null,
-      day: null,
-      month: null,
-      year: null,
     }
   },
   created() {    
@@ -165,7 +200,7 @@ export default {
       this.errorFirstname = false;
       this.errorLastname = false;
       this.errorSummary = false;
-      this.errorDob = false;
+      this.errorYear = false;
       this.errorBusinessName = false;
       this.errorAddress = false;
       this.errorCompany = false;
@@ -189,24 +224,23 @@ export default {
         this.errorLastname = true;
       }
 
+      if (!this.user.year && !this.user.month && !this.user.day) {
+        this.errorYear = true;
+      } else {
+        var today = new Date();
+        var eighteenYearsAgo = today.setFullYear(today.getFullYear()-18);
+        eighteenYearsAgo = new Date(eighteenYearsAgo);
+
+        if (eighteenYearsAgo < new Date(this.user.year)) {
+          this.errorYear = true;
+        }
+      }
+
       // if vendor
       if (this.user.vendor) {
         if (!this.user.vendor.summary) {
           this.errorSummary = true;
         }
-
-        if (!this.user.vendor.dob) {
-          this.errorDob = true;
-        } else {
-          var today = new Date();
-          var eighteenYearsAgo = today.setFullYear(today.getFullYear()-18);
-          eighteenYearsAgo = new Date(eighteenYearsAgo);
-
-          if (eighteenYearsAgo < new Date(this.user.vendor.dob)) {
-            this.errorDob = true;
-          }
-        }
-
         if (!this.user.vendor.address) {
           this.errorAddress = true;
         }
@@ -232,14 +266,29 @@ export default {
             this.errorSiren = true;
           }
         }
+      
+        switch (this.user.vendor.country) {
+          case "France":
+            this.user.vendor.countryShort = "FR";
+            break;
+          case "Belgique":
+            this.user.vendor.countryShort = "BE";
+            break;
+          case "Luxembourg":
+            this.user.vendor.countryShort = "LU";
+            break;
+          default:
+            this.user.vendor.countryShort = null;
+            this.errorCountry = true;
+        }
       }
 
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorDob && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorYear && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry) {
         window.cordova.plugin.http.setDataSerializer('json');
         if (this.user.vendor) {
-          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "dob": this.user.vendor.dob, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city };
+          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
         } else {
-          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "businessType" : null };
+          var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType" : null };
         }
 
         await window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/edit", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
@@ -316,33 +365,73 @@ export default {
         console.log("Impossible de récupérer l'image : " + error);
       }, options);
     },
-    openDatePicker() {
-      window.cordova.plugins.DateTimePicker.show({
-        mode: "date",
-        allowFutureDates: false,
-        success: (newDate) => {
-          console.log(newDate);
-          console.log(newDate.getDate());
-          console.log(newDate.getMonth());
-
-          if (newDate.getDate() > 9) {
-            this.day = newDate.getDate();
-          } else {
-            this.day = "0" + newDate.getDate();
-          }
-
-          this.month = newDate.getMonth() + 1;
-          if (this.month < 10) {
-            this.month = "0" + newDate.getMonth();
-          }
-
-          this.year = newDate.getFullYear();
-          this.user.vendor.dob = "" + this.day + "/" + this.month + "/" + this.year + "";
-        }
-      });
-    },
     goBack() {
       this.$router.push({ name: 'Account' });
+    },
+    handleError(error) {
+      console.log(error);
+    },
+    updateAddressData(addressData) {
+      var data = addressData.split(',');
+      this.$refs.address.update(data[0]);
+      this.user.vendor.address = data[0];
+    },
+    getAddressData(addressData, placeResultData, id) {
+      console.log(addressData);
+      console.log(placeResultData);
+      
+      if (addressData.street_number) {
+        var street = addressData.street_number + ' ' + addressData.route;
+        this.user.vendor.countryShort = placeResultData.address_components[5].short_name;
+      } else {
+        var street = addressData.route;
+        this.user.vendor.countryShort = placeResultData.address_components[4].short_name;
+      }
+
+      this.$refs.address.update(street);
+      this.user.vendor.address = street;
+      this.user.vendor.zip = addressData.postal_code;
+      this.user.vendor.city = addressData.locality;
+      this.user.vendor.country = addressData.country;
+    },
+    blurAddressInput() {
+      this.showAutocomplete = false;
+      document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+    },
+    focusAddressInput() {
+      this.showAutocomplete = true;
+    },
+    inputChangeAddressInput(input) {
+      console.log(input.newVal);
+      if (input.newVal.length > 2 && this.showAutocomplete) {
+        document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+      } else {
+        document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+      }
+    },
+    selectCountry() {
+      var data = {
+        numbers: [
+          {description: "France"},
+          {description: "Belgique"},
+          {description: "Luxembourg"},
+        ],
+      };
+
+      var config = {
+        title: "",
+        items:[
+          [data.numbers]
+        ],
+        positiveButtonText: "Choisir",
+        negativeButtonText: "Annuler"
+      };
+
+      window.SelectorCordovaPlugin.showSelector(config, (result) => {
+        this.user.vendor.country = result[0].description;
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
 };
