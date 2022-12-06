@@ -1,18 +1,56 @@
 <template>
-  <main class="products">
-    <div class="checkout">
-      <div class="checkout__header" style="padding: 15px;">
-        <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 8px; padding: 0.5rem 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: #161823;"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
+  <main class="products" style="padding: 0px 15px 15px;">
+    <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: fixed; left: initial; top: 0px; padding: 6px 0px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+        </svg>
+      </div>
+      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Ajouter un article</div>
+      <div @click="submit()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
+        <div style="color: #ff2773; font-weight: 600;">Enregistrer</div>
+      </div>
+    </div>
+
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+      <div @click="uploadSheet()" class="drop--file" :class="{'drop--img--error': errorImage }">
+        <div class="drop--img">
+          <video style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
-        <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Ajouter un produit</div>
+        <div class="drop--text">
+          <h5>Ajouter des photos</h5>
+          <p>1 à 6 photos</p>
+        </div>
       </div>
 
-      <div style="padding: 15px;margin-top: 5px;">
+      <div class="content--img" style="margin-top: 15px;">
+        <div v-if="images.length" v-for="(image, index) in images" :key="image.id">
+          <span>
+            <span>
+              <img :src="cloudinary256x256 + image.filename">
+            </span>
+          </span>
+          <button @click="deleteImage(index, image.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-0 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29l-4.3 4.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4.29-4.3l4.29 4.3a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42z"></path></svg>
+          </button>
+        </div>
+        <div v-if="loadingImg" style="border: 1px solid rgba(145,158,171,.24);">
+          <span style="margin: 0 auto;">
+            <span style="top: calc(50% - 13px); left: calc(50% - 13px);">
+              <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
+                <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+              </svg>
+            </span>
+          </span>
+        </div>
+      </div>
+
+
+      <div style="margin-top: 25px;">
         <div class="form--input--item" :class="{'form--input--item--error': errorTitle }">
           <fieldset>
             <legend>Titre</legend>
-            <input type="text" v-model="title">
+            <input type="text" v-model="title" placeholder="Ex: Shampooing Aloé Vera Bio" maxlength="38">
           </fieldset>
         </div>
 
@@ -24,38 +62,6 @@
               <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
             </select>
           </fieldset>
-        </div>
-
-        <div @click="uploadSheet()" class="form--input--item" :class="{'form--input--item--error': errorImage }">
-          <div class="c-cell__content">
-            <div class="c-cell__body">
-              <div class="dropzone">
-                <div class="media-select__input" style="padding-top: 130px;">
-                  <div class="media-select__input-content">
-                    <button class="c-button c-button--default c-button--default c-button--primary c-button--inline c-button--truncated c-button--icon-left" type="button" style="border: none; height: 100px;">
-                      <span class="c-button__content" style="display: grid;">
-                        <span class="c-button__label">
-                          <span style="font-size: 14px; color: #333;">Ajouter des images</span>
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="images.length" class="content--img">
-          <div v-for="(image, index) in images" :key="image.id">
-            <span>
-              <span>
-                <img :src="cloudinary256x256 + image.filename">
-              </span>
-            </span>
-            <button @click="deleteImage(index, image.id)">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-0 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29l-4.3 4.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4.29-4.3l4.29 4.3a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42z"></path></svg>
-            </button>
-          </div>
         </div>
         
         <div class="form--input--item" :class="{'form--input--item--error': errorDescription }">
@@ -69,28 +75,14 @@
         <div v-if="!variants.length" class="form--input">
           <div class="form--input--item" :class="{'form--input--item--error': errorPrice }">
             <fieldset>
-              <legend>Prix</legend>
-              <input type="text" v-model="price" placeholder="0,00" inputmode="decimal">
+              <legend>Prix de vente</legend>
+              <input type="text" v-model="price" placeholder="Ex: 10,00" inputmode="decimal">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorCompareAtPrice }">
             <fieldset>
               <legend>Prix avant réduction</legend>
-              <input type="text" v-model="compareAtPrice" inputmode="decimal">
-            </fieldset>
-          </div>
-        </div>
-         
-        <div v-if="!variants.length" class="form--input" style="grid-template-columns: 1fr 60px;">
-          <div class="form--input--item" :class="{'form--input--item--error': errorWeight }">
-          	<fieldset>
-          		<legend>Poids</legend>
-          		<input type="text"  v-model="weight" inputmode="decimal">
-          	</fieldset>
-          </div>
-          <div class="form--input--item">
-            <fieldset>
-              <input @click="selectWeightUnit('product')" type="text" v-model="weightUnit" readonly>
+              <input type="text" v-model="compareAtPrice" placeholder="Ex: 15,00" inputmode="decimal">
             </fieldset>
           </div>
         </div>
@@ -101,78 +93,89 @@
             <input type="text" v-model="quantity" inputmode="decimal">
           </fieldset>
         </div>
-
+         
+        <div v-if="!variants.length" class="form--input" style="grid-template-columns: 1fr 60px;">
+          <div class="form--input--item" :class="{'form--input--item--error': errorWeight }">
+          	<fieldset>
+          		<legend>Poids</legend>
+          		<input type="text" v-model="weight" inputmode="decimal">
+          	</fieldset>
+          </div>
+          <div class="form--input--item">
+            <fieldset>
+              <input @click="selectWeightUnit('product')" type="text" v-model="weightUnit" readonly style="width: 75%;">
+            </fieldset>
+          </div>
+        </div>
+        <hr>
 
         <!-- variants -->
         <div class="title-wrapper-3KgEa">
-          <div style="margin-top: 0px;">
-            <div style="font-size: 16px; margin-top: 10px;">Variantes</div>
+          <div style="margin-bottom: 20px;margin-top: 0px;">
+            <div v-if="variants.length" style="font-size: 16px; margin-top: 10px;">Variantes</div>
+            <div v-else style="font-size: 16px; margin-top: 10px;">Options</div>
             <div v-if="variants.length" @click="addVariant()" style="color: #ff2773; margin-top: 10px;">Modifier</div>
-            <div v-else class="profil--slide" style="margin-top: 10px;">
-              <input type="checkbox" v-model="checkedVariants" class="slider" id="slider1" @change="addVariant()">
-              <label for="slider1">
-                <span></span>
-              </label>
-              <label for="slider1"></label>
-            </div>
           </div>
         </div>
         <div class="form-container-3hjAo">
-          <p style="font-size: 13px;color: rgb(153, 153, 153);margin-top: 10px;">Ce produit dispose de plusieurs options (tailles, couleurs différentes, poids...)</p>
+          <p style="font-size: 14px; color: rgb(153, 153, 153); margin-top: 10px; font-weight: 400;">Ajoutez des options si cet article possède des variantes, telles que des tailles ou des couleurs différentes.</p>
           <div v-if="variants.length" class="items">
             <div class="lasted--product">
-              <div v-for="(item, index) in variants" class="product--item" style="border: 1px solid rgb(176, 181, 187); padding: 5px 15px; margin-left: 0px; border-radius: 10px;">
-                <div @click="editVariant(index)" class="details" style="margin-left: 5px;">
-                  <div class="title">{{ item.title }}</div>
-                  <div v-if="item.quantity" class="price">Qté : {{ item.quantity }} | Prix : {{ item.price | formatPrice }}€</div>
-                  <div v-else class="price"><span style="color: #ff0000;">Qté : 0</span> | Prix : {{ item.price | formatPrice }}€</div>
+              <div v-for="(variant, index) in variants" class="product--item" style="align-items: center;">
+                <img @click="editVariant(index)" v-if="images.length" :src="cloudinary256x256 + images[0]" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
+                <div @click="editVariant(index)" class="details">
+                  <div class="title">{{ variant.title }}</div>
+                  <div class="price"  v-if="variant.quantity" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: rgb(34, 154, 22); font-size: 0.75rem; background-color: rgba(84, 214, 44, 0.16); font-weight: 700; padding: 0 8px; margin-top: 3px; ">{{ variant.quantity }} en stock</div>
+                  <div class="price" v-else style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: #ff0000; font-size: 0.75rem; background-color: #d62c2c29; font-weight: 700; padding: 0 8px; margin-top: 3px; ">Épuisé</div>
                 </div>
-                <div style="margin-top: 11px;">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg>
+                <div @click="editVariant(index)" style="margin-right: 20px;">
+                  <div class="price">{{ variant.price | formatPrice }}€</div>
+                </div>
+                <div @click="deleteVariant(index)" style="padding: 10px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style=" width: 16px; fill: red; margin-bottom: 3px;"><path d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"></path></svg>
                 </div>
               </div>
             </div>
           </div>
-          <div @click="submit()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin-top: 40px;">Enregistrer</div><br>
+          <div v-else>
+            <div @click="addVariant()" class="btn-swipe" style="color: #ff2773; background: white; border: 1px solid #ff2773; text-align: center; width: calc(100vw - 110px); margin: 20px auto;">Ajouter des options</div>
+          </div>
         </div>
       </div>
 
 
       <!-- popup variant -->
-      <div v-if="popupVariant" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; "> 
-        <div class="checkout__header">
-          <div @click="hideVariant()" class="checkout__close-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
+      <div v-if="popupVariant" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);">  <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
+          <div @click="hideVariant()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+            </svg>
           </div>
-          <div class="checkout__title"> Ajouter des options</div>
+          <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Options</div>
         </div>
-        <div style="padding: 15px;">
+        <div class="checkout__body" style="overflow: scroll; padding: 15px 0px;">
           <div v-if="option1">
-            <div class="row">
-              <div class="col-5" style="padding-right: 0px;">
-                <div class="form--input--item" :class="{'form--input--item--error': errorNameOption1 }">
-                  <fieldset>
-                    <legend>Option 1</legend>
-                    <input type="text" placeholder="Taille" v-model="inputNameOption1" style="text-transform: capitalize;">
-                  </fieldset>
-                </div>
+            <div style="font-size: 16px;margin-bottom: 30px;">Ajouter une option</div>
+            <div>
+              <div class="form--input--item" :class="{'form--input--item--error': errorNameOption1 }" style="margin-bottom: 25px;">
+                <fieldset>
+                  <legend>Nom de l'option</legend>
+                  <input type="text" placeholder="Taille, Couleur, Matière..." v-model="inputNameOption1" style="text-transform: capitalize;">
+                </fieldset>
               </div>
-              <div class="col-5" style="padding-right: 0px;">
+              <div style="display: grid; grid-template-columns: repeat(2, calc(100vw - 75px));">
                 <div class="form--input--item" :class="{'form--input--item--error': errorInputOption1 }">
                   <fieldset>
-                    <legend>Valeur</legend>
-                    <input type="text" placeholder="S, M, L, XL" v-model="inputOption1" v-on:keyup.enter="addValueOption1()">
+                    <legend>Valeur de l'option</legend>
+                    <input type="text" placeholder="Bleu, Noir, M, L..." v-model="inputOption1" v-on:keyup.enter="addValueOption1()">
                   </fieldset>
                 </div>
-              </div>
-              <div class="col-2">
-                <svg @click="addValueOption1()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 36px; height: 36px; fill: #ff2773; margin-top: 9px; border: 1px solid #ff2773; padding: 4px; border-radius: 30px;">
-                  <defs></defs>
-                  <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
-                  style="fill: #ff2773;"></path>
-                  <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
-                  style="fill: white;"></path>
-                </svg>
+                <div @click="addValueOption1()">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; margin-top: 7px; margin-left: 7px;">
+                    <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
+                    style="fill: rgba(255, 39, 115, 0.6);"></path>
+                  </svg>
+                </div>
               </div>
             </div>
             <div>
@@ -182,35 +185,28 @@
             </div>
           </div>
 
-
-
           <div v-if="option2">
             <hr>
-            <div class="row">
-              <div class="col-5" style="padding-right: 0px;">
-                <div class="form--input--item" :class="{'form--input--item--error': errorNameOption2 }" style="margin-top: 20px;">
+            <div style="margin-top: 40px;">
+              <div class="form--input--item" :class="{'form--input--item--error': errorNameOption2 }" style="margin-bottom: 25px;">
+                <fieldset>
+                  <legend>Nom de l'option 2</legend>
+                  <input type="text" placeholder="Taille, Couleur, Matière..." v-model="inputNameOption2" style="text-transform: capitalize;">
+                </fieldset>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(2, calc(100vw - 75px));">
+                <div class="form--input--item" :class="{'form--input--item--error': errorInputOption1 }">
                   <fieldset>
-                    <legend>Option 2</legend>
-                    <input type="text" placeholder="Couleur" v-model="inputNameOption2" style="text-transform: capitalize;">
+                    <legend>Valeur de l'option 2</legend>
+                    <input type="text" placeholder="Bleu, Noir, M, L..." v-model="inputOption2" v-on:keyup.enter="addValueOption2()">
                   </fieldset>
                 </div>
-              </div>
-              <div class="col-5" style="padding-right: 0px;">
-                <div class="form--input--item" style="margin-top: 20px;">
-                  <fieldset>
-                    <legend>Valeur</legend>
-                    <input type="text" placeholder="Bleu, rouge..." v-model="inputOption2" v-on:keyup.enter="addValueOption2()">
-                  </fieldset>
+                <div @click="addValueOption2()">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; margin-top: 7px; margin-left: 7px;">
+                    <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
+                    style="fill: rgba(255, 39, 115, 0.6);"></path>
+                  </svg>
                 </div>
-              </div>
-              <div class="col-2">
-                <svg @click="addValueOption2()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 36px; height: 36px; fill: #ff2773; margin-top: 30px; border: 1px solid #ff2773; padding: 4px; border-radius: 30px;">
-                  <defs></defs>
-                  <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
-                  style="fill: #ff2773;"></path>
-                  <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"
-                  style="fill: white;"></path>
-                </svg>
               </div>
             </div>
             <div>
@@ -219,29 +215,27 @@
               </span>
             </div>
           </div>
-          <div v-else @click="addOption()">
+          <div v-else>
             <hr><br>
-            <div style="color: #ff2773; font-weight: 500; margin-top: 15px;">Ajouter une 2ème option</div>
+            <div @click="addOption()" class="btn-swipe" style="color: #ff2773; background: white; border: 1px solid #ff2773; text-align: center; width: calc(100vw - 110px); margin: 0px auto;">Ajouter une 2ème option</div>
           </div>
 
-
-          <div @click="generate()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto; position: absolute; bottom: 20px;">Enregistrer</div>
+          <div @click="generate()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto; position: absolute; bottom: 45px;">Enregistrer</div>
         </div>
       </div>
 
 
       <!-- edit variant -->
-      <div v-if="popupEditVariant" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; "> 
-        <div class="checkout__header">
-          <div @click="hideEditVariant()" class="checkout__close-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
+      <div v-if="popupEditVariant" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);">  
+        <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
+          <div @click="hideEditVariant()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+            </svg>
           </div>
-          <div class="checkout__title"> Modifier</div>
-          <div class="checkout__right-btn">
-            <div @click="deleteVariant(variant.id)" style="color: #ff2773; font-weight: 600;">Supprimer</div>
-          </div>
+          <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Modifier</div>
         </div>
-        <div style="padding: 0px 15px;">
+        <div class="checkout__body" style="overflow: scroll; padding: 15px 0px;">
           <div>
             <div class="form--input--item" :class="{'form--input--item--error': !variant.title }" style="margin-top: 10px;">
               <fieldset>
@@ -253,14 +247,14 @@
             <div class="form--input">
               <div class="form--input--item" :class="{'form--input--item--error': !variant.price }">
                 <fieldset>
-                  <legend>Prix</legend>
-              		<input type="text" v-model="variant.price" placeholder="0,00" inputmode="decimal">
+                  <legend>Prix de vente</legend>
+              		<input type="text" v-model="variant.price" placeholder="Ex: 10,00" inputmode="decimal">
                 </fieldset>
               </div>
               <div class="form--input--item" :class="{'form--input--item--error': checkCompareAtPrice }">
                 <fieldset>
                   <legend>Prix avant réduction</legend>
-              		<input type="text" v-model="variant.compareAtPrice" inputmode="decimal">
+              		<input type="text" v-model="variant.compareAtPrice" placeholder="Ex: 15,00" inputmode="decimal">
                 </fieldset>
               </div>
             </div>
@@ -269,12 +263,12 @@
 		          <div class="form--input--item" :class="{'form--input--item--error': !variant.weight }">
 		          	<fieldset>
 		          		<legend>Poids</legend>
-		          		<input type="text"  v-model="variant.weight" inputmode="decimal">
+		          		<input type="text" v-model="variant.weight" inputmode="decimal">
 		          	</fieldset>
 		          </div>
 		          <div class="form--input--item">
 		            <fieldset>
-		              <input @click="selectWeightUnit('variant')" type="text" v-model="variant.weightUnit" readonly>
+		              <input @click="selectWeightUnit('variant')" type="text" v-model="variant.weightUnit" readonly style="width: 75%;">
 		            </fieldset>
 		          </div>
 		        </div>
@@ -295,352 +289,7 @@
 </template>
 
 
-<style scoped>
-
-.checkout__right-btn {
-  position: absolute;
-  right: 0;
-  top: 8px;
-  padding: 0.5rem;
-}
-
-.tags-input__tag {
-  display: inline-flex;
-  padding: 3px 9px;
-  margin: 0 .25rem 0.5rem;
-  border-radius: 25px;
-  background: white;
-  color: #ff2773;
-  border: 1px solid #ff2773;
-  font-weight: 600;
-}
-
-.tags-input__tag-remove {
-  display: inline-block;
-  margin-left: 0.5rem;
-  margin-right: 0.25rem;
-  line-height: 1rem;
-  transform: translateY(7%);
-  font-size: 1.5em;
-  cursor: pointer;
-  color: #ff2773;
-  font-weight: 600;
-}
-
-.store-products-item__login-popup.store-products-item__login-popup--active {
-  bottom: 0;
-}
-
-.store-products-item__login-popup {
-  position: fixed;
-  width: 100%;
-  bottom: -80%;
-  background-color: #fff;
-  animation-duration: 400ms !important;
-  animation-iteration-count: 1 !important;
-  animation-fill-mode: both !important;
-  animation-name: keyframe_d37zz3 !important;
-  z-index: 1000000000;
-  border-radius: 15px;
-}
-
-.btn-swipe {
-  color: white !important;
-  font-weight: 600;
-  margin: 20px auto;
-  padding: 14px 40px;
-  font-size: 15px;
-}
-
-.my_form_check {
- display: inline-block;
- margin-top: 58px;
-}
-
-.styled-checkbox {
- position: absolute;
- opacity: 0;
-}
-
-.styled-checkbox + label {
- position: relative;
- cursor: pointer;
- padding: 0;
-}
-
-.styled-checkbox + label:before {
- content: "";
- margin-right: 4vw;
- display: inline-block;
- vertical-align: text-top;
- width: 20px;
- height: 20px;
- background: #fff;
- border: 2px solid #2ecc71;
- border-radius: 2px;
-}
-
-.styled-checkbox:checked + label:before {
- background: #2ecc71;
-}
-
-.styled-checkbox:disabled + label {
- color: #b8b8b8;
- cursor: auto;
-}
-
-.styled-checkbox:checked + label:after {
- content: "";
- position: absolute;
- left: 5px;
- top: 10px;
- background: white;
- width: 2.5px;
- height: 2.5px;
- box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
- -webkit-transform: rotate(45deg);
- transform: rotate(45deg);
-}
-
-.previews {
-  font-size: 0;
-  margin: 1rem -5px -.5rem;
-  position: relative;
-  z-index: 8;
-}
-
-.previews .preview {
-  border-radius: 8px;
-  display: inline-block;
-  height: 100px;
-  width: 100px;
-  margin: 5px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 0 2px 0 rgb(0 0 0 / 20%);
-  object-fit: cover;
-}
-
-.previews .preview img,.previews .preview .no-image {
-  height: 100%;
-  object-fit: cover;
-  width: 100%;
-}
-
-.previews .preview i {
-  color: #fff;
-  cursor: pointer;
-  font-size: 1.25rem;
-  height: auto;
-  margin-right: .25rem;
-  margin-top: .25rem;
-  position: absolute;
-  right: 0;
-  text-shadow: 0 0 2px rgb(0 0 0 / 50%);
-  top: 0;
-  transition: .2s opacity;
-  width: auto;
-  z-index: 3;
-}
-
-.content--img {
-  margin: 0px 0px 20px;
-  padding: 0px;
-  position: relative;
-}
-.content--img > div {
-  justify-content: flex-start;
-  align-items: center;
-  text-decoration: none;
-  box-sizing: border-box;
-  text-align: left;
-  padding: 0px;
-  margin: 4px;
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  display: inline-flex;
-  border: 1px solid rgba(145, 158, 171, 0.24);
-}
-.content--img > div > span {
-  width: 100%;
-  line-height: 0;
-  display: block;
-  overflow: hidden;
-  position: relative;
-  padding-top: 100%;
-}
-.content--img > div > span > span {
-  display: inline-block;
-  inset: 0px;
-  line-height: 0;
-  position: absolute;
-  background-size: cover !important;
-  transition: filter .3s,-webkit-filter .3s;
-}
-.content--img > div > span > span img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.content--img > div button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  outline: 0px;
-  border: 0px;
-  margin: 0px;
-  cursor: pointer;
-  user-select: none;
-  vertical-align: middle;
-  appearance: none;
-  text-decoration: none;
-  text-align: center;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  overflow: visible;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-size: 1.125rem;
-  top: 6px;
-  padding: 2px;
-  right: 6px;
-  position: absolute;
-  color: rgb(255, 255, 255);
-  background-color: rgba(22, 28, 36, 0.72);
-}
-
-.content--img > div button:hover {
-  background-color: rgba(22, 28, 36, 0.48);
-}
-
-select::placeholder {
-  color: #525c66;
-}
-
-
-.profil--slide {
-  display: inline-flex;
-  height: 38px;
-  padding: 12px;
-  box-sizing: border-box;
-  position: relative;
-  flex-shrink: 0;
-  z-index: 0;
-  vertical-align: middle;
-
-}
-.profil--slide label:last-of-type {
-  background-color: rgb(145, 158, 171);
-  border-radius: 7px;
-  display: block;
-  width: 34px;
-  height: 14px;
-  margin-bottom: 0px;
-}
-.profil--slide > label:first-of-type {
-  padding: 9px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0px;
-  border: 0px;
-  margin: 0px;
-  cursor: pointer;
-  user-select: none;
-  vertical-align: middle;
-  appearance: none;
-  text-decoration: none;
-  padding: 9px;
-  border-radius: 50%;
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-  transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  right: auto;
-  box-shadow: rgb(145 158 171 / 16%) 0px 1px 2px 0px;
-}
-.profil--slide > label:first-of-type:hover {
-  background-color: rgba(99, 115, 129, 0.08);
-}
-.profil--slide label:first-of-type span {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: white;
-
-}
-.profil--slide input[type=checkbox] {
-  visibility: hidden;
-
-}
-.profil--slide input[type=checkbox]:checked + label:first-of-type {
-  left: 35px;
-}  
-
-.slider:checked + label:first-of-type span {
-  background-color: rgb(0, 171, 85);
-}
-
-.slider:checked ~ label:last-of-type {
-  background-color: rgb(0, 171, 85) !important;
-  opacity: .5;
-}
-
-
-.lasted--product {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  overflow: hidden;
-}
-.product--item {
-  display: flex;
-  flex-direction: row;
-}
-.product--item img {
-  line-height: 0;
-  display: block;
-  overflow: hidden;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  flex-shrink: 0;
-}
-.product--item .details {
-  margin-left: 16px;
-  flex-grow: 1;
-  min-width: 200px;
-}
-.product--item .details .title {
-  text-decoration: none;
-  color: rgb(33, 43, 54);
-  font-weight: 600;
-  line-height: 1.57143;
-  font-size: 15px;
-}
-.product--item .details .price {
-  line-height: 1.57143;
-  font-size: 14px;
-  font-weight: 400;
-  color: #525c66;
-}
-
-textarea::-webkit-scrollbar {
-  display: none;
-}
-textarea {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-</style>
+<style scoped src="../../assets/css/editproduct.css"></style>
 
 <script>
 
@@ -657,7 +306,7 @@ export default {
       category: "",
       price: null,
       compareAtPrice: null,
-      quantity: 0,
+      quantity: "",
       weight: "",
       weightUnit: "kg",
       uploads: [],
@@ -683,7 +332,7 @@ export default {
       errorNameOption1: false,
       errorInputOption1: false,
       errorNameOption2: false,
-      checkedVariants: false,
+      loadingImg: false,
       options: [],
       variants: [],
       variant: []
@@ -802,23 +451,25 @@ export default {
       }
     },
     uploadSheet() {
-    	var options = {
-        title: 'Ajouter des photos',
-        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
-        addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
-      };
-      window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
-          this.openFilePicker();
-        } else if (index == 2) {
-          this.openCamera();
-        }
-      }, (error) => {
-        console.log(error);
-      });
+      if (this.images.length < 6) {
+      	var options = {
+          title: 'Ajouter des photos',
+          buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
+          addCancelButtonWithLabel: 'Annuler',
+          androidEnableCancelButton : true,
+          winphoneEnableCancelButton : true
+        };
+        window.plugins.actionsheet.show(options, (index) => {
+          console.log(index);
+          if (index == 1) {
+            this.openFilePicker();
+          } else if (index == 2) {
+            this.openCamera();
+          }
+        }, (error) => {
+          console.log(error);
+        });
+      }
     },
     openFilePicker() {
       var options = {
@@ -850,9 +501,11 @@ export default {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
         window.cordova.plugin.http.setDataSerializer('json');
+        this.loadingImg = true;
         
         if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/products/upload/add", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+            this.loadingImg = false;
             var result = JSON.parse(response.data);
             console.log(result);
             this.images.push(result);
@@ -907,20 +560,14 @@ export default {
         this.errorPrice = false;
         this.errorCompareAtPrice = false;
         this.popupVariant = true;
-        this.checkedVariants = true;
-      } else {
-        this.checkedVariants = false;
-    	console.log(this.checkedVariants);
       }
     },
     hideVariant() {
       this.popupVariant = false;
       this.visible = ""; 
     },
-    deleteVariant(id) {
-      if (this.variants[this.visible].id == id) {
-        this.variants.splice(this.visible, 1);
-      }
+    deleteVariant(index) {
+      this.variants.splice(index, 1);
       
       if (this.variants.length == 0) {
         this.options = [];
@@ -1059,7 +706,13 @@ export default {
         }
       }
 
+      if (!this.valuesOption2.length && this.inputNameOption2) {
+        this.inputNameOption2 = "";
+      }
+
       if (!this.errorNameOption1 && !this.errorInputOption1 && !this.errorCompareAtPrice) {
+        this.options = [];
+        this.variants = [];
         this.options.push({ "name": this.inputNameOption1, "data": this.valuesOption1, "position": 1 });
 
         if (this.valuesOption2.length && !this.errorNameOption2) {
@@ -1068,13 +721,13 @@ export default {
           this.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
           this.valuesOption1.map((element, index) => {
             this.valuesOption2.map((element2, index2) => {
-              this.variants.push({ "title": element + " - " + element2, "price": this.price, "compareAtPrice": this.compareAtPrice, "quantity": 0, "position": count, "option1": element, "option2": element2, "weight" : this.weight, "weightUnit" : this.product.weightUnit });
+              this.variants.push({ "title": element + " - " + element2, "price": this.price, "compareAtPrice": this.compareAtPrice, "quantity": 0, "position": count, "option1": element, "option2": element2, "weight" : this.weight, "weightUnit" : this.weightUnit });
               count++;
             });
           });
         } else {
           this.valuesOption1.map((element, index) => {
-            this.variants.push({ "title": element, "price": this.price, "compareAtPrice": this.compareAtPrice, "quantity": 0, "position": index + 1, "option1": element, "option2": "", "weight" : this.weight, "weightUnit" : this.product.weightUnit });
+            this.variants.push({ "title": element, "price": this.price, "compareAtPrice": this.compareAtPrice, "quantity": 0, "position": index + 1, "option1": element, "option2": "", "weight" : this.weight, "weightUnit" : this.weightUnit });
           });
         }
 
