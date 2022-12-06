@@ -1,15 +1,17 @@
 <template>
   <main style="padding: 0px 15px 15px;">
-    <div class="checkout__header" style="padding: 5px 5px 40px 5px;">
-      <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+    <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
+      <div v-if="!step3" @click="goBack()" class="checkout__close-btn" style="position: fixed; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
       <div v-if="step1" class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Informations personnelles</div>
-      <div v-else class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Informations société</div>
+      <div v-else-if="step2" class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Informations société</div>
+      <div v-else class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Félicitation</div>
     </div>
-    <div>
+
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px; padding-top: 15px;">
       <!-- step1 -->
       <div v-if="step1" class="step1">
         <div class="general--profile">
@@ -25,7 +27,7 @@
             </div>
           </span>
         </div>
-        <div v-if="errorPicture" style="text-align: center; font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 30px; margin-top: -15px;">Une image ou un logo est obligatoire</div>
+        <div v-if="errorPicture" style="text-align: center; font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 30px; margin-top: -25px;">Une image ou un logo est obligatoire</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
@@ -42,26 +44,26 @@
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
-          <div class="form--input--item">
+          <div class="form--input--item" :class="{'form--input--item--error': errorDay }">
             <fieldset>
               <legend>Jour</legend>
-              <input type="text" required v-model="user.day" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
+              <input type="text" required v-model="user.day" inputmode="decimal" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
-          <div class="form--input--item">
+          <div class="form--input--item" :class="{'form--input--item--error': errorMonth }">
             <fieldset>
               <legend>Mois</legend>
-              <input type="text" required v-model="user.month" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
+              <input type="text" required v-model="user.month" inputmode="decimal" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorYear }">
             <fieldset>
               <legend>Année</legend>
-              <input type="text" required v-model="user.year" inputmode="decimal" minlength="4" maxlength="4" style="width: 80%">
+              <input type="text" required v-model="user.year" inputmode="decimal" maxlength="4" style="width: 80%">
             </fieldset>
           </div>
         </div>
-        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
+        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Vous devez avoir plus de 18 ans</div>
 
         
         <VuePhoneNumberInput v-model="user.phone" :translations="{
@@ -147,7 +149,29 @@
           </fieldset>
         </div>
 
-        <div @click="submitStep2()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">S'inscrire</div>
+
+        <div @click="submitStep2()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
+          <span v-if="loading">
+            <svg viewBox="25 25 50 50" class="loading">
+              <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+            </svg>
+          </span>
+          <span v-else>S'inscrire</span>
+        </div>
+      </div>
+
+
+      <!-- step3 -->
+      <div v-if="step3" class="step3">
+        <img :src="require(`@/assets/img/welcome-vendor.jpg`)" style="width: calc(100vw - 30px); border-radius: 10px;">
+
+        <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 25px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue sur <br> Swipe Live vendeur</h5>
+        <br />
+        <div style="font-weight: 400;font-size: 15px; text-align: left; margin-top: 10px;">Vous pouvez dès à présent créer votre communauté et exploiter la vidéo en direct pour offrir des expériences d'achat fun et unique avec des taux de conversion 10 fois supérieurs à ceux des sites de commerce électronique traditionnels.</div>
+
+        <div @click="submitStep3()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
+          <span>Accéder</span>
+        </div>
       </div>
     </div>
   </main>
@@ -334,6 +358,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       step1: true,
       step2: false,
+      step3: false,
       email: null,
       summary: null,
       businessName: null,
@@ -346,6 +371,8 @@ export default {
       errorFirstname: false,
       errorLastname: false,
       errorEmail: false,
+      errorDay: false,
+      errorMonth: false,
       errorYear: false,
       errorBusinessType: false,
       errorBusinessName: false,
@@ -360,7 +387,7 @@ export default {
       errorPicture: false,
       errorRegistration: null,
       showAutocomplete: false,
-      test: null,
+      loading: false,
     }
   },
   created() {
@@ -372,6 +399,8 @@ export default {
       this.errorEmail = false;
       this.errorFirstname = false;
       this.errorLastname = false;
+      this.errorDay = false;
+      this.errorMonth = false;
       this.errorYear = false;
       this.errorPhone = false;
       this.errorPicture = false;
@@ -398,22 +427,51 @@ export default {
       }
 
       if (!this.user.picture) {
-        this.errorPicture = true;
+        if (window.cordova.platformId !== "browser") {
+          this.errorPicture = true;
+        }
       }
 
-      if (!this.user.day && !this.user.month && !this.user.year) {
+      if (!this.user.day) {
+        this.errorDay = true;
+      } else {
+        if (parseInt(this.user.day) > 31 || parseInt(this.user.day) < 1) {
+          this.errorDay = true;
+        }
+      }
+
+      if (!this.user.month) {
+        this.errorMonth = true;
+      } else {
+        if (parseInt(this.user.month) > 12 || parseInt(this.user.month) == 0) {
+          this.errorMonth = true;
+        } else if (parseInt(this.user.month) < 10) {
+          this.user.month = "0" + parseInt(this.user.month);
+        }
+      }
+
+      if (!this.user.year) {
         this.errorYear = true;
       } else {
-        var today = new Date();
-        var eighteenYearsAgo = today.setFullYear(today.getFullYear()-18);
-        eighteenYearsAgo = new Date(eighteenYearsAgo);
+        if (this.user.year.length == 4) {
+          var today = new Date();
+          var limit = today.getFullYear() - 100;
+          if (parseInt(this.user.year) > limit) {
+            var adult = today.setFullYear(today.getFullYear() - 18);
+            adult = new Date(adult);
 
-        if (eighteenYearsAgo < new Date(this.user.year)) {
+            if (adult < new Date(this.user.year)) {
+              this.errorYear = true;
+            }
+          } else {
+            this.errorYear = true;
+          }
+        } else {
           this.errorYear = true;
         }
       }
 
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorPhone && !this.errorPicture) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorPhone && !this.errorPicture) {
         this.step1 = false;
         this.step2 = true;
       }
@@ -477,24 +535,29 @@ export default {
       }
 
       if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSireny && !this.errorCountry) {
+        this.loading = true;
         this.submit();
       }
     }, 
+    submitStep3() {
+      this.$router.push({ name: 'Account' });
+    }, 
     async submit() {
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorYear && !this.errorBusinessType && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren) {
+      window.cordova.plugin.http.setDataSerializer('json');
+      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
 
-        window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
-
-        await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
-          window.localStorage.setItem("user", response.data);
-          this.$router.push({ name: 'Account' });
-        }, (response) => {
-          console.log(JSON.parse(response.error));
-          this.errorRegistration = JSON.parse(response.error);
-        });
-      }
+      await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        window.localStorage.setItem("user", response.data);
+        this.loading = false;
+        this.step1 = false;
+        this.step2 = false;
+        this.step3 = true;
+      }, (response) => {
+        console.log(JSON.parse(response.error));
+        this.errorRegistration = JSON.parse(response.error);
+        this.loading = false;
+      });
     }, 
     validEmail(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

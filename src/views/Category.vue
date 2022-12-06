@@ -13,7 +13,7 @@
 
     <div class="items">
       <div v-if="category && category.products.length" class="shop--part" style="margin: 0px;">
-        <div v-if="product.archived == false && user.vendor && product.vendor.id != user.vendor.id" v-for="product in category.products" class="shop--item">
+        <div v-if="product.archived == false" v-for="product in category.products" class="shop--item">
           <div>
             <div>
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">

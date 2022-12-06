@@ -1,26 +1,40 @@
 <template>
-  <main class="products">
-    <div class="checkout">
-      <div class="checkout__header" style="padding: 15px;">
-        <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 8px; padding: 0.5rem 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: #161823;"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
-        </div>
-        <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Ma boutique</div>
+  <main class="products" style="padding: 0px 15px 15px;">
+    <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: fixed; left: initial; top: 0px; padding: 6px 0px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+        </svg>
       </div>
-      <div @click="actionSheet()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 15px 30px;">Ajouter un produit</div>
+      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Ma boutique</div>
+    </div>
+
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+      <div @click="addProduct()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 30px;">Ajouter un article</div>
+
       <div v-if="products" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
-          <div v-for="(product, index) in products" v-if="product.archived == false" @click="editProduct(product.id)" class="product--item">
-            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" alt="Product">
+          <div v-for="(product, index) in products" v-if="product.archived == false" @click="editProduct(product.id)" class="product--item" style="align-items: center;">
+            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
             <div class="details">
               <div class="title">{{ product.title }}</div>
-              <div class="price" v-if="product.variants.length && stocks[index] > 0">Qté : {{ stocks[index] }} | Prix : {{ prices[index] | formatPrice }}€</div>
-              <div class="price" style="color: #e74c3c" v-else-if="product.variants.length && stocks[index] == 0">Qté : {{ stocks[index] }} | Prix : {{ prices[index] | formatPrice }}€</div>
-              <div class="price" v-else-if="product.quantity > 0">Qté : {{ product.quantity }} | Prix : {{ product.price | formatPrice }}€</div>
-              <div class="price" style="color: #e74c3c" v-else>Qté : {{ product.quantity }} | Prix : {{ product.price | formatPrice }}€</div>
+              <div class="price" v-if="stocks[index] > 0" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: rgb(34, 154, 22); font-size: 0.75rem; background-color: rgba(84, 214, 44, 0.16); font-weight: 700; padding: 0 8px; margin-top: 3px; ">{{ stocks[index] }} en stock</div>
+              <div class="price" v-else-if="stocks[index] == 0" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: #ff0000; font-size: 0.75rem; background-color: #d62c2c29; font-weight: 700; padding: 0 8px; margin-top: 3px; ">Épuisé</div>
+              <div class="price" v-else-if="product.quantity > 0" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: rgb(34, 154, 22); font-size: 0.75rem; background-color: rgba(84, 214, 44, 0.16); font-weight: 700; padding: 0 8px; margin-top: 3px; ">{{ product.quantity }} en stock</div>
+              <div class="price" v-else style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: #ff0000; font-size: 0.75rem; background-color: #d62c2c29; font-weight: 700; padding: 0 8px; margin-top: 3px; ">Épuisé</div>
+            </div>
+            <div style="margin-right: 10px;">
+              <div class="price">{{ product.price | formatPrice }}€</div>
             </div>
           </div>
         </div>
+      </div>
+      <div v-else>
+        <div class="container" style="margin: 80px auto 0px; text-align: center;">
+          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/no-product.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        </div>
+        <h5 style="font-weight: 500; font-size: 22px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun article</h5>
+        <div style="font-weight: 400;font-size: 17px;text-align: center;">Vos articles apparaîtront ici.</div>
       </div>
     </div>
   </main>
@@ -75,31 +89,14 @@ export default {
             this.prices[index] = price;
           }
         });
-      } else {
-      	this.$router.push({ name: 'AddProduct' });
       }
     }, (response) => {
       console.log(response.error);
     });
   },
   methods: {
-    actionSheet() {
-      var options = {
-        buttonLabels: ['Ajouter Manuellement', 'Importer depuis Shopify'],
-        addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
-      };
-      window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
-          this.$router.push({ name: 'AddProduct' });
-        } else if (index == 2) {
-          this.$router.push({ name: 'AddProduct' });
-        }
-      }, (error) => {
-        console.log(error);
-      });
+    addProduct() {
+      this.$router.push({ name: 'AddProduct' });
     },
     editProduct(id) {
       this.$router.push({ name: 'EditProduct', params: { id: id } });
