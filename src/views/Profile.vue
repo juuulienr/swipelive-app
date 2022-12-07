@@ -27,7 +27,7 @@
               <svg viewBox="0 0 24 24" aria-label="Compte certifié" role="img" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px;height: 19Px;margin-bottom: 3px;fill: #ff2773;"><g><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path></g></svg>
             </span>
             <div>
-              <span>{{profile.followers.length }} abonnés</span>
+              <span>{{ followers }} abonnés</span>
             </div>
           </div>
           <div @click="goToMessage(profile.id)" style="color: rgb(0, 132, 255); background-color: rgba(45, 136, 255, 0.2); text-align: center;width: fit-content;margin: 0px auto;padding: 5px 12px;border-radius: 11px;font-size: 13px; font-weight: 400">Message</div>
@@ -70,7 +70,7 @@
         <div class="images_filter">
           <ul>
             <li v-if="profile.vendor.clips" @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Replay <span :style="[live ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px;">{{ profile.vendor.clips.length }}</span></li>
-            <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Produits <span :style="[shop ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ profile.vendor.products.length }}</span></li>
+            <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Articles <span :style="[shop ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ profile.vendor.products.length }}</span></li>
           </ul>
         </div>
 

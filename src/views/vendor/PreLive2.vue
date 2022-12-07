@@ -4,11 +4,11 @@
       <svg @click="goBack()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
         <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
       </svg>
-      <h5 style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Ordre des produits</h5>
+      <h5 style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Ordre des articles</h5>
     </div>
     <div class="checkout" style="margin-top: 55px;">
       <div class="items">
-        <p style="margin-top: 15px; margin-bottom: 0px; text-align: center;">Déplacer les produits par ordre de passage.</p>
+        <p style="margin-top: 15px; margin-bottom: 0px; text-align: center;">Déplacer les articles par ordre de passage.</p>
         <div v-if="liveProducts.length" class="one_item">
           <draggable :list="liveProducts" :move="checkMove" @start="dragging = true" @end="dragging = false">
             <div v-for="(element, index) in liveProducts" :key="element.id" class="row align-items-center" style="margin: 10px 0px; border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 20px;">

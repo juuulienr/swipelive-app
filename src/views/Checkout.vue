@@ -78,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div v-else-if="!shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
+        <div v-else-if="!shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 15px;">
           <div @click="showShippingAddress()" class="top-author--container" style="">
             <div class="top-author--item">
               <div>

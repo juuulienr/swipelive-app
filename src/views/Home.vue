@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    <div v-if="following" class="favourite" style="padding-top: 10px; margin-bottom: 15px;">
+    <div v-if="following" v-touch:swipe.left="swipeHandler" class="favourite" style="padding-top: 10px; margin-bottom: 15px;">
     	<h2 style="font-weight: 500; font-size: 17px; margin-left: 10px;">Abonnements</h2>
     	<div class="list_persone" style="display:flex;">
     		<div @click="search()" style="padding: 0px 5px;">

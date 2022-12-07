@@ -52,38 +52,39 @@
           </fieldset>
         </div>
 
-        <div class="form--input--item">
-          <fieldset>
-            <legend>Téléphone</legend>
-            <input type="text" v-model="user.phone">
-          </fieldset>
-        </div>
-
         <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
-          <div class="form--input--item">
+          <div class="form--input--item" :class="{'form--input--item--error': errorDay }">
             <fieldset>
               <legend>Jour</legend>
-              <input type="text" required v-model="user.day" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
+              <input type="text" required v-model="user.day" inputmode="decimal" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
-          <div class="form--input--item">
+          <div class="form--input--item" :class="{'form--input--item--error': errorMonth }">
             <fieldset>
               <legend>Mois</legend>
-              <input type="text" required v-model="user.month" inputmode="decimal" minlength="2" maxlength="2" style="width: 80%">
+              <input type="text" required v-model="user.month" inputmode="decimal" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorYear }">
             <fieldset>
               <legend>Année</legend>
-              <input type="text" required v-model="user.year" inputmode="decimal" minlength="4" maxlength="4" style="width: 80%">
+              <input type="text" required v-model="user.year" inputmode="decimal" maxlength="4" style="width: 80%">
             </fieldset>
           </div>
         </div>
-        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
+        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Vous devez avoir plus de 18 ans</div>
 
+        <VuePhoneNumberInput v-model="user.phone" :translations="{
+          countrySelectorLabel: 'Code pays',
+          countrySelectorError: 'Choisir un pays',
+          phoneNumberLabel: 'Numéro de téléphone',
+          example: 'Exemple :'}"
+          :border-radius="10"
+          :preferred-countries="['FR', 'BE', 'LU', 'CH']"
+          @update="onUpdate"
+        />
 
-
-        <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px; margin-top: 30px;">Informations vendeur</h2>
+        <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px; margin-top: 55px;">Informations vendeur</h2>
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
           <fieldset>
             <legend>Pseudo (visible par les clients)</legend>
@@ -164,10 +165,12 @@
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import VuePhoneNumberInput from 'vue-phone-number-input';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
 export default {
   name: 'EditUser',
-  components: { VueGoogleAutocomplete },
+  components: { VueGoogleAutocomplete, VuePhoneNumberInput },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -175,13 +178,14 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       showAutocomplete: false,
-      errorPhone: false,
       errorEmail: false,
       errorFirstname: false,
       errorLastname: false,
       errorSummary: false,
       errorBusinessName: false,
       errorBusinessType: false,
+      errorDay: false,
+      errorMonth: false,
       errorYear: false,
       errorAddress: false,
       errorCompany: false,
@@ -204,6 +208,8 @@ export default {
       this.errorFirstname = false;
       this.errorLastname = false;
       this.errorSummary = false;
+      this.errorDay = false;
+      this.errorMonth = false;
       this.errorYear = false;
       this.errorBusinessName = false;
       this.errorAddress = false;
@@ -228,14 +234,41 @@ export default {
         this.errorLastname = true;
       }
 
-      if (!this.user.year && !this.user.month && !this.user.day) {
+      if (!this.user.day) {
+        this.errorDay = true;
+      } else {
+        if (parseInt(this.user.day) > 31 || parseInt(this.user.day) < 1) {
+          this.errorDay = true;
+        }
+      }
+
+      if (!this.user.month) {
+        this.errorMonth = true;
+      } else {
+        if (parseInt(this.user.month) > 12 || parseInt(this.user.month) == 0) {
+          this.errorMonth = true;
+        } else if (parseInt(this.user.month) < 10) {
+          this.user.month = "0" + parseInt(this.user.month);
+        }
+      }
+
+      if (!this.user.year) {
         this.errorYear = true;
       } else {
-        var today = new Date();
-        var eighteenYearsAgo = today.setFullYear(today.getFullYear()-18);
-        eighteenYearsAgo = new Date(eighteenYearsAgo);
+        if (this.user.year.length == 4) {
+          var today = new Date();
+          var limit = today.getFullYear() - 100;
+          if (parseInt(this.user.year) > limit) {
+            var adult = today.setFullYear(today.getFullYear() - 18);
+            adult = new Date(adult);
 
-        if (eighteenYearsAgo < new Date(this.user.year)) {
+            if (adult < new Date(this.user.year)) {
+              this.errorYear = true;
+            }
+          } else {
+            this.errorYear = true;
+          }
+        } else {
           this.errorYear = true;
         }
       }
@@ -287,7 +320,7 @@ export default {
         }
       }
 
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorYear && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry) {
         window.cordova.plugin.http.setDataSerializer('json');
         if (this.user.vendor) {
           var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
@@ -447,6 +480,15 @@ export default {
       }, (error) => {
         console.log(error);
       });
+    }, 
+    onUpdate(event) {
+      if (event.isValid) {
+        this.errorPhone = false;
+        this.user.phone = event.e164;
+      } else {
+        this.errorPhone = true;
+      }
+      console.log(event);
     }
   }
 };

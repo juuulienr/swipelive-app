@@ -903,7 +903,7 @@ export default {
         } else {
           exist = true;
           navigator.notification.confirm(
-            'Ce produit va remplacer votre ancien panier',
+            'Ce article va remplacer votre ancien panier',
             (buttonIndex) => {
               console.log('You selected button ' + buttonIndex);
               if (window.cordova.platformId == "browser") {
