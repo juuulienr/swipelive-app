@@ -78,7 +78,7 @@
             </div>
             <div class="channel-name-2qzLW">Continuer avec Google</div>
           </div>
-          <div class="channel-item-wrapper-2gBWB">
+          <div @click="apple()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="none">
                 <path fill="currentColor" d="M17.6066 8.58285C16.1086 8.58285 14.9127 9.45809 14.1322 9.45809C13.3139 9.45809 12.2313 8.63148 10.9347 8.63148C8.49253 8.63148 6 10.6008 6 14.2841C6 16.5937 6.91896 19.0128 8.05193 20.5809C9.03383 21.906 9.88985 23 11.1109 23C12.332 23 12.8733 22.2099 14.3839 22.2099C15.9072 22.2099 16.2596 22.9757 17.6066 22.9757C18.9284 22.9757 19.8222 21.7965 20.653 20.6296C21.5972 19.2924 21.9874 18.0038 22 17.9309C21.9245 17.9066 19.3816 16.9098 19.3816 14.0896C19.3816 11.6462 21.3832 10.5643 21.4965 10.4792C20.1747 8.63148 18.1605 8.58285 17.6066 8.58285ZM16.9017 7.02687C17.5059 6.32182 17.9465 5.34933 17.9465 4.37684C17.9465 4.24312 17.9339 4.1094 17.9087 4C16.9142 4.03647 15.7183 4.63212 15.0134 5.43442C14.4595 6.05438 13.9308 7.02687 13.9308 8.01152C13.9308 8.15739 13.9559 8.30326 13.9685 8.35189C14.0315 8.36404 14.1322 8.3762 14.2329 8.3762C15.1267 8.3762 16.247 7.80486 16.9017 7.02687Z"></path>
@@ -104,12 +104,15 @@
       <div class="checkout__body" style="overflow: scroll; padding: 15px;">
         <div class="general--profile">
           <span>
-            <span v-if="picture">
-              <span>
-                <img :src="cloudinary256x256 + picture">
-              </span>
+            <span v-if="loadingImg">
+              <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
+                <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+              </svg>
             </span>
-            <div>
+            <span v-else-if="picture" @click="uploadSheet()">
+              <img :src="cloudinary256x256 + picture">
+            </span>
+            <div v-else @click="uploadSheet()">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-v73erd iconify iconify--ic" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M3 8c0 .55.45 1 1 1s1-.45 1-1V6h2c.55 0 1-.45 1-1s-.45-1-1-1H5V2c0-.55-.45-1-1-1s-1 .45-1 1v2H1c-.55 0-1 .45-1 1s.45 1 1 1h2v2z" fill="currentColor"></path><circle cx="13" cy="14" r="3" fill="currentColor"></circle><path d="M21 6h-3.17l-1.24-1.35A1.99 1.99 0 0 0 15.12 4h-6.4c.17.3.28.63.28 1c0 1.1-.9 2-2 2H6v1c0 1.1-.9 2-2 2c-.37 0-.7-.11-1-.28V20c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5z" fill="currentColor"></path></svg>
               <span style="font-weight: 400; margin: 0px 20px; text-align: center;">Ajoute une photo de profil</span>
             </div>
@@ -172,7 +175,7 @@
         </div>
 
         <p v-if="isReset" style="font-size: 13px; color: #525c66; text-align: left; margin-bottom: 30px; font-weight: 400;">Un mail a été envoyé pour réinitialiser votre mot de passe.</p>
-        <p v-else style="font-size: 13px; color: #ff2773; text-align: left; margin-bottom: 30px; font-weight: 400;">Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+        <p v-else style="font-size: 13px; color: #525c66; text-align: left; margin-bottom: 30px; font-weight: 400;">Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmailRecovery }">
           <fieldset>
@@ -189,246 +192,8 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped src="../assets/css/welcome.css"></style>
 
-.btn-open {
-  position: fixed; 
-  z-index: 15; 
-  left: 25px; 
-  width: calc(100vw - 50px); 
-  bottom: 40px; 
-  font-size: 15px; 
-  line-height: 1.41176; 
-  letter-spacing: -0.025em; 
-  border-radius: 16px; 
-  color: rgb(255, 255, 255); 
-  box-shadow: rgb(255 39 115 / 12%) 0px 0.7rem 1.3rem 0px, rgb(255 39 115 / 24%) 0px 1rem 2.2rem 0px; 
-  font-weight: 500; 
-  text-align: center; 
-  background: rgb(255 39 115); 
-  padding: 15px;
-}
-
-.store-products-item__login-popup.store-products-item__login-popup--active {
-  bottom: 0;
-}
-
-.store-products-item__login-popup {
-  position: fixed;
-  width: 100%;
-  bottom: -80%;
-  background-color: #fff;
-  border-radius: 15px;
-  animation-duration: 400ms !important;
-  animation-iteration-count: 1 !important;
-  animation-fill-mode: both !important;
-  animation-name: keyframe_d37zz3 !important;
-  z-index: 1000000000;
-}
-
-svg {
-  overflow: initial;
-}
-
-.social-container-NE2xk .channel-item-wrapper-2gBWB .channel-icon-wrapper-2eYxZ .channel-icon-33qGs {
-  width: 24px;
-  min-height: 24px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-.social-container-NE2xk .channel-item-wrapper-2gBWB .channel-icon-wrapper-2eYxZ {
-  width: 44px;
-  height: 44px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 7px;
-}
-
-.social-container-NE2xk .channel-item-wrapper-2gBWB {
-  width: 100%;
-  min-height: 48px;
-  border: 1px solid #e0e3eb;
-  box-sizing: border-box;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  padding: 0px 40px;
-  cursor: pointer;
-  background: white;
-}
-
-.social-container-NE2xk .channel-item-wrapper-2gBWB .channel-name-2qzLW {
-  word-break: break-word;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  text-align: center;
-  font-size: 15px;
-  color: #525c66;
-  font-weight: 500;
-}
-
-.social-container-NE2xk {
-  overflow-y: auto;
-  width: 100%;
-  padding: 0px 20px;
-}
-
-.manage {
-  font-weight: 400;
-  padding-bottom: 20px;
-  font-size: 15px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 10px 40px;
-  color: #8c8c8c;
-}
-
-.video-page__video-player--active .video-player__video {
-  height: 136px;
-  width: 76px;
-}
-
-
-.toggle-2SAdO.is-modal-1F8S3 {
-  justify-content: center;
-  align-items: center;
-  padding: 0 24px;
-}
-
-.toggle-2SAdO {
-  height: 64px;
-  background: #fff;
-  border-top: .5px solid rgba(22,24,35,.12);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  line-height: 18px;
-  color: #8c8c8c;
-}
-
-.tv-signin-dialog__separator {
-  margin-bottom: 26px;
-  padding-top: 6px;
-  position: relative;
-  text-align: center;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.tv-signin-dialog__separator-text {
-  background-color: #fff;
-  border-radius: 50%;
-  color: #6a6d78;
-  display: inline-block;
-  padding: 0 15px;
-  position: relative;
-}
-
-.tv-signin-dialog__separator:before {
-  background-color: #e0e3eb;
-  content: "";
-  display: block;
-  height: 1px;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 15px;
-}
-
-.form--input--item {
-  margin-bottom: 25px;
-}
-
-.general--profile {
-  padding-bottom: 45px;
-}
-
-.general--profile > span {
-  width: 160px;
-  height: 160px;
-  margin: auto;
-  border-radius: 50%;
-  display: block;
-  padding: 8px;
-  border: 1px dashed rgba(145, 158, 171, 0.32);
-  position: relative;
-}
-
-.general--profile > span > span {
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  outline: none;
-  display: flex;
-  overflow: hidden;
-  border-radius: 50%;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-
-.general--profile > span > span > span {
-  line-height: 0;
-  display: block;
-  overflow: hidden;
-  z-index: 8;
-  width: 100%;
-  height: 100%;
-  background-size: cover !important;
-}
-
-.general--profile > span > span > span img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.general--profile > span div {
-  display: flex;
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: calc(100% - 16px);
-  height: calc(100% - 16px);
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  color: #525c66;
-  background-color: rgb(244, 246, 248);
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.general--profile > span div span {
-  line-height: 1.5;
-  font-size: 0.75rem;
-}
-
-.general--profile > span div svg {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 8px;
-}
-.store-products-item__login-popup::-webkit-scrollbar {
-  display: none;
-}
-.store-products-item__login-popup {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-</style>
 
 <script>
 
@@ -446,6 +211,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       defaultOptions: {animationData: animationData},
       animationSpeed: 1,
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       popup: false,
       popupPassword: false,
       popupUserRegistration: false,
@@ -467,6 +233,7 @@ export default {
       picture: null,
       safeareaBottom: '40px',
       loading: false,
+      loadingImg: false,
       isAndroid: false,
       isReset: false
     }
@@ -537,16 +304,20 @@ export default {
       }
     },
     facebook() {
-      window.facebookConnectPlugin.login(['public_profile', 'email'])
-      .then(succ => {
-        console.log(JSON.stringify(succ));
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      // ajouter facebook
+      // window.facebookConnectPlugin.login(['public_profile', 'email'])
+      // .then(succ => {
+      //   console.log(JSON.stringify(succ));
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // });
     },
     google() {
       // ajouter google
+    },
+    apple() {
+      // ajouter apple
     },
     open() {
       window.StatusBar.overlaysWebView(false);  
@@ -634,7 +405,7 @@ export default {
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.loading) {
         this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "businessType": null };
+        var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "picture": this.picture, "businessType": null };
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
@@ -660,11 +431,85 @@ export default {
         window.localStorage.setItem("token", result.token);
         this.$router.push({ name: 'AllowNotif' });
       }, (response) => {
+        this.loading = false;
         console.log(response.error);
       });
     },
     handleAnimation: function (anim) {
       this.anim = anim;
+    },
+    uploadSheet() {
+      var options = {
+        title: 'Ajouter une photo',
+        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
+        addCancelButtonWithLabel: 'Annuler',
+        androidEnableCancelButton : true,
+        winphoneEnableCancelButton : true
+      };
+      window.plugins.actionsheet.show(options, (index) => {
+        console.log(index);
+        if (index == 1) {
+          this.openFilePicker();
+        } else if (index == 2) {
+          this.openCamera();
+        }
+      }, (error) => {
+        console.log(error);
+      });
+    },
+    openFilePicker() {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true
+      }
+
+      this.uploadImage(options);
+    },
+    openCamera() {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true,
+      }
+
+      this.uploadImage(options);
+    },
+    uploadImage(options) {
+      navigator.camera.getPicture((imageUri) => {
+        console.log(imageUri);
+        this.loadingImg = true;
+
+        window.cordova.plugin.http.setDataSerializer('json');
+        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+          window.cordova.plugin.http.uploadFile(this.baseUrl + "/api/registration/picture", {}, { Authorization: "Bearer " }, imageUri, 'picture', (response) => {
+            console.log(JSON.parse(response.data));
+            this.picture = JSON.parse(response.data);
+            this.loadingImg = false;
+          }, function(response) {
+            console.log(response.error);
+          });
+        } else {
+          var imgData = "data:image/jpeg;base64," + imageUri;
+          window.cordova.plugin.http.post(this.baseUrl + "/api/registration/picture", { "picture" : imgData }, { Authorization: "Bearer " }, (response) => {
+            console.log(JSON.parse(response.data));
+            this.picture = JSON.parse(response.data);
+            this.loadingImg = false;
+          }, function(response) {
+            console.log(response.error);
+          });
+        }
+      }, (error) => {
+        console.log("Impossible de récupérer l'image : " + error);
+      }, options);
     },
   }
 };

@@ -18,7 +18,10 @@
           <div>
             <span @click="uploadSheet()">
               <span>
-                <span>
+                <svg v-if="loadingImg" viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
+                  <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+                </svg>
+                <span v-else>
                   <img v-if="user.picture" :src="cloudinary256x256 + user.picture">
                   <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
                 </span>
@@ -186,6 +189,7 @@ export default {
       errorZip: false,
       errorCity: false,
       errorCountry: false,
+      loadingImg: false,
       vendor: null,
     }
   },
@@ -351,12 +355,23 @@ export default {
     uploadImage(options) {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
+        this.loadingImg = true;
+
         window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
+        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-          	console.log(JSON.parse(response.data));
             this.user = JSON.parse(response.data);
             window.localStorage.setItem("user", response.data);
+            this.loadingImg = false;
+          }, function(response) {
+            console.log(response.error);
+          });
+        } else {
+          var imgData = "data:image/jpeg;base64," + imageUri;
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.user = JSON.parse(response.data);
+            window.localStorage.setItem("user", response.data);
+            this.loadingImg = false;
           }, function(response) {
             console.log(response.error);
           });

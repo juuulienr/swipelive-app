@@ -9,7 +9,7 @@
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Inscription vendeur</div>
     </div>
 
-    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px; padding-top: 15px;">
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 15px; padding-top: 15px;">
       <div style="font-weight: 500; margin-bottom: 20px; text-align: center; font-size: 16px;">Selectionner le type de vendeur :</div>
       <div style="display: flex; justify-content: space-between;">
         <div @click="goStep2('company')" style="width: 48%; text-align: center; padding: 30px 20px; border-radius: 16px; border: 2px solid #ff2773;">
@@ -38,7 +38,7 @@
         <div>- Diffusion sur les réseaux sociaux</div>
       </div>
 
-      <div style="margin-top: 20px; text-align: center; margin: 15px;">
+      <div style="margin-top: 20px; text-align: center; margin: 15px 15px 0px;">
         <div style="font-size: 16px;"> Notre commission : 9% sur chaque vente. </div>
         <div style="color: #ff2773; font-size: 16px;"> Vous gagnez, nous gagnons ! </div><br>
         <div style="font-weight: 400; text-align: left; font-size: 13px; color: #525c66;">

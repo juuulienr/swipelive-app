@@ -15,15 +15,18 @@
       <!-- step1 -->
       <div v-if="step1" class="step1">
         <div class="general--profile">
-          <span @click="uploadSheet()">
-            <span v-if="user.picture">
-              <span>
-                <img :src="cloudinary256x256 + user.picture">
-              </span>
+          <span>
+            <span v-if="loadingImg">
+              <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
+                <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+              </svg>
             </span>
-            <div v-else>
+            <span v-else-if="user.picture" @click="uploadSheet()">
+              <img :src="cloudinary256x256 + user.picture">
+            </span>
+            <div v-else @click="uploadSheet()">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-v73erd iconify iconify--ic" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M3 8c0 .55.45 1 1 1s1-.45 1-1V6h2c.55 0 1-.45 1-1s-.45-1-1-1H5V2c0-.55-.45-1-1-1s-1 .45-1 1v2H1c-.55 0-1 .45-1 1s.45 1 1 1h2v2z" fill="currentColor"></path><circle cx="13" cy="14" r="3" fill="currentColor"></circle><path d="M21 6h-3.17l-1.24-1.35A1.99 1.99 0 0 0 15.12 4h-6.4c.17.3.28.63.28 1c0 1.1-.9 2-2 2H6v1c0 1.1-.9 2-2 2c-.37 0-.7-.11-1-.28V20c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5z" fill="currentColor"></path></svg>
-              <span style="font-weight: 400;">Photo de profil</span>
+              <span style="font-weight: 400; margin: 0px 20px; text-align: center;">Ajoute une photo de profil</span>
             </div>
           </span>
         </div>
@@ -387,6 +390,7 @@ export default {
       errorPicture: false,
       errorRegistration: null,
       showAutocomplete: false,
+      loadingImg: false,
       loading: false,
     }
   },
@@ -611,15 +615,25 @@ export default {
     uploadImage(options) {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
-        
+        this.loadingImg = true;
+
         window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova && (window.cordova.platformId === "android" ||window.cordova.platformId === "ios")) {
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/api/registration/picture", {}, { Authorization: "Bearer " }, imageUri, 'picture', (response) => {
-          	console.log(JSON.parse(response.data));
-            this.picture = JSON.parse(response.data);
-            console.log(this.picture);
+        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+            this.user = JSON.parse(response.data);
+            window.localStorage.setItem("user", response.data);
+            this.loadingImg = false;
           }, function(response) {
-            console.log(response);
+            console.log(response.error);
+          });
+        } else {
+          var imgData = "data:image/jpeg;base64," + imageUri;
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.user = JSON.parse(response.data);
+            window.localStorage.setItem("user", response.data);
+            this.loadingImg = false;
+          }, function(response) {
+            console.log(response.error);
           });
         }
       }, (error) => {
