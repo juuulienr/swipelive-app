@@ -103,7 +103,7 @@
         <div v-if="businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorSiren }">
           <fieldset>
             <legend>SIREN</legend>
-            <input type="text" v-model="siren" minlength="9" maxlength="9">
+            <input type="text" v-model="siren" maxlength="9" inputmode="decimal">
           </fieldset>
         </div>
         <div v-if="errorSiren" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">SIREN (9 chiffres)</div>
@@ -140,7 +140,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
           <fieldset>
             <legend>Pseudo (visible par les clients)</legend>
-            <input type="text" v-model="businessName">
+            <input type="text" v-model="businessName" maxlength="30">
           </fieldset>
         </div>
 
@@ -535,7 +535,7 @@ export default {
           this.errorCountry = true;
       }
 
-      if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSireny && !this.errorCountry) {
+      if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorCountry) {
         this.loading = true;
         this.submit();
       }

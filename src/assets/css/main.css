@@ -734,6 +734,10 @@ textarea::placeholder {
   color: rgba(145,158,171,.8);
 }
 
+input[type="text"][disabled] {
+  opacity: 1;
+}
+
 input[type="file"], 
 input[type="text"], 
 input[type="tel"], 

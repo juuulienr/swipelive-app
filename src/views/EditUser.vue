@@ -52,6 +52,16 @@
           </fieldset>
         </div>
 
+        <VuePhoneNumberInput v-model="user.phone" :translations="{
+          countrySelectorLabel: 'Code pays',
+          countrySelectorError: 'Choisir un pays',
+          phoneNumberLabel: 'Numéro de téléphone',
+          example: 'Exemple :'}"
+          :border-radius="10"
+          :preferred-countries="['FR', 'BE', 'LU', 'CH']"
+          @update="onUpdate"
+        />
+
         <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
           <div class="form--input--item" :class="{'form--input--item--error': errorDay }">
             <fieldset>
@@ -74,15 +84,6 @@
         </div>
         <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Vous devez avoir plus de 18 ans</div>
 
-        <VuePhoneNumberInput v-model="user.phone" :translations="{
-          countrySelectorLabel: 'Code pays',
-          countrySelectorError: 'Choisir un pays',
-          phoneNumberLabel: 'Numéro de téléphone',
-          example: 'Exemple :'}"
-          :border-radius="10"
-          :preferred-countries="['FR', 'BE', 'LU', 'CH']"
-          @update="onUpdate"
-        />
 
         <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px; margin-top: 55px;">Informations vendeur</h2>
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
@@ -159,6 +160,48 @@
   font-weight: bold;
   margin: 10px 0px;
   border-radius: 30px;
+}
+</style>
+
+
+<style>
+
+.vue-phone-number-input {
+  margin-bottom: 34px !important;
+}
+.country-selector__input {
+  border: 2px solid #e0e3eb !important;
+  height: 50px !important;
+  font-weight: 500 !important;
+  color: #525c66 !important;
+}
+
+.input-tel__input {
+  border: 2px solid #e0e3eb !important;
+  height: 50px !important;
+  box-shadow: none !important;
+  font-weight: 500 !important;
+  color: #525c66 !important;
+}
+
+.country-selector__country-flag {
+  top: 25px !important;
+}
+
+.input-tel__label {
+  color: #525c66 !important;
+}
+
+.country-selector__label {
+  color: #525c66 !important;
+}
+
+.dots-text {
+  color: #525c66 !important;
+}
+
+button.flex.align-center.country-selector__list__item.selected {
+  background: white !important;
 }
 </style>
 

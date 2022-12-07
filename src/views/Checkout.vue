@@ -120,7 +120,7 @@
             <span class="css-jef1j" style="display: initial;">Option de livraison</span>
           </div>
         </div>
-        <div v-if="shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 15px; border-radius: 15px;">
+        <div v-if="shippingAddress" class="top-author" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 15px;">
           <div class="top-author--container" style="">
             <div @click="showRelayPopup()" class="top-author--item">
               <div>
@@ -475,19 +475,20 @@
 	padding: 7px 3px !important;
 }
 
-
 .vue-phone-number-input {
   margin-bottom: 34px !important;
 }
 .country-selector__input {
   border: 2px solid #e0e3eb !important;
   height: 50px !important;
+  font-weight: 500 !important;
 }
 
 .input-tel__input {
   border: 2px solid #e0e3eb !important;
   height: 50px !important;
   box-shadow: none !important;
+  font-weight: 500 !important;
 }
 
 .country-selector__country-flag {
