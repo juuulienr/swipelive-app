@@ -1109,7 +1109,7 @@ select {
   cursor: text;
   display: inline-flex;
   line-height: 1.4375em;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .form--input--item input {
@@ -1140,10 +1140,9 @@ select {
   transform: translateY(-50%);
   border: none;
   outline: none;
-  padding: 12.5px 14px;
+  padding: 7.5px 14px;
   margin: 0;
   background: white;
-  color: #333;
 }
 .form--input--item fieldset {
   border: 2px solid #e0e3eb;
@@ -1244,6 +1243,10 @@ select {
   color: #ff0000;
 }
 
+select {
+  color: rgba(145,158,171,.8);
+}
+
 .form--input--item textarea {
   height: 92px;
   border: none;
@@ -1262,12 +1265,12 @@ select {
   outline: none;
   resize: none;
   color: #525c66;
-  padding: 5px 10px;
+  padding: 5px 0px 0px 10px;
 }
 .form--input--textarea {
   margin-top: 24px;
-  
 }
+
 .form--input--textarea fieldset {
   height: 92px;
   padding: 16.5px 14px;

@@ -21,6 +21,7 @@
               <div class="col-3 col-img">
                 <div class="img_item">
                   <img v-if="element.product.uploads.length" :src="cloudinary256x256 + element.product.uploads[0].filename" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover;">
+                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover;">
                 </div>
               </div>
               <div class="col-6" style="padding-left: 0px; padding-right: 0px;">

@@ -17,6 +17,7 @@
           <div>
             <div>
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
+              <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
             </div>
           </div>
           <div class="shop--item--details">

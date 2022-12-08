@@ -16,6 +16,7 @@
         <div class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in products" v-if="product.archived == false" @click="editProduct(product.id)" class="product--item" style="align-items: center;">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
+            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
             <div class="details">
               <div class="title">{{ product.title }}</div>
               <div class="price" v-if="stocks[index] > 0" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: rgb(34, 154, 22); font-size: 0.75rem; background-color: rgba(84, 214, 44, 0.16); font-weight: 700; padding: 0 8px; margin-top: 3px; ">{{ stocks[index] }} en stock</div>

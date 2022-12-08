@@ -73,6 +73,7 @@
         </feature>
         <preference name="deployment-target" value="12.0" />
         <preference name="UseSwiftLanguageVersion" value="5" />
+        <preference name="KeyboardShrinksView" value="true"/>
         <splash src="res/screen/ios/Default@2x~universal~anyany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comcom.png"/>

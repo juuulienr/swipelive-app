@@ -7,6 +7,11 @@
         </div>
       </VueSlickCarousel>
     </div>
+    <div v-else style="width: 100vw;">
+      <div class="vue-slick">
+        <img :src="require(`@/assets/img/no-preview.jpg`)">
+      </div>
+    </div>
 
     <div class="product--info">
       <div class="row">

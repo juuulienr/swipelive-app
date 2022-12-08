@@ -14,7 +14,6 @@
             <div v-for="clip in clips" class="col-6 col-img" style="padding: 5px;">
               <div v-if="clip.status == 'available'" style="height: 325px;">
                 <img :src="clip.preview" style="border-radius: 12px; width: 100%; height: 325px;">
-                <img :src="cloudinary256x256 + clip.product.uploads[0].filename" style="width: 48px; height: 48px; border: 2px solid white; border-radius: 30px; background: white; position: absolute; left: 39%; top: 81%; box-shadow: rgb(96 121 159 / 12%) 0px 7px 14px 0px, rgb(0 33 60 / 12%) 0px 3px 6px 0px; object-fit: cover;">
                 <div @click="actionSheet(clip.id)" class="photo-box__delete-button">
                   <button class="remove-photo c-button c-button--filled c-button--small c-button--primary c-button--inline c-button--inverse c-button--truncatedc-button--icon-left c-button--without-text" type="button" style="border-radius: 8px;">
                     <span class="c-button__content">

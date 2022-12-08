@@ -21,7 +21,8 @@
         <hr class="MuiDivider-root MuiDivider-fullWidth css-ss6lby" style="margin-top: 15px;flex-shrink: 0;border-width: 0px 0px thin;border-style: solid;border-color: rgba(145, 158, 171, 0.24);">
         <div v-if="products.length"  class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in products" :key="product.id" v-if="product.archived == false" class="product--item">
-            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" alt="Product">
+            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
+            <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
             <div class="details">
               <div class="title">{{ product.title }}</div>
               <div class="price">Qté : {{ product.quantity }} | Prix : {{ product.price | formatPrice }}€</div>

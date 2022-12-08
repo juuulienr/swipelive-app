@@ -7,15 +7,13 @@
         </svg>
       </div>
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Ajouter un article</div>
-      <div @click="submit()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
-        <div style="color: #ff2773; font-weight: 600;">Enregistrer</div>
-      </div>
     </div>
 
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
       <div @click="uploadSheet()" class="drop--file" :class="{'drop--img--error': errorImage }">
         <div class="drop--img">
-          <video style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <video v-if="isAndroid" style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <video v-else style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)"></video>
         </div>
         <div class="drop--text">
           <h5>Ajouter des photos</h5>
@@ -23,7 +21,7 @@
         </div>
       </div>
 
-      <div class="content--img" style="margin-top: 15px;">
+      <div v-if="images.length || loadingImg" class="content--img" style="margin-top: 15px;">
         <div v-if="images.length" v-for="(image, index) in images" :key="image.id">
           <span>
             <span>
@@ -34,7 +32,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-0 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29l-4.3 4.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4.29-4.3l4.29 4.3a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42z"></path></svg>
           </button>
         </div>
-        <div v-if="loadingImg" style="border: 1px solid rgba(145,158,171,.24);">
+        <div v-if="loadingImg" style="border: 2px solid rgba(145,158,171,.24);">
           <span style="margin: 0 auto;">
             <span style="top: calc(50% - 13px); left: calc(50% - 13px);">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
@@ -57,7 +55,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorCategory }">
           <fieldset>
             <legend>Catégorie</legend>
-            <select required v-model="category">
+            <select required v-model="category" :style="{'color': category ? '#525c66': 'rgba(145,158,171,.8)'}">
               <option value="">Choisir une catégorie</option>
               <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
             </select>
@@ -67,7 +65,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorDescription }">
           <fieldset style="height: 150px;">
             <legend>Description</legend>
-            <textarea v-model="description" style="height: 136px; margin-top: 10px; line-height: 24px; font-size: 14px;"></textarea>
+            <textarea v-model="description" style="height: 125px; margin-top: 10px; line-height: 24px; font-size: 14px;"></textarea>
           </fieldset>
         </div>
 
@@ -87,7 +85,7 @@
           </div>
         </div>
 
-        <div class="form--input--item">
+        <div v-if="!variants.length" class="form--input--item">
           <fieldset>
             <legend>Quantité</legend>
             <input type="text" v-model="quantity" inputmode="decimal">
@@ -117,12 +115,13 @@
             <div v-if="variants.length" @click="addVariant()" style="color: #ff2773; margin-top: 10px;">Modifier</div>
           </div>
         </div>
-        <div class="form-container-3hjAo">
+        <div class="form-container-3hjAo" style="margin-bottom: 35px;">
           <p style="font-size: 14px; color: rgb(153, 153, 153); margin-top: 10px; font-weight: 400;">Ajoutez des options si cet article possède des variantes, telles que des tailles ou des couleurs différentes.</p>
           <div v-if="variants.length" class="items">
             <div class="lasted--product">
               <div v-for="(variant, index) in variants" class="product--item" style="align-items: center;">
                 <img @click="editVariant(index)" v-if="images.length" :src="cloudinary256x256 + images[0]" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
+                <img @click="editVariant(index)" v-else :src="require(`@/assets/img/no-preview.jpg`)" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
                 <div @click="editVariant(index)" class="details">
                   <div class="title">{{ variant.title }}</div>
                   <div class="price"  v-if="variant.quantity" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: rgb(34, 154, 22); font-size: 0.75rem; background-color: rgba(84, 214, 44, 0.16); font-weight: 700; padding: 0 8px; margin-top: 3px; ">{{ variant.quantity }} en stock</div>
@@ -138,9 +137,12 @@
             </div>
           </div>
           <div v-else>
-            <div @click="addVariant()" class="btn-swipe" style="color: #ff2773; background: white; border: 1px solid #ff2773; text-align: center; width: calc(100vw - 110px); margin: 20px auto;">Ajouter des options</div>
+            <div @click="addVariant()" class="btn-swipe" style="color: rgb(255, 39, 115);background: white;border: 1px solid rgb(255, 39, 115);text-align: center;width: fit-content;padding: 8px 18px;margin-top: 20px;font-weight: 400;font-size: 14Px;">Ajouter des options</div>
           </div>
         </div>
+
+        <hr>
+        <div @click="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 45px 0px 25px;">Ajouter</div>
       </div>
 
 
@@ -163,7 +165,7 @@
                   <input type="text" placeholder="Taille, Couleur, Matière..." v-model="inputNameOption1" style="text-transform: capitalize;">
                 </fieldset>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(2, calc(100vw - 75px));">
+              <div style="display: grid; grid-template-columns: repeat(1, calc(100vw - 80px) 1fr)">
                 <div class="form--input--item" :class="{'form--input--item--error': errorInputOption1 }">
                   <fieldset>
                     <legend>Valeur de l'option</legend>
@@ -194,7 +196,7 @@
                   <input type="text" placeholder="Taille, Couleur, Matière..." v-model="inputNameOption2" style="text-transform: capitalize;">
                 </fieldset>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(2, calc(100vw - 75px));">
+              <div style="display: grid; grid-template-columns: repeat(1, calc(100vw - 80px) 1fr)">
                 <div class="form--input--item" :class="{'form--input--item--error': errorInputOption1 }">
                   <fieldset>
                     <legend>Valeur de l'option 2</legend>
@@ -333,6 +335,7 @@ export default {
       errorInputOption1: false,
       errorNameOption2: false,
       loadingImg: false,
+      isAndroid: false,
       options: [],
       variants: [],
       variant: []
@@ -356,6 +359,10 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+
+    if (window.cordova && (window.cordova.platformId === "android")) {
+      this.isAndroid = true;
+    }
 
     window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
       this.categories = JSON.parse(response.data);
@@ -520,8 +527,9 @@ export default {
     },
     deleteImage(index, id) {
       console.log(index, id);
+      this.images.splice(index, 1);
+      
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/upload/delete/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.images.splice(index, 1);
         var filtersList = this.uploads.filter(element => element !== id)
         this.uploads = filtersList;
       }, (response) => {

@@ -262,6 +262,7 @@
         <div class="video-page__product-top">
           <div class="video-page__image">
             <img v-if="liveProducts[0].product.uploads" :src="cloudinary256x256 + liveProducts[0].product.uploads[0].filename">
+            <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
           </div>
           <div class="video-page__info">
             <div style="height: 38px;">

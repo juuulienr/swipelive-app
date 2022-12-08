@@ -62,79 +62,79 @@
 
 
 .filter--choice > div > div {
-    display: flex;
-    margin: 8px 0px 0px;
-    flex-flow: column wrap;
-    margin-left: -11px;
-    flex-direction: row;
+  display: flex;
+  margin: 8px 0px 0px;
+  flex-flow: column wrap;
+  margin-left: -11px;
+  flex-direction: row;
 }
 .filter--choice > div > div > label {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    vertical-align: middle;
-    -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
 }
 .filter--choice > div > div {
 }
 .filter--choice > div > div > label > span {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-    background-color: transparent;
-    outline: 0px;
-    border: 0px;
-    margin: 0px;
-    cursor: pointer;
-    user-select: none;
-    vertical-align: middle;
-    appearance: none;
-    text-decoration: none;
-    border-radius: 50%;
-    color: #525c66;
-    padding: 8px;
-    line-height: 1.57143;
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: rgb(33, 43, 54);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  border-radius: 50%;
+  color: #525c66;
+  padding: 8px;
+  line-height: 1.57143;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgb(33, 43, 54);
 }
 .filter--choice > div > div > label > span > input {
-    cursor: inherit;
-    position: absolute;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    margin: 0px;
-    padding: 0px;
-    z-index: 1;
+  cursor: inherit;
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  z-index: 1;
 }
 .svg--checked {
-    display: none;
-    position: absolute;
+  display: none;
+  position: absolute;
 }
 .svg--point {
-    display: none;
+  display: none;
 }
 .filter--choice div label span input:checked ~ .svg--checked {
-    display: block;
+  display: block;
 }
 .filter--choice > div > div > label > span > svg {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    fill: #525c66;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  fill: #525c66;
 }
 .filter--choice > div > div > label > span > .svg--point {
-    display: block !important;
+  display: block !important;
 }
 
 .filter--choice > div > div {
-    margin-left: 12px;
+  margin-left: 12px;
 }
 </style>
 
@@ -157,7 +157,7 @@ export default {
       this.$router.push({ name: 'VendorRegistrationStep2', params: { businessType: businessType } });
     },
     goBack() {
-      this.$router.back();
+      this.$router.push({ name: 'Account' });
     },
   }
 };
