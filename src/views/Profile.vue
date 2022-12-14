@@ -70,7 +70,7 @@
         <div class="images_filter">
           <ul>
             <li v-if="profile.vendor.clips" @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Replay <span :style="[live ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px;">{{ profile.vendor.clips.length }}</span></li>
-            <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Articles <span :style="[shop ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ profile.vendor.products.length }}</span></li>
+            <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Articles <span :style="[shop ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ nbProducts }}</span></li>
           </ul>
         </div>
 
@@ -187,7 +187,8 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       profile: null,
       notif: true,
-      followers: null
+      followers: null,
+      nbProducts: 0
     }
   },
   filters: {
@@ -213,6 +214,14 @@ export default {
               this.notif = true;
             }
           });
+        });
+      }
+
+      if (this.profile.vendor.products) {
+        this.profile.vendor.products.map(product => {
+          if (product.archived == false) {
+            this.nbProducts += 1;
+          }
         });
       }
     }, (response) => {
