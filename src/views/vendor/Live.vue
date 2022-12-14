@@ -60,10 +60,10 @@
                 <div @click="showProfil()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: #ff2773;padding: 5px 24px;border-radius: 30px;font-size: 11px;font-weight: 600;">Activer</div>
               </div>
               <div v-if="profil" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" />
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
-                  <input name="category" type="radio" />
+                  <input name="category" type="radio"/>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
@@ -72,16 +72,16 @@
                   </svg>
                 </span>
               </div>
-              <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;" />
+              <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;"/>
               <div style="display: flex; justify-content: space-between;    align-items: center;">
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Pages</div>
                 <div @click="showPages()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: #ff2773;padding: 5px 24px;border-radius: 30px;font-size: 11px;font-weight: 600;">Activer</div>
               </div>
               <div v-if="pages" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" />
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
-                  <input name="category" type="radio" />
+                  <input name="category" type="radio"/>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
@@ -91,10 +91,10 @@
                 </span>
               </div>
               <div v-if="pages" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" />
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
-                  <input name="category" type="radio" />
+                  <input name="category" type="radio"/>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
@@ -103,16 +103,16 @@
                   </svg>
                 </span>
               </div>
-              <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;" />
+              <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;"/>
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Groupes</div>
                 <div @click="showGroups()" class="btn-swipe" style="color: white;text-align: center;width: fit-content;background: #ff2773;padding: 5px 24px;border-radius: 30px;font-size: 11px;font-weight: 600;">Activer</div>
               </div>
               <div v-if="groups" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" />
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
-                  <input name="category" type="radio" />
+                  <input name="category" type="radio"/>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>
@@ -122,10 +122,10 @@
                 </span>
               </div>
               <div v-if="groups" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" />
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
-                  <input name="category" type="radio" />
+                  <input name="category" type="radio"/>
                   <svg viewBox="0 0 24 24" aria-hidden="true" data-testid="RadioButtonUncheckedIcon" class="css-12qyrmm">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                   </svg>

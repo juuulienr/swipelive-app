@@ -17,20 +17,20 @@
 
       <div v-if="order" class="checkout__body">
         <div class="top-author">
-          <div class="top-author--container" style="margin-bottom: 15px;">
-            <div v-if="user.email == order.buyer.email" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-              <img v-if="order.vendor.user.picture" :src="cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
-              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
-              <div>
-                <div><span>{{ order.createdAt }}</span></div>
-                <span>{{ order.vendor.businessName }}</span>
-              </div>
-            </div>
-            <div v-if="user.email == order.vendor.user.email" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-              <img v-if="order.buyer.picture" :src="cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
-              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;" />
+          <div class="top-author--container" style="margin-bottom: 15px; padding: 0px;">
+            <div v-if="user.id == order.vendor.user.id" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+              <img v-if="order.buyer.picture" :src="cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
+              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                <div><span>{{ order.createdAt }}</span></div>
+              </div>
+            </div>
+            <div v-else class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
+              <img v-if="order.vendor.user.picture" :src="cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
+              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
+              <div>
+                <span>{{ order.vendor.businessName }}</span>
                 <div><span>{{ order.createdAt }}</span></div>
               </div>
             </div>
@@ -40,8 +40,8 @@
         <div class="css-13dslnb" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 5px 10px; border-radius: 15px;">
           <div v-for="lineItem in order.lineItems" class="checkout__row checkout__product-info-row" style="align-items: center;">
             <div class="checkout__product-info" style="padding-right: 0px;">
-              <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;" />
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image" style="border-radius: 8px;" />
+              <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;"/>
+              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image" style="border-radius: 8px;"/>
               <div style="padding-right: 30px;">
                 <h5 class="checkout__name" style="margin-bottom: 5px; font-weight: 600; font-size: 14px; margin-right: 10px;"> {{ lineItem.product.title }} </h5>
                 <div v-if="lineItem.variant" class="checkout__attr"><span> {{ lineItem.variant.title }} </span></div>
@@ -50,7 +50,7 @@
             <div class="product--quantity--detail">x{{ lineItem.quantity }}</div>
           </div>
 
-          <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px;" />
+          <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px;"/>
 
           <div class=" css-18mhetb">
             <div class="css-ikzlcq">
@@ -58,20 +58,20 @@
                 <p class="css-11r9ii4">Sous-total</p>
                 <h6 class="css-yemnbq" style="color: #525c66;">{{ order.subTotal | formatPrice }}€</h6>
               </div>
-              <div v-if="user.email == order.buyer.email" class="css-9jay18">
-                <p class="css-11r9ii4">Livraison</p>
-                <h6 class="css-yemnbq" style="color: #525c66; font-weight: 500">+{{ order.shippingPrice | formatPrice }}€</h6>
-              </div>
-              <div v-if="user.email == order.vendor.user.email" class="css-9jay18">
+              <div v-if="user.id == order.vendor.user.id" class="css-9jay18">
                 <p class="css-11r9ii4">Commission SwipeLive</p>
                 <h6 class="css-yemnbq" style="color: #525c66; font-weight: 500">-{{ order.fees | formatPrice }}€</h6>
               </div>
-              <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
+              <div v-else class="css-9jay18">
+                <p class="css-11r9ii4">Livraison</p>
+                <h6 class="css-yemnbq" style="color: #525c66; font-weight: 500">+{{ order.shippingPrice | formatPrice }}€</h6>
+              </div>
+              <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;"/>
               <div class="css-9jay18">
                 <h6 class="css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
                 <div class="css-s2uf1z">
-                	<h6 v-if="user.email == order.vendor.user.email" class="css-kdhaao" style="font-weight: 600;">{{ remaining | formatPrice }}€</h6>
-                	<h6 v-if="user.email == order.buyer.email" class="css-kdhaao" style="font-weight: 600;">{{ order.total | formatPrice }}€</h6>
+                	<h6 v-if="user.id == order.vendor.user.id" class="css-kdhaao" style="font-weight: 600;">{{ remaining | formatPrice }}€</h6>
+                	<h6 v-else class="css-kdhaao" style="font-weight: 600;">{{ order.total | formatPrice }}€</h6>
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@
           </div>
           <div class="css-18mhetb">
             <ul class="css-1oa1nt">
-              <li v-if="user.email == order.vendor.user.email && order.shippingStatus == 'ready-to-send'" class="css-1rcbby2">
+              <li v-if="user.id == order.vendor.user.id && order.shippingStatus == 'ready-to-send'" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                 	<span class="css-1f06y3u"></span>
                 	<span class="css-fz3k0c" style="background-color: #18cea0;"></span>
@@ -236,7 +236,7 @@ export default {
         	// send message
       		this.$router.push({ name: 'ListMessages' });
         } else if (index == 2) {
-          // this.$router.push({ name: 'ListMessages' });
+          this.$router.push({ name: 'ListMessages' });
         }
       }, (error) => {
         console.log(error);

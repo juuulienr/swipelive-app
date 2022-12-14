@@ -22,7 +22,7 @@
           </div>
         </div>
         <div v-if="!popupSearch">
-          <div class="video-page__influencer-badge2" style="width: 34px; border-radius: 50%; padding: 0px; font-size: 14px; background: transparent; height: 34px;">
+          <div @click="goToFeed()" class="video-page__influencer-badge2" style="width: 34px; border-radius: 50%; padding: 0px; font-size: 14px; background: transparent; height: 34px;">
             <div class="video-page__influencer-img2" style="color: white; font-weight: 500; padding: 0px; text-align: center; line-height: 33px;">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 28px; width: 28px; fill: rgb(126, 133, 155); margin-bottom: 1px;">
@@ -98,32 +98,28 @@
     	<div class="list_persone">
     		<div class="suggested show" style="margin-top: 5px; padding: 10px 15px;">
     			<div v-if="results && results.length" class="row">
-            <div v-for="user in results" class="col-6" style="padding-right: 5px; padding-left: 5px;">
+            <div v-for="result in results" class="col-6" style="padding-right: 5px; padding-left: 5px;">
               <div class="personne" style=" box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px; padding: 20px 20px; border-radius: 16px; margin-bottom: 10px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
-                <img @click="goToProfile(user.id)" v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;" />
-                <img @click="goToProfile(user.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;" />
-                <h5 @click="goToProfile(user.id)" class="name" style="font-size: 15px; font-weight: 500;">{{ user.vendor.businessName }} 
+                <img @click="goToProfile(result.id)" v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;"/>
+                <img @click="goToProfile(result.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;"/>
+                <h5 @click="goToProfile(result.id)" class="name" style="font-size: 15px; font-weight: 500;">{{ result.vendor.businessName }} 
                   <svg viewBox="0 0 24 24" aria-label="Compte certifié" role="img" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px; height: 19px; margin-bottom: 3px; fill: rgb(255, 39, 115);">
                     <g><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path></g>
                   </svg>
                 </h5>
-                <p @click="goToProfile(user.id)" v-if="user.followers.length > 1" class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{user.followers.length }} abonnés</p>
-                <p @click="goToProfile(user.id)" v-else class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{user.followers.length }} abonné</p>
-
-                <div @click="follow(user.id)" class="btn-swipe" :style="[isFollowing == true ? {'padding': '5px 12px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '6px 12px'}]" style="color: white; margin-top: 18px; font-size: 13px; margin: 15px 15px 0px; border-radius: 30px;">
-                  <span v-if="loading">
+                <p @click="goToProfile(result.id)" v-if="result.followers.length > 1" class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
+                <p @click="goToProfile(result.id)" v-else class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{result.followers.length }} abonné</p>
+                <div @click="follow(result.id)" class="btn-swipe" :style="[isFollowing(result) ? {'padding': '5px 12px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '6px 12px'}]" style="color: white; margin-top: 18px; font-size: 13px; margin: 15px 15px 0px; border-radius: 30px;">
+               <!--    <span v-if="loading">
                     <svg viewBox="25 25 50 50" class="loading">
-                      <circle :style="[isFollowing == true ? {'stroke': 'rgba(99, 99, 99, 0.4)'} : {'stroke': 'white'}]" cx="50" cy="50" r="20"></circle>
+                      <circle :style="[isFollowing(result) ? {'stroke': 'rgba(99, 99, 99, 0.4)'} : {'stroke': 'white'}]" cx="50" cy="50" r="20"></circle>
                     </svg>
-                  </span>
-                  <span v-else-if="isFollowing == true">Abonné</span>
+                  </span> -->
+                  <span v-if="isFollowing(result)">Abonné</span>
                   <span v-else>Suivre</span>
                 </div>
               </div>
             </div>
-          </div>
-          <div v-else>
-              Afficher des suggestions ici
           </div>
     		</div>
     	</div>
@@ -147,9 +143,8 @@ export default {
       clips: null,
       following: null,
       popupSearch: null,
-      searchValue: null,
+      searchValue: "",
       results: null,
-      isFollowing: false,
       loading: false
     }
   },
@@ -180,6 +175,20 @@ export default {
     });
   },
   methods: {
+    isFollowing(result) {
+      // console.log(result);
+      if (result.followers.length) {
+        result.followers.map((follower, index) => {
+          console.log(follower.id);
+          console.log(this.user.id);
+          if (follower.id == this.user.id) {
+            return true;
+          }
+        });
+      }
+
+      return false;
+    },
     swipeHandler(dir) {
       if (dir == "left") {
         this.$router.push('/feed');
@@ -193,37 +202,29 @@ export default {
       }
     },
     search(c) {
+      this.changed();
       this.popupSearch = true;
       this.$nextTick(() => this.$refs.search.focus());
     },
     hideSearch() {
       this.popupSearch = false;
 	    this.results = null;
-	    this.searchValue = null;
+	    this.searchValue = "";
     }, 
     changed() {
-    	if (this.searchValue.length > 2) {
-	      window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
-	        this.results = JSON.parse(response.data);
-	      }, (response) => {
-	        console.log(response.error);
-	      });
-    	} else {
-	      this.results = null;;
-    	}
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
+        this.results = JSON.parse(response.data);
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     follow(id) {
-      console.log(this.isFollowing);
       this.loading = true;
 
-      if (this.isFollowing) {
-        this.isFollowing = false;
-      } else {
-        this.isFollowing = true;
-      }
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         setTimeout(() => {
           this.loading = false;
+          this.changed();
           window.localStorage.setItem("user", response.data);
         }, 300);
       }, (response) => {
@@ -235,6 +236,9 @@ export default {
     },
     goToProfile(id) {
       this.$router.push({ name: 'Profile', params: { id: id } });
+    },
+    goToFeed() {
+      this.$router.push({ name: 'Feed' });
     }
   }
 };

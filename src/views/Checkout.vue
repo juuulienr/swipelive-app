@@ -43,7 +43,7 @@
                 <h6 v-if="shippingPrice" class="css-yemnbq">+{{ shippingPrice | formatPrice }}€</h6>
                 <h6 v-else class="css-yemnbq">-</h6>
               </div>
-              <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;" />
+              <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px; border-style: dashed;"/>
               <div class="css-9jay18">
                 <h6 class="css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
                 <div class="css-s2uf1z">
@@ -149,7 +149,7 @@
 				        </div>
               </div>
             </div>
-            <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;" />
+            <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;"/>
             <div @click="changeToAddress()" class="top-author--item">
               <div>
                 <span style="text-transform: capitalize;">Domicile</span>

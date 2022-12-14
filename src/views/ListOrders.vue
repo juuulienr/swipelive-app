@@ -28,15 +28,15 @@
         <div v-if="orders && orders.length" class="top-author">
         	<div class="top-author--container">
         		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-        			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
+        			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);"/>
               <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12);"/>
         			<div>
         				<div><span>{{ order.createdAt }}</span></div>
-        				<span v-if="user.email == order.buyer.email">{{ order.vendor.businessName }} (Achat)</span>
-                <span v-else>{{ order.buyer.firstname }} {{ order.buyer.lastname }} (Vente)</span>
+        				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }} (Vente)</span>
+                <span v-else>{{ order.vendor.businessName }} (Achat)</span>
         			</div>
-              <span v-if="user.email == order.buyer.email" class="css-4ioo3c" style="color: rgb(223, 104, 104); background-color: #fbefef;">{{ order.total | formatPrice }}€</span>
-              <span v-else class="css-4ioo3c" style="color: #1ED7A6; background-color: #e6fff7;">{{ order.total | formatPrice }}€</span>
+              <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c" style="color: #1ED7A6; background-color: #e6fff7;">{{ order.total | formatPrice }}€</span>
+              <span v-else class="css-4ioo3c" style="color: rgb(223, 104, 104); background-color: #fbefef;">{{ order.total | formatPrice }}€</span>
         		</div>
           </div>
         </div>

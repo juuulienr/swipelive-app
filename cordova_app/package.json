@@ -93,14 +93,14 @@
             "cordova-plugin-dialogs": {}
         },
         "platforms": [
+            "ios",
             "android",
-            "browser",
-            "ios"
+            "browser"
         ]
     },
     "devDependencies": {
         "cordova": "^11.0.0",
-        "cordova-android": "^9.1.0",
+        "cordova-android": "9.1",
         "cordova-browser": "^6.0.0",
         "cordova-ios": "^6.2.0",
         "cordova-plugin-actionsheet": "^2.3.3",

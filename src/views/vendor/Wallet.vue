@@ -114,7 +114,7 @@
                 <span class="css-4ioo3c" style="color: #df6868; background-color: #fbefef;">-100,00€</span>
               </div>
               <div class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-                <img src="https://minimal-assets-api.vercel.app/assets/images/products/product_2.jpg" style="border: 1px solid rgba(22, 24, 35, 0.12);" />
+                <img src="https://minimal-assets-api.vercel.app/assets/images/products/product_2.jpg" style="border: 1px solid rgba(22, 24, 35, 0.12);"/>
                 <div>
                   <div><span>08 Nov 2021</span></div>
                   <span>Julien REIGNIER</span>
