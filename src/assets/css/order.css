@@ -734,12 +734,6 @@ svg {
 	padding: .9rem 0;
 }
 
-.checkout__body {
-	padding: 1rem;
-	height: calc(100% - 70px);
-	overflow: auto
-}
-
 .checkout__title {
 	text-align: center;
 	font-size: 1.1rem;
@@ -1168,7 +1162,7 @@ svg {
 	margin: 0px;
 	font-weight: 500;
 	line-height: 1.57143;
-	font-size: 15px;
+	font-size: 14px;
 }
 
 .css-ss6lby {
@@ -1354,50 +1348,55 @@ svg {
 }
 
 .top-author--container {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 15px;
 }
 .top-author--item {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px; 
+  border-radius: 13px; 
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
 }
 .top-author--item > img {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	width: 48px;
-	height: 48px;
-	font-size: 1.25rem;
-	line-height: 1;
-	border-radius: 8px;
-	overflow: hidden;
-	user-select: none;
-	object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+  display: block;
+  border-radius: 10px;
+  width: 64px;
+  height: 64px;
+  font-size: 1.25rem;
+  overflow: hidden;
+  user-select: none;
+  object-fit: cover;
 }
 .top-author--item > div:first-of-type {
-	margin: 0px 0px 0px 12px;
-	flex-grow: 1;
+  margin: 0px 0px 0px 12px;
+  flex-grow: 1;
 }
 .top-author--item > div > span {
-	font-weight: 600;
-	line-height: 1.57143;
+  font-weight: 500;
+  line-height: 1.57143;
 }
 
 .top-author--item > div > div {
-	line-height: 1.5;
-	font-size: 14px;
-	font-weight: 400;
-	color: #525c66;
-	display: flex;
-	align-items: center;
+  line-height: 1.5;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #525c66;
+  display: flex;
+  align-items: center;
 }
 .top-author--item > div > div > svg {
-	width: 16px;
-	height: 16px;
-	margin-right: 4px;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
 }
 
 .css-15x3obx {
@@ -1482,9 +1481,9 @@ svg {
 }
 
 .css-6f545k {
-	margin: 0px;
-	line-height: 1.5;
-	font-size: 14px;
-	font-weight: 400;
-	color: #525c66;
+  margin: 0;
+  line-height: 1.5;
+  font-size: .75rem;
+  font-weight: 400;
+  color: #525c66;
 }

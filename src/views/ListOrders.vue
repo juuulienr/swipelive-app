@@ -1,51 +1,63 @@
 <template>
-  <main class="products">
-    <div class="checkout">
-      <div class="checkout__header" style="padding: 15px;">
-        <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 8px; padding: 0.5rem 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: #161823;"><path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path></svg>
-        </div>
-        <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Transactions</div>
+  <main class="products" style="padding: 0px 15px 15px;">
+    <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+        </svg>
       </div>
+      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Commandes</div>
+    </div>
 
-      <div class="checkout__body">
-       <div style="width: calc(100vw - 30px);margin: 0px 15px 0px 15px;">
-          <div class="chat--left--head--input" style="border-radius: 8px;">
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+       <div>
+          <div class="chat--left--head--input">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
             <input ref="search" type="text" placeholder="Rechercher" style="height: 1.75em"/>
           </div>
         </div>
-        <div v-if="user.vendor" class="tags" style="display: flex; margin: 20px 0px 5px; align-items: center; overflow-x: scroll;">
-          <div style="display: flex; flex-wrap: initial;">
-            <div class="tag-tab" style="background-color: white; color: #ff2773;border: 1px solid #ff2773; margin-left: 10px;">Tout</div>
-            <div class="tag-tab">À imprimer</div>
-            <div class="tag-tab">En cours</div>
-            <div class="tag-tab">Terminé</div>
+
+        <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px;">
+          <div class="images_filter">
+            <ul>
+              <li @click="showNumber1()" v-bind:class="{active: show1}"  :style="[show1 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
+              <li @click="showNumber2()" v-bind:class="{active: show2}"  :style="[show2 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
+              <li @click="showNumber3()" v-bind:class="{active: show3}"  :style="[show3 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
+            </ul>
           </div>
         </div>
-        <div v-if="orders && orders.length" class="top-author">
-        	<div class="top-author--container">
-        		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 10px; border-radius: 13px;">
-        			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="border: 1px solid rgba(22, 24, 35, 0.12);"/>
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12);"/>
+
+
+        <div class="top-author">
+        	<div v-if="show1" class="top-author--container">
+        		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item">
+        			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
+              <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
         			<div>
-        				<div><span>{{ order.createdAt }}</span></div>
-        				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }} (Vente)</span>
-                <span v-else>{{ order.vendor.businessName }} (Achat)</span>
+        				<div><span>#{{ order.number }}</span></div>
+        				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                <span v-else>{{ order.vendor.businessName }}</span>
+                <div><span style="font-size: 11px; color: #999;">{{ order.createdAt }}</span></div>
         			</div>
-              <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c" style="color: #1ED7A6; background-color: #e6fff7;">{{ order.total | formatPrice }}€</span>
-              <span v-else class="css-4ioo3c" style="color: rgb(223, 104, 104); background-color: #fbefef;">{{ order.total | formatPrice }}€</span>
+              <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
+              <span v-else class="css-4ioo3c" style="color: rgb(255, 0, 0); background-color: rgba(214, 44, 44, 0.16);">{{ order.total | formatPrice }}€</span>
         		</div>
+          </div>
+          <div v-if="show2" class="top-author--container">
+           
+          </div>
+          <div v-if="show3" class="top-author--container">
+          
+          </div>
+        </div>
+        <div v-else class="checkout__body">
+          <div style="text-align: center; margin-top: 100px;">
+            Aucune commande
           </div>
         </div>
       </div>
-    <!--   <div v-else class="checkout__body">
-        <div style="text-align: center; margin-top: 100px;">
-          Aucune transaction
-        </div>
-      </div> -->
     </div>
   </main>
 </template>
@@ -64,6 +76,9 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       orders: null,
+      show1: true,
+      show2: false,
+      show3: false,
     }
   },
   filters: {
@@ -88,7 +103,22 @@ export default {
     },
     goBack() {
       this.$router.push({ name: 'Account' });
-    }
+    },
+    showNumber1() {
+      this.show1 = true;
+      this.show2 = false;
+      this.show3 = false;
+    }, 
+    showNumber2() {
+      this.show1 = false;
+      this.show2 = true;
+      this.show3 = false;
+    }, 
+    showNumber3() {
+      this.show1 = false;
+      this.show2 = false;
+      this.show3 = true;
+    }, 
   }
 };
 

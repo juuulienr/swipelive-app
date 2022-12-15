@@ -1,7 +1,7 @@
 <template>
   <main style="padding: 0px 15px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
-      <div v-if="!step3" @click="goBack()" class="checkout__close-btn" style="position: fixed; left: initial; top: 0px; padding: 6px 0px;">
+      <div v-if="!step3" @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -15,7 +15,7 @@
       <!-- step1 -->
       <div v-if="step1" class="step1">
         <div class="general--profile">
-          <span>
+          <span :style="[errorPicture ? {'border': '1px dashed #ff0000'} : {'border': '1px dashed rgba(145,158,171,.32)'}]">
             <span v-if="loadingImg">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
                 <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
@@ -30,7 +30,7 @@
             </div>
           </span>
         </div>
-        <div v-if="errorPicture" style="text-align: center; font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 30px; margin-top: -25px;">Une image ou un logo est obligatoire</div>
+        <div v-if="errorPicture" style="text-align: center; font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 30px; margin-top: -35px;">Une image ou un logo est obligatoire</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
@@ -428,9 +428,7 @@ export default {
       }
 
       if (!this.user.picture) {
-        if (window.cordova.platformId !== "browser") {
-          this.errorPicture = true;
-        }
+        this.errorPicture = true;
       }
 
       if (!this.user.day) {
@@ -612,13 +610,14 @@ export default {
     uploadImage(options) {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
+        this.errorPicture = false;
         this.loadingImg = true;
 
         window.cordova.plugin.http.setDataSerializer('json');
         if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            this.user = JSON.parse(response.data);
-            window.localStorage.setItem("user", response.data);
+            var result = JSON.parse(response.data);
+            this.user.picture = result.picture;
             this.loadingImg = false;
           }, function(response) {
             console.log(response.error);
@@ -626,8 +625,8 @@ export default {
         } else {
           var imgData = "data:image/jpeg;base64," + imageUri;
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.user = JSON.parse(response.data);
-            window.localStorage.setItem("user", response.data);
+            var result = JSON.parse(response.data);
+            this.user.picture = result.picture;
             this.loadingImg = false;
           }, function(response) {
             console.log(response.error);

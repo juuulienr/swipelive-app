@@ -75,7 +75,7 @@
 
 
       <!-- add bank account -->
-      <div v-if="popupBankAccount" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; "> 
+      <div v-if="popupBankAccount" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%;"> 
         <div class="checkout__header" style="padding: 15px;">
           <div class="checkout__title" style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;"> Ajouter un compte</div>
           <div @click="hideBankAccount()" class="checkout__right-btn" style="padding-right: 12px;">

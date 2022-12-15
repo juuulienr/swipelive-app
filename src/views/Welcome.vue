@@ -270,6 +270,8 @@ export default {
   },
   methods: {
     async login() {
+      console.log(this.loginEmail);
+      console.log(this.loginPassword);
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
 

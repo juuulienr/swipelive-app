@@ -44,10 +44,9 @@
 }
 .people-section .one-people p {
   margin-top: 5px;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   text-transform: capitalize;
-  width: 100px;
 }
 .people-section .two-people {
   margin: 0 10px;
@@ -140,6 +139,23 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.favourite .list_persone::-webkit-scrollbar {
+  display: none;
+}
+.favourite .list_persone {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.favourite .list_persone {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  width: auto;
+  padding: 5px 0;
+}
+
 
 input[type="number"] {
   width: 85px;
@@ -327,8 +343,8 @@ input[type="number"] {
 }
 .list_persone .personne .user {
   border-radius: 100%;
-  width: 86px;
-  height: 86px;
+  width: 92px;
+  height: 92px;
   object-fit: cover;
 }
 .list_persone .personne .name {

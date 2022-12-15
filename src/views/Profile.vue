@@ -1,13 +1,13 @@
 <template>
   <main v-touch:swipe.right="swipeHandler" class="my_profile1" style="padding: 0px 15px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
-      <div @click="goBack()" class="checkout__close-btn" style="position: fixed; left: initial; top: 0px; padding: 6px 0px;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Profil</div>
-      <div @click="actionSheet()" class="checkout__right-btn" style="right: 20px; position: fixed; top: 0px; padding: 6px 0px;">
+      <div @click="actionSheet()" class="checkout__right-btn" style="right: 15px; position: absolute; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px;fill: #161823;border-radius: 30px;">
           <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
         </svg>
@@ -30,7 +30,11 @@
               <span>{{ followers }} abonnés</span>
             </div>
           </div>
-          <div @click="goToMessage(profile.id)" style="color: rgb(0, 132, 255); background-color: rgba(45, 136, 255, 0.2); text-align: center;width: fit-content;margin: 0px auto;padding: 5px 12px;border-radius: 11px;font-size: 13px; font-weight: 400">Message</div>
+          <div @click="goToMessage(profile.id)" style="color: rgb(0, 132, 255);background-color: rgba(45, 136, 255, 0.2);text-align: center;width: fit-content;margin: 0px auto;padding: 12px;border-radius: 40px;font-size: 13px;font-weight: 400;margin-right: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;fill: rgb(0, 132, 255);height: 20px;">
+              <path d="M128 216c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zM256 32C114.6 32 0 125.1 0 240c0 47.6 19.9 91.2 52.9 126.3C38 405.7 7 439.1 6.5 439.5c-6.6 7-8.4 17.2-4.6 26S14.4 480 24 480c61.5 0 110-25.7 139.1-46.3C192 442.8 223.2 448 256 448c141.4 0 256-93.1 256-208S397.4 32 256 32zm0 384c-28.3 0-56.3-4.3-83.2-12.8l-15.2-4.8-13 9.2c-23 16.3-58.5 35.3-102.6 39.6 12-15.1 29.8-40.4 40.8-69.6l7.1-18.7-13.7-14.6C47.3 313.7 32 277.6 32 240c0-97 100.5-176 224-176s224 79 224 176-100.5 176-224 176z"></path>
+            </svg>
+          </div>
         </div>
       </div>
 
@@ -38,13 +42,8 @@
 
       <div class="info_profile">
         <div class="btn-follow">
-          <div @click="updateFollow()" class="btn-swipe" :style="[following == true ? {'padding': '11px 56px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '12px 56px'}]" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; border-radius: 30px; margin-bottom: 25px; font-weight: 500">
-            <span v-if="loading">
-              <svg viewBox="25 25 50 50" class="loading">
-                <circle :style="[following == true ? {'stroke': 'rgba(99, 99, 99, 0.4)'} : {'stroke': 'white'}]" cx="50" cy="50" r="20"></circle>
-              </svg>
-            </span>
-            <span v-else-if="following == true">Abonné</span>
+          <div @click="updateFollow()" class="btn-swipe" :style="[following == true ? {'padding': '11px 30px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '12px 30px'}]" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; border-radius: 30px; margin-bottom: 25px; font-weight: 500; width: 160px;">
+            <span v-if="following == true">Abonné</span>
             <span v-else>Suivre</span>
           </div>
         </div>
@@ -69,8 +68,8 @@
       <div class="images_sec">
         <div class="images_filter">
           <ul>
-            <li v-if="profile.vendor.clips" @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Replay <span :style="[live ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px;">{{ profile.vendor.clips.length }}</span></li>
-            <li v-if="profile.vendor.products" @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Articles <span :style="[shop ? {'background': '#eff1f6'} : {'background': '#FFF'}]" style="margin-left: 5px; padding: 3px 8px; border-radius: 40px; font-size: 13px; color: #ff2773;">{{ nbProducts }}</span></li>
+            <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Replay</li>
+            <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Articles</li>
           </ul>
         </div>
 
@@ -78,13 +77,13 @@
           <div v-if="profile" class="row">
             <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
               <router-link v-if="clip.status == 'available'" :to="{ name: 'ListClips', params: { type: 'profile', index: index, profileId: profile.id }}">
-                <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; height: 270px">
+                <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; height: 300px">
               </router-link>
             </div>
           </div>
         </div>
 
-        <div v-if="shop" class="items" style="margin-top: 20px;">
+        <div v-if="shop" class="items" style="margin-top: 20px; padding: 0px 10px;">
           <div v-if="profile && profile.vendor.products" class="shop--part" style="margin: 0px;">
             <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--item">
               <div>
@@ -118,8 +117,7 @@
 
 .my_profile1 .info_profile .btn-follow .btn {
   background: #ff2773;
-  -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
-  box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
   padding: 10px 42px;
   font-weight: bold;
   margin: 10px 0px;
