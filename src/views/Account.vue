@@ -175,7 +175,7 @@
           </router-link>
         </li>
         <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
-          <router-link :to="{ name: 'Shop' }">
+          <router-link :to="{ name: 'Discount' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"><path d="M512 256a88 88 0 0 0-57.1-82.4A88 88 0 0 0 338.4 57.1a88 88 0 0 0-164.8 0A88 88 0 0 0 57.1 173.6a88 88 0 0 0 0 164.8 88 88 0 0 0 116.5 116.5 88 88 0 0 0 164.8 0 88 88 0 0 0 116.5-116.5A88 88 0 0 0 512 256zm-320-96a32 32 0 1 1-32 32 32 32 0 0 1 32-32zm12.28 181.65a16 16 0 0 1-22.63 0l-11.31-11.31a16 16 0 0 1 0-22.63l137.37-137.37a16 16 0 0 1 22.63 0l11.31 11.31a16 16 0 0 1 0 22.63zM320 352a32 32 0 1 1 32-32 32 32 0 0 1-32 32z" class="fa-secondary" style="fill: #c4cacf;"/><path d="M192 160a32 32 0 1 1-32 32 32 32 0 0 1 32-32zm12.28 181.65a16 16 0 0 1-22.63 0l-11.31-11.31a16 16 0 0 1 0-22.63l137.37-137.37a16 16 0 0 1 22.63 0l11.31 11.31a16 16 0 0 1 0 22.63zM320 352a32 32 0 1 1 32-32 32 32 0 0 1-32 32z" class="fa-primary" style="fill: #637381;"/></svg>
             </span>

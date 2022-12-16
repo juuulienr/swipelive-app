@@ -22,6 +22,7 @@ import Order from '@/views/Order'
 import Account from '@/views/Account'
 import EditUser from '@/views/EditUser'
 
+import Discount from '@/views/vendor/Discount'
 import Shop from '@/views/vendor/Shop'
 import Partner from '@/views/vendor/Partner'
 import ListFollowing from '@/views/ListFollowing'
@@ -127,6 +128,10 @@ export default new Router({
       path: '/vendor/shop',
       name: 'Shop',
       component: Shop
+    }, {
+      path: '/vendor/discount',
+      name: 'Discount',
+      component: Discount
     }, {
       path: '/vendor/partner',
       name: 'Partner',

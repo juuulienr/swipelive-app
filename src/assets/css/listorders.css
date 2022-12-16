@@ -21,6 +21,15 @@
   padding: 0 5vw;
 }
 
+.images_sec::-webkit-scrollbar {
+  display: none;
+}
+.images_sec {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 .products header .h-left .h-title {
   font-size: 0.9em;
   padding-left: 4vw;
@@ -351,7 +360,7 @@ svg {
 .images_sec .images_filter ul li {
   display: inline-block;
   text-align: center;
-  width: 50%;
+  width: 100px;
   margin: 2px 1%;
   padding: 1vh 0;
   color: #6c7b8a;

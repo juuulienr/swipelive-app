@@ -12,10 +12,10 @@
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
       <div>
         <div class="container" style="margin: 100px auto 0px; text-align: center;">
-          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/partenariat.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/partenariat.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
-        <h5 style="font-weight: 500; font-size: 22px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun partenariat</h5>
-        <div style="font-weight: 400;font-size: 17px;text-align: center;">Les partenariats avec les influenceurs seront bientôt disponible.</div>
+        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun partenariat</h5>
+        <div style="font-weight: 400;font-size: 15px;text-align: center;">Les partenariats avec les influenceurs seront bientôt disponible.</div>
       </div>
     </div>
   </main>

@@ -19,12 +19,13 @@
         </div>
       </div>
 
-      <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px;">
+      <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px; display: flex; flex-wrap: nowrap; overflow-x: auto; width: auto; padding: 10px 0;">
         <div class="images_filter">
           <ul>
-            <li @click="showNumber1()" v-bind:class="{active: show1}"  :style="[show1 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
-            <li @click="showNumber2()" v-bind:class="{active: show2}"  :style="[show2 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
-            <li @click="showNumber3()" v-bind:class="{active: show3}"  :style="[show3 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
+            <li @click="showNumber1()" v-bind:class="{active: show1}" style="width: 100px;"  :style="[show1 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
+            <li @click="showNumber2()" v-bind:class="{active: show2}" style="width: 100px;"  :style="[show2 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
+            <li @click="showNumber3()" v-bind:class="{active: show3}"  style="width: 80px;" :style="[show3 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Litige</li>
+            <li @click="showNumber4()" v-bind:class="{active: show4}" style="width: 100px;"  :style="[show4 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
           </ul>
         </div>
       </div>
@@ -43,21 +44,46 @@
       			</div>
             <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
             <span v-else class="css-4ioo3c" style="color: rgb(255, 0, 0); background-color: rgba(214, 44, 44, 0.16);">{{ order.total | formatPrice }}€</span>
+            <!-- litige -->
+            <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
       		</div>
         </div>
-        <div v-if="show2" class="top-author--container">
-        </div>
-        <div v-if="show3" class="top-author--container">
-        </div>
-      </div>
-    </div>
     <!-- <div v-else class="checkout__body">
       <div class="container" style="margin: 100px auto 0px; text-align: center;">
-        <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
       </div>
-      <h5 style="font-weight: 500; font-size: 22px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
-      <div style="font-weight: 400;font-size: 17px;text-align: center;">Vos commandes apparaîtront ici.</div>
+      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
+      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
     </div> -->
+        <div v-if="show2" class="top-author--container">
+        </div>
+    <!-- <div v-else class="checkout__body">
+      <div class="container" style="margin: 100px auto 0px; text-align: center;">
+        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+      </div>
+      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
+      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+    </div> -->
+        <div v-if="show3" class="top-author--container">
+        </div>
+    <!-- <div v-else class="checkout__body">
+      <div class="container" style="margin: 100px auto 0px; text-align: center;">
+        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+      </div>
+      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
+      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+    </div> -->
+        <div v-if="show4" class="top-author--container">
+        </div>
+    <!-- <div v-else class="checkout__body">
+      <div class="container" style="margin: 100px auto 0px; text-align: center;">
+        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+      </div>
+      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
+      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+    </div> -->
+      </div>
+    </div>
   </main>
 </template>
 
@@ -78,6 +104,7 @@ export default {
       show1: true,
       show2: false,
       show3: false,
+      show4: false,
     }
   },
   filters: {
@@ -107,16 +134,25 @@ export default {
       this.show1 = true;
       this.show2 = false;
       this.show3 = false;
+      this.show4 = false;
     }, 
     showNumber2() {
       this.show1 = false;
       this.show2 = true;
       this.show3 = false;
+      this.show4 = false;
     }, 
     showNumber3() {
       this.show1 = false;
       this.show2 = false;
       this.show3 = true;
+      this.show4 = false;
+    }, 
+    showNumber4() {
+      this.show1 = false;
+      this.show2 = false;
+      this.show3 = false;
+      this.show4 = true;
     }, 
   }
 };
