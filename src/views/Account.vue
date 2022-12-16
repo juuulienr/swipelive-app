@@ -35,14 +35,14 @@
 
       <div v-if="user" class="info_profile">
         <div v-if="user.vendor" @click="goPrelive()" class="btn-follow">
-          <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 14px 48px; border-radius: 11px; margin-bottom: 25px; font-weight: 500">Lancer un live</div>
+          <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 14px 48px; border-radius: 11px; margin-bottom: 25px; font-weight: 500">Lancer un direct</div>
         </div>
         <div v-else class="btn-follow" style="display: flex; margin-top: 20px;">
           <div @click="goToVendorRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(255, 39, 115); padding: 10px 20px; border-radius: 10px; font-weight: 500; font-size: 14px; margin: 0px; width: calc(50vw - 25px); margin-right: 20px;">Devenir vendeur</div>
           <div class="btn-swipe" disabled style="color: white; text-align: center; width: fit-content; background: rgb(0, 132, 255); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
         </div>
 
-        <div v-if="user.vendor" class="profile--follow" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 12px 0px;">
+        <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px;">
           <div>
             <h4 v-if="nbProducts">{{ nbProducts }}</h4>
             <h4 v-else>-</h4>
@@ -64,7 +64,7 @@
             <p v-else>Commande</p>
           </div>
         </div>
-        <div v-else class="profile--follow" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 12px 0px; margin-top: 25px;">
+        <div v-else class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px; margin-top: 25px;">
           <div>
             <h4>-</h4>
             <p>Favoris</p>
@@ -80,7 +80,7 @@
 
       <ul class="listbrands mb-3" style="margin-top: 30px;">
         <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
-          <router-link :to="{ name: 'ShopVendor' }">
+          <router-link :to="{ name: 'Shop' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
                 <path d="M547.69,286.8a102.1,102.1,0,0,0,16.4-3.6V480a32,32,0,0,1-32,32H84a32,32,0,0,1-32-32V283.2a125.89,125.89,0,0,0,16.4,3.6,135.49,135.49,0,0,0,18,1.2,132.81,132.81,0,0,0,29.51-3.8V384H500V284.2a127.12,127.12,0,0,0,29.51,3.8A138.38,138.38,0,0,0,547.69,286.8Z" class="fa-secondary"></path><path d="M602,118.6c33.6,53.6,3.8,128-59,136.4a102.9,102.9,0,0,1-13.7.9,99.08,99.08,0,0,1-73.81-33.1A98.83,98.83,0,0,1,316,230.88a96.26,96.26,0,0,1-8.08-8.08,98.9,98.9,0,0,1-139.62,8,97.4,97.4,0,0,1-8-8,98.75,98.75,0,0,1-73.81,33.1,104.6,104.6,0,0,1-13.7-.9C10.12,246.5-19.58,172.1,14,118.6L78.83,15A32,32,0,0,1,106,0H510a32,32,0,0,1,27.07,15Z" class="fa-primary"></path>
@@ -122,7 +122,7 @@
           </router-link>
         </li>
         <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
-          <router-link :to="{ name: 'ShopVendor' }">
+          <router-link :to="{ name: 'Partner' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"></defs><path d="M0 384h64a32 32 0 0 0 32-32V128.2H0zm48-63.9a16 16 0 1 1-16 16 16 16 0 0 1 16-16zM457.3 73.4a31.77 31.77 0 0 0-22.6-9.4h-85.9a32 32 0 0 0-21.6 8.4l-98.3 90c-.1.1-.2.3-.3.4a39.78 39.78 0 0 0-2.1 56c12.7 13.9 39.4 17.6 56.1 2.7.1-.1.3-.1.4-.2l79.9-73.2a16 16 0 0 1 21.6 23.6l-26.1 23.9L504 313.8a72 72 0 0 1 7.9 7.7V128z" class="fa-secondary"/><path d="M544 128.2v223.9a32 32 0 0 0 32 32h64V128.2zm48 223.9a16 16 0 1 1 16-16 16 16 0 0 1-16 16zm-108.1-13.4L334.6 217.5l-30 27.5a72 72 0 0 1-97.3-106.1L289.1 64h-83.8a31.94 31.94 0 0 0-22.6 9.4L128 128v223.9h18.3l90.5 81.9a64 64 0 0 0 90-9.3l.2-.2 17.9 15.5a37.16 37.16 0 0 0 52.3-5.4l31.4-38.6 5.4 4.4a32 32 0 0 0 45-4.7l9.5-11.7a32.06 32.06 0 0 0-4.6-45.1z" class="fa-primary"/></svg>
             </span>
@@ -175,7 +175,7 @@
           </router-link>
         </li>
         <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
-          <router-link :to="{ name: 'ShopVendor' }">
+          <router-link :to="{ name: 'Shop' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"><path d="M512 256a88 88 0 0 0-57.1-82.4A88 88 0 0 0 338.4 57.1a88 88 0 0 0-164.8 0A88 88 0 0 0 57.1 173.6a88 88 0 0 0 0 164.8 88 88 0 0 0 116.5 116.5 88 88 0 0 0 164.8 0 88 88 0 0 0 116.5-116.5A88 88 0 0 0 512 256zm-320-96a32 32 0 1 1-32 32 32 32 0 0 1 32-32zm12.28 181.65a16 16 0 0 1-22.63 0l-11.31-11.31a16 16 0 0 1 0-22.63l137.37-137.37a16 16 0 0 1 22.63 0l11.31 11.31a16 16 0 0 1 0 22.63zM320 352a32 32 0 1 1 32-32 32 32 0 0 1-32 32z" class="fa-secondary" style="fill: #c4cacf;"/><path d="M192 160a32 32 0 1 1-32 32 32 32 0 0 1 32-32zm12.28 181.65a16 16 0 0 1-22.63 0l-11.31-11.31a16 16 0 0 1 0-22.63l137.37-137.37a16 16 0 0 1 22.63 0l11.31 11.31a16 16 0 0 1 0 22.63zM320 352a32 32 0 1 1 32-32 32 32 0 0 1-32 32z" class="fa-primary" style="fill: #637381;"/></svg>
             </span>

@@ -443,7 +443,7 @@ export default {
           console.log(response);
           var result = JSON.parse(response.data);
           if (result) {
-            this.$router.push({ name: 'ShopVendor' });
+            this.$router.push({ name: 'Shop' });
           }
         }, (response) => {
           console.log(JSON.parse(response.error));
@@ -689,7 +689,7 @@ export default {
       this.valuesOption2.splice(index, 1);
     },
     goBack() {
-      this.$router.push({ name: 'ShopVendor' });
+      this.$router.push({ name: 'Shop' });
     },
     generate() {
       this.errorNameOption1 = false;

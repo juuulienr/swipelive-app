@@ -78,7 +78,8 @@
         <div class=" css-18mhetb">
           <div class="css-ikzlcq" style="gap: 8px;">
             <div class="css-9jay18">
-              <p class="css-11r9ii4" style="color: black; font-weight: 600; font-size: 14px;">Sous-total</p>
+              <p v-if="user.id == order.vendor.user.id" class="css-11r9ii4" style="color: black; font-weight: 600; font-size: 14px;">Sous-total</p>
+              <p v-else class="css-11r9ii4" style="color: black; font-weight: 600; font-size: 14px;">Revenu brut</p>
               <h6 class="css-yemnbq" style="color: black; font-size: 14px;">{{ order.subTotal | formatPrice }}€</h6>
             </div>
             <div v-if="user.id == order.vendor.user.id" class="css-9jay18">
@@ -91,7 +92,7 @@
             </div>
             <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px; border-style: dashed;"/>
             <div class="css-9jay18">
-              <h6 v-if="user.id == order.vendor.user.id" class="css-k9tjo5" style="color: rgb(34, 154, 22); font-weight: 600; margin-bottom: 0px; font-size: 14px;">Gain</h6>
+              <h6 v-if="user.id == order.vendor.user.id" class="css-k9tjo5" style="color: rgb(34, 154, 22); font-weight: 600; margin-bottom: 0px; font-size: 14px;">Revenu net</h6>
               <h6 v-else class="css-k9tjo5" style="color: black; font-weight: 600; margin-bottom: 0px; font-size: 14px;">Total</h6>
               <div class="css-s2uf1z" style="margin-bottom: 0px;">
               	<h6 v-if="user.id == order.vendor.user.id" class="css-kdhaao" style="font-weight: 600; color: rgb(34, 154, 22); font-size: 14px;">{{ remaining | formatPrice }}€</h6>

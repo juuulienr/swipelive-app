@@ -10,55 +10,54 @@
     </div>
 
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
-       <div>
-          <div class="chat--left--head--input">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
-              <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
-            </svg>
-            <input ref="search" type="text" placeholder="Rechercher" style="height: 1.75em"/>
-          </div>
+      <div>
+        <div class="chat--left--head--input">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
+            <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
+          </svg>
+          <input ref="search" type="text" placeholder="Rechercher" style="height: 1.75em"/>
         </div>
+      </div>
 
-        <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px;">
-          <div class="images_filter">
-            <ul>
-              <li @click="showNumber1()" v-bind:class="{active: show1}"  :style="[show1 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
-              <li @click="showNumber2()" v-bind:class="{active: show2}"  :style="[show2 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
-              <li @click="showNumber3()" v-bind:class="{active: show3}"  :style="[show3 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
-            </ul>
-          </div>
+      <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px;">
+        <div class="images_filter">
+          <ul>
+            <li @click="showNumber1()" v-bind:class="{active: show1}"  :style="[show1 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
+            <li @click="showNumber2()" v-bind:class="{active: show2}"  :style="[show2 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
+            <li @click="showNumber3()" v-bind:class="{active: show3}"  :style="[show3 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
+          </ul>
         </div>
+      </div>
 
 
-        <div class="top-author">
-        	<div v-if="show1" class="top-author--container">
-        		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item">
-        			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
-        			<div>
-        				<div><span>#{{ order.number }}</span></div>
-        				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                <span v-else>{{ order.vendor.businessName }}</span>
-                <div><span style="font-size: 11px; color: #999;">{{ order.createdAt }}</span></div>
-        			</div>
-              <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
-              <span v-else class="css-4ioo3c" style="color: rgb(255, 0, 0); background-color: rgba(214, 44, 44, 0.16);">{{ order.total | formatPrice }}€</span>
-        		</div>
-          </div>
-          <div v-if="show2" class="top-author--container">
-           
-          </div>
-          <div v-if="show3" class="top-author--container">
-          
-          </div>
+      <div class="top-author">
+      	<div v-if="show1" class="top-author--container">
+      		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item">
+      			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
+            <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
+      			<div>
+      				<div><span>#{{ order.number }}</span></div>
+      				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+              <span v-else>{{ order.vendor.businessName }}</span>
+              <div><span style="font-size: 11px; color: #999;">{{ order.createdAt }}</span></div>
+      			</div>
+            <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
+            <span v-else class="css-4ioo3c" style="color: rgb(255, 0, 0); background-color: rgba(214, 44, 44, 0.16);">{{ order.total | formatPrice }}€</span>
+      		</div>
         </div>
-        <div v-else class="checkout__body">
-          <div style="text-align: center; margin-top: 100px;">
-            Aucune commande
-          </div>
+        <div v-if="show2" class="top-author--container">
+        </div>
+        <div v-if="show3" class="top-author--container">
         </div>
       </div>
     </div>
+    <!-- <div v-else class="checkout__body">
+      <div class="container" style="margin: 100px auto 0px; text-align: center;">
+        <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+      </div>
+      <h5 style="font-weight: 500; font-size: 22px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
+      <div style="font-weight: 400;font-size: 17px;text-align: center;">Vos commandes apparaîtront ici.</div>
+    </div> -->
   </main>
 </template>
 

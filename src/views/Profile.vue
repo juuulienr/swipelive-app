@@ -48,7 +48,7 @@
           </div>
         </div>
 
-        <div class="profile--follow" style="border: 1px solid rgba(22, 24, 35, 0.12); padding: 12px 0px;">
+        <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px;">
           <div>
             <h4 v-if="followers">{{ followers }}</h4>
             <h4 v-else>-</h4>
