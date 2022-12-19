@@ -556,15 +556,20 @@
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; padding-bottom: 80px;">
       <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;"><path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/></svg>
+  <!--     <svg width="24px" height="24px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true" focusable="false" style="width: 30px;height: 30px;fill: white;border-radius: 30px;position: absolute;top: 20px;right: 20px;z-index: 100000000;">
+        <g transform="matrix( 1 0 0 1 1 2 )">
+          <path d="M15 3C17.5 3 19 4.90001 19 7.20001C19 8.40001 18.4 9.49999 17.7 10.3C16.5 11.5 11 16 11 16C11 16 5.50005 11.5 4.30005 10.3C3.50005 9.49999 3 8.40001 3 7.20001C3 4.90001 4.5 3 7 3C8.7 3 10.3 4.6 11 6C11.7 4.6 13.3 3 15 3ZM15 0C13.5 0 12.1 0.599994 11 1.39999C9.9 0.499994 8.5 0 7 0C3 0 0 3.10001 0 7.20001C0 9.10001 0.799951 10.9 2.19995 12.4C3.59995 13.9 11 19.9 11 19.9C11 19.9 18.4 13.9 19.8 12.4C21.2 10.9 22 9.10001 22 7.20001C22 3.10001 19 0 15 0Z" fill="#FFFFFF" style="
+          fill: white;">
+          </path>
+        </g>
+      </svg> -->
       <Product :product="product" @clicked="onClickChild"/>
     </div>
     <div v-if="popupProduct && product.vendor.user.id != user.id" style="background-color: white;bottom: 25px; position: fixed; z-index: 2147483647;">
-      <div style="padding: 15px 15px 25px; background-color: white; width: 100vw; display: flex;">
-        <div @click="addToCart()" class="btn-swipe2" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; width: calc(50vw - 15px); background: linear-gradient(90deg,#ff9000,#ff5000);">
-        	Ajouter
-        </div>
-        <div @click="goCheckout()" class="btn-swipe2" style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; width: calc(50vw - 15px);">
-        	Acheter
+      <div style="background-color: white; bottom: 25px; position: fixed; z-index: 2147483647;">
+        <div style="padding: 15px 20px 25px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
+          <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
+          <div @click="goCheckout()" class="btn-swipe" style="text-align: center;width: calc(50vw - 25px);padding: 14px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px;background: rgb(24, 206, 160);color: rgb(255, 255, 255) !important;height: 50px;">Acheter</div>
         </div>
       </div>
     </div>

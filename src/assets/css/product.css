@@ -8,8 +8,8 @@
 
 .title {
 	font-weight: 500;
-	font-size: 16px;
-	color: #333;
+  font-size: 20px;
+  color: #000;
 }
 
 .description .price {
@@ -71,20 +71,23 @@ header img {
 }
 
 .variants .option {
-	position: relative;
-	font-size: 14px;
-	padding: 0.5rem 1rem;
-	border: 1px solid rgba(38,38,38,.2);
-	border-radius: 5px;
-	overflow: hidden;
-	display: inline-block;
-	cursor: pointer;
-	font-weight: 500;
+  position: relative;
+  font-size: 14px;
+  padding: 10px 20px;
+  border: 1px solid rgba(38,38,38,.2);
+  border-radius: 5px;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
 .variants .option.active {
-	border: 2px solid #262626;
-	font-weight: 600;
+  font-weight: 600;
+  color: #fff;
+  background: #ff2773;
+  border: 1px solid #ff2773;
 }
 
 .variants .option.unavailable {
@@ -208,7 +211,7 @@ header img {
 	border-radius: 12px;
 }
 .product--info {
-	padding: 15px;
+	padding: 0px 15px 15px;
 }
 .low--stock {
 	height: 22px;
@@ -301,10 +304,11 @@ header img {
 	display: inline-block;
 }
 .new-price {
-	display: inline-block;
-	font-size: 1.2rem;
-	font-weight: 600;
-	line-height: 1.5;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 3px;
+  color: #000;
 }
 hr {
 	flex-shrink: 0;
@@ -495,5 +499,7 @@ hr {
 .vue-slick img {
 	width: 100vw;
 	height: 100vw;
-	object-fit: cover;
+  border-radius: 25px; 
+  padding: 12px;
+  object-fit: cover;
 }

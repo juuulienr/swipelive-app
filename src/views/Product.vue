@@ -1,6 +1,6 @@
 <template>
   <div v-if="product" class="product">
-    <div v-if="product.uploads" style="width: 100vw;">
+    <div v-if="product.uploads" style="width: calc(100vw - 12px);">
       <VueSlickCarousel v-bind="settings">
         <div class="vue-slick" v-for="upload in product.uploads" v-bind:key="upload.id">
           <img :src="cloudinary750x750 + upload.filename">
@@ -17,22 +17,24 @@
       <div class="row">
         <div class="col-9">
           <div class="title">{{ product.title }}</div>
-        </div>
-        <div class="col-3" style="text-align: center; padding-left: 0px;">
           <div v-if="variant && variant.price" class="new-price" style="color: #333;">{{ variant.price | formatPrice }}€</div>
           <div v-else class="new-price" style="color: #333;">{{ product.price | formatPrice }}€</div>
           <div v-if="variant && variant.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ variant.compareAtPrice | formatPrice }}€</div>
           <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
         </div>
+        <div class="col-3" style="text-align: center; padding-left: 0px; margin-top: 12px;">
+          <span class="css-4ioo3c" style="color: rgb(255, 255, 255);background-color: #ff2773; padding: 15px;">-15%</span> 
+        </div>
       </div>
-      <div v-if="product.options.length" style="margin-top: 25px;">
-        <div class="technology" style="font-weight: 600;">{{ product.options[0].name }}</div>
+      <div v-if="product.options.length">
+        <hr style="margin: 20px 0px;">
+        <div class="technology" style="font-weight: 400;">{{ product.options[0].name }}</div>
         <div class="variants">
           <div v-if="option1.available == true" @click="updateVariant(option1.name, option1.available)"  v-for="option1 in available" class="option" :class="{'active' : selected == option1.name }">
             {{ option1.name }}
           </div>
         </div>
-        <div v-if="product.options.length > 1" class="technology" style="margin-top: 15px; font-weight: 600;">{{ product.options[1].name }}</div>
+        <div v-if="product.options.length > 1" class="technology" style="margin-top: 15px; font-weight: 400;">{{ product.options[1].name }}</div>
         <div class="variants">
           <div v-if="option2.available == true" @click="updateVariant2(option2.name, option2.available)"  v-for="option2 in available2" class="option" :class="{'active' : selected2 == option2.name }">
             {{ option2.name }}
@@ -40,9 +42,9 @@
         </div>
       </div>
 
-      <div style="margin: 25px 0px 15px;">
-        <div class="technology" style="font-weight: 600;">Description</div>
-        <p style="margin-top: 10px; font-size: 15px; color: #525c66;">{{ product.description }}</p>
+      <div>
+        <hr style="margin: 20px 0px;">
+        <p style="margin-top: 10px; font-size: 15px; color: rgb(82, 92, 102); font-weight: 400;">{{ product.description }}</p>
       </div>
   	</div>
   </div>
@@ -54,20 +56,39 @@
 <style>
 
 .slick-dots {
-  bottom: 10px !important;
+  bottom: 25px !important;
 }
 
 .slick-dots li, .slick-dots li button {
-  width: 10px !important;
+  width: 7px!important;
 }
 
 .slick-dots li button:before {
-  opacity: 1 !important; 
-  color: #525c66 !important;
+  opacity: 0.4 !important; 
+  color: #fff !important;
 }
 
 .slick-dots li.slick-active button:before {
-  color: #ff2773 !important;
+  opacity: 1 !important; 
+}
+
+.slick-dots li button:before {
+    font-size: 10px !important;
+}
+
+.css-4ioo3c {
+  line-height: 0;
+  border-radius: 6px;
+  cursor: default;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  padding: 20px 20px;
+  color: hsl(161deg 65% 64%);
+  font-size: 14px;
+  background-color: hsl(160deg 60% 96%);
+  font-weight: 700;
 }
 
 </style>
