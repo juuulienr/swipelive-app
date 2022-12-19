@@ -343,8 +343,8 @@ input[type="number"] {
 }
 .list_persone .personne .user {
   border-radius: 100%;
-  width: 92px;
-  height: 92px;
+  width: 86px;
+  height: 86px;
   object-fit: cover;
 }
 .list_persone .personne .name {

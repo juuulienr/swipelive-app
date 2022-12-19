@@ -1,5 +1,5 @@
 <template>
-  <main class="products" style="padding: 0px 15px 15px;">
+  <main class="products" style="padding: 0px 10px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
       <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
@@ -14,7 +14,7 @@
         <div v-if="clips && clips.length" class="row" style="margin: 0px;">
           <div v-for="clip in clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
-              <img :src="clip.preview" style="border-top-left-radius: 12px; width: 100%; border-top-right-radius: 12px;">
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: calc(100% - 10px)">
               <div @click="actionSheet(clip.id)" class="photo-box__delete-button">
                 <button class="remove-photo c-button c-button--filled c-button--small c-button--primary c-button--inline c-button--inverse c-button--truncatedc-button--icon-left c-button--without-text" type="button" style="border-radius: 100%; height: 34px;">
                   <span class="c-button__content">
@@ -26,14 +26,12 @@
                   </span>
                 </button>
               </div>
-              <div class="product--item" style="align-items: center;border-bottom-left-radius: 12px;border-bottom-right-radius: 12Px;border-top-right-radius: 0px;border-top-left-radius: 0px; box-shadow: 0 0 5px rgb(0 0 0 / 20%); flex-direction: row; padding: 7px; display: flex;">
-                <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/61ff8e5cf6e5a2e653515b54df82848b.jpeg" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;margin-right: 7px;">
-                <div class="details" style="flex-grow: 1;">
-                  <div class="title" style="text-decoration: none; color: #333; font-weight: 500; line-height: 1.57143; font-size: 12px;">Boîte de Voyage pour Bijoux</div>
-                </div>
+              <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: calc(100% - 10px); position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
+              <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
+                <img v-if="clip.product.uploads" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%);">
               </div>
             </div>
-            <div v-else class="loading-silhouette silhouette light" style="border-radius: 12px; width: calc(50vw - 25px); height: 325px;">
+            <div v-else class="loading-silhouette silhouette light" style="border-radius: 10px; width: calc(50vw - 25px); height: calc(100% - 10px)">
               <p style="top: 135.5px; position: relative; text-align: center; font-size: 18px; font-weight: 500; margin-bottom: 0px;">Création <br> en cours</p>
             </div>
           </div>

@@ -35,11 +35,11 @@
 
       <div v-if="user" class="info_profile">
         <div v-if="user.vendor" @click="goPrelive()" class="btn-follow">
-          <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 14px 48px; border-radius: 11px; margin-bottom: 25px; font-weight: 500">Lancer un direct</div>
+          <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 14px 70px; border-radius: 11px; margin-bottom: 25px; font-weight: 500">Lancer un direct</div>
         </div>
         <div v-else class="btn-follow" style="display: flex; margin-top: 20px;">
           <div @click="goToVendorRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(255, 39, 115); padding: 10px 20px; border-radius: 10px; font-weight: 500; font-size: 14px; margin: 0px; width: calc(50vw - 25px); margin-right: 20px;">Devenir vendeur</div>
-          <div class="btn-swipe" disabled style="color: white; text-align: center; width: fit-content; background: rgb(0, 132, 255); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
+          <div class="btn-swipe" disabled style="color: white; text-align: center; width: fit-content; background: rgba(0, 132, 255, 0.4); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
         </div>
 
         <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px;">
@@ -139,7 +139,7 @@
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"></defs><path d="M96 224a64 64 0 1 0-64-64 64.06 64.06 0 0 0 64 64zm480 32h-64a63.81 63.81 0 0 0-45.1 18.6A146.27 146.27 0 0 1 542 384h66a32 32 0 0 0 32-32v-32a64.06 64.06 0 0 0-64-64zm-512 0a64.06 64.06 0 0 0-64 64v32a32 32 0 0 0 32 32h65.9a146.64 146.64 0 0 1 75.2-109.4A63.81 63.81 0 0 0 128 256zm480-32a64 64 0 1 0-64-64 64.06 64.06 0 0 0 64 64z" class="fa-secondary"/><path d="M396.8 288h-8.3a157.53 157.53 0 0 1-68.5 16c-24.6 0-47.6-6-68.5-16h-8.3A115.23 115.23 0 0 0 128 403.2V432a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48v-28.8A115.23 115.23 0 0 0 396.8 288zM320 256a112 112 0 1 0-112-112 111.94 111.94 0 0 0 112 112z" class="fa-primary"/></svg>
             </span>
-            <span v-if="user.vendor" style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Abonnés</span>
+            <span v-if="user.vendor" style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Followers</span>
             <span v-else style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Abonnements</span>
             <span style="float: right;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">

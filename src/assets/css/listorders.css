@@ -360,10 +360,10 @@ svg {
 .images_sec .images_filter ul li {
   display: inline-block;
   text-align: center;
-  width: 100px;
-  margin: 2px 1%;
-  padding: 1vh 0;
+  margin: 2px;
+  padding: 7px 12px;
   color: #6c7b8a;
+  width: calc(25vw - 12px);
 }
 
 .images_sec .images_filter ul .active {

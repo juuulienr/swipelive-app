@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div style="position: absolute; background: white; padding: 10px 20px 15px; width: 100%; z-index: 110; text-align: center;">
+    <div style="position: absolute; background: white; padding: 10px 15px 15px; width: 100%; z-index: 110; text-align: center;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div v-if="!popupSearch">
           <div @click="goAccount()" class="video-page__influencer-badge2" style="width: 46px; border-radius: 50%; padding: 0px; font-size: 14px; background: transparent;">
@@ -37,12 +37,12 @@
     </div>
 
     <div v-if="categories" class="people-section" style="background: white; padding: 75px 0px 0px;">
-      <h2 style="font-weight: 500; font-size: 16px; margin-left: 10px;">Catégories</h2>
+      <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Catégories</h2>
       <div class="people" style="padding: 5px 10px;">
         <router-link v-for="category in categories" :key="category.id" :to="{ name: 'Category', params: { id: category.id, name: category.name }}">
           <div class="one-people text-center">
             <div class="people-img">
-              <img v-if="category.picture" :src="require(`@/assets/img/` + category.picture)" style="width: 114px; height: 114px; margin: 0 auto;">
+              <img v-if="category.picture" :src="require(`@/assets/img/` + category.picture)" style="width: 105px; height: 105px; margin: 0 auto;">
             </div>
             <p>{{ category.name }}</p>
           </div>
@@ -51,8 +51,8 @@
     </div>
 
     <div class="favourite" style="padding-top: 10px; margin-bottom: 20px;">
-    	<h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 10px;">Abonnements</h2>
-    	<div class="list_persone" style="display:flex;">
+    	<h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 15px;">Abonnements</h2>
+    	<div class="list_persone" style="display:flex; padding-left: 5px;">
     		<div @click="addFollowing()" style="padding: 0px 5px;">
   				<div class="personne">
   					<img class="user" :src="require(`@/assets/img/add-follow.jpg`)" style="padding: 4px;">
@@ -72,7 +72,7 @@
     </div>
 
     <div v-if="clips" v-touch:swipe.left="swipeHandler" class="favourite" style="padding-top: 10px;">
-      <h2 style="font-weight: 500; font-size: 16px; margin-left: 10px;">Tendances</h2>
+      <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances</h2>
       <div class="images">
         <div class="row" style="margin: 0px;">
           <div v-for="(clip, index) in clips" class="col-6 col-img">
@@ -84,8 +84,8 @@
                   {{ clip.vendor.businessName }}
                 </div>
               </div>
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover;">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); top: 5px;"></div>
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; height: calc(100% - 10px)">
+              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: calc(100% - 10px); position: absolute; z-index: 10; width: calc(100% - 10px); top: 5px;"></div>
             </router-link>
           </div>
         </div>

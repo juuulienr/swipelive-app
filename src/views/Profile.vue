@@ -1,5 +1,5 @@
 <template>
-  <main v-touch:swipe.right="swipeHandler" class="my_profile1" style="padding: 0px 15px 15px;">
+  <main v-touch:swipe.right="swipeHandler" class="my_profile1" style="padding: 0px 10px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
       <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
@@ -77,13 +77,13 @@
           <div v-if="profile" class="row">
             <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
               <router-link v-if="clip.status == 'available'" :to="{ name: 'ListClips', params: { type: 'profile', index: index, profileId: profile.id }}">
-                <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; height: 300px">
+                <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; height: calc(100% - 10px)">
               </router-link>
             </div>
           </div>
         </div>
 
-        <div v-if="shop" class="items" style="margin-top: 20px; padding: 0px 10px;">
+        <div v-if="shop" class="items" style="margin-top: 20px; padding: 0px 5px;">
           <div v-if="profile && profile.vendor.products" class="shop--part" style="margin: 0px;">
             <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--item">
               <div>

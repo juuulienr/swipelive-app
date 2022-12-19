@@ -190,6 +190,7 @@
   overflow: hidden;
   position: relative;
   display: inline-flex;
+  border: 1px solid #e0e3eb;
 }
 .content--img > div > span {
   width: 100%;
