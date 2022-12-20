@@ -1,6 +1,6 @@
 <template>
   <div v-if="product" class="product">
-    <div v-if="product.uploads" style="width: calc(100vw - 12px);">
+    <div v-if="product.uploads" style="width: 100%;">
       <VueSlickCarousel v-bind="settings">
         <div class="vue-slick" v-for="upload in product.uploads" v-bind:key="upload.id">
           <img :src="cloudinary750x750 + upload.filename">
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div>
+      <div style="margin-bottom: 20px;">
         <hr style="margin: 20px 0px;">
         <p style="margin-top: 10px; font-size: 15px; color: rgb(82, 92, 102); font-weight: 400;">{{ product.description }}</p>
       </div>
@@ -61,11 +61,18 @@
 
 .slick-dots li, .slick-dots li button {
   width: 7px!important;
+  z-index: 1000000000 !important;
 }
 
 .slick-dots li button:before {
   opacity: 0.4 !important; 
   color: #fff !important;
+  z-index: 1000000000 !important;
+}
+
+.slick-dots li button {
+  color: white !important;
+  border: none !important;
 }
 
 .slick-dots li.slick-active button:before {
@@ -73,7 +80,7 @@
 }
 
 .slick-dots li button:before {
-    font-size: 10px !important;
+  font-size: 10px !important;
 }
 
 .css-4ioo3c {

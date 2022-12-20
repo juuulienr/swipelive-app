@@ -17,6 +17,31 @@
           <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2773'} : {'color': '#525c66'}]">Suivis </li>
         </ul>
       </div>
+      <div v-else>
+        <div class="top-author">
+          <div v-if="following && following.length" class="top-author--container">
+            <div v-for="user in following" class="top-author--item">
+              <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
+              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+              <div>
+                <span>{{ user.vendor.businessName }}</span>
+                <div>
+                  <span v-if="user.followers.length > 1">{{user.followers.length }} abonnés</span>
+                  <span v-else>{{user.followers.length }} abonné</span>
+                </div>
+              </div>
+              <div @click="unfollow(user.id)" style="background-color: #eee; color: #666; text-align: center;width: fit-content;margin: 0px auto;padding: 5px 24px;border-radius: 30px;font-size: 13px;">Abonné</div>
+            </div>
+          </div>
+         <!--  <div v-else>
+            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+              <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/follower.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun abonnement</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos abonnements apparaîtront ici.</div>
+          </div> -->
+        </div>
+      </div>
 
       <div v-if="tabFollowers && !loading" class="top-author">
         <div v-if="followers && followers.length" class="top-author--container">

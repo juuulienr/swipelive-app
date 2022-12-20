@@ -272,8 +272,7 @@
 
 .checkout__name {
 	margin-top: 0;
-	font-size: 15px;
-	margin-right: 10px;
+	font-size: 14px;
 }
 
 .checkout__attr {
@@ -293,8 +292,10 @@
 .checkout__row {
 	display: flex;
 	justify-content: space-between;
-	border-bottom: 1px solid rgba(58, 58, 58, .2);
-	padding: .2rem 0
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  padding: 10px !important;
+  margin: 15px 5px;
+  border-radius: 10px;
 }
 
 .checkout__link {
@@ -352,7 +353,6 @@
 }
 
 .checkout__body {
-	padding: 1rem;
 	height: calc(100% - 70px);
 	overflow: auto
 }
@@ -746,15 +746,13 @@
 
 .css-13dslnb {
 	background-color: rgb(255, 255, 255);
-	/*color: rgb(33, 43, 54);*/
-	transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 	background-image: none;
 	overflow: hidden;
-	position: relative;
-	/*box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px;*/
-	/*border-radius: 16px;*/
-	z-index: 0;
-	margin-top: 20px;
+  position: absolute; 
+  z-index: 0;
+  margin-top: 20px; 
+  bottom: 30px; 
+  width: calc(100% - 30px);
 }
 
 .css-15x3obx {

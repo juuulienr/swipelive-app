@@ -297,7 +297,7 @@
 
 .checkout__row {
   display: flex;
-  padding: .2rem 0;
+  padding: .3rem 0;
 }
 
 .checkout__link {
@@ -360,7 +360,6 @@
 }
 
 .checkout__body {
-  padding: 1rem;
   height: calc(100% - 70px);
   overflow: auto
 }
@@ -700,7 +699,8 @@
   align-items: flex-end;
 }
 .product--quantity--detail > span {
-  margin: 8px 0px 0px;
+  margin-bottom: 7px;
+  margin-right: 5px;
   line-height: 1.5;
   font-size: 0.75rem;
   font-weight: 500;
@@ -773,9 +773,8 @@
 
 .css-jef1j {
   margin: 0;
-  font-weight: 600;
   line-height: 1.55556;
-  font-size: 1rem;
+  font-size: 15px;
   display: block;
 }
 
@@ -786,6 +785,7 @@
 .css-ikzlcq {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 .css-9jay18 {
@@ -798,13 +798,13 @@
   margin: 0px;
   line-height: 1.57143;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
   color: #525c66;
 }
 
 .css-yemnbq {
   margin: 0px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.57143;
   font-size: 15px;
 }
@@ -1020,7 +1020,7 @@
   flex-grow: 1;
 }
 .top-author--item > div > span {
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.57143;
   font-size: 15px;
 }
@@ -1092,7 +1092,7 @@
   display: inline-block;
   text-align: center;
   width: 50%;
-  margin: 2px 1%;
+  margin: 2px;
   padding: 1vh 0;
   color: #6c7b8a;
 }

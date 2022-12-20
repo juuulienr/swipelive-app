@@ -31,7 +31,7 @@
       </div>
 
 
-      <div class="top-author">
+      <div class="top-author" style="margin-top: 15px;">
       	<div v-if="show1" class="top-author--container">
       		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item">
       			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
@@ -43,7 +43,7 @@
               <div><span style="font-size: 11px; color: #999;">{{ order.createdAt }}</span></div>
       			</div>
             <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
-            <span v-else class="css-4ioo3c" style="color: rgb(255, 0, 0); background-color: rgba(214, 44, 44, 0.16);">{{ order.total | formatPrice }}€</span>
+            <span v-else class="css-4ioo3c" style="color: #000;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
             <!-- litige -->
             <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
       		</div>

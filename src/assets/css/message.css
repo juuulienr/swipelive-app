@@ -537,7 +537,7 @@ h4 {
 	max-width: 100%;
 }
 .chat--head {
-	min-height: 60px;
+	min-height: 55px;
 	justify-content: initial;
 	padding: 0 15px;
 }

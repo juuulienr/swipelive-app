@@ -1,14 +1,20 @@
 <template>
-  <main class="cart">
-    <div class="checkout" style="margin-top: 50px;">
+  <main class="cart" style="height: 68vh;">
+    <div class="checkout">
       <div v-if="lineItems && lineItems.length" class="checkout__body">
         <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">
           <div class="checkout__product-info">
-            <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;">
-            <img  v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image" style="border-radius: 8px;">
+            <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px;">
+            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image" style="border-radius: 10px;">
             <div>
-              <h5 class="checkout__name" style="margin-bottom: 5px; font-weight: 600;"> {{ lineItem.product.title }} </h5>
-              <div v-if="lineItem.variant" class="checkout__attr"><span> {{ lineItem.variant.title }} </span></div>
+              <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
+              <div v-if="lineItem.variant" class="checkout__attr">
+                <span style="font-size: 12px;color: rgb(153, 153, 153);font-weight: 400;">{{ lineItem.variant.title }}</span>
+              </div>
+              <div>
+                <span v-if="lineItem.variant" style="font-size: 14px;">{{ lineItem.variant.price * lineItem.quantity | formatPrice }}€</span>
+                <span v-else style="font-size: 14px;">{{ lineItem.product.price * lineItem.quantity | formatPrice }}€</span>
+              </div>
             </div>
           </div>
           <div class="product--quantity--detail">
@@ -23,24 +29,29 @@
             </div>
           </div>
         </div>
+
         <div v-if="subTotal" class="css-13dslnb">
           <div class="css-18mhetb">
             <div class="css-9jay18">
-              <h6 class="css-k9tjo5" style="font-weight: 600;">Sous-total</h6>
+              <h6 class="css-k9tjo5">Sous-total</h6>
               <div class="css-s2uf1z">
-                <h6 class="css-kdhaao" style="font-weight: 600;">{{ subTotal | formatPrice }}€</h6>
+                <h6 class="css-kdhaao">{{ subTotal | formatPrice }}€</h6>
               </div>
             </div>
           </div>
-        </div>
-        <div v-if="subTotal" style="margin: 30px auto">
-          <div @click="goCheckout()" style="text-align: center;">
-            <div class="btn-swipe">Paiement</div>
+          <div style="margin: 15px auto;">
+            <div @click="goCheckout()" style="text-align: center;">
+              <div class="btn-swipe" style="height: 50px; padding: 14px 36px;">Paiement</div>
+            </div>
           </div>
         </div>
       </div>
       <div v-else class="checkout__body" style="text-align: center; margin-top: 100px;">
-        Le panier est vide. <br> Go shopping
+        <div class="container" style="text-align: center;">
+          <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        </div>
+        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Votre panier est vide</h5>
+        <div style="font-weight: 400;font-size: 15px;text-align: center;">Ajouter des articles à votre panier.</div>
       </div>
     </div>
   </main>

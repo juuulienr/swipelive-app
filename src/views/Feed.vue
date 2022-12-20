@@ -574,16 +574,23 @@
       </div>
     </div>
 
+
+
     <!-- cart popup -->
-    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 95%;">
-      <div @click="hideCart()" style="position: absolute; background: white; padding: 15px; width: 100%; z-index: 1000000000; text-align: center; border-top-left-radius: 20px; border-top-right-radius: 20px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #161823; float: left;">
-          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-        </svg>
-        <h5 style="font-weight: 600; margin-bottom: 0px; color: #161823; font-size: 17px;">Panier</h5>
+    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+      <div @click="hideCart()" style="display: flex;">
+        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
+        </div>
       </div>
-      <Cart/>
+
+      <div style="margin: 0px;">
+        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
+          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Panier</span>
+        </div>
+        <Cart/>
+      </div>
     </div>
+
 
 
     <!-- shop popup -->
