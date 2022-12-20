@@ -37,7 +37,7 @@
         </div>
         <div v-else class="btn-follow" style="display: flex; margin-top: 20px;">
           <div @click="goToVendorRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(255, 39, 115); padding: 10px 20px; border-radius: 10px; font-weight: 500; font-size: 14px; margin: 0px; width: calc(50vw - 25px); margin-right: 20px;">Devenir vendeur</div>
-          <div class="btn-swipe" disabled style="color: white; text-align: center; width: fit-content; background: rgba(0, 132, 255, 0.4); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
+          <div @click="goToInfluencerRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(0, 132, 255); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
         </div>
 
         <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px;">
@@ -97,8 +97,7 @@
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"><path d="M242.82 38.12a32 32 0 0 0-44.7 7.06L91.34 192h79.14l79.4-109.18a32 32 0 0 0-7.06-44.7zm135.06 7.06a32 32 0 1 0-51.76 37.64L405.52 192h79.14z" class="fa-secondary"/><path d="M552 192H24a24 24 0 0 0-24 24v16a24 24 0 0 0 24 24h8l26.11 182.79A48 48 0 0 0 105.63 480h364.74a48 48 0 0 0 47.52-41.21L544 256h8a24 24 0 0 0 24-24v-16a24 24 0 0 0-24-24zM200 392a24 24 0 0 1-48 0V280a24 24 0 0 1 48 0zm112 0a24 24 0 0 1-48 0V280a24 24 0 0 1 48 0zm112 0a24 24 0 0 1-48 0V280a24 24 0 0 1 48 0z" class="fa-primary"/></svg>
             </span>
-            <span v-if="user.vendor" style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Commandes</span>
-            <span v-else style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Achats</span>
+            <span style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Commandes</span>
             <span style="float: right;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
@@ -186,7 +185,7 @@
           </router-link>
         </li>
         <li v-if="!user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
-          <router-link :to="{ name: 'ListMessages' }">
+          <router-link :to="{ name: 'Favoris' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"><path d="M462.32 62.63C407.5 15.94 326 24.33 275.69 76.23L256 96.53l-19.69-20.3c-50.21-51.9-131.8-60.29-186.61-13.6-62.78 53.6-66.09 149.81-9.88 207.9l193.5 199.79a31.31 31.31 0 0 0 45.28 0l193.5-199.79c56.31-58.09 53-154.3-9.78-207.9zm-52.8 185l-143.1 143.85a15.29 15.29 0 0 1-21.7 0l-140-140.78c-28.37-28.52-33.78-75-8.37-106.23a76.44 76.44 0 0 1 113.77-5.88l45.49 45.7 42.37-42.58c28.38-28.52 74.65-34 105.71-8.45a77.35 77.35 0 0 1 5.83 114.36z" class="fa-secondary" style="fill: #c4cacf;"/><path d="M244.72 391.48l-140-140.78c-28.37-28.52-33.78-75-8.36-106.23a76.43 76.43 0 0 1 113.76-5.88l45.49 45.7 42.37-42.58c28.38-28.51 74.65-34 105.71-8.45a77.35 77.35 0 0 1 5.87 114.36L266.41 391.48a15.28 15.28 0 0 1-21.69 0z" class="fa-primary" style="fill: #c4cacf;"/></svg>
             </span>
@@ -199,7 +198,7 @@
           </router-link>
         </li>
         <li v-if="!user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
-          <router-link :to="{ name: 'ListMessages' }">
+          <router-link :to="{ name: 'SwipeRoulette' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"><path d="M231.1 187.3l-9.4 54.6a12 12 0 0 0 17.4 12.6l49-25.8 49 25.8a12 12 0 0 0 17.4-12.6l-9.4-54.6 39.6-38.6c7.1-6.9 3.2-19-6.4-20.5l-54.8-8L299 70.6a12 12 0 0 0-21.5 0L253 120.2l-54.8 8a12 12 0 0 0-6.7 20.5zM384 432H192c-35.3 0-64 20.7-64 56v12a12 12 0 0 0 12 12h296a12 12 0 0 0 12-12v-12c0-35.3-28.7-56-64-56z" class="fa-secondary"/><path d="M552.12 64H448V24a23.94 23.94 0 0 0-23.88-24H152a23.94 23.94 0 0 0-24 23.88V64H24A23.94 23.94 0 0 0 0 87.88V144c0 66.5 77.9 131.7 171.9 142.4C203.3 338.5 240 360 240 360v72h96v-72s36.7-21.5 68.1-73.6C498.4 275.6 576 210.3 576 144V88a23.94 23.94 0 0 0-23.88-24zM64 144v-16h64.2a359 359 0 0 0 12.8 86.2c-47.5-16.4-77-49.9-77-70.2zm320.7 4.7l-39.6 38.6 9.4 54.6a12 12 0 0 1-17.4 12.6l-49-25.8-49 25.8a12 12 0 0 1-17.4-12.6l9.4-54.6-39.6-38.6a12 12 0 0 1 6.7-20.5l54.8-8 24.5-49.6a12 12 0 0 1 21.5 0l24.5 49.6 54.8 8c9.6 1.5 13.5 13.6 6.4 20.5zM512 144c0 20.2-29.4 53.8-77 70.2a359 359 0 0 0 12.8-86.2H512z" class="fa-primary" style="fill: #c4cacf;"/></svg>
             </span>
@@ -307,6 +306,9 @@ export default {
     },
     goToVendorRegistration() {
       this.$router.push({ name: 'VendorRegistrationStep1' });
+    },
+    goToInfluencerRegistration() {
+      this.$router.push({ name: 'InfluencerRegistration' });
     }
   }
 };

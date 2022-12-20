@@ -1,0 +1,265 @@
+<template>
+  <main class="products shop_3" style="padding: 0px 0px 15px;">
+    <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000;">
+      <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+        </svg>
+      </div>
+      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Swipe Roulette</div>
+      <div @click="showInfos()" class="checkout__right-btn" style="fill: rgb(0, 132, 255); border-radius: 30px; top: 0px; right: 5px; padding: 7px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px;">
+          <path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm0-338c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/>
+        </svg>
+      </div>
+    </div>
+
+
+    <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px; padding-top: 0px">
+      <img :src="require(`@/assets/img/swipe-roulette.jpg`)" style="width: 100%; height:300px;">
+
+      <div style="position: absolute; width: 100%; z-index: 100000; background: white; top: 323px; border-radius: 30px; border-top: 1px solid #ab3cf8;">
+       <!--  <div class="top-author--container" style="border-radius: 10px; border: 2px solid #68dfb9; margin: 15px; background: #68dfb924; margin: 20px 15px 0px !important;">
+          <div class="top-author--item">
+            <img :src="require(`@/assets/img/no-preview.jpg`)"/>
+            <div>
+              <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
+            </div>
+            <span class="css-4ioo3c" style="color: #68dfb9; background-color: #effbf7; font-weight: 600; font-size: 17px;">10,52€</span>
+          </div>
+        </div>
+
+        <div class="top-author--container" style="margin: 0px 15px !important;">
+          <div class="top-author--item">
+            <img src="img/no-preview.a0f49c95.jpg" />
+            <div>
+              <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
+            </div>
+            <span class="css-4ioo3c" style="color: #000; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
+          </div>
+        </div>
+
+        <div class="top-author--container" style="margin: 0px 15px !important;">
+          <div class="top-author--item">
+            <img src="img/no-preview.a0f49c95.jpg" />
+            <div>
+              <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
+            </div>
+            <span class="css-4ioo3c" style="color: #000; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
+          </div>
+        </div>
+
+        <div class="top-author--container" style="margin: 0px 15px !important;">
+          <div class="top-author--item">
+            <img src="img/no-preview.a0f49c95.jpg" />
+            <div>
+              <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
+            </div>
+            <span class="css-4ioo3c" style="color: #000; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
+          </div>
+        </div> -->
+        <div class="container" style="margin: 30px auto 0px; text-align: center;">
+          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/roulette.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        </div>
+        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Swipe Roulette</h5>
+        <div style="font-weight: 400;font-size: 15px;text-align: center;">La Swipe Roulette sera bientôt disponible.</div>
+      </div>
+     
+    </div>   
+
+
+    <!-- popup infos -->
+    <div v-if="popupInfos" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: 100%">  
+      <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
+        <div @click="hideInfos()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+          </svg>
+        </div>
+        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Règle du jeu</div>
+      </div>
+      <div class="checkout__body info-roulette" style="overflow: scroll; padding: 15px 20px 50px;">
+        <div class="container" style="text-align: center;">
+          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/roulette.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        </div>
+        
+        <h4>Swipe Roulette</h4>
+
+        <p>La Stipe Roulette est un jeu sélectionnant au hasard certaines commandes réalisés dans l'application, qui sont remboursés aux utilisateurs après un tirage au sort.</p>
+
+        <h4>Principes et modalités du jeu 🎉</h4>
+
+        <p>Tous les 500 commandes faites sur Swipe Live, la roulette tourne et rembourse sa commande, directement sur la carte bancaire utilisée lors de la commande.</p>
+
+        <p>- Les gagnants recevrons une notification directement sur l'application Swipe Live .</p>
+
+        <h4>Quelles commandes peuvent être tirées au sort ? 🛍</h4>
+
+        <p>Toutes les commandes effectués sur l'application Swipe Live sont éligibles.</p>
+
+        <p>Il n'y a aucune limite sur le nombre de fois qu'un utilisateur peut gagner.</p>
+
+        <p>Lydia se réserve toutefois le droit de procéder à toute vérification utile à l'application des règles du jeu, notamment afin de disqualifier les participants ayant procédé à une manoeuvre frauduleuse ou abusive.</p>
+
+        <h4>Limite de remboursement 💳</h4>
+
+        <p>Lorsqu'une commande est tirée au sort, alors son montant total est remboursé par Stipe Live dans la limite de 50€.</p>
+
+        <p>Ex: Si un utilisateur dépense par exemple 100€ et que sa commande est tiré au sort, il gagnera 50€.</p>
+
+      </div>
+    </div>
+  </main>
+</template>
+
+
+<style scoped>
+
+.shop_3 .items {
+  padding-top: 10px;
+}
+
+.shop_3 .items .one_item {
+  margin: 0px 0px 2vh;
+}
+
+.shop_3 .items .one_item .img_item img {
+  width: calc(50vw - 45px);
+  height: calc(50vw - 45px);
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.shop_3 .items .one_item .info_item {
+  padding: 1.5vh 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shop_3 .items .one_item .info_item p {
+  margin-bottom: 3px;
+}
+
+.shop_3 .items .one_item .info_item .price {
+  color: #5882f2;
+  font-size: 0.8em;
+}
+
+.shop_3 .items .one_item .info_item .title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.shop_3 .items .one_item .info_item .disc {
+  color: #fff;
+  background-color: #ff0000;
+  font-size: 13px;
+  padding: 1.5px 6px;
+  border-radius: 3px;
+}
+
+.shop_3 .items .one_item .shop_icon img {
+  width: 9vw;
+}
+
+.store-products-item__login-popup::-webkit-scrollbar {
+  display: none;
+}
+.store-products-item__login-popup {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.store-products-item__login-popup.store-products-item__login-popup--active {
+    bottom: 0;
+}
+
+.store-products-item__login-popup {
+  position: fixed;
+  width: 100%;
+  bottom: -80%;
+  background-color: #fff;
+  border-radius: 15px;
+  animation-duration: 400ms !important;
+  animation-iteration-count: 1 !important;
+  animation-fill-mode: both !important;
+  animation-name: keyframe_d37zz3 !important;
+  z-index: 1000000000;
+}
+
+.btn-swipe2 {
+  background: rgb(24, 206, 160);
+  color: white !important;
+  font-weight: 600;
+  margin: 0 auto;
+  padding: 12px 36px;
+  font-size: 15px;
+  text-align: center;
+}
+
+@keyframes keyframe_d37zz3 {
+  0% {
+    opacity: 0;
+    transform: translate(0px, 100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.info-roulette p {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.info-roulette h4 {
+  margin-top: 25px;
+  font-size: 18px;
+}
+</style>
+
+<script>
+
+import Product from './Product';
+
+export default {
+  name: 'Favoris',
+  components: {
+    Product,
+  },
+  data() {
+    return {
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      popupInfos: false
+    }
+  },
+  filters: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  },
+  created() {    
+    window.StatusBar.overlaysWebView(false);
+    window.StatusBar.styleDefault();
+  },
+  methods: {
+    showInfos() {
+      this.popupInfos = true;
+    },
+    hideInfos() {
+      this.popupInfos = false;
+    },
+    goBack() {
+      this.$router.back();
+    },
+  }
+};
+
+</script>
+

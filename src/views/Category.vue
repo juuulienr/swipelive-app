@@ -11,7 +11,7 @@
     </div>
 
 
-    <div class="items">
+    <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
       <div v-if="category && category.products.length" class="shop--part" style="margin: 0px;">
         <div v-if="product.archived == false" v-for="product in category.products" class="shop--item">
           <div>

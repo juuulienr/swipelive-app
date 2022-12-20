@@ -11,6 +11,8 @@ import InfluencerRegistration from '@/views/InfluencerRegistration'
 import Feed from '@/views/Feed'
 import Home from '@/views/Home'
 import About from '@/views/About'
+import SwipeRoulette from '@/views/SwipeRoulette'
+import Favoris from '@/views/Favoris'
 import Product from '@/views/Product'
 import Profile from '@/views/Profile'
 import Checkout from '@/views/Checkout'
@@ -76,6 +78,14 @@ export default new Router({
       path: '/category/:id/:name?',
       name: 'Category',
       component: Category
+    }, {
+      path: '/favoris',
+      name: 'Favoris',
+      component: Favoris
+    }, {
+      path: '/roulette',
+      name: 'SwipeRoulette',
+      component: SwipeRoulette
     }, {
       path: '/products/add',
       name: 'AddProduct',
