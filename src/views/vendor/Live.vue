@@ -1,5 +1,8 @@
 <template>
   <div class="livestream">
+
+    <div v-if="player" id="player" style="height: 100vh; overflow: hidden;"></div>
+
     <div v-if="prelive" class="prelive">
 
       <!-- rotate camera -->
@@ -322,7 +325,9 @@
       <!-- popup orders -->
       <div v-if="popupOrders" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 60%; padding: 15px;"> 
         <div @click="hideOrders()" style="float: right;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #525c66;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #525c66;">
+            <path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/>
+          </svg>
         </div>
         <div style="display: flex; justify-content: center;">
           <div class="video-page__influencer-username2" style="font-size: 17px; font-weight: 600;">Commandes</div>
@@ -362,6 +367,7 @@ export default {
       http: null,
       viewers: 0,
       display: 1,
+      player: false,
       prelive: true,
       ready: false,
       counter: false,
@@ -447,11 +453,7 @@ export default {
       }, (err) => { 
         console.log(err);
       });
-    } else {
-      console.log("Bambuser is not available");
-    }
 
-    if (this.broadcaster) {
       this.broadcaster.setTitle("Live" + this.id);
       this.broadcaster.setAuthor(this.user.vendor.businessName);
       // this.broadcaster.setCustomData("Custom data");
@@ -459,14 +461,18 @@ export default {
         this.broadcaster.showViewfinderBehindWebView();
         document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
       }, 1000);
-    }
+    } else {
+      console.log("Bambuser is not available");
 
-    if (this.user && this.token) {
-      this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.user = JSON.parse(response.data);
-      }, (error) => {
-        console.log(error);
-      });
+      this.player = true;
+      setTimeout(() => {
+        var ressourceUri = "https://cdn.bambuser.net/broadcasts/20057381-f1d8-6fc1-1aa6-6fc9a896afc0?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1671610447&da_static=1&da_ttl=0&da_signature=f19839f85cb0bcf6376f8816b899ee4c79728afd8087a23ddeb5307c0d4e345d";
+        var player = window.BambuserPlayer.create(document.getElementById('player'), ressourceUri);
+        console.log(player);
+
+        player.scaleMode = "aspectFill";
+        player.play();
+      }, 200);
     }
   },
   mounted() {},
@@ -559,24 +565,25 @@ export default {
           console.log('Failed to start broadcast', e);
         }
       } else {
-        // this.prelive = false;
-        // this.counter = false;
-        // this.ready = true;
+        this.prelive = false;
+        this.counter = false;
+        this.ready = true;
 
-        // this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test" }, { Authorization: "Bearer " + this.token }, (response) => {
-        //   console.log(response);
-        //   var result = JSON.parse(response.data);
-        //   if (result) {
-        //     console.log(result);
-        //     this.live = result;
-        //     this.liveProducts = result.liveProducts;
 
-        //     this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
-        //     var channel = this.pusher.subscribe(result.channel);
-        //   }
-        // }, (response) => {
-        //   console.log(response.error);
-        // });
+        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test" }, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(response);
+          var result = JSON.parse(response.data);
+          if (result) {
+            console.log(result);
+            this.live = result;
+            this.liveProducts = result.liveProducts;
+
+            this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
+            var channel = this.pusher.subscribe(result.channel);
+          }
+        }, (response) => {
+          console.log(response.error);
+        });
 
         console.log("Bambuser is not available");
       }
@@ -588,19 +595,19 @@ export default {
 
         try {
           await this.broadcaster.stopBroadcast();
-
-          this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-            var result = JSON.parse(response.data);
-            if (result) {
-              this.$router.push({ name: 'PostLive', params: { id: this.id } });
-            }
-          }, (response) => {
-            console.log(response.error);
-          });
         } catch (e) {
           console.log('Failed to stop broadcast', e);
         }
       }
+
+      this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        var result = JSON.parse(response.data);
+        if (result) {
+          this.$router.push({ name: 'PostLive', params: { id: this.id } });
+        }
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     switchCamera() {
       if (this.broadcaster) {

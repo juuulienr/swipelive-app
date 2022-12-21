@@ -7,9 +7,6 @@
         </svg>
       </div>
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Profil</div>
-      <div @click="submit()" class="checkout__right-btn" style="right: 0px; top: 0px;">
-        <div style="color: #ff2773; font-weight: 500;">Enregistrer</div>
-      </div>
     </div>
 
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
@@ -30,7 +27,7 @@
           </div>
         </div>
 
-        <h2 style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px;">Informations personnelles</h2>
+        <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px;">Informations personnelles</h2>
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
             <legend>Prénom</legend>
@@ -61,28 +58,6 @@
           :preferred-countries="['FR', 'BE', 'LU', 'CH']"
           @update="onUpdate"
         />
-
-        <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 16px;">
-          <div class="form--input--item" :class="{'form--input--item--error': errorDay }">
-            <fieldset>
-              <legend>Jour</legend>
-              <input type="text" required v-model="user.day" inputmode="decimal" maxlength="2" style="width: 80%">
-            </fieldset>
-          </div>
-          <div class="form--input--item" :class="{'form--input--item--error': errorMonth }">
-            <fieldset>
-              <legend>Mois</legend>
-              <input type="text" required v-model="user.month" inputmode="decimal" maxlength="2" style="width: 80%">
-            </fieldset>
-          </div>
-          <div class="form--input--item" :class="{'form--input--item--error': errorYear }">
-            <fieldset>
-              <legend>Année</legend>
-              <input type="text" required v-model="user.year" inputmode="decimal" maxlength="4" style="width: 80%">
-            </fieldset>
-          </div>
-        </div>
-        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Vous devez avoir plus de 18 ans</div>
 
 
         <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px; margin-top: 55px;">Informations vendeur</h2>
@@ -145,6 +120,9 @@
             <input @click="selectCountry()" type="text" readonly v-model="user.vendor.country">
           </fieldset>
         </div>
+
+
+        <div @click="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 25px 0px;">Enregistrer</div>
       </div>
     </div>
   </main>
@@ -227,9 +205,6 @@ export default {
       errorSummary: false,
       errorBusinessName: false,
       errorBusinessType: false,
-      errorDay: false,
-      errorMonth: false,
-      errorYear: false,
       errorAddress: false,
       errorCompany: false,
       errorSiren: false,
@@ -251,9 +226,6 @@ export default {
       this.errorFirstname = false;
       this.errorLastname = false;
       this.errorSummary = false;
-      this.errorDay = false;
-      this.errorMonth = false;
-      this.errorYear = false;
       this.errorBusinessName = false;
       this.errorAddress = false;
       this.errorCompany = false;
@@ -277,44 +249,6 @@ export default {
         this.errorLastname = true;
       }
 
-      if (!this.user.day) {
-        this.errorDay = true;
-      } else {
-        if (parseInt(this.user.day) > 31 || parseInt(this.user.day) < 1) {
-          this.errorDay = true;
-        }
-      }
-
-      if (!this.user.month) {
-        this.errorMonth = true;
-      } else {
-        if (parseInt(this.user.month) > 12 || parseInt(this.user.month) == 0) {
-          this.errorMonth = true;
-        } else if (parseInt(this.user.month) < 10) {
-          this.user.month = "0" + parseInt(this.user.month);
-        }
-      }
-
-      if (!this.user.year) {
-        this.errorYear = true;
-      } else {
-        if (this.user.year.length == 4) {
-          var today = new Date();
-          var limit = today.getFullYear() - 100;
-          if (parseInt(this.user.year) > limit) {
-            var adult = today.setFullYear(today.getFullYear() - 18);
-            adult = new Date(adult);
-
-            if (adult < new Date(this.user.year)) {
-              this.errorYear = true;
-            }
-          } else {
-            this.errorYear = true;
-          }
-        } else {
-          this.errorYear = true;
-        }
-      }
 
       // if vendor
       if (this.user.vendor) {
@@ -363,12 +297,12 @@ export default {
         }
       }
 
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry) {
         window.cordova.plugin.http.setDataSerializer('json');
         if (this.user.vendor) {
-          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
+          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
         } else {
-          var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType" : null };
+          var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "businessType" : null };
         }
 
         await window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/edit", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
@@ -436,8 +370,8 @@ export default {
         window.cordova.plugin.http.setDataSerializer('json');
         if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            this.user = JSON.parse(response.data);
-            window.localStorage.setItem("user", response.data);
+            var result = JSON.parse(response.data);
+            this.user.picture = result.picture;
             this.loadingImg = false;
           }, function(response) {
             console.log(response.error);
@@ -445,8 +379,8 @@ export default {
         } else {
           var imgData = "data:image/jpeg;base64," + imageUri;
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.user = JSON.parse(response.data);
-            window.localStorage.setItem("user", response.data);
+            var result = JSON.parse(response.data);
+            this.user.picture = result.picture;
             this.loadingImg = false;
           }, function(response) {
             console.log(response.error);

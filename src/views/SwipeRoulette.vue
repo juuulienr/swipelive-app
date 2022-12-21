@@ -7,8 +7,8 @@
         </svg>
       </div>
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Swipe Roulette</div>
-      <div @click="showInfos()" class="checkout__right-btn" style="fill: rgb(0, 132, 255); border-radius: 30px; top: 0px; right: 5px; padding: 7px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px;">
+      <div @click="showInfos()" class="checkout__right-btn" style="fill: rgb(0, 132, 255); border-radius: 30px; top: 0px; right: 5px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 22px; height: 22px;">
           <path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm0-338c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/>
         </svg>
       </div>
@@ -85,13 +85,13 @@
         
         <h4>Swipe Roulette</h4>
 
-        <p>La Stipe Roulette est un jeu sélectionnant au hasard certaines commandes réalisés dans l'application, qui sont remboursés aux utilisateurs après un tirage au sort.</p>
+        <p>La Swipe Roulette est un jeu qui selectionne au hasard une commande réalisée dans l'application. Cette commande sera remboursée à l'utilisateur.</p>
 
         <h4>Principes et modalités du jeu 🎉</h4>
 
-        <p>Tous les 500 commandes faites sur Swipe Live, la roulette tourne et rembourse sa commande, directement sur la carte bancaire utilisée lors de la commande.</p>
+        <p>Tous les 500 commandes faites sur Swipe Live, la roulette tourne et rembourse une commande directement sur la carte bancaire utilisée lors de l'achat.</p>
 
-        <p>- Les gagnants recevrons une notification directement sur l'application Swipe Live .</p>
+        <p>- Les gagnants recevrons une notification directement sur l'application Swipe Live.</p>
 
         <h4>Quelles commandes peuvent être tirées au sort ? 🛍</h4>
 
@@ -99,11 +99,11 @@
 
         <p>Il n'y a aucune limite sur le nombre de fois qu'un utilisateur peut gagner.</p>
 
-        <p>Lydia se réserve toutefois le droit de procéder à toute vérification utile à l'application des règles du jeu, notamment afin de disqualifier les participants ayant procédé à une manoeuvre frauduleuse ou abusive.</p>
+        <p>Swipe Live se réserve toutefois le droit de procéder à toute vérification utile à l'application des règles du jeu, notamment afin de disqualifier les participants ayant procédé à une manoeuvre frauduleuse ou abusive.</p>
 
         <h4>Limite de remboursement 💳</h4>
 
-        <p>Lorsqu'une commande est tirée au sort, alors son montant total est remboursé par Stipe Live dans la limite de 50€.</p>
+        <p>Lorsqu'une commande est tirée au sort, alors son montant total est remboursé par Swipe Live dans la limite de 50€.</p>
 
         <p>Ex: Si un utilisateur dépense par exemple 100€ et que sa commande est tiré au sort, il gagnera 50€.</p>
 

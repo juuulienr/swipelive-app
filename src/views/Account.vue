@@ -25,7 +25,11 @@
               <span v-else>{{user.following.length }} abonnement</span>
             </div>
           </div>
-          <div @click="goEditProfile()" style="background-color: #eee; color: #666; text-align: center;width: fit-content;margin: 0px auto;padding: 5px 12px;border-radius: 30px;font-size: 13px;">Modifier</div>
+          <div @click="goEditProfile()" style="color: rgb(169 170 171);background-color: rgb(187 187 187 / 20%);text-align: center;width: fit-content;margin: 0px 10px 0px auto;padding: 12px;border-radius: 40px;font-size: 12px;font-weight: 400;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; fill: rgb(153, 153, 153);">
+              <path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"></path>
+            </svg>
+          </div>
         </div>
       </div>
 
@@ -36,8 +40,8 @@
           <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; padding: 14px 70px; border-radius: 11px; margin-bottom: 25px; font-weight: 500">Lancer un direct</div>
         </div>
         <div v-else class="btn-follow" style="display: flex; margin-top: 20px;">
-          <div @click="goToVendorRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(255, 39, 115); padding: 10px 20px; border-radius: 10px; font-weight: 500; font-size: 14px; margin: 0px; width: calc(50vw - 25px); margin-right: 20px;">Devenir vendeur</div>
-          <div @click="goToInfluencerRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(0, 132, 255); padding: 10px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
+          <div @click="goToVendorRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(255, 39, 115); padding: 14px 20px; border-radius: 10px; font-weight: 500; font-size: 14px; margin: 0px; width: calc(50vw - 25px); margin-right: 20px;">Devenir vendeur</div>
+          <div @click="goToInfluencerRegistration()" class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: rgb(0, 132, 255); padding: 14px 20px; border-radius: 16px; font-weight: 500; font-size: 14px; border-radius: 10px; margin: 0px; width: calc(50vw - 25px);">Devenir influenceur</div>
         </div>
 
         <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px;">

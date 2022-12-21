@@ -236,8 +236,6 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
-    this.showPopupConfirmation();
-
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.order = JSON.parse(response.data);
       this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);

@@ -1,5 +1,5 @@
 <template>
-  <main class="products shop_3" style="padding: 0px 15px 15px;">
+  <main class="products shop_3" style="padding: 0px 10px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
       <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
@@ -11,7 +11,7 @@
 
 
     <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
-      <div class="shop--part" style="margin: 0px;">
+      <div class="shop--part" style="margin: 5px;">
         <div class="shop--item">
           <div>
             <div>

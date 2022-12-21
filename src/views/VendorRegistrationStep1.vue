@@ -42,7 +42,7 @@
         <div style="font-size: 16px;"> Notre commission : 9% sur chaque vente. </div>
         <div style="color: #ff2773; font-size: 16px;"> Vous gagnez, nous gagnons ! </div><br>
         <div style="font-weight: 400; text-align: left; font-size: 13px; color: #525c66;">
-          5% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées + 3% de frais bancaire classique.
+          6% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> + 3% de frais bancaire classique.
         </div> 
       </div>
     </div>

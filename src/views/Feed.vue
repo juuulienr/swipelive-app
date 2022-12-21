@@ -840,6 +840,7 @@ export default {
             this.comments[index].value = value.comments;
 
             setTimeout(() => {
+              console.log(value.resourceUri);
               var player2 = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
               console.log(player2);
 
