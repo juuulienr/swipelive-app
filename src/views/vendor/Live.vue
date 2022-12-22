@@ -1,15 +1,21 @@
 <template>
   <div class="livestream">
+
     <div v-if="player" id="player" style="height: 100vh; overflow: hidden;"></div>
 
     <div v-if="prelive" class="prelive">
+      <!-- top -->
+      <div style="background-image: linear-gradient(0deg, transparent 84%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; top: 0px;"></div>
+      
+      <!-- bottom -->
+      <div style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
       
 
       <!-- go back -->
-      <div @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="width: 46px; height: 46px;fill: white; background: rgba(0, 0, 0, 0.15); left: 15px;">
+      <div @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="width: 44px; height: 44px;fill: white; background: rgba(255, 255, 255, 0.15); left: 15px;">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 46px; height: 46px; padding: 12px; fill: white; margin-left: 3px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 44px; height: 44px; padding: 12px; fill: white; margin-left: 3px;">
               <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
             </svg>
           </span>
@@ -18,7 +24,7 @@
 
 
       <!-- rotate camera -->
-      <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; z-index: 1000; background: rgba(0, 0, 0, 0.15); display: initial;">
+      <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15);">
         <div @click="switchCamera()" class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 50px; height: 50px; padding: 12px; fill: white;">
@@ -288,7 +294,7 @@
       </div>
 
 
-      <div :style="{'bottom': safeareaBottom2 }" @click="start()" style="left: calc(50vw - 64px); position: absolute;">
+      <div :style="{'bottom': safeareaBottom2 }" @click="start()" style="left: calc(50vw - 64px); position: absolute; z-index: 20;">
         <div style="margin: 0px auto;">
           <lottie :options="defaultOptions" :width="128" v-on:animCreated="handleAnimation"/>
         </div>
@@ -300,14 +306,19 @@
     </div>
 
     <div v-if="ready" class="ready">
+      <!-- top -->
+      <div style="background-image: linear-gradient(0deg, transparent 84%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; top: 0px;"></div>
+
+      <!-- bottom -->
+      <div style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
 
       <!-- live badge -->
-      <div :style="{'top': safeareaTop4 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3" style="left: 15px;position: absolute;padding: 5px 8px 5px 13px;height: 28px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 50px;border-top-left-radius: 50px;">
+      <div :style="{'top': safeareaTop4 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3" style="left: 15px;position: absolute;padding: 5px 8px 5px 13px;height: 28px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 50px;border-top-left-radius: 50px; z-index: 20;">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">LIVE</span>
       </div>
 
       <!-- viewers -->
-      <div :style="{'top': safeareaTop4 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 28px;width: fit-content;left: 62px; background: rgba(0, 0, 0, 0.15); padding: 0px 15px 0px 7px;border-top-left-radius: 0px;border-bottom-right-radius: 50px;border-top-right-radius: 50px;border-bottom-left-radius: 0px;">
+      <div :style="{'top': safeareaTop4 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 28px;width: fit-content;left: 62px; background: rgba(255, 255, 255, 0.15); padding: 0px 15px 0px 7px;border-top-left-radius: 0px;border-bottom-right-radius: 50px;border-top-right-radius: 50px;border-bottom-left-radius: 0px; z-index: 20;">
         <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="fill: white; width: 12px; margin-bottom: 2px; height: 12px;">
             <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
@@ -318,7 +329,7 @@
 
 
       <!-- amount -->
-      <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 130px; right: calc(50vw - 65px); padding: 20px 0px; text-align: center; border-radius: 30px; background: rgba(0, 0, 0, 0.15); text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px; border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center;">
+      <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 130px; right: calc(50vw - 65px); padding: 20px 0px; text-align: center; border-radius: 30px; background: rgba(255, 255, 255, 0.15); border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center; z-index: 20;">
         <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
           <span style="font-weight: bold;font-size: 18px;">199,50 <span style="color: #7ed957">€</span></span>
         </span>
@@ -326,7 +337,7 @@
 
 
       <!-- rotate camera + close -->
-      <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; z-index: 1000; background: rgba(0, 0, 0, 0.15);">
+      <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15); z-index: 20;">
         <div @click="switchCamera()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
@@ -351,7 +362,7 @@
             <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 28px;height: 28px; object-fit: cover; margin-top: 2px;">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
           </div>
-          <div class="video-page__influencer-badge" style="padding: 4px 10px 5px 10px; margin-top: 0px; border-radius: 11px; background-color: rgba(0, 0, 0, 0.15); letter-spacing: 0.05px; margin-right: 0px">
+          <div class="video-page__influencer-badge" style="padding: 4px 10px 5px 10px; margin-top: 0px; border-radius: 11px; background-color: rgba(255, 255, 255, 0.075); letter-spacing: 0.05px; margin-right: 0px">
             <div class="video-page__influencer-username-holder">
               <div class="video-page__influencer-username" style="line-height: 18px;"> 
                 <div v-if="comment.isVendor" style="font-size: 13px; font-weight: 600; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ user.vendor.businessName }}</div>
@@ -397,7 +408,7 @@
 
 
       <!-- orders -->
-      <div @click="showOrders()" :style="{'bottom': safeareaBottom2 }" class="video-page__influencer-badge5" style="background: rgba(0, 0, 0, 0.15); border: 1px solid white;">
+      <div @click="showOrders()" :style="{'bottom': safeareaBottom2 }" class="video-page__influencer-badge5" style="background: rgba(255, 255, 255, 0.15);">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 37px; height: 42px; padding: 10px 0px; fill: white;"><path d="M576 216v16c0 13.255-10.745 24-24 24h-8l-26.113 182.788C514.509 462.435 494.257 480 470.37 480H105.63c-23.887 0-44.139-17.565-47.518-41.212L32 256h-8c-13.255 0-24-10.745-24-24v-16c0-13.255 10.745-24 24-24h67.341l106.78-146.821c10.395-14.292 30.407-17.453 44.701-7.058 14.293 10.395 17.453 30.408 7.058 44.701L170.477 192h235.046L326.12 82.821c-10.395-14.292-7.234-34.306 7.059-44.701 14.291-10.395 34.306-7.235 44.701 7.058L484.659 192H552c13.255 0 24 10.745 24 24zM312 392V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24zm112 0V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24zm-224 0V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24z"/>
@@ -407,7 +418,7 @@
 
 
       <!-- send comment -->
-      <div @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom2 }" style="background: rgba(0, 0, 0, 0.15);">
+      <div @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom2 }" style="background: rgba(255, 255, 255, 0.15);">
         <div class="video-page__influencer-username-holder">
           <div class="video-page__influencer-username" style="color: white; font-size: 15px; font-weight: 600;"> Commenter...</div>
         </div>
@@ -415,7 +426,7 @@
 
         
       <!-- viewer list -->
-      <div @click="showViewers()" :style="{'bottom': safeareaBottom2 }" class="video-page__influencer-badge4" style="position: absolute; width: 44px; height: 44px; right: 75px; z-index: 1000; background: rgba(0, 0, 0, 0.15); border: 1px solid white;">
+      <div @click="showViewers()" :style="{'bottom': safeareaBottom2 }" class="video-page__influencer-badge4" style="position: absolute; width: 44px; height: 44px; right: 75px;  background: rgba(255, 255, 255, 0.15);">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px;height: 44px;padding: 11px 0px;fill: white;">
@@ -427,7 +438,7 @@
 
 
       <!-- like -->
-      <img :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom2 }" style="position: absolute; width: 44px; height: 44px; right: 15px; z-index: 1000;">
+      <img :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom2 }" style="position: absolute; width: 44px; height: 44px; right: 15px; z-index: 20;">
 
 
       <!-- input comment -->

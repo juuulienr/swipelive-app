@@ -54,8 +54,8 @@
   background-color: #fff;
   border-radius: 1.5rem;
   transition: bottom .2s linear;
-  z-index: 2;
-  box-shadow: rgb(0 0 0 / 50%) 0px 0px 5px;
+  z-index: 20;
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
   width: calc(100vw - 40px);
 }
 .video-page__product-box.video-page__product-box--active {
@@ -228,7 +228,7 @@
   position: absolute;
   right: 15px;
   top: 15px;
-  z-index: 2;
+  z-index: 20;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, .5);
   padding: 1rem .22rem;
@@ -272,9 +272,8 @@
 }
 .video-page__influencer-badge {
   display: flex;
-  z-index: 2;
+  z-index: 20;
   border-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
   padding: .3rem 3.5rem .2rem .35rem;
   margin: 5px 15px 5px 0;
   align-items: center
@@ -300,14 +299,13 @@
 .video-page__influencer-badge-send {
   display: flex;
   position: absolute;
-  z-index: 2;
+  z-index: 20;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, .25);
   align-items: center;
   padding: 10px 20px; 
   left: 75px; 
   right: 135px;
-  border: 1px solid white;
 }
 .video-page__influencer-badge-send .video-page__influencer-username2 {
   color: #fff;
@@ -336,7 +334,7 @@
   display: flex;
   position: absolute;
   left: 15px;
-  z-index: 2;
+  z-index: 20;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   background-color: rgba(0, 0, 0, .25);
@@ -350,7 +348,7 @@
   position: absolute;
   left: 188px;
   height: 46px;
-  z-index: 2;
+  z-index: 20;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   background-color: rgba(0, 0, 0, .25);
@@ -730,7 +728,7 @@
   display: -ms-flexbox; 
   position: absolute; 
   left: 15px; 
-  z-index: 2; 
+  z-index: 20; 
   overflow-y: scroll;
 }
 
