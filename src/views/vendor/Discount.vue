@@ -32,11 +32,11 @@
         </div>
       </div>
 
-      <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px; ">Cette promotion sera appliqué automatiquement lors du passage en caisse . </p>
+      <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px;">La promotion sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
 
       <div style="box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
         <div class="profile--follow">
-          <div style="width: 40%;">
+          <div style="width: 40%; margin-top: 5px;">
             <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/1ad36aab1eb15a377d8393144b34dd93.jpeg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
             <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
               <span @click="check()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
@@ -53,7 +53,7 @@
           <div>
             <h4 style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;">-50%</h4>
             <p>Valable sur toute la boutique </p>
-            <h4 style="font-size: 19px; margin-top: 10px; margin-bottom: 0px;">PROMO50</h4>
+            <h4 style="font-size: 19px; margin-top: 10px; margin-bottom: 0px; color: #ff2773; border: 1px solid #ff2773; padding: 3px; width: 120px; margin: 10px auto; border-radius: 10px;">PROMO50</h4>
           </div>
         </div>
       </div>

@@ -48,14 +48,14 @@
   }
 }
 .video-page__product-box {
-  padding: 1.25rem 1rem;
+  padding: 10px;
   position: absolute;
   left: 20px;
   background-color: #fff;
   border-radius: 1.5rem;
   transition: bottom .2s linear;
   z-index: 2;
-  box-shadow: 0 0 9px -2px rgb(0 0 0 / 50%);
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 5px;
   width: calc(100vw - 40px);
 }
 .video-page__product-box.video-page__product-box--active {
@@ -96,8 +96,8 @@
   height: 100%
 }
 .video-page__image img {
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
   border-radius: 10px;
   object-fit: cover;
 }
@@ -115,7 +115,7 @@
   font-size: 1rem;
   margin-bottom: .3rem;
   text-overflow: ellipsis;
-  font-weight: 600;
+  font-weight: 500;
 }
 .video-page__vendor {
   margin-bottom: 0;
@@ -133,8 +133,8 @@
   text-decoration: line-through
 }
 .video-page__price {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: #333;
 }
 .video-page__btn {
@@ -304,9 +304,10 @@
   border-radius: 25px;
   background-color: rgba(0, 0, 0, .25);
   align-items: center;
-  padding: 0.5rem 1.5rem 0.5rem; 
-  left: 65px; 
-  right: 125px;
+  padding: 10px 20px; 
+  left: 75px; 
+  right: 135px;
+  border: 1px solid white;
 }
 .video-page__influencer-badge-send .video-page__influencer-username2 {
   color: #fff;
@@ -382,7 +383,7 @@
   z-index: 20;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, .5);
-  align-items: center
+  align-items: center;
 }
 .video-page__influencer-badge4 .video-page__influencer-username {
   color: #fff;
@@ -532,6 +533,76 @@
   margin: 0 auto;
   text-align: center
 }
+
+.top-author--container {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 15px;
+
+}
+.top-author--item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px; 
+  border-radius: 13px; 
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+}
+.top-author--item > img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+  display: block;
+  border-radius: 10px;
+  width: 64px !important;
+  height: 64px !important;
+  font-size: 1.25rem;
+  overflow: hidden;
+  user-select: none;
+  object-fit: cover;
+}
+.top-author--item > div:first-of-type {
+  margin: 0px 0px 0px 12px;
+  flex-grow: 1;
+}
+.top-author--item > div > span {
+  font-weight: 500;
+  line-height: 1.57143;
+}
+
+.top-author--item > div > div {
+  line-height: 1.5;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #525c66;
+  display: flex;
+  align-items: center;
+}
+.top-author--item > div > div > svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+.css-4ioo3c {
+  line-height: 0;
+  border-radius: 6px;
+  cursor: default;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  padding: 17px 12px;
+  color: hsl(161deg 65% 64%);
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(34, 154, 22);
+  background-color: rgba(84, 214, 44, 0.16);
+}
+
 
 @media (min-width:425px) {
   .video-page__login-popup-buy {
@@ -895,64 +966,152 @@ span.filter--choice > input:checked ~ svg {
 span.filter--choice > input:checked ~ .svg--point {
   display: block !important;
 }
-.top-author--container {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  gap: 20px;
-}
-.top-author--item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.top-author--item > img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  font-size: 1.25rem;
-  line-height: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  user-select: none;
-  object-fit: cover;
-}
-.top-author--item > div:first-of-type {
-  margin: 0px 0px 0px 16px;
-  flex-grow: 1;
-}
-.top-author--item > div > span {
-  font-weight: 600;
-  line-height: 1.57143;
-  font-size: 15px;
-}
-
-.top-author--item > div > div {
-  line-height: 1.5;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #525c66;
-  display: flex;
-  align-items: center;
-}
-.top-author--item > div > div > svg {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-}
-
 .video-page__influencer-badge5 {
   position: absolute; 
-  width: 40px; 
-  height: 40px; 
+  width: 44px; 
+  height: 44px; 
   left: 15px; 
   z-index: 1000;
   border-radius: 30px; 
   background-color: rgba(0,0,0,.3); 
 }
+
+.css-g5gk3y {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  vertical-align: middle;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+.css-1nvvhq {
+  display: inline-flex;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 0;
+  vertical-align: middle;
+  padding: 9px 13px 9px 12px;
+  width: 58px;
+  height: 38px;
+}
+
+.css-1hei3uy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  padding: 9px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  color: rgb(255, 255, 255);
+  transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.css-1nvvhq .MuiSwitch-switchBase.Mui-checked {
+  transform: translateX(13px);
+}
+.css-1hei3uy.Mui-checked {
+  color: rgb(0, 171, 85);
+}
+.css-1hei3uy.Mui-checked {
+  transform: translateX(20px);
+}
+.css-1nvvhq .MuiSwitch-switchBase {
+  left: 3px;
+  padding: 12px;
+}
+
+.css-1hei3uy .MuiSwitch-input {
+  left: 0%;
+  width: 100%;
+}
+.css-1m9pwf3 {
+  cursor: inherit;
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  z-index: 1;
+}
+.css-1nvvhq .MuiSwitch-thumb {
+  width: 14px;
+  height: 14px;
+  box-shadow: none;
+  color: rgb(255, 255, 255) !important;
+}
+
+.css-byglaq {
+  box-shadow: rgb(145 158 171 / 20%) 0px 2px 1px -1px, rgb(145 158 171 / 14%) 0px 1px 1px 0px, rgb(145 158 171 / 12%) 0px 1px 3px 0px;
+  background-color: currentcolor;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.css-w0pj6f {
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  inset: 0px;
+  border-radius: inherit;
+}
+
+.css-1nvvhq .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+  opacity: 1;
+}
+
+.css-1hei3uy.Mui-checked + .MuiSwitch-track {
+  background-color: rgb(0, 171, 85);
+}
+.css-1hei3uy.Mui-checked + .MuiSwitch-track {
+  opacity: 0.5;
+}
+.css-1nvvhq .MuiSwitch-track {
+  opacity: 1;
+  border-radius: 14px;
+  background-color: rgba(145, 158, 171, 0.48);
+}
+.css-1ju1kxc {
+  height: 100%;
+  width: 100%;
+  border-radius: 7px;
+  z-index: -1;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: rgb(0, 0, 0);
+  opacity: 0.38;
+}
+.css-g5gk3y .MuiFormControlLabel-label {
+  line-height: 1.57143;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.css-k36ljx {
+  margin: 0px;
+  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
 
 input::placeholder {
   color: #bdc3c7;
