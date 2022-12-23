@@ -78,14 +78,14 @@
         <div v-if="user.vendor && user.vendor.businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorCompany }">
           <fieldset>
             <legend>Nom de société</legend>
-            <input type="text" v-model="user.vendor.company">
+            <input type="text" v-model="user.vendor.company" disabled>
           </fieldset>
         </div>
 
         <div v-if="user.vendor && user.vendor.businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorSiren }">
           <fieldset>
             <legend>SIREN</legend>
-            <input type="text" v-model="user.vendor.siren" minlength="9" maxlength="9">
+            <input type="text" v-model="user.vendor.siren" minlength="9" maxlength="9" disabled>
           </fieldset>
         </div>
         <div v-if="errorSiren" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">SIREN (9 chiffres)</div>

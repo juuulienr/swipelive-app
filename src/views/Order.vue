@@ -16,12 +16,12 @@
 
     <div v-if="order" class="checkout__body" style="margin-bottom: 40px;">
       <div v-if="user.id == order.vendor.user.id && order.shippingStatus == 'ready-to-send'">
-      <div v-if="order.pdf && order.trackingNumber" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 10px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 14px; font-weight: 600; height: 50px; margin: 0px auto 15px;"> 
+      <div v-if="order.pdf && order.trackingNumber" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 600; height: 43px; margin: 0px auto 15px;"> 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
           <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
         </svg> Imprimer le bon de livraison
       </div>
-      <div v-else @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 10px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 14px; font-weight: 600; height: 50px; margin: 0px auto 15px;"> 
+      <div v-else @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 600; height: 43px; margin: 0px auto 15px;"> 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
           <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
         </svg> Générer le bon de livraison
@@ -249,7 +249,7 @@ export default {
       // mettre en rouge annuler la commande
       var options = {
         buttonLabels: ['Annuler la commande', 'Signaler un problème'],
-        addCancelButtonWithLabel: 'Annuler',
+        addCancelButtonWithLabel: 'Retour',
         androidEnableCancelButton : true,
         winphoneEnableCancelButton : true
       };

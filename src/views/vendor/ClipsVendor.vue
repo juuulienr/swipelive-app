@@ -15,7 +15,7 @@
           <div v-for="clip in clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: calc(100% - 10px)">
-              <div @click="actionSheet(clip.id)" class="photo-box__delete-button">
+              <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;">
                 <button class="remove-photo c-button c-button--filled c-button--small c-button--primary c-button--inline c-button--inverse c-button--truncatedc-button--icon-left c-button--without-text" type="button" style="border-radius: 100%; height: 34px;">
                   <span class="c-button__content">
                     <span class="c-button__icon">
@@ -31,8 +31,17 @@
                 <img v-if="clip.product.uploads" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%);">
               </div>
             </div>
-            <div v-else class="loading-silhouette silhouette light" style="border-radius: 10px; width: calc(50vw - 25px); height: calc(100% - 10px)">
-              <p style="top: 135.5px; position: relative; text-align: center; font-size: 18px; font-weight: 500; margin-bottom: 0px;">Création <br> en cours</p>
+            <div v-else style="border-radius: 10px; width: calc(50vw - 25px); height: 320px; margin: 0 auto; border: 2px solid rgba(145, 158, 171, 0.24);">
+              <div style="position: absolute; text-align: center; margin: 0 auto; left: 42%; top: 42%;">
+                <span style="margin: 0 auto; text-align: center;">
+                  <span>
+                    <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
+                      <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+                    </svg>
+                  </span>
+                </span>
+              </div>
+              <p style="top: 176.5px; position: relative; text-align: center; font-size: 15px; font-weight: 400; margin-bottom: 0px;">Clip en création</p>
             </div>
           </div>
         </div>

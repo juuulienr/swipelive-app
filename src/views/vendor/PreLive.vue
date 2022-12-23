@@ -9,7 +9,7 @@
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Articles</div>
     </div>
 
-    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 85px;">
       <div class="items">
         <div class="my_form_check" style="font-size: 14px; color: #525c66; font-weight: 500; margin-right: 9px;">
           Tous les articles

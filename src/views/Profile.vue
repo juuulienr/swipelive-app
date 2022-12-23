@@ -67,7 +67,7 @@
         <div class="images_filter">
           <ul>
             <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Replay</li>
-            <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Articles</li>
+            <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Boutique</li>
           </ul>
         </div>
 

@@ -9,7 +9,7 @@
       <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Ordre de passage</div>
     </div>
 
-    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+    <div class="checkout__body" style="overflow: scroll; padding-bottom: 75px;">
       <div class="items">
         <p style="padding-top: 20px; margin-bottom: 0px; text-align: center; font-weight: 400">Déplacer les articles par ordre de passage.</p>
         <div v-if="liveProducts.length" class="one_item">

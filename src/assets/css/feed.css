@@ -366,6 +366,23 @@
 	vertical-align: text-top
 }
 
+@keyframes zoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+img.zoom {
+  animation: zoom 2.5s linear infinite;
+}
+
+
 .video-page__influencer-badge-send {
 	display: flex;
 	position: absolute;
@@ -1008,14 +1025,16 @@
 	padding-top: 10px;
 }
 .shop--item--name {
-	font-weight: 600;
-	line-height: 1.57143;
-	font-size: 12px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	cursor: pointer;
-	text-decoration: none;
-	padding-bottom: 5px;
+  font-weight: 500;
+  line-height: 1.57143;
+  font-size: .875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  text-transform: capitalize;
 }
 .shop--item--name:hover {
 	text-decoration: underline;
@@ -1042,20 +1061,17 @@
 	box-shadow: rgb(0 0 0 / 24%) -1px 1px 2px inset;
 }
 .price {
-	font-weight: 600;
-	line-height: 1.5;
-	font-size: 1rem;
-	margin: 0px 0px 0px 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 0 0 4px;
 }
 .last-price {
-	font-weight: 400;
-	color: rgb(145, 158, 171);
-	text-decoration: line-through;
-}
-.shop--part {
-	display: grid;
-	grid-template-columns: repeat(3,1fr)!important;
-	gap: 10px;
+  font-weight: 400;
+  color: #919eab;
+  text-decoration: line-through;
+  font-size: 12px;
+  margin-left: 7px;
 }
 
 .stjgntxs {

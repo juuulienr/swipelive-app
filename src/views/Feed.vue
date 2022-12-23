@@ -302,17 +302,55 @@
       <!-- clip -->
       <div v-else-if="feed.type == 'clip' && feed.value" class="clip" v-touch:swipe="swipeHandler">
         <!-- top -->
-        <div style="background-image: linear-gradient(0deg, transparent 84%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; top: 0px;"></div>
+        <div v-if="!loading" style="background-image: linear-gradient(0deg, transparent 84%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; top: 0px;"></div>
         
         <!-- bottom -->
-        <div style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
+        <div v-if="!loading" style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
         
         <!-- loader -->
-        <div v-if="loading" class="css-vhzttx" style="backdrop-filter: saturate(180%) blur(45px); background-color: rgba(25, 25, 25, 0.8);top: 0px;z-index: 10; width: 100%;height: 100%;position: absolute;"></div>
+        <div v-if="loading" class="css-vhzttx" style="backdrop-filter: saturate(180%) blur(55px); background-color: rgba(25, 25, 25, 0.8);top: 0px;z-index: 10; width: 100%;height: 100%;position: absolute;"></div>
+        <div v-if="loading" :src="require(`@/assets/img/anonyme.jpg`)" style="object-fit: cover; z-index: 2;position: absolute;width: 100%;height: 100vh; top: 0px;"></div>
         <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
         <img v-else-if="loading && feed.value.vendor && !feed.value.vendor.user.picture" :src="require(`@/assets/img/anonyme.jpg`)" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
 
-        
+
+
+        <!-- end live -->
+      <!--   <div style="left: calc(50vw - 112px); top: calc(40vh - 114px); position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0 auto; align-items: center; justify-content: center;">
+          <h4 style="color: white; margin-bottom: 50px; font-size: 25px;">Le LIVE est terminé</h4>
+          <div class="video-page__influencer-badge2" style="background: none; left: initial; position: relative; margin: 0 auto; text-align: center; justify-content: center;">
+            <div class="video-page__influencer-img2" style="padding-right: 0px;">
+              <img :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover;" />
+            </div>
+            <div  style="position: absolute; top: 88px; left: 130px; border-radius: 50px;">
+              <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 32px; height: 32px; border: 1px solid white; border-radius: 100px;">
+                <defs></defs>
+                <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: white;"></path>
+                <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: rgb(255, 39, 115);"></path>
+              </svg>
+            </div>
+          </div>
+          <div  class="video-page__influencer-username2" style="font-size: 18px; margin-top: 15px; color: white; font-weight: 400;">Youarda.C</div>
+        </div>
+        <div style="left: calc(50vw - 150px); bottom: 40px; position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0 auto; align-items: center; justify-content: center;">
+          <lottie :options="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
+          <h4 style="color: white; font-size: 16px; font-weight: 400;">Swipe vers le haut pour passer au prochain</h4>
+        </div>
+ -->
+
+
+        <!-- purchase -->
+     <!--    <div style="position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
+          <div class="video-page__influencer-badge2" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
+            <div class="video-page__influencer-img2" style="padding-right: 0px;">
+              <img class="zoom" :src="require(`@/assets/img/badge-vente.png`)" style="border-radius: 50%; width: 175px; height: 175px; object-fit: cover;"/>
+            </div>
+            <img class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute;" />
+            <lottie :options="defaultOptions3" v-on:animCreated="handleAnimation" style="position: absolute; width: 100vh; height: 100vh"/>
+          </div>
+        </div>
+ -->
+
         <!-- love -->
         <div v-if="videos[index].value" class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
           <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
@@ -439,12 +477,12 @@
 
 
         <!-- viewers -->
-        <div :style="{'top': safeareaTop6 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 22px;width: fit-content;left: 15px; background: rgba(255, 255, 255, 0.25); padding: 0px 10px;border-radius: 50px; z-index: 20;">
+    <!--     <div :style="{'top': safeareaTop6 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 22px;width: fit-content;left: 15px; background: rgba(255, 255, 255, 0.25); padding: 0px 10px;border-radius: 50px; z-index: 20;">
           <lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
           <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
           </span>
-        </div>
+        </div> -->
 
 
 
@@ -470,7 +508,7 @@
 
         <!-- cart + account + promo -->
         <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15); z-index: 20;">
-          <div class="video-page__influencer-username-holder" style="padding-left: 5px;">
+          <div @click="showPromo()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
             <span class="video-page__influencer-video-count">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 45px; height: 40px; padding: 10px; fill: white;">
                 <path d="M536.5 170.7l-135.7-131.9c-9.453-9.219-24.67-9-33.94 .5c-9.234 9.5-9.016 24.69 .5 33.94l135.5 131.7C519 221.1 528 242.8 528 265.8s-8.969 44.63-25.3 60.95l-111.7 112.4c-9.344 9.406-9.312 24.59 .0938 33.94C395.8 477.7 401.9 480 408 480c6.172 0 12.33-2.359 17.02-7.078l111.7-112.3C562 335.3 576 301.6 576 265.8S562 196.2 536.5 170.7zM463.6 225.6L286.4 48.4C277.4 39.38 259.6 32 246.8 32H60C44.54 32 32 44.54 32 60v186.8c0 12.76 7.381 30.58 16.4 39.6l177.2 177.2c21.87 21.87 57.32 21.87 79.2 .002l158.8-158.8C485.5 282.9 485.5 247.5 463.6 225.6zM144 176c-17.67 0-32-14.32-32-32c0-17.68 14.33-32 32-32s32 14.32 32 32C176 161.7 161.7 176 144 176z"></path>
@@ -607,7 +645,7 @@
       </svg> -->
       <Product :product="product" @clicked="onClickChild"/>
     </div>
-    <div v-if="popupProduct && product.vendor.user.id != user.id" style="background-color: white;bottom: 25px; position: fixed; z-index: 2147483647;">
+    <div v-if="popupProduct && product.vendor.user.id != user.id" style="background-color: white;bottom: calc(env(safe-area-inset-top) + 0px); position: fixed; z-index: 2147483647;">
       <div style="background-color: white; bottom: 25px; position: fixed; z-index: 2147483647;">
         <div style="padding: 15px 20px 25px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
           <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
@@ -635,30 +673,66 @@
 
 
 
+    <!-- promo popup -->
+    <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 40%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+      <div @click="hidePromo()" style="display: flex;">
+        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
+        </div>
+      </div>
+
+      <div style="margin: 0px;">
+        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
+          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Promotion</span>
+        </div>
+
+        <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; margin: 0; margin-top: 15px; padding: 10px;">Cette promotion sera appliqué automatiquement lors du passage en caisse.</p>
+
+        <div style="box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
+          <div class="profile--follow">
+            <div style="width: 40%; margin-top: 5px;">
+              <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/1ad36aab1eb15a377d8393144b34dd93.jpeg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
+            </div>
+            <hr style="margin: 0px;border-width: 0 2px 0 0;border-style: dashed;border-color: rgba(145,158,171,.24);">
+            <div>
+              <h4 style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;">-50%</h4>
+              <p>Valable sur toute la boutique </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
     <!-- shop popup -->
-    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 30%; padding: 15px;">
-      <div @click="hideShop()" style="float: right;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #525c66;"><path d="M312.1 375c9.369 9.369 9.369 24.57 0 33.94s-24.57 9.369-33.94 0L160 289.9l-119 119c-9.369 9.369-24.57 9.369-33.94 0s-9.369-24.57 0-33.94L126.1 256L7.027 136.1c-9.369-9.369-9.369-24.57 0-33.94s24.57-9.369 33.94 0L160 222.1l119-119c9.369-9.369 24.57-9.369 33.94 0s9.369 24.57 0 33.94L193.9 256L312.1 375z"/></svg>
+    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 50%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 10px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+      <div @click="hideShop()" style="display: flex;">
+        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
+        </div>
       </div>
-      <div style="display: flex;">
-        <img :src="cloudinary256x256 + shop.user.picture" style="border-radius: 50%; width: 32px; height: 32px; border: 2px solid rgb(255, 255, 255); object-fit: cover; margin-right: 6px;">
-        <div class="video-page__influencer-username2" style="margin-top: 6px; font-size: 14px; font-weight: 500;">{{ shop.businessName }}</div>
+
+      <div style="margin: 0px;">
+        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
+          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Boutique de {{ shop.businessName }}</span>
+        </div>
       </div>
-      <div v-if="shop" class="items" style="margin-top: 5px; margin-bottom: 20px;">
-        <div class="shop--part" style="margin: 0px;">
-          <div v-if="product.archived == false" v-for="product in shop.products" class="shop--item" style="margin-bottom: 10px;">
-            <div @click="showProduct(product)">
-              <div style="text-align:center;">
-                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">
-                <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">
-                <div style="position: absolute; top: 15px;">
-                  <div class="btn-swipe" style="color: white; text-align: center; font-size: 12px; background: rgb(24, 206, 160); padding: 3px 10px; border-radius: 7px; font-weight: 600;"> {{ product.price| formatPrice }}€
-                  </div>
-                </div>
+
+      <div v-if="shop" class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
+        <div class="shop--part" style="margin: 0px; padding: 0px 5px;">
+          <div v-if="product.archived == false" v-for="product in shop.products" class="shop--item">
+            <div>
+              <div>
+                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
+                <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
               </div>
             </div>
-            <div @click="showProduct(product)" class="shop--item--details">
-              <div class="shop--item--name" style="margin-top: 0px; height: 38px; font-weight: 500; line-height: 1.24; align-items: initial; text-align: center;">{{ product.title }}</div>
+            <div class="shop--item--details">
+              <div class="shop--item--name">{{ product.title }}</div>
+              <div class="shop--item--price">
+                <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#000'}]"> {{ product.price | formatPrice }}€ 
+                  <span v-if="product.compareAtPrice" class="last-price">{{ product.compareAtPrice | formatPrice }}€ </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -683,6 +757,8 @@ import Cart from './Cart';
 import { mixin as clickaway } from 'vue-clickaway';
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/img/live.json';
+import * as animationData2 from '../assets/img/arrow.json';
+import * as animationData3 from '../assets/img/confetti.json';
 
 export default {
   name: 'Feed',
@@ -704,6 +780,8 @@ export default {
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
+      defaultOptions2: {animationData: animationData2},
+      defaultOptions3: {animationData: animationData3},
       animationSpeed: 1,
       following: [],
       comments: [],
@@ -1006,24 +1084,40 @@ export default {
       window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
       console.log(JSON.parse(window.localStorage.getItem("lineItems")));
     },
+    showPromo() {
+      this.popupProduct = false;
+      this.popupShop = false;
+      this.popupCart = false;
+      this.popupPromo = true;
+    },
+    hidePromo() {
+      this.popupCart = false;
+      this.popupShop = false;
+      this.popupProduct = false;
+      this.popupPromo = false;
+    },
     showCart() {
+      this.popupPromo = false;
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCart = true;
     },
     hideCart() {
+      this.popupPromo = false;
       this.popupCart = false;
       this.popupShop = false;
       this.popupProduct = false;
     },
     showShop(shop) {
       this.shop = shop;
+      this.popupPromo = false;
       this.popupCart = false;
       this.popupProduct = false;
       this.popupShop = true;
     },
     hideShop() {    
       this.popupCart = false;
+      this.popupPromo = false;
       this.popupProduct = false;
       this.popupShop = false;
       this.shop = [];

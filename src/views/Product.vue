@@ -53,7 +53,6 @@
         <br> <br> 
         Dans l'un de ces cas, veuillez contacter la marque via la messagerie pour résoudre le problème. Assurez-vous d'inclure votre numéro de commande, le nom du produit et la raison.
       </div>
-      <hr>
   	</div>
   </div>
 </template>

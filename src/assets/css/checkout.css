@@ -699,7 +699,6 @@
   align-items: flex-end;
 }
 .product--quantity--detail > span {
-  margin-bottom: 7px;
   margin-right: 5px;
   line-height: 1.5;
   font-size: 0.75rem;

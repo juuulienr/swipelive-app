@@ -180,8 +180,8 @@
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Profil</div>
               </div>
-              <div class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
+              <div class="top-author--item" style="box-shadow: none;">
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -196,7 +196,7 @@
                 </span>
               </div>
               <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;"/>
-              <div style="display: flex; justify-content: space-between;    align-items: center; margin-right: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 8px;">
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Pages</div>
                 <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                   <span @click="showPages()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
@@ -208,8 +208,8 @@
                   </span>
                 </label>
               </div>
-              <div v-if="pages" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
+              <div v-if="pages" class="top-author--item" style="box-shadow: none;">
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -223,8 +223,8 @@
                   </label>
                 </span>
               </div>
-              <div v-if="pages" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
+              <div v-if="pages" class="top-author--item" style="box-shadow: none;">
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -251,8 +251,8 @@
                   </span>
                 </label>
               </div>
-              <div v-if="groups" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
+              <div v-if="groups" class="top-author--item" style="box-shadow: none;">
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -266,8 +266,8 @@
                   </label>
                 </span>
               </div>
-              <div v-if="groups" class="top-author--item">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar"/>
+              <div v-if="groups" class="top-author--item" style="box-shadow: none;">
+                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -582,9 +582,9 @@ export default {
       safeareaTop5: '7px',
       safeareaBottom: '205px',
       safeareaBottom2: '0px',
-      safeareaBottom3: '60px',
+      safeareaBottom3: '57px',
       safeareaBottom4: '165px',
-      safeareaBottom5: '185px',
+      safeareaBottom5: '175px',
       writeInput: '0px',
       content: "",
       countdown: 3,
@@ -631,10 +631,9 @@ export default {
       this.safeareaTop5 = '7px';
       this.safeareaBottom = '230px';
       this.safeareaBottom2 = '35px';
-      this.safeareaBottom3 = '60px';
+      this.safeareaBottom3 = '57px';
       this.safeareaBottom4 = '190px';
-      this.safeareaBottom5 = '210px';
-      this.safeareaBottom5 = '13px';
+      this.safeareaBottom5 = '175px';
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");
@@ -649,9 +648,9 @@ export default {
       this.safeareaTop5 = 'calc(env(safe-area-inset-top) + 7px)';
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 205px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 10px)';
-      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 60px)';
+      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 57px)';
       this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 165px)';
-      this.safeareaBottom5 = 'calc(env(safe-area-inset-bottom) + 185px)';
+      this.safeareaBottom5 = 'calc(env(safe-area-inset-bottom) + 175px)';
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "Eqza0IhJO8JKQTs37D0VKQ");

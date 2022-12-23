@@ -114,7 +114,7 @@
 
 
 
-			<!-- shippinh method -->
+			<!-- shipping method -->
       <div v-if="shippingAddress" class="top-author" style="border-radius: 10px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; margin: 20px 5px; border: none;">
         <div class="css-15x3obx" style="padding-top: 10px; padding-bottom: 10px; text-align: center;">
           <div class="css-11qjisw">
@@ -127,9 +127,6 @@
             <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <div>
               <span style="text-transform: capitalize;">Point relais</span>
-              <div>
-              	À partir de <span v-if="shippingProducts && shippingProducts.service_point" style="margin-left: 4px;"> {{ shippingProducts.service_point[0].price | formatPrice }}€</span>
-              </div>
             </div>
             <div style="margin-right: 5px;">
 			        <div class="filter--choice">
@@ -155,9 +152,6 @@
             <img :src="require(`@/assets/img/domicile.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <div>
               <span style="text-transform: capitalize;">Domicile</span>
-              <div>
-              	À partir de <span v-if="shippingProducts && shippingProducts.domicile" style="margin-left: 4px;"> {{ shippingProducts.domicile[0].price | formatPrice }}€</span>
-              </div>
             </div>
             <div style="margin-right: 5px;">
 			        <div class="filter--choice">
