@@ -438,17 +438,10 @@
         </div>
 
 
-        <!-- live badge -->
-        <div :style="{'top': safeareaTop6 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3" style="left: 15px;position: absolute;padding: 5px 8px 5px 10px;height: 22px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 50px;border-top-left-radius: 50px; z-index: 20;">
-          <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">LIVE</span>
-        </div>
-
         <!-- viewers -->
-        <div :style="{'top': safeareaTop6 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 22px;width: fit-content;left: 59px; background: rgba(255, 255, 255, 0.15); padding: 0px 10px 0px 7px;border-top-left-radius: 0px;border-bottom-right-radius: 50px;border-top-right-radius: 50px;border-bottom-left-radius: 0px; z-index: 20;">
+        <div :style="{'top': safeareaTop6 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 22px;width: fit-content;left: 15px; background: rgba(255, 255, 255, 0.25); padding: 0px 10px;border-radius: 50px; z-index: 20;">
+          <lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
           <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="fill: white; width: 12px; margin-bottom: 2px; height: 12px;">
-              <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
-            </svg>
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
           </span>
         </div>
@@ -465,8 +458,8 @@
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-username-holder2">
             <div class="video-page__influencer-username2" style="font-size: 15px;">{{ feed.value.vendor.businessName }}</div>
           </div>
-          <div style="position: absolute; top: 26px; left: 28px; border-radius: 50px;">
-	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px; height: 18px; border: 1px solid white; border-radius: 100px;"><defs></defs>
+          <div style="position: absolute; top: 24px; left: 28px; border-radius: 50px;">
+	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; border: 1px solid white; border-radius: 100px;"><defs></defs>
               <path style="fill: white;" d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
               <path style="fill: #ff2773;" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
 	          </svg>
@@ -551,16 +544,16 @@
         </div>
         
         <!-- list of products -->
-        <div v-if="feed.value.vendor" :style="{'bottom': safeareaBottom }" @click="showShop(feed.value.vendor)" class="video-page__influencer-badge5" style="position: absolute; width: 44px; height: 44px; left: 15px; z-index: 1000; border-radius: 50px;">
+        <div v-if="feed.value.vendor" :style="{'bottom': safeareaBottom }" @click="showShop(feed.value.vendor)" class="video-page__influencer-badge5" style="position: absolute; width: 40px; height: 40px; left: 15px; z-index: 1000; border-radius: 50px;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 51px;height: 40px;padding: 8px;fill: white;"><path d="M144 32h-96C21.49 32 0 53.49 0 80v96C0 202.5 21.49 224 48 224h96C170.5 224 192 202.5 192 176v-96C192 53.49 170.5 32 144 32zM400 288h-96C277.5 288 256 309.5 256 336v96c0 26.51 21.49 48 48 48h96c26.51 0 48-21.49 48-48v-96C448 309.5 426.5 288 400 288zM400 32h-96C277.5 32 256 53.49 256 80v96C256 202.5 277.5 224 304 224h96C426.5 224 448 202.5 448 176v-96C448 53.49 426.5 32 400 32zM144 288h-96C21.49 288 0 309.5 0 336v96C0 458.5 21.49 480 48 480h96C170.5 480 192 458.5 192 432v-96C192 309.5 170.5 288 144 288z"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 46px;height: 40px;padding: 10px;fill: white;"><path d="M144 32h-96C21.49 32 0 53.49 0 80v96C0 202.5 21.49 224 48 224h96C170.5 224 192 202.5 192 176v-96C192 53.49 170.5 32 144 32zM400 288h-96C277.5 288 256 309.5 256 336v96c0 26.51 21.49 48 48 48h96c26.51 0 48-21.49 48-48v-96C448 309.5 426.5 288 400 288zM400 32h-96C277.5 32 256 53.49 256 80v96C256 202.5 277.5 224 304 224h96C426.5 224 448 202.5 448 176v-96C448 53.49 426.5 32 400 32zM144 288h-96C21.49 288 0 309.5 0 336v96C0 458.5 21.49 480 48 480h96C170.5 480 192 458.5 192 432v-96C192 309.5 170.5 288 144 288z"></path></svg>
             </span>
           </div>
         </div>
 
         <!-- send comment -->
-        <div @click="openPopup()" class="video-page__influencer-badge-send" style="left: 75px; right: 135px; z-index: 10000000" :style="{'bottom': safeareaBottom }">
+        <div @click="openPopup()" class="video-page__influencer-badge-send" style="left: 70px; right: 125px; z-index: 10000000" :style="{'bottom': safeareaBottom }">
           <div class="video-page__influencer-username-holder">
             <div class="video-page__influencer-username"> Commenter...</div>
             <span class="video-page__influencer-video-count">
@@ -571,16 +564,16 @@
 
         
         <!-- share -->
-        <div @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4" style="position: absolute; width: 44px; height: 44px; right: 75px; z-index: 1000;">
+        <div @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4" style="position: absolute; width: 40px; height: 40px; right: 70px; z-index: 1000;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 46px; height: 40px; padding: 8px; fill: white;"><path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 42px; height: 40px; padding: 10px; fill: white;"><path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z"/></svg>
             </span>
           </div>
         </div>
         
         <!-- like -->
-        <img @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 44px; height: 44px; right: 15px; z-index: 1000">
+        <img @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000">
         
         <!-- video -->
         <div v-if="videos[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
@@ -688,12 +681,15 @@ import Pusher from 'pusher-js';
 import Product from './Product';
 import Cart from './Cart';
 import { mixin as clickaway } from 'vue-clickaway';
+import Lottie from 'vue-lottie';
+import * as animationData from '../assets/img/live.json';
 
 export default {
   name: 'Feed',
   components: {
     Product,
     Cart,
+    'lottie': Lottie
   },
   mixins: [ clickaway ],
   data() {
@@ -707,6 +703,8 @@ export default {
       pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      defaultOptions: {animationData: animationData},
+      animationSpeed: 1,
       following: [],
       comments: [],
       purchases: [],
@@ -721,7 +719,7 @@ export default {
       promo: true,
       cart: true,
       safeareaBottom: '0px',
-      safeareaBottom2: '60px',
+      safeareaBottom2: '57px',
       safeareaBottom3: '175px',
       safeareaBottom4: '320px',
       safeareaTop: '0px',
@@ -782,7 +780,7 @@ export default {
 
     if (window.cordova && window.cordova.platformId === "android") {
       this.safeareaBottom = "0px";
-      this.safeareaBottom2 = "65px";
+      this.safeareaBottom2 = "57px";
       this.safeareaBottom3 = "200px";
       this.safeareaBottom4 = "355px";
       this.safeareaTop = '35px';
@@ -802,7 +800,7 @@ export default {
 
     if (window.cordova && window.cordova.platformId === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
-      this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 60px)';
+      this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 175px)';
       this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 320px)';
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
@@ -860,6 +858,9 @@ export default {
     }
   },
   methods: {
+    handleAnimation: function (anim) {
+      this.anim = anim;
+    },
     visibilityChanged(isVisible, entry, index) {
       if (isVisible) {
         if (index != this.visible) {

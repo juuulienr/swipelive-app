@@ -12,10 +12,10 @@
       
 
       <!-- go back -->
-      <div @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="width: 50px; height: 50px;fill: white; background: rgba(255, 255, 255, 0.15); left: 15px;">
+      <div @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="width: 40px; height: 40px;fill: white; background: rgba(255, 255, 255, 0.15); left: 15px;">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 50px; height: 50px; padding: 12px; fill: white; margin-left: 3px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white; margin-left: 3px;">
               <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
             </svg>
           </span>
@@ -24,10 +24,10 @@
 
 
       <!-- facebook -->
-      <div v-if="facebook" @click="showFacebook()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="background: none;top: 10px;width: 44px;height: 44px;fill: white;right: 175px;">
+      <div v-if="facebook" @click="showFacebook()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="background: none;top: 10px;width: 40px;height: 40px;fill: white;right: 175px;">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <img :src="require(`@/assets/img/facebook.svg`)" style="width: 40px; height: 40px;" />
+            <img :src="require(`@/assets/img/facebook.svg`)" style="width: 36px; height: 36px;" />
           </span>
         </div>
       </div>
@@ -35,23 +35,23 @@
 
       <!-- rotate camera -->
       <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15);">
-        <div @click="switchCamera()" class="video-page__influencer-username-holder">
+        <div @click="switchCamera()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 50px; height: 50px; padding: 12px; fill: white;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
               <path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM384 256c0 8.8-7.2 16-16 16H291.3c-6.2 0-11.3-5.1-11.3-11.3c0-3 1.2-5.9 3.3-8L307 229c-13.6-13.4-31.9-21-51-21c-19.2 0-37.7 7.6-51.3 21.3L185 249c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l19.7-19.7C193.4 172.7 224 160 256 160c31.8 0 62.4 12.6 85 35l23.7-23.7c2.1-2.1 5-3.3 8-3.3c6.2 0 11.3 5.1 11.3 11.3V256zM128 320c0-8.8 7.2-16 16-16h76.7c6.2 0 11.3 5.1 11.3 11.3c0 3-1.2 5.9-3.3 8L205 347c13.6 13.4 31.9 21 51 21c19.2 0 37.7-7.6 51.3-21.3L327 327c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-19.7 19.7C318.6 403.3 288 416 256 416c-31.8 0-62.4-12.6-85-35l-23.7 23.7c-2.1 2.1-5 3.3-8 3.3c-6.2 0-11.3-5.1-11.3-11.3V320z"/>
             </svg>
           </span>
         </div>
         <div @click="showPromo()" class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 50px; height: 50px; padding: 12px; fill: white;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
               <path d="M536.5 170.7l-135.7-131.9c-9.453-9.219-24.67-9-33.94 .5c-9.234 9.5-9.016 24.69 .5 33.94l135.5 131.7C519 221.1 528 242.8 528 265.8s-8.969 44.63-25.3 60.95l-111.7 112.4c-9.344 9.406-9.312 24.59 .0938 33.94C395.8 477.7 401.9 480 408 480c6.172 0 12.33-2.359 17.02-7.078l111.7-112.3C562 335.3 576 301.6 576 265.8S562 196.2 536.5 170.7zM463.6 225.6L286.4 48.4C277.4 39.38 259.6 32 246.8 32H60C44.54 32 32 44.54 32 60v186.8c0 12.76 7.381 30.58 16.4 39.6l177.2 177.2c21.87 21.87 57.32 21.87 79.2 .002l158.8-158.8C485.5 282.9 485.5 247.5 463.6 225.6zM144 176c-17.67 0-32-14.32-32-32c0-17.68 14.33-32 32-32s32 14.32 32 32C176 161.7 161.7 176 144 176z"></path>
             </svg>
           </span>
         </div>
-        <div @click="showMultistream()" class="video-page__influencer-username-holder">
+        <div @click="showMultistream()" class="video-page__influencer-username-holder" style="padding-right: 5px;">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 50px; height: 50px; padding: 12px; fill: #ff2773;"><defs></defs>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 10px; fill: #ff2773;"><defs></defs>
               <path class="fa-primary" d="M288 200C257.1 200 232 225.1 232 256S257.1 312 288 312S344 286.9 344 256S318.9 200 288 200z"/><path class="fa-secondary" d="M64 256c0-51.5 16.98-99.91 49.13-139.1c11.05-13.78 8.844-33.94-4.953-45c-13.75-10.97-33.89-8.812-44.98 4.938C22.44 126.8 0 190.7 0 256c0 65.28 22.44 129.2 63.19 180C69.52 443.9 78.8 448 88.17 448c7.031 0 14.09-2.312 20-7.031c13.8-11.06 16-31.22 4.953-45C80.98 355.9 64 307.5 64 256zM512.8 75.96c-11.09-13.78-31.23-15.97-44.98-4.938c-13.8 11.06-16 31.22-4.953 45C495 156.1 512 204.5 512 256c0 51.5-16.98 99.91-49.13 139.1c-11.05 13.78-8.844 33.94 4.953 45C473.7 445.7 480.8 448 487.8 448c9.375 0 18.66-4.094 24.98-11.97C553.6 385.2 576 321.3 576 256C576 190.7 553.6 126.8 512.8 75.96zM392.3 149.1c-9.962 8.75-10.95 23.91-2.19 33.87c34.97 39.78 34.97 104.5 0 144.3c-8.758 9.969-7.772 25.12 2.19 33.87c4.567 3.1 10.21 5.969 15.84 5.969c6.678 0 13.32-2.75 18.06-8.156c50.33-57.25 50.33-150.4 0-207.7C417.4 142.2 402.3 141.2 392.3 149.1zM183.7 149.1C173.8 141.2 158.6 142.2 149.8 152.2c-50.33 57.25-50.33 150.4 0 207.7c4.739 5.406 11.39 8.156 18.06 8.156c5.614 0 11.28-1.969 15.84-5.969c9.962-8.75 10.95-23.91 2.19-33.87c-34.97-39.78-34.97-104.5 0-144.3C194.7 173.9 193.7 158.7 183.7 149.1z" style="fill: white;"/>
             </svg>
           </span>
@@ -309,12 +309,12 @@
       <div style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
 
       <!-- live badge -->
-      <div :style="{'top': safeareaTop4 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3" style="left: 15px;position: absolute;padding: 5px 8px 5px 13px;height: 28px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 50px;border-top-left-radius: 50px; z-index: 20;">
+      <div :style="{'top': safeareaTop5 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3" style="left: 15px;position: absolute;padding: 5px 8px 5px 13px;height: 28px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 50px;border-top-left-radius: 50px; z-index: 20;">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">LIVE</span>
       </div>
 
       <!-- viewers -->
-      <div :style="{'top': safeareaTop4 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 28px;width: fit-content;left: 62px; background: rgba(255, 255, 255, 0.15); padding: 0px 15px 0px 7px;border-top-left-radius: 0px;border-bottom-right-radius: 50px;border-top-right-radius: 50px;border-bottom-left-radius: 0px; z-index: 20;">
+      <div :style="{'top': safeareaTop5 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 28px;width: fit-content;left: 62px; background: rgba(255, 255, 255, 0.15); padding: 0px 15px 0px 7px;border-top-left-radius: 0px;border-bottom-right-radius: 50px;border-top-right-radius: 50px;border-bottom-left-radius: 0px; z-index: 20;">
         <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="fill: white; width: 12px; margin-bottom: 2px; height: 12px;">
             <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
@@ -325,7 +325,7 @@
 
 
       <!-- amount -->
-      <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 130px; right: calc(50vw - 65px); padding: 20px 0px; text-align: center; border-radius: 30px; background: rgba(255, 255, 255, 0.15); border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center; z-index: 20;">
+      <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 120px; right: calc(50vw - 60px); padding: 18px 0px; text-align: center; border-radius: 30px; background: rgba(255, 255, 255, 0.15); border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center; z-index: 20;">
         <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
           <span style="font-weight: bold;font-size: 18px;">199,50 <span style="color: #7ed957">€</span></span>
         </span>
@@ -333,7 +333,7 @@
 
 
       <!-- rotate camera + close -->
-      <div :style="{'top': safeareaTop5 }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15); z-index: 20;">
+      <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15); z-index: 20;">
         <div @click="switchCamera()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
@@ -343,7 +343,7 @@
         </div>
         <div @click="stop()" class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count" style="margin-left: 5px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 7px; fill: white;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 8px; fill: white;">
               <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/>
             </svg>
           </span>
@@ -404,10 +404,10 @@
 
 
       <!-- orders -->
-      <div @click="showOrders()" :style="{'bottom': safeareaBottom2 }" class="video-page__influencer-badge5" style="background: rgba(255, 255, 255, 0.15);">
+      <div @click="showOrders()" class="video-page__influencer-badge5" :style="{'bottom': safeareaBottom2 }" style="background: rgba(255, 255, 255, 0.15); width: 40px; height: 40px;">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 37px; height: 42px; padding: 10px 0px; fill: white;"><path d="M576 216v16c0 13.255-10.745 24-24 24h-8l-26.113 182.788C514.509 462.435 494.257 480 470.37 480H105.63c-23.887 0-44.139-17.565-47.518-41.212L32 256h-8c-13.255 0-24-10.745-24-24v-16c0-13.255 10.745-24 24-24h67.341l106.78-146.821c10.395-14.292 30.407-17.453 44.701-7.058 14.293 10.395 17.453 30.408 7.058 44.701L170.477 192h235.046L326.12 82.821c-10.395-14.292-7.234-34.306 7.059-44.701 14.291-10.395 34.306-7.235 44.701 7.058L484.659 192H552c13.255 0 24 10.745 24 24zM312 392V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24zm112 0V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24zm-224 0V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 35px; height: 40px; padding: 10px 0px; fill: white;"><path d="M576 216v16c0 13.255-10.745 24-24 24h-8l-26.113 182.788C514.509 462.435 494.257 480 470.37 480H105.63c-23.887 0-44.139-17.565-47.518-41.212L32 256h-8c-13.255 0-24-10.745-24-24v-16c0-13.255 10.745-24 24-24h67.341l106.78-146.821c10.395-14.292 30.407-17.453 44.701-7.058 14.293 10.395 17.453 30.408 7.058 44.701L170.477 192h235.046L326.12 82.821c-10.395-14.292-7.234-34.306 7.059-44.701 14.291-10.395 34.306-7.235 44.701 7.058L484.659 192H552c13.255 0 24 10.745 24 24zM312 392V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24zm112 0V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24zm-224 0V280c0-13.255-10.745-24-24-24s-24 10.745-24 24v112c0 13.255 10.745 24 24 24s24-10.745 24-24z"/>
           </span>
         </div>
       </div>
@@ -422,10 +422,10 @@
 
         
       <!-- viewer list -->
-      <div @click="showViewers()" :style="{'bottom': safeareaBottom2 }" class="video-page__influencer-badge4" style="position: absolute; width: 44px; height: 44px; right: 75px;  background: rgba(255, 255, 255, 0.15);">
+      <div @click="showViewers()" :style="{'bottom': safeareaBottom2 }" class="video-page__influencer-badge4" style="position: absolute; width: 40px; height: 40px; right: 70px;  background: rgba(255, 255, 255, 0.15);">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px;height: 44px;padding: 11px 0px;fill: white;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 38px;height: 40px;padding: 10px 0px;fill: white;">
               <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
             </svg>
           </span>
@@ -434,7 +434,7 @@
 
 
       <!-- like -->
-      <img :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom2 }" style="position: absolute; width: 44px; height: 44px; right: 15px; z-index: 20;">
+      <img :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom2 }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 20;">
 
 
       <!-- input comment -->
@@ -579,10 +579,10 @@ export default {
       safeareaTop2: '140px',
       safeareaTop3: '20px',
       safeareaTop4: '17px',
-      safeareaTop5: '13px',
+      safeareaTop5: '7px',
       safeareaBottom: '205px',
       safeareaBottom2: '0px',
-      safeareaBottom3: '70px',
+      safeareaBottom3: '60px',
       safeareaBottom4: '165px',
       safeareaBottom5: '185px',
       writeInput: '0px',
@@ -628,9 +628,10 @@ export default {
       this.safeareaTop2 = '135px';
       this.safeareaTop3 = '45px';
       this.safeareaTop4 = '42px';
+      this.safeareaTop5 = '7px';
       this.safeareaBottom = '230px';
       this.safeareaBottom2 = '35px';
-      this.safeareaBottom3 = '95px';
+      this.safeareaBottom3 = '60px';
       this.safeareaBottom4 = '190px';
       this.safeareaBottom5 = '210px';
       this.safeareaBottom5 = '13px';
@@ -645,10 +646,10 @@ export default {
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 140px)';
       this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 20px)';
       this.safeareaTop4 = 'calc(env(safe-area-inset-top) + 17px)';
-      this.safeareaTop5 = 'calc(env(safe-area-inset-top) + 13px)';
+      this.safeareaTop5 = 'calc(env(safe-area-inset-top) + 7px)';
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 205px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 10px)';
-      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 70px)';
+      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 60px)';
       this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 165px)';
       this.safeareaBottom5 = 'calc(env(safe-area-inset-bottom) + 185px)';
 

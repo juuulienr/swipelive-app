@@ -96,8 +96,8 @@
   height: 100%
 }
 .video-page__image img {
-  width: 80px;
-  height: 80px;
+  width: 86px;
+  height: 86px;
   border-radius: 10px;
   object-fit: cover;
 }
@@ -303,9 +303,9 @@
   border-radius: 25px;
   background-color: rgba(0, 0, 0, .25);
   align-items: center;
-  padding: 10px 20px; 
-  left: 75px; 
-  right: 135px;
+  padding: 9px 20px; 
+  left: 70px; 
+  right: 125px;
 }
 .video-page__influencer-badge-send .video-page__influencer-username2 {
   color: #fff;
@@ -972,6 +972,16 @@ span.filter--choice > input:checked ~ .svg--point {
   padding: .3rem 3.5rem .2rem .35rem;
   margin: 6px 15px 6px 0px;
   align-items: center;
+}
+
+.video-page__influencer-badge5 {
+  position: absolute; 
+  width: 44px; 
+  height: 44px; 
+  left: 15px; 
+  z-index: 1000;
+  border-radius: 30px; 
+  background-color: rgba(0,0,0,.3); 
 }
 
 .css-g5gk3y {
