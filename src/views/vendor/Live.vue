@@ -333,7 +333,7 @@
 
 
       <!-- rotate camera + close -->
-      <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15); z-index: 20;">
+      <div :style="{'top': safeareaTop5 }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15); z-index: 20;">
         <div @click="switchCamera()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
@@ -575,12 +575,13 @@ export default {
       errListenerId: false,
       broadcastListenerId: false,
       statusListenerId: false,
-      safeareaTop: '10px',
+      safeareaTop: '0px',
       safeareaTop2: '140px',
       safeareaTop3: '20px',
       safeareaTop4: '17px',
+      safeareaTop5: '13px',
       safeareaBottom: '205px',
-      safeareaBottom2: '10px',
+      safeareaBottom2: '0px',
       safeareaBottom3: '70px',
       safeareaBottom4: '165px',
       safeareaBottom5: '185px',
@@ -632,6 +633,7 @@ export default {
       this.safeareaBottom3 = '95px';
       this.safeareaBottom4 = '190px';
       this.safeareaBottom5 = '210px';
+      this.safeareaBottom5 = '13px';
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");
@@ -643,6 +645,7 @@ export default {
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 140px)';
       this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 20px)';
       this.safeareaTop4 = 'calc(env(safe-area-inset-top) + 17px)';
+      this.safeareaTop5 = 'calc(env(safe-area-inset-top) + 13px)';
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 205px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 10px)';
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 70px)';
