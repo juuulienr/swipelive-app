@@ -12,10 +12,10 @@
       
 
       <!-- go back -->
-      <div @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="width: 44px; height: 44px;fill: white; background: rgba(255, 255, 255, 0.15); left: 15px;">
+      <div @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="width: 50px; height: 50px;fill: white; background: rgba(255, 255, 255, 0.15); left: 15px;">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 44px; height: 44px; padding: 12px; fill: white; margin-left: 3px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 50px; height: 50px; padding: 12px; fill: white; margin-left: 3px;">
               <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
             </svg>
           </span>
@@ -393,7 +393,7 @@
             </div>
           </div>  
           <div v-if="liveProducts.length > 1" @click="changeProduct()" class="video-page__influencer-username-holder">
-            <span class="video-page__influencer-video-count" style="padding: 30px 10px;">
+            <span class="video-page__influencer-video-count" style="padding: 20px 10px;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;height: 18px;fill: #ff2773;transform: rotate(180deg);">
                 <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
               </svg>
@@ -520,7 +520,7 @@
               </div>
             </div>
           </div>
-         <!--  <div v-else>
+        <!--   <div v-else>
             <div class="container" style="margin: 100px auto 0px; text-align: center;">
               <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/follower.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
             </div>
@@ -581,9 +581,9 @@ export default {
       safeareaTop4: '17px',
       safeareaBottom: '205px',
       safeareaBottom2: '10px',
-      safeareaBottom3: '75px',
+      safeareaBottom3: '70px',
       safeareaBottom4: '165px',
-      safeareaBottom5: '180px',
+      safeareaBottom5: '185px',
       writeInput: '0px',
       content: "",
       countdown: 3,
@@ -629,9 +629,9 @@ export default {
       this.safeareaTop4 = '42px';
       this.safeareaBottom = '230px';
       this.safeareaBottom2 = '35px';
-      this.safeareaBottom3 = '100px';
+      this.safeareaBottom3 = '95px';
       this.safeareaBottom4 = '190px';
-      this.safeareaBottom5 = '205px';
+      this.safeareaBottom5 = '210px';
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");
@@ -645,9 +645,9 @@ export default {
       this.safeareaTop4 = 'calc(env(safe-area-inset-top) + 17px)';
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 205px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 10px)';
-      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 75px)';
+      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 70px)';
       this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 165px)';
-      this.safeareaBottom5 = 'calc(env(safe-area-inset-bottom) + 180px)';
+      this.safeareaBottom5 = 'calc(env(safe-area-inset-bottom) + 185px)';
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "Eqza0IhJO8JKQTs37D0VKQ");

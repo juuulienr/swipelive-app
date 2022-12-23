@@ -48,7 +48,7 @@
   }
 }
 .video-page__product-box {
-  padding: 10px;
+  padding: 14px;
   position: absolute;
   left: 20px;
   background-color: #fff;
@@ -964,14 +964,14 @@ span.filter--choice > input:checked ~ svg {
 span.filter--choice > input:checked ~ .svg--point {
   display: block !important;
 }
-.video-page__influencer-badge5 {
-  position: absolute; 
-  width: 44px; 
-  height: 44px; 
-  left: 15px; 
-  z-index: 1000;
-  border-radius: 30px; 
-  background-color: rgba(0,0,0,.3); 
+
+.video-page__influencer-badge {
+  display: flex;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: .3rem 3.5rem .2rem .35rem;
+  margin: 6px 15px 6px 0px;
+  align-items: center;
 }
 
 .css-g5gk3y {
