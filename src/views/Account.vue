@@ -20,8 +20,8 @@
             </span>
             <span v-else style="font-size: 16px; font-weight: 500;">{{ user.firstname }} {{ user.lastname }}</span>
             <div>
-              <span v-if="user.vendor && user.followers.length">{{user.followers.length }} abonnés</span>
-              <span v-else-if="user.vendor">0 abonné</span>
+              <span v-if="user.vendor && user.followers.length > 1">{{ user.followers.length }} abonnés</span>
+              <span v-else-if="user.vendor">{{ user.followers.length }} abonné</span>
               <span v-else>{{user.following.length }} abonnement</span>
             </div>
           </div>
@@ -45,21 +45,21 @@
         </div>
 
         <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px;">
-          <div>
+          <div @click="goToShop()">
             <h4 v-if="nbProducts">{{ nbProducts }}</h4>
             <h4 v-else>-</h4>
             <p v-if="nbProducts > 1">Articles</p>
             <p v-else>Article</p>
           </div>
           <hr>
-          <div>
-            <h4 v-if="user.vendor.lives.length">{{ user.vendor.lives.length }}</h4>
+          <div @click="goToClip()">
+            <h4 v-if="user.vendor.clips.length">{{ user.vendor.clips.length }}</h4>
             <h4 v-else>-</h4>
-            <p v-if="user.vendor.lives.length > 1">Lives</p>
-            <p v-else>Live</p>
+            <p v-if="user.vendor.clips.length > 1">Clips</p>
+            <p v-else>Clip</p>
           </div>
           <hr>
-          <div>
+          <div @click="goToOrder()">
             <h4 v-if="user.vendor.sales.length">{{ user.vendor.sales.length }}</h4>
             <h4 v-else>-</h4>
             <p v-if="user.vendor.sales.length > 1">Commandes</p>
@@ -67,12 +67,12 @@
           </div>
         </div>
         <div v-else class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px; margin-top: 25px;">
-          <div>
+          <div @click="goToFavoris()">
             <h4>-</h4>
             <p>Favoris</p>
           </div>
           <hr>
-          <div>
+          <div @click="goToFollowing()">
             <h4 v-if="user.following.length">{{ user.following.length }}</h4>
             <h4 v-else>-</h4>
             <p>Abonnement</p>
@@ -307,6 +307,21 @@ export default {
     },
     goEditProfile() {
       this.$router.push({ name: 'EditUser' });
+    },
+    goToShop() {
+      this.$router.push({ name: 'Shop' });
+    },
+    goToClip() {
+      this.$router.push({ name: 'ClipsVendor' });
+    },
+    goToOrder() {
+      this.$router.push({ name: 'ListOrders' });
+    },
+    goToFavoris() {
+      this.$router.push({ name: 'Favoris' });
+    },
+    goToFollowing() {
+      this.$router.push({ name: 'ListFollowing' });
     },
     goToVendorRegistration() {
       this.$router.push({ name: 'VendorRegistrationStep1' });

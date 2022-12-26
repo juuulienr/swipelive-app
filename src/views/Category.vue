@@ -1,5 +1,5 @@
 <template>
-  <main class="products shop_3" style="padding: 0px 15px 15px;">
+  <main class="products shop_3" style="padding: 0px 10px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
       <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
@@ -12,12 +12,12 @@
 
 
     <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
-      <div v-if="category && category.products.length" class="shop--part" style="margin: 0px;">
+      <div v-if="category && category.products.length" class="shop--part" style="margin: 0px 5px;">
         <div v-if="product.archived == false" v-for="product in category.products" class="shop--item">
           <div>
             <div>
-              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="max-height: 150px; width: 100%;">
+              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="max-height: 150px; width: 100%;">
             </div>
           </div>
           <div class="shop--item--details">

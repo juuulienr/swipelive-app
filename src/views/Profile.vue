@@ -55,10 +55,10 @@
           </div>
           <hr>
           <div>
-            <h4 v-if="profile.vendor.lives.length">{{ profile.vendor.lives.length }}</h4>
+            <h4 v-if="profile.vendor.clips.length">{{ profile.vendor.clips.length }}</h4>
             <h4 v-else>-</h4>
-            <p v-if="profile.vendor.lives.length > 1">Lives</p>
-            <p v-else>Live</p>
+            <p v-if="profile.vendor.clips.length > 1">Vidéos</p>
+            <p v-else>Vidéo</p>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
       <div class="images_sec">
         <div class="images_filter">
           <ul>
-            <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Replay</li>
+            <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>
             <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Boutique</li>
           </ul>
         </div>

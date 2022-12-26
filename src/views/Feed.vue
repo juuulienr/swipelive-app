@@ -477,7 +477,7 @@
 
 
         <!-- viewers -->
-    <!--     <div :style="{'top': safeareaTop6 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 22px;width: fit-content;left: 15px; background: rgba(255, 255, 255, 0.25); padding: 0px 10px;border-radius: 50px; z-index: 20;">
+    <!--     <div :style="{'top': safeareaTop3 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 22px;width: fit-content;left: 15px; background: rgba(255, 255, 255, 0.25); padding: 0px 10px;border-radius: 50px; z-index: 20;">
           <lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
           <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
@@ -496,7 +496,7 @@
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-username-holder2">
             <div class="video-page__influencer-username2" style="font-size: 15px;">{{ feed.value.vendor.businessName }}</div>
           </div>
-          <div style="position: absolute; top: 24px; left: 28px; border-radius: 50px;">
+          <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 25px; left: 7px; border-radius: 50px; padding: 5px;">
 	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; border: 1px solid white; border-radius: 100px;"><defs></defs>
               <path style="fill: white;" d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
               <path style="fill: #ff2773;" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
@@ -633,46 +633,6 @@
       </button>
     </div>
 
-    <!-- product popup -->
-    <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; padding-bottom: 80px;">
-      <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;"><path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/></svg>
-  <!--     <svg width="24px" height="24px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true" focusable="false" style="width: 30px;height: 30px;fill: white;border-radius: 30px;position: absolute;top: 20px;right: 20px;z-index: 100000000;">
-        <g transform="matrix( 1 0 0 1 1 2 )">
-          <path d="M15 3C17.5 3 19 4.90001 19 7.20001C19 8.40001 18.4 9.49999 17.7 10.3C16.5 11.5 11 16 11 16C11 16 5.50005 11.5 4.30005 10.3C3.50005 9.49999 3 8.40001 3 7.20001C3 4.90001 4.5 3 7 3C8.7 3 10.3 4.6 11 6C11.7 4.6 13.3 3 15 3ZM15 0C13.5 0 12.1 0.599994 11 1.39999C9.9 0.499994 8.5 0 7 0C3 0 0 3.10001 0 7.20001C0 9.10001 0.799951 10.9 2.19995 12.4C3.59995 13.9 11 19.9 11 19.9C11 19.9 18.4 13.9 19.8 12.4C21.2 10.9 22 9.10001 22 7.20001C22 3.10001 19 0 15 0Z" fill="#FFFFFF" style="
-          fill: white;">
-          </path>
-        </g>
-      </svg> -->
-      <Product :product="product" @clicked="onClickChild"/>
-    </div>
-    <div v-if="popupProduct && product.vendor.user.id != user.id" style="background-color: white;bottom: calc(env(safe-area-inset-top) + 0px); position: fixed; z-index: 2147483647;">
-      <div style="background-color: white; bottom: 25px; position: fixed; z-index: 2147483647;">
-        <div style="padding: 15px 20px 25px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
-          <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
-          <div @click="goCheckout()" class="btn-swipe" style="text-align: center;width: calc(50vw - 25px);padding: 14px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px;background: rgb(24, 206, 160);color: rgb(255, 255, 255) !important;height: 50px;">Acheter</div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- cart popup -->
-    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
-      <div @click="hideCart()" style="display: flex;">
-        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
-        </div>
-      </div>
-
-      <div style="margin: 0px;">
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Panier</span>
-        </div>
-        <Cart/>
-      </div>
-    </div>
-
-
-
     <!-- promo popup -->
     <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 40%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
       <div @click="hidePromo()" style="display: flex;">
@@ -703,9 +663,48 @@
     </div>
 
 
+    <!-- product popup -->
+    <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; padding-bottom: 80px;">
+      <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;"><path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/></svg>
+      <svg width="24px" height="24px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true" focusable="false" style="width: 30px;height: 30px;fill: white;border-radius: 30px;position: absolute;top: 20px;right: 20px;z-index: 100000000;">
+        <g transform="matrix( 1 0 0 1 1 2 )">
+          <path d="M15 3C17.5 3 19 4.90001 19 7.20001C19 8.40001 18.4 9.49999 17.7 10.3C16.5 11.5 11 16 11 16C11 16 5.50005 11.5 4.30005 10.3C3.50005 9.49999 3 8.40001 3 7.20001C3 4.90001 4.5 3 7 3C8.7 3 10.3 4.6 11 6C11.7 4.6 13.3 3 15 3ZM15 0C13.5 0 12.1 0.599994 11 1.39999C9.9 0.499994 8.5 0 7 0C3 0 0 3.10001 0 7.20001C0 9.10001 0.799951 10.9 2.19995 12.4C3.59995 13.9 11 19.9 11 19.9C11 19.9 18.4 13.9 19.8 12.4C21.2 10.9 22 9.10001 22 7.20001C22 3.10001 19 0 15 0Z" fill="#FFFFFF" style="
+          fill: white;">
+          </path>
+        </g>
+      </svg>
+      <Product :product="product" @clicked="onClickChild"/>
+    </div>
+    <div v-if="popupProduct" style="background-color: white;bottom: calc(env(safe-area-inset-top) + 0px); position: fixed; z-index: 2147483647;">
+      <div style="background-color: white; bottom: 25px; position: fixed; z-index: 2147483647;">
+        <div style="padding: 15px 20px 25px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
+          <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
+          <div @click="goCheckout()" class="btn-swipe" style="text-align: center;width: calc(50vw - 25px);padding: 14px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px;background: rgb(24, 206, 160);color: rgb(255, 255, 255) !important;height: 50px;">Acheter</div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- cart popup -->
+    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+      <div @click="hideCart()" style="display: flex;">
+        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
+        </div>
+      </div>
+
+      <div style="margin: 0px;">
+        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
+          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Panier</span>
+        </div>
+        <Cart/>
+      </div>
+    </div>
+
+
 
     <!-- shop popup -->
-    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 50%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 10px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 60%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 10px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
       <div @click="hideShop()" style="display: flex;">
         <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
         </div>
@@ -722,8 +721,8 @@
           <div v-if="product.archived == false" v-for="product in shop.products" class="shop--item">
             <div>
               <div>
-                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
-                <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="max-height: 150px; width: 100%;">
+                <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="max-height: 150px; width: 100%;">
               </div>
             </div>
             <div class="shop--item--details">
@@ -799,17 +798,14 @@ export default {
       safeareaBottom: '0px',
       safeareaBottom2: '57px',
       safeareaBottom3: '175px',
-      safeareaBottom4: '320px',
       safeareaTop: '0px',
       safeareaTop2: '62px',
-      safeareaTop3: '150px',
       safeareaTop4: '100px',
       safeareaTop5: '13px',
-      safeareaTop6: '60px',
-      safeareaTop7: '65px',
-      safeareaTop8: '55px',
+      safeareaTop3: '60px',
       writeInput: '0px',
       content: "",
+      popupPromo: false,
       popupProduct: false,
       popupCart: false,
       popupShop: false,
@@ -856,43 +852,35 @@ export default {
     window.StatusBar.overlaysWebView(true);
     document.getElementsByTagName('body')[0].classList.add("dark-mode");
 
-    if (window.cordova && window.cordova.platformId === "android") {
-      this.safeareaBottom = "0px";
-      this.safeareaBottom2 = "57px";
-      this.safeareaBottom3 = "200px";
-      this.safeareaBottom4 = "355px";
-      this.safeareaTop = '35px';
-      this.safeareaTop2 = '97px';
-      this.safeareaTop3 = '125px';
-      this.safeareaTop4 = '175px';
-      this.safeareaTop5 = '38px';
-      this.safeareaTop6 = '85px';
-      this.safeareaTop7 = '65px';
-      this.safeareaTop8 = '55px';
-      this.throttle = 1000;
-
-      if (!this.bambuserId) {
-        window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");
-      }
-    }
-
     if (window.cordova && window.cordova.platformId === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 175px)';
-      this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 320px)';
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 62px)';
-      this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 150px)';
+      this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 60px)';
       this.safeareaTop4 = 'calc(env(safe-area-inset-top) + 100px)';
       this.safeareaTop5 = 'calc(env(safe-area-inset-top) + 13px)';
-      this.safeareaTop6 = 'calc(env(safe-area-inset-top) + 60px)';
-      this.safeareaTop7 = 'calc(env(safe-area-inset-top) + 65px)';
-      this.safeareaTop8 = 'calc(env(safe-area-inset-top) + 55px)';
       this.throttle = 500;
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "Eqza0IhJO8JKQTs37D0VKQ");
+      }
+    }
+
+    if (window.cordova && window.cordova.platformId === "android") {
+      this.safeareaBottom = "25px";
+      this.safeareaBottom2 = "82px";
+      this.safeareaBottom3 = "200px";
+      this.safeareaTop = '25px';
+      this.safeareaTop2 = '87px';
+      this.safeareaTop3 = '85px';
+      this.safeareaTop4 = '125px';
+      this.safeareaTop5 = '38px';
+      this.throttle = 1000;
+
+      if (!this.bambuserId) {
+        window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");
       }
     }
 
@@ -908,15 +896,13 @@ export default {
       this.http.setDataSerializer('json');
     }
 
-    if (this.token) {
-      this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      	console.log(JSON.parse(response.data));
-        this.user = JSON.parse(response.data);
-        window.localStorage.setItem("user", response.data);
-      }, (error) => {
-        console.log(error);
-      });
-    }
+    this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    	console.log(JSON.parse(response.data));
+      this.user = JSON.parse(response.data);
+      window.localStorage.setItem("user", response.data);
+    }, (error) => {
+      console.log(error);
+    });
   },
   mounted() {
     this.refresh();
@@ -984,13 +970,6 @@ export default {
               // Listen to player events
               player2.addEventListener('ended', () => {
                 console.log('player ended');
-
-                var el = document.getElementById('feed');
-                console.log(el);
-
-                // if (el) {
-                //   el.scrollTop += window.innerHeight;
-                // }
               });
 
               player2.addEventListener('canplay', () => {
@@ -1085,41 +1064,43 @@ export default {
       console.log(JSON.parse(window.localStorage.getItem("lineItems")));
     },
     showPromo() {
+      console.log("show promo");
+      this.popupPromo = true;
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCart = false;
-      this.popupPromo = true;
     },
     hidePromo() {
+      console.log('hide promo');
+      this.popupPromo = false;
       this.popupCart = false;
       this.popupShop = false;
       this.popupProduct = false;
-      this.popupPromo = false;
     },
     showCart() {
+      this.popupCart = true;
       this.popupPromo = false;
       this.popupProduct = false;
       this.popupShop = false;
-      this.popupCart = true;
     },
     hideCart() {
-      this.popupPromo = false;
       this.popupCart = false;
+      this.popupPromo = false;
       this.popupShop = false;
       this.popupProduct = false;
     },
     showShop(shop) {
       this.shop = shop;
+      this.popupShop = true;
       this.popupPromo = false;
       this.popupCart = false;
       this.popupProduct = false;
-      this.popupShop = true;
     },
     hideShop() {    
+      this.popupShop = false;
       this.popupCart = false;
       this.popupPromo = false;
       this.popupProduct = false;
-      this.popupShop = false;
       this.shop = [];
     },
     goProfile(id) {
@@ -1137,12 +1118,7 @@ export default {
     },
     goToAccount() {
       this.stopLive();
-
-      if (this.user && this.token) {
-        this.$router.push({ name: 'Account' });
-      } else {
-        this.$router.push({ name: 'Welcome' });
-      }
+      this.$router.push({ name: 'Account' });
     },
     swipeHandler(direction) {
       if (direction == "right") {
@@ -1152,12 +1128,8 @@ export default {
 
       if (direction == "left") {
         this.stopLive();
-        if (this.user) {
-          if (this.data[this.visible].value.vendor.user.id == this.user.id) {
-            this.$router.push({ name: 'Account' });
-          } else {
-            this.$router.push({ name: 'Profile', params: { id: this.data[this.visible].value.vendor.user.id } });
-          }
+        if (this.data[this.visible].value.vendor.user.id == this.user.id) {
+          this.$router.push({ name: 'Account' });
         } else {
           this.$router.push({ name: 'Profile', params: { id: this.data[this.visible].value.vendor.user.id } });
         }
@@ -1181,24 +1153,19 @@ export default {
       this.popup = false;
       var isVendor = false;
 
-      if (this.token) {
-        if (this.user.vendor && this.user.vendor.businessName == this.data[this.visible].value.vendor.businessName) {
-          var isVendor = true;
-        }
-        
-        this.http.post(this.baseUrl + "/user/api/" + this.data[this.visible].type + "/" + this.data[this.visible].value.id + "/comment/add", { "content": this.content }, { Authorization: "Bearer " + this.token }, (response) => {
-          var result = JSON.parse(response.data);
-          this.content = "";
-          this.comments[this.visible].value = result.comments;
-          this.data[this.visible].value = result;
-          this.scrollToElement();
-        }, (response) => {
-          console.log(response.error);
-        });
-      } else {
-        this.stopLive();
-        this.$router.push({ name: 'Welcome' });
+      if (this.user.vendor && this.user.vendor.businessName == this.data[this.visible].value.vendor.businessName) {
+        var isVendor = true;
       }
+      
+      this.http.post(this.baseUrl + "/user/api/" + this.data[this.visible].type + "/" + this.data[this.visible].value.id + "/comment/add", { "content": this.content }, { Authorization: "Bearer " + this.token }, (response) => {
+        var result = JSON.parse(response.data);
+        this.content = "";
+        this.comments[this.visible].value = result.comments;
+        this.data[this.visible].value = result;
+        this.scrollToElement();
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     scrollToElement() {
       setTimeout(() => {
@@ -1296,11 +1263,6 @@ export default {
                   // Listen to player events
                   player2.addEventListener('ended', () => {
                     console.log('player ended');
-
-                    var el = document.getElementById('feed');
-                    // if (el) {
-                    //   el.scrollTop += window.innerHeight;
-                    // }
                   });
 
                   player2.addEventListener('canplay', () => {
@@ -1317,11 +1279,7 @@ export default {
             }
           });
         } else {
-          if (this.user && this.token) {
-            this.$router.push({ name: 'Account' });
-          } else {
-            this.$router.push({ name: 'Welcome' });
-          }
+          this.$router.push({ name: 'Account' });
         }
       }, (response) => {
         console.log(response.error);
@@ -1446,11 +1404,6 @@ export default {
                   // Listen to player events
                   player2.addEventListener('ended', () => {
                     console.log('player ended');
-
-                    var el = document.getElementById('feed');
-                    // if (el) {
-                    //   el.scrollTop += window.innerHeight;
-                    // }
                   });
 
                   player2.addEventListener('canplay', () => {
@@ -1523,11 +1476,6 @@ export default {
                   // Listen to player events
                   player2.addEventListener('ended', () => {
                     console.log('player ended');
-
-                    var el = document.getElementById('feed');
-                    // if (el) {
-                    //   el.scrollTop += window.innerHeight;
-                    // }
                   });
 
                   player2.addEventListener('canplay', () => {
@@ -1550,31 +1498,25 @@ export default {
     resume() {
       console.log("User is using the feed");
       navigator.splashscreen.hide();
-      // this.refresh();
     },
     follow(id) { 
-    	if (this.user && this.token) {
-	    	this.following[this.visible].value = true;
-	      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-	        window.localStorage.setItem("user", response.data);
-	      }, (response) => {
-	        console.log(response.error);
-	      });
-    	} else {
-        this.$router.push({ name: 'Welcome' });
-    	}
-    },
-    unFollow(id) { 
-    	if (this.user && this.token) {
-	    	this.following[this.visible].value = false;
-	      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-	        window.localStorage.setItem("user", response.data);
-	      }, (response) => {
-	        console.log(response.error);
-	      });
-    	} else {
-        this.$router.push({ name: 'Welcome' });
-    	}
+      console.log(this.following);
+
+      this.data.map((element, index) => {
+        console.log(element.value);
+        console.log(element.value.vendor.user.id);
+
+        if (element.value.vendor.user.id == id) {
+          this.following[index].value = true;
+        }
+        console.log(this.following);
+      });
+
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        window.localStorage.setItem("user", response.data);
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     animate() {
       if (this.num == 0 && !this.anim1) {

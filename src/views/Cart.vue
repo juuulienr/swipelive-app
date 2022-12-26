@@ -14,6 +14,8 @@
               <div>
                 <span v-if="lineItem.variant" style="font-size: 14px;">{{ lineItem.variant.price * lineItem.quantity | formatPrice }}€</span>
                 <span v-else style="font-size: 14px;">{{ lineItem.product.price * lineItem.quantity | formatPrice }}€</span>
+                <span v-if="lineItem.variant && lineItem.variant.compareAtPrice" class="last-price">{{ lineItem.variant.compareAtPrice | formatPrice }}€ </span>
+                <span v-else-if="lineItem.product.compareAtPrice" class="last-price">{{ lineItem.product.compareAtPrice | formatPrice }}€ </span>
               </div>
             </div>
           </div>
