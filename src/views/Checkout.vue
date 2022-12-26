@@ -760,7 +760,25 @@ export default {
 	      window.cordova.plugin.http.setDataSerializer('json');
 	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "carrier": "mondial_relay,chronopost", "radius": "20000" }, {}, (response) => {
 	        this.points = JSON.parse(response.data);
-	        this.points.map((point) => {
+	        this.points.map((point, index) => {
+            let parts = point.street.split(" ");
+            let number = 0;
+            let street = "";
+
+            for (let i = 0; i < parts.length; i++) {
+              let part = parts[i];
+              if (isNaN(part)) {
+                street += part + " ";
+              } else {
+                number = parseInt(part);
+              }
+            }
+
+            street = street.trim();
+            console.log(street, number);
+            point.street = street;
+            point.house_number = number;
+
 		        var marker = {
 		          lat: parseFloat(point.latitude),
 		          lng: parseFloat(point.longitude)
