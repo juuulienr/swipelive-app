@@ -1050,7 +1050,6 @@
 
 .card-footer, .card-number, .card-text, .card-title {
   line-height: 24px;
-  text-transform: uppercase;
 }
 
 .card-body.parcelshop-card-body>.card-title>.parcelshop-number {

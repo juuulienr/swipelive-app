@@ -103,6 +103,10 @@
   					<img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
             Shop2Shop
           </div>
+          <div v-else-if="pointSelected.carrier == 'mondial_relay'" class="card-title" style="font-weight: 500; margin-bottom: 3px;">
+            <img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+            Mondial Relay
+          </div>
           <div v-else class="card-title" style="font-weight: 500; margin-bottom: 3px;">
             <img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
             {{ pointSelected.carrier }}
@@ -417,6 +421,10 @@
               <img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
               Shop2Shop
             </div>
+            <div v-else-if="point.carrier == 'mondial_relay'" class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
+              <img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
+              Mondial Relay
+            </div>
             <div v-else class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
               <img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
               {{ point.carrier }}
@@ -426,43 +434,49 @@
               <div>{{ point.house_number }} {{ point.street }}</div>
               <div>{{ point.zip }} {{ point.city }}</div>
             </div>
-            <hr>
           </div>
-
-          <div v-if="point.formatted_opening_times">
+          <div v-if="point.formatted_opening_times[0].length !== 0 || point.formatted_opening_times[1].length !== 0 || point.formatted_opening_times[2].length !== 0 || point.formatted_opening_times[3].length !== 0 || point.formatted_opening_times[4].length !== 0 || point.formatted_opening_times[5].length !== 0 || point.formatted_opening_times[6].length !== 0">
+            <hr>
             <div style="text-transform: capitalize;line-height: 40px;">
-              <div v-if="point.formatted_opening_times[0].length" style="display: flex;justify-content: space-between;font-size: 17px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[0].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
                 <div> Lundi</div>
-                <div v-for="(hour, index2) in point.formatted_opening_times[0]" style="color: #999;font-weight: 500;">{{ hour }} </div>
+                <div v-if="point.formatted_opening_times[0].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[0][0] }}, {{ point.formatted_opening_times[0][1] }}</div>
+                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[0][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[1].length" style="display: flex;justify-content: space-between;font-size: 17px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[1].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
                 <div> Mardi</div>
-                <div v-for="(hour, index2) in point.formatted_opening_times[1]" style="color: #999;font-weight: 500;">{{ hour }} </div>
+                <div v-if="point.formatted_opening_times[1].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[1][0] }}, {{ point.formatted_opening_times[1][1] }}</div>
+                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[1][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[2].length" style="display: flex;justify-content: space-between;font-size: 17px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[2].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
                 <div> Mercredi</div>
-                <div v-for="(hour, index2) in point.formatted_opening_times[2]" style="color: #999;font-weight: 500;">{{ hour }} </div>
+                <div v-if="point.formatted_opening_times[2].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[2][0] }}, {{ point.formatted_opening_times[2][1] }}</div>
+                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[2][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[3].length" style="display: flex;justify-content: space-between;font-size: 17px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[3].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
                 <div> Jeudi</div>
-                <div v-for="(hour, index2) in point.formatted_opening_times[3]" style="color: #999;font-weight: 500;">{{ hour }} </div>
+                <div v-if="point.formatted_opening_times[3].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[3][0] }}, {{ point.formatted_opening_times[3][1] }}</div>
+                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[3][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[4].length" style="display: flex;justify-content: space-between;font-size: 17px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[4].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
                 <div> Vendredi</div>
-                <div v-for="(hour, index2) in point.formatted_opening_times[4]" style="color: #999;font-weight: 500;">{{ hour }} </div>
+                <div v-if="point.formatted_opening_times[4].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[4][0] }}, {{ point.formatted_opening_times[4][1] }}</div>
+                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[4][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[5].length" style="display: flex;justify-content: space-between;font-size: 17px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[5].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
                 <div> Samedi</div>
-                <div v-for="(hour, index2) in point.formatted_opening_times[5]" style="color: #999;font-weight: 500;">{{ hour }} </div>
+                <div v-if="point.formatted_opening_times[5].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[5][0] }}, {{ point.formatted_opening_times[5][1] }}</div>
+                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[5][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[6].length" style="display: flex;justify-content: space-between;font-size: 17px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[6].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
                 <div> Dimanche</div>
-                <div v-for="(hour, index2) in point.formatted_opening_times[6]" style="color: #999;font-weight: 500;">{{ hour }} </div>
+                <div v-if="point.formatted_opening_times[6].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[6][0] }}, {{ point.formatted_opening_times[6][1] }}</div>
+                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[6][0] }}</div>
               </div>
             </div>
+            <hr> 
+            <div style="font-weight: 400;padding: 5px;text-align: center;">Les horaires d'ouverture peuvent différer.</div>
           </div>
-          <hr> 
-          <div style="font-weight: 400;padding: 5px;text-align: center;">Les horaires d'ouverture peuvent différer.</div>
       	</div>
         <div @click="saveRelay(point)" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); position: absolute; bottom: 45px; margin: 0 auto; background: #ff2773">Selectionner</div>
       </div>

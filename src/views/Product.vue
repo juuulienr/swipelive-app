@@ -44,7 +44,7 @@
 
       <div style="margin-bottom: 20px;">
         <hr style="margin: 20px 0px;">
-        <p style="margin-top: 10px; font-size: 14px; color: rgb(82, 92, 102); font-weight: 400;">{{ product.description }}</p>
+        <div v-html="product.description" style="margin-top: 10px; font-size: 14px; color: rgb(82, 92, 102); font-weight: 400;"></div>
       </div>
       <hr>
       <div style="padding: 5px;">Échanges & Retours</div>
@@ -142,7 +142,7 @@ export default {
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
+    },
   },
   created() {
     if (window.cordova && window.cordova.platformId === "android") {
@@ -151,6 +151,10 @@ export default {
 
     if (window.cordova && window.cordova.platformId === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 30px)';
+    }
+    
+    if (this.product.description) {
+      this.product.description = this.product.description.replace(/\n/g, '<br>');
     }
 
     this.loadOptions();
