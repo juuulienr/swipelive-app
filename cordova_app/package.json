@@ -93,9 +93,9 @@
             "cordova-plugin-dialogs": {}
         },
         "platforms": [
-            "ios",
             "android",
-            "browser"
+            "browser",
+            "ios"
         ]
     },
     "devDependencies": {

@@ -95,14 +95,17 @@
       </div>
      
 
-       
 
       <!-- service_point -->
       <div v-if="shippingMethod == 'service_point' && pointSelected" class="card panel-item" style="border-radius: 10px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; margin: 20px 5px; border: none;">
         <div class="card-body parcelshop-card-body">
-          <div class="card-title" style="font-weight: 500; margin-bottom: 3px;">
-  					<img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
-  					{{ pointSelected.carrier }}
+          <div v-if="pointSelected.carrier == 'chronopost'" class="card-title" style="font-weight: 500; margin-bottom: 3px;">
+  					<img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+            Shop2Shop
+          </div>
+          <div v-else class="card-title" style="font-weight: 500; margin-bottom: 3px;">
+            <img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+            {{ pointSelected.carrier }}
           </div>
           <div class="card-text" style="font-weight: 400; line-height: 20px; font-size: 14px;">
             <div>{{ pointSelected.name }}</div>
@@ -123,7 +126,8 @@
         </div>
         <div class="top-author--container" style="">
           <div @click="showRelayPopup()" class="top-author--item">
-            <img v-if="pointSelected && pointSelected.carrier" :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
+            <img v-if="pointSelected && pointSelected.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
+            <img v-else-if="pointSelected && pointSelected.carrier" :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <div>
               <span style="text-transform: capitalize;">Point relais</span>
@@ -353,7 +357,8 @@
                   <div style="margin-top: -26px;margin-bottom: 15px;text-align: center;border: 1px solid #ff2773;padding: 3px;margin: -33px auto 18px;width: 130px;background: #ff2773;border-radius: 50px;font-weight: 500;color: #fff;text-transform: none;font-size: 13px;">
                     Le plus proche
                   </div>
-                  <img :src="require(`@/assets/img/` + mapSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+                  <img v-if="mapSelected.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+                  <img v-else :src="require(`@/assets/img/` + mapSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
                   {{ mapSelected.name }} 
                 </div>
                 <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
@@ -369,17 +374,20 @@
 	    		</div>
 		    </div>
 		    <div v-if="tabList">
-          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="border-radius: 10px;margin: 15px 5px;border: none;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
+          <div v-if="points" v-for="(point, index) in sortedPoints" class="card panel-item" style="border-radius: 10px;margin: 15px 5px;border: none;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
             <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
               <div class="card-title" style="font-weight: 500; margin-bottom: 4px;">
-                <img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+                <img v-if="point.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+                <img v-else :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
                 {{ point.name }} 
               </div>
               <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
                 <div>{{ point.house_number }} {{ point.street }}</div>
                 <div>{{ point.zip }} {{ point.city }}</div>
+                <div v-if="point.distance > 1000" style="text-transform: lowercase;color: #ff2773;font-size: 13px;margin-top: 3px;"> {{ (point.distance / 1000).toFixed(2).replace(".", ",") }}km</div>
+                <div v-else style="text-transform: lowercase;color: #ff2773;font-size: 13px;margin-top: 3px;"> {{ point.distance }}m</div>
               </div>
-              <span v-if="shippingProducts && shippingProducts.service_point && service.carrier == point.carrier" v-for="service in shippingProducts.service_point" style="float: right;margin-top: -43px;font-weight: 400;font-size: 14px;">
+              <span v-if="shippingProducts && shippingProducts.service_point && service.carrier == point.carrier" v-for="service in shippingProducts.service_point" style="float: right;margin-top: -52px;font-weight: 400;font-size: 14px;">
                 {{ service.price | formatPrice }}€
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;margin-left: 7px;margin-bottom: 3px;">
                   <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z">
@@ -405,8 +413,13 @@
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
       	<div class="card panel-item" style="border: none;">
           <div class="card-body parcelshop-card-body" style="padding: 5px;">
-            <div class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
-              <img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> Transporteur
+            <div v-if="point.carrier == 'chronopost'" class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
+              <img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
+              Shop2Shop
+            </div>
+            <div v-else class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
+              <img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
+              {{ point.carrier }}
             </div>
             <div class="card-text">
               <div style="font-weight: 600;font-size: 20px;margin-bottom: 7px;"> {{ point.name }}</div>
@@ -605,6 +618,7 @@ export default {
     }
   },
   created() {
+    // window.StatusBar.backgroundColorByName('white')
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
@@ -744,7 +758,7 @@ export default {
 
 	      console.log(this.center);
 	      window.cordova.plugin.http.setDataSerializer('json');
-	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "carrier": "mondial_relay,chronopost", "radius": "10000" }, {}, (response) => {
+	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "carrier": "mondial_relay,chronopost", "radius": "20000" }, {}, (response) => {
 	        this.points = JSON.parse(response.data);
 	        this.points.map((point) => {
 		        var marker = {
@@ -758,6 +772,19 @@ export default {
 			        this.mapSelected = point;
 	        	}
 	        });
+
+          this.sortedPoints = this.points.sort((a, b) => {
+            if (a.carrier === "mondial_relay" && b.carrier === "mondial_relay") {
+              return a.distance - b.distance;
+            }
+            if (a.carrier === "mondial_relay") {
+              return -1;
+            }
+            if (b.carrier === "mondial_relay") {
+              return 1;
+            }
+            return 0;
+          });
 	      }, function(response) {
 	        console.log(response.error);
 	      });
@@ -776,6 +803,7 @@ export default {
       this.popupRelayInfo = false;
 
       this.shippingProducts.service_point.map((method) => {
+        console.log(method);
       	if (method.carrier == point.carrier) {
       		if (this.shippingPrice) {
 	      		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);

@@ -355,16 +355,16 @@ export default {
       this.popupUserRegistration = true;
     },
     resetPassword() {
-      this.errorEmailRecovery = false;
+      // this.errorEmailRecovery = false;
 
       // envoyer mail pour reinitialiser mdp
-      if (!this.forgotEmail) {
-        this.errorEmailRecovery = true;
-      }
+      // if (!this.forgotEmail) {
+      //   this.errorEmailRecovery = true;
+      // }
 
-      if (!this.errorEmailRecovery && !this.isReset) {
-        this.isReset = true;
-      }
+      // if (!this.errorEmailRecovery && !this.isReset) {
+      //   this.isReset = true;
+      // }
     },
     openUrl(url) {
       window.SafariViewController.isAvailable((available) => {
