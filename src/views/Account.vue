@@ -324,7 +324,7 @@ export default {
       this.$router.push({ name: 'ListFollowing' });
     },
     goToVendorRegistration() {
-      this.$router.push({ name: 'VendorRegistrationStep1' });
+      this.$router.push({ name: 'VendorRegistrationStep2' });
     },
     goToInfluencerRegistration() {
       this.$router.push({ name: 'InfluencerRegistration' });

@@ -233,6 +233,14 @@ body.dark-mode {
   overflow: auto
 }
 
+.checkout__body::-webkit-scrollbar {
+  display: none;
+}
+.checkout__body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .checkout__close-btn {
   position: absolute;
   left: 0;

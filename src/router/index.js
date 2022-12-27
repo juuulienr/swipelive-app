@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Welcome from '@/views/Welcome'
-import AllowNotif from '@/views/AllowNotif'
 import Onboarding from '@/views/Onboarding'
 import VendorRegistrationStep1 from '@/views/VendorRegistrationStep1'
 import VendorRegistrationStep2 from '@/views/VendorRegistrationStep2'
@@ -24,9 +23,9 @@ import Order from '@/views/Order'
 import Account from '@/views/Account'
 import EditUser from '@/views/EditUser'
 
-import Discount from '@/views/vendor/Discount'
 import Shop from '@/views/vendor/Shop'
 import Partner from '@/views/vendor/Partner'
+import Discount from '@/views/vendor/Discount'
 import ListFollowing from '@/views/ListFollowing'
 import AddProduct from '@/views/vendor/AddProduct'
 import EditProduct from '@/views/vendor/EditProduct'
@@ -47,11 +46,7 @@ export default new Router({
       name: 'Welcome',
       component: Welcome
     }, {
-      path: '/following',
-      name: 'ListFollowing',
-      component: ListFollowing
-    }, {
-      path: '/registration/influencer',
+      path: '/influencer/registration',
       name: 'InfluencerRegistration',
       component: InfluencerRegistration
     }, {
@@ -63,10 +58,6 @@ export default new Router({
       name: 'VendorRegistrationStep2',
       component: VendorRegistrationStep2
     }, {
-      path: '/allow/notif',
-      name: 'AllowNotif',
-      component: AllowNotif
-    }, {
       path: '/onboarding',
       name: 'Onboarding',
       component: Onboarding
@@ -75,9 +66,25 @@ export default new Router({
       name: 'Feed',
       component: Feed
     }, {
+      path: '/home',
+      name: 'Home',
+      component: Home
+    }, {
+      path: '/profile/:id',
+      name: 'Profile',
+      component: Profile
+    }, {
+      path: '/account',
+      name: 'Account',
+      component: Account
+    }, {
       path: '/category/:id/:name?',
       name: 'Category',
       component: Category
+    }, {
+      path: '/following',
+      name: 'ListFollowing',
+      component: ListFollowing
     }, {
       path: '/favoris',
       name: 'Favoris',
@@ -86,6 +93,10 @@ export default new Router({
       path: '/roulette',
       name: 'SwipeRoulette',
       component: SwipeRoulette
+    }, {
+      path: '/checkout',
+      name: 'Checkout',
+      component: Checkout
     }, {
       path: '/products/add',
       name: 'AddProduct',
@@ -98,10 +109,6 @@ export default new Router({
       path: '/product/:id?',
       name: 'Product',
       component: Product
-    }, {
-      path: '/checkout',
-      name: 'Checkout',
-      component: Checkout
     }, {
       path: '/prelive/step1',
       name: 'PreLive',
@@ -122,18 +129,6 @@ export default new Router({
       path: '/clips',
       name: 'ClipsVendor',
       component: ClipsVendor
-    }, {
-      path: '/home',
-      name: 'Home',
-      component: Home
-    }, {
-      path: '/profile/:id',
-      name: 'Profile',
-      component: Profile
-    }, {
-      path: '/account',
-      name: 'Account',
-      component: Account
     }, {
       path: '/vendor/shop',
       name: 'Shop',

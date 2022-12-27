@@ -379,12 +379,6 @@ export default {
         }
       });
     },
-    goInfluencer() {
-      this.$router.push({ name: 'InfluencerRegistration' });
-    },
-    goVendor() {
-      this.$router.push({ name: 'VendorRegistrationStep1' });
-    },
     async register() {
       this.errorFirstname = false;
       this.errorLastname = false;
@@ -438,7 +432,7 @@ export default {
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
         var result = JSON.parse(response.data);
         window.localStorage.setItem("token", result.token);
-        this.$router.push({ name: 'AllowNotif' });
+        this.$router.push({ name: 'Onboarding' });
       }, (response) => {
         this.loading = false;
         console.log(response.error);
