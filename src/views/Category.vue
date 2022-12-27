@@ -16,8 +16,8 @@
         <div v-if="product.archived == false" v-for="product in category.products" class="shop--item">
           <div>
             <div>
-              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="max-height: 150px; width: 100%;">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="max-height: 150px; width: 100%;">
+              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%;">
+              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%;">
             </div>
           </div>
           <div class="shop--item--details">

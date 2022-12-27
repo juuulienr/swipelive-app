@@ -496,7 +496,7 @@
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-username-holder2">
             <div class="video-page__influencer-username2" style="font-size: 15px;">{{ feed.value.vendor.businessName }}</div>
           </div>
-          <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 25px; left: 7px; border-radius: 50px; padding: 5px;">
+          <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; left: 18px; border-radius: 50px; padding: 5px;">
 	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; border: 1px solid white; border-radius: 100px;"><defs></defs>
               <path style="fill: white;" d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
               <path style="fill: #ff2773;" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
@@ -570,13 +570,11 @@
                   <div class="video-page__price-line">
                     <div class="video-page__price"> {{ feed.value.product.price| formatPrice }}€ 
                       <span style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 500;" v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice| formatPrice }}€</span> 
+                      <span style="font-size: 12px;color: white;background: rgba(255, 39, 115, 0.75);padding: 4px 8px;border-radius: 50px;font-weight: 400; margin-left: 10px;">-20%</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div  class="video-page__influencer-username-holder">
-              <div style="font-size: 12px;color: white;background: rgba(255, 39, 115, 0.75);padding: 4px 8px;border-radius: 50px;font-weight: 400;">-20%</div>
             </div>
           </div>
         </div>
@@ -664,7 +662,7 @@
 
 
     <!-- product popup -->
-    <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; padding-bottom: 80px;">
+    <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; padding-bottom: 120px;">
       <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;"><path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/></svg>
       <svg width="24px" height="24px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true" focusable="false" style="width: 30px;height: 30px;fill: white;border-radius: 30px;position: absolute;top: 20px;right: 20px;z-index: 100000000;">
         <g transform="matrix( 1 0 0 1 1 2 )">
@@ -675,12 +673,10 @@
       </svg>
       <Product :product="product" @clicked="onClickChild"/>
     </div>
-    <div v-if="popupProduct" style="background-color: white;bottom: calc(env(safe-area-inset-top) + 0px); position: fixed; z-index: 2147483647;">
-      <div style="background-color: white; bottom: 25px; position: fixed; z-index: 2147483647;">
-        <div style="padding: 15px 20px 25px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
-          <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
-          <div @click="goCheckout()" class="btn-swipe" style="text-align: center;width: calc(50vw - 25px);padding: 14px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px;background: rgb(24, 206, 160);color: rgb(255, 255, 255) !important;height: 50px;">Acheter</div>
-        </div>
+    <div v-if="popupProduct" style="background-color: white;bottom: calc(env(safe-area-inset-bottom) + 0px); position: fixed; z-index: 1000000001;">
+      <div style="padding: 15px 20px 25px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
+        <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
+        <div @click="goCheckout()" class="btn-swipe" style="text-align: center;width: calc(50vw - 25px);padding: 14px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px;background: rgb(24, 206, 160);color: rgb(255, 255, 255) !important;height: 50px;">Acheter</div>
       </div>
     </div>
 
@@ -721,8 +717,8 @@
           <div v-if="product.archived == false" v-for="product in shop.products" class="shop--item">
             <div>
               <div>
-                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="max-height: 150px; width: 100%;">
-                <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="max-height: 150px; width: 100%;">
+                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%;">
+                <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%;">
               </div>
             </div>
             <div class="shop--item--details">
@@ -797,7 +793,7 @@ export default {
       cart: true,
       safeareaBottom: '0px',
       safeareaBottom2: '57px',
-      safeareaBottom3: '175px',
+      safeareaBottom3: '185px',
       safeareaTop: '0px',
       safeareaTop2: '62px',
       safeareaTop4: '100px',
@@ -855,7 +851,7 @@ export default {
     if (window.cordova && window.cordova.platformId === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
-      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 175px)';
+      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 62px)';
       this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 60px)';
@@ -871,7 +867,7 @@ export default {
     if (window.cordova && window.cordova.platformId === "android") {
       this.safeareaBottom = "25px";
       this.safeareaBottom2 = "82px";
-      this.safeareaBottom3 = "200px";
+      this.safeareaBottom3 = "210px";
       this.safeareaTop = '25px';
       this.safeareaTop2 = '87px';
       this.safeareaTop3 = '85px';

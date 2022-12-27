@@ -48,7 +48,7 @@
       </div>
       <hr>
       <div style="padding: 5px;">Échanges & Retours</div>
-      <div style="font-weight: 400; padding: 5px; font-size: 12Px; color: rgb(82, 92, 102);">
+      <div style="font-weight: 400; padding: 5px; font-size: 14px; color: rgb(82, 92, 102);">
         Les marques sont responsables du remplacement des produits qui arrivent endommagés ou perdus lors de la livraison. Swipe Live n'accepte pas les retours ni les échanges. 
         <br> <br> 
         Dans l'un de ces cas, veuillez contacter la marque via la messagerie pour résoudre le problème. Assurez-vous d'inclure votre numéro de commande, le nom du produit et la raison.

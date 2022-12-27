@@ -704,7 +704,7 @@ export default {
       safeareaTop2: '7px',
       safeareaBottom: '0px',
       safeareaBottom2: '57px',
-      safeareaBottom3: '175px',
+      safeareaBottom3: '185px',
       writeInput: '0px',
       content: "",
       countdown: 3,
@@ -773,7 +773,7 @@ export default {
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 7px)';
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
-      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 175px)';
+      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "Eqza0IhJO8JKQTs37D0VKQ");
@@ -785,7 +785,7 @@ export default {
       this.safeareaTop2 = '32px';
       this.safeareaBottom = '25px';
       this.safeareaBottom2 = '82px';
-      this.safeareaBottom3 = '200px';
+      this.safeareaBottom3 = '210px';
 
       if (!this.bambuserId) {
         window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");

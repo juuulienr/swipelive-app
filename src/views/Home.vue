@@ -78,9 +78,9 @@
           <div v-for="(clip, index) in clips" class="col-6 col-img">
             <router-link :to="{ name: 'ListClips', params: { type: 'trending', index: index }}">
               <div class="checkout__header" style="z-index: 15; width: calc(100% - 10px); position: absolute; padding: 0.5rem 0px 0px;">
-                <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: lowercase;"> 
-                  <img v-if="clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 30px; height: 30px; border: 1px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px;">
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 30px; height: 30px; border: 1px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px;">
+                <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize;"> 
+                  <img v-if="clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px;">
+                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px;">
                   {{ clip.vendor.businessName }}
                 </div>
               </div>
