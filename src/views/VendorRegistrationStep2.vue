@@ -66,7 +66,7 @@
             </fieldset>
           </div>
         </div>
-        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">Vous devez avoir plus de 18 ans</div>
+        <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -15px;">Vous devez avoir plus de 18 ans</div>
 
         <VuePhoneNumberInput v-model="user.phone" :translations="{
           countrySelectorLabel: 'Code pays',
@@ -77,6 +77,8 @@
           :preferred-countries="['FR', 'BE', 'LU', 'CH']"
           @update="onUpdate"
         />
+        <div v-if="errorPhone && user.phone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
+        <div v-else-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le téléphone est obligatoire</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>

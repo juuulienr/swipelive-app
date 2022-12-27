@@ -595,7 +595,6 @@ export default {
       errorZip: false,
       errorCity: false,
       errorCountry: false,
-      errorPhone: false,
       name: null,
       phone: null,
       address: null,
@@ -694,14 +693,9 @@ export default {
       this.errorZip = false;
       this.errorCity = false;
       this.errorCountry = false;
-      this.errorPhone = false;
 
       if (!this.name) {
         this.errorName = true;
-      }
-
-      if (!this.phone) {
-        this.errorPhone = true;
       }
 
       if (!this.address) {
@@ -738,7 +732,7 @@ export default {
         	this.errorCountry = true;
     	}
 
-      if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
+      if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry) {
         this.popupShippingAddress = false;
         this.shippingAddress = true;
 
@@ -994,10 +988,7 @@ export default {
     },
     onUpdate(event) {
       if (event.isValid) {
-        this.errorPhone = false;
         this.phone = event.e164;
-      } else {
-        this.errorPhone = true;
       }
       console.log(event);
     }

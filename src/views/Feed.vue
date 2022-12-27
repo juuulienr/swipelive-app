@@ -241,6 +241,7 @@
           <div class="video-page__product-top">
             <div class="video-page__image">
               <img v-if="feed.value.liveProducts[display - 1].product.uploads" :src="cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
+              <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
             </div>
             <div class="video-page__info">
               <div style="height: 38px;">
@@ -543,7 +544,7 @@
             <div class="video-page__influencer-badge" style="padding: 4px 10px 5px 10px; margin-top: 0px; border-radius: 11px; background-color: rgba(255, 255, 255, 0.075); letter-spacing: 0.05px; margin-right: 0px">
               <div class="video-page__influencer-username-holder">
                 <div class="video-page__influencer-username" style="line-height: 18px;"> 
-                  <div v-if="comment.isVendor" style="font-size: 13px; font-weight: 600; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ user.vendor.businessName }}</div>
+                  <div v-if="comment.isVendor && user.vendor" style="font-size: 13px; font-weight: 600; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ user.vendor.businessName }}</div>
                   <div v-else style="font-size: 13px;margin-right: 3px;font-weight: 600;text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
                   <div style="font-weight: 400; font-size: 14px; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ comment.content }}</div>
                 </div>
@@ -673,8 +674,8 @@
       </svg>
       <Product :product="product" @clicked="onClickChild"/>
     </div>
-    <div v-if="popupProduct" style="background-color: white;bottom: calc(env(safe-area-inset-bottom) + 0px); position: fixed; z-index: 1000000001;">
-      <div style="padding: 15px 20px 25px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
+    <div v-if="popupProduct" style="background-color: white;bottom: 0px; position: fixed; z-index: 1000000001;">
+      <div style="padding: 15px 20px 50px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
         <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
         <div @click="goCheckout()" class="btn-swipe" style="text-align: center;width: calc(50vw - 25px);padding: 14px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px;background: rgb(24, 206, 160);color: rgb(255, 255, 255) !important;height: 50px;">Acheter</div>
       </div>
