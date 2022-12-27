@@ -3,8 +3,7 @@ import Router from 'vue-router'
 
 import Welcome from '@/views/Welcome'
 import Onboarding from '@/views/Onboarding'
-import VendorRegistrationStep1 from '@/views/VendorRegistrationStep1'
-import VendorRegistrationStep2 from '@/views/VendorRegistrationStep2'
+import VendorRegistration from '@/views/VendorRegistration'
 import InfluencerRegistration from '@/views/InfluencerRegistration'
 
 import Feed from '@/views/Feed'
@@ -50,13 +49,9 @@ export default new Router({
       name: 'InfluencerRegistration',
       component: InfluencerRegistration
     }, {
-      path: '/vendor/step1',
-      name: 'VendorRegistrationStep1',
-      component: VendorRegistrationStep1
-    }, {
-      path: '/vendor/step2/:businessType',
-      name: 'VendorRegistrationStep2',
-      component: VendorRegistrationStep2
+      path: '/vendor/registration',
+      name: 'VendorRegistration',
+      component: VendorRegistration
     }, {
       path: '/onboarding',
       name: 'Onboarding',
