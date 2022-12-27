@@ -30,9 +30,7 @@ import AddProduct from '@/views/vendor/AddProduct'
 import EditProduct from '@/views/vendor/EditProduct'
 import ClipsVendor from '@/views/vendor/ClipsVendor'
 import PreLive from '@/views/vendor/PreLive'
-import PreLive2 from '@/views/vendor/PreLive2'
 import Live from '@/views/vendor/Live'
-import PostLive from '@/views/vendor/PostLive'
 import ListClips from '@/views/ListClips'
 import Wallet from '@/views/vendor/Wallet'
 
@@ -105,21 +103,13 @@ export default new Router({
       name: 'Product',
       component: Product
     }, {
-      path: '/prelive/step1',
+      path: '/prelive',
       name: 'PreLive',
       component: PreLive
-    }, {
-      path: '/prelive/step2/:id',
-      name: 'PreLive2',
-      component: PreLive2
     }, {
       path: '/live/:id',
       name: 'Live',
       component: Live
-    }, {
-      path: '/postlive/:id',
-      name: 'PostLive',
-      component: PostLive
     }, {
       path: '/clips',
       name: 'ClipsVendor',

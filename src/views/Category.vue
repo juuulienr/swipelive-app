@@ -11,7 +11,7 @@
     </div>
 
 
-    <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
+    <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px; padding-top: 10px;">
       <div v-if="category && category.products.length" class="shop--part" style="margin: 0px 5px;">
         <div v-if="product.archived == false" v-for="product in category.products" class="shop--item">
           <div>
@@ -40,7 +40,7 @@
     </div>
     <div v-if="popupProduct" style="background-color: white;bottom: 25px; position: fixed; z-index: 2147483647;">
       <div style="padding: 15px 15px 25px; background-color: white; width: 100vw;">
-        <div @click="goCheckout()" class="btn-swipe2" style="border-radius: 10px; width: 100%;">
+        <div @click="goCheckout()" class="btn-swipe2" style="border-radius: 10px; width: 100%; background: rgb(24, 206, 160); color: white !important; font-weight: 600; margin: 0 auto; padding: 12px 36px; font-size: 15px; text-align: center;">
         	Acheter
         </div>
       </div>
@@ -50,104 +50,6 @@
   </main>
 </template>
 
-
-<style scoped>
-
-.shop_3 .items {
-  padding-top: 10px;
-}
-
-.shop_3 .items .one_item {
-  margin: 0px 0px 2vh;
-}
-
-.shop_3 .items .one_item .img_item img {
-  width: calc(50vw - 45px);
-  height: calc(50vw - 45px);
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-.shop_3 .items .one_item .info_item {
-  padding: 1.5vh 0 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.shop_3 .items .one_item .info_item p {
-  margin-bottom: 3px;
-}
-
-.shop_3 .items .one_item .info_item .price {
-  color: #5882f2;
-  font-size: 0.8em;
-}
-
-.shop_3 .items .one_item .info_item .title {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.shop_3 .items .one_item .info_item .disc {
-  color: #fff;
-  background-color: #ff0000;
-  font-size: 13px;
-  padding: 1.5px 6px;
-  border-radius: 3px;
-}
-
-.shop_3 .items .one_item .shop_icon img {
-  width: 9vw;
-}
-
-.store-products-item__login-popup::-webkit-scrollbar {
-  display: none;
-}
-.store-products-item__login-popup {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.store-products-item__login-popup.store-products-item__login-popup--active {
-    bottom: 0;
-}
-
-.store-products-item__login-popup {
-  position: fixed;
-  width: 100%;
-  bottom: -80%;
-  background-color: #fff;
-  border-radius: 15px;
-  animation-duration: 400ms !important;
-  animation-iteration-count: 1 !important;
-  animation-fill-mode: both !important;
-  animation-name: keyframe_d37zz3 !important;
-  z-index: 1000000000;
-}
-
-.btn-swipe2 {
-  background: rgb(24, 206, 160);
-  color: white !important;
-  font-weight: 600;
-  margin: 0 auto;
-  padding: 12px 36px;
-  font-size: 15px;
-  text-align: center;
-}
-
-@keyframes keyframe_d37zz3 {
-  0% {
-    opacity: 0;
-    transform: translate(0px, 100%);
-  }
-
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
-</style>
 
 <script>
 

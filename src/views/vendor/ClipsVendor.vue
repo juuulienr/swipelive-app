@@ -15,7 +15,7 @@
           <div v-for="clip in clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: calc(100% - 10px)">
-              <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;">
+              <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
                 <button class="remove-photo c-button c-button--filled c-button--small c-button--primary c-button--inline c-button--inverse c-button--truncatedc-button--icon-left c-button--without-text" type="button" style="border-radius: 100%; height: 34px;">
                   <span class="c-button__content">
                     <span class="c-button__icon">
@@ -59,25 +59,6 @@
 </template>
 
 
-<style scoped>
-header {
-  display: grid;
-  margin: 0px 20px;
-  grid-auto-flow: column;
-  justify-content: space-between;
-  height: 50px;
-  align-items: center;
-}
-header img {
-  width: 24px;
-  height: 24px;
-}
-
-.photo-box__delete-button {
-  right: 15px;
-  top: 15px;
-}
-</style>
 
 <script>
 

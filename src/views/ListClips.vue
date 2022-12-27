@@ -331,30 +331,6 @@
   </div>
 </template>
 
-<style scoped>
-.feed::-webkit-scrollbar {
-  display: none;
-}
-.feed {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollToMe::-webkit-scrollbar {
-  display: none;
-}
-.scrollToMe {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.store-products-item__login-popup::-webkit-scrollbar {
-  display: none;
-}
-.store-products-item__login-popup {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-</style>
-
 <style>
 .feed iframe {
   height: 100vh !important;

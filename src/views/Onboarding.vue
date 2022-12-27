@@ -101,12 +101,12 @@ export default {
   },
   data() {
     return {
+      defaultOptions: {animationData: animationData},
+      animationSpeed: 1,
       notif: true,
       step1: false,
       step2: false,
       step3: false,
-      defaultOptions: {animationData: animationData},
-      animationSpeed: 1,
     }
   },
   created() {

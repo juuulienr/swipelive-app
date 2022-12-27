@@ -6,11 +6,12 @@
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
-      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Articles</div>
+      <div v-if="step1" class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Articles</div>
+      <div v-else class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Ordre de passage</div>
     </div>
 
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 85px;">
-      <div class="items">
+      <div v-if="step1" class="items">
         <div class="my_form_check" style="font-size: 14px; color: #525c66; font-weight: 500; margin-right: 9px;">
           Tous les articles
           <label for="sliderAll" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -51,13 +52,41 @@
           </div>
         </div>
 
-        <div @click="submit()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px);">
+        <div @click="goStep2()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px);">
           <span v-if="loading">
             <svg viewBox="25 25 50 50" class="loading">
               <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
             </svg>
           </span>
           <span v-else>Continuer</span>
+        </div>
+      </div>
+      <div v-if="step2" class="items">
+        <p style="padding-top: 20px; margin-bottom: 0px; text-align: center; font-weight: 400">Déplacer les articles par ordre de passage.</p>
+        <div v-if="live.liveProducts.length" class="one_item">
+          <draggable :list="live.liveProducts" :move="checkMove" @start="dragging = true" @end="dragging = false">
+            <div v-for="(element, index) in live.liveProducts" :key="element.id" class="row align-items-center" style="margin: 15px 5px; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 10px; border-radius: 20px;">
+              <div class="col-1">
+                <div style="font-size: 18px; color: rgb(99, 115, 129);">{{ index + 1 }}</div>
+              </div>
+              <div class="col-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 20px; height: 20px; margin-left: -5px; fill: rgb(99, 115, 129);"><path d="M424 392H23.1C10.8 392 0 402.8 0 415.1C0 429.2 10.8 440 23.1 440H424c13.2 0 24-10.8 24-23.1C448 402.8 437.2 392 424 392zM424 72H23.1C10.8 72 0 82.8 0 95.1S10.8 120 23.1 120H424c13.2 0 24-10.8 24-23.1S437.2 72 424 72zM424 232H23.1C10.8 232 0 242.8 0 256c0 13.2 10.8 24 23.1 24H424C437.2 280 448 269.2 448 256S437.2 232 424 232z"/></svg>
+              </div>
+              <div class="col-3 col-img">
+                <div class="img_item">
+                  <img v-if="element.product.uploads.length" :src="cloudinary256x256 + element.product.uploads[0].filename" style="width: 52px; height: 52px; border-radius: 12px; object-fit: cover;">
+                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 52px; height: 52px; border-radius: 12px; object-fit: cover;">
+                </div>
+              </div>
+              <div class="col-6" style="padding-left: 0px; padding-right: 0px;">
+                <div class="info">
+                  <div class="title" style="text-decoration: none; color: rgb(33, 43, 54); line-height: 1.57143; font-size: 15px;">{{ element.product.title }}</div>
+                </div>
+              </div>
+            </div>
+          </draggable>
+
+          <div @click="submit()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 40px);">Continuer</div>
         </div>
       </div>
     </div>
@@ -359,12 +388,31 @@ img {
   font-size: 15px;
 }
 
+.products .items .col-img {
+  padding-right: 0;
+}
+
+.products .items .one_item {
+  padding: 1vh 0;
+}
+
+.products .items .one_item .title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
 </style>
 
 <script>
 
+import draggable from 'vuedraggable';
+
 export default {
   name: 'PreLive',
+  components: {
+    draggable
+  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -377,8 +425,13 @@ export default {
       checked: [],
       stocks: [],
       prices: [],
+      step1: true,
+      step2: false,
       isCheckAll: true,
-      loading: false
+      loading: false,
+      live: [],
+      dragging: false,
+      pending: false
     }
   },
   filters: {
@@ -422,7 +475,7 @@ export default {
     });
   },
   methods: {
-    async submit() {
+    async goStep2() {
       console.log(this.selected);
 
       if (this.selected.length > 0 && !this.pending) {
@@ -432,12 +485,15 @@ export default {
         window.cordova.plugin.http.setDataSerializer('json');
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/prelive", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
           var result = JSON.parse(response.data);
-          if (result) {
-            if (this.selected.length > 1) {
-              this.$router.push({ name: 'PreLive2', params: { id: result.id } });
-            } else {
-              this.$router.push({ name: 'Live', params: { id: result.id } });
-            }
+          this.live = result;
+          console.log(this.liveProducts);
+
+          if (this.selected.length > 1) {
+            this.step1 = false;
+            this.step2 = true;
+            this.loading = false;
+          } else {
+            this.$router.push({ name: 'Live', params: { id: result.id } });
           }
         }, (response) => {
           this.loading = false;
@@ -474,7 +530,33 @@ export default {
       }
     },
     goBack() {
-      this.$router.push({ name: 'Account' });
+      if (this.step1) {
+        this.$router.push({ name: 'Account' });
+      } else {
+        this.step2 = false;
+        this.step1 = true;
+      }
+    },
+    checkMove(event) {
+      console.log(event);
+    },
+    async submit() {
+      if (!this.pending) {
+        this.pending = true;
+        this.live.liveProducts.map((element, key) => { 
+          var priority = key + 1;
+          
+          window.cordova.plugin.http.setDataSerializer('json');
+          window.cordova.plugin.http.put(this.baseUrl + "/user/api/liveproducts/edit/" + element.id, { "priority": priority }, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => {
+            this.pending = false;
+            console.log(response.error);
+          });
+        });
+
+        if (this.pending) {
+          this.$router.push({ name: 'Live', params: { id: this.live.id } });
+        }
+      }
     },
   }
 };

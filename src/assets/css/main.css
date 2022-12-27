@@ -1477,6 +1477,45 @@ svg.loading circle {
   margin: 0px 0px 0px 4px;
 }
 
+
+.store-products-item__login-popup::-webkit-scrollbar {
+  display: none;
+}
+.store-products-item__login-popup {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.store-products-item__login-popup.store-products-item__login-popup--active {
+  bottom: 0;
+}
+
+.store-products-item__login-popup {
+  position: fixed;
+  width: 100%;
+  bottom: -80%;
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  animation-duration: 400ms !important;
+  animation-iteration-count: 1 !important;
+  animation-fill-mode: both !important;
+  animation-name: keyframe_d37zz3 !important;
+  z-index: 1000000000;
+}
+
+@keyframes keyframe_d37zz3 {
+  0% {
+    opacity: 0;
+    transform: translate(0px, 100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
