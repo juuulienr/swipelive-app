@@ -49,15 +49,13 @@
           </fieldset>
         </div>
 
-        <VuePhoneNumberInput v-model="user.phone" :translations="{
-          countrySelectorLabel: 'Code pays',
-          countrySelectorError: 'Choisir un pays',
-          phoneNumberLabel: 'Numéro de téléphone',
-          example: 'Exemple :'}"
-          :border-radius="10"
-          :preferred-countries="['FR', 'BE', 'LU', 'CH']"
-          @update="onUpdate"
-        />
+        <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
+          <fieldset>
+            <legend>Téléphone</legend>
+            <input type="text" v-model="user.phone" inputmode="decimal">
+          </fieldset>
+        </div>
+        <div v-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
 
 
         <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px; margin-top: 55px;">Informations vendeur</h2>
@@ -129,69 +127,13 @@
 </template>
 
 
-<style scoped>
-.btn-follow .btn {
-  background: #ff2773;
-  -webkit-box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
-  box-shadow: 0px 0px 9px -2px rgb(0 0 0 / 50%);
-  padding: 10px 42px;
-  font-weight: bold;
-  margin: 10px 0px;
-  border-radius: 30px;
-}
-</style>
-
-
-<style>
-
-.vue-phone-number-input {
-  margin-bottom: 34px !important;
-}
-.country-selector__input {
-  border: 2px solid #e0e3eb !important;
-  height: 50px !important;
-  font-weight: 500 !important;
-  color: #525c66 !important;
-}
-
-.input-tel__input {
-  border: 2px solid #e0e3eb !important;
-  height: 50px !important;
-  box-shadow: none !important;
-  font-weight: 500 !important;
-  color: #525c66 !important;
-}
-
-.country-selector__country-flag {
-  top: 25px !important;
-}
-
-.input-tel__label {
-  color: #525c66 !important;
-}
-
-.country-selector__label {
-  color: #525c66 !important;
-}
-
-.dots-text {
-  color: #525c66 !important;
-}
-
-button.flex.align-center.country-selector__list__item.selected {
-  background: white !important;
-}
-</style>
-
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import VuePhoneNumberInput from 'vue-phone-number-input';
-import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
 export default {
   name: 'EditUser',
-  components: { VueGoogleAutocomplete, VuePhoneNumberInput },
+  components: { VueGoogleAutocomplete },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -199,6 +141,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       showAutocomplete: false,
+      errorPhone: false,
       errorEmail: false,
       errorFirstname: false,
       errorLastname: false,
@@ -222,6 +165,7 @@ export default {
   methods: {
     async submit() {
       event.preventDefault();
+      this.errorPhone = false;
       this.errorEmail = false;
       this.errorFirstname = false;
       this.errorLastname = false;
@@ -247,6 +191,15 @@ export default {
 
       if (!this.user.lastname) {
         this.errorLastname = true;
+      }
+
+      if (this.user.phone) {
+        if (!this.checkPhone(this.user.phone)) {
+          this.errorPhone = true;
+        } else {
+          this.user.phone = this.user.phone.replace(/\s/g, '');
+          console.log(this.user.phone);
+        }
       }
 
 
@@ -297,7 +250,7 @@ export default {
         }
       }
 
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry && !this.errorPhone) {
         window.cordova.plugin.http.setDataSerializer('json');
         if (this.user.vendor) {
           var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
@@ -458,15 +411,10 @@ export default {
         console.log(error);
       });
     }, 
-    onUpdate(event) {
-      if (event.isValid) {
-        this.errorPhone = false;
-        this.user.phone = event.e164;
-      } else {
-        this.errorPhone = true;
-      }
-      console.log(event);
-    }
+    checkPhone(phone) {
+      var regex = /^(?:0|00|\+)(?:\d ?){6,14}\d$/;
+      return regex.test(phone);
+    },
   }
 };
 

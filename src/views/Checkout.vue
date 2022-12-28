@@ -1,3 +1,4 @@
+
 <template>
   <main class="cart" style="padding: 0px 10px 15px;">
     <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
@@ -232,15 +233,14 @@
           </fieldset>
         </div>
 
-        <VuePhoneNumberInput v-model="phone" :translations="{
-          countrySelectorLabel: 'Code pays',
-          countrySelectorError: 'Choisir un pays',
-          phoneNumberLabel: 'Numéro de téléphone',
-          example: 'Exemple :'}"
-          :border-radius="10"
-          :preferred-countries="['FR', 'BE', 'LU', 'CH']"
-          @update="onUpdate"
-        />
+        <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
+          <fieldset>
+            <legend>Téléphone</legend>
+            <input type="text" v-model="phone" inputmode="decimal">
+          </fieldset>
+        </div>
+        <div v-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
+
 
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
@@ -358,9 +358,7 @@
             <div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="border-radius: 10px;margin: 35px 5px 22px;border: none; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
               <div class="card-body parcelshop-card-body">
                 <div class="card-title" style="font-weight: 500; margin-bottom: 4px;">
-                  <div style="margin-top: -26px;margin-bottom: 15px;text-align: center;border: 1px solid #ff2773;padding: 3px;margin: -33px auto 18px;width: 130px;background: #ff2773;border-radius: 50px;font-weight: 500;color: #fff;text-transform: none;font-size: 13px;">
-                    Le plus proche
-                  </div>
+                  <div class="map-badge">Le plus proche</div>
                   <img v-if="mapSelected.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
                   <img v-else :src="require(`@/assets/img/` + mapSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
                   {{ mapSelected.name }} 
@@ -417,16 +415,16 @@
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
       	<div class="card panel-item" style="border: none;">
           <div class="card-body parcelshop-card-body" style="padding: 5px;">
-            <div v-if="point.carrier == 'chronopost'" class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
-              <img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
+            <div v-if="point.carrier == 'chronopost'" class="card-title card-relayinfo">
+              <img :src="require(`@/assets/img/shop2shop.png`)"> 
               Shop2Shop
             </div>
-            <div v-else-if="point.carrier == 'mondial_relay'" class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
-              <img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
+            <div v-else-if="point.carrier == 'mondial_relay'" class="card-title card-relayinfo">
+              <img :src="require(`@/assets/img/` + point.carrier + `.png`)"> 
               Mondial Relay
             </div>
-            <div v-else class="card-title" style="font-size: 18px;margin-bottom: 30px;text-transform: capitalize;font-weight: 500;">
-              <img :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px;height: 40px;width: 40px;margin-right: 11px;"> 
+            <div v-else class="card-title card-relayinfo">
+              <img :src="require(`@/assets/img/` + point.carrier + `.png`)"> 
               {{ point.carrier }}
             </div>
             <div class="card-text">
@@ -438,40 +436,40 @@
           <div v-if="point.formatted_opening_times[0].length !== 0 || point.formatted_opening_times[1].length !== 0 || point.formatted_opening_times[2].length !== 0 || point.formatted_opening_times[3].length !== 0 || point.formatted_opening_times[4].length !== 0 || point.formatted_opening_times[5].length !== 0 || point.formatted_opening_times[6].length !== 0">
             <hr>
             <div style="text-transform: capitalize;line-height: 40px;">
-              <div v-if="point.formatted_opening_times[0].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[0].length" class="opening-times">
                 <div> Lundi</div>
-                <div v-if="point.formatted_opening_times[0].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[0][0] }}, {{ point.formatted_opening_times[0][1] }}</div>
-                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[0][0] }}</div>
+                <div v-if="point.formatted_opening_times[0].length > 1" class="hour">{{ point.formatted_opening_times[0][0] }}, {{ point.formatted_opening_times[0][1] }}</div>
+                <div v-else class="hour">{{ point.formatted_opening_times[0][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[1].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[1].length" class="opening-times">
                 <div> Mardi</div>
-                <div v-if="point.formatted_opening_times[1].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[1][0] }}, {{ point.formatted_opening_times[1][1] }}</div>
-                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[1][0] }}</div>
+                <div v-if="point.formatted_opening_times[1].length > 1" class="hour">{{ point.formatted_opening_times[1][0] }}, {{ point.formatted_opening_times[1][1] }}</div>
+                <div v-else class="hour">{{ point.formatted_opening_times[1][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[2].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[2].length" class="opening-times">
                 <div> Mercredi</div>
-                <div v-if="point.formatted_opening_times[2].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[2][0] }}, {{ point.formatted_opening_times[2][1] }}</div>
-                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[2][0] }}</div>
+                <div v-if="point.formatted_opening_times[2].length > 1" class="hour">{{ point.formatted_opening_times[2][0] }}, {{ point.formatted_opening_times[2][1] }}</div>
+                <div v-else class="hour">{{ point.formatted_opening_times[2][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[3].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[3].length" class="opening-times">
                 <div> Jeudi</div>
-                <div v-if="point.formatted_opening_times[3].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[3][0] }}, {{ point.formatted_opening_times[3][1] }}</div>
-                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[3][0] }}</div>
+                <div v-if="point.formatted_opening_times[3].length > 1" class="hour">{{ point.formatted_opening_times[3][0] }}, {{ point.formatted_opening_times[3][1] }}</div>
+                <div v-else class="hour">{{ point.formatted_opening_times[3][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[4].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[4].length" class="opening-times">
                 <div> Vendredi</div>
-                <div v-if="point.formatted_opening_times[4].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[4][0] }}, {{ point.formatted_opening_times[4][1] }}</div>
-                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[4][0] }}</div>
+                <div v-if="point.formatted_opening_times[4].length > 1" class="hour">{{ point.formatted_opening_times[4][0] }}, {{ point.formatted_opening_times[4][1] }}</div>
+                <div v-else class="hour">{{ point.formatted_opening_times[4][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[5].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[5].length" class="opening-times">
                 <div> Samedi</div>
-                <div v-if="point.formatted_opening_times[5].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[5][0] }}, {{ point.formatted_opening_times[5][1] }}</div>
-                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[5][0] }}</div>
+                <div v-if="point.formatted_opening_times[5].length > 1" class="hour">{{ point.formatted_opening_times[5][0] }}, {{ point.formatted_opening_times[5][1] }}</div>
+                <div v-else class="hour">{{ point.formatted_opening_times[5][0] }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[6].length" style="display: flex;justify-content: space-between;font-size: 16px;margin: 0px 20px;">
+              <div v-if="point.formatted_opening_times[6].length" class="opening-times">
                 <div> Dimanche</div>
-                <div v-if="point.formatted_opening_times[6].length > 1" style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[6][0] }}, {{ point.formatted_opening_times[6][1] }}</div>
-                <div v-else style="color: #999;font-weight: 500;">{{ point.formatted_opening_times[6][0] }}</div>
+                <div v-if="point.formatted_opening_times[6].length > 1" class="hour">{{ point.formatted_opening_times[6][0] }}, {{ point.formatted_opening_times[6][1] }}</div>
+                <div v-else class="hour">{{ point.formatted_opening_times[6][0] }}</div>
               </div>
             </div>
             <hr> 
@@ -519,55 +517,17 @@
 	border-radius: 7px !important;
 	padding: 7px 3px !important;
 }
-
-.vue-phone-number-input {
-  margin-bottom: 34px !important;
-}
-.country-selector__input {
-  border: 2px solid #e0e3eb !important;
-  height: 50px !important;
-  font-weight: 500 !important;
-}
-
-.input-tel__input {
-  border: 2px solid #e0e3eb !important;
-  height: 50px !important;
-  box-shadow: none !important;
-  font-weight: 500 !important;
-}
-
-.country-selector__country-flag {
-  top: 25px !important;
-}
-
-.input-tel__label {
-  color: #525c66 !important;
-}
-
-.country-selector__label {
-  color: #525c66 !important;
-}
-
-.dots-text {
-  color: #525c66 !important;
-}
-
-button.flex.align-center.country-selector__list__item.selected {
-  background: white !important;
-}
-
+ 
 </style>
 
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import VuePhoneNumberInput from 'vue-phone-number-input';
-import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
 
 export default {
   name: 'Checkout',
-  components: { VueGoogleAutocomplete, VuePhoneNumberInput },
+  components: { VueGoogleAutocomplete },
   data() {
     return {
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
@@ -595,6 +555,7 @@ export default {
       errorZip: false,
       errorCity: false,
       errorCountry: false,
+      errorPhone: false,
       name: null,
       phone: null,
       address: null,
@@ -693,9 +654,19 @@ export default {
       this.errorZip = false;
       this.errorCity = false;
       this.errorCountry = false;
+      this.errorPhone = false;
 
       if (!this.name) {
         this.errorName = true;
+      }
+
+      if (this.phone) {
+        if (!this.checkPhone(this.phone)) {
+          this.errorPhone = true;
+        } else {
+          this.phone = this.phone.replace(/\s/g, '');
+          console.log(this.phone);
+        }
       }
 
       if (!this.address) {
@@ -732,7 +703,7 @@ export default {
         	this.errorCountry = true;
     	}
 
-      if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry) {
+      if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
         this.popupShippingAddress = false;
         this.shippingAddress = true;
 
@@ -986,12 +957,10 @@ export default {
 	      console.log(response.error);
 	    });
     },
-    onUpdate(event) {
-      if (event.isValid) {
-        this.phone = event.e164;
-      }
-      console.log(event);
-    }
+    checkPhone(phone) {
+      var regex = /^(?:0|00|\+)(?:\d ?){6,14}\d$/;
+      return regex.test(phone);
+    },
 	}
 };
 

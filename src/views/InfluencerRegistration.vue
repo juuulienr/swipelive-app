@@ -39,7 +39,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
           <fieldset>
             <legend>Téléphone</legend>
-            <input type="text" v-model="lastname">
+            <input type="text" v-model="phone">
           </fieldset>
         </div>
 

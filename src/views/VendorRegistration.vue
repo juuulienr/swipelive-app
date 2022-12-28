@@ -110,17 +110,6 @@
         </div>
         <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -15px;">Vous devez avoir plus de 18 ans</div>
 
-        <VuePhoneNumberInput v-model="user.phone" :translations="{
-          countrySelectorLabel: 'Code pays',
-          countrySelectorError: 'Choisir un pays',
-          phoneNumberLabel: 'Numéro de téléphone',
-          example: 'Exemple :'}"
-          :border-radius="10"
-          :preferred-countries="['FR', 'BE', 'LU', 'CH']"
-          @update="onUpdate"
-        />
-        <div v-if="errorPhone && user.phone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
-        <div v-else-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le téléphone est obligatoire</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
@@ -128,6 +117,17 @@
             <input type="text" v-model="user.email" style="text-transform: lowercase;">
           </fieldset>
         </div>
+
+
+        <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
+          <fieldset>
+            <legend>Téléphone</legend>
+            <input type="text" v-model="user.phone" inputmode="decimal">
+          </fieldset>
+        </div>
+        <div v-if="errorPhone && user.phone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
+        <div v-else-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le téléphone est obligatoire</div>
+
 
         <div @click="submitStep1()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
       </div>
@@ -331,52 +331,16 @@
   padding: 7px 3px !important;
 }
 
-.vue-phone-number-input {
-  margin-bottom: 34px !important;
-}
-.country-selector__input {
-  border: 2px solid #e0e3eb !important;
-  height: 50px !important;
-}
-
-.input-tel__input {
-  border: 2px solid #e0e3eb !important;
-  height: 50px !important;
-  box-shadow: none !important;
-}
-
-.country-selector__country-flag {
-  top: 25px !important;
-}
-
-.input-tel__label {
-  color: #525c66 !important;
-}
-
-.country-selector__label {
-  color: #525c66 !important;
-}
-
-.dots-text {
-  color: #525c66 !important;
-}
-
-button.flex.align-center.country-selector__list__item.selected {
-  background: white !important;
-}
-
 
 </style>
 
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import VuePhoneNumberInput from 'vue-phone-number-input';
-import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
 export default {
   name: 'VendorRegistration',
-  components: { VueGoogleAutocomplete, VuePhoneNumberInput },
+  components: { VueGoogleAutocomplete },
   data() {
     return {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
@@ -453,6 +417,13 @@ export default {
 
       if (!this.user.phone) {
         this.errorPhone = true;
+      } else {
+        if (!this.checkPhone(this.user.phone)) {
+          this.errorPhone = true;
+        } else {
+          this.user.phone = this.user.phone.replace(/\s/g, '');
+          console.log(this.user.phone);
+        }
       }
 
       if (!this.user.picture) {
@@ -746,18 +717,11 @@ export default {
 	    }, (error) => {
 	    	console.log(error);
 	    });
-    }, 
-    onUpdate(event) {
-      console.log(event);
-      if (event.e164) {
-        if (event.isValid) {
-          this.errorPhone = false;
-          this.user.phone = event.e164;
-        } else {
-          this.errorPhone = true;
-        }
-      }
-    }
+    },
+    checkPhone(phone) {
+      var regex = /^(?:0|00|\+)(?:\d ?){6,14}\d$/;
+      return regex.test(phone);
+    },
   }  
 };
 </script>

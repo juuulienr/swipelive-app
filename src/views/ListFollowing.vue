@@ -30,7 +30,7 @@
                   <span v-else>{{user.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(user.id)" style="background-color: #eee; color: #666; text-align: center;width: fit-content;margin: 0px auto;padding: 5px 24px;border-radius: 30px;font-size: 13px;">Abonné</div>
+              <div @click="unfollow(user.id)" class="btn-follow">Abonné</div>
             </div>
           </div>
          <!--  <div v-else>
@@ -78,7 +78,7 @@
                 <span v-else>{{user.followers.length }} abonné</span>
               </div>
             </div>
-            <div @click="unfollow(user.id)" style="background-color: #eee; color: #666; text-align: center;width: fit-content;margin: 0px auto;padding: 5px 24px;border-radius: 30px;font-size: 13px;">Abonné</div>
+            <div @click="unfollow(user.id)" class="btn-follow">Abonné</div>
           </div>
         </div>
        <!--  <div v-else>
@@ -142,7 +142,16 @@
   height: 16px;
   margin-right: 4px;
 }
-
+.top-author--container .btn-follow {
+  background-color: #eee; 
+  color: #666; 
+  text-align: center;
+  width: fit-content;
+  margin: 0px auto;
+  padding: 5px 24px;
+  border-radius: 30px;
+  font-size: 13px;
+}
 
 .images_filter ul {
   background-color: #f4f6f9;

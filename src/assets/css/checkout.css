@@ -1177,3 +1177,45 @@
 .filter--choice > div > div {
     margin-left: 12px;
 }
+
+.opening-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin: 0px 20px;
+}
+
+.opening-times .hour {
+  color: #999;
+  font-weight: 500;
+}
+
+.card-relayinfo {
+  font-size: 18px;
+  margin-bottom: 30px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.card-relayinfo img {
+  border-radius: 0px;
+  height: 40px;
+  width: 40px;
+  margin-right: 11px;
+}
+
+.map-badge {
+  margin-top: -26px;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid #ff2773;
+  padding: 3px;
+  margin: -33px auto 18px;
+  width: 130px;
+  background: #ff2773;
+  border-radius: 50px;
+  font-weight: 500;
+  color: #fff;
+  text-transform: none;
+  font-size: 13px;
+}

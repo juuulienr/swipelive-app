@@ -286,7 +286,7 @@ export default {
       if (!this.loginEmail) {
         this.errorLoginEmail = true;
       } else {
-        if (!this.validEmail(this.loginEmail)) {
+        if (!this.checkEmail(this.loginEmail)) {
           this.errorLoginEmail = true;
         }
       }
@@ -388,7 +388,7 @@ export default {
       if (!this.email) {
         this.errorEmail = true;
       } else {
-        if (!this.validEmail(this.email)) {
+        if (!this.checkEmail(this.email)) {
           this.errorEmail = true;
         }
       }
@@ -421,9 +421,9 @@ export default {
         });
       }
     },
-    validEmail(email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+    checkEmail(email) {
+      var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return regex.test(email);
     },
     async authenticate() {
       var httpParams = { "username": this.email, "password": this.password };
