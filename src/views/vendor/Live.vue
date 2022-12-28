@@ -1,7 +1,7 @@
 <template>
   <div class="livestream">
 
-    <div id="player" style="height: 100vh; overflow: hidden;"></div>
+    <div v-if="browser" id="player" style="height: 100vh; overflow: hidden;"></div>
 
     <div v-if="prelive" class="prelive">
       <!-- top -->
@@ -749,6 +749,7 @@ export default {
       http: null,
       viewers: 0,
       display: 1,
+      browser: false,
       video: false,
       prelive: true,
       ready: false,
@@ -824,6 +825,10 @@ export default {
     if (window.cordova.plugin && window.cordova.plugin.http) {
       this.http = window.cordova.plugin.http;
       this.http.setDataSerializer('json');
+    }
+
+    if (window.cordova && window.cordova.platformId === "browser") {
+      this.browser = true;
     }
 
     if (window.cordova && window.cordova.platformId === "ios") {
@@ -1010,10 +1015,13 @@ export default {
         }
       }
 
-      if (this.video) {
+      if (this.browser) {
         this.video = null;
-        document.getElementById('player').remove();
+        if (document.getElementById('player')) {
+          document.getElementById('player').remove();
+        }
       }
+
       this.ready = false;
       this.performance = true;
 
