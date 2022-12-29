@@ -11,7 +11,6 @@ import Home from '@/views/Home'
 import About from '@/views/About'
 import SwipeRoulette from '@/views/SwipeRoulette'
 import Favoris from '@/views/Favoris'
-import Product from '@/views/Product'
 import Profile from '@/views/Profile'
 import Checkout from '@/views/Checkout'
 import Category from '@/views/Category'
@@ -21,17 +20,17 @@ import Message from '@/views/Message'
 import Order from '@/views/Order'
 import Account from '@/views/Account'
 import EditUser from '@/views/EditUser'
+import ListClips from '@/views/ListClips'
+
 
 import Shop from '@/views/vendor/Shop'
 import Partner from '@/views/vendor/Partner'
-import Discount from '@/views/vendor/Discount'
+import Promotion from '@/views/vendor/Promotion'
 import ListFollowing from '@/views/ListFollowing'
-import AddProduct from '@/views/vendor/AddProduct'
-import EditProduct from '@/views/vendor/EditProduct'
+import AddEditProduct from '@/views/vendor/AddEditProduct'
 import ClipsVendor from '@/views/vendor/ClipsVendor'
 import PreLive from '@/views/vendor/PreLive'
 import Live from '@/views/vendor/Live'
-import ListClips from '@/views/ListClips'
 import Wallet from '@/views/vendor/Wallet'
 
 Vue.use(Router);
@@ -43,6 +42,10 @@ export default new Router({
       name: 'Welcome',
       component: Welcome
     }, {
+      path: '/onboarding',
+      name: 'Onboarding',
+      component: Onboarding
+    }, {
       path: '/influencer/registration',
       name: 'InfluencerRegistration',
       component: InfluencerRegistration
@@ -50,10 +53,6 @@ export default new Router({
       path: '/vendor/registration',
       name: 'VendorRegistration',
       component: VendorRegistration
-    }, {
-      path: '/onboarding',
-      name: 'Onboarding',
-      component: Onboarding
     }, {
       path: '/feed',
       name: 'Feed',
@@ -91,27 +90,19 @@ export default new Router({
       name: 'Checkout',
       component: Checkout
     }, {
-      path: '/products/add',
-      name: 'AddProduct',
-      component: AddProduct
+      path: '/vendor/products/:productId?',
+      name: 'AddEditProduct',
+      component: AddEditProduct
     }, {
-      path: '/products/edit/:id',
-      name: 'EditProduct',
-      component: EditProduct
-    }, {
-      path: '/product/:id?',
-      name: 'Product',
-      component: Product
-    }, {
-      path: '/prelive',
+      path: '/vendor/prelive',
       name: 'PreLive',
       component: PreLive
     }, {
-      path: '/live/:id',
+      path: '/vendor/live/:id',
       name: 'Live',
       component: Live
     }, {
-      path: '/clips',
+      path: '/vendor/clips',
       name: 'ClipsVendor',
       component: ClipsVendor
     }, {
@@ -119,9 +110,9 @@ export default new Router({
       name: 'Shop',
       component: Shop
     }, {
-      path: '/vendor/discount',
-      name: 'Discount',
-      component: Discount
+      path: '/vendor/promotions',
+      name: 'Promotion',
+      component: Promotion
     }, {
       path: '/vendor/partner',
       name: 'Partner',

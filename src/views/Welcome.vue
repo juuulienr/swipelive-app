@@ -204,9 +204,9 @@
 
 <script>
 
-import AuthAPI from "../services/authAPI.js";
+import AuthAPI from "../utils/auth.js";
 import Lottie from 'vue-lottie';
-import * as animationData from '../assets/img/forgot-password.json';
+import * as animationData from '../assets/lottie/forgot-password.json';
   
 export default {
   name: 'Welcome',

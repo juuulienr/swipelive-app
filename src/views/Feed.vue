@@ -747,14 +747,16 @@
 
 <script>
 
-import Pusher from 'pusher-js';
-import Product from './Product';
-import Cart from './Cart';
-import { mixin as clickaway } from 'vue-clickaway';
 import Lottie from 'vue-lottie';
-import * as animationData from '../assets/img/live.json';
-import * as animationData2 from '../assets/img/arrow.json';
-import * as animationData3 from '../assets/img/confetti.json';
+import Pusher from 'pusher-js';
+import { mixin as clickaway } from 'vue-clickaway';
+
+import Product from '../components/Product';
+import Cart from '../components/Cart';
+
+import * as animationData from '../assets/lottie/live.json';
+import * as animationData2 from '../assets/lottie/arrow.json';
+import * as animationData3 from '../assets/lottie/confetti.json';
 
 export default {
   name: 'Feed',

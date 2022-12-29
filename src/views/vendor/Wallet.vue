@@ -214,7 +214,7 @@
 <script>
 
 import Lottie from 'vue-lottie';
-import * as animationData from '../../assets/img/success.json';
+import * as animationData from '../../assets/lottie/success.json';
 
 export default {
   name: 'Wallet',

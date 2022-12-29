@@ -341,8 +341,8 @@
 
 <script>
 
-import Product from './Product';
-import Cart from './Cart';
+import Product from '../components/Product';
+import Cart from '../components/Cart';
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {

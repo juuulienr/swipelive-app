@@ -106,7 +106,7 @@
 
       <div class="css-1h7d8f3" style="box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;padding: 5px 10px;margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
         <div class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2773;font-weight: 600;font-size: 16px;">Livraison prévu : 
-          <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery }}
+          <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery }}</span>
           <span v-else>-</span>
         </div>
         <div class="css-6f545k" style="margin: 20px auto; text-align: center; font-weight: 400; font-size: 14px; ">

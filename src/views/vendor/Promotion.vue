@@ -114,13 +114,13 @@
   </main>
 </template>
 
-<style scoped src="../../assets/css/discount.css"></style>
+<style scoped src="../../assets/css/promotion.css"></style>
 
 
 <script>
 
 export default {
-  name: 'Discount',
+  name: 'Promotion',
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),

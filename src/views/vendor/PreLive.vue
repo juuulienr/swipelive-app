@@ -140,7 +140,7 @@ export default {
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.products = JSON.parse(response.data);
       if (this.products.length == 0) {
-        this.$router.push({ name: 'AddProduct' });
+        this.$router.push({ name: 'AddEditProduct' });
       } else {
         this.products.map((product, key) => { 
           this.selected.push({ 'product': product.id, 'priority': key + 1 });

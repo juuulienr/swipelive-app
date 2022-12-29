@@ -96,9 +96,8 @@
 
 <script>
 
-import AuthAPI from "../services/authAPI.js";
 import Lottie from 'vue-lottie';
-import * as animationData from '../assets/img/bell.json';
+import * as animationData from '../assets/lottie/bell.json';
 
 export default {
   name: 'Onboarding',

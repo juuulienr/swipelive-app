@@ -206,8 +206,6 @@
 
 <script>
 
-import AuthAPI from "../services/authAPI.js";
-
 export default {
   name: 'InfluencerRegistration',
   data() {

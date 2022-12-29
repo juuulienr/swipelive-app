@@ -93,10 +93,10 @@ export default {
   },
   methods: {
     addProduct() {
-      this.$router.push({ name: 'AddProduct' });
+      this.$router.push({ name: 'AddEditProduct' });
     },
     editProduct(id) {
-      this.$router.push({ name: 'EditProduct', params: { id: id } });
+      this.$router.push({ name: 'AddEditProduct', params: { productId: id } });
     },
     goBack() {
       this.$router.push({ name: 'Account' });

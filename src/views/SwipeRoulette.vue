@@ -119,13 +119,9 @@
 
 <script>
 
-import Product from './Product';
 
 export default {
   name: 'Favoris',
-  components: {
-    Product,
-  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),

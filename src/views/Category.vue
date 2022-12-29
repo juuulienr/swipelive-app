@@ -33,27 +33,13 @@
     </div>
 
 
-    <!-- product popup -->
-    <!-- <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; padding-bottom: 80px;">
-      <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;"><path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/></svg>
-      <Product :product="product" @clicked="onClickChild"/>
-    </div>
-    <div v-if="popupProduct" style="background-color: white;bottom: 25px; position: fixed; z-index: 2147483647;">
-      <div style="padding: 15px 15px 25px; background-color: white; width: 100vw;">
-        <div @click="goCheckout()" class="btn-swipe2" style="border-radius: 10px; width: 100%; background: rgb(24, 206, 160); color: white !important; font-weight: 600; margin: 0 auto; padding: 12px 36px; font-size: 15px; text-align: center;">
-        	Acheter
-        </div>
-      </div>
-    </div>
- -->
-
   </main>
 </template>
 
 
 <script>
 
-import Product from './Product';
+import Product from '../components/Product';
 
 export default {
   name: 'Category',

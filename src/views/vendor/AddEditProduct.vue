@@ -6,8 +6,9 @@
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
-      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Modifier</div>
-      <div @click="deleteProduct()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
+      <div v-if="productId" class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Modifier</div>
+      <div v-else class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Ajouter</div>
+      <div v-if="productId" @click="deleteProduct()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
         <div style="color: #ff2773; font-weight: 600;">Supprimer</div>
       </div>
     </div>
@@ -24,14 +25,14 @@
         </div>
       </div>
 
-      <div v-if="images.length > 0 || loadingImg" class="content--img" style="margin-top: 15px;">
-        <div v-if="images.length" v-for="(image, index) in images" :key="image.id">
+      <div v-if="product.uploads.length > 0 || loadingImg" class="content--img" style="margin-top: 15px;">
+        <div v-for="(upload, index) in product.uploads" :key="upload.id">
           <span>
             <span>
-              <img :src="cloudinary256x256 + image.filename">
+              <img :src="cloudinary256x256 + upload.filename">
             </span>
           </span>
-          <button @click="deleteImage(index, image.id)">
+          <button @click="deleteImage(index, upload.id)">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-0 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29l-4.3 4.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4.29-4.3l4.29 4.3a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42z"></path></svg>
           </button>
         </div>
@@ -123,7 +124,7 @@
           <div v-if="variants.length" class="items">
             <div class="lasted--product">
               <div v-for="(variant, index) in variants" class="product--item" style="align-items: center;">
-                <img @click="editVariant(index)" v-if="images.length" :src="cloudinary256x256 + images[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
+                <img @click="editVariant(index)" v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
                 <div @click="editVariant(index)" class="details">
                   <div class="title">{{ variant.title }}</div>
                   <div class="price"  v-if="variant.quantity" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: rgb(34, 154, 22); font-size: 0.75rem; background-color: rgba(84, 214, 44, 0.16); font-weight: 700; padding: 0 8px; margin-top: 3px; ">{{ variant.quantity }} en stock</div>
@@ -293,27 +294,34 @@
 </template>
 
 
-<style scoped src="../../assets/css/editproduct.css"></style>
+<style scoped src="../../assets/css/addeditproduct.css"></style>
 
 <script>
 
 export default {
-  name: 'EditProduct',
+  name: 'AddEditProduct',
   data() {
     return {
-      id: this.$route.params.id,
+      productId: this.$route.params.productId,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      visible: "",
-      product: [],
-      uploads: [],
-      images: [],
+      product: {
+        'title': '',
+        'description': '',
+        'category': {
+          'id': '',
+        },
+        'price': null,
+        'compareAtPrice': null,
+        'quantity': '',
+        'weight': '',
+        'weightUnit': 'kg',
+        'uploads': []
+      },
       categories: [],
       popupVariant: false,
       popupEditVariant: false,
-      option1: true,
-      option2: false,
       errorTitle: false,
       errorDescription: false,
       errorCategory: false,
@@ -321,6 +329,8 @@ export default {
       errorImage: false,
       errorPrice: false,
       errorCompareAtPrice: false,
+      option1: true,
+      option2: false,
       inputOption1: "",
       inputOption2: "",
       inputNameOption1: "",
@@ -332,6 +342,7 @@ export default {
       errorNameOption2: false,
       loadingImg: false,
       isAndroid: false,
+      visible: "",
       options: [],
       variants: [],
       variant: [],
@@ -366,32 +377,30 @@ export default {
     }, (response) => {
       console.log(response.error);
     });
+  },
+  mounted() {
+    if (this.productId) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.product = JSON.parse(response.data);
+        this.variants = this.product.variants;
+        this.options = this.product.options;
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.product = JSON.parse(response.data);
-      this.variants = this.product.variants;
-      this.options = this.product.options;
-      this.images = this.product.uploads;
-
-      if (this.options) {
-        this.options.map((element, index) => { 
-          if (element.position == 1) {
-            this.inputNameOption1 = element.name;
-            this.valuesOption1 = element.data;
-          } else {
-            this.inputNameOption2 = element.name;
-            this.valuesOption2 = element.data;
-            this.option2 = true;
-          }
-        });
-      }
-  
-      this.images.map((element, index) => { 
-        this.uploads.push(element.id); 
+        if (this.options) {
+          this.options.map((element, index) => { 
+            if (element.position == 1) {
+              this.inputNameOption1 = element.name;
+              this.valuesOption1 = element.data;
+            } else {
+              this.inputNameOption2 = element.name;
+              this.valuesOption2 = element.data;
+              this.option2 = true;
+            }
+          });
+        }
+      }, (response) => {
+        console.log(response.error);
       });
-    }, (response) => {
-      console.log(response.error);
-    });
+    }
   },
   methods: {
     async submit() {
@@ -416,6 +425,10 @@ export default {
         this.errorCategory = true;
       }
 
+      if (this.product.uploads.length == 0) {
+        this.errorImage = true;
+      }
+
       if (!this.variants.length) {
         if (!this.product.weight) {
           this.errorWeight = true;
@@ -429,12 +442,6 @@ export default {
           if (parseFloat(this.product.compareAtPrice) < parseFloat(this.product.price)) {
             this.errorCompareAtPrice = true;
           }
-        }
-      }
-
-      if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
-        if (this.images.length == 0) {
-          this.errorImage = true;
         }
       }
 
@@ -454,28 +461,27 @@ export default {
           });
         }
 
-        var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight.replace(',','.'), "weightUnit": this.product.weightUnit, "online": true, "options" : this.options ? this.options : null, "variants" : this.options && this.variants ? this.variants : null };
+        var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight.replace(',','.'), "weightUnit": this.product.weightUnit, "online": true, "options" : this.options ? this.options : null, "variants" : this.options && this.variants ? this.variants : null, "uploads" : this.product.uploads ? this.product.uploads : null };
 
-        await window.cordova.plugin.http.post(this.baseUrl + "/user/api/products/edit/" + this.id, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
-          var result = JSON.parse(response.data);
-          if (result) {
+        if (this.productId) {
+          await window.cordova.plugin.http.put(this.baseUrl + "/user/api/product/edit/" + this.productId, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+            console.log(response);
             this.$router.push({ name: 'Shop' });
-          }
-        }, (response) => {
-          console.log(JSON.parse(response.error));
-          this.errorTitle = false;
-          this.errorDescription = false;
-          this.errorCategory = false;
-          this.errorWeight = false;
-          this.errorImage = false;
-          this.errorPrice = false;
-          this.errorCompareAtPrice = false;
-        });
+          }, (response) => {
+            console.log(JSON.parse(response.error));
+          });
+        } else {
+          await window.cordova.plugin.http.post(this.baseUrl + "/user/api/product/add", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+            console.log(response);
+            this.$router.push({ name: 'Shop' });
+          }, (response) => {
+            console.log(JSON.parse(response.error));
+          });
+        }
       }
     },
     uploadSheet() {
-      if (this.images.length < 6) {
+      if (this.product.uploads.length < 6) {
         var options = {
           title: 'Ajouter des photos',
           buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
@@ -524,14 +530,25 @@ export default {
         window.cordova.plugin.http.setDataSerializer('json');
         this.loadingImg = true;
 
+        if (this.productId) {
+          var url = this.baseUrl + "/user/api/product/upload/" + this.productId;
+        } else {
+          var url = this.baseUrl + "/user/api/product/upload";
+        }
+
         if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/products/edit/upload/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+          window.cordova.plugin.http.uploadFile(url, {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
             this.loadingImg = false;
-            console.log(response);
-            var result = JSON.parse(response.data);
-            this.images.push(result);
-            this.uploads.push(result.id);
+            this.product.uploads.push(JSON.parse(response.data));
           }, (response) => {
+            console.log(response.error);
+          });
+        } else {
+          var imgData = "data:image/jpeg;base64," + imageUri;
+          window.cordova.plugin.http.post(url, { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.loadingImg = false;
+            this.product.uploads.push(JSON.parse(response.data));
+          }, function(response) {
             console.log(response.error);
           });
         }
@@ -540,22 +557,23 @@ export default {
       }, options);
     },
     deleteImage(index, id) {
-      console.log(index, id);
-      this.images.splice(index, 1);
+      this.product.uploads.splice(index, 1);
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/upload/delete/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        var filtersList = this.uploads.filter(element => element !== id);
-        this.uploads = filtersList;
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/upload/delete/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        var filtersList = this.product.uploads.filter(element => element !== id);
+        this.product.uploads = filtersList;
       }, (response) => {
         console.log(response.error);
       });
     },
     deleteProduct() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/delete/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$router.push({ name: 'Shop' });
-      }, (response) => {
-        console.log(response.error);
-      });
+      if (this.productId) {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/delete/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
+          this.$router.push({ name: 'Shop' });
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
     },
     addVariant() {
       this.errorTitle = false;
@@ -599,7 +617,7 @@ export default {
       var id = this.variants[index].id;
       this.variants.splice(index, 1);
 
-      if (this.options && id) {
+      if (this.options && id && this.productId) {
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/variant/delete/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(response);
         }, (response) => {
@@ -673,7 +691,6 @@ export default {
 
           await window.cordova.plugin.http.post(this.baseUrl + "/user/api/variant/edit/" + this.variant.id, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
             console.log(response);
-            var result = JSON.parse(response.data);
           }, (response) => {
             console.log(JSON.parse(response));
           });
