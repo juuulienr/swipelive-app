@@ -522,6 +522,7 @@
                 <path d="M416 160h-72V120C344 53.83 290.2 0 224 0S104 53.83 104 120V160H32C14.33 160 0 174.3 0 192v240C0 476.2 35.82 512 80 512h288c44.18 0 80-35.82 80-80V192C448 174.3 433.7 160 416 160zM152 120C152 80.3 184.3 48 224 48s72 32.3 72 72V160h-144V120zM128 248C114.8 248 104 237.3 104 224S114.8 200 128 200S152 210.8 152 224S141.3 248 128 248zM320 248c-13.25 0-24-10.75-24-24S306.8 200 320 200S344 210.8 344 224S333.3 248 320 248z"/>
               </svg>
             </span>
+            <span class="counter-badge" style="top: 9px; right: 50px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
           </div>
           <div @click="goToAccount()" class="video-page__influencer-username-holder" style="padding-right: 5px;">
             <span class="video-page__influencer-video-count">
@@ -570,8 +571,8 @@
                 <div class="video-page__price">
                   <div class="video-page__price-line">
                     <div class="video-page__price"> {{ feed.value.product.price| formatPrice }}€ 
-                      <span style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 500;" v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice| formatPrice }}€</span> 
-                      <span style="font-size: 12px;color: white;background: rgba(255, 39, 115, 0.75);padding: 4px 8px;border-radius: 50px;font-weight: 400; margin-left: 10px;">-20%</span>
+                      <span v-if="feed.value.product.compareAtPrice" style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 500;" class="disc">{{ feed.value.product.compareAtPrice| formatPrice }}€</span> 
+                      <span v-if="feed.value.product.compareAtPrice" style="font-size: 12px;color: white;background: rgba(255, 39, 115, 0.75);padding: 4px 8px;border-radius: 50px;font-weight: 400; margin-left: 10px;">-{{((1 - (feed.value.product.price / feed.value.product.compareAtPrice)) * 100).toFixed() }}%</span>
                     </div>
                   </div>
                 </div>
@@ -840,12 +841,6 @@ export default {
       num: 0,
     }
   },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-  },
   created() {
     window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
@@ -912,6 +907,23 @@ export default {
     document.getElementsByTagName('body')[0].classList.remove("dark-mode");
     document.removeEventListener('pause', this.pause);
     document.removeEventListener('resume', this.resume);
+  },
+  computed: {
+    updateCart() {
+      var count = 0;
+      if (this.lineItems.length) {
+        this.lineItems.map(lineItem => {
+          count = count + lineItem.quantity;
+        });
+      }
+      return count;
+    }
+  },
+  filters: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
   },
   directives: {
     focus: {

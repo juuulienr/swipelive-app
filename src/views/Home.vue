@@ -99,7 +99,7 @@
     		<div class="suggested show" style="padding: 10px 15px;">
     			<div v-if="suggestions && suggestions.length" class="row">
             <div v-for="(suggestion, index) in suggestions" class="col-6" style="padding-right: 7.5px; padding-left: 7.5px;">
-              <div class="personne" style=" box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px; padding: 15px; border-radius: 16px; margin-bottom: 15px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
+              <div class="personne" style="box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px; padding: 15px; border-radius: 16px; margin-bottom: 15px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
                 <img @click="goToProfile(suggestion.id)" v-if="suggestion.picture" :src="cloudinary256x256 + suggestion.picture" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;"/>
                 <img @click="goToProfile(suggestion.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="width: 70px; height: 70px; margin-bottom: 10px;"/>
                 <h5 @click="goToProfile(suggestion.id)" class="name" style="font-size: 15px; font-weight: 500;">{{ suggestion.vendor.businessName }} 
@@ -196,7 +196,6 @@ export default {
 
           if (followers.length) {
             followers.map((element, index) => {
-              console.log(element);
               if (element.follower.id == this.user.id) {
                 isFollower = true;
               }
@@ -224,8 +223,6 @@ export default {
           window.localStorage.setItem("user", response.data);
         }, 300);
       }, (response) => {
-        setTimeout(() => {
-        }, 300);
         console.log(response.error);
       });
     },

@@ -820,7 +820,6 @@ export default {
     }
   },
   created() {
-    console.log(this.id);
     window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
 
@@ -867,7 +866,6 @@ export default {
 
       this.broadcaster.setTitle("Live" + this.id);
       this.broadcaster.setAuthor(this.user.vendor.businessName);
-      // this.broadcaster.setCustomData("Custom data");
       setTimeout(() => {
         this.broadcaster.showViewfinderBehindWebView();
         document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
@@ -878,8 +876,6 @@ export default {
       setTimeout(() => {
         var ressourceUri = "https://cdn.bambuser.net/broadcasts/20057381-f1d8-6fc1-1aa6-6fc9a896afc0?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1671610447&da_static=1&da_ttl=0&da_signature=f19839f85cb0bcf6376f8816b899ee4c79728afd8087a23ddeb5307c0d4e345d";
         this.video = window.BambuserPlayer.create(document.getElementById('player'), ressourceUri);
-        console.log(this.video);
-
         this.video.scaleMode = "aspectFill";
         this.video.play();
       }, 200);
@@ -901,7 +897,7 @@ export default {
       if (this.performance) {
         this.$router.push({ name: 'Account' });
       } else {
-        this.$router.push({ name: 'PreLive2' });
+        this.$router.push({ name: 'PreLive' });
       }
     },
     openPopup() {
@@ -934,8 +930,6 @@ export default {
     send() {
     	console.log(this.content);
       this.popup = false;
-      // this.comments.push({ "content": this.content, user: { "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture, "vendor": true }});
-      // this.scrollToElement();
 
       this.http.post(this.baseUrl + "/user/api/live/" + this.id + "/comment/add", { "content": this.content }, { Authorization: "Bearer " + this.token }, (response) => {
       	console.log(JSON.parse(response.data));
