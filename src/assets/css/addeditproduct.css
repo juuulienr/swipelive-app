@@ -366,6 +366,46 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
   color: red;
 }
 
+.stock-available {
+  margin: 0px; 
+  height: 22px; 
+  min-width: 22px; 
+  line-height: 0; 
+  border-radius: 6px; 
+  cursor: default; 
+  align-items: center; 
+  white-space: nowrap; 
+  display: inline-flex; 
+  justify-content: center; 
+  color: rgb(34, 154, 22); 
+  font-size: 0.75rem; 
+  background-color: rgba(84, 214, 44, 0.16); 
+  font-weight: 700; 
+  padding: 0 8px; 
+  margin-top: 3px;
+}
+
+.stock-unavailable {
+  margin: 0px; 
+  height: 22px; 
+  min-width: 22px; 
+  line-height: 0; 
+  border-radius: 6px; 
+  cursor: default; 
+  align-items: center; 
+  white-space: nowrap; 
+  display: inline-flex; 
+  justify-content: center; 
+  color: #ff0000; 
+  font-size: 0.75rem; 
+  background-color: #d62c2c29; 
+  font-weight: 700; 
+  padding: 0 8px; 
+  margin-top: 3px;
+}
+
+
+
 textarea::-webkit-scrollbar {
   display: none;
 }

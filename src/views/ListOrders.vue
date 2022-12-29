@@ -36,7 +36,7 @@
       		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="position: relative">
       			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
             <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
-            <span class="counter" style="position: absolute;top: 5px;left: 56px;height: 24px;width: 24px;border-radius: 100%;background-color: rgb(255, 39, 115);color: rgb(255, 255, 255);font-size: 13px;display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;border: 3px solid white;">5</span>
+            <span class="counter-badge">5</span>
       			<div>
       				<div><span>#{{ order.number }}</span></div>
       				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>

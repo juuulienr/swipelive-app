@@ -17,7 +17,7 @@
           <div class="checkout__product-info" style="padding-right: 0px;">
             <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;"/>
             <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image" style="border-radius: 8px;"/>
-            <span class="counter" style="position: absolute;top: 0px;left: 54px;height: 18px;width: 18px;border-radius: 100%;background-color: rgb(255, 39, 115);color: rgb(255, 255, 255);font-size: 13px;display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;"> {{ lineItem.quantity }}</span>
+            <span class="counter-badge">{{ lineItem.quantity }}</span>
             <div style="padding-right: 30px;">   
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
               <div v-if="lineItem.variant" class="checkout__attr">

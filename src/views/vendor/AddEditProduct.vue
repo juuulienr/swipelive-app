@@ -75,7 +75,7 @@
         </div>
 
 
-        <div v-if="!variants.length" class="form--input">
+        <div v-if="!product.variants.length" class="form--input">
           <div class="form--input--item" :class="{'form--input--item--error': errorPrice }">
             <fieldset>
               <legend>Prix de vente</legend>
@@ -90,14 +90,14 @@
           </div>
         </div>
 
-        <div v-if="!variants.length" class="form--input--item">
+        <div v-if="!product.variants.length" class="form--input--item">
           <fieldset>
             <legend>Quantité</legend>
             <input type="text" v-model="product.quantity" inputmode="decimal">
           </fieldset>
         </div>
          
-        <div v-if="!variants.length" class="form--input" style="grid-template-columns: 1fr 60px;">
+        <div v-if="!product.variants.length" class="form--input" style="grid-template-columns: 1fr 60px;">
           <div class="form--input--item" :class="{'form--input--item--error': errorWeight }">
           	<fieldset>
           		<legend>Poids</legend>
@@ -111,24 +111,24 @@
           </div>
         </div>
 
-        <!-- variants -->
+        <!-- product.variants -->
         <div class="title-wrapper-3KgEa">
           <div style="margin-bottom: 20px;margin-top: 0px;">
-            <div v-if="variants.length" style="font-size: 16px; margin-top: 10px;">Variantes</div>
+            <div v-if="product.variants.length" style="font-size: 16px; margin-top: 10px;">Variantes</div>
             <div v-else style="font-size: 16px; margin-top: 10px;">Options</div>
-            <div v-if="variants.length" @click="addVariant()" style="color: #ff2773; margin-top: 10px;">Modifier</div>
+            <div v-if="product.variants.length" @click="addVariant()" style="color: #ff2773; margin-top: 10px;">Modifier</div>
           </div>
         </div>
         <div class="form-container-3hjAo" style="margin-bottom: 35px;">
           <p style="font-size: 14px; color: rgb(153, 153, 153); margin-top: 10px; font-weight: 400;">Ajoutez des options si cet article possède des variantes, telles que des tailles ou des couleurs différentes.</p>
-          <div v-if="variants.length" class="items">
+          <div v-if="product.variants.length" class="items">
             <div class="lasted--product">
-              <div v-for="(variant, index) in variants" class="product--item" style="align-items: center;">
+              <div v-for="(variant, index) in product.variants" class="product--item" style="align-items: center;">
                 <img @click="editVariant(index)" v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
                 <div @click="editVariant(index)" class="details">
                   <div class="title">{{ variant.title }}</div>
-                  <div class="price"  v-if="variant.quantity" style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: rgb(34, 154, 22); font-size: 0.75rem; background-color: rgba(84, 214, 44, 0.16); font-weight: 700; padding: 0 8px; margin-top: 3px; ">{{ variant.quantity }} en stock</div>
-                  <div class="price" v-else style="margin: 0px; height: 22px; min-width: 22px; line-height: 0; border-radius: 6px; cursor: default; align-items: center; white-space: nowrap; display: inline-flex; justify-content: center; color: #ff0000; font-size: 0.75rem; background-color: #d62c2c29; font-weight: 700; padding: 0 8px; margin-top: 3px; ">Épuisé</div>
+                  <div v-if="variant.quantity" class="price stock-available">{{ variant.quantity }} en stock</div>
+                  <div v-else class="price stock-unavailable">Épuisé</div>
                 </div>
                 <div @click="editVariant(index)" style="margin-right: 20px;">
                   <div class="price">{{ variant.price | formatPrice }}€</div>
@@ -317,7 +317,9 @@ export default {
         'quantity': '',
         'weight': '',
         'weightUnit': 'kg',
-        'uploads': []
+        'uploads': [],
+        'variants': [],
+        'options': [],
       },
       categories: [],
       popupVariant: false,
@@ -343,8 +345,6 @@ export default {
       loadingImg: false,
       isAndroid: false,
       visible: "",
-      options: [],
-      variants: [],
       variant: [],
       array: [],
     }
@@ -382,11 +382,9 @@ export default {
     if (this.productId) {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.product = JSON.parse(response.data);
-        this.variants = this.product.variants;
-        this.options = this.product.options;
 
-        if (this.options) {
-          this.options.map((element, index) => { 
+        if (this.product.options) {
+          this.product.options.map((element, index) => { 
             if (element.position == 1) {
               this.inputNameOption1 = element.name;
               this.valuesOption1 = element.data;
@@ -429,7 +427,7 @@ export default {
         this.errorImage = true;
       }
 
-      if (!this.variants.length) {
+      if (!this.product.variants.length) {
         if (!this.product.weight) {
           this.errorWeight = true;
         }
@@ -446,22 +444,22 @@ export default {
       }
 
       if (!this.errorTitle && !this.errorDescription && !this.errorCategory && !this.errorWeight && !this.errorPrice && !this.errorImage && !this.errorCompareAtPrice) {
-        if (this.variants) {
-          this.variants.map((element, index) => { 
+        if (this.product.variants) {
+          this.product.variants.map((element, index) => { 
           	console.log(element, index);
-          	if (this.variants[index].price.includes(',')) {
-           	 	this.variants[index].price = this.variants[index].price.replace(',','.');
+          	if (this.product.variants[index].price.includes(',')) {
+           	 	this.product.variants[index].price = this.product.variants[index].price.replace(',','.');
           	}
-          	if (this.variants[index].compareAtPrice && this.variants[index].compareAtPrice.includes(',')) {
-           	 	this.variants[index].compareAtPrice = this.variants[index].compareAtPrice.replace(',','.');
+          	if (this.product.variants[index].compareAtPrice && this.product.variants[index].compareAtPrice.includes(',')) {
+           	 	this.product.variants[index].compareAtPrice = this.product.variants[index].compareAtPrice.replace(',','.');
           	}
-          	if (this.variants[index].weight) {
-          		this.variants[index].weight = this.variants[index].weight.replace(',','.');
+          	if (this.product.variants[index].weight) {
+          		this.product.variants[index].weight = this.product.variants[index].weight.replace(',','.');
           	}
           });
         }
 
-        var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight.replace(',','.'), "weightUnit": this.product.weightUnit, "online": true, "options" : this.options ? this.options : null, "variants" : this.options && this.variants ? this.variants : null, "uploads" : this.product.uploads ? this.product.uploads : null };
+        var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight.replace(',','.'), "weightUnit": this.product.weightUnit, "online": true, "options" : this.product.options ? this.product.options : null, "variants" : this.product.options && this.product.variants ? this.product.variants : null, "uploads" : this.product.uploads ? this.product.uploads : null };
 
         if (this.productId) {
           await window.cordova.plugin.http.put(this.baseUrl + "/user/api/product/edit/" + this.productId, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
@@ -528,13 +526,8 @@ export default {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
         window.cordova.plugin.http.setDataSerializer('json');
+        var url = this.baseUrl + "/user/api/product/upload";
         this.loadingImg = true;
-
-        if (this.productId) {
-          var url = this.baseUrl + "/user/api/product/upload/" + this.productId;
-        } else {
-          var url = this.baseUrl + "/user/api/product/upload";
-        }
 
         if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
           window.cordova.plugin.http.uploadFile(url, {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
@@ -614,10 +607,10 @@ export default {
       this.visible = ""; 
     },
     deleteVariant(index) {
-      var id = this.variants[index].id;
-      this.variants.splice(index, 1);
+      var id = this.product.variants[index].id;
+      this.product.variants.splice(index, 1);
 
-      if (this.options && id && this.productId) {
+      if (this.product.options && id && this.productId) {
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/variant/delete/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(response);
         }, (response) => {
@@ -625,8 +618,8 @@ export default {
         });
       }
       
-      if (this.variants.length == 0) {
-        this.options = [];
+      if (this.product.variants.length == 0) {
+        this.product.options = [];
         this.inputNameOption1 = "";
         this.inputOption1 = "";
         this.valuesOption1 = [];
@@ -636,7 +629,7 @@ export default {
       } else {
         this.valuesOption1.map((element, index) => {
           var exist = false;
-          this.variants.map((variant, index) => {
+          this.product.variants.map((variant, index) => {
             if (element.toLowerCase() === variant.option1.toLowerCase()) {
               exist = true;
             }
@@ -647,13 +640,13 @@ export default {
           }
         });
 
-        this.options = [];
-        this.options.push({ "name": this.inputNameOption1, "data": this.valuesOption1, "position": 1 });
+        this.product.options = [];
+        this.product.options.push({ "name": this.inputNameOption1, "data": this.valuesOption1, "position": 1 });
 
         if (this.valuesOption2.length > 0) {
           this.valuesOption2.map((element, index) => {
             var exist = false;
-            this.variants.map((variant, index) => {
+            this.product.variants.map((variant, index) => {
               if (element.toLowerCase() === variant.option2.toLowerCase()) {
                 exist = true;
               }
@@ -664,7 +657,7 @@ export default {
             }
           });
 
-          this.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
+          this.product.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
         }
       }
 
@@ -696,7 +689,7 @@ export default {
           });
         }
 
-        this.variants[this.visible] = this.variant;
+        this.product.variants[this.visible] = this.variant;
         this.popupEditVariant = false;
         this.variant = [];
         this.visible = ""; 
@@ -708,7 +701,7 @@ export default {
       this.visible = ""; 
     },
     editVariant(index) {
-      this.variant = { "id": this.variants[index].id, "title": this.variants[index].title, "price": this.variants[index].price, "compareAtPrice": this.variants[index].compareAtPrice ? this.variants[index].compareAtPrice : null, "quantity": this.variants[index].quantity ? this.variants[index].quantity : 0, "position": this.variants[index].position, "option1": this.variants[index].option1, "option2": this.variants[index].option2, "weight" : this.variants[index].weight, "weightUnit" : this.variants[index].weightUnit };
+      this.variant = { "id": this.product.variants[index].id, "title": this.product.variants[index].title, "price": this.product.variants[index].price, "compareAtPrice": this.product.variants[index].compareAtPrice ? this.product.variants[index].compareAtPrice : null, "quantity": this.product.variants[index].quantity ? this.product.variants[index].quantity : 0, "position": this.product.variants[index].position, "option1": this.product.variants[index].option1, "option2": this.product.variants[index].option2, "weight" : this.product.variants[index].weight, "weightUnit" : this.product.variants[index].weightUnit };
 
       console.log(this.variant);
       this.popupEditVariant = true;
@@ -754,7 +747,7 @@ export default {
       this.errorNameOption1 = false;
       this.errorInputOption1 = false;
       this.errorNameOption2 = false;
-      this.options = [];
+      this.product.options = [];
       var count = 1;
       var array = [];
 
@@ -771,7 +764,7 @@ export default {
       }
       
       if (!this.errorNameOption1 && !this.errorInputOption1) {
-        this.options.push({ "name": this.inputNameOption1, "data": this.valuesOption1, "position": 1 });
+        this.product.options.push({ "name": this.inputNameOption1, "data": this.valuesOption1, "position": 1 });
 
         if (this.product.compareAtPrice) {
           if (parseFloat(this.product.compareAtPrice) < parseFloat(this.product.price)) {
@@ -780,7 +773,7 @@ export default {
         }
 
         if (this.valuesOption2.length && !this.errorNameOption2 && !this.errorCompareAtPrice) {
-          this.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
+          this.product.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
           this.valuesOption1.map((element, index) => {
             this.valuesOption2.map((element2, index2) => {
               array.push({ "title": element + " / " + element2, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": count, "option1": element, "option2": element2, "weight" : this.product.weight, "weightUnit" : this.product.weightUnit });
@@ -789,9 +782,9 @@ export default {
           });
 
           array.map((element, index) => {
-            this.variants.map((element2, index2) => {
+            this.product.variants.map((element2, index2) => {
               if (element2.option1 == element.option1 && element2.option2 == element.option2) {
-                array[index] = this.variants[index2];
+                array[index] = this.product.variants[index2];
               }
             });
           });
@@ -802,15 +795,15 @@ export default {
           });
 
           array.map((element, index) => {
-            this.variants.map((element2, index2) => {
+            this.product.variants.map((element2, index2) => {
               if (element2.option1 == element.option1) {
-                array[index] = this.variants[index2];
+                array[index] = this.product.variants[index2];
               }
             });
           });
         }
 
-        this.variants = array;
+        this.product.variants = array;
         this.errorNameOption1 = false;
         this.errorInputOption1 = false;
         this.errorNameOption2 = false;

@@ -1504,6 +1504,21 @@ svg.loading circle {
   z-index: 1000000000;
 }
 
+.counter-badge {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  height: 18px;
+  width: 18px;
+  border-radius: 100%;
+  background-color: #ff2773;
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @keyframes keyframe_d37zz3 {
   0% {
     opacity: 0;
