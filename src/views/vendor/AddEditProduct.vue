@@ -14,7 +14,7 @@
     </div>
 
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
-      <div @click="uploadSheet()">
+      <div @click="uploadSheet()" class="drop--file">
         <div class="drop--img">
           <video v-if="isAndroid" style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
           <video v-else style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)"></video>
