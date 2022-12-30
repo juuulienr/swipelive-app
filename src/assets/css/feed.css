@@ -406,6 +406,48 @@
   z-index: 1000
 }
 
+.finished {
+  left: calc(50vw - 124px); 
+  top: calc(40vh - 114px); 
+  position: absolute; 
+  z-index: 10000; 
+  justify-content: center; 
+  text-align: center; 
+  margin: 0 auto; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.finished h4 {
+  color: white; 
+  margin-bottom: 50px; 
+  font-size: 25px;
+}
+
+.finished .follow {
+  position: absolute; 
+  top: 88px; 
+  left: 130px; 
+  border-radius: 50px;
+}
+
+.finished-swipe {
+  left: calc(50vw - 171px); 
+  bottom: 40px; 
+  position: absolute; 
+  z-index: 10000; 
+  justify-content: center; 
+  text-align: center; 
+  margin: 0 auto; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.finished-swipe h4 {
+  color: white; 
+  font-size: 16px; 
+  font-weight: 400;
+}
 
 @keyframes zoom {
   0% {
@@ -453,18 +495,15 @@ img.zoom {
 	font-size: .8rem
 }
 
-.video-page__influencer-badge-send .video-page__influencer-video-count .icon--watched-video {
-	vertical-align: text-top
-}
-
 .video-page__influencer-badge2 {
 	display: flex;
 	position: absolute;
 	left: 15px;
 	z-index: 20;
 	border-radius: 25px;
-	background-color: rgba(255, 255, 255, 0.15);
 	align-items: center;
+  padding-right: 9px; 
+  background: none;
 }
 
 .video-page__influencer-badge2 .video-page__influencer-username2 {
@@ -474,10 +513,17 @@ img.zoom {
 }
 
 .video-page__influencer-badge2 .video-page__influencer-img2 {
-	padding-right: .8rem
+	padding-right: 7px;
 }
 
-.video-page__influencer-badge2 .video-page__influencer-video-count2 {
+.video-page__influencer-badge2 .video-page__influencer-img2 img {
+  border-radius: 50%; 
+  width: 44px; 
+  height: 44px;
+  object-fit: cover;
+}
+
+.video-page__influencer-badge2 .video-page__influencer-video-count {
 	position: relative;
 	display: block;
 	color: #fff;
@@ -515,10 +561,6 @@ img.zoom {
 	font-size: .8rem
 }
 
-.video-page__influencer-badge3 .video-page__influencer-video-count .icon--watched-video {
-	vertical-align: text-top
-}
-
 
 .video-page__influencer-badge4 {
   display: flex;
@@ -547,10 +589,6 @@ img.zoom {
   display: block;
   color: #fff;
   font-size: .8rem
-}
-
-.video-page__influencer-badge4 .video-page__influencer-video-count .icon--watched-video {
-  vertical-align: text-top
 }
 
 
@@ -583,71 +621,78 @@ img.zoom {
 	font-size: .8rem
 }
 
-.video-page__influencer-badge5 .video-page__influencer-video-count .icon--watched-video {
-	vertical-align: text-top
-}
-
 
 .video-page__influencer-badge6 {
-	display: flex;
-	position: absolute;
-	z-index: 20;
-	border-radius: 25px;
-	background-color: rgba(255, 255, 255, 0.15);
-	align-items: center;
+  display: flex;
+  z-index: 20;
+  border-radius: 25px;
+  align-items: center;
+  background: none; 
+  left: initial; 
+  position: relative; 
+  margin: 0 auto; 
+  text-align: center; 
+  justify-content: center;
 }
 
-.video-page__influencer-badge6 .video-page__influencer-username {
-	color: #fff;
-	font-weight: 700;
-	font-size: .85rem
+.video-page__influencer-username6 {
+  font-size: 18px; 
+  margin-top: 15px; 
+  color: white; 
+  font-weight: 400;
 }
 
 .video-page__influencer-badge6 .video-page__influencer-img {
-	padding-right: .8rem
+  padding-right: 0px;
+}
+
+
+.video-page__influencer-badge6 .video-page__influencer-img img {
+  border-radius: 50%; 
+  width: 120px; 
+  height: 120px; 
+  object-fit: cover;
 }
 
 .video-page__influencer-badge6 .video-page__influencer-video-count {
-	position: relative;
-	display: block;
-	color: #fff;
-	font-size: .8rem
+  position: relative;
+  display: block;
+  color: #fff;
+  font-size: .8rem
 }
 
-.video-page__influencer-badge6 .video-page__influencer-video-count .icon--watched-video {
-	vertical-align: text-top
+.video-page__influencer-badge6 .video-page__influencer-video-count .icon__watched {
+  vertical-align: text-top
 }
 
 
 .video-page__influencer-badge7 {
-	display: flex;
-	position: absolute;
-	z-index: 20;
-	border-radius: 25px;
-	background-color: rgba(255, 255, 255, 0.15);
-	align-items: center;
+  display: flex;
+  position: absolute;
+  left: 15px;
+  z-index: 20;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.15);
+  align-items: center;
 }
 
-.video-page__influencer-badge7 .video-page__influencer-username {
-	color: #fff;
-	font-weight: 700;
-	font-size: .85rem
+.video-page__influencer-badge7 .video-page__influencer-username2 {
+  color: #fff;
+  font-weight: 600;
+  font-size: .85rem;
 }
 
 .video-page__influencer-badge7 .video-page__influencer-img {
-	padding-right: .8rem
+  padding-right: .8rem
 }
 
-.video-page__influencer-badge7 .video-page__influencer-video-count {
-	position: relative;
-	display: block;
-	color: #fff;
-	font-size: .8rem
+.video-page__influencer-badge7 .video-page__influencer-video-count2 {
+  position: relative;
+  display: block;
+  color: #fff;
+  font-size: .8rem
 }
 
-.video-page__influencer-badge7 .video-page__influencer-video-count .icon--watched-video {
-	vertical-align: text-top
-}
 
 .video-page__login-popup {
 	border-radius: 25px;
