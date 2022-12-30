@@ -440,7 +440,7 @@
 
       <!-- viewers -->
       <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 28px;width: fit-content;left: 62px; background: rgba(255, 255, 255, 0.15); padding: 0px 15px 0px 7px;border-top-left-radius: 0px;border-bottom-right-radius: 50px;border-top-right-radius: 50px;border-bottom-left-radius: 0px; z-index: 20;">
-        <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
+        <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="fill: white; width: 12px; margin-bottom: 2px; height: 12px;">
             <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
           </svg>
@@ -451,7 +451,7 @@
 
       <!-- amount -->
       <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 120px; right: calc(50vw - 60px); padding: 18px 0px; text-align: center; border-radius: 30px; background: rgba(255, 255, 255, 0.15); border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center; z-index: 20;">
-        <span dir="auto" class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
+        <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
           <span style="font-weight: bold;font-size: 18px;">199,50 <span style="color: #7ed957">€</span></span>
         </span>
       </div>

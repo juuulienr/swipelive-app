@@ -213,7 +213,7 @@
 
         <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 25px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue sur <br> Swipe Live vendeur</h5>
         <br />
-        <div style="font-weight: 400;font-size: 15px; text-align: left; margin-top: 10px;">Vous pouvez dès à présent créer votre communauté et exploiter la vidéo en direct pour offrir des expériences d'achat fun et unique avec des taux de conversion 10 fois supérieurs à ceux des sites de commerce électronique traditionnels.</div>
+        <div style="font-weight: 400;font-size: 15px; margin-top: 10px; text-align: justify; text-justify: inter-word;">Vous pouvez dès à présent créer votre communauté et exploiter la vidéo en direct pour offrir des expériences d'achat fun et unique avec des taux de conversion 10 fois supérieurs à ceux des sites de commerce électronique traditionnels.</div>
 
         <div @click="submitStep3()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
           <span>Accéder</span>
@@ -475,7 +475,6 @@ export default {
       }
     }, 
     submitStep2() {
-      console.log(this.businessType);
       this.errorSummary = false;
       this.errorBusinessName = false;
       this.errorAddress = false;
@@ -662,8 +661,7 @@ export default {
       this.address = data[0];
     },
     getAddressData(addressData, placeResultData, id) {
-      console.log(addressData);
-      console.log(placeResultData);
+      console.log(addressData, placeResultData);
       
       if (addressData.street_number) {
         var street = addressData.street_number + ' ' + addressData.route;
@@ -687,7 +685,6 @@ export default {
       this.showAutocomplete = true;
     },
     inputChangeAddressInput(input) {
-      console.log(input.newVal);
       if (input.newVal.length > 2 && this.showAutocomplete) {
         document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
       } else {

@@ -17,7 +17,6 @@ export default {
   components: {},
   data() {
     return {
-      color: "#ffffff"
     }
   },
 };

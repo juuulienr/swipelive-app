@@ -328,6 +328,18 @@ export default {
     apple() {
       // ajouter apple
     },
+    resetPassword() {
+      // this.errorEmailRecovery = false;
+
+      // envoyer mail pour reinitialiser mdp
+      // if (!this.forgotEmail) {
+      //   this.errorEmailRecovery = true;
+      // }
+
+      // if (!this.errorEmailRecovery && !this.isReset) {
+      //   this.isReset = true;
+      // }
+    },
     open() {
       window.StatusBar.overlaysWebView(false);  
       window.StatusBar.styleDefault();
@@ -353,18 +365,6 @@ export default {
       this.popup = false;
       this.popupPassword = false;
       this.popupUserRegistration = true;
-    },
-    resetPassword() {
-      // this.errorEmailRecovery = false;
-
-      // envoyer mail pour reinitialiser mdp
-      // if (!this.forgotEmail) {
-      //   this.errorEmailRecovery = true;
-      // }
-
-      // if (!this.errorEmailRecovery && !this.isReset) {
-      //   this.isReset = true;
-      // }
     },
     openUrl(url) {
       window.SafariViewController.isAvailable((available) => {

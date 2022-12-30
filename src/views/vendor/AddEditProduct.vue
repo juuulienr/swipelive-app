@@ -14,7 +14,7 @@
     </div>
 
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
-      <div @click="uploadSheet()" class="drop--file" :class="{'form--input--item--error': errorImage }">
+      <div @click="uploadSheet()">
         <div class="drop--img">
           <video v-if="isAndroid" style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
           <video v-else style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)"></video>
@@ -328,7 +328,6 @@ export default {
       errorDescription: false,
       errorCategory: false,
       errorWeight: false,
-      errorImage: false,
       errorPrice: false,
       errorCompareAtPrice: false,
       option1: true,
@@ -407,7 +406,6 @@ export default {
       this.errorDescription = false;
       this.errorCategory = false;
       this.errorWeight = false;
-      this.errorImage = false;
       this.errorPrice = false;
       this.errorCompareAtPrice = false;
 
@@ -421,10 +419,6 @@ export default {
 
       if (!this.product.category) {
         this.errorCategory = true;
-      }
-
-      if (this.product.uploads.length == 0) {
-        this.errorImage = true;
       }
 
       if (!this.product.variants.length) {
@@ -443,7 +437,7 @@ export default {
         }
       }
 
-      if (!this.errorTitle && !this.errorDescription && !this.errorCategory && !this.errorWeight && !this.errorPrice && !this.errorImage && !this.errorCompareAtPrice) {
+      if (!this.errorTitle && !this.errorDescription && !this.errorCategory && !this.errorWeight && !this.errorPrice && !this.errorCompareAtPrice) {
         if (this.product.variants) {
           this.product.variants.map((element, index) => { 
           	console.log(element, index);
@@ -479,7 +473,7 @@ export default {
       }
     },
     uploadSheet() {
-      if (this.product.uploads.length < 6) {
+      if (this.product.uploads.length < 9) {
         var options = {
           title: 'Ajouter des photos',
           buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
@@ -573,7 +567,6 @@ export default {
       this.errorDescription = false;
       this.errorCategory = false;
       this.errorWeight = false;
-      this.errorImage = false;
       this.errorPrice = false;
       this.errorCompareAtPrice = false;
 
@@ -596,7 +589,6 @@ export default {
         this.errorDescription = false;
         this.errorCategory = false;
         this.errorWeight = false;
-        this.errorImage = false;
         this.errorPrice = false;
         this.errorCompareAtPrice = false;
         this.popupVariant = true;
