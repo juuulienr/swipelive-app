@@ -1,42 +1,51 @@
 <template>
-  <div ref="feed" id="feed" class="feed refresh" style="overflow-y: scroll; height: 100vh; scroll-snap-type: y mandatory;">
-    <div v-if="data.length" v-for="(feed, index) in data" style="position: relative; height: 100vh; scroll-snap-align: start; scroll-snap-stop: always; z-index: 10000000;">
+  <div ref="feed" id="feed" class="feed">
+    <div v-if="data.length" v-for="(feed, index) in data" class="feed-scroll">
       <div v-if="feed.value" v-touch:swipe="swipeHandler">
-        <!-- top -->
-        <div v-if="!loading" style="background-image: linear-gradient(0deg, transparent 84%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; top: 0px;"></div>
-        
-        <!-- bottom -->
-        <div v-if="!loading" style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
-        
-        <!-- loader -->
-        <div v-if="loading" class="css-vhzttx" style="backdrop-filter: saturate(180%) blur(55px); background-color: rgba(25, 25, 25, 0.8);top: 0px;z-index: 10; width: 100%;height: 100%;position: absolute;"></div>
-        <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="object-fit: cover; z-index: 1;position: absolute;width: 100%;height: 100vh; top: 0px;">
-        <img v-else-if="loading" :src="require(`@/assets/img/anonyme.jpg`)" style="object-fit: cover; z-index: 2;position: absolute;width: 100%;height: 100vh; top: 0px;">
 
+        <!-- background top/bottom -->
+        <div v-if="!loading" class="filter-top"></div>
+        <div v-if="!loading" class="filter-bottom"></div>
+        
+
+        <!-- loader -->
+        <div v-if="loading || finished[index].value" class="filter-blur"></div>
+        <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
+        <img v-else-if="loading" :src="require(`@/assets/img/anonyme.jpg`)" class="filter-img">
+
+
+        <!-- viewers -->
+        <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
+          <lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
+          <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
+            <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
+          </span>
+        </div>
 
 
         <!-- end live -->
-      <!--   <div v-if="feed.type == 'live'" style="left: calc(50vw - 112px); top: calc(40vh - 114px); position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0 auto; align-items: center; justify-content: center;">
+        <div v-if="finished[index].value" style="left: calc(50vw - 124px); top: calc(40vh - 114px); position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0 auto; align-items: center; justify-content: center;">
           <h4 style="color: white; margin-bottom: 50px; font-size: 25px;">Le LIVE est terminé</h4>
           <div class="video-page__influencer-badge2" style="background: none; left: initial; position: relative; margin: 0 auto; text-align: center; justify-content: center;">
             <div class="video-page__influencer-img2" style="padding-right: 0px;">
-              <img :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover;" />
+              <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover;"/>
+              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover;" />
             </div>
-            <div  style="position: absolute; top: 88px; left: 130px; border-radius: 50px;">
-              <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 32px; height: 32px; border: 1px solid white; border-radius: 100px;">
+            <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 88px; left: 130px; border-radius: 50px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 32px; height: 32px; border: 1px solid white; border-radius: 100px;">
                 <defs></defs>
                 <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: white;"></path>
                 <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: rgb(255, 39, 115);"></path>
               </svg>
             </div>
           </div>
-          <div  class="video-page__influencer-username2" style="font-size: 18px; margin-top: 15px; color: white; font-weight: 400;">Youarda.C</div>
+          <div class="video-page__influencer-username2" style="font-size: 18px; margin-top: 15px; color: white; font-weight: 400;">{{ feed.value.vendor.businessName }}</div>
         </div>
-        <div style="left: calc(50vw - 150px); bottom: 40px; position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0 auto; align-items: center; justify-content: center;">
+        <div v-if="finished[index].value" style="left: calc(50vw - 171px); bottom: 40px; position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0 auto; align-items: center; justify-content: center;">
           <lottie :options="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
           <h4 style="color: white; font-size: 16px; font-weight: 400;">Swipe vers le haut pour passer au prochain</h4>
         </div>
- -->
+
 
 
         <!-- purchase -->
@@ -52,143 +61,180 @@
  -->
 
         <!-- love -->
-        <div v-if="videos[index].value" class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
+        <div v-if="videos[index].value && !finished[index].value" class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
           <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
             <div class="_g19 KeyframeAnimation-js_6">
-              <div class="_g19 KeyframeAnimation-js_7"><img  :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 11px;">
             <div class="_g19 KeyframeAnimation-js_8">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 9px;">
             <div class="_g19 KeyframeAnimation-js_9">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 13px;">
             <div class="_g19 KeyframeAnimation-js_10">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">    
             <div class="_g19 KeyframeAnimation-js_11"> 
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 15px;">
             <div class="_g19 KeyframeAnimation-js_12">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
             <div class="_g19 KeyframeAnimation-js_13">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_14">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_15">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_16">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_17">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_18">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_19">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_20">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_21">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_22">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_23">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_24">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_25">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_26">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_27">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_28">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_29">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
           <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
             <div class="_g19 KeyframeAnimation-js_30">
-              <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
+              <div class="_g19 KeyframeAnimation-js_7">
+                <img :src="require(`@/assets/img/love.png`)"/>
+              </div>
             </div>
           </div>
         </div>
 
 
-        <!-- viewers -->
-        <div v-if="feed.type == 'live'" :style="{'top': safeareaTop3 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 22px;width: fit-content;left: 15px; background: rgba(255, 255, 255, 0.25); padding: 0px 10px;border-radius: 50px; z-index: 20;">
-          <lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
-          <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
-            <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
-          </span>
-        </div>
-
-
-
-
         <!-- profil -->
-        <div v-if="feed.value.vendor" class="video-page__influencer-badge2" :style="{'top': safeareaTop }" style="padding-right: 9px; left: 15px; background: none;">
+        <div v-if="feed.value.vendor && !finished[index].value" class="video-page__influencer-badge2" :style="{'top': safeareaTop }" style="padding-right: 9px; left: 15px; background: none;">
           <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-img2" style="padding-right: 7px;">
             <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="border-radius: 50%; width: 44px; height: 44px; object-fit: cover;">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 44px; height: 44px; object-fit: cover;">
@@ -207,7 +253,7 @@
 
 
         <!-- cart + account + promo -->
-        <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(255, 255, 255, 0.15); z-index: 20;">
+        <div v-if="!finished[index].value" :style="{'top': safeareaTop }" class="video-page__influencer-badge3">
           <div @click="showPromo()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
             <span class="video-page__influencer-video-count">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 45px; height: 40px; padding: 10px; fill: white;">
@@ -235,18 +281,18 @@
         
 
         <!-- comments -->
-        <div v-if="comments[index].value.length" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="margin-right: 50px;">
+        <div v-if="comments[index].value.length && !finished[index].value" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="margin-right: 50px;">
           <div v-for="comment in comments[index].value" style="display: flex;">
-            <div class="video-page__influencer-img" style="padding-right: 6px;">
-              <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 28px;height: 28px; object-fit: cover; margin-top: 2px;">
-              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
+            <div style="padding-right: 6px;">
+              <img class="video-page__influencer-img" v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture">
+              <img class="video-page__influencer-img" v-else :src="require(`@/assets/img/anonyme.jpg`)">
             </div>
-            <div class="video-page__influencer-badge" style="padding: 4px 10px 5px 10px; margin-top: 0px; border-radius: 11px; background-color: rgba(255, 255, 255, 0.075); letter-spacing: 0.05px; margin-right: 0px">
+            <div class="video-page__influencer-badge">
               <div class="video-page__influencer-username-holder">
-                <div class="video-page__influencer-username" style="line-height: 18px;"> 
-                  <div v-if="comment.isVendor && user.vendor" style="font-size: 13px; font-weight: 600; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ user.vendor.businessName }}</div>
-                  <div v-else style="font-size: 13px;margin-right: 3px;font-weight: 600;text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
-                  <div style="font-weight: 400; font-size: 14px; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ comment.content }}</div>
+                <div class="video-page__influencer-username"> 
+                  <div v-if="comment.isVendor && user.vendor" class="video-page__influencer-title">{{ user.vendor.businessName }}</div>
+                  <div v-else class="video-page__influencer-title">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
+                  <div class="video-page__influencer-content">{{ comment.content }}</div>
                 </div>
               </div>
             </div>
@@ -256,7 +302,7 @@
 
         
         <!-- product -->
-        <div v-if="feed.type == 'live' && feed.value.liveProducts.length > 0" @click="showProduct(feed.value.liveProducts[display - 1].product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
+        <div v-if="feed.type == 'live' && feed.value.liveProducts.length > 0 && !finished[index].value" @click="showProduct(feed.value.liveProducts[display - 1].product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
               <img v-if="feed.value.liveProducts[display - 1].product.uploads" :src="cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
@@ -270,8 +316,8 @@
                 <div class="video-page__price">
                   <div class="video-page__price-line">
                     <div class="video-page__price"> {{ feed.value.liveProducts[display - 1].product.price| formatPrice }}€ 
-                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 500;" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€</span> 
-                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" style="font-size: 12px;color: white;background: rgba(255, 39, 115, 0.75);padding: 4px 8px;border-radius: 50px;font-weight: 400; margin-left: 10px;">-{{((1 - (feed.value.liveProducts[display - 1].product.price / feed.value.liveProducts[display - 1].product.compareAtPrice)) * 100).toFixed() }}%</span>
+                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€</span> 
+                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc2">-{{((1 - (feed.value.liveProducts[display - 1].product.price / feed.value.liveProducts[display - 1].product.compareAtPrice)) * 100).toFixed() }}%</span>
                     </div>
                   </div>
                 </div>
@@ -280,7 +326,7 @@
           </div>
         </div>
 
-        <div v-if="feed.type == 'clip' && feed.value.product" @click="showProduct(feed.value.product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
+        <div v-if="feed.type == 'clip' && feed.value.product && !finished[index].value" @click="showProduct(feed.value.product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
               <img v-if="feed.value.product.uploads" :src="cloudinary256x256 + feed.value.product.uploads[0].filename">
@@ -294,8 +340,8 @@
                 <div class="video-page__price">
                   <div class="video-page__price-line">
                     <div class="video-page__price"> {{ feed.value.product.price| formatPrice }}€ 
-                      <span v-if="feed.value.product.compareAtPrice" style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 500;" class="disc">{{ feed.value.product.compareAtPrice| formatPrice }}€</span> 
-                      <span v-if="feed.value.product.compareAtPrice" style="font-size: 12px;color: white;background: rgba(255, 39, 115, 0.75);padding: 4px 8px;border-radius: 50px;font-weight: 400; margin-left: 10px;">-{{((1 - (feed.value.product.price / feed.value.product.compareAtPrice)) * 100).toFixed() }}%</span>
+                      <span v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice| formatPrice }}€</span> 
+                      <span v-if="feed.value.product.compareAtPrice" class="disc2">-{{((1 - (feed.value.product.price / feed.value.product.compareAtPrice)) * 100).toFixed() }}%</span>
                     </div>
                   </div>
                 </div>
@@ -306,7 +352,7 @@
 
         
         <!-- list of products -->
-        <div v-if="feed.value.vendor" :style="{'bottom': safeareaBottom }" @click="showShop(feed.value.vendor)" class="video-page__influencer-badge5" style="position: absolute; width: 40px; height: 40px; left: 15px; z-index: 1000; border-radius: 50px;">
+        <div v-if="feed.value.vendor && !finished[index].value" :style="{'bottom': safeareaBottom }" @click="showShop(feed.value.vendor)" class="video-page__influencer-badge5">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 46px;height: 40px;padding: 10px;fill: white;">
@@ -318,7 +364,7 @@
 
 
         <!-- send comment -->
-        <div @click="openPopup()" class="video-page__influencer-badge-send" style="left: 70px; right: 125px; z-index: 10000000" :style="{'bottom': safeareaBottom }">
+        <div v-if="!finished[index].value" @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }">
           <div class="video-page__influencer-username-holder">
             <div class="video-page__influencer-username"> Commenter...</div>
             <span class="video-page__influencer-video-count">
@@ -329,7 +375,7 @@
 
         
         <!-- share -->
-        <div @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4" style="position: absolute; width: 40px; height: 40px; right: 70px; z-index: 1000;">
+        <div v-if="!finished[index].value" @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 42px; height: 40px; padding: 10px; fill: white;"><path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z"/></svg>
@@ -338,23 +384,23 @@
         </div>
         
         <!-- like -->
-        <img @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 1000">
+        <img v-if="!finished[index].value" @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" class="heart-animation">
         
         <!-- video -->
-        <div v-if="videos[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
+        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
         
         <!-- visible -->
-        <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}" style="position: absolute; z-index: 1000000; width: 50px; height: 50px; left: calc(50% - 25px); top: calc(50% - 25px);"></div>
+        <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
       </div>
     </div>
 
     <!-- input comment -->
     <div v-if="popup" class="css-1dko8fk" :style="{'bottom': writeInput }" style="height: 55px; border-radius: 0px;">
       <div class="css-miqn2j">
-        <input v-focus v-on-clickaway="away" placeholder="Aa" type="text" class="css-9gu6qp" v-model="content" style="padding: 10px 0px 10px 15px; font-size: 14px; background: rgb(244, 244, 244); border-radius: 30px; font-weight: 400;"/>
+        <input v-focus v-on-clickaway="away" placeholder="Aa" type="text" class="css-9gu6qp" v-model="content"/>
       </div>
       <button id="buttonSend" :class="{'Mui-disabled': content.length == 0 }" class="css-il3d4y">
-        <svg id="svgSend" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+        <svg id="svgSend" width="24" height="24">
           <path id="pathSend" d="M3.4 20.4l17.45-7.48a1 1 0 0 0 0-1.84L3.4 3.6a.993.993 0 0 0-1.39.91L2 9.12c0 .5.37.93.87.99L17 12L2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z" fill="currentColor"></path>
         </svg>
       </button>
@@ -503,7 +549,6 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      bambuserId: window.localStorage.getItem("bambuserId"),
       pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
@@ -514,6 +559,7 @@ export default {
       following: [],
       comments: [],
       purchases: [],
+      finished: [],
       product: null,
       variant: null,
       shop: [],
@@ -524,14 +570,11 @@ export default {
       popup: false,
       promo: true,
       cart: true,
-      safeareaBottom: '0px',
-      safeareaBottom2: '57px',
-      safeareaBottom3: '185px',
-      safeareaTop: '0px',
-      safeareaTop2: '62px',
-      safeareaTop4: '100px',
-      safeareaTop5: '13px',
-      safeareaTop3: '60px',
+      safeareaBottom: '25px',
+      safeareaBottom2: '82px',
+      safeareaBottom3: '210px',
+      safeareaTop: '25px',
+      safeareaTop2: '85px',
       writeInput: '0px',
       content: "",
       popupPromo: false,
@@ -573,45 +616,15 @@ export default {
   created() {
     window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
-    // document.getElementsByTagName('body')[0].classList.add("dark-mode");
 
-    if (window.cordova && window.cordova.platformId === "ios") {
+    if (window.cordova && window.cordova.platformId !== "android") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
-      this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 62px)';
-      this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 60px)';
-      this.safeareaTop4 = 'calc(env(safe-area-inset-top) + 100px)';
-      this.safeareaTop5 = 'calc(env(safe-area-inset-top) + 13px)';
+      this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 60px)';
       this.throttle = 500;
-
-      if (!this.bambuserId) {
-        window.localStorage.setItem("bambuserId", "Eqza0IhJO8JKQTs37D0VKQ");
-      }
     }
-
-    if (window.cordova && window.cordova.platformId === "android") {
-      this.safeareaBottom = "25px";
-      this.safeareaBottom2 = "82px";
-      this.safeareaBottom3 = "210px";
-      this.safeareaTop = '25px';
-      this.safeareaTop2 = '87px';
-      this.safeareaTop3 = '85px';
-      this.safeareaTop4 = '125px';
-      this.safeareaTop5 = '38px';
-
-      if (!this.bambuserId) {
-        window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");
-      }
-    }
-
-    // if (window.bambuser && window.bambuser.player && (window.cordova.platformId === "ios" || window.cordova.platformId === "android")) {
-    //   this.player = window.bambuser.player;
-    //   this.player.setApplicationId(this.bambuserId);
-    // } else {
-    //   console.log("Bambuser is not available");
-    // }
 
     if (window.cordova.plugin && window.cordova.plugin.http) {
       this.http = window.cordova.plugin.http;
@@ -632,7 +645,6 @@ export default {
     document.addEventListener("resume", this.resume);
   },
   beforeDestroy() {
-    // document.getElementsByTagName('body')[0].classList.remove("dark-mode");
     document.removeEventListener('pause', this.pause);
     document.removeEventListener('resume', this.resume);
   },
@@ -668,83 +680,57 @@ export default {
       if (isVisible) {
         if (index != this.visible) {
           console.log(index, this.visible);
+          this.loading = true;
           this.popup = false;
           this.popupProduct = false;
           this.popupCart = false;
           this.popupShop = false;
-          this.loading = true;
-
-          var value = this.data[index].value;
-          this.videos[this.visible].value = "";
-          this.comments[this.visible].value = [];
           this.display = 1;
           this.viewers = 0;
           this.product = null;
           this.variant = null;
-          // this.stopLive();
+
+          if (this.data[this.visible].type == "live") {
+            this.stopLive();
+          }
+
+          this.videos[this.visible].value = "";
+          this.comments[this.visible].value = [];
           this.visible = index;
 
+          var value = this.data[index].value;
+          this.videos[index].value = value.resourceUri;
+          this.comments[index].value = value.comments;
+
           if (this.data[index].type == "live") {
-            this.videos[index].value = value.resourceUri;
             this.display = value.display;
-
-            if (value.comments.length > 0) {
-              this.comments[index].value = value.comments;
-              this.scrollToElement();
-            } else {
-              this.comments[index].value = [];
-            }
-
-            setTimeout(() => {
-              console.log(value.resourceUri);
-              var player2 = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-              console.log(player2);
-
-              // Listen to player events
-              player2.addEventListener('ended', () => {
-                console.log('player ended');
-              });
-
-              player2.addEventListener('canplay', () => {
-                this.loading = false;
-              });
-
-              player2.scaleMode = "aspectFill";
-              player2.play();
-            }, 500);
-
-            if (this.comments[index].value.length > 0) {
-              this.scrollToElement();
-            }
-
             this.startLive(value);
-
-          } else if (this.data[index].type == "clip") {
-            this.videos[index].value = value.resourceUri;
-            this.comments[index].value = value.comments;
-
-            setTimeout(() => {
-              console.log(value.resourceUri);
-              var player2 = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-              console.log(player2);
-
-              // Listen to player events
-              player2.addEventListener('ended', () => {
-                console.log('player ended');
-              });
-
-              player2.addEventListener('canplay', () => {
-                this.loading = false;
-              });
-
-              player2.scaleMode = "aspectFill";
-              player2.play();
-            }, 500);
-
-            if (this.comments[index].value.length > 0) {
-              this.scrollToElement();
-            }
           }
+
+          if (this.comments[index].value.length > 0) {
+            this.scrollToElement();
+          }
+
+          setTimeout(() => {
+            console.log(value.resourceUri);
+            var player2 = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
+            console.log(player2);
+
+            // Listen to player events
+            player2.addEventListener('ended', () => {
+              console.log('player ended');
+              if (this.data[index].type == "live") {
+                this.finished[index].value = true;
+              }
+            });
+
+            player2.addEventListener('canplay', () => {
+              this.loading = false;
+            });
+
+            player2.scaleMode = "aspectFill";
+            player2.play();
+          }, 500);
         }
       }
     },
@@ -764,9 +750,7 @@ export default {
       this.popupProduct = false;
       this.popupCart = false;
       this.popupShop = false;
-
       this.lineItems = window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [];
-      console.log(JSON.parse(window.localStorage.getItem("lineItems")));
 
       if (this.lineItems.length) {
         var exist = false;
@@ -797,7 +781,6 @@ export default {
           navigator.notification.confirm(
             'Ce article va remplacer votre ancien panier',
             (buttonIndex) => {
-              console.log('You selected button ' + buttonIndex);
               if (window.cordova.platformId == "browser") {
                 var id = 1;
               } else {
@@ -822,17 +805,14 @@ export default {
       }
 
       window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
-      console.log(JSON.parse(window.localStorage.getItem("lineItems")));
     },
     showPromo() {
-      console.log("show promo");
       this.popupPromo = true;
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCart = false;
     },
     hidePromo() {
-      console.log('hide promo');
       this.popupPromo = false;
       this.popupCart = false;
       this.popupShop = false;
@@ -867,12 +847,8 @@ export default {
     goProfile(id) {
       this.stopLive();
 
-      if (this.user) {
-        if (this.user.id == id) {
-          this.$router.push({ name: 'Account' });
-        } else {
-          this.$router.push({ name: 'Profile', params: { id: id } });
-        }
+      if (this.user.id == id) {
+        this.$router.push({ name: 'Account' });
       } else {
         this.$router.push({ name: 'Profile', params: { id: id } });
       }
@@ -900,7 +876,6 @@ export default {
       this.popup = true;
     },
     away(event) {
-      console.log(event);
       if (event.target.id == "buttonSend" || event.target.id == "svgSend" || event.target.id == "pathSend") {
         if (this.content && this.content.length > 0) {
           this.send();
@@ -933,7 +908,6 @@ export default {
         var el = this.$refs.scrollToMe;
 
         if (el && el.length > 0) {
-          console.log(el);
           el[0].scrollTop = el[0].scrollHeight;
         }
       }, 500);
@@ -941,23 +915,10 @@ export default {
     onVideoLoaded(e) {
       this.loading = false;
     },
-    onVideoEnded(index) {
-      var el = document.getElementById('feed');
-      console.log(el);
-
-      if (el) {
-        el.scrollTop += window.innerHeight;
-      }
-    },
     refresh() {
       this.popup = false;
       this.popupProduct = false;
       this.loading = true;
-
-      // mettre à jour les informations de l'ancien live
-      // if (this.data && this.data.length > 0) {
-      //   this.stopLive();
-      // }
 
       this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
         var result = JSON.parse(response.data);
@@ -972,13 +933,11 @@ export default {
           this.viewers = 0;
           this.visible = 0;
 
-
           result.map((element, index) => {
             var value = JSON.parse(element.value);
             console.log(value);
 
             this.data.push({ "type": element.type, "value": value });
-
             var followers = value.vendor.user.followers;
             var isFollower = false;
 
@@ -992,62 +951,42 @@ export default {
             }
             
             this.following.push({ "value": isFollower });
+            this.finished.push({ "value": false });
             console.log(this.following);
 
             if (index == 0) {
+              this.videos.push({ "value": value.resourceUri });
+              this.comments.push({ "value": value.comments });
+
               // si c'est un live
               if (element.type == "live") {
-                console.log(value.resourceUri);
-                // si c'est un clip
-                this.videos.push({ "value": value.resourceUri });
-                this.comments.push({ "value": value.comments });
                 this.display = value.display;
-
-                setTimeout(() => {
-                  console.log(value.resourceUri);
-                  var player2 = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-
-                  // Listen to player events
-                  player2.addEventListener('ended', () => {
-                    console.log('player ended');
-                  });
-
-                  player2.addEventListener('canplay', () => {
-                    this.loading = false;
-                  });
-
-                  player2.scaleMode = "aspectFill";
-                  player2.play();
-                }, 500);
-
-                this.scrollToElement();
                 this.startLive(value);
-
-              } else if (element.type == "clip") {
-                console.log(value.resourceUri);
-                // si c'est un clip
-                this.videos.push({ "value": value.resourceUri });
-                this.comments.push({ "value": value.comments });
-                this.scrollToElement();
-
-
-                setTimeout(() => {
-                  console.log(value.resourceUri);
-                  var player2 = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-
-                  // Listen to player events
-                  player2.addEventListener('ended', () => {
-                    console.log('player ended');
-                  });
-
-                  player2.addEventListener('canplay', () => {
-                    this.loading = false;
-                  });
-
-                  player2.scaleMode = "aspectFill";
-                  player2.play();
-                }, 500);
               }
+
+              if (this.comments[index].value.length > 0) {
+                this.scrollToElement();
+              }
+
+              setTimeout(() => {
+                console.log(value.resourceUri);
+                var player2 = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
+
+                // Listen to player events
+                player2.addEventListener('ended', () => {
+                   console.log('player ended');
+                  if (this.data[index].type == "live") {
+                    this.finished[index].value = true;
+                  }
+                });
+
+                player2.addEventListener('canplay', () => {
+                  this.loading = false;
+                });
+
+                player2.scaleMode = "aspectFill";
+                player2.play();
+              }, 500);
             } else {
               this.videos.push({ "value": "" });
               this.comments.push({ "value": [] });
@@ -1061,25 +1000,19 @@ export default {
       });
     },
     stopLive() {
-      // if (this.player) {
-      //   document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
-      //   document.getElementsByTagName('body')[0].classList.add("dark-mode");
-      //   this.player.hidePlayer();
-      //   this.player.close();
-      // }
-
       if (this.data[this.visible].type == "live") {
         this.pusher.unsubscribe(this.data[this.visible].value.channel);
 
-        this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, 
-            (response) => { console.log(response.error); });
+        this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(response);
+        }, (response) => { 
+          console.log(response.error); 
+        });
       }
     },
     startLive(value) {
       var channel = this.pusher.subscribe(value.channel);
       channel.bind("pusher:subscription_succeeded", (response) => {
-        console.log("subscription_succeeded : " + response);
-
         this.http.put(this.baseUrl + "/user/api/live/" + value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => { 
           console.log(response.error); 
         });
@@ -1107,165 +1040,7 @@ export default {
           this.display = data.display;
         }
       });
-
-      // if (this.player) {
-      //   document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-      //   document.getElementsByTagName('body')[0].classList.remove("dark-mode");
-
-      //   try {
-      //     this.player.showPlayerBehindWebView();
-      //     this.player.loadBroadcast(value.resourceUri);
-      //     this.listenForBroadcastLoaded();
-      //     this.listenForStateChange();
-      //   } catch (e) {
-      //     console.log('Failed to load broadcast', e);
-      //   }
-      // }
     },
-    // listenForStateChange() {
-    //   if (!this.stateListener) {
-    //     this.stateListener = this.player.addEventListener('stateChange', status => {
-    //        console.log("Event : " + status);
-
-    //       if (status == "playing") {
-    //         this.loading = false;
-    //       }
-
-    //       if (status == "error") {
-    //         console.log("Une erreur est suvenue lors du chargement du live");
-    //       }
-
-    //       if (status == "completed") {
-    //         console.log("Le live est fini");
-
-    //         // stoper le live
-    //         this.stopLive();
-
-    //         this.data.splice(this.visible, 1);
-    //         this.videos.splice(this.visible, 1);
-    //         this.comments.splice(this.visible, 1);
-
-    //         var value = this.data[this.visible].value;
-    //         this.popup = false;
-    //         this.loading = true;
-    //         this.display = 1;
-    //         this.viewers = 0;
-
-    //         if (this.data.length > 0) {
-    //           if (this.data[this.visible].type == "live") {
-    //             this.videos[this.visible].value = "";
-    //             this.display = value.display;
-
-    //             if (value.comments.length > 0) {
-    //               this.comments[this.visible].value = value.comments;
-    //               this.scrollToElement();
-    //             } else {
-    //               this.comments[this.visible].value = [];
-    //             }
-
-    //             this.startLive(value);
-
-    //           } else if (this.data[this.visible].type == "clip") {
-    //             this.videos[this.visible].value = value.resourceUri;
-    //             this.comments[this.visible].value = value.comments;
-
-    //             if (this.comments[this.visible].value.length > 0) {
-    //               this.scrollToElement();
-    //             }
-
-    //             setTimeout(() => {
-    //               var player2 = window.BambuserPlayer.create(document.getElementById('player'+this.visible), value.resourceUri);
-
-    //               // Listen to player events
-    //               player2.addEventListener('ended', () => {
-    //                 console.log('player ended');
-    //               });
-
-    //               player2.addEventListener('canplay', () => {
-    //                 this.loading = false;
-    //               });
-
-    //               player2.scaleMode = "aspectFill";
-    //               player2.play();
-    //             }, 500);
-    //           }
-    //         }
-    //       }
-    //     });
-    //   }
-    // },
-    // listenForBroadcastLoaded() {
-    //   if (!this.broadcastLoadedListener) {
-    //     this.broadcastLoadedListener = this.player.addEventListener('broadcastLoaded', status => {
-    //        console.log("Event : " + status);
-
-    //       if (status == "playing") {
-    //         this.loading = false;
-    //       }
-
-    //       if (status == "error") {
-    //         console.log("Une erreur est suvenue lors du chargement du live");
-    //       }
-
-    //       if (status == "completed") {
-    //         console.log("Le live est fini");
-
-    //         // stoper le live
-    //         this.stopLive();
-
-    //         this.data.splice(this.visible, 1);
-    //         this.videos.splice(this.visible, 1);
-    //         this.comments.splice(this.visible, 1);
-
-    //         var value = this.data[this.visible].value;
-    //         this.popup = false;
-    //         this.loading = true;
-    //         this.display = 1;
-    //         this.viewers = 0;
-
-    //         if (this.data.length > 0) {
-    //           if (this.data[this.visible].type == "live") {
-    //             this.videos[this.visible].value = "";
-    //             this.display = value.display;
-
-    //             if (value.comments.length > 0) {
-    //               this.comments[this.visible].value = value.comments;
-    //               this.scrollToElement();
-    //             } else {
-    //               this.comments[this.visible].value = [];
-    //             }
-
-    //             this.startLive(value);
-
-    //           } else if (this.data[this.visible].type == "clip") {
-    //             this.videos[this.visible].value = value.resourceUri;
-    //             this.comments[this.visible].value = value.comments;
-
-    //             if (this.comments[this.visible].value.length > 0) {
-    //               this.scrollToElement();
-    //             }
-
-    //             setTimeout(() => {
-    //               var player2 = window.BambuserPlayer.create(document.getElementById('player'+this.visible), value.resourceUri);
-
-    //               // Listen to player events
-    //               player2.addEventListener('ended', () => {
-    //                 console.log('player ended');
-    //               });
-
-    //               player2.addEventListener('canplay', () => {
-    //                 this.loading = false;
-    //               });
-
-    //               player2.scaleMode = "aspectFill";
-    //               player2.play();
-    //             }, 500);
-    //           }
-    //         }
-    //       }
-    //     });
-    //   }
-    // },
     pause() {
       console.log("User is out of feed");
       navigator.splashscreen.show();

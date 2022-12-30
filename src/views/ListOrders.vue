@@ -36,7 +36,7 @@
       		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="position: relative">
       			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
             <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
-            <span class="counter-badge" style="top: 5px;left: 56px;">5</span>
+            <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
       			<div>
       				<div><span>#{{ order.number }}</span></div>
       				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
@@ -108,12 +108,6 @@ export default {
       show4: false,
     }
   },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-  },
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
@@ -124,7 +118,22 @@ export default {
       console.log(response.error);
     });
   },
+  filters: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  },
   methods: {
+    nbProducts(lineItems) {
+      var count = 0;
+      if (lineItems.length) {
+        lineItems.map(lineItem => {
+          count = count + lineItem.quantity;
+        });
+      }
+      return count;
+    },
     goToOrder(id) {
       this.$router.push({ name: 'Order', params: { id: id } });
     },

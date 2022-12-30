@@ -5,7 +5,7 @@
       <div v-else class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Comment ça marche ?</div>
     </div>
     <div class="checkout__body" style="overflow: scroll; padding: 15px;">
-      <div v-if="notif" class="step1">
+      <div v-if="notif" class="notif onboarding">
         <h5 class="title">Soyez informé !</h5>
         <div class="subtitle">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.</div>
         <div class="container" style="margin: 60px auto 0px;">

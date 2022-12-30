@@ -92,6 +92,8 @@
     created() {    
       window.StatusBar.overlaysWebView(false);
       window.StatusBar.styleDefault();
+
+      // move to component
     },
     methods: {
       goBack() {
