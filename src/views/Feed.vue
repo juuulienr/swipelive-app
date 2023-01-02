@@ -48,7 +48,7 @@
 
 
         <!-- purchase -->
-     <!--    <div style="position: absolute; z-index: 10000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
+   <!--      <div style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
             <div class="video-page__influencer-img" style="padding-right: 0px;">
               <img class="zoom" :src="require(`@/assets/img/badge-vente.png`)" style="border-radius: 50%; width: 175px; height: 175px; object-fit: cover;"/>
@@ -56,180 +56,12 @@
             <img class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute;" />
             <lottie :options="defaultOptions3" v-on:animCreated="handleAnimation" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>
-        </div>
- -->
+        </div> -->
 
-        <!-- love -->
-        <div v-if="videos[index].value && !finished[index].value" class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
-          <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
-            <div class="_g19 KeyframeAnimation-js_6">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 11px;">
-            <div class="_g19 KeyframeAnimation-js_8">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 9px;">
-            <div class="_g19 KeyframeAnimation-js_9">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 13px;">
-            <div class="_g19 KeyframeAnimation-js_10">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">    
-            <div class="_g19 KeyframeAnimation-js_11"> 
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 15px;">
-            <div class="_g19 KeyframeAnimation-js_12">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
-            <div class="_g19 KeyframeAnimation-js_13">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_14">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_15">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_16">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_17">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_18">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_19">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_20">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_21">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_22">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_23">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_24">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_25">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_26">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_27">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_28">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_29">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-          <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-            <div class="_g19 KeyframeAnimation-js_30">
-              <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <!-- heart animation -->
+        <HeartAnimation v-if="videos[index].value && !finished[index].value" ref="heartAnimation"/>
+
 
 
         <!-- profil -->
@@ -383,7 +215,7 @@
         </div>
         
         <!-- like -->
-        <img v-if="!finished[index].value" @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" class="heart-animation">
+        <img v-if="!finished[index].value" @click="showAnimation()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" class="heart-animation">
         
         <!-- video -->
         <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
@@ -528,6 +360,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 
 import Product from '../components/Product';
 import Cart from '../components/Cart';
+import HeartAnimation from '../components/HeartAnimation';
 
 import * as animationData from '../assets/lottie/live.json';
 import * as animationData2 from '../assets/lottie/arrow.json';
@@ -538,6 +371,7 @@ export default {
   components: {
     Product,
     Cart,
+    HeartAnimation,
     'lottie': Lottie
   },
   mixins: [ clickaway ],
@@ -582,31 +416,6 @@ export default {
       popupShop: false,
       throttle: 1000,
       http: null,
-      anim1: false,
-      anim2: false,
-      anim3: false,
-      anim4: false,
-      anim5: false,
-      anim6: false,
-      anim7: false,
-      anim8: false,
-      anim9: false,
-      anim10: false,
-      anim11: false,
-      anim12: false,
-      anim13: false,
-      anim14: false,
-      anim15: false,
-      anim16: false,
-      anim17: false,
-      anim18: false,
-      anim19: false,
-      anim20: false,
-      anim21: false,
-      anim22: false,
-      anim23: false,
-      anim24: false,
-      num: 0,
     }
   },
   created() {
@@ -883,18 +692,17 @@ export default {
     },
     send() {
       this.popup = false;
-      var isVendor = false;
 
       if (this.user.vendor && this.user.vendor.businessName == this.data[this.visible].value.vendor.businessName) {
-        var isVendor = true;
+        this.comments[this.visible].value.push({ "content": this.content, "user": { "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture, "vendor": true } });
+      } else {
+        this.comments[this.visible].value.push({ "content": this.content, "user": { "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture, "vendor": false } });
       }
+
+      this.scrollToElement();
       
       this.http.post(this.baseUrl + "/user/api/" + this.data[this.visible].type + "/" + this.data[this.visible].value.id + "/comment/add", { "content": this.content }, { Authorization: "Bearer " + this.token }, (response) => {
-        var result = JSON.parse(response.data);
         this.content = "";
-        this.comments[this.visible].value = result.comments;
-        this.data[this.visible].value = result;
-        this.scrollToElement();
       }, (response) => {
         console.log(response.error);
       });
@@ -906,7 +714,7 @@ export default {
         if (el && el.length > 0) {
           el[0].scrollTop = el[0].scrollHeight;
         }
-      }, 500);
+      }, 200);
     },
     onVideoLoaded(e) {
       this.loading = false;
@@ -1058,205 +866,6 @@ export default {
         console.log(response.error);
       });
     },
-    animate() {
-      if (this.num == 0 && !this.anim1) {
-        this.anim1 = true;
-
-        setTimeout(() => {
-          this.anim1 = false;
-        }, 2500);
-      }
-
-      if (this.num == 1 && !this.anim2) {
-        this.anim2 = true;
-
-        setTimeout(() => {
-          this.anim2 = false;
-        }, 2500);
-      }
-
-      if (this.num == 2 && !this.anim3) {
-        this.anim3 = true;
-
-        setTimeout(() => {
-          this.anim3 = false;
-        }, 2500);
-      }
-
-      if (this.num == 3 && !this.anim4) {
-        this.anim4 = true;
-
-        setTimeout(() => {
-          this.anim4 = false;
-        }, 2500);
-      }
-      
-      if (this.num == 4 && !this.anim5) {
-        this.anim5 = true;
-
-        setTimeout(() => {
-          this.anim5 = false;
-        }, 2500);
-      }
-
-      if (this.num == 5 && !this.anim6) {
-        this.anim6 = true;
-
-        setTimeout(() => {
-          this.anim6 = false;
-        }, 2500);
-      }
-
-      if (this.num == 6 && !this.anim7) {
-        this.anim7 = true;
-
-        setTimeout(() => {
-          this.anim7 = false;
-        }, 2500);
-      }
-
-      if (this.num == 7 && !this.anim8) {
-        this.anim8 = true;
-
-        setTimeout(() => {
-          this.anim8 = false;
-        }, 2500);
-      }
-
-      if (this.num == 8 && !this.anim9) {
-        this.anim9 = true;
-
-        setTimeout(() => {
-          this.anim9 = false;
-        }, 2500);
-      }
-
-      if (this.num == 9 && !this.anim10) {
-        this.anim10 = true;
-
-        setTimeout(() => {
-          this.anim10 = false;
-        }, 2500);
-      }
-
-      if (this.num == 10 && !this.anim11) {
-        this.anim11 = true;
-
-        setTimeout(() => {
-          this.anim11 = false;
-        }, 2500);
-      }
-
-      if (this.num == 11 && !this.anim12) {
-        this.anim12 = true;
-
-        setTimeout(() => {
-          this.anim12 = false;
-        }, 2500);
-      }
-
-      if (this.num == 12 && !this.anim13) {
-        this.anim13 = true;
-
-        setTimeout(() => {
-          this.anim13 = false;
-        }, 2500);
-      }
-
-      if (this.num == 13 && !this.anim14) {
-        this.anim14 = true;
-
-        setTimeout(() => {
-          this.anim14 = false;
-        }, 2500);
-      }
-
-      if (this.num == 14 && !this.anim15) {
-        this.anim15 = true;
-
-        setTimeout(() => {
-          this.anim15 = false;
-        }, 2500);
-      }
-
-      if (this.num == 15 && !this.anim16) {
-        this.anim16 = true;
-
-        setTimeout(() => {
-          this.anim16 = false;
-        }, 2500);
-      }
-
-      if (this.num == 16 && !this.anim17) {
-        this.anim17 = true;
-
-        setTimeout(() => {
-          this.anim17 = false;
-        }, 2500);
-      }
-
-      if (this.num == 17 && !this.anim18) {
-        this.anim18 = true;
-
-        setTimeout(() => {
-          this.anim18 = false;
-        }, 2500);
-      }
-
-      if (this.num == 18 && !this.anim19) {
-        this.anim19 = true;
-
-        setTimeout(() => {
-          this.anim19 = false;
-        }, 2500);
-      }
-
-      if (this.num == 19 && !this.anim20) {
-        this.anim20 = true;
-
-        setTimeout(() => {
-          this.anim20 = false;
-        }, 2500);
-      }
-
-      if (this.num == 20 && !this.anim21) {
-        this.anim21 = true;
-
-        setTimeout(() => {
-          this.anim21 = false;
-        }, 2500);
-      }
-
-      if (this.num == 21 && !this.anim22) {
-        this.anim22 = true;
-
-        setTimeout(() => {
-          this.anim22 = false;
-        }, 2500);
-      }
-
-      if (this.num == 22 && !this.anim23) {
-        this.anim23 = true;
-
-        setTimeout(() => {
-          this.anim23 = false;
-        }, 2500);
-      }
-
-      if (this.num == 23 && !this.anim24) {
-        this.anim24 = true;
-
-        setTimeout(() => {
-          this.anim24 = false;
-        }, 2500);
-      }
-
-      if (this.num == 23) {
-        this.num = 0;
-      } else {
-        this.num = this.num + 1;
-      }
-    },
     share() {
       window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
     },
@@ -1269,6 +878,15 @@ export default {
       this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
       window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
       this.$router.push({ name: 'Checkout' });
+    },
+    showAnimation() {
+      setTimeout(() => {
+        var el = this.$refs.heartAnimation;
+
+        if (el && el.length > 0) {
+          el[0].animate();
+        }
+      }, 200);
     },
   }
 };

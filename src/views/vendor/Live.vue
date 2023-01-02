@@ -4,11 +4,9 @@
     <div v-if="browser" id="player" style="height: 100vh; overflow: hidden;"></div>
 
     <div v-if="prelive" class="prelive">
-      <!-- top -->
-      <div style="background-image: linear-gradient(0deg, transparent 84%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; top: 0px;"></div>
-      
-      <!-- bottom -->
-      <div style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
+      <!-- filter top/bottom -->
+      <div class="filter-top"></div>
+      <div class="filter-bottom"></div>
       
 
       <!-- go back -->
@@ -52,7 +50,8 @@
         <div @click="showMultistream()" class="video-page__influencer-username-holder" style="padding-right: 5px;">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 10px; fill: #ff2773;"><defs></defs>
-              <path class="fa-primary" d="M288 200C257.1 200 232 225.1 232 256S257.1 312 288 312S344 286.9 344 256S318.9 200 288 200z"/><path class="fa-secondary" d="M64 256c0-51.5 16.98-99.91 49.13-139.1c11.05-13.78 8.844-33.94-4.953-45c-13.75-10.97-33.89-8.812-44.98 4.938C22.44 126.8 0 190.7 0 256c0 65.28 22.44 129.2 63.19 180C69.52 443.9 78.8 448 88.17 448c7.031 0 14.09-2.312 20-7.031c13.8-11.06 16-31.22 4.953-45C80.98 355.9 64 307.5 64 256zM512.8 75.96c-11.09-13.78-31.23-15.97-44.98-4.938c-13.8 11.06-16 31.22-4.953 45C495 156.1 512 204.5 512 256c0 51.5-16.98 99.91-49.13 139.1c-11.05 13.78-8.844 33.94 4.953 45C473.7 445.7 480.8 448 487.8 448c9.375 0 18.66-4.094 24.98-11.97C553.6 385.2 576 321.3 576 256C576 190.7 553.6 126.8 512.8 75.96zM392.3 149.1c-9.962 8.75-10.95 23.91-2.19 33.87c34.97 39.78 34.97 104.5 0 144.3c-8.758 9.969-7.772 25.12 2.19 33.87c4.567 3.1 10.21 5.969 15.84 5.969c6.678 0 13.32-2.75 18.06-8.156c50.33-57.25 50.33-150.4 0-207.7C417.4 142.2 402.3 141.2 392.3 149.1zM183.7 149.1C173.8 141.2 158.6 142.2 149.8 152.2c-50.33 57.25-50.33 150.4 0 207.7c4.739 5.406 11.39 8.156 18.06 8.156c5.614 0 11.28-1.969 15.84-5.969c9.962-8.75 10.95-23.91 2.19-33.87c-34.97-39.78-34.97-104.5 0-144.3C194.7 173.9 193.7 158.7 183.7 149.1z" style="fill: white;"/>
+              <path class="fa-primary" d="M288 200C257.1 200 232 225.1 232 256S257.1 312 288 312S344 286.9 344 256S318.9 200 288 200z"/>
+              <path class="fa-secondary" d="M64 256c0-51.5 16.98-99.91 49.13-139.1c11.05-13.78 8.844-33.94-4.953-45c-13.75-10.97-33.89-8.812-44.98 4.938C22.44 126.8 0 190.7 0 256c0 65.28 22.44 129.2 63.19 180C69.52 443.9 78.8 448 88.17 448c7.031 0 14.09-2.312 20-7.031c13.8-11.06 16-31.22 4.953-45C80.98 355.9 64 307.5 64 256zM512.8 75.96c-11.09-13.78-31.23-15.97-44.98-4.938c-13.8 11.06-16 31.22-4.953 45C495 156.1 512 204.5 512 256c0 51.5-16.98 99.91-49.13 139.1c-11.05 13.78-8.844 33.94 4.953 45C473.7 445.7 480.8 448 487.8 448c9.375 0 18.66-4.094 24.98-11.97C553.6 385.2 576 321.3 576 256C576 190.7 553.6 126.8 512.8 75.96zM392.3 149.1c-9.962 8.75-10.95 23.91-2.19 33.87c34.97 39.78 34.97 104.5 0 144.3c-8.758 9.969-7.772 25.12 2.19 33.87c4.567 3.1 10.21 5.969 15.84 5.969c6.678 0 13.32-2.75 18.06-8.156c50.33-57.25 50.33-150.4 0-207.7C417.4 142.2 402.3 141.2 392.3 149.1zM183.7 149.1C173.8 141.2 158.6 142.2 149.8 152.2c-50.33 57.25-50.33 150.4 0 207.7c4.739 5.406 11.39 8.156 18.06 8.156c5.614 0 11.28-1.969 15.84-5.969c9.962-8.75 10.95-23.91 2.19-33.87c-34.97-39.78-34.97-104.5 0-144.3C194.7 173.9 193.7 158.7 183.7 149.1z" style="fill: white;"/>
             </svg>
           </span>
         </div>
@@ -308,129 +307,8 @@
       <!-- bottom -->
       <div style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
 
-
-      <div class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
-        <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
-          <div class="_g19 KeyframeAnimation-js_6">
-            <div class="_g19 KeyframeAnimation-js_7"><img  :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 11px;">
-          <div class="_g19 KeyframeAnimation-js_8">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 9px;">
-          <div class="_g19 KeyframeAnimation-js_9">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 13px;">
-          <div class="_g19 KeyframeAnimation-js_10">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">    
-          <div class="_g19 KeyframeAnimation-js_11"> 
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 15px;">
-          <div class="_g19 KeyframeAnimation-js_12">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
-          <div class="_g19 KeyframeAnimation-js_13">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_14">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_15">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_16">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_17">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_18">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_19">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_20">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_21">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_22">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_23">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_24">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_25">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_26">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_27">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_28">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_29">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-        <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_30">
-            <div class="_g19 KeyframeAnimation-js_7"><img :src="require(`@/assets/img/love.png`)"/></div>
-          </div>
-        </div>
-      </div>
+      <!-- heart animation -->
+      <HeartAnimation ref="heartAnimation"/>
         
 
       <!-- live badge -->
@@ -480,7 +358,7 @@
       <div v-if="comments.length" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="margin-right: 50px;">
         <div v-for="comment in comments" style="display: flex;">
           <div class="video-page__influencer-img" style="padding-right: 6px;">
-            <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 28px;height: 28px; object-fit: cover; margin-top: 2px;">
+            <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 32px;height: 32px; object-fit: cover; margin-top: 2px;">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
           </div>
           <div class="video-page__influencer-badge" style="padding: 4px 10px 5px 10px; margin-top: 0px; border-radius: 11px; background-color: rgba(255, 255, 255, 0.075); letter-spacing: 0.05px; margin-right: 0px">
@@ -561,7 +439,7 @@
 
 
       <!-- like -->
-      <img @click="animate()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 20;">
+      <img @click="showAnimation()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 20;">
 
 
       <!-- input comment -->
@@ -658,61 +536,59 @@
       </div>
     </div>
 
-    <div v-if="performance" class="performance" style="background: white;">
-      <main class="products" style="padding: 0px 15px 15px;">
-        <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
-          <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
-              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-            </svg>
-          </div>
-          <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Performance</div>
+    <div v-if="performance" class="store-products-item__login-popup store-products-item__login-popup--active performance" style="overflow-y: scroll; height: 100%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 15px 15px; left: 0px; background: white;">
+      <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
+        <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+          </svg>
         </div>
+        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Performance</div>
+      </div>
 
-        <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
-          <div class="cards-main">
-            <div class="container" style="text-align: center;">
-              <video style="height: 175px; width: 175px; background: white; margin-top: 15px;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/trophy.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-            </div>
-            <div style="font-weight: 500;font-size: 19px;text-align: center;margin-top: 15px;">Bravo {{ user.vendor.businessName }} !</div>
-            <p style="margin: 15px;text-align: center;font-size: 16px; font-weight: 400;">
-              Voici quelques statistiques du live. 
-            </p>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding: 5px; margin-top: 30px;">
-              <div style="width: 48%; text-align: center; padding: 15px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 33px; height: 33px; fill: rgb(104, 92, 240);">
-                  <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"></path>
-                </svg>
-                <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">258</h4>
-                <div style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Vues</div>
-              </div>
-              <div style="width: 48%; text-align: center; padding: 15px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px; height: 33px; fill: #ff2773;">
-                  <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path>
-                </svg>
-                <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">1458</h4>
-                <div style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Likes</div>
-              </div>
-            </div>
-
-            <div style="display: flex;justify-content: space-between;margin-bottom: 10px;padding: 5px;">
-              <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 33px;height: 33px;fill: #FFB800;"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path></svg>
-                <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">12</h4>
-                <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
-              </div>
-              <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px;height: 33px;fill: #73D751;">
-                  <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"></path>
-                </svg>
-                <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">250€</h4>
-                <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenus</div>
-              </div>
-            </div>
-            <div @click="goOrders()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">Voir les commandes</div>
+      <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+        <div class="cards-main">
+          <div class="container" style="text-align: center;">
+            <video style="height: 175px; width: 175px; background: white; margin-top: 15px;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/trophy.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
           </div>
+          <div style="font-weight: 500;font-size: 19px;text-align: center;margin-top: 15px;">Bravo {{ user.vendor.businessName }} !</div>
+          <p style="margin: 15px;text-align: center;font-size: 16px; font-weight: 400;">
+            Voici quelques statistiques du live. 
+          </p>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding: 5px; margin-top: 30px;">
+            <div style="width: 48%; text-align: center; padding: 15px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 33px; height: 33px; fill: rgb(104, 92, 240);">
+                <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"></path>
+              </svg>
+              <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">258</h4>
+              <div style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Vues</div>
+            </div>
+            <div style="width: 48%; text-align: center; padding: 15px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px; height: 33px; fill: #ff2773;">
+                <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path>
+              </svg>
+              <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">1458</h4>
+              <div style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Likes</div>
+            </div>
+          </div>
+
+          <div style="display: flex;justify-content: space-between;margin-bottom: 10px;padding: 5px;">
+            <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 33px;height: 33px;fill: #FFB800;"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path></svg>
+              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">12</h4>
+              <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
+            </div>
+            <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px;height: 33px;fill: #73D751;">
+                <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"></path>
+              </svg>
+              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">250€</h4>
+              <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenus</div>
+            </div>
+          </div>
+          <div @click="goOrders()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">Voir les commandes</div>
         </div>
-      </main>
+      </div>
     </div>
   </div>
 </template>
@@ -725,11 +601,13 @@ import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
 import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/golive.json';
+import HeartAnimation from '../../components/HeartAnimation';
 
 export default {
   name: 'Feed',
   mixins: [ clickaway ],
   components: {
+    HeartAnimation,
     'lottie': Lottie
   },
   data() {
@@ -786,31 +664,6 @@ export default {
       errorType: false,
       errorDiscount: false,
       facebook: false,
-      anim1: false,
-      anim2: false,
-      anim3: false,
-      anim4: false,
-      anim5: false,
-      anim6: false,
-      anim7: false,
-      anim8: false,
-      anim9: false,
-      anim10: false,
-      anim11: false,
-      anim12: false,
-      anim13: false,
-      anim14: false,
-      anim15: false,
-      anim16: false,
-      anim17: false,
-      anim18: false,
-      anim19: false,
-      anim20: false,
-      anim21: false,
-      anim22: false,
-      anim23: false,
-      anim24: false,
-      num: 0,
     }
   },
   filters: {
@@ -871,8 +724,6 @@ export default {
         document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
       }, 1000);
     } else {
-      console.log("Bambuser is not available");
-
       setTimeout(() => {
         var ressourceUri = "https://cdn.bambuser.net/broadcasts/20057381-f1d8-6fc1-1aa6-6fc9a896afc0?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1671610447&da_static=1&da_ttl=0&da_signature=f19839f85cb0bcf6376f8816b899ee4c79728afd8087a23ddeb5307c0d4e345d";
         this.video = window.BambuserPlayer.create(document.getElementById('player'), ressourceUri);
@@ -905,19 +756,16 @@ export default {
     },
     changeProduct() {
       if (this.liveProducts.length > 1) {
-        this.http.put(this.baseUrl + "/user/api/live/" + this.id + "/update/display", { "display": this.display + 1 }, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(JSON.parse(response.data));
-          this.display = this.display + 1;
-          this.liveProducts.shift();
+        this.display = this.display + 1;
+        this.liveProducts.shift();
+        
+        this.http.put(this.baseUrl + "/user/api/live/" + this.id + "/update/display", { "display": this.display }, { Authorization: "Bearer " + this.token }, (response) => {
         }, (response) => {
           console.log(response.error);
         });
-      } else {
-        this.stop();
       }
     },
     away(event) {
-      console.log(event);
       if (event.target.id == "buttonSend" || event.target.id == "svgSend" || event.target.id == "pathSend") {
         if (this.content && this.content.length > 0) {
           this.send();
@@ -928,21 +776,17 @@ export default {
       }
     },
     send() {
-    	console.log(this.content);
       this.popup = false;
+      this.comments.push({ "content": this.content, "user": { "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture, "vendor": true } });
+      this.scrollToElement();
 
       this.http.post(this.baseUrl + "/user/api/live/" + this.id + "/comment/add", { "content": this.content }, { Authorization: "Bearer " + this.token }, (response) => {
-      	console.log(JSON.parse(response.data));
-        var result = JSON.parse(response.data);
         this.content = "";
-        this.comments = result.comments;
-        this.scrollToElement();
       }, (response) => {
         console.log(response.error);
       });
     },
     scrollToElement() {
-      console.log(this.$refs);
       var el = this.$refs.scrollToMe;
 
       if (el) {
@@ -977,28 +821,25 @@ export default {
         this.counter = false;
         this.ready = true;
 
-
         this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test" }, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
           var result = JSON.parse(response.data);
           if (result) {
-            console.log(result);
             this.live = result;
             this.liveProducts = result.liveProducts;
-
             this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
             var channel = this.pusher.subscribe(result.channel);
           }
         }, (response) => {
           console.log(response.error);
         });
-
-        console.log("Bambuser is not available");
       }
     },
     async stop() {
       window.StatusBar.overlaysWebView(false);
       window.StatusBar.styleDefault();
+
+      this.ready = false;
+      this.performance = true;
 
       if (this.broadcaster) {
         this.broadcaster.hideViewfinder();
@@ -1018,10 +859,8 @@ export default {
         }
       }
 
-      this.ready = false;
-      this.performance = true;
-
       this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
       }, (response) => {
         console.log(response.error);
       });
@@ -1045,7 +884,8 @@ export default {
           this.broadcaster.hideViewfinder();
           this.broadcaster.removeEventListener(this.errListenerId);
           this.pusher.unsubscribe(this.live.channel);
-          this.$router.push({ name: 'PostLive', params: { id: this.id } });
+          this.ready = false;
+          this.performance = true;
         });
       }
     },
@@ -1054,10 +894,7 @@ export default {
         this.broadcastListenerId = this.broadcaster.addEventListener('broadcastIdAvailable', broadcastId => {
           console.log("J'ai le broadcastId : " + broadcastId);
           this.broadcaster.removeEventListener(this.broadcastListenerId);
-          console.log(this.id);
-
           this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : broadcastId }, { Authorization: "Bearer " + this.token }, (response) => {
-            console.log(response);
             var result = JSON.parse(response.data);
             if (result) {
               console.log(result);
@@ -1070,15 +907,12 @@ export default {
               channel.bind(result.event, (data) => {
                 console.log(data);
 
-                if (data.comment) {
-                	console.log(data.comment);
+                if ('comment' in data) {
                   if (data.comment.user.firstname != this.user.firstname && data.comment.user.lastname != this.user.lastname) {
                     this.comments.push(data.comment);
                     this.scrollToElement();
                   }
-                }
-
-                if (data.viewers) {
+                } else if ('viewers' in data) {
                   this.viewers = data.viewers;
                 }
               });
@@ -1181,204 +1015,14 @@ export default {
     handleAnimation: function (anim) {
       this.anim = anim;
     },
-    animate() {
-      if (this.num == 0 && !this.anim1) {
-        this.anim1 = true;
+    showAnimation() {
+      setTimeout(() => {
+        var el = this.$refs.heartAnimation;
 
-        setTimeout(() => {
-          this.anim1 = false;
-        }, 2500);
-      }
-
-      if (this.num == 1 && !this.anim2) {
-        this.anim2 = true;
-
-        setTimeout(() => {
-          this.anim2 = false;
-        }, 2500);
-      }
-
-      if (this.num == 2 && !this.anim3) {
-        this.anim3 = true;
-
-        setTimeout(() => {
-          this.anim3 = false;
-        }, 2500);
-      }
-
-      if (this.num == 3 && !this.anim4) {
-        this.anim4 = true;
-
-        setTimeout(() => {
-          this.anim4 = false;
-        }, 2500);
-      }
-      
-      if (this.num == 4 && !this.anim5) {
-        this.anim5 = true;
-
-        setTimeout(() => {
-          this.anim5 = false;
-        }, 2500);
-      }
-
-      if (this.num == 5 && !this.anim6) {
-        this.anim6 = true;
-
-        setTimeout(() => {
-          this.anim6 = false;
-        }, 2500);
-      }
-
-      if (this.num == 6 && !this.anim7) {
-        this.anim7 = true;
-
-        setTimeout(() => {
-          this.anim7 = false;
-        }, 2500);
-      }
-
-      if (this.num == 7 && !this.anim8) {
-        this.anim8 = true;
-
-        setTimeout(() => {
-          this.anim8 = false;
-        }, 2500);
-      }
-
-      if (this.num == 8 && !this.anim9) {
-        this.anim9 = true;
-
-        setTimeout(() => {
-          this.anim9 = false;
-        }, 2500);
-      }
-
-      if (this.num == 9 && !this.anim10) {
-        this.anim10 = true;
-
-        setTimeout(() => {
-          this.anim10 = false;
-        }, 2500);
-      }
-
-      if (this.num == 10 && !this.anim11) {
-        this.anim11 = true;
-
-        setTimeout(() => {
-          this.anim11 = false;
-        }, 2500);
-      }
-
-      if (this.num == 11 && !this.anim12) {
-        this.anim12 = true;
-
-        setTimeout(() => {
-          this.anim12 = false;
-        }, 2500);
-      }
-
-      if (this.num == 12 && !this.anim13) {
-        this.anim13 = true;
-
-        setTimeout(() => {
-          this.anim13 = false;
-        }, 2500);
-      }
-
-      if (this.num == 13 && !this.anim14) {
-        this.anim14 = true;
-
-        setTimeout(() => {
-          this.anim14 = false;
-        }, 2500);
-      }
-
-      if (this.num == 14 && !this.anim15) {
-        this.anim15 = true;
-
-        setTimeout(() => {
-          this.anim15 = false;
-        }, 2500);
-      }
-
-      if (this.num == 15 && !this.anim16) {
-        this.anim16 = true;
-
-        setTimeout(() => {
-          this.anim16 = false;
-        }, 2500);
-      }
-
-      if (this.num == 16 && !this.anim17) {
-        this.anim17 = true;
-
-        setTimeout(() => {
-          this.anim17 = false;
-        }, 2500);
-      }
-
-      if (this.num == 17 && !this.anim18) {
-        this.anim18 = true;
-
-        setTimeout(() => {
-          this.anim18 = false;
-        }, 2500);
-      }
-
-      if (this.num == 18 && !this.anim19) {
-        this.anim19 = true;
-
-        setTimeout(() => {
-          this.anim19 = false;
-        }, 2500);
-      }
-
-      if (this.num == 19 && !this.anim20) {
-        this.anim20 = true;
-
-        setTimeout(() => {
-          this.anim20 = false;
-        }, 2500);
-      }
-
-      if (this.num == 20 && !this.anim21) {
-        this.anim21 = true;
-
-        setTimeout(() => {
-          this.anim21 = false;
-        }, 2500);
-      }
-
-      if (this.num == 21 && !this.anim22) {
-        this.anim22 = true;
-
-        setTimeout(() => {
-          this.anim22 = false;
-        }, 2500);
-      }
-
-      if (this.num == 22 && !this.anim23) {
-        this.anim23 = true;
-
-        setTimeout(() => {
-          this.anim23 = false;
-        }, 2500);
-      }
-
-      if (this.num == 23 && !this.anim24) {
-        this.anim24 = true;
-
-        setTimeout(() => {
-          this.anim24 = false;
-        }, 2500);
-      }
-
-      if (this.num == 23) {
-        this.num = 0;
-      } else {
-        this.num = this.num + 1;
-      }
+        if (el && el.length > 0) {
+          el[0].animate();
+        }
+      }, 200);
     },
   }
 };

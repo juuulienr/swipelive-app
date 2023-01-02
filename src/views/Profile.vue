@@ -272,7 +272,7 @@ export default {
       this.notif = true;
     },
     actionSheet() {
-      var buttonLabels = ['Partager', 'Signaler'];
+      var buttonLabels = [ 'Mute', 'Partager', 'Signaler'];
       var options = {
         buttonLabels: buttonLabels,
         addCancelButtonWithLabel: 'Annuler',
@@ -283,8 +283,9 @@ export default {
       window.plugins.actionsheet.show(options, (index) => {
         console.log(index);
         if (index == 1) {
-    			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
         } else if (index == 2) {
+          window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
+        } else if (index == 3) {
           window.plugins.toast.show("L'utilisateur a été signalé !", 'long', 'top', function(a){
             console.log('toast success: ' + a);
           }, function(b){

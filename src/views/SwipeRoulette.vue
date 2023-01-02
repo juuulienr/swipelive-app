@@ -16,9 +16,9 @@
 
 
     <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px; padding-top: 0px">
-      <img :src="require(`@/assets/img/swipe-roulette.jpg`)" style="width: 100%; height:300px;">
+      <img :src="require(`@/assets/img/swipe-roulette.png`)" style="width: 100%; height:300px;">
 
-      <div style="position: absolute; width: 100%; z-index: 100000; background: white; top: 323px; border-radius: 30px; border-top: 1px solid #ab3cf8;">
+      <div style="position: absolute; width: 100%; z-index: 100000; background: white; top: 315px; border-radius: 30px;">
        <!--  <div class="top-author--container" style="border-radius: 10px; border: 2px solid #68dfb9; margin: 15px; background: #68dfb924; margin: 20px 15px 0px !important;">
           <div class="top-author--item">
             <img :src="require(`@/assets/img/no-preview.jpg`)"/>
@@ -81,6 +81,7 @@
       <div class="checkout__body info-roulette" style="overflow: scroll; padding: 15px 20px 50px;">
         <div class="container" style="text-align: center;">
           <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/roulette.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <h4 style="margin-top: 0px; margin-bottom: 50px;">Et si acheter devient un jeu ?</h4>
         </div>
         
         <h4>Swipe Roulette</h4>
