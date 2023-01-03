@@ -1,23 +1,22 @@
-
 <template>
-  <main class="cart" style="padding: 0px 10px 15px;">
-    <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
-      <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+  <main class="cart">
+    <div class="checkout__header">
+      <div @click="goBack()" class="checkout__close-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
-      <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Paiement</div>
+      <div class="checkout__title">Paiement</div>
     </div>
-    <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+    <div class="checkout__body">
 
       <!-- order summary -->
-      <div v-if="lineItems && lineItems.length" class="css-13dslnb" style="box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; margin: 5px; padding: 12px; border-radius: 11px;">
-        <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; justify-content: space-between; position: relative;">
-          <div class="checkout__product-info" style="padding-right: 0px;">
-            <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 8px;"/>
-            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image" style="border-radius: 8px;"/>
-            <span class="counter-badge" style="top: 0px;left: 54px;">{{ lineItem.quantity }}</span>
+      <div v-if="lineItems && lineItems.length" class="css-13dslnb">
+        <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row">
+          <div class="checkout__product-info">
+            <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image"/>
+            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image"/>
+            <span class="counter-badge">{{ lineItem.quantity }}</span>
             <div style="padding-right: 30px;">   
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
               <div v-if="lineItem.variant" class="checkout__attr">
@@ -71,7 +70,9 @@
             <div>{{ zip }} {{ city }}</div>
             <div>{{ country }}</div>
             <span style="float: right; margin-top: -62px;">
-            	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);"><path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"/></svg>
+            	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);">
+                <path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"/>
+              </svg>
             </span>
           </div>
         </div> 
@@ -89,7 +90,13 @@
               <div style="margin-left: 7px;">
                 <span style="font-weight: 500; color: #ff2773;">Ajouter une adresse de livraison</span>
               </div>
-              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #ff2773;width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+              <div style="margin-right: 5px;">
+                <span style="float: right;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #ff2773;width: 16px;height: 16px;">
+                    <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
+                  </svg>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -200,8 +207,12 @@
                 <span v-else>Ajouter un mode de paiement</span>
                 <div><span></span></div>
               </div>
-              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
-            </div>
+              <div style="margin-right: 5px;">
+                <span style="float: right;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
+                    <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span>
+                  </div>
+            </           div>
           </div>
         </div>
       </div>
@@ -218,12 +229,12 @@
     <!-- shipping to home -->
     <div v-if="popupShippingAddress" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
       <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-        <div @click="hideShippingAddress()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+        <div @click="hideShippingAddress()" class="checkout__close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
-        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Adresse de livraison</div>
+        <div class="checkout__title">Adresse de livraison</div>
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
         <div class="form--input--item" :class="{'form--input--item--error': errorName }">
@@ -281,12 +292,12 @@
     <!-- payment method -->
     <div v-if="popupPayment" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
       <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-        <div @click="hidePopupPayment()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+        <div @click="hidePopupPayment()" class="checkout__close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
-        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Mode de paiement</div>
+        <div class="checkout__title">Mode de paiement</div>
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
         <div @click="savePayment('Apple Pay')" class="card panel-item" style="border-radius: 15px; border: none; margin: 5px; margin-bottom: 15px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
@@ -297,7 +308,13 @@
 	                <span>Apple Pay</span>
 	                <div><span></span></div>
 	              </div>
-	              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+	              <div style="margin-right: 5px;">
+                  <span style="float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
+                      <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
+                    </svg>
+                  </span>
+                </div>
 	            </div>
             </div>
           </div>
@@ -310,7 +327,13 @@
 	                <span>Carte bancaire</span>
 	                <div><span></span></div>
 	              </div>
-	              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+	              <div style="margin-right: 5px;">
+                  <span style="float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
+                      <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
+                    </svg>
+                  </span>
+                </div>
 	            </div>
             </div>
           </div>
@@ -323,7 +346,13 @@
 	                <span>Paypal</span>
 	                <div><span></span></div>
 	              </div>
-	              <div style="margin-right: 5px;"><span style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;"><path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span></div>
+	              <div style="margin-right: 5px;">
+                  <span style="float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
+                      <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
+                    </svg>
+                  </span>
+                </div>
 	            </div>
             </div>
           </div>
@@ -335,12 +364,12 @@
     <!-- show relais -->
     <div v-if="popupRelay" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
       <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-        <div @click="hideRelay()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+        <div @click="hideRelay()" class="checkout__close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
-        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Point relais</div>
+        <div class="checkout__title">Point relais</div>
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
 		    <div class="images_filter">
@@ -376,7 +405,7 @@
 	    		</div>
 		    </div>
 		    <div v-if="tabList">
-          <div v-if="points" v-for="(point, index) in sortedPoints" class="card panel-item" style="border-radius: 10px;margin: 15px 5px;border: none;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
+          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="border-radius: 10px;margin: 15px 5px;border: none;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
             <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
               <div class="card-title" style="font-weight: 500; margin-bottom: 4px;">
                 <img v-if="point.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
@@ -405,12 +434,12 @@
 
     <!-- select relais -->
     <div v-if="popupRelayInfo" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-        <div @click="hideRelayInfo()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+        <div @click="hideRelayInfo()" class="checkout__close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
-        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Informations</div>
+        <div class="checkout__title">Informations</div>
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
       	<div class="card panel-item" style="border: none;">
@@ -726,6 +755,14 @@ export default {
         });
       }
     },
+    getShippingPrice() {
+      window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        this.shippingProducts = JSON.parse(response.data);
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     showRelayPopup() {
     	if (this.countryShort) {
 	      this.popupRelay = true;
@@ -754,7 +791,6 @@ export default {
             }
 
             street = street.trim();
-            console.log(street, number);
             point.street = street;
             point.house_number = number;
 
@@ -769,19 +805,6 @@ export default {
 			        this.mapSelected = point;
 	        	}
 	        });
-
-          this.sortedPoints = this.points.sort((a, b) => {
-            if (a.carrier === "mondial_relay" && b.carrier === "mondial_relay") {
-              return a.distance - b.distance;
-            }
-            if (a.carrier === "mondial_relay") {
-              return -1;
-            }
-            if (b.carrier === "mondial_relay") {
-              return 1;
-            }
-            return 0;
-          });
 	      }, function(response) {
 	        console.log(response.error);
 	      });
@@ -947,14 +970,6 @@ export default {
 	    	this.country = result[0].description;
 	    }, (error) => {
 	    	console.log(error);
-	    });
-    },
-    getShippingPrice() {
-	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
-	      console.log(JSON.parse(response.data));
-	    	this.shippingProducts = JSON.parse(response.data);
-	    }, (response) => {
-	      console.log(response.error);
 	    });
     },
     checkPhone(phone) {

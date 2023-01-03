@@ -347,29 +347,6 @@
 	object-fit: cover;
 }
 
-.checkout__header {
-	position: relative;
-	padding: .9rem 0;
-}
-
-.checkout__body {
-	height: calc(100% - 70px);
-	overflow: auto
-}
-
-.checkout__close-btn {
-	position: absolute;
-	left: 0;
-	top: 8px;
-	padding: .5rem 15px;
-}
-
-.checkout__title {
-	text-align: center;
-	font-size: 1.1rem;
-	font-weight: 700
-}
-
 .checkout__price-body {
 	margin-top: 1rem
 }

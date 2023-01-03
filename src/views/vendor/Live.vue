@@ -180,7 +180,7 @@
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Profil</div>
               </div>
               <div class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
+                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -208,7 +208,7 @@
                 </label>
               </div>
               <div v-if="pages" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
+                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -223,7 +223,7 @@
                 </span>
               </div>
               <div v-if="pages" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
+                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -251,7 +251,7 @@
                 </label>
               </div>
               <div v-if="groups" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
+                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -266,7 +266,7 @@
                 </span>
               </div>
               <div v-if="groups" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" alt="Avatar" style="width: 48px!important; height: 48px !important;"/>
+                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
                 <div><span>Deja Brady</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -706,16 +706,16 @@
     </div>
 
     <div v-if="performance" class="store-products-item__login-popup store-products-item__login-popup--active performance" style="overflow-y: scroll; height: 100%; width: 100vw; padding: 0px 15px 15px; left: 0px; background: white; border-radius: none;">
-      <div class="checkout__header" style="padding: 5px 5px 15px 5px; z-index: 10000000;">
-        <div @click="goBack()" class="checkout__close-btn" style="position: absolute; left: initial; top: 0px; padding: 6px 0px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px; height: 20px; fill: #000;">
+      <div class="checkout__header">
+        <div @click="goBack()" class="checkout__close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
-        <div class="checkout__title" style="font-weight: 500; margin-bottom: 0px; color: rgb(0, 0, 0); font-size: 18px;">Performance</div>
+        <div class="checkout__title">Performance</div>
       </div>
 
-      <div class="checkout__body" style="overflow: scroll; padding-bottom: 50px;">
+      <div class="checkout__body">
         <div class="cards-main">
           <div class="container" style="text-align: center;">
             <video style="height: 175px; width: 175px; background: white; margin-top: 15px;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/trophy.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
@@ -743,7 +743,9 @@
 
           <div style="display: flex;justify-content: space-between;margin-bottom: 10px;padding: 5px;">
             <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 33px;height: 33px;fill: #FFB800;"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 33px;height: 33px;fill: #FFB800;">
+                <path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path>
+              </svg>
               <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">12</h4>
               <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
             </div>

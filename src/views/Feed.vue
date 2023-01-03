@@ -377,7 +377,9 @@
         <div v-if="!finished[index].value" @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 42px; height: 40px; padding: 10px; fill: white;"><path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 42px; height: 40px; padding: 10px; fill: white;">
+                <path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z"/>
+              </svg>
             </span>
           </div>
         </div>
@@ -404,6 +406,7 @@
         </svg>
       </button>
     </div>
+    
 
     <!-- promo popup -->
     <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 40%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
@@ -411,14 +414,11 @@
         <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
         </div>
       </div>
-
       <div style="margin: 0px;">
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Promotion</span>
         </div>
-
         <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; margin: 0; margin-top: 15px; padding: 10px;">Cette promotion sera appliqué automatiquement lors du passage en caisse.</p>
-
         <div style="box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
           <div class="profile--follow">
             <div style="width: 40%; margin-top: 5px;">
@@ -459,12 +459,11 @@
 
 
     <!-- cart popup -->
-    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 5px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
       <div @click="hideCart()" style="display: flex;">
         <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
         </div>
       </div>
-
       <div style="margin: 0px;">
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Panier</span>
@@ -481,14 +480,12 @@
         <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
         </div>
       </div>
-
       <div style="margin: 0px;">
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Boutique de {{ shop.businessName }}</span>
         </div>
       </div>
-
-      <div v-if="shop" class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
+      <div v-if="shop" class="checkout__body items">
         <div class="shop--part" style="margin: 0px; padding: 0px 5px;">
           <div v-if="product.archived == false" v-for="product in shop.products" class="shop--item">
             <div>

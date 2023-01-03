@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main style="padding: 0px;">
     <div style="position: absolute; background: white; padding: 10px 15px 15px; width: 100%; z-index: 110; text-align: center;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div v-if="!popupSearch">
@@ -15,7 +15,7 @@
         </svg>
         <div style="width: 100%; margin-right: 12px; margin-left: 12px;">
           <div class="chat--left--head--input">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
             <input @click="search()" ref="search" v-on:keyup="changed" v-model="searchValue" type="text" placeholder="Rechercher"/>
@@ -85,7 +85,7 @@
                 </div>
               </div>
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; height: calc(100% - 10px)">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: calc(100% - 10px); position: absolute; z-index: 10; width: calc(100% - 10px); top: 5px;"></div>
+              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: calc(100% - 20px); position: absolute; z-index: 10; width: calc(100% - 10px); top: 5px;"></div>
             </router-link>
           </div>
         </div>

@@ -1,4 +1,3 @@
-
 .btn-swipe {
   background: #18cea0;
   color: #fff!important;
@@ -332,49 +331,29 @@
 }
 
 .checkout__product-info-row.checkout__row {
-  border-bottom: 0
+  border-bottom: 0;
+  align-items: center; 
+  justify-content: space-between; 
+  position: relative;
 }
 
 .checkout__product-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 1rem
+  padding-right: 0px;
 }
 
 .checkout__product-info .checkout__image {
   width: 64px;
   height: 64px;
   margin-right: 1.2rem;
+  border-radius: 8px;
 }
 
-.checkout__product-info .checkout__image2 {
-  width: 48px;
-  height: 48px;
-  margin-right: 0.8rem;
-}
-
-.checkout__header {
-  position: relative;
-  padding: .9rem 0;
-}
-
-.checkout__body {
-  height: calc(100% - 70px);
-  overflow: auto
-}
-
-.checkout__close-btn {
-  position: absolute;
-  left: 0;
-  top: 8px;
-  padding: .5rem 15px;
-}
-
-.checkout__title {
-  text-align: center;
-  font-size: 1.1rem;
-  font-weight: 700
+.counter-badge {
+  top: 0px;
+  left: 54px;
 }
 
 .checkout__price-body {
@@ -758,6 +737,10 @@
   overflow: hidden;
   position: relative;
   z-index: 0;
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  margin: 5px; 
+  padding: 12px; 
+  border-radius: 11px;
 }
 
 .css-15x3obx {

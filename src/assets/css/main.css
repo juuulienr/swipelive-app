@@ -115,6 +115,7 @@ svg {
 main {
   height: 100vh;
   overflow-y: scroll;
+  padding: 0px 10px 15px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -225,40 +226,55 @@ body.dark-mode {
 
 .checkout__header {
   position: relative;
-  padding: .9rem 0;
+  padding: 5px 5px 15px 5px; 
+  z-index: 10000000;
 }
 
 .checkout__body {
   height: calc(100% - 50px);
-  overflow: auto
+  overflow: scroll; 
+  padding-bottom: 50px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .checkout__body::-webkit-scrollbar {
   display: none;
 }
-.checkout__body {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
 
 .checkout__close-btn {
   position: absolute;
-  left: 0;
-  top: 8px;
-  padding: .5rem 15px;
+  left: initial; 
+  top: 0px; 
+  padding: 6px 0px;
+}
+
+.checkout__close-btn svg {
+  width: 20px; 
+  height: 20px; 
+  fill: #000;
 }
 
 .checkout__title {
   text-align: center;
-  font-size: 1.1rem;
-  font-weight: 700
+  font-weight: 500; 
+  margin-bottom: 0px; 
+  color: rgb(0, 0, 0); 
+  font-size: 18px;
 }
 
 .checkout__right-btn {
-  position: absolute;
-  right: 0;
-  top: 8px;
-  padding: .5rem
+  position: absolute; 
+  top: 0px; 
+  right: 15px; 
+  padding: 6px 0px;
+}
+
+.checkout__right-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: #161823;
+  border-radius: 30px;
 }
 
 .title-wrapper-3KgEa div {

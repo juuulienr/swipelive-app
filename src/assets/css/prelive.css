@@ -12,6 +12,10 @@ img {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  font-size: 14px; 
+  color: #525c66; 
+  font-weight: 500; 
+  margin-right: 9px;
 }
 
 .lasted--product {
@@ -23,15 +27,16 @@ img {
 .product--item {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 .product--item > img {
   line-height: 0;
   display: block;
   overflow: hidden;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
   flex-shrink: 0;
+  border-radius: 10px;
+  width: 64px;
+  height: 64px;
 }
 .product--item > .details {
   margin-left: 16px;
@@ -300,7 +305,59 @@ img {
 }
 
 .products .items .one_item .title {
-  font-size: 16px;
+  text-decoration: none; 
+  color: rgb(33, 43, 54); 
+  line-height: 1.57143; 
+  font-size: 15px;
   font-weight: 500;
   margin-bottom: 6px;
+}
+
+
+.products .items .one_item .img_item img {
+  width: 52px; 
+  height: 52px; 
+  border-radius: 12px; 
+  object-fit: cover;
+}
+
+.products .items .p_item {
+  padding-top: 20px; 
+  margin-bottom: 0px; 
+  text-align: center; 
+  font-weight: 400
+}
+
+.stock-available {
+  margin: 0px;
+  height: 22px;
+  min-width: 22px;
+  line-height: 0;
+  border-radius: 6px;
+  cursor: default;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  color: rgb(34, 154, 22);
+  font-size: 0.75rem;
+  background-color: rgba(84, 214, 44, 0.16);
+  font-weight: 700;
+  padding: 0 8px;
+  margin-top: 3px;
+}
+
+.btn-prelive {
+  color: white; 
+  text-align: center; 
+  position: absolute; 
+  bottom: calc(env(safe-area-inset-bottom) + 25px); 
+  width: calc(100vw - 40px);
+}
+
+.draggable-item {
+  margin: 15px 5px; 
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%); 
+  padding: 10px; 
+  border-radius: 20px;
 }
