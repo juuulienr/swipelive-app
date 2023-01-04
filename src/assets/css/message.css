@@ -595,8 +595,6 @@ h4 {
 }
 .detail--chat--right > div{
 	height: 100%;
-	
-
 }
 .chat--right {
 	display: flex;
@@ -632,6 +630,7 @@ h4 {
 	user-select: none;
 	width: 32px;
 	height: 32px;
+  margin-right: 7px;
 }
 .chat--message--profil img {
 	width: 100%;
@@ -643,8 +642,10 @@ h4 {
 .chat--messages--receive .chat--message--item {
 	margin-right: 20%;
 }
-.chat--message--item {
+.chat--messages--send .chat--message--item {
   margin-left: 20%;
+}
+.chat--message--item {
   max-width: 100%;
 }
 .chat--message--item--date {

@@ -81,6 +81,7 @@ header img {
   cursor: pointer;
   font-weight: 500;
   margin-bottom: 5px;
+  text-transform: capitalize;
 }
 
 .variants .option.active {

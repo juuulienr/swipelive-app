@@ -160,16 +160,6 @@ export default {
     this.loadOptions();
   },
   methods: {
-    addToCart() {
-      if (this.user && this.token) {
-        console.log(this.product, this.variant);
-        if (this.product) {
-          this.$router.push({ name: 'Cart', params: { product: this.product, variant: this.variant ? this.variant : null } });
-        }
-      } else {
-        this.$router.push({ name: 'Welcome' });
-      }
-    },
     updateVariant(option1, available) {
       if (available) {
         if (this.product.options.length == 1) {
@@ -202,7 +192,7 @@ export default {
             this.available2.push({ "name" : option2, "available": stock });
           });
         }
-        this.$emit('clicked', this.variant);
+        this.$emit('selectVariant', this.variant);
       }
     },
     updateVariant2(option2, available) {
@@ -213,7 +203,7 @@ export default {
             this.selected2 = option2;
           }
         });
-        this.$emit('clicked', this.variant);
+        this.$emit('selectVariant', this.variant);
       }
     },
     loadOptions() {
@@ -226,7 +216,7 @@ export default {
                   if (!this.selected) {
                     this.selected = name;
                     this.variant = variant;
-                    this.$emit('clicked', this.variant);
+                    this.$emit('selectVariant', this.variant);
                   }
                   return true;
                 }
@@ -248,7 +238,7 @@ export default {
                       this.selected = name;
                       this.selected2 = name2;
                       this.variant = variant;
-                      this.$emit('clicked', this.variant);
+                      this.$emit('selectVariant', this.variant);
                     }
                     return true;
                   }

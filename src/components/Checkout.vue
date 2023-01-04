@@ -8,7 +8,7 @@
       </div>
       <div class="checkout__title">Paiement</div>
     </div>
-    <div class="checkout__body">
+    <div class="checkout__body" style="padding-bottom: 80px;">
 
       <!-- order summary -->
       <div v-if="lineItems && lineItems.length" class="css-13dslnb">
@@ -20,7 +20,7 @@
             <div style="padding-right: 30px;">   
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
               <div v-if="lineItem.variant" class="checkout__attr">
-                <span style="font-size: 12px;color: rgb(153, 153, 153);font-weight: 400;">{{ lineItem.variant.title }}</span>
+                <span>{{ lineItem.variant.title }}</span>
               </div>
             </div>
           </div>
@@ -47,9 +47,9 @@
             </div>
             <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px;"/>
             <div class="css-9jay18">
-              <h6 class="css-k9tjo5" style="font-weight: 600; margin-bottom: 0px;">Total</h6>
+              <h6 class="css-k9tjo5">Total</h6>
               <div class="css-s2uf1z">
-                <h6 class="css-kdhaao" style="font-weight: 600; margin-bottom: 0px;">{{ total | formatPrice }}€</h6>
+                <h6 class="css-kdhaao">{{ total | formatPrice }}€</h6>
               </div>
             </div>
           </div>
@@ -59,17 +59,17 @@
 
 
       <!-- domicile -->
-      <div v-if="shippingAddress && shippingMethod != 'service_point'" class="card panel-item" style="border-radius: 10px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; margin: 20px 5px; border: none;">
+      <div v-if="shippingAddress && shippingMethod != 'service_point'" class="card panel-item card-address">
         <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
-          <div class="card-title" style="font-weight: 500; margin-bottom: 3px;">
-            <img :src="require(`@/assets/img/domicile.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+          <div class="card-title">
+            <img :src="require(`@/assets/img/domicile.png`)"/>
             {{ name }}
           </div>
-          <div class="card-text" style="font-weight: 400; line-height: 20px; font-size: 14px;">
+          <div class="card-text">
             <div>{{ address }}</div>
             <div>{{ zip }} {{ city }}</div>
             <div>{{ country }}</div>
-            <span style="float: right; margin-top: -62px;">
+            <span>
             	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);">
                 <path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"/>
               </svg>
@@ -77,16 +77,16 @@
           </div>
         </div> 
       </div>
-      <div v-else-if="!shippingAddress" class="card panel-item" style="border-radius: 10px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; margin: 20px 5px; border: none;">
-        <div class="css-15x3obx" style="padding-top: 10px; padding-bottom: 5px; text-align: center;">
+      <div v-else-if="!shippingAddress" class="card panel-item card-address">
+        <div class="css-15x3obx">
           <div class="css-11qjisw">
             <span class="css-jef1j" style="display: initial;">Adresse de livraison</span>
           </div>
         </div>
         <div class="top-author">
-          <div @click="showShippingAddress()" class="top-author--container" style="">
-            <div class="top-author--item" style="margin-bottom: 5px;margin-bottom: 1px;">
-              <img :src="require(`@/assets/img/domicile.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+          <div @click="showShippingAddress()" class="top-author--container">
+            <div class="top-author--item">
+              <img :src="require(`@/assets/img/domicile.png`)"/>
               <div style="margin-left: 7px;">
                 <span style="font-weight: 500; color: #ff2773;">Ajouter une adresse de livraison</span>
               </div>
@@ -210,16 +210,18 @@
               <div style="margin-right: 5px;">
                 <span style="float: right;">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
-                    <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path></svg></span>
-                  </div>
-            </           div>
+                    <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
 
-    <div @click="payment()" style="position: fixed; bottom: 0px; width: calc(100% - 30px); background: white; padding-top: 20px; padding-bottom: calc(env(safe-area-inset-bottom) + 20px); border-top: 1px solid rgba(22, 24, 35, 0.12); z-index: 100;">
+    <div @click="payment()" class="div-payment">
       <div style="text-align: center;">
         <div class="btn-swipe">Payer</div>
       </div>
@@ -228,7 +230,7 @@
 
     <!-- shipping to home -->
     <div v-if="popupShippingAddress" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
-      <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
+      <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
         <div @click="hideShippingAddress()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
@@ -291,7 +293,7 @@
 
     <!-- payment method -->
     <div v-if="popupPayment" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
-      <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
+      <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
         <div @click="hidePopupPayment()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
@@ -300,7 +302,7 @@
         <div class="checkout__title">Mode de paiement</div>
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
-        <div @click="savePayment('Apple Pay')" class="card panel-item" style="border-radius: 15px; border: none; margin: 5px; margin-bottom: 15px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
+        <div @click="savePayment('Apple Pay')" class="card panel-item card-payment">
           <div class="card-body parcelshop-card-body">
             <div>
 	            <div class="top-author--item">
@@ -319,7 +321,7 @@
             </div>
           </div>
         </div>
-        <div @click="savePayment('Carte bancaire')" class="card panel-item" style="border-radius: 15px; border: none; margin: 5px; margin-bottom: 15px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
+        <div @click="savePayment('Carte bancaire')" class="card panel-item card-payment" style="">
           <div class="card-body parcelshop-card-body">
             <div>
 	            <div class="top-author--item">
@@ -338,7 +340,7 @@
             </div>
           </div>
         </div>
-        <div @click="savePayment('Paypal')" class="card panel-item" style="border-radius: 15px; border: none; margin: 5px; margin-bottom: 15px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
+        <div @click="savePayment('Paypal')" class="card panel-item card-payment">
           <div class="card-body parcelshop-card-body">
             <div>
 	            <div class="top-author--item">
@@ -363,7 +365,7 @@
 
     <!-- show relais -->
     <div v-if="popupRelay" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
-      <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
+      <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
         <div @click="hideRelay()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
@@ -371,7 +373,7 @@
         </div>
         <div class="checkout__title">Point relais</div>
       </div>
-      <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
+      <div class="checkout__body" style="padding: 18px 0px;">
 		    <div class="images_filter">
 		      <ul>
 		        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#ff2773'} : {'color': '#525c66'}]">Carte </li>
@@ -433,7 +435,7 @@
 
 
     <!-- select relais -->
-    <div v-if="popupRelayInfo" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
+    <div v-if="popupRelayInfo" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
         <div @click="hideRelayInfo()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
@@ -441,7 +443,7 @@
         </div>
         <div class="checkout__title">Informations</div>
       </div>
-      <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
+      <div class="checkout__body" style="padding: 18px 0px;">
       	<div class="card panel-item" style="border: none;">
           <div class="card-body parcelshop-card-body" style="padding: 5px;">
             <div v-if="point.carrier == 'chronopost'" class="card-title card-relayinfo">
@@ -556,10 +558,10 @@ import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 export default {
   name: 'Checkout',
+  props: ['lineItems'],
   components: { VueGoogleAutocomplete },
   data() {
     return {
-      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
@@ -621,7 +623,6 @@ export default {
     }
   },
   created() {
-    // window.StatusBar.backgroundColorByName('white')
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
@@ -735,7 +736,6 @@ export default {
       if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
         this.popupShippingAddress = false;
         this.shippingAddress = true;
-
         this.getShippingPrice();
 
         var houseNumber = this.address.split(' ', 1)[0];
@@ -823,7 +823,6 @@ export default {
       this.popupRelayInfo = false;
 
       this.shippingProducts.service_point.map((method) => {
-        console.log(method);
       	if (method.carrier == point.carrier) {
       		if (this.shippingPrice) {
 	      		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
@@ -865,14 +864,14 @@ export default {
       this.tabList = true;
     },
     goBack() {
-      this.$router.back();
+      this.$emit('hideCheckout');
     },
     payment() {
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
   	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
-  	      console.log(JSON.parse(response.data));
+          console.log(JSON.parse(response.data));
           window.localStorage.removeItem('lineItems');
-        	this.$router.push({ name: 'Feed' });
+          this.$emit('paymentSuccess', JSON.parse(response.data));
   	    }, (response) => {
   	      console.log(response.error);
   	    });
@@ -909,8 +908,7 @@ export default {
     	this.address = data[0];
     },
     getAddressData(addressData, placeResultData, id) {
-    	console.log(addressData);
-    	console.log(placeResultData);
+    	console.log(addressData, placeResultData, id);
     	
     	if (addressData.street_number) {
     		var street = addressData.street_number + ' ' + addressData.route;
@@ -940,7 +938,6 @@ export default {
     	this.showAutocomplete = true;
     },
     inputChangeAddressInput(input) {
-    	console.log(input.newVal);
     	if (input.newVal.length > 2 && this.showAutocomplete) {
 	    	document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
     	} else {

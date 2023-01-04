@@ -1,5 +1,5 @@
 <template>
-  <main class="products">
+  <main class="products" style="padding: 0px;">
     <div class="checkout">
       <div class="checkout__body">
         <div class="chat--head">

@@ -1,10 +1,10 @@
 <template>
-  <main>
-    <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
+  <main style="padding: 0px 15px 15px">
+    <div class="checkout__header">
       <div v-if="notif" class="checkout__title">Notifications</div>
       <div v-else class="checkout__title">Comment ça marche ?</div>
     </div>
-    <div class="checkout__body" style="overflow: scroll; padding: 15px;">
+    <div class="checkout__body">
       <div v-if="notif" class="notif onboarding">
         <h5 class="title">Soyez informé !</h5>
         <div class="subtitle">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.</div>

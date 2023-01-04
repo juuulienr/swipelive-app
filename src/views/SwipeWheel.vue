@@ -1,22 +1,22 @@
 <template>
   <main class="products shop_3" style="padding: 0px 0px 15px;">
-    <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000;">
+    <div class="checkout__header" style="padding: 5px 15px 15px;">
       <div @click="goBack()" class="checkout__close-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
       <div class="checkout__title">Swipe Roulette</div>
-      <div @click="showInfos()" class="checkout__right-btn" style="fill: rgb(0, 132, 255); border-radius: 30px; top: 0px; right: 5px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 22px; height: 22px;">
+      <div @click="showInfos()" class="checkout__right-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 22px; height: 22px; fill: rgb(0, 132, 255);">
           <path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm0-338c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/>
         </svg>
       </div>
     </div>
 
 
-    <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px; padding-top: 0px">
-      <img :src="require(`@/assets/img/swipe-roulette.png`)" style="width: 100%; height:300px;">
+    <div class="checkout__body items" style="padding-top: 0px">
+      <img :src="require(`@/assets/img/swipe-wheel.png`)" style="width: 100%; height:300px;">
 
       <div style="position: absolute; width: 100%; z-index: 100000; background: white; top: 315px; border-radius: 30px;">
        <!--  <div class="top-author--container" style="border-radius: 10px; border: 2px solid #68dfb9; margin: 15px; background: #68dfb924; margin: 20px 15px 0px !important;">
@@ -59,7 +59,7 @@
           </div>
         </div> -->
         <div class="container" style="margin: 30px auto 0px; text-align: center;">
-          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/roulette.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/wheel.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Swipe Roulette</h5>
         <div style="font-weight: 400;font-size: 15px;text-align: center;">La Swipe Roulette sera bientôt disponible.</div>
@@ -78,9 +78,9 @@
         </div>
         <div class="checkout__title">Règle du jeu</div>
       </div>
-      <div class="checkout__body info-roulette" style="overflow: scroll; padding: 15px 20px 50px;">
+      <div class="checkout__body info-wheel" style="overflow: scroll; padding: 15px 20px 50px;">
         <div class="container" style="text-align: center;">
-          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/roulette.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <video style="height: 250px; width: 250px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/wheel.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
           <h4 style="margin-top: 0px; margin-bottom: 50px;">Et si acheter devient un jeu ?</h4>
         </div>
         
@@ -107,12 +107,12 @@
 
 
 <style scoped>
-.info-roulette p {
+.info-wheel p {
   font-size: 14px;
   font-weight: 400;
 }
 
-.info-roulette h4 {
+.info-wheel h4 {
   margin-top: 25px;
   font-size: 18px;
 }
@@ -122,7 +122,7 @@
 
 
 export default {
-  name: 'Favoris',
+  name: 'SwipeWheel',
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),

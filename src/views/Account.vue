@@ -81,7 +81,7 @@
       </div>
 
       <ul class="listbrands mb-3" style="margin-top: 30px;">
-        <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li v-if="user.vendor">
           <router-link :to="{ name: 'Shop' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -91,13 +91,11 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Ma Boutique</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li>
           <router-link :to="{ name: 'ListOrders' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -107,13 +105,11 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Commandes</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li v-if="user.vendor">
           <router-link :to="{ name: 'Wallet' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -123,32 +119,28 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Gains</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li v-if="user.vendor">
           <router-link :to="{ name: 'Partner' }">
             <span style="font-size: 16px; color: #333;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"></defs>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
                 <path d="M0 384h64a32 32 0 0 0 32-32V128.2H0zm48-63.9a16 16 0 1 1-16 16 16 16 0 0 1 16-16zM457.3 73.4a31.77 31.77 0 0 0-22.6-9.4h-85.9a32 32 0 0 0-21.6 8.4l-98.3 90c-.1.1-.2.3-.3.4a39.78 39.78 0 0 0-2.1 56c12.7 13.9 39.4 17.6 56.1 2.7.1-.1.3-.1.4-.2l79.9-73.2a16 16 0 0 1 21.6 23.6l-26.1 23.9L504 313.8a72 72 0 0 1 7.9 7.7V128z" class="fa-secondary"/>
                 <path d="M544 128.2v223.9a32 32 0 0 0 32 32h64V128.2zm48 223.9a16 16 0 1 1 16-16 16 16 0 0 1-16 16zm-108.1-13.4L334.6 217.5l-30 27.5a72 72 0 0 1-97.3-106.1L289.1 64h-83.8a31.94 31.94 0 0 0-22.6 9.4L128 128v223.9h18.3l90.5 81.9a64 64 0 0 0 90-9.3l.2-.2 17.9 15.5a37.16 37.16 0 0 0 52.3-5.4l31.4-38.6 5.4 4.4a32 32 0 0 0 45-4.7l9.5-11.7a32.06 32.06 0 0 0-4.6-45.1z" class="fa-primary"/>
               </svg>
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Partenariats</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li>
           <router-link :to="{ name: 'ListFollowing' }">
             <span style="font-size: 16px; color: #333;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;"></defs>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
                 <path d="M96 224a64 64 0 1 0-64-64 64.06 64.06 0 0 0 64 64zm480 32h-64a63.81 63.81 0 0 0-45.1 18.6A146.27 146.27 0 0 1 542 384h66a32 32 0 0 0 32-32v-32a64.06 64.06 0 0 0-64-64zm-512 0a64.06 64.06 0 0 0-64 64v32a32 32 0 0 0 32 32h65.9a146.64 146.64 0 0 1 75.2-109.4A63.81 63.81 0 0 0 128 256zm480-32a64 64 0 1 0-64-64 64.06 64.06 0 0 0 64 64z" class="fa-secondary"/>
                 <path d="M396.8 288h-8.3a157.53 157.53 0 0 1-68.5 16c-24.6 0-47.6-6-68.5-16h-8.3A115.23 115.23 0 0 0 128 403.2V432a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48v-28.8A115.23 115.23 0 0 0 396.8 288zM320 256a112 112 0 1 0-112-112 111.94 111.94 0 0 0 112 112z" class="fa-primary"/>
               </svg>
@@ -156,13 +148,11 @@
             <span v-if="user.vendor" style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Followers</span>
             <span v-else style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Abonnements</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li v-if="user.vendor">
           <router-link :to="{ name: 'ClipsVendor' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -172,13 +162,11 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Clips</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li>
           <router-link :to="{ name: 'ListMessages' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -188,9 +176,7 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Ma Messagerie</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
@@ -204,9 +190,7 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Promotions</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
@@ -220,14 +204,12 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Mes Favoris</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
         <li v-if="!user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
-          <router-link :to="{ name: 'SwipeRoulette' }">
+          <router-link :to="{ name: 'SwipeWheel' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
                 <path d="M231.1 187.3l-9.4 54.6a12 12 0 0 0 17.4 12.6l49-25.8 49 25.8a12 12 0 0 0 17.4-12.6l-9.4-54.6 39.6-38.6c7.1-6.9 3.2-19-6.4-20.5l-54.8-8L299 70.6a12 12 0 0 0-21.5 0L253 120.2l-54.8 8a12 12 0 0 0-6.7 20.5zM384 432H192c-35.3 0-64 20.7-64 56v12a12 12 0 0 0 12 12h296a12 12 0 0 0 12-12v-12c0-35.3-28.7-56-64-56z" class="fa-secondary"/>
@@ -236,13 +218,11 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Swipe Roulette</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li>
           <router-link :to="{ name: 'About' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -252,13 +232,11 @@
             </span>
             <span style="font-weight: 500; color: rgb(99, 115, 129);"> Support</span>
             <span style="float: right;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
             </span>
           </router-link>
         </li>
-        <li @click="logout()" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto;">
+        <li @click="logout()">
           <span style="font-size: 16px; color: #333;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
               <path d="M272 0a23.94 23.94 0 0 1 24 24v240a23.94 23.94 0 0 1-24 24h-32a23.94 23.94 0 0 1-24-24V24a23.94 23.94 0 0 1 24-24z" class="fa-secondary" style="fill: rgba(255, 0, 0, 50%);"/>
@@ -267,9 +245,7 @@
           </span>
           <span style="font-weight: 500; color: rgb(99, 115, 129); width: 100%;"> Déconnexion</span>
           <span style="float: right;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-top: 1px; margin-left: 3px;">
-              <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-            </svg>
+            <img :src="require(`@/assets/img/account-arrow.svg`)" style="width: 16px; height: 16px;"/>
           </span>
         </li>
       </ul>

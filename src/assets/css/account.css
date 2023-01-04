@@ -99,11 +99,9 @@ header img {
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-}
-.my_profile1 .listbrands li img {
-  width: 45px;
-  border-radius: 11px;
-  margin-right: 15px;
+  border: 1px solid rgba(22, 24, 35, 0.12); 
+  border-radius: 16px; 
+  margin: 12px auto;
 }
 
 .my_profile1 {

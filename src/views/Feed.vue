@@ -33,7 +33,6 @@
             </div>
             <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" class="follow">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 32px; height: 32px; border: 1px solid white; border-radius: 100px;">
-                <defs></defs>
                 <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: white;"></path>
                 <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: rgb(255, 39, 115);"></path>
               </svg>
@@ -242,7 +241,7 @@
             <div class="video-page__influencer-username2" style="font-size: 15px;">{{ feed.value.vendor.businessName }}</div>
           </div>
           <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; left: 18px; border-radius: 50px; padding: 5px;">
-	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; border: 1px solid white; border-radius: 100px;"><defs></defs>
+	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; border: 1px solid white; border-radius: 100px;">
               <path style="fill: white;" d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
               <path style="fill: #ff2773;" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
 	          </svg>
@@ -409,24 +408,23 @@
     
 
     <!-- promo popup -->
-    <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 40%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active promo-popup">
       <div @click="hidePromo()" style="display: flex;">
-        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
-        </div>
+        <div class="scroll-indicator"></div>
       </div>
       <div style="margin: 0px;">
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Promotion</span>
+        <div class="promo-box">
+          <span class="promo-title">Promotion</span>
         </div>
-        <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; margin: 0; margin-top: 15px; padding: 10px;">Cette promotion sera appliqué automatiquement lors du passage en caisse.</p>
-        <div style="box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
+        <p class="promo-info">Cette promotion sera appliqué automatiquement lors du passage en caisse.</p>
+        <div class="promo-container">
           <div class="profile--follow">
             <div style="width: 40%; margin-top: 5px;">
-              <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/1ad36aab1eb15a377d8393144b34dd93.jpeg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
+              <img class="promo-img" src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/4867e58fd6de4ee2021100c8341714e4.jpeg">
             </div>
-            <hr style="margin: 0px;border-width: 0 2px 0 0;border-style: dashed;border-color: rgba(145,158,171,.24);">
+            <hr class="promo-hr">
             <div>
-              <h4 style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;">-50%</h4>
+              <h4 class="promo-h4">-50%</h4>
               <p>Valable sur toute la boutique </p>
             </div>
           </div>
@@ -436,58 +434,63 @@
 
 
     <!-- product popup -->
-    <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; padding-bottom: 120px;">
-      <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 30px; height: 30px; fill: rgb(153, 153, 153); padding: 5px; background: white; border-radius: 30px; opacity: 0.5; position: absolute; top: 15px; left: 15px; z-index: 100000000;">
+    <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
+      <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" class="hide-svg" viewBox="0 0 448 512">
         <path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/>
       </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" style="width: 30px;height: 30px;fill: white;border-radius: 30px;position: absolute;top: 20px;right: 20px;z-index: 100000000;">
+      <svg xmlns="http://www.w3.org/2000/svg" class="heart-svg">
         <g transform="matrix( 1 0 0 1 1 2 )">
           <path d="M15 3C17.5 3 19 4.90001 19 7.20001C19 8.40001 18.4 9.49999 17.7 10.3C16.5 11.5 11 16 11 16C11 16 5.50005 11.5 4.30005 10.3C3.50005 9.49999 3 8.40001 3 7.20001C3 4.90001 4.5 3 7 3C8.7 3 10.3 4.6 11 6C11.7 4.6 13.3 3 15 3ZM15 0C13.5 0 12.1 0.599994 11 1.39999C9.9 0.499994 8.5 0 7 0C3 0 0 3.10001 0 7.20001C0 9.10001 0.799951 10.9 2.19995 12.4C3.59995 13.9 11 19.9 11 19.9C11 19.9 18.4 13.9 19.8 12.4C21.2 10.9 22 9.10001 22 7.20001C22 3.10001 19 0 15 0Z" fill="#FFFFFF" style="
           fill: white;">
           </path>
         </g>
       </svg>
-      <Product :product="product" @clicked="onClickChild"></Product>
+      <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
-    <div v-if="popupProduct" style="background-color: white;bottom: 0px; position: fixed; z-index: 1000000001;">
-      <div style="padding: 15px 20px 50px;background-color: white;width: 100vw;display: flex;justify-content: center;align-items: center;">
-        <div @click="addToCart()" class="btn-swipe" style="color: rgb(24, 206, 160);text-align: center;width: calc(50vw - 25px);background: white;padding: 13px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px 20px 0px 0px;height: 50px;border: 2px solid rgb(24, 206, 160);">Ajouter</div>
-        <div @click="goCheckout()" class="btn-swipe" style="text-align: center;width: calc(50vw - 25px);padding: 14px 20px;border-radius: 10px;font-weight: 500;font-size: 15px;margin: 0px;background: rgb(24, 206, 160);color: rgb(255, 255, 255) !important;height: 50px;">Acheter</div>
+    <div v-if="popupProduct" class="product-popup-btn">
+      <div class="groups">
+        <div @click="addToCart()" class="btn-swipe btn-addtoCart">Ajouter</div>
+        <div @click="goCheckout()" class="btn-swipe btn-checkout">Acheter</div>
       </div>
     </div>
 
 
 
     <!-- cart popup -->
-    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 5px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active cart-popup">
       <div @click="hideCart()" style="display: flex;">
-        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
-        </div>
+        <div class="scroll-indicator"></div>
       </div>
       <div style="margin: 0px;">
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Panier</span>
+        <div class="cart-box">
+          <span class="cart-title">Panier</span>
         </div>
-        <Cart></Cart>
+        <Cart :lineItems="lineItems" @updateCart="updateCartChild" @showCheckout="showCheckoutChild"></Cart>
       </div>
     </div>
 
 
 
+    <!-- checkout popup -->
+    <div v-if="popupCheckout" class="store-products-item__login-popup store-products-item__login-popup--active checkout-popup">
+      <Checkout :lineItems="lineItems" @paymentSuccess="paymentSuccessChild" @hideCheckout="hideCheckoutChild"></Checkout>
+    </div>
+
+
+
     <!-- shop popup -->
-    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 10px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active shop-popup">
       <div @click="hideShop()" style="display: flex;">
-        <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
-        </div>
+        <div class="scroll-indicator"></div>
       </div>
       <div style="margin: 0px;">
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #000">Boutique de {{ shop.businessName }}</span>
+        <div class="shop-box">
+          <span class="shop-title">Boutique de {{ shop.businessName }}</span>
         </div>
       </div>
       <div v-if="shop" class="checkout__body items">
-        <div class="shop--part" style="margin: 0px; padding: 0px 5px;">
-          <div v-if="product.archived == false" v-for="product in shop.products" class="shop--item">
+        <div class="shop--part">
+          <div v-if="product.archived == false" v-for="product in shop.products" @click="showProduct(product)" class="shop--item">
             <div>
               <div>
                 <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%;">
@@ -523,6 +526,7 @@ import Lottie from 'vue-lottie';
 import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
 
+import Checkout from '../components/Checkout';
 import Product from '../components/Product';
 import Cart from '../components/Cart';
 
@@ -535,6 +539,7 @@ export default {
   components: {
     Product,
     Cart,
+    Checkout,
     'lottie': Lottie
   },
   mixins: [ clickaway ],
@@ -577,6 +582,7 @@ export default {
       popupProduct: false,
       popupCart: false,
       popupShop: false,
+      popupCheckout: false,
       throttle: 1000,
       http: null,
       anim1: false,
@@ -604,6 +610,7 @@ export default {
       anim23: false,
       anim24: false,
       num: 0,
+      myPlayer: null
     }
   },
   created() {
@@ -704,28 +711,31 @@ export default {
             this.scrollToElement();
           }
 
-          setTimeout(() => {
-            console.log(value.resourceUri);
-            var player = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-            console.log(player);
-
-            // Listen to player events
-            player.addEventListener('ended', () => {
-              console.log('player ended');
-              if (this.data[index].type == "live") {
-                this.finished[index].value = true;
-              }
-            });
-
-            player.addEventListener('canplay', () => {
-              this.loading = false;
-            });
-
-            player.scaleMode = "aspectFill";
-            player.play();
-          }, 500);
+          this.launchPlayer(value, index);
         }
       }
+    },
+    launchPlayer(value, index) {
+      setTimeout(() => {
+        console.log(value.resourceUri);
+        this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
+        console.log(this.myPlayer);
+
+        // Listen to player events
+        this.myPlayer.addEventListener('ended', () => {
+          console.log('player ended');
+          if (this.data[index].type == "live") {
+            this.finished[index].value = true;
+          }
+        });
+
+        this.myPlayer.addEventListener('canplay', () => {
+          this.loading = false;
+        });
+
+        this.myPlayer.scaleMode = "aspectFill";
+        this.myPlayer.play();
+      }, 500);
     },
     showProduct(product) {
       this.product = product;
@@ -740,24 +750,23 @@ export default {
       this.variant = null;
     },
     addToCart() {
+      this.popupPromo = false;
+      this.popupCheckout = false;
       this.popupProduct = false;
       this.popupCart = false;
       this.popupShop = false;
-      this.lineItems = window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [];
 
       if (this.lineItems.length) {
         var exist = false;
         var newVendor = false;
-        var nameVendor = null;
         
         this.lineItems.map(lineItem => {
           if (lineItem.product.vendor.id != this.product.vendor.id) {
             newVendor = true;
-            nameVendor = lineItem.product.vendor.businessName;
           }
         });
 
-        if (!newVendor) {
+        if (newVendor == false) {
           this.lineItems.map(lineItem => {
             if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
               exist = true;
@@ -782,7 +791,6 @@ export default {
               if (buttonIndex == id) {
                 this.lineItems = [];
                 this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
-                window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
               }
             },   
             'Nouveau panier ?', 
@@ -796,8 +804,6 @@ export default {
       } else {
         this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
       }
-
-      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
     },
     showPromo() {
       this.popupPromo = true;
@@ -961,25 +967,7 @@ export default {
                 this.scrollToElement();
               }
 
-              setTimeout(() => {
-                console.log(value.resourceUri);
-                var player = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-
-                // Listen to player events
-                player.addEventListener('ended', () => {
-                   console.log('player ended');
-                  if (this.data[index].type == "live") {
-                    this.finished[index].value = true;
-                  }
-                });
-
-                player.addEventListener('canplay', () => {
-                  this.loading = false;
-                });
-
-                player.scaleMode = "aspectFill";
-                player.play();
-              }, 500);
+              this.launchPlayer(value, index);
             } else {
               this.videos.push({ "value": "" });
               this.comments.push({ "value": [] });
@@ -1041,6 +1029,7 @@ export default {
       });
     },
     pause() {
+      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
       console.log("User is out of feed");
       navigator.splashscreen.show();
     },
@@ -1064,15 +1053,50 @@ export default {
     share() {
       window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
     },
-    onClickChild(variant) {
+    selectVariantChild(variant) {
       console.log(variant);
       this.variant = variant;
+    },
+    updateCartChild(lineItems) {
+      console.log(lineItems);
+      this.lineItems = lineItems;
+    },
+    showCheckoutChild(lineItems) {
+      this.lineItems = lineItems;
+      this.popupCart = false;
+      this.popupPromo = false;
+      this.popupProduct = false;
+      this.popupShop = false;
+      this.popupCheckout = true;
+      this.myPlayer.muted = true;
+    },
+    paymentSuccessChild(order) {
+      console.log(order);
+      this.popupCart = false;
+      this.popupPromo = false;
+      this.popupProduct = false;
+      this.popupShop = false;
+      this.popupCheckout = false;
+      this.myPlayer.muted = false;
+    },
+    hideCheckoutChild() {
+      this.popupCart = false;
+      this.popupPromo = false;
+      this.popupProduct = false;
+      this.popupShop = false;
+      this.popupCheckout = false;
+      this.myPlayer.muted = false;
     },
     goCheckout() {
       this.lineItems = [];
       this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
-      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
-      this.$router.push({ name: 'Checkout' });
+
+      this.popupCart = false;
+      this.popupPromo = false;
+      this.popupProduct = false;
+      this.popupShop = false;
+      this.popupCheckout = true;
+      this.myPlayer.muted = true;
     },
     addAnimation() {
       this.showAnimation();

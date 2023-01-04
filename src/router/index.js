@@ -9,10 +9,9 @@ import InfluencerRegistration from '@/views/InfluencerRegistration'
 import Feed from '@/views/Feed'
 import Home from '@/views/Home'
 import About from '@/views/About'
-import SwipeRoulette from '@/views/SwipeRoulette'
+import SwipeWheel from '@/views/SwipeWheel'
 import Favoris from '@/views/Favoris'
 import Profile from '@/views/Profile'
-import Checkout from '@/views/Checkout'
 import Category from '@/views/Category'
 import ListOrders from '@/views/ListOrders'
 import ListMessages from '@/views/ListMessages'
@@ -82,13 +81,9 @@ export default new Router({
       name: 'Favoris',
       component: Favoris
     }, {
-      path: '/roulette',
-      name: 'SwipeRoulette',
-      component: SwipeRoulette
-    }, {
-      path: '/checkout',
-      name: 'Checkout',
-      component: Checkout
+      path: '/wheel',
+      name: 'SwipeWheel',
+      component: SwipeWheel
     }, {
       path: '/vendor/products/:productId?',
       name: 'AddEditProduct',

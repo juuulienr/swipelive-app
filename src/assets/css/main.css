@@ -1467,9 +1467,6 @@ svg.loading circle {
   color: inherit;
   text-transform: capitalize;
 }
-.shop--item--name:hover {
-  text-decoration: underline;
-}
 .shop--item--price {
   margin: 0px;
   display: flex;

@@ -42,7 +42,7 @@
             </div>
           </div>
           <div style="margin: 15px auto;">
-            <div @click="goCheckout()" style="text-align: center;">
+            <div @click="showCheckout()" style="text-align: center;">
               <div class="btn-swipe" style="height: 50px; padding: 14px 36px;">Paiement</div>
             </div>
           </div>
@@ -67,11 +67,11 @@
 
 export default {
   name: 'Cart',
+  props: ['lineItems'],
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       subTotal: null
     }
@@ -100,7 +100,6 @@ export default {
       }
     },
     decreaseQuantity(lineItem, index) {
-      console.log(lineItem);
       if (lineItem.quantity > 1) {
         this.lineItems[index].quantity -= 1;
         this.updateCart();
@@ -124,11 +123,10 @@ export default {
         this.subTotal = this.subTotal.toFixed(2);
       }
 
-      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
-      console.log(JSON.parse(window.localStorage.getItem("lineItems")));
+      this.$emit('updateCart', this.lineItems);
     },
-    goCheckout() {
-      this.$router.push({ name: 'Checkout' });
+    showCheckout() {
+      this.$emit('showCheckout', this.lineItems);
     },
   }
 };

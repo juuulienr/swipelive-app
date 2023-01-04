@@ -37,7 +37,7 @@
       <div style="box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
         <div class="profile--follow">
           <div style="width: 40%; margin-top: 5px;">
-            <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/1ad36aab1eb15a377d8393144b34dd93.jpeg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
+            <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/4867e58fd6de4ee2021100c8341714e4.jpeg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
             <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
               <span @click="check()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                 <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': isChecked }">
