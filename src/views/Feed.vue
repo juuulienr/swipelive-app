@@ -47,7 +47,7 @@
 
 
         <!-- purchase -->
-   <!--      <div style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
+        <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
             <div class="video-page__influencer-img" style="padding-right: 0px;">
               <img class="zoom" :src="require(`@/assets/img/badge-vente.png`)" style="border-radius: 50%; width: 175px; height: 175px; object-fit: cover;"/>
@@ -55,7 +55,7 @@
             <img class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute;" />
             <lottie :options="defaultOptions3" v-on:animCreated="handleAnimation" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>
-        </div> -->
+        </div>
 
 
         <!-- heart animation -->
@@ -547,11 +547,11 @@ export default {
     return {
       data: [],
       videos: [],
+      lineItems: [],
       user: JSON.parse(window.localStorage.getItem("user")),
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
-      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
@@ -583,6 +583,7 @@ export default {
       popupCart: false,
       popupShop: false,
       popupCheckout: false,
+      purchase: false,
       throttle: 1000,
       http: null,
       anim1: false,
@@ -749,6 +750,11 @@ export default {
       this.product = null;
       this.variant = null;
     },
+    async goCheckout() {
+      await this.addToCart();
+      this.popupCheckout = true;
+      this.myPlayer.muted = true;
+    },
     addToCart() {
       this.popupPromo = false;
       this.popupCheckout = false;
@@ -756,12 +762,18 @@ export default {
       this.popupCart = false;
       this.popupShop = false;
 
+      if (typeof this.product.vendor == "object") {
+        var vendor = this.product.vendor.id;
+      } else {
+        var vendor = this.product.vendor;
+      } 
+
       if (this.lineItems.length) {
         var exist = false;
         var newVendor = false;
-        
+
         this.lineItems.map(lineItem => {
-          if (lineItem.product.vendor.id != this.product.vendor.id) {
+          if (lineItem.vendor != vendor) {
             newVendor = true;
           }
         });
@@ -790,7 +802,7 @@ export default {
               }
               if (buttonIndex == id) {
                 this.lineItems = [];
-                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
+                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
               }
             },   
             'Nouveau panier ?', 
@@ -799,10 +811,10 @@ export default {
         }
 
         if (!exist) {
-          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
+          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
         }
       } else {
-        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
+        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
       }
     },
     showPromo() {
@@ -1026,10 +1038,20 @@ export default {
             this.showAnimation();
           }
         }
+
+        if ('order' in data) {
+          console.log(data.order);
+
+          setTimeout(() => {
+            this.purchase = true;
+            setTimeout(() => {
+              this.purchase = false;
+            }, 2500);
+          }, 1000);
+        }
       });
     },
     pause() {
-      window.localStorage.setItem("lineItems", JSON.stringify(this.lineItems));
       console.log("User is out of feed");
       navigator.splashscreen.show();
     },
@@ -1078,6 +1100,18 @@ export default {
       this.popupShop = false;
       this.popupCheckout = false;
       this.myPlayer.muted = false;
+
+
+      if (this.data[this.visible].type == "live") {
+        this.http.get(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/orders/" + order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(response);
+        }, (response) => { 
+          console.log(response.error); 
+        });
+      }
+
+      window.StatusBar.styleLightContent();
+      window.StatusBar.overlaysWebView(true);
     },
     hideCheckoutChild() {
       this.popupCart = false;
@@ -1086,17 +1120,9 @@ export default {
       this.popupShop = false;
       this.popupCheckout = false;
       this.myPlayer.muted = false;
-    },
-    goCheckout() {
-      this.lineItems = [];
-      this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1 });
 
-      this.popupCart = false;
-      this.popupPromo = false;
-      this.popupProduct = false;
-      this.popupShop = false;
-      this.popupCheckout = true;
-      this.myPlayer.muted = true;
+      window.StatusBar.styleLightContent();
+      window.StatusBar.overlaysWebView(true);
     },
     addAnimation() {
       this.showAnimation();

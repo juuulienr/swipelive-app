@@ -9,7 +9,7 @@
             <div>
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
               <div v-if="lineItem.variant" class="checkout__attr">
-                <span style="font-size: 12px;color: rgb(153, 153, 153);font-weight: 400;">{{ lineItem.variant.title }}</span>
+                <span style="font-size: 12px;color: rgb(153, 153, 153);font-weight: 400; text-transform: capitalize;">{{ lineItem.variant.title }}</span>
               </div>
               <div>
                 <span v-if="lineItem.variant" style="font-size: 14px;">{{ lineItem.variant.price * lineItem.quantity | formatPrice }}€</span>

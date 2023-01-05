@@ -408,8 +408,8 @@
 }
 
 .finished {
-  left: calc(50vw - 124px); 
-  top: calc(40vh - 114px); 
+  left: calc(50vw - 112px); 
+  top: calc(40vh - 121px); 
   position: absolute; 
   z-index: 10000; 
   justify-content: center; 
@@ -433,7 +433,7 @@
 }
 
 .finished-swipe {
-  left: calc(50vw - 171px); 
+  left: calc(50vw - 155px); 
   bottom: 40px; 
   position: absolute; 
   z-index: 10000; 

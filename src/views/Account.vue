@@ -288,7 +288,6 @@ export default {
     logout() {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user');
-      window.localStorage.removeItem('lineItems');
       window.localStorage.removeItem('trend');
       window.localStorage.removeItem('categories');
       this.$router.push({ name: 'Welcome' });

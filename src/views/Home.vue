@@ -22,7 +22,7 @@
           </div>
         </div>
         <div v-if="!popupSearch">
-          <div @click="goToFeed()" class="video-page__influencer-badge2" style="width: 34px; border-radius: 50%; padding: 0px; font-size: 14px; background: transparent; height: 34px;">
+          <div class="video-page__influencer-badge2" style="width: 34px; border-radius: 50%; padding: 0px; font-size: 14px; background: transparent; height: 34px;">
             <div class="video-page__influencer-img2" style="color: white; font-weight: 500; padding: 0px; text-align: center; line-height: 33px;">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 28px; width: 28px; fill: rgb(126, 133, 155); margin-bottom: 1px;">
@@ -229,9 +229,6 @@ export default {
     goToProfile(id) {
       this.$router.push({ name: 'Profile', params: { id: id } });
     },
-    goToFeed() {
-      this.$router.push({ name: 'Feed' });
-    }
   }
 };
 

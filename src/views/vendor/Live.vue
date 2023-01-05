@@ -499,7 +499,7 @@
       <!-- amount -->
       <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 120px; right: calc(50vw - 60px); padding: 18px 0px; text-align: center; border-radius: 30px; background: rgba(255, 255, 255, 0.15); border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center; z-index: 20;">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
-          <span style="font-weight: bold;font-size: 18px;">199,50 <span style="color: #7ed957">€</span></span>
+          <span style="font-weight: bold;font-size: 18px;">{{ amount | formatPrice }}</span>
         </span>
       </div>
 
@@ -634,37 +634,28 @@
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Commandes</span>
         </div>
 
-        <div class="top-author" style="margin-top: 15px;">
+        <div v-if="orders" class="top-author" style="margin-top: 15px;">
           <div class="top-author--container">
-            <div class="top-author--item" style="position: relative">
-              <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/61ff8e5cf6e5a2e653515b54df82848b.jpeg"/>
-              <span class="counter" style="position: absolute;top: 14px;left: 67px;height: 24px;width: 24px;border-radius: 100%;background-color: rgb(255, 39, 115);color: rgb(255, 255, 255);font-size: 13px;display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;border: 3px solid white;">5</span>
+            <div v-for="order in orders" class="top-author--item" style="position: relative">
+              <img v-if="order.upload" :src="cloudinary256x256 + order.upload"/>
+              <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
+              <span class="counter" style="position: absolute;top: 14px;left: 67px;height: 24px;width: 24px;border-radius: 100%;background-color: rgb(255, 39, 115);color: rgb(255, 255, 255);font-size: 13px;display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;border: 3px solid white;">{{ order.nbProducts }}</span>
               <div>
-                <div><span>#1001</span></div>
-                <span>Youarda CHEKLAT</span>
-                <div><span style="font-size: 11px; color: #999;">14/12/2022 11:50</span></div>
+                <div><span>#{{ order.number }}</span></div>
+                <span v-if="order.buyer.vendor">{{ order.buyer.vendor }}</span>
+                <span v-else>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                <div><span style="font-size: 11px; color: #999;">{{ order.createdAt }}</span></div>
               </div>
-              <span class="css-4ioo3c">19,90€</span>
+              <span class="css-4ioo3c">{{ order.amount }}</span>
             </div>
           </div>
-          <div class="top-author--container">
-            <div class="top-author--item">
-              <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/61ff8e5cf6e5a2e653515b54df82848b.jpeg"/>
-              <div>
-                <div><span>#1001</span></div>
-                <span>Youarda CHEKLAT</span>
-                <div><span style="font-size: 11px; color: #999;">14/12/2022 11:50</span></div>
-              </div>
-              <span class="css-4ioo3c">19,90€</span>
-            </div>
-          </div>
-        <!--   <div class="checkout__body">
+          <div v-else class="checkout__body">
             <div class="container" style="margin: 0px auto; text-align: center;">
               <video style="height: 180px; width: 180px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
             </div>
             <h5 style="font-weight: 500; font-size: 16px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
             <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
-          </div> -->
+          </div>
         </div>
       </div>
 
@@ -746,14 +737,14 @@
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 33px;height: 33px;fill: #FFB800;">
                 <path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path>
               </svg>
-              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">12</h4>
+              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ countOrders }}</h4>
               <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
             </div>
             <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px;height: 33px;fill: #73D751;">
                 <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"></path>
               </svg>
-              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">250€</h4>
+              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ amount|formatPrice }}</h4>
               <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenus</div>
             </div>
           </div>
@@ -835,6 +826,8 @@ export default {
       facebook: false,
       countLikes: 0,
       countViews: 0,
+      countOrders: 0,
+      amount: "0.00",
       anim1: false,
       anim2: false,
       anim3: false,
@@ -1117,6 +1110,14 @@ export default {
                 if (data.likes != this.user.id) {
                   this.showAnimation();
                 }
+              }
+
+              if ('order' in data) {
+                console.log(data.order);
+                this.countOrders += 1;
+                this.amount = parseFloat(this.amount) - parseFloat(data.order.amount);
+                this.amount = this.amount.toFixed(2);
+                this.order.push(data.order);
               }
             });
           }, (response) => {

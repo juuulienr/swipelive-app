@@ -623,9 +623,6 @@ export default {
     }
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
         if (lineItem.variant) {
@@ -659,6 +656,10 @@ export default {
       this.shippingAddress = true;
     	this.getShippingPrice();
     }
+  },
+  mounted() {
+    window.StatusBar.overlaysWebView(false);
+    window.StatusBar.styleDefault();
   },
 	computed: {
 		isServicePoints() {
@@ -870,7 +871,6 @@ export default {
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
   	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(JSON.parse(response.data));
-          window.localStorage.removeItem('lineItems');
           this.$emit('paymentSuccess', JSON.parse(response.data));
   	    }, (response) => {
   	      console.log(response.error);
