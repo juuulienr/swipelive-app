@@ -756,6 +756,8 @@ export default {
       this.myPlayer.muted = true;
     },
     addToCart() {
+      navigator.vibrate(300);
+
       this.popupPromo = false;
       this.popupCheckout = false;
       this.popupProduct = false;
@@ -1100,6 +1102,7 @@ export default {
       this.popupShop = false;
       this.popupCheckout = false;
       this.myPlayer.muted = false;
+      this.lineItems = [];
 
 
       if (this.data[this.visible].type == "live") {

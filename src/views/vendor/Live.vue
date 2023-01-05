@@ -499,7 +499,7 @@
       <!-- amount -->
       <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 120px; right: calc(50vw - 60px); padding: 18px 0px; text-align: center; border-radius: 30px; background: rgba(255, 255, 255, 0.15); border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center; z-index: 20;">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
-          <span style="font-weight: bold;font-size: 18px;">{{ amount | formatPrice }}</span>
+          <span style="font-weight: bold;font-size: 18px;">{{ amount | formatPrice }}<span style="color: #7ed957">€</span></span>
         </span>
       </div>
 
@@ -634,19 +634,19 @@
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Commandes</span>
         </div>
 
-        <div v-if="orders" class="top-author" style="margin-top: 15px;">
-          <div class="top-author--container">
+        <div class="top-author" style="margin-top: 15px;">
+          <div v-if="orders && orders.length > 0" class="top-author--container">
             <div v-for="order in orders" class="top-author--item" style="position: relative">
               <img v-if="order.upload" :src="cloudinary256x256 + order.upload"/>
               <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
               <span class="counter" style="position: absolute;top: 14px;left: 67px;height: 24px;width: 24px;border-radius: 100%;background-color: rgb(255, 39, 115);color: rgb(255, 255, 255);font-size: 13px;display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;border: 3px solid white;">{{ order.nbProducts }}</span>
               <div>
                 <div><span>#{{ order.number }}</span></div>
-                <span v-if="order.buyer.vendor">{{ order.buyer.vendor }}</span>
+                <span v-if="order.buyer.vendor">{{ order.buyer.vendor.businessName }}</span>
                 <span v-else>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                 <div><span style="font-size: 11px; color: #999;">{{ order.createdAt }}</span></div>
               </div>
-              <span class="css-4ioo3c">{{ order.amount }}</span>
+              <span class="css-4ioo3c">{{ order.amount | formatPrice }}€</span>
             </div>
           </div>
           <div v-else class="checkout__body">
@@ -721,14 +721,16 @@
                 <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"></path>
               </svg>
               <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">{{ countViews }}</h4>
-              <div style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Vues</div>
+              <div v-if="countViews > 1" style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Vues</div>
+              <div v-else style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Vue</div>
             </div>
             <div style="width: 48%; text-align: center; padding: 15px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px; height: 33px; fill: #ff2773;">
                 <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path>
               </svg>
               <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">{{ countLikes }}</h4>
-              <div style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Likes</div>
+              <div v-if="countLikes > 1" style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Likes</div>
+              <div v-else style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Like</div>
             </div>
           </div>
 
@@ -738,14 +740,16 @@
                 <path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path>
               </svg>
               <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ countOrders }}</h4>
-              <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
+              <div v-if="countLikes > 1" style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
+              <div v-else style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commande</div>
             </div>
             <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px;height: 33px;fill: #73D751;">
                 <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"></path>
               </svg>
-              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ amount|formatPrice }}</h4>
-              <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenus</div>
+              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ amount|formatPrice }}€</h4>
+              <div v-if="amount > 1" style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenus</div>
+              <div v-else style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenu</div>
             </div>
           </div>
           <div @click="goOrders()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">Voir les commandes</div>
@@ -784,6 +788,7 @@ export default {
       purchases: [],
       liveProducts: [],
       live: [],
+      orders: [],
       pusher: null,
       broadcaster: null,
       http: null,
@@ -1113,11 +1118,10 @@ export default {
               }
 
               if ('order' in data) {
-                console.log(data.order);
                 this.countOrders += 1;
-                this.amount = parseFloat(this.amount) - parseFloat(data.order.amount);
+                this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
                 this.amount = this.amount.toFixed(2);
-                this.order.push(data.order);
+                this.orders.push(data.order);
               }
             });
           }, (response) => {

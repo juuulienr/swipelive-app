@@ -623,6 +623,11 @@ export default {
     }
   },
   created() {
+    setTimeout(() => {
+      window.StatusBar.overlaysWebView(false);
+      window.StatusBar.styleDefault();
+    }, 1000);
+    
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
         if (lineItem.variant) {
@@ -656,10 +661,6 @@ export default {
       this.shippingAddress = true;
     	this.getShippingPrice();
     }
-  },
-  mounted() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
   },
 	computed: {
 		isServicePoints() {
