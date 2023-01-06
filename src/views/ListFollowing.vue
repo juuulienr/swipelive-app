@@ -52,7 +52,7 @@
               <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
               <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
             </div>
-            <div @click="actionSheet()">
+            <div @click="actionSheet(user.id)">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; fill: #999; border-radius: 30px;">
                 <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
               </svg>
@@ -96,88 +96,7 @@
 </template>
 
 
-<style scoped>
-.top-author--container {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  gap: 20px;
-}
-.top-author--item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.top-author--item > img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 54px;
-  height: 54px;
-  font-size: 1.25rem;
-  line-height: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  user-select: none;
-  object-fit: cover;
-}
-.top-author--item > div:first-of-type {
-  margin: 0px 0px 0px 16px;
-  flex-grow: 1;
-}
-.top-author--item > div > span {
-  font-weight: 500;
-  line-height: 1.57143;
-}
-
-.top-author--item > div > div {
-  line-height: 1.5;
-  font-size: 14px;
-  font-weight: 400;
-  color: #525c66;
-  display: flex;
-  align-items: center;
-}
-.top-author--item > div > div > svg {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-}
-.top-author--container .btn-follow {
-  background-color: #eee; 
-  color: #666; 
-  text-align: center;
-  width: fit-content;
-  margin: 0px auto;
-  padding: 5px 24px;
-  border-radius: 30px;
-  font-size: 13px;
-}
-
-.images_filter ul {
-  background-color: #f4f6f9;
-  border-radius: 12px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.images_filter ul li {
-  display: inline-block;
-  text-align: center;
-  width: 50%;
-  margin: 2px;
-  padding: 1vh 0;
-  color: #6c7b8a;
-}
-
-.images_filter ul .active {
-  background-color: #fff;
-  color: #000;
-  border-radius: 10px;
-}
-
-</style>
+<style scoped src="../assets/css/listfollowing.css"></style>
 
 <script>
 export default {
@@ -199,8 +118,6 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     
-    console.log(this.user);
-
     if (this.user && this.token) {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.following = JSON.parse(response.data);
@@ -242,7 +159,16 @@ export default {
     goBack() {
       this.$router.push({ name: 'Account' });
     },
-    actionSheet() {
+    removeFollower(id) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers/remove/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        window.localStorage.setItem("user", response.data);
+        var filtersList = this.followers.filter(element => element.id !== id);
+        this.followers = filtersList;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    actionSheet(userId) {
       var buttonLabels = ['Supprimer ce follower'];
       var options = {
         buttonLabels: buttonLabels,
@@ -254,7 +180,7 @@ export default {
       window.plugins.actionsheet.show(options, (index) => {
         console.log(index);
         if (index == 1) {
-          // supprimer follower
+          this.removeFollower(userId);
         }
       }, (error) => {
         console.log(error);

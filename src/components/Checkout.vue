@@ -8,7 +8,7 @@
       </div>
       <div class="checkout__title">Paiement</div>
     </div>
-    <div class="checkout__body" style="padding-bottom: 80px;">
+    <div class="checkout__body" style="padding-bottom: 110px;">
 
       <!-- order summary -->
       <div v-if="lineItems && lineItems.length" class="css-13dslnb">
@@ -623,11 +623,9 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-      window.StatusBar.overlaysWebView(false);
-      window.StatusBar.styleDefault();
-    }, 1000);
-    
+    window.StatusBar.overlaysWebView(false);
+    window.StatusBar.styleDefault();
+  
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
         if (lineItem.variant) {
@@ -869,6 +867,7 @@ export default {
       this.$emit('hideCheckout');
     },
     payment() {
+      console.log(this.lineItems);
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
   	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(JSON.parse(response.data));

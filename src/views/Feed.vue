@@ -1055,7 +1055,7 @@ export default {
             this.purchase = true;
             setTimeout(() => {
               this.purchase = false;
-            }, 2500);
+            }, 3000);
           }, 1000);
         }
       });
