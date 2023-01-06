@@ -671,27 +671,28 @@
         </div>
 
         <div class="top-author" style="margin-top: 15px;">
-          <div  class="top-author--container" style="gap: 0px;">
-            <div class="top-author--item" style="box-shadow: none;">
-              <img class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px !important; height: 48px !important; border-radius: 50px;">
+          <div v-if="spectators && spectators.length > 0" class="top-author--container" style="gap: 0px;">
+            <div v-for="(user, index) in spectators" class="top-author--item" style="box-shadow: none;">
+              <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture" style="width: 48px !important; height: 48px !important; border-radius: 50px;">
+              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px !important; height: 48px !important; border-radius: 50px;">
               <div>
-                <span>Julien Rombai</span>
+                <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
+                <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
-              <div>
-                <!-- bannir des favoris et des lives et des clips, ne plus revoir -->
+              <div @click="mute(user.id, index)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 24px;height: 24px;fill: rgba(255, 0, 0, 0.5);border-radius: 30px;">
                   <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM512 256c0 141.4-114.6 256-256 256S0 397.4 0 256S114.6 0 256 0S512 114.6 512 256z"></path>
                 </svg>
               </div>
             </div>
           </div>
-        <!--   <div v-else>
+          <div v-else>
             <div class="container" style="margin: 100px auto 0px; text-align: center;">
               <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/follower.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
             </div>
-            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun abonné</h5>
-            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos abonnés apparaîtront ici.</div>
-          </div> -->
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun spectateur</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos spectateurs apparaîtront ici.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -788,6 +789,7 @@ export default {
       liveProducts: [],
       live: [],
       orders: [],
+      spectators: [],
       pusher: null,
       broadcaster: null,
       http: null,
@@ -988,6 +990,9 @@ export default {
         }, 500)
       }
     },
+    mute(user, index) {
+      console.log(user, index);
+    },
     async start() {
       if (this.broadcaster) {
         try {
@@ -1103,10 +1108,17 @@ export default {
               }
 
               if ('viewers' in data) {
-                if (data.viewers > this.viewers) {
+                if (data.viewers.count > this.viewers) {
                   this.countViews += 1;
                 }
-                this.viewers = data.viewers;
+                this.viewers = data.viewers.count;
+
+                if (data.viewers.type == "add") {
+                  this.spectators.push(data.viewers.user);
+                } else {
+                  var filtersList = this.spectators.filter(element => element.id !== data.viewers.user.id);
+                  this.spectators = filtersList;
+                }
               }
 
               if ('likes' in data) {

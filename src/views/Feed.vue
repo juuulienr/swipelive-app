@@ -1035,7 +1035,7 @@ export default {
         }
 
         if ('viewers' in data) {
-          this.viewers = data.viewers;
+          this.viewers = data.viewers.count;
         }
 
         if ('display' in data) {
