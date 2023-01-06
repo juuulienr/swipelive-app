@@ -10,83 +10,84 @@
     </div>
 
     <div class="checkout__body">
-      <div>
-        <div class="chat--left--head--input">
-          <svg viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
-            <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
-          </svg>
-          <input ref="search" type="text" placeholder="Rechercher"/>
+      <div v-if="discussions && discussions.length > 0">
+        <div>
+          <div class="chat--left--head--input">
+            <svg viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
+              <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
+            </svg>
+            <input ref="search" type="text" placeholder="Rechercher"/>
+          </div>
         </div>
-      </div>
 
-      <div class="chat--left">
-        <div class="chat--left--messages">
-          <div @click="goMessage()" class="chat--left--message  message--open">
-            <div class="chat--left--head--profil">
-              <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
-              <span class="online"></span>
-            </div>
-            <div class="chat--left--message--detail">
-              <div class="chat--left--message--top">
-                <h6>Lucian Obrien</h6>
-                <span class="not--read"></span>
+        <div class="chat--left">
+          <div class="chat--left--messages">
+            <div @click="goMessage()" class="chat--left--message  message--open">
+              <div class="chat--left--head--profil">
+                <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
+                <span class="online"></span>
               </div>
-              <p>
-                You: Voluptas sunt... 10:15
-              </p>
-            </div>
-          </div>
-          <div @click="goMessage()" class="chat--left--message">
-            <div class="chat--left--head--profil">
-              <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
-            </div>
-            <div class="chat--left--message--detail">
-              <div class="chat--left--message--top">
-                <h6>Lucian Obrien</h6>
+              <div class="chat--left--message--detail">
+                <div class="chat--left--message--top">
+                  <h6>Lucian Obrien</h6>
+                  <span class="not--read"></span>
+                </div>
+                <p>
+                  You: Voluptas sunt... 10:15
+                </p>
               </div>
-              <p>
-                You: Voluptas sunt... 17/06
-              </p>
             </div>
-          </div>
-          <div @click="goMessage()" class="chat--left--message">
-            <div class="chat--left--head--profil">
-              <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
-              <span class="online"></span>
-            </div>
-            <div class="chat--left--message--detail">
-              <div class="chat--left--message--top">
-                <h6>Lucian Obrien</h6>
-                <span class="not--read"></span>
+            <div @click="goMessage()" class="chat--left--message">
+              <div class="chat--left--head--profil">
+                <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
               </div>
-              <p>
-                You: Voluptas sunt... 23/12
-              </p>
-            </div>
-          </div>
-          <div @click="goMessage()" class="chat--left--message">
-            <div class="chat--left--head--profil">
-              <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
-            </div>
-            <div class="chat--left--message--detail">
-              <div class="chat--left--message--top">
-                <h6>Lucian Obrien</h6>
+              <div class="chat--left--message--detail">
+                <div class="chat--left--message--top">
+                  <h6>Lucian Obrien</h6>
+                </div>
+                <p>
+                  You: Voluptas sunt... 17/06
+                </p>
               </div>
-              <p>
-                You: Voluptas sunt... 23/12
-              </p>
+            </div>
+            <div @click="goMessage()" class="chat--left--message">
+              <div class="chat--left--head--profil">
+                <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
+                <span class="online"></span>
+              </div>
+              <div class="chat--left--message--detail">
+                <div class="chat--left--message--top">
+                  <h6>Lucian Obrien</h6>
+                  <span class="not--read"></span>
+                </div>
+                <p>
+                  You: Voluptas sunt... 23/12
+                </p>
+              </div>
+            </div>
+            <div @click="goMessage()" class="chat--left--message">
+              <div class="chat--left--head--profil">
+                <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_2.jpg">
+              </div>
+              <div class="chat--left--message--detail">
+                <div class="chat--left--message--top">
+                  <h6>Lucian Obrien</h6>
+                </div>
+                <p>
+                  You: Voluptas sunt... 23/12
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-<!-- 
-      <div>
+      <div v-else>
         <div class="container" style="margin: 100px auto 0px; text-align: center;">
           <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/message.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune discussion</h5>
         <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos discussions apparaîtront ici.</div>
-      </div> -->
+      </div>
     </div>
   </main>
 </template>
@@ -103,6 +104,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
+      discussions: []
     }
   },
   created() {    
@@ -111,7 +113,7 @@ export default {
   },
   methods: {
     goMessage() {
-      this.$router.push({ name: 'Message', params: { id: 100 } });
+      // this.$router.push({ name: 'Message', params: { id: 100 } });
     },
     goBack() {
       this.$router.push({ name: 'Account' });

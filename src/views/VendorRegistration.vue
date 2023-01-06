@@ -81,14 +81,14 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
             <legend>Prénom</legend>
-            <input type="text" required v-model="user.firstname">
+            <input type="text" required v-model="user.firstname" style="text-transform: capitalize;">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
           <fieldset>
             <legend>Nom</legend>
-            <input type="text" required v-model="user.lastname">
+            <input type="text" required v-model="user.lastname" style="text-transform: capitalize;">
           </fieldset>
         </div>
 
@@ -188,7 +188,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
           <fieldset>
             <legend>Pseudo (visible par les clients)</legend>
-            <input type="text" v-model="businessName" maxlength="30">
+            <input type="text" v-model="businessName" maxlength="30" style="text-transform: capitalize;">
           </fieldset>
         </div>
 

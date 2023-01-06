@@ -135,14 +135,14 @@
       	<div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
       		<fieldset>
       			<legend>Prénom</legend>
-      			<input type="text" v-model="firstname">
+      			<input type="text" v-model="firstname" style="text-transform: capitalize;">
       		</fieldset>
       	</div>
 
       	<div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
       		<fieldset>
       			<legend>Nom</legend>
-      			<input type="text" v-model="lastname">
+      			<input type="text" v-model="lastname" style="text-transform: capitalize;">
       		</fieldset>
       	</div>
 

@@ -740,7 +740,7 @@
                 <path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path>
               </svg>
               <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ countOrders }}</h4>
-              <div v-if="countLikes > 1" style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
+              <div v-if="countOrders > 1" style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
               <div v-else style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commande</div>
             </div>
             <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
@@ -748,8 +748,7 @@
                 <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"></path>
               </svg>
               <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ amount|formatPrice }}€</h4>
-              <div v-if="amount > 1" style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenus</div>
-              <div v-else style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Revenu</div>
+              <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Montant</div>
             </div>
           </div>
           <div @click="goOrders()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">Voir les commandes</div>

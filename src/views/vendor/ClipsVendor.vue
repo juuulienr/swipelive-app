@@ -88,7 +88,7 @@ export default {
   methods: {
     actionSheet(id) {
       var options = {
-        buttonLabels: ['Partager ce clip', 'Supprimer'],
+        buttonLabels: ['Partager', 'Supprimer'],
         addCancelButtonWithLabel: 'Annuler',
         androidEnableCancelButton : true,
         winphoneEnableCancelButton : true

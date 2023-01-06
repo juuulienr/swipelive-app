@@ -180,7 +180,7 @@
             </span>
           </router-link>
         </li>
-        <li v-if="user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
+        <li v-if="user.vendor">
           <router-link :to="{ name: 'Promotion' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -194,7 +194,7 @@
             </span>
           </router-link>
         </li>
-        <li v-if="!user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
+        <li>
           <router-link :to="{ name: 'Favoris' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -208,7 +208,7 @@
             </span>
           </router-link>
         </li>
-        <li v-if="!user.vendor" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
+        <li v-if="!user.vendor">
           <router-link :to="{ name: 'SwipeWheel' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">
@@ -222,7 +222,7 @@
             </span>
           </router-link>
         </li>
-        <li>
+        <li style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 16px; margin: 12px auto 30px;">
           <router-link :to="{ name: 'About' }">
             <span style="font-size: 16px; color: #333;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 512" style="width: 28px; height: 28px; margin-right: 12px;">

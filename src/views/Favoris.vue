@@ -10,8 +10,8 @@
     </div>
 
 
-    <!-- <div class="checkout__body items"> -->
-<!--       <div class="shop--part" style="margin: 5px;">
+    <div class="checkout__body items">
+      <div v-if="favorites && favorites.length > 0" class="shop--part" style="margin: 5px;">
         <div class="shop--item">
           <div>
             <div>
@@ -92,17 +92,15 @@
             </div>
           </div>
         </div>
+      </div> 
+      <div v-else>
+        <div class="container" style="margin: 100px auto 0px; text-align: center;">
+          <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/like.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        </div>
+        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun favoris</h5>
+        <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos articles favoris apparaîtront ici.</div>
       </div>
-    </div>    -->
-    <div>
-      <div class="container" style="margin: 100px auto 0px; text-align: center;">
-        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/like.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-      </div>
-      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun favoris</h5>
-      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos articles favoris apparaîtront ici.</div>
-    </div>
-     
-
+    </div>   
   </main>
 </template>
 
@@ -120,8 +118,8 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       user: JSON.parse(window.localStorage.getItem("user")),
-      // lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      favorites: []
       // id: this.$route.params.id,
       // name: this.$route.params.name,
       // category: null,

@@ -15,7 +15,6 @@ import Profile from '@/views/Profile'
 import Category from '@/views/Category'
 import ListOrders from '@/views/ListOrders'
 import ListMessages from '@/views/ListMessages'
-import Message from '@/views/Message'
 import Order from '@/views/Order'
 import Account from '@/views/Account'
 import EditUser from '@/views/EditUser'
@@ -124,10 +123,6 @@ export default new Router({
       path: '/messages',
       name: 'ListMessages',
       component: ListMessages
-    }, {
-      path: '/messages/user/:id?',
-      name: 'Message',
-      component: Message
     }, {
       path: '/clips/:type/:index/:profileId',
       name: 'ListClips',

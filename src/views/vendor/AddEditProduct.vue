@@ -112,6 +112,7 @@
             </fieldset>
           </div>
         </div>
+        <div v-if="errorWeight" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -15px;">Maximum 20kg</div>
 
         <!-- product.variants -->
         <div class="title-wrapper-3KgEa">
@@ -279,6 +280,7 @@
 		            </fieldset>
 		          </div>
 		        </div>
+            <div v-if="errorVariantWeight" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -15px;">Maximum 20kg</div>
 
             <div class="form--input--item" :class="{'form--input--item--error': variant.quantity == 0 }">
               <fieldset>
@@ -332,6 +334,7 @@ export default {
       errorWeight: false,
       errorPrice: false,
       errorCompareAtPrice: false,
+      errorVariantWeight: false,
       option1: true,
       option2: false,
       inputOption1: "",
@@ -425,6 +428,10 @@ export default {
 
       if (!this.product.variants.length) {
         if (!this.product.weight) {
+          this.errorWeight = true;
+        } else if (this.product.weight > 20 && this.product.weightUnit == "kg") {
+          this.errorWeight = true;
+        } else if (this.product.weight > 20000 && this.product.weightUnit == "g") {
           this.errorWeight = true;
         }
 
@@ -661,7 +668,15 @@ export default {
     },
     async saveEditVariant() {
       console.log(this.variant);
-      if (this.variant.title && parseFloat(this.variant.price) > 2 && this.variant.weight) {
+      this.errorVariantWeight = false;
+
+      if (this.variant.weight && this.variant.weight > 20 && this.variant.weightUnit == "kg") {
+        this.errorVariantWeight = true;
+      } else if (this.variant.weight && this.variant.weight > 20000 && this.variant.weightUnit == "g") {
+        this.errorVariantWeight = true;
+      }
+
+      if (this.variant.title && parseFloat(this.variant.price) > 2 && !this.errorVariantWeight) {
         if (!this.variant.compareAtPrice) {
           this.variant.compareAtPrice = null;
         }

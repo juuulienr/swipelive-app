@@ -266,9 +266,6 @@ export default {
     goProduct(id) {
       this.$router.push({ name: 'Product', params: { id: id } });
     },
-    sendMessage(id) {
-      this.$router.push({ name: 'Message', params: { id: id } });
-    },
     notifOff() {
       this.notif = false;
     },
@@ -304,7 +301,7 @@ export default {
       this.$router.back();
     },
     goToMessage(id) {
-      this.$router.push({ name: 'ListMessages', params: { id: id } });
+      this.$router.push({ name: 'ListMessages' });
     }
   }
 };

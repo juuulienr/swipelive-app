@@ -265,7 +265,7 @@
                 <path d="M416 160h-72V120C344 53.83 290.2 0 224 0S104 53.83 104 120V160H32C14.33 160 0 174.3 0 192v240C0 476.2 35.82 512 80 512h288c44.18 0 80-35.82 80-80V192C448 174.3 433.7 160 416 160zM152 120C152 80.3 184.3 48 224 48s72 32.3 72 72V160h-144V120zM128 248C114.8 248 104 237.3 104 224S114.8 200 128 200S152 210.8 152 224S141.3 248 128 248zM320 248c-13.25 0-24-10.75-24-24S306.8 200 320 200S344 210.8 344 224S333.3 248 320 248z"/>
               </svg>
             </span>
-            <span class="counter-badge" style="top: 9px; right: 50px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
+            <span v-if="updateCart > 0" class="counter-badge" style="top: 9px; right: 50px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
           </div>
           <div @click="goToAccount()" class="video-page__influencer-username-holder" style="padding-right: 5px;">
             <span class="video-page__influencer-video-count">
@@ -727,6 +727,13 @@ export default {
           console.log('player ended');
           if (this.data[index].type == "live") {
             this.finished[index].value = true;
+          } else {
+            if (!this.popupShop && !this.popupCart && !this.popupPromo && !this.popupProduct && !this.popupShop && !this.popupCheckout) {
+              var el = document.getElementById('feed');
+              if (el) {
+                el.scrollTop += window.innerHeight;
+              }
+            }
           }
         });
 
@@ -756,7 +763,7 @@ export default {
       this.myPlayer.muted = true;
     },
     addToCart() {
-      navigator.vibrate(300);
+      navigator.vibrate(1);
 
       this.popupPromo = false;
       this.popupCheckout = false;
