@@ -551,6 +551,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      banned: window.localStorage.getItem("banned") ? JSON.parse(window.localStorage.getItem("banned")) : [],
       pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
@@ -559,7 +560,6 @@ export default {
       animationSpeed: 1,
       following: [],
       comments: [],
-      purchases: [],
       finished: [],
       product: null,
       variant: null,
@@ -763,8 +763,6 @@ export default {
       this.myPlayer.muted = true;
     },
     addToCart() {
-      navigator.vibrate(1);
-
       this.popupPromo = false;
       this.popupCheckout = false;
       this.popupProduct = false;
@@ -954,44 +952,55 @@ export default {
           this.visible = 0;
 
           result.map((element, index) => {
+            var showElement = true;
             var value = JSON.parse(element.value);
             console.log(value);
 
-            this.data.push({ "type": element.type, "value": value });
-            var followers = value.vendor.user.followers;
-            var isFollower = false;
-
-            if (followers.length) {
-            	followers.map((element, index) => {
-            		console.log(element);
-            		if (element.follower.id == this.user.id) {
-            			isFollower = true;
-            		}
-            	});
+            if (this.banned.length > 0) {
+              this.banned.map((ban, index) => {
+                if (ban.id == value.id) {
+                  showElement = false;
+                }
+              });
             }
-            
-            this.following.push({ "value": isFollower });
-            this.finished.push({ "value": false });
-            console.log(this.following);
 
-            if (index == 0) {
-              this.videos.push({ "value": value.resourceUri });
-              this.comments.push({ "value": value.comments });
+            if (showElement) {
+              this.data.push({ "type": element.type, "value": value });
+              var followers = value.vendor.user.followers;
+              var isFollower = false;
+
+              if (followers.length) {
+                followers.map((element, index) => {
+                  console.log(element);
+                  if (element.follower.id == this.user.id) {
+                    isFollower = true;
+                  }
+                });
+              }
+
+              this.following.push({ "value": isFollower });
+              this.finished.push({ "value": false });
+              console.log(this.following);
+
+              if (index == 0) {
+                this.videos.push({ "value": value.resourceUri });
+                this.comments.push({ "value": value.comments });
 
               // si c'est un live
-              if (element.type == "live") {
-                this.display = value.display;
-                this.startLive(value);
-              }
+                if (element.type == "live") {
+                  this.display = value.display;
+                  this.startLive(value);
+                }
 
-              if (this.comments[index].value.length > 0) {
-                this.scrollToElement();
-              }
+                if (this.comments[index].value.length > 0) {
+                  this.scrollToElement();
+                }
 
-              this.launchPlayer(value, index);
-            } else {
-              this.videos.push({ "value": "" });
-              this.comments.push({ "value": [] });
+                this.launchPlayer(value, index);
+              } else {
+                this.videos.push({ "value": "" });
+                this.comments.push({ "value": [] });
+              }
             }
           });
         } else {
@@ -1036,6 +1045,35 @@ export default {
 
         if ('viewers' in data) {
           this.viewers = data.viewers.count;
+        }
+
+        if ('banned' in data) {
+          this.banned.push({ "id": this.data[this.visible].value.id });
+          window.localStorage.setItem("banned", JSON.stringify(this.banned));
+
+          this.stopLive();
+
+          this.loading = true;
+          this.data.splice(this.visible, 1);
+          this.videos.splice(this.visible, 1);
+          this.comments.splice(this.visible, 1);
+          this.following.splice(this.visible, 1);
+          this.finished.splice(this.visible, 1);
+
+          var value = this.data[this.visible].value;
+          this.videos[this.visible].value = value.resourceUri;
+          this.comments[this.visible].value = value.comments;
+
+          if (this.data[this.visible].type == "live") {
+            this.display = value.display;
+            this.startLive(value);
+          }
+
+          if (this.comments[this.visible].value.length > 0) {
+            this.scrollToElement();
+          }
+
+          this.launchPlayer(value, this.visible);
         }
 
         if ('display' in data) {

@@ -1,6 +1,5 @@
 <template>
   <div class="livestream">
-
     <div v-if="browser" id="player" style="height: 100vh; overflow: hidden;"></div>
 
     <div v-if="prelive" class="prelive">
@@ -61,7 +60,7 @@
       <!-- promo popup -->
       <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 15px 15px; left: 0px;">
         <div @click="hidePromo()" style="display: flex;">
-          <div id="scroll-indicator" style="height: 5px; width: 60px; background: rgba(0, 0, 0, 0.2); border-radius: 4.5px; margin: 15px auto;"></div>
+          <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Promotions</span>
@@ -130,7 +129,7 @@
       <!-- multistream popup -->
       <div v-if="popupMultistream" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 60%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 15px 15px; left: 0px;">
         <div @click="hideMultistream()" style="display: flex;">
-          <div id="scroll-indicator" style="height: 5px; width: 60px; background: rgba(0, 0, 0, 0.2); border-radius: 4.5px; margin: 15px auto;"></div>
+          <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Connexion Streaming</span>
@@ -168,7 +167,7 @@
       <!-- facebook popup -->
       <div v-if="popupFacebook" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 15px 15px; left: 0px;">
         <div @click="hideFacebook()" style="display: flex;">
-          <div id="scroll-indicator" style="height: 5px; width: 60px; background: rgba(0, 0, 0, 0.2); border-radius: 4.5px; margin: 15px auto;"></div>
+          <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Facebook</span>
@@ -557,9 +556,11 @@
             <div class="video-page__price-row">
               <div class="video-page__price">
                 <div class="video-page__price-line">
-                  <div class="video-page__price"> {{ liveProducts[0].product.price | formatPrice }}€
+                  <div class="video-page__price">{{ liveProducts[0].product.price | formatPrice }}€
                     <span v-if="liveProducts[0].product.compareAtPrice" class="disc" style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 400;">{{ liveProducts[0].product.compareAtPrice | formatPrice }}€</span>
                   </div>
+                  <div class="price stock-available" v-if="available">{{ available }} en stock</div>
+                  <div class="price stock-unavailable" v-else-if="available == 0">Épuisé</div>
                 </div>
               </div>
             </div>
@@ -628,7 +629,7 @@
       <!-- popup orders -->
       <div v-if="popupOrders" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 50%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 10px 15px; left: 0px;">
         <div @click="hideOrders()" style="display: flex;">
-          <div id="scroll-indicator" style="height: 5px; width: 60px; background: rgba(0, 0, 0, 0.2); border-radius: 4.5px; margin: 15px auto;"></div>
+          <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Commandes</span>
@@ -639,7 +640,7 @@
             <div v-for="order in orders" class="top-author--item" style="position: relative">
               <img v-if="order.upload" :src="cloudinary256x256 + order.upload"/>
               <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
-              <span class="counter" style="position: absolute;top: 14px;left: 67px;height: 24px;width: 24px;border-radius: 100%;background-color: rgb(255, 39, 115);color: rgb(255, 255, 255);font-size: 13px;display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;border: 3px solid white;">{{ order.nbProducts }}</span>
+              <span class="order-counter">{{ order.nbProducts }}</span>
               <div>
                 <div><span>#{{ order.number }}</span></div>
                 <span v-if="order.buyer.vendor">{{ order.buyer.vendor.businessName }}</span>
@@ -662,9 +663,9 @@
 
 
       <!-- popup view users -->
-      <div v-if="popupViewers" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 50%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 10px 15px; left: 0px;">
+      <div v-if="popupViewers" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 55%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 10px 15px; left: 0px;">
         <div @click="hideViewers()" style="display: flex;">
-          <div id="scroll-indicator" style="height: 5px; width: 60px; background: rgba(0, 0, 0, 0.2); border-radius: 4.5px; margin: 15px auto;"></div>
+          <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
           <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Spectateurs</span>
@@ -679,7 +680,7 @@
                 <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
-              <div @click="mute(user.id, index)">
+              <div @click="bannedViewer(user.id, index)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 24px;height: 24px;fill: rgba(255, 0, 0, 0.5);border-radius: 30px;">
                   <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM512 256c0 141.4-114.6 256-256 256S0 397.4 0 256S114.6 0 256 0S512 114.6 512 256z"></path>
                 </svg>
@@ -687,7 +688,7 @@
             </div>
           </div>
           <div v-else>
-            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+            <div class="container" style="margin: 0px auto; text-align: center;">
               <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/follower.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
             </div>
             <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun spectateur</h5>
@@ -696,6 +697,7 @@
         </div>
       </div>
     </div>
+
 
     <div v-if="performance" class="store-products-item__login-popup store-products-item__login-popup--active performance" style="overflow-y: scroll; height: 100%; width: 100vw; padding: 0px 15px 15px; left: 0px; background: white; border-radius: none;">
       <div class="checkout__header">
@@ -712,47 +714,44 @@
           <div class="container" style="text-align: center;">
             <video style="height: 175px; width: 175px; background: white; margin-top: 15px;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/trophy.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
           </div>
-          <div style="font-weight: 500;font-size: 19px;text-align: center;margin-top: 15px;">Bravo {{ user.vendor.businessName }} !</div>
-          <p style="margin: 15px;text-align: center;font-size: 16px; font-weight: 400;">
-            Voici quelques statistiques du live. 
-          </p>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding: 5px; margin-top: 30px;">
-            <div style="width: 48%; text-align: center; padding: 15px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 33px; height: 33px; fill: rgb(104, 92, 240);">
+          <div class="performance-title">Bravo {{ user.vendor.businessName }} !</div>
+          <p class="performance-p">Voici quelques statistiques du live.</p>
+          <div class="performance-bloc" style="margin-top: 30px;">
+            <div class="performance-card">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="fill: rgb(104, 92, 240);">
                 <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"></path>
               </svg>
-              <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">{{ countViews }}</h4>
-              <div v-if="countViews > 1" style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Vues</div>
-              <div v-else style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Vue</div>
+              <h4 class="performance-h4">{{ countViews }}</h4>
+              <div v-if="countViews > 1" class="performance-text">Vues</div>
+              <div v-else class="performance-text">Vue</div>
             </div>
-            <div style="width: 48%; text-align: center; padding: 15px; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px; height: 33px; fill: #ff2773;">
+            <div class="performance-card">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #ff2773;">
                 <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path>
               </svg>
-              <h4 style="font-size: 24px; font-weight: 600; margin-top: 9px; margin-bottom: 5px;">{{ countLikes }}</h4>
-              <div v-if="countLikes > 1" style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Likes</div>
-              <div v-else style="font-size: 15px; color: rgb(82, 92, 102); color: #78828a; font-weight: 400;">Like</div>
+              <h4 class="performance-h4">{{ countLikes }}</h4>
+              <div v-if="countLikes > 1" class="performance-text">Likes</div>
+              <div v-else class="performance-text">Like</div>
             </div>
           </div>
-
-          <div style="display: flex;justify-content: space-between;margin-bottom: 10px;padding: 5px;">
-            <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 33px;height: 33px;fill: #FFB800;">
+          <div class="performance-bloc">
+            <div class="performance-card">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="fill: #FFB800;">
                 <path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 96c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm200-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path>
               </svg>
-              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ countOrders }}</h4>
-              <div v-if="countOrders > 1" style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commandes</div>
-              <div v-else style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Commande</div>
+              <h4 class="performance-h4">{{ countOrders }}</h4>
+              <div v-if="countOrders > 1" class="performance-text">Commandes</div>
+              <div v-else class="performance-text">Commande</div>
             </div>
-            <div style="width: 48%;text-align: center;padding: 15px;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 33px;height: 33px;fill: #73D751;">
+            <div class="performance-card">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #73D751;">
                 <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"></path>
               </svg>
-              <h4 style="font-size: 24px;font-weight: 600;margin-top: 9px;margin-bottom: 5px;">{{ amount|formatPrice }}€</h4>
-              <div style="font-size: 15px;color: rgb(82, 92, 102);color: #78828A;font-weight: 400;">Montant</div>
+              <h4 class="performance-h4">{{ amount|formatPrice }}€</h4>
+              <div class="performance-text">Montant</div>
             </div>
           </div>
-          <div @click="goOrders()" class="btn-swipe" style="color: white; text-align: center; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); width: calc(100vw - 30px);">Voir les commandes</div>
+          <div @click="goOrders()" class="btn-swipe btn-orders">Voir les commandes</div>
         </div>
       </div>
     </div>
@@ -834,6 +833,7 @@ export default {
       countViews: 0,
       countOrders: 0,
       amount: "0.00",
+      available: null,
       anim1: false,
       anim2: false,
       anim3: false,
@@ -953,6 +953,7 @@ export default {
       if (this.liveProducts.length > 1) {
         this.display = this.display + 1;
         this.liveProducts.shift();
+        this.available = null;
         
         this.http.put(this.baseUrl + "/user/api/live/" + this.id + "/update/display", { "display": this.display }, { Authorization: "Bearer " + this.token }, (response) => {
         }, (response) => {
@@ -990,8 +991,16 @@ export default {
         }, 500)
       }
     },
-    mute(user, index) {
-      console.log(user, index);
+    bannedViewer(userId, index) {
+      console.log(userId, index);
+      var filtersList = this.spectators.filter(element => element.id !== userId);
+      this.spectators = filtersList;
+
+      this.http.get(this.baseUrl + "/user/api/live/" + this.id + "/update/banned/" + userId, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+      }, (response) => { 
+        console.log(response.error); 
+      });
     },
     async start() {
       if (this.broadcaster) {
@@ -1133,6 +1142,7 @@ export default {
                 this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
                 this.amount = this.amount.toFixed(2);
                 this.orders.push(data.order);
+                this.available = data.order.available;
               }
             });
           }, (response) => {

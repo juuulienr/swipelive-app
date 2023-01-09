@@ -874,6 +874,12 @@ export default {
           this.$emit('paymentSuccess', JSON.parse(response.data));
   	    }, (response) => {
   	      console.log(response.error);
+          
+          window.plugins.toast.show(response.error, 'long', 'top', function(a){
+            console.log('toast success: ' + a);
+          }, function(b){
+            console.log('toast error: ' + b);
+          });
   	    });
       }
     },

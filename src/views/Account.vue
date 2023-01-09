@@ -290,6 +290,7 @@ export default {
       window.localStorage.removeItem('user');
       window.localStorage.removeItem('trend');
       window.localStorage.removeItem('categories');
+      window.localStorage.removeItem('banned');
       this.$router.push({ name: 'Welcome' });
     },
     goBack() {

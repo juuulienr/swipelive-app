@@ -1138,6 +1138,128 @@ span.filter--choice > input:checked ~ .svg--point {
   bottom: 0px;
 }
 
+
+.stock-available {
+  margin: 0px; 
+  height: 22px; 
+  min-width: 22px; 
+  line-height: 0; 
+  border-radius: 6px; 
+  cursor: default; 
+  align-items: center; 
+  white-space: nowrap; 
+  display: inline-flex; 
+  justify-content: center; 
+  color: rgb(34, 154, 22); 
+  font-size: 0.75rem; 
+  background-color: rgba(84, 214, 44, 0.16); 
+  font-weight: 700; 
+  padding: 0 8px; 
+  margin-top: 3px;
+}
+
+.stock-unavailable {
+  margin: 0px; 
+  height: 22px; 
+  min-width: 22px; 
+  line-height: 0; 
+  border-radius: 6px; 
+  cursor: default; 
+  align-items: center; 
+  white-space: nowrap; 
+  display: inline-flex; 
+  justify-content: center; 
+  color: #ff0000; 
+  font-size: 0.75rem; 
+  background-color: #d62c2c29; 
+  font-weight: 700; 
+  padding: 0 8px; 
+  margin-top: 3px;
+}
+
+.scroll-indicator {
+  height: 5px; 
+  width: 60px; 
+  background: rgba(0, 0, 0, 0.2); 
+  border-radius: 4.5px;
+  margin: 15px auto;
+}
+
+.order-counter {
+  position: absolute;
+  top: 14px;
+  left: 67px;
+  height: 24px;
+  width: 24px;
+  border-radius: 100%;
+  background-color: rgb(255, 39, 115);
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  border: 3px solid white;
+}
+
+.performance-title {
+  font-weight: 500;
+  font-size: 19px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.performance-p {
+  margin: 15px;
+  text-align: center;
+  font-size: 16px; 
+  font-weight: 400;
+}
+
+.performance-bloc {
+  display: flex; 
+  justify-content: space-between; 
+  margin-bottom: 10px; 
+  padding: 5px; 
+}
+
+.performance-card {
+  width: 48%;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
+}
+
+.performance-h4 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 9px;
+  margin-bottom: 5px;
+}
+
+.performance-text {
+  font-size: 15px; 
+  color: rgb(82, 92, 102); 
+  color: #78828a; 
+  font-weight: 400;
+}
+
+.performance-bloc svg {
+  width: 33px; 
+  height: 33px;
+}
+
+.btn-orders {
+  color: white; 
+  text-align: center; 
+  position: absolute; 
+  bottom: calc(env(safe-area-inset-bottom) + 25px); 
+  width: calc(100vw - 30px);
+}
+
+
 input::placeholder {
   color: #bdc3c7;
 }
