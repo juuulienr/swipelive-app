@@ -238,12 +238,12 @@
   "cordova-plugin-facebook-connect": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-facebook-connect"
+      "id": "cordova-plugin-facebook-connect@3.2.0"
     },
     "is_top_level": true,
     "variables": {
-      "APP_ID": "123456789",
-      "APP_NAME": "myApplication"
+      "APP_ID": "936988141017522",
+      "APP_NAME": "SWIPE LIVE"
     }
   },
   "cordova-plugin-add-swift-support": {

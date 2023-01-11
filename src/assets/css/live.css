@@ -732,6 +732,36 @@
   overflow-y: scroll;
 }
 
+.scrollToMe .video-page__influencer-badge {
+  padding: 4px 10px 5px 10px; 
+  margin-top: 0px; 
+  border-radius: 11px; 
+  background-color: rgba(255, 255, 255, 0.075); 
+  letter-spacing: 0.05px; 
+  margin-right: 0px
+}
+
+.scrollToMe .username {
+  font-size: 13px; 
+  font-weight: 600; 
+  text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px; 
+  text-transform: capitalize;
+}
+
+.scrollToMe .content {
+  font-weight: 400; 
+  font-size: 14px; 
+  text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;
+}
+
+.scrollToMe img {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px; 
+  object-fit: cover; 
+  margin-top: 2px;
+}
+
 .css-1dko8fk {
   height: 70px;
   display: flex;
@@ -1257,6 +1287,182 @@ span.filter--choice > input:checked ~ .svg--point {
   position: absolute; 
   bottom: calc(env(safe-area-inset-bottom) + 25px); 
   width: calc(100vw - 30px);
+}
+
+.multistream {
+  overflow-y: scroll; 
+  height: 60%; 
+  width: 100vw; 
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  padding: 0px 15px 15px; 
+  left: 0px;
+}
+
+.multistream-box {
+  text-align: center; 
+  margin-bottom: 20px; 
+  font-weight: 600; 
+  color: rgb(51, 51, 51);
+}
+
+.multistream-title {
+  text-align: center; 
+  font-size: 17px; 
+  margin: 0px auto; 
+  color: rgb(0, 0, 0);
+}
+
+.multistream-div {
+  display: flex; 
+  justify-content: space-between; 
+}
+
+.multistream-card {
+  width: 48%; 
+  text-align: center; 
+  padding: 30px 20px; 
+  border-radius: 16px; 
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
+}
+
+.multistream-card img {
+  margin-bottom: 10px; 
+  width: 58px; 
+  height: 58px;
+}
+
+.multistream-card .subtitle {
+  font-size: 14px; 
+  color: #000; 
+  font-weight: 500;
+}
+
+.multistream-card .available {
+  font-size: 13px; 
+  color: #18cea0; 
+  font-weight: 400; 
+  margin-top: 10px;
+}
+
+.multistream-card .unavailable {
+  font-size: 13px; 
+  color: #ff2773; 
+  font-weight: 400; 
+  margin-top: 10px;
+}
+
+.badge-goback {
+  width: 40px; 
+  height: 40px;
+  fill: white; 
+  background: rgba(255, 255, 255, 0.15); 
+  left: 15px;
+}
+
+.badge-goback svg {
+  width: 40px; height: 40px; padding: 10px; fill: white; margin-left: 3px;
+}
+
+.badge-facebook {
+  background: none;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  fill: white;
+  right: 175px;
+}
+
+.facebook {
+  overflow-y: scroll; 
+  height: 95%; 
+  width: 100vw; 
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  padding: 0px 15px 15px; 
+  left: 0px;
+}
+
+.facebook .header {
+  text-align: center; 
+  margin-bottom: 20px; 
+  font-weight: 600; 
+  color: rgb(51, 51, 51);
+}
+
+.facebook .header .title {
+  text-align: center; 
+  font-size: 17px; 
+  margin: 0px auto; 
+  color: rgb(0, 0, 0);
+}
+
+.facebook .footer {
+  color: white;
+  position: fixed; 
+  bottom: calc(env(safe-area-inset-bottom) + 30px); 
+  text-align: center; 
+  width: calc(100vw - 30px);
+  line-height: 1.41176;
+  letter-spacing: -0.025em;
+  padding: 15px 15px 0px; 
+  background: transparent;
+}
+
+.facebook .btn-facebook {
+  color: white;
+  text-align: center;
+  line-height: 1.41176;
+  letter-spacing: -0.025em;
+}
+
+.badge-live {
+  left: 15px;
+  position: absolute;
+  padding: 5px 8px 5px 13px;
+  height: 28px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px; 
+  z-index: 20;
+}
+
+.badge-viewers {
+  position: absolute;
+  height: 28px;
+  width: fit-content;
+  left: 62px; 
+  background: rgba(255, 255, 255, 0.15); 
+  padding: 0px 15px 0px 7px;
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 0px; 
+  z-index: 20;
+}
+
+.badge-amount {
+  position: absolute; 
+  height: 30px; 
+  width: 120px; 
+  right: calc(50vw - 60px); 
+  padding: 18px 0px; 
+  text-align: center; 
+  border-radius: 30px; 
+  background: rgba(255, 255, 255, 0.15); 
+  border: 2px solid white; 
+  top: 10px; 
+  margin: 0 auto; 
+  justify-content: center; 
+  z-index: 20;
+}
+
+.promotion {
+  overflow-y: scroll; 
+  height: 95%; 
+  width: 100vw; 
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  padding: 0px 15px 15px; 
+  left: 0px;
 }
 
 

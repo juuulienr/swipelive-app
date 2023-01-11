@@ -9,10 +9,10 @@
       
 
       <!-- go back -->
-      <div @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="width: 40px; height: 40px;fill: white; background: rgba(255, 255, 255, 0.15); left: 15px;">
+      <div @click="goBack()" class="video-page__influencer-badge4 badge-goback" :style="{'top': safeareaTop }">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white; margin-left: 3px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
             </svg>
           </span>
@@ -21,7 +21,7 @@
 
 
       <!-- facebook -->
-      <div v-if="facebook" @click="showFacebook()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="background: none;top: 10px;width: 40px;height: 40px;fill: white;right: 175px;">
+      <div v-if="facebook" @click="showFacebook()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4 badge-facebook">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
             <img :src="require(`@/assets/img/facebook.svg`)" style="width: 36px; height: 36px;"/>
@@ -58,7 +58,7 @@
 
     
       <!-- promo popup -->
-      <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 15px 15px; left: 0px;">
+      <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active promotion">
         <div @click="hidePromo()" style="display: flex;">
           <div class="scroll-indicator"></div>
         </div>
@@ -127,37 +127,37 @@
       
     
       <!-- multistream popup -->
-      <div v-if="popupMultistream" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 60%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 15px 15px; left: 0px;">
+      <div v-if="popupMultistream" class="store-products-item__login-popup store-products-item__login-popup--active multistream">
         <div @click="hideMultistream()" style="display: flex;">
           <div class="scroll-indicator"></div>
         </div>
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Connexion Streaming</span>
+        <div class="multistream-box">
+          <span class="multistream-title">Connexion Streaming</span>
         </div>
 
         <div class="items" style="overflow: scroll; padding: 15px 30px 40px;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-            <div @click="showFacebook()" style="width: 48%; text-align: center; padding: 30px 20px; border-radius: 16px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
-              <img :src="require(`@/assets/img/facebook.svg`)" style="margin-bottom: 10px; width: 58px; height: 58px;" />
-              <div style="font-size: 14px; color: #000; font-weight: 500;">Facebook</div>
-              <div style="font-size: 13px; color: #18cea0; font-weight: 400; margin-top: 10px;">Disponible</div>
+          <div class="multistream-div" style="margin-bottom: 15px;">
+            <div @click="showFacebook()" class="multistream-card">
+              <img :src="require(`@/assets/img/facebook.svg`)"/>
+              <div class="subtitle">Facebook</div>
+              <div class="available" style="">Disponible</div>
             </div>
-            <div style="width: 48%; text-align: center; padding: 30px 20px; border-radius: 16px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
-              <img :src="require(`@/assets/img/instagram.svg`)" style="margin-bottom: 10px; width: 58px; height: 58px;" />
-              <div style="font-size: 14px; color: rgb(82, 92, 102); color: #000; font-weight: 500;">Instagram</div>
-              <div style="font-size: 13px; color: rgb(82, 92, 102); color: #ff2773; font-weight: 400; margin-top: 10px;">A venir</div>
+            <div class="multistream-card">
+              <img :src="require(`@/assets/img/instagram.svg`)"/>
+              <div class="subtitle">Instagram</div>
+              <div class="unavailable">A venir</div>
             </div>
           </div>
-          <div style="display: flex; justify-content: space-between;">
-            <div style="width: 48%; text-align: center; padding: 30px 20px; border-radius: 16px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
-              <img :src="require(`@/assets/img/tiktok.svg`)" style="margin-bottom: 10px; width: 58px; height: 58px;" />
-              <div style="font-size: 14px; color: rgb(82, 92, 102); font-weight: 500; color: #000;">Tiktok</div>
-              <div style="font-size: 13px; color: rgb(82, 92, 102); color: #ff2773; font-weight: 400; margin-top: 10px;">A venir</div>
+          <div class="multistream-div">
+            <div class="multistream-card">
+              <img :src="require(`@/assets/img/tiktok.svg`)"/>
+              <div class="subtitle">Tiktok</div>
+              <div class="unavailable">A venir</div>
             </div>
-            <div style="width: 48%; text-align: center; padding: 30px 20px; border-radius: 16px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
-              <img :src="require(`@/assets/img/youtube.svg`)" style="width: 58px; height: 58px; margin-bottom: 10px;" />
-              <div style="font-size: 14px; color: rgb(82, 92, 102); font-weight: 500; color: #000;">Youtube</div>
-              <div style="font-size: 13px; color: rgb(82, 92, 102); color: #ff2773; font-weight: 400; margin-top: 10px;">A venir</div>
+            <div class="multistream-card">
+              <img :src="require(`@/assets/img/youtube.svg`)"/>
+              <div class="subtitle">Youtube</div>
+              <div class="unavailable">A venir</div>
             </div>
           </div>
         </div>
@@ -165,12 +165,12 @@
 
 
       <!-- facebook popup -->
-      <div v-if="popupFacebook" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 95%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 15px 15px; left: 0px;">
+      <div v-if="popupFacebook" class="store-products-item__login-popup store-products-item__login-popup--active facebook">
         <div @click="hideFacebook()" style="display: flex;">
           <div class="scroll-indicator"></div>
         </div>
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Facebook</span>
+        <div class="header">
+          <span class="title">Facebook</span>
         </div>
         <div class="items" style="margin-top: 20px; margin-bottom: 20px; overflow-y: scroll;">
           <div class="top-author">
@@ -282,8 +282,8 @@
             </div>
           </div>
         </div>
-        <div style="color: white;position: fixed; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px);line-height: 1.41176;letter-spacing: -0.025em;padding: 15px 15px 0px; background: transparent;">
-          <div @click="saveFacebook()" class="btn-swipe" style="color: white;text-align: center;line-height: 1.41176;letter-spacing: -0.025em;">Enregistrer</div>
+        <div class="footer">
+          <div @click="saveFacebook()" class="btn-swipe btn-facebook">Enregistrer</div>
         </div>
       </div>
 
@@ -300,11 +300,9 @@
     </div>
 
     <div v-if="ready" class="ready">
-      <!-- top -->
-      <div style="background-image: linear-gradient(0deg, transparent 84%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; top: 0px;"></div>
-
-      <!-- bottom -->
-      <div style="background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4)); height: 100%; position: absolute; z-index: 10; width: 100%; bottom: 0px;"></div>
+      <!-- top/bottom filter -->
+      <div class="filter-top"></div>
+      <div class="filter-bottom"></div>
 
       <!-- heart animation -->
       <div class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
@@ -480,12 +478,12 @@
       
 
       <!-- live badge -->
-      <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3" style="left: 15px;position: absolute;padding: 5px 8px 5px 13px;height: 28px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 50px;border-top-left-radius: 50px; z-index: 20;">
+      <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3 badge-live">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">LIVE</span>
       </div>
 
       <!-- viewers -->
-      <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" style="position: absolute;height: 28px;width: fit-content;left: 62px; background: rgba(255, 255, 255, 0.15); padding: 0px 15px 0px 7px;border-top-left-radius: 0px;border-bottom-right-radius: 50px;border-top-right-radius: 50px;border-bottom-left-radius: 0px; z-index: 20;">
+      <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="fill: white; width: 12px; margin-bottom: 2px; height: 12px;">
             <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
@@ -496,7 +494,7 @@
 
 
       <!-- amount -->
-      <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4" :style="{'top': safeareaTop }" style="position: absolute; height: 30px; width: 120px; right: calc(50vw - 60px); padding: 18px 0px; text-align: center; border-radius: 30px; background: rgba(255, 255, 255, 0.15); border: 2px solid white; top: 10px; margin: 0 auto; justify-content: center; z-index: 20;">
+      <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-amount" :style="{'top': safeareaTop }">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
           <span style="font-weight: bold;font-size: 18px;">{{ amount | formatPrice }}<span style="color: #7ed957">€</span></span>
         </span>
@@ -526,15 +524,15 @@
       <div v-if="comments.length" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="margin-right: 50px;">
         <div v-for="comment in comments" style="display: flex;">
           <div class="video-page__influencer-img" style="padding-right: 6px;">
-            <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" style="border-radius: 50%;width: 32px;height: 32px; object-fit: cover; margin-top: 2px;">
-            <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%;width: 20px;height: 20px; object-fit: cover">
+            <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture">
+            <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
           </div>
-          <div class="video-page__influencer-badge" style="padding: 4px 10px 5px 10px; margin-top: 0px; border-radius: 11px; background-color: rgba(255, 255, 255, 0.075); letter-spacing: 0.05px; margin-right: 0px">
+          <div class="video-page__influencer-badge">
             <div class="video-page__influencer-username-holder">
               <div class="video-page__influencer-username" style="line-height: 18px;"> 
-                <div v-if="comment.user.vendor" style="font-size: 13px; font-weight: 600; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px; text-transform: capitalize;">{{ comment.user.vendor.businessName }}</div>
-                <div v-else style="font-size: 13px;margin-right: 3px;font-weight: 600;text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;text-transform: capitalize;">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
-                <div style="font-weight: 400; font-size: 14px; text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;">{{ comment.content }}</div>
+                <div v-if="comment.user.vendor" class="username">{{ comment.user.vendor.businessName }}</div>
+                <div v-else class="username">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
+                <div class="content">{{ comment.content }}</div>
               </div>
             </div>
           </div>
@@ -1177,6 +1175,39 @@ export default {
     showFacebook() {
       this.popupMultistream = false;
       this.popupFacebook = true;
+
+
+      // async facebook() {
+      //   window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
+      //     console.log(response);
+      //     window.localStorage.setItem("facebookToken", response.authResponse.accessToken);
+      //     window.localStorage.setItem("facebookId", response.authResponse.userID);
+      //     this.loading = true;
+
+      //     window.facebookConnectPlugin.api("me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=" + response.authResponse.accessToken, ["email", "public_profile"], async (result) => {
+      //         console.log(result);
+      //         this.email = result.email;
+      //         this.password = Math.random().toString(36).slice(-15);
+
+      //         window.cordova.plugin.http.setDataSerializer('json');
+      //         var httpParams = { "email": this.email, "password": this.password, "firstname": result.first_name, "lastname": result.last_name, "picture": result.picture.data.url, "facebookId": response.authResponse.userID };
+      //         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+
+      //         await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/facebook", httpParams, httpHeader, (response) => {
+      //           this.authenticate(response.data);
+      //         }, (response) => {
+      //           this.loading = false;
+      //           console.log(response.error);
+      //         });
+      //       }, (error) => {
+      //         this.loading = false;
+      //         console.error("Failed: ", error);
+      //       }
+      //     );
+      //   }, (loginError) => {
+      //     console.log(loginError);
+      //   });
+      // },
     },
     hideFacebook() {
       this.popupFacebook = false;

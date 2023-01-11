@@ -13,19 +13,15 @@ import * as VueGoogleMaps from "vue2-google-maps";
 
 if (window.location.protocol === 'file:') {
   Vue.config.productionTip = true;
+  Pusher.logToConsole = true;
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
   window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");
 
-  Pusher.logToConsole = true;
-  Bugsnag.start({
-    apiKey: 'd97d0497cb27fb9f2bcf2da2ba9c8bbe',
-    plugins: [new BugsnagPluginVue()]
-  })
+  Bugsnag.start({ apiKey: 'd97d0497cb27fb9f2bcf2da2ba9c8bbe', plugins: [new BugsnagPluginVue()]});
   Vue.use(Bugsnag.getPlugin('vue'));
 } else {
   Vue.config.productionTip = false;
   window.localStorage.setItem("baseUrl", "http://127.0.0.1:8000");
-  window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");
 } 
 
 Vue.use(VueObserveVisibility);
@@ -84,10 +80,12 @@ window.addEventListener("batterycritical", (event) => {
   // console.log("Battery Level Critical " + status.level + "%\n Recharger le téléphone !");
 }, false);
 
+
 // error
 window.addEventListener("cordovacallbackerror", function (event) {
    console.log(event);
 });
+
 
 // If we are not in Cordova, manually trigger the deviceready event
 const isCordovaApp = (typeof window.cordova !== "undefined");

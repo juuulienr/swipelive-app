@@ -284,8 +284,6 @@ export default {
   },
   methods: {
     async login() {
-      console.log(this.loginEmail);
-      console.log(this.loginPassword);
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
 
@@ -318,22 +316,43 @@ export default {
         });
       }
     },
-    facebook() {
-      // ajouter facebook
-      // window.facebookConnectPlugin.login(['public_profile', 'email'])
-      // .then(succ => {
-      //   console.log(JSON.stringify(succ));
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // });
+    async facebook() {
+      window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
+        console.log(response);
+        window.localStorage.setItem("facebookToken", response.authResponse.accessToken);
+        window.localStorage.setItem("facebookId", response.authResponse.userID);
+        this.loading = true;
+
+        window.facebookConnectPlugin.api("me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=" + response.authResponse.accessToken, ["email", "public_profile"], async (result) => {
+            console.log(result);
+            this.email = result.email;
+            this.password = Math.random().toString(36).slice(-15);
+
+            window.cordova.plugin.http.setDataSerializer('json');
+            var httpParams = { "email": this.email, "password": this.password, "firstname": result.first_name, "lastname": result.last_name, "picture": result.picture.data.url, "facebookId": response.authResponse.userID };
+            var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+
+            await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/facebook", httpParams, httpHeader, (response) => {
+              this.authenticate(response.data);
+            }, (response) => {
+              this.loading = false;
+              console.log(response.error);
+            });
+          }, (error) => {
+            this.loading = false;
+            console.error("Failed: ", error);
+          }
+        );
+      }, (loginError) => {
+        console.log(loginError);
+      });
     },
-    google() {
+    // google() {
       // ajouter google
-    },
-    apple() {
+    // },
+    // apple() {
       // ajouter apple
-    },
+    // },
     resetPassword() {
       // this.errorEmailRecovery = false;
 
@@ -414,13 +433,13 @@ export default {
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.loading) {
         this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "email": this.email, "password": this.password, "lastname": this.lastname, "firstname": this.firstname, "picture": this.picture, "businessType": null };
+        var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture };
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
           console.log(response);
           window.localStorage.setItem("user", response.data);
-          this.authenticate();
+          this.authenticate(true);
         }, (response) => {
           this.loading = false;
           console.log(response.error);
@@ -431,14 +450,18 @@ export default {
       var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return regex.test(email);
     },
-    async authenticate() {
+    async authenticate(newUser) {
       var httpParams = { "username": this.email, "password": this.password };
       var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-      
+
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
         var result = JSON.parse(response.data);
         window.localStorage.setItem("token", result.token);
-        this.$router.push({ name: 'Onboarding' });
+        if (newUser == true) {
+          this.$router.push({ name: 'Onboarding' });
+        } else {
+          this.$router.push({ name: 'Feed' });
+        }
       }, (response) => {
         this.loading = false;
         console.log(response.error);
