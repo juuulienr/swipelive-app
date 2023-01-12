@@ -319,8 +319,6 @@ export default {
     async facebook() {
       window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
         console.log(response);
-        window.localStorage.setItem("facebookToken", response.authResponse.accessToken);
-        window.localStorage.setItem("facebookId", response.authResponse.userID);
         this.loading = true;
 
         window.facebookConnectPlugin.api("me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=" + response.authResponse.accessToken, ["email", "public_profile"], async (result) => {

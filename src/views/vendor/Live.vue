@@ -104,7 +104,7 @@
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
+                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -175,17 +175,19 @@
         <div class="items" style="margin-top: 20px; margin-bottom: 20px; overflow-y: scroll;">
           <div class="top-author">
             <div class="top-author--container" style="padding-top: 0px;">
+              <!-- profile -->
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Profil</div>
               </div>
-              <div class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
-                <div><span>Deja Brady</span></div>
+              <div class="top-author--item" style="box-shadow: none; padding: 0px;">
+                <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
+                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
+                <div><span>{{ user.firstname }} {{ user.lastname }}</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
+                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -193,27 +195,29 @@
                   </label>
                 </span>
               </div>
+
+              <!-- pages -->
               <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;"/>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 8px;">
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Pages</div>
                 <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                   <span @click="showPages()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                     <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                      <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
+                      <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true">
                       <span class="MuiSwitch-thumb css-byglaq"></span>
                       <span class="MuiTouchRipple-root css-w0pj6f"></span>
                     </span><span class="MuiSwitch-track css-1ju1kxc"></span>
                   </span>
                 </label>
               </div>
-              <div v-if="pages" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
-                <div><span>Deja Brady</span></div>
+              <div v-if="pages && pages.length > 0" v-for="page in pages" class="top-author--item" style="box-shadow: none; padding: 0px">
+                <img :src="page.picture.data.url" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
+                <div><span>{{ page.name }}</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
+                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -221,57 +225,29 @@
                   </label>
                 </span>
               </div>
-              <div v-if="pages" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
-                <div><span>Deja Brady</span></div>
-                <span class="filter--choice">
-                  <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
-                    <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
-                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
-                        <span class="MuiSwitch-thumb css-byglaq"></span>
-                        <span class="MuiTouchRipple-root css-w0pj6f"></span>
-                      </span><span class="MuiSwitch-track css-1ju1kxc"></span>
-                    </span>
-                  </label>
-                </span>
-              </div>
+
+              <!-- groups -->
               <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;"/>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 8px;">
                 <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Groupes</div>
                 <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                   <span @click="showGroups()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                     <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                      <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
+                      <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true">
                       <span class="MuiSwitch-thumb css-byglaq"></span>
                       <span class="MuiTouchRipple-root css-w0pj6f"></span>
                     </span><span class="MuiSwitch-track css-1ju1kxc"></span>
                   </span>
                 </label>
               </div>
-              <div v-if="groups" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
-                <div><span>Deja Brady</span></div>
+              <div v-if="groups && groups.length > 0" v-for="group in groups" class="top-author--item" style="box-shadow: none; padding: 0px">
+                <img :src="group.picture.data.url" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
+                <div><span>{{ group.name }}</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
-                        <span class="MuiSwitch-thumb css-byglaq"></span>
-                        <span class="MuiTouchRipple-root css-w0pj6f"></span>
-                      </span><span class="MuiSwitch-track css-1ju1kxc"></span>
-                    </span>
-                  </label>
-                </span>
-              </div>
-              <div v-if="groups" class="top-author--item" style="box-shadow: none;">
-                <img :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important;"/>
-                <div><span>Deja Brady</span></div>
-                <span class="filter--choice">
-                  <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
-                    <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
-                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true">
+                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -819,8 +795,8 @@ export default {
       popupMultistream: false,
       popupPromo: false,
       popupOrders: false,
-      groups: false,
-      pages: false,
+      groups: [],
+      pages: [],
       listPromo: false,
       profil: false,
       errorTitle: false,
@@ -832,6 +808,10 @@ export default {
       countOrders: 0,
       amount: "0.00",
       available: null,
+      fbToken: null,
+      fbUserId: null,
+      fbStreamUrl: null,
+      fbStreamId: null,
       anim1: false,
       anim2: false,
       anim3: false,
@@ -1026,7 +1006,8 @@ export default {
         this.counter = false;
         this.ready = true;
 
-        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test" }, { Authorization: "Bearer " + this.token }, (response) => {
+
+        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test", "fbUserId": this.fbUserId }, { Authorization: "Bearer " + this.token }, (response) => {
           this.live = JSON.parse(response.data);
           this.liveProducts = this.live.liveProducts;
 
@@ -1050,6 +1031,17 @@ export default {
 
         try {
           await this.broadcaster.stopBroadcast();
+
+          // récupérer infos pour stream sur facebook
+          if (this.fbStreamId && this.fbStreamUrl) {
+            var url = this.fbStreamId + "/end_live_video&access_token=" + this.fbToken;
+            window.facebookConnectPlugin.api(url, ["publish_video"], "POST", async (result) => {
+              console.log(result);
+            }, (error) => {
+              console.error("Failed: ", error);
+            });
+          }
+
         } catch (e) {
           console.log('Failed to stop broadcast', e);
         }
@@ -1098,7 +1090,7 @@ export default {
           console.log("broadcastId : " + broadcastId);
 
           this.broadcaster.removeEventListener(this.broadcastListenerId);
-          this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : broadcastId }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : broadcastId, "fbStreamUrl": this.fbStreamUrl }, { Authorization: "Bearer " + this.token }, (response) => {
             this.live = JSON.parse(response.data);
             this.liveProducts = this.live.liveProducts;
             this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
@@ -1174,54 +1166,55 @@ export default {
     },
     showFacebook() {
       this.popupMultistream = false;
-      this.popupFacebook = true;
 
-
-      // async facebook() {
-      //   window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
-      //     console.log(response);
-      //     window.localStorage.setItem("facebookToken", response.authResponse.accessToken);
-      //     window.localStorage.setItem("facebookId", response.authResponse.userID);
-      //     this.loading = true;
-
-      //     window.facebookConnectPlugin.api("me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=" + response.authResponse.accessToken, ["email", "public_profile"], async (result) => {
-      //         console.log(result);
-      //         this.email = result.email;
-      //         this.password = Math.random().toString(36).slice(-15);
-
-      //         window.cordova.plugin.http.setDataSerializer('json');
-      //         var httpParams = { "email": this.email, "password": this.password, "firstname": result.first_name, "lastname": result.last_name, "picture": result.picture.data.url, "facebookId": response.authResponse.userID };
-      //         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-
-      //         await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/facebook", httpParams, httpHeader, (response) => {
-      //           this.authenticate(response.data);
-      //         }, (response) => {
-      //           this.loading = false;
-      //           console.log(response.error);
-      //         });
-      //       }, (error) => {
-      //         this.loading = false;
-      //         console.error("Failed: ", error);
-      //       }
-      //     );
-      //   }, (loginError) => {
-      //     console.log(loginError);
-      //   });
-      // },
+      window.facebookConnectPlugin.login(['public_profile'], (response) => {
+        console.log(response);
+        this.fbToken = response.authResponse.accessToken;
+        this.fbUserId = response.authResponse.userID;
+        this.popupFacebook = true;
+      }, (loginError) => {
+        console.log(loginError);
+      });
     },
     hideFacebook() {
       this.popupFacebook = false;
     },
     saveFacebook() {
       // max 5 groupes
+
+      // récupérer infos pour stream sur facebook
+      if (this.fbUserId) {
+        var url = this.fbUserId + "/live_videos?title=Titre de la vidéo&desciption=Vidéo en direct depuis Swipe Live&status=LIVE_NOW&access_token=" + this.fbToken;
+        var url = url.replace(" ", "%20");
+        window.facebookConnectPlugin.api(url, ["publish_video"], "POST", async (result) => {
+          console.log(result);
+          this.fbStreamUrl = result.secure_stream_url;
+          this.fbStreamId = result.id;
+        }, (error) => {
+          console.error("Failed: ", error);
+        });
+      }
+
       this.popupFacebook = false;
       this.facebook = true;
     },
     showPages() {
-      this.pages = true;
+      var url = this.fbUserId + "/accounts?fields=name,picture.type(large)&transport=cors&access_token=" + this.fbToken;
+      window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list"], async (result) => {
+        console.log(result.data);
+        this.pages = result.data;
+      }, (error) => {
+        console.error("Failed: ", error);
+      });
     },
     showGroups() {
-      this.groups = true;
+      var url = this.fbUserId + "/groups?fields=name,picture.type(large)&transport=cors&access_token=" + this.fbToken;
+      window.facebookConnectPlugin.api(url, ["publish_to_groups"], async (result) => {
+        console.log(result.data);
+        this.groups = result.data;
+      }, (error) => {
+        console.error("Failed: ", error);
+      });
     },
     showViewers() {
       this.popupViewers = true;
