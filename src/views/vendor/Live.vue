@@ -1034,7 +1034,7 @@ export default {
 
           // récupérer infos pour stream sur facebook
           if (this.fbStreamId && this.fbStreamUrl) {
-            var url = this.fbStreamId + "/end_live_video&access_token=" + this.fbToken;
+            var url = this.fbStreamId + "/?end_live_video=true&access_token=" + this.fbToken;
             window.facebookConnectPlugin.api(url, ["publish_video"], "POST", async (result) => {
               console.log(result);
             }, (error) => {
@@ -1185,7 +1185,9 @@ export default {
       // récupérer infos pour stream sur facebook
       if (this.fbUserId) {
         var url = this.fbUserId + "/live_videos?title=Titre de la vidéo&desciption=Vidéo en direct depuis Swipe Live&status=LIVE_NOW&access_token=" + this.fbToken;
-        var url = url.replace(" ", "%20");
+        url = url.replace(/ /g, "%20");
+        url = url.replace(/é/gi, "e");
+        console.log(url);
         window.facebookConnectPlugin.api(url, ["publish_video"], "POST", async (result) => {
           console.log(result);
           this.fbStreamUrl = result.secure_stream_url;
