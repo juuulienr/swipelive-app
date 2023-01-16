@@ -144,8 +144,8 @@ export default {
       if (this.products.length == 0) {
         this.$router.push({ name: 'AddEditProduct' });
       } else {
-        this.products.map((product, key) => { 
-          this.selected.push({ 'product': product.id, 'priority': key + 1 });
+        this.products.map((product, index) => { 
+          this.selected.push({ 'product': product.id, 'priority': index + 1 });
           this.checked.push({ 'selected': true });
 
           if (product.variants.length) {
@@ -160,8 +160,8 @@ export default {
               }
               quantity = quantity + variant.quantity;
             });
-            this.stocks[key] = quantity;
-            this.prices[key] = price;
+            this.stocks[index] = quantity;
+            this.prices[index] = price;
           }
         });
       }
@@ -201,12 +201,12 @@ export default {
       this.selected = [];
       this.checked = [];
       if (this.isCheckAll) {
-        this.products.map((element, key) => { 
-          this.selected.push({ 'product': element.id, 'priority': key + 1 });
+        this.products.map((element, index) => { 
+          this.selected.push({ 'product': element.id, 'priority': index + 1 });
           this.checked.push({ 'selected': true });
         });
       } else {
-        this.products.map((element, key) => { 
+        this.products.map((element, index) => { 
           this.checked.push({ 'selected': false });
         });
       }
@@ -238,8 +238,8 @@ export default {
     async submit() {
       if (!this.pending) {
         this.pending = true;
-        this.live.liveProducts.map((element, key) => { 
-          var priority = key + 1;
+        this.live.liveProducts.map((element, index) => { 
+          var priority = index + 1;
           
           window.cordova.plugin.http.setDataSerializer('json');
           window.cordova.plugin.http.put(this.baseUrl + "/user/api/liveproducts/edit/" + element.id, { "priority": priority }, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => {

@@ -1291,7 +1291,7 @@ span.filter--choice > input:checked ~ .svg--point {
 
 .multistream {
   overflow-y: scroll; 
-  height: 60%; 
+  height: 65%; 
   width: 100vw; 
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
   padding: 0px 15px 15px; 

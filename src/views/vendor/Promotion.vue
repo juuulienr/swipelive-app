@@ -41,7 +41,7 @@
               <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                 <span @click="check()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                   <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': isChecked }">
-                    <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" name="inStock" type="checkbox" value="true" :checked="isChecked">
+                    <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" :checked="isChecked">
                     <span class="MuiSwitch-thumb css-byglaq"></span>
                     <span class="MuiTouchRipple-root css-w0pj6f"></span>
                   </span><span class="MuiSwitch-track css-1ju1kxc"></span>
