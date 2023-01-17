@@ -799,8 +799,7 @@ export default {
       amount: "0.00",
       available: null,
       fbToken: null,
-      fbUserId: null,
-      fbStreamUrl: null,
+      fbIdentifier: null,
       fbStreamId: null,
       anim1: false,
       anim2: false,
@@ -997,7 +996,7 @@ export default {
         this.ready = true;
 
 
-        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test", "fbUserId": this.fbUserId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
+        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test", "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
           this.live = JSON.parse(response.data);
           this.liveProducts = this.live.liveProducts;
 
@@ -1068,8 +1067,9 @@ export default {
         this.broadcastListenerId = this.broadcaster.addEventListener('broadcastIdAvailable', broadcastId => {
           console.log("broadcastId : " + broadcastId);
 
+
           this.broadcaster.removeEventListener(this.broadcastListenerId);
-          this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : broadcastId, "fbStreamUrl": this.fbStreamUrl }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : broadcastId }, { Authorization: "Bearer " + this.token }, (response) => {
             this.live = JSON.parse(response.data);
             this.liveProducts = this.live.liveProducts;
             this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
@@ -1117,6 +1117,34 @@ export default {
           }, (response) => {
             console.log(response.error);
           });
+
+          if (this.isShowPages && this.pagesChecked) {
+            this.pagesChecked.map((page, index) => { 
+              if (this.pagesChecked[index].selected == true) {
+                console.log(this.pages[index].id);
+                this.fbIdentifier = this.pages[index].id;
+                this.fbTokenPage = this.pages[index].access_token;
+              }
+            });
+          }
+
+          if (this.isShowGroups && this.groupsChecked) {
+            this.groupsChecked.map((group, index) => {
+              if (this.groupsChecked[index].selected == false) {
+                this.groups.splice(index, 1);
+              }
+            });
+          }
+
+          console.log(this.fbToken, this.fbTokenPage);
+
+          // stream on facebook
+          this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbTokenPage": this.fbTokenPage, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
+            var result = JSON.parse(response.data);
+            this.fbStreamId = result.fbStreamId; 
+          }, (response) => {
+            console.log(response.error);
+          });
         }, (response) => {
           console.log(response.error);
         });
@@ -1149,7 +1177,7 @@ export default {
       window.facebookConnectPlugin.login(["public_profile", "publish_video"], (response) => {
         console.log(response);
         this.fbToken = response.authResponse.accessToken;
-        this.fbUserId = response.authResponse.userID;
+        this.fbIdentifier = response.authResponse.userID;
         this.popupFacebook = true;
       }, (loginError) => {
         console.log(loginError);
@@ -1163,10 +1191,9 @@ export default {
       this.facebook = true;
     },
     showPages() {
-      var url = this.fbUserId + "/accounts?fields=name,picture.type(large)&transport=cors&access_token=" + this.fbToken;
-      window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "public_profile", "publish_video"], async (result) => {
+      var url = this.fbIdentifier + "/accounts?fields=name,access_token,picture.type(large)&access_token=" + this.fbToken;
+      window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "publish_pages", "public_profile", "publish_video"], async (result) => {
         console.log(result);
-        console.log(result.data);
         this.isShowPages = true;
         this.pages = result.data;
 
@@ -1178,17 +1205,26 @@ export default {
       });
     },
     showGroups() {
-      var url = this.fbUserId + "/groups?fields=name,picture.type(large)&transport=cors&access_token=" + this.fbToken;
-      window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
-        console.log(result.data);
-        this.isShowGroups = true;
-        this.groups = result.data;
+      window.facebookConnectPlugin.login(["publish_to_groups", "publish_video"], (response) => {
+        console.log(response.authResponse.accessToken);
+        this.fbToken = response.authResponse.accessToken;
+        this.fbIdentifier = response.authResponse.userID;
+        this.popupFacebook = true;
 
-        this.groups.map((page, index) => { 
-          this.groupsChecked.push({ 'selected': false });
+        var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
+        window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
+          console.log(result);
+          this.isShowGroups = true;
+          this.groups = result.data;
+
+          this.groups.map((group, index) => { 
+            this.groupsChecked.push({ 'selected': false });
+          });
+        }, (error) => {
+          console.error("Failed: ", error);
         });
-      }, (error) => {
-        console.error("Failed: ", error);
+      }, (loginError) => {
+        console.log(loginError);
       });
     },
     showViewers() {
@@ -1254,17 +1290,24 @@ export default {
       });
     },
     checkProfile() {
-      console.log(this.isProfileChecked);
       if(this.isProfileChecked) {
        this.isProfileChecked = false;
       } else {
-       this.isProfileChecked = true;
+        this.pagesChecked.map((page, index) => { 
+          this.pagesChecked[index].selected = false;
+        });
+
+        this.isProfileChecked = true;
       }
     },
     updatePagesCheck(index) {
       if (this.pagesChecked[index].selected) {
         this.pagesChecked[index].selected = false;
       } else {
+        this.pagesChecked.map((page, index) => { 
+          this.pagesChecked[index].selected = false;
+        });
+        this.isProfileChecked = false;
         this.pagesChecked[index].selected = true;
       }
     },
