@@ -1136,12 +1136,17 @@ export default {
             });
           }
 
-          console.log(this.fbToken, this.fbTokenPage);
+          console.log(this.groups);
+
+          console.log("token : " + this.fbToken);
+          console.log("token page : " + this.fbTokenPage);
 
           // stream on facebook
           this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbTokenPage": this.fbTokenPage, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
             var result = JSON.parse(response.data);
+            console.log(result.fbStreamId);
             this.fbStreamId = result.fbStreamId; 
+            console.log(this.fbStreamId);
           }, (response) => {
             console.log(response.error);
           });
@@ -1192,12 +1197,15 @@ export default {
     },
     showPages() {
       var url = this.fbIdentifier + "/accounts?fields=name,access_token,picture.type(large)&access_token=" + this.fbToken;
-      window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "publish_pages", "public_profile", "publish_video"], async (result) => {
+      window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "public_profile", "publish_video"], async (result) => {
         console.log(result);
         this.isShowPages = true;
         this.pages = result.data;
 
+        console.log(this.pages);
         this.pages.map((page, index) => { 
+          console.log(page);
+          console.log(index);
           this.pagesChecked.push({ 'selected': false });
         });
       }, (error) => {
@@ -1205,26 +1213,19 @@ export default {
       });
     },
     showGroups() {
-      window.facebookConnectPlugin.login(["publish_to_groups", "publish_video"], (response) => {
-        console.log(response.authResponse.accessToken);
-        this.fbToken = response.authResponse.accessToken;
-        this.fbIdentifier = response.authResponse.userID;
-        this.popupFacebook = true;
+      var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
+      window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
+        console.log(result);
+        this.isShowGroups = true;
+        this.groups = result.data;
 
-        var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
-        window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
-          console.log(result);
-          this.isShowGroups = true;
-          this.groups = result.data;
-
-          this.groups.map((group, index) => { 
-            this.groupsChecked.push({ 'selected': false });
-          });
-        }, (error) => {
-          console.error("Failed: ", error);
+        this.groups.map((group, index) => { 
+          this.groupsChecked.push({ 'selected': false });
         });
-      }, (loginError) => {
-        console.log(loginError);
+        console.log(this.groupsChecked);
+
+      }, (error) => {
+        console.error("Failed: ", error);
       });
     },
     showViewers() {
@@ -1293,14 +1294,16 @@ export default {
       if(this.isProfileChecked) {
        this.isProfileChecked = false;
       } else {
-        this.pagesChecked.map((page, index) => { 
-          this.pagesChecked[index].selected = false;
-        });
-
+        if (this.pagesChecked && this.isShowPages) {
+          this.pagesChecked.map((page, index) => { 
+            this.pagesChecked[index].selected = false;
+          });
+        }
         this.isProfileChecked = true;
       }
     },
     updatePagesCheck(index) {
+      this.groupsChecked.pop();
       if (this.pagesChecked[index].selected) {
         this.pagesChecked[index].selected = false;
       } else {
@@ -1312,11 +1315,14 @@ export default {
       }
     },
     updateGroupsCheck(index) {
+      this.groupsChecked.pop();
+        console.log(this.groupsChecked);
       if (this.groupsChecked[index].selected) {
         this.groupsChecked[index].selected = false;
       } else {
         this.groupsChecked[index].selected = true;
       }
+        console.log(this.groupsChecked);
     },
     showAnimation() {
       if (this.num == 0 && !this.anim1) {
