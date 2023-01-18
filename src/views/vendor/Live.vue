@@ -1137,7 +1137,6 @@ export default {
           }
 
           console.log(this.groups);
-
           console.log("token : " + this.fbToken);
           console.log("token page : " + this.fbTokenPage);
 
@@ -1147,6 +1146,22 @@ export default {
             console.log(result.fbStreamId);
             this.fbStreamId = result.fbStreamId; 
             console.log(this.fbStreamId);
+
+            var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=one_hundred_per_second&fields=from{name,id},message';
+
+            var source = new EventSource(url);
+            console.log(source);
+
+            source.onmessage = function(event) {
+              console.log(event);
+              console.log(event.data);
+            };
+            source.onerror = function(error) {
+              console.log('error', error);
+            };
+            source.open = function(error) {
+              console.log(error);
+            };
           }, (response) => {
             console.log(response.error);
           });
