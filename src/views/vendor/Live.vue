@@ -801,6 +801,7 @@ export default {
       fbToken: null,
       fbIdentifier: null,
       fbStreamId: null,
+      nextGroupPage: null,
       anim1: false,
       anim2: false,
       anim3: false,
@@ -894,7 +895,6 @@ export default {
       }, 200);
     }
   },
-  mounted() {},
   directives: {
     focus: {
       inserted: function (el) {
@@ -1136,31 +1136,25 @@ export default {
             });
           }
 
-          console.log(this.groups);
-          console.log("token : " + this.fbToken);
-          console.log("token page : " + this.fbTokenPage);
 
           // stream on facebook
           this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbTokenPage": this.fbTokenPage, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
             var result = JSON.parse(response.data);
-            console.log(result.fbStreamId);
             this.fbStreamId = result.fbStreamId; 
             console.log(this.fbStreamId);
 
             var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=one_hundred_per_second&fields=from{name,id},message';
-
             var source = new EventSource(url);
             console.log(source);
 
             source.onmessage = function(event) {
               console.log(event);
-              console.log(event.data);
             };
             source.onerror = function(error) {
               console.log('error', error);
             };
-            source.open = function(error) {
-              console.log(error);
+            source.open = function(open) {
+              console.log(open);
             };
           }, (response) => {
             console.log(response.error);
@@ -1213,14 +1207,9 @@ export default {
     showPages() {
       var url = this.fbIdentifier + "/accounts?fields=name,access_token,picture.type(large)&access_token=" + this.fbToken;
       window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "public_profile", "publish_video"], async (result) => {
-        console.log(result);
         this.isShowPages = true;
         this.pages = result.data;
-
-        console.log(this.pages);
         this.pages.map((page, index) => { 
-          console.log(page);
-          console.log(index);
           this.pagesChecked.push({ 'selected': false });
         });
       }, (error) => {
@@ -1228,17 +1217,43 @@ export default {
       });
     },
     showGroups() {
+      this.isShowGroups = true;
       var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
       window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
         console.log(result);
-        this.isShowGroups = true;
-        this.groups = result.data;
-
-        this.groups.map((group, index) => { 
+        result.data.map((group, index) => { 
+          console.log(group);
+          this.groups.push(group);
           this.groupsChecked.push({ 'selected': false });
         });
-        console.log(this.groupsChecked);
 
+        if ('after' in result.paging.cursors) {
+          this.getAllData(result.paging.cursors.after);
+        }
+      }, (error) => {
+        console.error("Failed: ", error);
+      });
+    },
+    async getAllData(after) {
+      console.log(this.groups);
+      var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken + "&after=" + after;
+
+      window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
+        console.log(result);
+        if (result.data.length > 0) {
+          result.data.map((group, index) => { 
+            console.log(group);
+            this.groups.push(group);
+            this.groupsChecked.push({ 'selected': false });
+          });
+
+          console.log(this.groups);
+
+          if ('after' in result.paging.cursors) {
+            console.log(result.paging.cursors.after);
+            this.getAllData(result.paging.cursors.after);
+          }
+        }
       }, (error) => {
         console.error("Failed: ", error);
       });
@@ -1331,13 +1346,11 @@ export default {
     },
     updateGroupsCheck(index) {
       this.groupsChecked.pop();
-        console.log(this.groupsChecked);
       if (this.groupsChecked[index].selected) {
         this.groupsChecked[index].selected = false;
       } else {
         this.groupsChecked[index].selected = true;
       }
-        console.log(this.groupsChecked);
     },
     showAnimation() {
       if (this.num == 0 && !this.anim1) {

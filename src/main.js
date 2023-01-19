@@ -48,6 +48,7 @@ document.addEventListener("deviceready", () => {
 });
  
 
+
 // status of app
 document.addEventListener("pause", () => {
   // console.log("User is out of the app");
