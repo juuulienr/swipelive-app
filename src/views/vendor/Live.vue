@@ -1225,8 +1225,10 @@ export default {
           this.groups.push(group);
         });
 
-        if ('after' in result.paging.cursors) {
-          this.getAllData(result.paging.cursors.after, this.showGroupsPage);
+        if ('cursors' in result.paging) {
+          if ('after' in result.paging.cursors) {
+            this.getAllData(result.paging.cursors.after, this.showGroupsPage);
+          }
         }
       }, (error) => {
         console.error("Failed to retrieve groups : ", error);
@@ -1249,8 +1251,11 @@ export default {
             this.groups.push(group);
           });
 
-          if ('after' in result.paging.cursors) {
-            this.getAllData(result.paging.cursors.after, this.showGroupsPage);
+
+          if ('cursors' in result.paging) {
+            if ('after' in result.paging.cursors) {
+              this.getAllData(result.paging.cursors.after, this.showGroupsPage);
+            }
           }
         }
       }, (error) => {
