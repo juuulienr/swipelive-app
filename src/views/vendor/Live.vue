@@ -172,16 +172,16 @@
         <div class="header">
           <span class="title">Facebook</span>
         </div>
-        <div class="items" style="margin-top: 20px; margin-bottom: 20px; overflow-y: scroll;">
+        <div class="items facebook-items">
           <div class="top-author">
             <div class="top-author--container" style="padding-top: 0px;">
               <!-- profile -->
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 8px;">
-                <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Profil</div>
+              <div class="facebook-title">
+                <div class="video-page__influencer-username2">Profil</div>
               </div>
               <div class="top-author--item" style="box-shadow: none; padding: 0px;">
-                <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
-                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
+                <img v-if="user.picture" :src="cloudinary256x256 + user.picture"/>
+                <img v-else :src="require(`@/assets/img/anonyme.jpg`)"/>
                 <div><span>{{ user.firstname }} {{ user.lastname }}</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -197,19 +197,19 @@
               </div>
 
               <!-- pages -->
-              <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;"/>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 8px;">
-                <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Pages</div>
+              <hr class="facebook-hr"/>
+              <div class="facebook-title">
+                <div class="video-page__influencer-username2">Pages</div>
                 <div v-if="!isShowPages" @click="showPages()" style="margin-right: 12px; color: #ff2773;">Activer</div>
               </div>
-              <div v-if="pages && pages.length > 0" v-for="(page, index) in pages" class="top-author--item" style="box-shadow: none; padding: 0px">
-                <img :src="page.picture.data.url" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
+              <div v-if="pages.length > 0" v-for="(page, index) in pages" class="top-author--item" style="box-shadow: none; padding: 0px">
+                <img :src="page.picture.data.url"/>
                 <div><span>{{ page.name }}</span></div>
                 <span class="filter--choice">
-                  <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
+                  <label :for="'page-' + page.id" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
-                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': pagesChecked[index].selected }">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" :checked="pagesChecked[index].selected" :id="page.id" value="true" v-model="pagesChecked" @change="updatePagesCheck(index)">
+                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': page.selected }">
+                        <input :id="'page-' + page.id" :checked="page.selected" v-model="page.selected" @change="onPageSelectionChanged(page, index)" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -219,19 +219,19 @@
               </div>
 
               <!-- groups -->
-              <hr style="width: 100%; margin-top: 10px; margin-bottom: 0px;"/>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 8px;">
-                <div class="video-page__influencer-username2" style="font-size: 15px; font-weight: 500;">Groupes</div>
+              <hr class="facebook-hr"/>
+              <div class="facebook-title">
+                <div class="video-page__influencer-username2">Groupes</div>
                 <div v-if="!isShowGroups" @click="showGroups()" style="margin-right: 12px; color: #ff2773;">Activer</div>
               </div>
-              <div v-if="groups && groups.length > 0" v-for="(group, index) in groups" class="top-author--item" style="box-shadow: none; padding: 0px">
-                <img :src="group.picture.data.url" style="width: 48px!important; height: 48px !important; border-radius: 50%;"/>
+              <div v-if="groups.length > 0" v-for="(group, index) in groups" class="top-author--item" style="box-shadow: none; padding: 0px">
+                <img :src="group.picture.data.url"/>
                 <div><span>{{ group.name }}</span></div>
                 <span class="filter--choice">
-                  <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
+                  <label :for="'group-' + group.id" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
-                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': groupsChecked[index].selected }">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" :checked="groupsChecked[index].selected" :id="group.id" value="true" v-model="groupsChecked" @change="updateGroupsCheck(index)">
+                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': group.selected }">
+                        <input :id="'group-' + group.id" v-model="group.selected" :checked="group.selected" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -585,12 +585,12 @@
 
 
       <!-- popup orders -->
-      <div v-if="popupOrders" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 50%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 10px 15px; left: 0px;">
+      <div v-if="popupOrders" class="store-products-item__login-popup store-products-item__login-popup--active popup-orders">
         <div @click="hideOrders()" style="display: flex;">
           <div class="scroll-indicator"></div>
         </div>
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Commandes</span>
+        <div class="orders-box">
+          <span class="orders-title">Commandes</span>
         </div>
 
         <div class="top-author" style="margin-top: 15px;">
@@ -612,8 +612,8 @@
             <div class="container" style="margin: 0px auto; text-align: center;">
               <video style="height: 180px; width: 180px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
             </div>
-            <h5 style="font-weight: 500; font-size: 16px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
-            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+            <h5 class="orders-none">Aucune commande</h5>
+            <div class="orders-none-text">Vos commandes apparaîtront ici.</div>
           </div>
         </div>
       </div>
@@ -621,19 +621,19 @@
 
 
       <!-- popup view users -->
-      <div v-if="popupViewers" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 55%; width: 100vw; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; padding: 0px 10px 15px; left: 0px;">
+      <div v-if="popupViewers" class="store-products-item__login-popup store-products-item__login-popup--active popup-viewers">
         <div @click="hideViewers()" style="display: flex;">
           <div class="scroll-indicator"></div>
         </div>
-        <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Spectateurs</span>
+        <div class="viewers-box">
+          <span class="viewers-title">Spectateurs</span>
         </div>
 
         <div class="top-author" style="margin-top: 15px;">
           <div v-if="spectators && spectators.length > 0" class="top-author--container" style="gap: 0px;">
             <div v-for="(user, index) in spectators" class="top-author--item" style="box-shadow: none;">
-              <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture" style="width: 48px !important; height: 48px !important; border-radius: 50px;">
-              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 48px !important; height: 48px !important; border-radius: 50px;">
+              <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
+              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
                 <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
@@ -649,8 +649,8 @@
             <div class="container" style="margin: 0px auto; text-align: center;">
               <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/follower.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
             </div>
-            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun spectateur</h5>
-            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos spectateurs apparaîtront ici.</div>
+            <h5 class="viewers-none">Aucun spectateur</h5>
+            <div class="viewers-none-text">Vos spectateurs apparaîtront ici.</div>
           </div>
         </div>
       </div>
@@ -777,15 +777,14 @@ export default {
       type: null,
       title: null,
       discount: null,
+      showGroupsPage: false,
       popupFacebook: false,
       popupViewers: false,
       popupMultistream: false,
       popupPromo: false,
       popupOrders: false,
       groups: [],
-      groupsChecked: [],
       pages: [],
-      pagesChecked: [],
       profile: [],
       listPromo: false,
       profil: false,
@@ -800,6 +799,7 @@ export default {
       available: null,
       fbToken: null,
       fbIdentifier: null,
+      fbPageIdentifier: null,
       fbStreamId: null,
       nextGroupPage: null,
       anim1: false,
@@ -1118,32 +1118,24 @@ export default {
             console.log(response.error);
           });
 
-          if (this.isShowPages && this.pagesChecked) {
-            this.pagesChecked.map((page, index) => { 
-              if (this.pagesChecked[index].selected == true) {
-                console.log(this.pages[index].id);
-                this.fbIdentifier = this.pages[index].id;
-                this.fbTokenPage = this.pages[index].access_token;
-              }
-            });
+          if (this.isShowPages) {
+            this.pages = this.pages.filter(page => page.selected);
           }
 
-          if (this.isShowGroups && this.groupsChecked) {
-            this.groupsChecked.map((group, index) => {
-              if (this.groupsChecked[index].selected == false) {
-                this.groups.splice(index, 1);
-              }
-            });
+          if (this.isShowGroups) {
+            this.groups = this.groups.filter(group => group.selected);
           }
 
+          console.log(this.pages);
+          console.log(this.groups);
 
           // stream on facebook
-          this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbTokenPage": this.fbTokenPage, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
             var result = JSON.parse(response.data);
             this.fbStreamId = result.fbStreamId; 
             console.log(this.fbStreamId);
 
-            var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=one_hundred_per_second&fields=from{name,id},message';
+            var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=ten_per_second&fields=from{name,id},message';
             var source = new EventSource(url);
             console.log(source);
 
@@ -1205,53 +1197,60 @@ export default {
       this.facebook = true;
     },
     showPages() {
+      this.isShowPages = true;
       var url = this.fbIdentifier + "/accounts?fields=name,access_token,picture.type(large)&access_token=" + this.fbToken;
+
       window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "public_profile", "publish_video"], async (result) => {
-        this.isShowPages = true;
-        this.pages = result.data;
-        this.pages.map((page, index) => { 
-          this.pagesChecked.push({ 'selected': false });
+        result.data.map((page, index) => {
+          page.selected = false;
+          this.pages.push(page);
         });
       }, (error) => {
-        console.error("Failed: ", error);
+        console.error("Failed to retrieve pages : ", error);
       });
     },
     showGroups() {
       this.isShowGroups = true;
-      var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
+     
+      if (this.showGroupsPage) {
+        var url = this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage;
+      } else {
+        var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
+      }
+
       window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
         console.log(result);
-        result.data.map((group, index) => { 
-          console.log(group);
+        result.data.map((group, index) => {
+          group.selected = false;
           this.groups.push(group);
-          this.groupsChecked.push({ 'selected': false });
         });
 
         if ('after' in result.paging.cursors) {
-          this.getAllData(result.paging.cursors.after);
+          this.getAllData(result.paging.cursors.after, this.showGroupsPage);
         }
       }, (error) => {
-        console.error("Failed: ", error);
+        console.error("Failed to retrieve groups : ", error);
       });
     },
-    async getAllData(after) {
+    async getAllData(after, showGroupsPage) {
       console.log(this.groups);
-      var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken + "&after=" + after;
+
+      if (this.showGroupsPage) {
+        var url = this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage + "&after=" + after;
+      } else {
+        var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken + "&after=" + after;
+      }
 
       window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
         console.log(result);
         if (result.data.length > 0) {
           result.data.map((group, index) => { 
-            console.log(group);
+            group.selected = false;
             this.groups.push(group);
-            this.groupsChecked.push({ 'selected': false });
           });
 
-          console.log(this.groups);
-
           if ('after' in result.paging.cursors) {
-            console.log(result.paging.cursors.after);
-            this.getAllData(result.paging.cursors.after);
+            this.getAllData(result.paging.cursors.after, this.showGroupsPage);
           }
         }
       }, (error) => {
@@ -1321,35 +1320,33 @@ export default {
       });
     },
     checkProfile() {
-      if(this.isProfileChecked) {
+      if(this.isProfileChecked == true) {
        this.isProfileChecked = false;
       } else {
-        if (this.pagesChecked && this.isShowPages) {
-          this.pagesChecked.map((page, index) => { 
-            this.pagesChecked[index].selected = false;
+        if (this.isShowPages && this.pages.length > 0) {
+          this.pages.map((page, index) => { 
+            page.selected = false;
           });
         }
         this.isProfileChecked = true;
       }
     },
-    updatePagesCheck(index) {
-      this.groupsChecked.pop();
-      if (this.pagesChecked[index].selected) {
-        this.pagesChecked[index].selected = false;
-      } else {
-        this.pagesChecked.map((page, index) => { 
-          this.pagesChecked[index].selected = false;
+    onPageSelectionChanged(page, index) {
+      console.log(page);
+      if (page.selected == true) {
+        this.pages.map((item, indexPage) => { 
+          if (item.id !== page.id) {
+            item.selected = false;
+          }
         });
         this.isProfileChecked = false;
-        this.pagesChecked[index].selected = true;
-      }
-    },
-    updateGroupsCheck(index) {
-      this.groupsChecked.pop();
-      if (this.groupsChecked[index].selected) {
-        this.groupsChecked[index].selected = false;
+        this.fbPageIdentifier = page.id;
+        this.fbTokenPage = page.access_token;
+        // this.showGroupsPage = true;
+        // this.showGroups();
       } else {
-        this.groupsChecked[index].selected = true;
+        // this.showGroupsPage = false;
+        // this.showGroups();
       }
     },
     showAnimation() {
