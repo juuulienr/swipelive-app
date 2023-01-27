@@ -49,9 +49,9 @@
         <!-- purchase -->
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
-            <div class="video-page__influencer-img" style="padding-right: 0px;">
-              <img class="zoom" :src="require(`@/assets/img/badge-vente.png`)" style="border-radius: 50%; width: 175px; height: 175px; object-fit: cover;"/>
-            </div>
+            <!-- <div class="video-page__influencer-img" style="padding-right: 0px;"> -->
+              <!-- <img class="zoom" :src="require(`@/assets/img/badge-vente.png`)" style="border-radius: 50%; width: 175px; height: 175px; object-fit: cover;"/> -->
+            <!-- </div> -->
             <img class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute;" />
             <lottie :options="defaultOptions3" v-on:animCreated="handleAnimation" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>

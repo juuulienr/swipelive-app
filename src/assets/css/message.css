@@ -607,7 +607,7 @@ h4 {
 }
 .chat--messages {
 	padding: 15px;
-	height: calc(100vh - 116px);
+	min-height: calc(100vh - 116px);
 }
 .chat--messages > div {
 	display: flex;
@@ -749,6 +749,7 @@ h4 {
   animation-duration: 10ms;
   outline: none;
   padding-left: 15px;
+  padding-right: 10px;
   font-size: 14px;
   background: #f4f4f4;
   border-radius: 30px;

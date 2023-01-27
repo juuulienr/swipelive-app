@@ -300,14 +300,18 @@ export default {
     goBack() {
       this.$router.back();
     },
-    async goToMessage(user) {
-      await this.user.discussions.map((discussion, index) => {
+    goToMessage(user) {
+      var exist = false;
+      this.user.discussions.map((discussion, index) => {
         if (discussion.vendor.id == user.id) {
+          exist = true;
           this.$router.push({ name: 'ListMessages', params: { discussionId: discussion.id } });
         }
       });
 
-      this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
+      if (!exist) {
+        this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
+      }
     }
   }
 };

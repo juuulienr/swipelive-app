@@ -21,10 +21,10 @@
         </div>
 
 
-        <div class="chat--left">
-          <div v-for="discussion in filteredDiscussions" class="chat--left--messages">
-            <div @click="showDiscussion(discussion)" class="chat--left--message message--open">
-              <div class="chat--left--head--profil">
+        <div class="chat--left" style="overflow: hidden;">
+          <div v-for="(discussion, index) in filteredDiscussions" @touchstart="startSwipe(discussion.id)" @touchmove="swipeMove" @touchend="endSwipe(index)" class="chat--left--messages">
+            <div class="chat--left--message message--open">
+              <div @click="showDiscussion(discussion)" class="chat--left--head--profil">
                 <span v-if="discussion.user.id == user.id">
                   <img v-if="discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
                   <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
@@ -35,15 +35,18 @@
                 </span>
                 <!-- <span class="online"></span> -->
               </div>
-              <div class="chat--left--message--detail">
+              <div @click="showDiscussion(discussion)" class="chat--left--message--detail">
                 <div class="chat--left--message--top">
                   <h6 v-if="discussion.user.id == user.id">{{ discussion.vendor.vendor.businessName }}</h6>
                   <h6 v-else>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</h6>
                   <span v-if="discussion.user.id == user.id && discussion.unseen" class="not--read"></span>
                   <span v-if="discussion.vendor.id == user.id && discussion.unseenVendor" class="not--read"></span>
                 </div>
-                <p v-if="discussion.updatedAt">{{ discussion.preview | truncate(38) }} · {{ discussion.updatedAt }}</p>
-                <p v-else>{{ discussion.preview | truncate(38) }} · {{ discussion.createdAt }}</p>
+                <p v-if="discussion.updatedAt">{{ discussion.preview | truncate(35) }} · {{ discussion.updatedAt }}</p>
+                <p v-else>{{ discussion.preview | truncate(35) }} · {{ discussion.createdAt }}</p>
+              </div>
+              <div v-if="swipeIndex === discussion.id && swipeStatus === 'left'" @click="deleteDiscussion(index)" class="delete-swipe" :style="{width: swipeDistance + 'px'}" style="height: 56px;background: #ff453b;">
+                <div style="color: white;font-weight: 400;font-size: 13px;text-align: center; padding: 19px 10px 0px;">Supprimer</div>
               </div>
             </div>
           </div>
@@ -58,8 +61,7 @@
       </div> -->
     </div>
 
-    <Message v-if="selectedDiscussion" :discussion="selectedDiscussion" @updateDiscussion="updateDiscussionChild"></Message>
-
+    <Message v-if="selectedDiscussion" :discussion="selectedDiscussion" @hideDiscussion="hideDiscussionChild" @updateDiscussions="updateDiscussionsChild"></Message>
   </main>
 </template>
 
@@ -88,9 +90,14 @@ export default {
       discussions: [],
       selectedDiscussion: null,
       searchTerm: "",
+      swipeStatus: '',
+      swipeIndex: null,
+      swipeStartX: 0,
+      swipeEndX: 0,
+      swipeDistance: 0
     }
   },
-  created() {    
+  created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
@@ -125,8 +132,6 @@ export default {
   },
   computed: {
     filteredDiscussions() {
-      console.log(this.searchTerm);
-
       return this.discussions.filter(discussion => {
         const search = this.searchTerm.toLowerCase();
         if (discussion.user.id == this.user.id) {
@@ -138,14 +143,52 @@ export default {
     }
   },
   methods: {
+    startSwipe(id) {
+      this.swipeIndex = id;
+      this.swipeStartX = event.touches[0].clientX;
+    },
+    swipeMove(event) {
+      this.swipeEndX = event.touches[0].clientX;
+      this.swipeDistance = this.swipeStartX - this.swipeEndX;
+      if (this.swipeDistance > 60) {
+        this.swipeStatus = 'left';
+        this.swipeDistance = 130;
+      }
+    },
+    endSwipe(index) {
+      if (this.swipeDistance > 250) {
+        this.deleteDiscussion(index);
+      } else if (this.swipeDistance < 60) {
+        this.swipeStatus = '';
+        this.swipeIndex = null;
+        this.swipeStartX = 0;
+        this.swipeEndX = 0;
+        this.swipeDistance = 0;
+      } else {
+        this.swipeDistance = 130;
+      }
+    },
+    deleteDiscussion(index) {
+      var discussionId = this.discussions[index].id;
+      this.discussions.splice(index, 1);
+
+      window.cordova.plugin.http.delete(this.baseUrl + "/user/api/discussions/" + discussionId + "/delete", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     showDiscussion(discussion) {
       this.selectedDiscussion = discussion;
     },
     goBack() {
       this.$router.push({ name: 'Account' });
     },
-    updateDiscussionChild() {
+    hideDiscussionChild() {
       this.selectedDiscussion = null;
+    },
+    updateDiscussionsChild(discussions) {
+      this.discussions = discussions;
     },
   }
 };
