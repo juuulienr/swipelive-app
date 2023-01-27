@@ -38,8 +38,11 @@
                     <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
                   </div>
                   <div class="chat--message--item">
-                    <div v-if="message.picture" class="chat--message--item--text" style="padding: 0px;">
-                      <img :src="cloudinary256x256 + message.picture" style="border-radius: 18px;">
+                    <div v-if="message.loadingPicture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
+                      <img :src="message.picture" style="border-radius: 18px;">
+                    </div>
+                    <div v-else-if="message.picture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
+                      <img :src="cloudinary + message.picture" style="border-radius: 18px;">
                     </div>
                     <div v-else class="chat--message--item--text">
                       {{ message.text }}
@@ -83,6 +86,7 @@ export default {
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/',
       inputMessage: '',
       newMessage: []
     }
@@ -147,7 +151,92 @@ export default {
       });
     },
     uploadPicture() {
-      console.log("upload picture");
+      var options = {
+        title: 'Envoyer une photo',
+        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
+        addCancelButtonWithLabel: 'Annuler',
+        androidEnableCancelButton : true,
+        winphoneEnableCancelButton : true
+      };
+      window.plugins.actionsheet.show(options, (index) => {
+        console.log(index);
+        if (index == 1) {
+          this.openFilePicker();
+        } else if (index == 2) {
+          this.openCamera();
+        }
+      }, (error) => {
+        console.log(error);
+      });
+    },
+    openFilePicker() {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true
+      }
+
+      this.uploadImage(options);
+    },
+    openCamera() {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true,
+      }
+
+      this.uploadImage(options);
+    },
+    uploadImage(options) {
+      navigator.camera.getPicture((imageUri) => {
+        console.log(imageUri);
+
+        window.cordova.plugin.http.setDataSerializer('json');
+        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+          var httpParams = { "fromUser": this.user.id, "picture": imageUri, "loadingPicture": true, "text": null };
+          this.discussion.messages.push(httpParams);
+          this.scrollToBottom();
+          
+          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+            this.discussions = JSON.parse(response.data);
+            this.discussions.map((item, index) => {
+              if (item.id == this.discussion.id) {
+                this.discussion = item;
+              }
+            });
+            this.$emit('updateDiscussions', this.discussions);
+          }, function(response) {
+            console.log(response.error);
+          });
+        } else {
+          var imgData = "data:image/jpeg;base64," + imageUri;
+          var httpParams = { "fromUser": this.user.id, "picture": imgData, "loadingPicture": true, "text": null };
+          this.discussion.messages.push(httpParams);
+          this.scrollToBottom();
+
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.discussions = JSON.parse(response.data);
+            this.discussions.map((item, index) => {
+              if (item.id == this.discussion.id) {
+                this.discussion = item;
+              }
+            });
+            this.$emit('updateDiscussions', this.discussions);
+          }, function(response) {
+            console.log(response.error);
+          });
+        }
+      }, (error) => {
+        console.log("Impossible de récupérer l'image : " + error);
+      }, options);
     },
     hideDiscussion() {
       this.$emit('hideDiscussion');
