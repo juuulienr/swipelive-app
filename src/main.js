@@ -12,7 +12,7 @@ import * as VueGoogleMaps from "vue2-google-maps";
 
 
 if (window.location.protocol === 'file:') {
-  Vue.config.productionTip = false;
+  Vue.config.productionTip = true;
   Pusher.logToConsole = true;
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
   window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");

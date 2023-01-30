@@ -478,6 +478,10 @@ h4 {
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
   display: flex; 
   align-items: center;
+  position: fixed;
+  z-index: 100000000;
+  width: 100%;
+  background-color: white;
 }
 .chat--head svg {
   width: 20px;
@@ -510,6 +514,19 @@ h4 {
 	color: transparent;
 	border-radius: 50%;
 }
+
+.chat--head--status {
+  margin: 0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #919eab;
+  font-weight: 400;
+  display: block;
+  margin-top: -2px;
+}
+
 .offline {
 	width: 10px;
 	height: 10px;
@@ -607,7 +624,10 @@ h4 {
 }
 .chat--messages {
 	padding: 15px;
-	min-height: calc(100vh - 116px);
+	height: calc(100vh - 90px);
+  padding-top: 70px;
+  padding-bottom: 0px;
+  overflow-y: scroll;
 }
 .chat--messages > div {
 	display: flex;
@@ -667,7 +687,7 @@ h4 {
   font-weight: 400;
 }
 .chat--message--item--text img {
-	height: 150px;
+	height: 100%;
 	width: 100%;
 	cursor: pointer;
 	object-fit: cover;
@@ -686,15 +706,14 @@ h4 {
 }
 
 .chat--messages::-webkit-scrollbar {
-	width: 6px;
-	height: 6px;
-	margin-right: 50px;
+  display: none;
 }
-.chat--messages::-webkit-scrollbar-track {
-	background: transparent;
-	margin-right: 5px;
 
+.chat--messages {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
 .chat--messages::-webkit-scrollbar-thumb {
 	border-radius: 5px;
 	margin-right: 5px;
@@ -708,11 +727,10 @@ h4 {
 	position: relative;
 	align-items: center;
   background: #fff; 
-  position: absolute;
+  position: fixed;
   bottom: calc(env(safe-area-inset-bottom) + 0px);
   z-index: 1000000;
   width: 100%; 
-  padding-bottom: 7px;
   padding-top: 10px;
 
 }

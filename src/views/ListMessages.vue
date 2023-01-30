@@ -52,8 +52,8 @@
           </div>
         </div>
       </div>
-     <!--  <div v-else>
-        <div class="container" style="margin: 100px auto 0px; text-align: center;">
+      <!-- <div v-else> -->
+    <!--     <div class="container" style="margin: 100px auto 0px; text-align: center;">
           <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/message.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune discussion</h5>
@@ -61,7 +61,7 @@
       </div> -->
     </div>
 
-    <Message v-if="selectedDiscussion" :discussion="selectedDiscussion" @hideDiscussion="hideDiscussionChild" @updateDiscussions="updateDiscussionsChild"></Message>
+    <Message ref="message" v-if="selectedDiscussion" :discussion="selectedDiscussion" @hideDiscussion="hideDiscussionChild" @updateDiscussions="updateDiscussionsChild"></Message>
   </main>
 </template>
 
@@ -116,6 +116,26 @@ export default {
         console.log(response.error);
       });
     }
+
+
+    this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
+    var channel = this.pusher.subscribe("discussion_channel");
+
+    channel.bind("new_message", (data) => {
+      console.log(data);
+      console.log(data.message);
+
+      if (data.message.fromUser != this.user.id) {
+        const conversation = this.discussions.find(d => d.id === data.discussionId);
+        if (!conversation) return;
+
+        if (conversation.id === this.selectedDiscussion.id) {
+          conversation.messages.push(data.message);
+          this.$refs.message.scrollToBottom();
+        }
+      }
+    });
+
   },
   filters: {
     truncate(text, length) {
