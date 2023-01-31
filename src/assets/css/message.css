@@ -624,16 +624,23 @@ h4 {
 }
 .chat--messages {
 	padding: 15px;
-	height: calc(100vh - 90px);
-  padding-top: 70px;
+	height: calc(100vh - 55px);
+  padding-top: 60px;
   padding-bottom: 0px;
   overflow-y: scroll;
 }
-.chat--messages > div {
-	display: flex;
-	margin-bottom: 12px;
+.chat--messages-time {
+  margin: 15px;
+  line-height: 1.57143;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #919eab;
+  font-weight: 400;
+  display: block;
+  text-align: center;
 }
-
 .chat--messages--send {
 	margin-left: auto;
 }
@@ -688,14 +695,22 @@ h4 {
 }
 .chat--message--item--text img {
 	height: 100%;
-	width: 100%;
+	min-width: 180px;
+  min-height: 180px;
 	cursor: pointer;
 	object-fit: cover;
 	border-radius: 8px;
+  background-color: #f0f0f0;
 }
 .chat--messages--send {
 	margin-left: auto;
 	justify-content: flex-end;
+  display: flex;
+  margin-bottom: 4px;
+}
+.chat--messages--receive {
+  display: flex;
+  margin-bottom: 4px;
 }
 .chat--messages--send .chat--message--item--date {
 	justify-content: flex-end;

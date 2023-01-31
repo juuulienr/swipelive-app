@@ -478,13 +478,13 @@ export default {
   },
   mounted() {
     this.refresh();
-    document.addEventListener("pause", this.pause);
-    document.addEventListener("resume", this.resume);
+    // document.addEventListener("pause", this.pause);
+    // document.addEventListener("resume", this.resume);
   },
   beforeDestroy() {
     document.getElementsByTagName('body')[0].classList.remove("dark-mode");
-    document.removeEventListener('pause', this.pause);
-    document.removeEventListener('resume', this.resume);
+    // document.removeEventListener('pause', this.pause);
+    // document.removeEventListener('resume', this.resume);
   },
   directives: {
     focus: {
@@ -659,15 +659,15 @@ export default {
         el.scrollTop += window.innerHeight;
       }
     },
-    pause() {
-      console.log("User is out of list clips");
-      navigator.splashscreen.show();
-    },
-    resume() {
-      console.log("User is using list clips");
-      navigator.splashscreen.hide();
-      this.refresh();
-    },   
+    // pause() {
+    //   console.log("User is out of list clips");
+    //   navigator.splashscreen.show();
+    // },
+    // resume() {
+    //   console.log("User is using list clips");
+    //   navigator.splashscreen.hide();
+    //   this.refresh();
+    // },   
     refresh() {
       this.popup = false;
       this.popupProduct = false;

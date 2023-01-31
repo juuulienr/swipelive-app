@@ -33,7 +33,7 @@
                   <img v-if="discussion.user.picture" :src="cloudinary256x256 + discussion.user.picture">
                   <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
                 </span>
-                <!-- <span class="online"></span> -->
+                <span v-if="discussion.isOnline" class="online"></span>
               </div>
               <div @click="showDiscussion(discussion)" class="chat--left--message--detail">
                 <div class="chat--left--message--top">
@@ -42,8 +42,7 @@
                   <span v-if="discussion.user.id == user.id && discussion.unseen" class="not--read"></span>
                   <span v-if="discussion.vendor.id == user.id && discussion.unseenVendor" class="not--read"></span>
                 </div>
-                <p v-if="discussion.updatedAt">{{ discussion.preview | truncate(35) }} · {{ discussion.updatedAt }}</p>
-                <p v-else>{{ discussion.preview | truncate(35) }} · {{ discussion.createdAt }}</p>
+                <p>{{ discussion.preview | truncate(35) }} · {{ discussion.updatedAt | formatDate }}</p>
               </div>
               <div v-if="swipeIndex === discussion.id && swipeStatus === 'left'" @click="deleteDiscussion(index)" class="delete-swipe" :style="{width: swipeDistance + 'px'}" style="height: 56px;background: #ff453b;">
                 <div style="color: white;font-weight: 400;font-size: 13px;text-align: center; padding: 19px 10px 0px;">Supprimer</div>
@@ -100,7 +99,8 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
-
+  },
+  mounted() {
     if (this.userId) {
       this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
     } else {
@@ -108,6 +108,13 @@ export default {
         console.log(response);
         this.discussions = JSON.parse(response.data);
         this.discussions.map((discussion, index) => {
+          if (discussion.user.id == this.user.id) {
+            discussion.isOnline = this.isOnline(discussion.vendor.securityUsers[0].connectedAt);
+          } else {
+            discussion.isOnline = this.isOnline(discussion.user.securityUsers[0].connectedAt);
+          }
+            console.log(discussion.isOnline);
+
           if (this.discussionId && discussion.id == this.discussionId) {
             this.selectedDiscussion = discussion;
           }
@@ -122,20 +129,18 @@ export default {
     var channel = this.pusher.subscribe("discussion_channel");
 
     channel.bind("new_message", (data) => {
-      console.log(data);
-      console.log(data.message);
+      console.log(data.message.fromUser != this.user.id);
+      console.log(this.selectedDiscussion.id);
+      console.log(this.selectedDiscussion.messages);
 
       if (data.message.fromUser != this.user.id) {
-        const conversation = this.discussions.find(d => d.id === data.discussionId);
-        if (!conversation) return;
-
-        if (conversation.id === this.selectedDiscussion.id) {
-          conversation.messages.push(data.message);
+        if (data.discussionId == this.selectedDiscussion.id) {
+          this.selectedDiscussion.messages.push(data.message);
+          console.log(this.selectedDiscussion);
           this.$refs.message.scrollToBottom();
         }
       }
     });
-
   },
   filters: {
     truncate(text, length) {
@@ -148,6 +153,16 @@ export default {
         return truncatedText + '...'
       }
       return text
+    },
+    formatDate(datetime) {
+      const today = new Date();
+      var date = new Date(datetime);
+
+      if (date.toDateString() === today.toDateString()) {
+        return date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+      } else {
+        return date.toLocaleDateString(navigator.language, { day: '2-digit', month: '2-digit' });
+      }
     }
   },
   computed: {
@@ -160,9 +175,22 @@ export default {
           return (discussion.user.firstname.toLowerCase().includes(search) || discussion.user.lastname.toLowerCase().includes(search));
         }
       });
-    }
+    },
   },
   methods: {
+    isOnline(datetime) {
+      var date = new Date(datetime).toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
+      var date2 = new Date(Date.now() - 5 * 60 * 1000).toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
+
+      console.log(date);
+      console.log(date2);
+
+      if (date > date2) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     startSwipe(id) {
       this.swipeIndex = id;
       this.swipeStartX = event.touches[0].clientX;
@@ -172,6 +200,8 @@ export default {
       this.swipeDistance = this.swipeStartX - this.swipeEndX;
       if (this.swipeDistance > 60) {
         this.swipeStatus = 'left';
+      } 
+      if (this.swipeDistance > 130) {
         this.swipeDistance = 130;
       }
     },
@@ -199,6 +229,11 @@ export default {
       });
     },
     showDiscussion(discussion) {
+      this.swipeStatus = '';
+      this.swipeIndex = null;
+      this.swipeStartX = 0;
+      this.swipeEndX = 0;
+      this.swipeDistance = 0;
       this.selectedDiscussion = discussion;
     },
     goBack() {

@@ -17,7 +17,29 @@ export default {
   components: {},
   data() {
     return {
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      user: JSON.parse(window.localStorage.getItem("user")),
+      pingInterval: null,
     }
   },
+  mounted() {
+    this.ping();
+    this.pingInterval = setInterval(() => {
+      this.ping();
+    }, 240000); //4 min
+  },
+  beforeDestroy() {
+    clearInterval(this.pingInterval);
+  },
+  methods: {
+    ping() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/ping", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
+  }
 };
 </script>

@@ -642,12 +642,12 @@ export default {
   },
   mounted() {
     this.refresh();
-    document.addEventListener("pause", this.pause);
-    document.addEventListener("resume", this.resume);
+    // document.addEventListener("pause", this.pause);
+    // document.addEventListener("resume", this.resume);
   },
   beforeDestroy() {
-    document.removeEventListener('pause', this.pause);
-    document.removeEventListener('resume', this.resume);
+    // document.removeEventListener('pause', this.pause);
+    // document.removeEventListener('resume', this.resume);
   },
   computed: {
     updateCart() {
@@ -1098,14 +1098,14 @@ export default {
         }
       });
     },
-    pause() {
-      console.log("User is out of feed");
-      navigator.splashscreen.show();
-    },
-    resume() {
-      console.log("User is using the feed");
-      navigator.splashscreen.hide();
-    },
+    // pause() {
+    //   console.log("User is out of feed");
+    //   navigator.splashscreen.show();
+    // },
+    // resume() {
+    //   console.log("User is using the feed");
+    //   navigator.splashscreen.hide();
+    // },
     follow(id) { 
       this.data.map((element, index) => {
         if (element.value.vendor.user.id == id) {

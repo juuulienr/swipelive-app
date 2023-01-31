@@ -269,6 +269,7 @@ export default {
     }
 
     if (window.device) {
+      console.log(window.device);
       console.log(window.device.model);
       console.log(window.device.platform);
       console.log(window.device.uuid);
@@ -280,6 +281,20 @@ export default {
 
     if (navigator.connection) {
       console.log(navigator.connection.type);
+    }
+
+    if (window.networkinterface) {
+      window.networkinterface.getWiFiIPAddress((ipInformation) => {
+        console.log( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+      }, (error) => {
+        console.log(error);
+      });
+
+      window.networkinterface.getCarrierIPAddress((ipInformation) => {
+        console.log( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+      }, (error) => {
+        console.log(error);
+      });
     }
   },
   methods: {

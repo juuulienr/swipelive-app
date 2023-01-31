@@ -11,8 +11,8 @@
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.vendor.vendor.businessName }}</p>
-          <div class="chat--head--status">En ligne</div>
-          <!-- <div class="chat--head--status">En ligne il y a 30 minutes</div> -->
+          <div v-if="discussion.isOnline" class="chat--head--status">En ligne</div>
+          <div v-else class="chat--head--status">{{ discussion.vendor.securityUsers[0].connectedAt | formatDateDiff }}</div>
         </div>
       </div>
       <div v-else class="chat--head--profil">
@@ -22,8 +22,8 @@
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</p>
-          <div class="chat--head--status">En ligne</div>
-          <!-- <div class="chat--head--status">En ligne il y a 30 minutes</div> -->
+          <div v-if="discussion.isOnline" class="chat--head--status">En ligne</div>
+          <div v-else class="chat--head--status">{{ discussion.user.securityUsers[0].connectedAt | formatDateDiff }}</div>
         </div>
       </div>
     </div>
@@ -33,29 +33,33 @@
       <div>
         <div class="container--chat--input">
           <div ref="messagesContainer" class="chat--messages">
-            <div v-for="message in discussion.messages" :key="message.id" :class="[message.fromUser == user.id ? 'chat--messages--send' : 'chat--messages--receive']">
-              <div v-if="message.fromUser != user.id" class="chat--message--profil">
-                <img v-if="discussion.user.id == user.id && discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
-                <img v-else-if="discussion.user.id != user.id && discussion.user.picture" :src="cloudinary256x256 + discussion.user.picture">
-                <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
-              </div>
-              <div class="chat--message--item">
-                <div v-if="message.loadingPicture && !message.pictureType" class="chat--message--item--text" style="padding: 0px; background-color: white;">
-                  <img ref="image" :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)">
+            <div v-for="(message, index) in discussion.messages" :key="message.id">
+              <div v-if="shouldDisplayDate(message, index)" class="chat--messages-time">{{ message.createdAt | formatDate }}</div>
+
+              <div :class="[message.fromUser == user.id ? 'chat--messages--send' : 'chat--messages--receive']">
+                <div v-if="message.fromUser != user.id" class="chat--message--profil">
+                  <img v-if="discussion.user.id == user.id && discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
+                  <img v-else-if="discussion.user.id != user.id && discussion.user.picture" :src="cloudinary256x256 + discussion.user.picture">
+                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
                 </div>
-                <div v-else-if="message.loadingPicture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
-                  <img :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px' }">
-                </div>
-                <div v-else-if="message.picture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
-                  <img :src="cloudinary + message.picture" style="border-radius: 18px;" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px' }">
-                </div>
-                <div v-else class="chat--message--item--text">
-                  {{ message.text }}
+                <div class="chat--message--item">
+                  <div v-if="message.loading && !message.pictureType" class="chat--message--item--text" style="padding: 0px; background-color: white;">
+                    <img ref="image" :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)">
+                  </div>
+                  <div v-else-if="message.loading" class="chat--message--item--text" style="padding: 0px; background-color: white;">
+                    <img :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
+                  </div>
+                  <div v-else-if="message.picture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
+                    <img :src="cloudinary + message.picture" style="border-radius: 18px;" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
+                  </div>
+                  <div v-else class="chat--message--item--text">
+                    {{ message.text }}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>    
+        </div>
       </div>
     </div>
     <div class="chat--foot">    
@@ -89,7 +93,7 @@ export default {
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/',
+      cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/h_720/',
       inputMessage: '',
       imageWidth: '0px',
       newMessage: []
@@ -98,23 +102,58 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
-
-    if (this.discussion.id) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.discussions = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
-    }
   },
   mounted() {
-    this.scrollToBottom();
+    if (this.discussion.id) {
+      if (this.user.id == this.discussion.user.id) {
+        var unseen = this.discussion.unseen;
+      } else {
+        var unseen = this.discussion.unseenVendor;
+      }
+
+      if (unseen) {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          this.discussions = JSON.parse(response.data);
+          this.scrollToBottom();
+          this.$emit('updateDiscussions', this.discussions);
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
+    }
+  },
+  filters: {
+    formatDateDiff(date) {
+      console.log(date);
+      console.log(Date.now());
+      const diffInMs = Date.now() - date;
+      const diffInMinutes = diffInMs / 1000 / 60;
+      const diffInHours = diffInMinutes / 60;
+
+      if (diffInMinutes < 60) {
+        return `En ligne il y a ${Math.floor(diffInMinutes)} minutes`;
+      } else if (diffInHours < 24) {
+        return `En ligne il y a ${Math.floor(diffInHours)} heures`;
+      }
+
+      return "";
+    },
+    formatDate(datetime) {
+      const today = new Date();
+      var date = new Date(datetime);
+
+      if (date.toDateString() === today.toDateString()) {
+        return date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+      } else {
+        return date.toLocaleDateString(navigator.language, { day: '2-digit', month: '2-digit' });
+      }
+    }
   },
   methods: {    
     async sendMessage() {
       if (this.inputMessage && this.inputMessage !== '') {
         var text = this.inputMessage;
-        var httpParams = { "fromUser": this.user.id, "picture": null, "text": text };
+        var httpParams = { "fromUser": this.user.id, "picture": null, "text": text, "createdAt": new Date() };
         this.discussion.messages.push(httpParams);
         this.inputMessage = '';
         this.scrollToBottom();
@@ -139,9 +178,11 @@ export default {
       }
     },
     scrollToBottom() {
-      this.$nextTick(() => {
+      // this.$nextTick(() => {
+      // });
+      setTimeout(() => {
         this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
-      });
+      }, 150);
     },
     getImageSize(message) {
       console.log(this.$refs.image);
@@ -155,6 +196,54 @@ export default {
       } else {
         message.pictureType = "portrait";
       }
+    },
+    shouldDisplayDate(message, index) {
+      if (index === 0) return true;
+      console.log(this.discussion.messages);
+
+      const previousMessage = this.discussion.messages[index - 1];
+      console.log(previousMessage);
+      const now = new Date();
+      const previousMessageTime = new Date(previousMessage.createdAt);
+      const timeDifference = now - previousMessageTime;
+
+      return timeDifference > 20 * 60 * 1000;
+    },
+    uploadImage(options) {
+      navigator.camera.getPicture((imageUri) => {
+        console.log(imageUri);
+
+        window.cordova.plugin.http.setDataSerializer('json');
+        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+          var httpParams = { "fromUser": this.user.id, "picture": imageUri, pictureType: null, "loading": true, "text": null };
+          this.discussion.messages.push(httpParams);
+          this.scrollToBottom();
+
+          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+            this.discussions = JSON.parse(response.data);
+            this.$emit('updateDiscussions', this.discussions);
+          }, function(response) {
+            console.log(response.error);
+          });
+        } else {
+          var imgData = "data:image/jpeg;base64," + imageUri;
+          var httpParams = { "fromUser": this.user.id, "picture": imgData, pictureType: null, "loading": true, "text": null };
+          this.discussion.messages.push(httpParams);
+          this.scrollToBottom();
+
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.discussions = JSON.parse(response.data);
+            this.$emit('updateDiscussions', this.discussions);
+          }, function(response) {
+            console.log(response.error);
+          });
+        }
+      }, (error) => {
+        console.log("Impossible de récupérer l'image : " + error);
+      }, options);
+    },
+    hideDiscussion() {
+      this.$emit('hideDiscussion');
     },
     uploadPicture() {
       var options = {
@@ -201,61 +290,6 @@ export default {
 
       this.uploadImage(options);
     },
-    uploadImage(options) {
-      navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-
-        // var image = new Image();
-        // image.src = "data:image/jpeg;base64,/9j/4AAQSkZJRgABA...";
-        // image.onload = function() {
-        //   var width = image.width;
-        //   var height = image.height;
-        //   console.log("Width: " + width + ", Height: " + height);
-        // }
-
-
-        window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          var httpParams = { "fromUser": this.user.id, "picture": imageUri, pictureType: null, "loadingPicture": true, "text": null };
-          this.discussion.messages.push(httpParams);
-          this.scrollToBottom();
-
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            this.discussions = JSON.parse(response.data);
-            // this.discussions.map((item, index) => {
-            //   if (item.id == this.discussion.id) {
-            //     this.discussion = item;
-            //   }
-            // });
-            this.$emit('updateDiscussions', this.discussions);
-          }, function(response) {
-            console.log(response.error);
-          });
-        } else {
-          var imgData = "data:image/jpeg;base64," + imageUri;
-          var httpParams = { "fromUser": this.user.id, "picture": imgData, pictureType: null, "loadingPicture": true, "text": null };
-          this.discussion.messages.push(httpParams);
-          this.scrollToBottom();
-
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.discussions = JSON.parse(response.data);
-            // this.discussions.map((item, index) => {
-            //   if (item.id == this.discussion.id) {
-            //     this.discussion = item;
-            //   }
-            // });
-            this.$emit('updateDiscussions', this.discussions);
-          }, function(response) {
-            console.log(response.error);
-          });
-        }
-      }, (error) => {
-        console.log("Impossible de récupérer l'image : " + error);
-      }, options);
-    },
-    hideDiscussion() {
-      this.$emit('hideDiscussion');
-    }
   }
 };
 

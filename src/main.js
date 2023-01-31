@@ -57,6 +57,10 @@ document.addEventListener("pause", () => {
 document.addEventListener("resume", () => {
   // console.log("User is using the app");
 });
+ 
+document.addEventListener("backbutton", () => {
+  // console.log("User click on the back button");
+});
 
 // network
 document.addEventListener("offline", () => {
