@@ -26,6 +26,8 @@ export default {
   mounted() {
     this.ping();
     this.pingInterval = setInterval(() => {
+      this.user = JSON.parse(window.localStorage.getItem("user"));
+      this.token = window.localStorage.getItem("token");
       this.ping();
     }, 240000); //4 min
   },
@@ -34,11 +36,13 @@ export default {
   },
   methods: {
     ping() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/ping", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-      }, (response) => {
-        console.log(response.error);
-      });
+      if (this.user && this.token) {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/ping", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(response);
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
     }
   }
 };

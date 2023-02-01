@@ -27,11 +27,11 @@
               <div @click="showDiscussion(discussion)" class="chat--left--head--profil">
                 <span v-if="discussion.user.id == user.id">
                   <img v-if="discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
-                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
                 </span>
                 <span v-else>
                   <img v-if="discussion.user.picture" :src="cloudinary256x256 + discussion.user.picture">
-                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
                 </span>
                 <span v-if="discussion.isOnline" class="online"></span>
               </div>
@@ -107,13 +107,14 @@ export default {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(response);
         this.discussions = JSON.parse(response.data);
+        console.log(this.discussions);
         this.discussions.map((discussion, index) => {
           if (discussion.user.id == this.user.id) {
             discussion.isOnline = this.isOnline(discussion.vendor.securityUsers[0].connectedAt);
           } else {
             discussion.isOnline = this.isOnline(discussion.user.securityUsers[0].connectedAt);
           }
-            console.log(discussion.isOnline);
+          console.log(discussion.isOnline);
 
           if (this.discussionId && discussion.id == this.discussionId) {
             this.selectedDiscussion = discussion;
@@ -130,16 +131,29 @@ export default {
 
     channel.bind("new_message", (data) => {
       console.log(data.message.fromUser != this.user.id);
-      console.log(this.selectedDiscussion.id);
-      console.log(this.selectedDiscussion.messages);
+      console.log(this.selectedDiscussion);
 
-      if (data.message.fromUser != this.user.id) {
+      if (data.message.fromUser != this.user.id && this.selectedDiscussion) {
         if (data.discussionId == this.selectedDiscussion.id) {
           this.selectedDiscussion.messages.push(data.message);
           console.log(this.selectedDiscussion);
-          this.$refs.message.scrollToBottom();
+          this.$refs.message.scrollToBottomWithTimeout();
         }
       }
+
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        this.discussions = JSON.parse(response.data);
+        this.discussions.map((discussion, index) => {
+          if (discussion.user.id == this.user.id) {
+            discussion.isOnline = this.isOnline(discussion.vendor.securityUsers[0].connectedAt);
+          } else {
+            discussion.isOnline = this.isOnline(discussion.user.securityUsers[0].connectedAt);
+          }
+        });
+      }, (response) => {
+        console.log(response.error);
+      });
     });
   },
   filters: {
@@ -156,7 +170,7 @@ export default {
     },
     formatDate(datetime) {
       const today = new Date();
-      var date = new Date(datetime);
+      const date = new Date(datetime);
 
       if (date.toDateString() === today.toDateString()) {
         return date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
@@ -179,8 +193,8 @@ export default {
   },
   methods: {
     isOnline(datetime) {
-      var date = new Date(datetime).toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
-      var date2 = new Date(Date.now() - 5 * 60 * 1000).toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
+      var date = new Date(datetime);
+      var date2 = new Date(Date.now() - 5 * 60 * 1000);
 
       console.log(date);
       console.log(date2);

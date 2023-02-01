@@ -41,7 +41,7 @@
       				<div><span>#{{ order.number }}</span></div>
       				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
               <span v-else>{{ order.vendor.businessName }}</span>
-              <div><span style="font-size: 11px; color: #999;">{{ order.createdAt }}</span></div>
+              <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
       			</div>
             <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
             <span v-else class="css-4ioo3c" style="color: #000;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
@@ -122,6 +122,10 @@ export default {
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    formatDate(datetime) {
+      const date = new Date(datetime);
+      return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     }
   },
   methods: {

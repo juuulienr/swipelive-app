@@ -36,7 +36,7 @@
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
             <div>
               <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-              <div><span>{{ order.createdAt }}</span></div>
+              <div><span>{{ order.createdAt | formatDate }}</span></div>
             </div>
             <div @click="goToMessage(order.buyer)" style="color: rgb(0, 132, 255);background-color: rgba(45, 136, 255, 0.2);text-align: center;width: fit-content;margin: 0px auto;padding: 12px;border-radius: 40px;font-size: 13px;font-weight: 400;margin-right: 5px;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;fill: rgb(0, 132, 255);height: 20px;">
@@ -49,7 +49,7 @@
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
             <div>
               <span>{{ order.vendor.businessName }}</span>
-              <div><span>{{ order.createdAt }}</span></div>
+              <div><span>{{ order.createdAt | formatDate }}</span></div>
             </div>
             <div @click="goToMessage(order.vendor.user)" style="color: rgb(0, 132, 255);background-color: rgba(45, 136, 255, 0.2);text-align: center;width: fit-content;margin: 0px auto;padding: 12px;border-radius: 40px;font-size: 13px;font-weight: 400;margin-right: 5px;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;fill: rgb(0, 132, 255);height: 20px;">
@@ -125,7 +125,7 @@
               </div>
               <div class="css-hg5jyh">
                 <h6 class="css-yemnbq" style="font-weight: 500;">En préparation</h6>
-                <span class="css-6f545k">{{ order.createdAt }}</span>
+                <span class="css-6f545k">{{ order.createdAt | formatDate }}</span>
               </div>
             </li>
             <li v-for="status in order.orderStatuses" class="css-1rcbby2" v-show="status.status != 'no-label' && status.status != 'announcing' && status.status != 'ready-to-send' && status.status != 'announced' && status.status != 'cancelling-upstream'">
@@ -230,6 +230,10 @@ export default {
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    formatDate(datetime) {
+      const date = new Date(datetime);
+      return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     }
   },
   created() {

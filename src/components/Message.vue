@@ -7,23 +7,23 @@
       <div v-if="discussion.user.id == user.id" class="chat--head--profil">
         <div class="chat--head--profil--img">
           <img v-if="discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
-          <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+          <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.vendor.vendor.businessName }}</p>
           <div v-if="discussion.isOnline" class="chat--head--status">En ligne</div>
-          <div v-else class="chat--head--status">{{ discussion.vendor.securityUsers[0].connectedAt | formatDateDiff }}</div>
+          <div v-else-if="discussion.user.securityUsers" class="chat--head--status">{{ discussion.vendor.securityUsers[0].connectedAt | formatDateDiff }}</div>
         </div>
       </div>
       <div v-else class="chat--head--profil">
         <div class="chat--head--profil--img">
           <img v-if="discussion.user.picture" :src="cloudinary256x256 + discussion.user.picture">
-          <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+          <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</p>
           <div v-if="discussion.isOnline" class="chat--head--status">En ligne</div>
-          <div v-else class="chat--head--status">{{ discussion.user.securityUsers[0].connectedAt | formatDateDiff }}</div>
+          <div v-else-if="discussion.user.securityUsers" class="chat--head--status">{{ discussion.user.securityUsers[0].connectedAt | formatDateDiff }}</div>
         </div>
       </div>
     </div>
@@ -32,16 +32,11 @@
     <div class="chat--right">
       <div>
         <div class="container--chat--input">
-          <div ref="messagesContainer" class="chat--messages">
+          <div ref="messagesContainer" class="chat--messages" :style="{ 'height': chatHeight }">
             <div v-for="(message, index) in discussion.messages" :key="message.id">
               <div v-if="shouldDisplayDate(message, index)" class="chat--messages-time">{{ message.createdAt | formatDate }}</div>
 
               <div :class="[message.fromUser == user.id ? 'chat--messages--send' : 'chat--messages--receive']">
-                <div v-if="message.fromUser != user.id" class="chat--message--profil">
-                  <img v-if="discussion.user.id == user.id && discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
-                  <img v-else-if="discussion.user.id != user.id && discussion.user.picture" :src="cloudinary256x256 + discussion.user.picture">
-                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
-                </div>
                 <div class="chat--message--item">
                   <div v-if="message.loading && !message.pictureType" class="chat--message--item--text" style="padding: 0px; background-color: white;">
                     <img ref="image" :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)">
@@ -55,6 +50,13 @@
                   <div v-else class="chat--message--item--text">
                     {{ message.text }}
                   </div>
+                  <!-- <div class="chat--message--item--text">
+                    <div class="_4b0g">
+                      <div class="_5pd7"></div>
+                      <div class="_5pd7"></div>
+                      <div class="_5pd7"></div>
+                    </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -96,14 +98,20 @@ export default {
       cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/h_720/',
       inputMessage: '',
       imageWidth: '0px',
+      chatHeight: 'calc(100vh - 95px)',
       newMessage: []
     }
   },
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+
+    if (window.cordova && (window.cordova.platformId === "browser")) {
+      this.chatHeight = 'calc(100vh - 55px)';
+    }
   },
   mounted() {
+    this.scrollToBottom();
     if (this.discussion.id) {
       if (this.user.id == this.discussion.user.id) {
         var unseen = this.discussion.unseen;
@@ -114,7 +122,6 @@ export default {
       if (unseen) {
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
           this.discussions = JSON.parse(response.data);
-          this.scrollToBottom();
           this.$emit('updateDiscussions', this.discussions);
         }, (response) => {
           console.log(response.error);
@@ -125,22 +132,29 @@ export default {
   filters: {
     formatDateDiff(date) {
       console.log(date);
-      console.log(Date.now());
-      const diffInMs = Date.now() - date;
+      const diffInMs = new Date() - new Date(date);
       const diffInMinutes = diffInMs / 1000 / 60;
       const diffInHours = diffInMinutes / 60;
 
       if (diffInMinutes < 60) {
-        return `En ligne il y a ${Math.floor(diffInMinutes)} minutes`;
+        if (Math.floor(diffInMinutes) > 1) {
+          return `En ligne il y a ${Math.floor(diffInMinutes)} minutes`;
+        } else {
+          return `En ligne il y a 1 minute`;
+        }
       } else if (diffInHours < 24) {
-        return `En ligne il y a ${Math.floor(diffInHours)} heures`;
+        if (Math.floor(diffInHours) > 1) {
+          return `En ligne il y a ${Math.floor(diffInHours)} heures`;
+        } else {
+          return `En ligne il y a 1 heure`;
+        }
       }
 
       return "";
     },
     formatDate(datetime) {
       const today = new Date();
-      var date = new Date(datetime);
+      const date = new Date(datetime);
 
       if (date.toDateString() === today.toDateString()) {
         return date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
@@ -154,6 +168,7 @@ export default {
       if (this.inputMessage && this.inputMessage !== '') {
         var text = this.inputMessage;
         var httpParams = { "fromUser": this.user.id, "picture": null, "text": text, "createdAt": new Date() };
+        console.log(httpParams);
         this.discussion.messages.push(httpParams);
         this.inputMessage = '';
         this.scrollToBottom();
@@ -178,16 +193,21 @@ export default {
       }
     },
     scrollToBottom() {
-      // this.$nextTick(() => {
-      // });
+      this.$nextTick(() => {
+        this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
+      });
+    },
+    scrollToBottomWithTimeout() {
       setTimeout(() => {
         this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
-      }, 150);
+      }, 200);
     },
     getImageSize(message) {
       console.log(this.$refs.image);
       var width = this.$refs.image[0].naturalWidth;
       var height = this.$refs.image[0].naturalHeight;
+      console.log(width);
+      console.log(height);
 
       if (width > height) {
         message.pictureType = "landscape";
@@ -199,14 +219,13 @@ export default {
     },
     shouldDisplayDate(message, index) {
       if (index === 0) return true;
-      console.log(this.discussion.messages);
-
       const previousMessage = this.discussion.messages[index - 1];
-      console.log(previousMessage);
-      const now = new Date();
-      const previousMessageTime = new Date(previousMessage.createdAt);
-      const timeDifference = now - previousMessageTime;
 
+      const messageTime = new Date(message.createdAt);
+      const previousMessageTime = new Date(previousMessage.createdAt);
+      const timeDifference = messageTime - previousMessageTime;
+
+      // check si précédent message existe depuis plus de 20 minutes
       return timeDifference > 20 * 60 * 1000;
     },
     uploadImage(options) {
@@ -217,7 +236,7 @@ export default {
         if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
           var httpParams = { "fromUser": this.user.id, "picture": imageUri, pictureType: null, "loading": true, "text": null };
           this.discussion.messages.push(httpParams);
-          this.scrollToBottom();
+          this.scrollToBottomWithTimeout();
 
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
             this.discussions = JSON.parse(response.data);
@@ -229,7 +248,7 @@ export default {
           var imgData = "data:image/jpeg;base64," + imageUri;
           var httpParams = { "fromUser": this.user.id, "picture": imgData, pictureType: null, "loading": true, "text": null };
           this.discussion.messages.push(httpParams);
-          this.scrollToBottom();
+          this.scrollToBottomWithTimeout();
 
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
             this.discussions = JSON.parse(response.data);
@@ -266,11 +285,13 @@ export default {
     },
     openFilePicker() {
       var options = {
-        quality: 100,
+        quality: 90,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         encodingType: Camera.EncodingType.JPEG,
         mediaType: Camera.MediaType.PICTURE,
+        targetHeight: 720,
+        targetWidth: 10000,
         allowEdit: false,
         correctOrientation: true
       }
@@ -279,11 +300,13 @@ export default {
     },
     openCamera() {
       var options = {
-        quality: 100,
+        quality: 90,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.CAMERA,
         encodingType: Camera.EncodingType.JPEG,
         mediaType: Camera.MediaType.PICTURE,
+        targetHeight: 720,
+        targetWidth: 10000,
         allowEdit: false,
         correctOrientation: true,
       }

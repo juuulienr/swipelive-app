@@ -503,11 +503,14 @@ export default {
     },
     openFilePicker() {
       var options = {
-        quality: 100,
+        quality: 90,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         encodingType: Camera.EncodingType.JPEG,
         mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        targetHeight: 750,
+        targetWidth: 750,
         allowEdit: false,
         correctOrientation: true
       }
@@ -515,11 +518,13 @@ export default {
     },
     openCamera() {
       var options = {
-        quality: 100,
+        quality: 90,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.CAMERA,
         encodingType: Camera.EncodingType.JPEG,
         mediaType: Camera.MediaType.PICTURE,
+        targetHeight: 750,
+        targetWidth: 750,
         allowEdit: false,
         correctOrientation: true,
       }
