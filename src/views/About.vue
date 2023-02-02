@@ -102,7 +102,7 @@ export default {
       this.$router.push({ name: 'Account' });
     },
     goToMessage() {
-      this.$router.push({ name: 'ListMessages' });
+      // this.$router.push({ name: 'ListMessages' });
     },
   }
 };

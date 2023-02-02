@@ -632,22 +632,26 @@ export default {
       this.http.setDataSerializer('json');
     }
 
-    this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    	console.log(JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-      window.localStorage.setItem("user", response.data);
-    }, (error) => {
-      console.log(error);
-    });
+    if (this.token) {
+      this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      	console.log(JSON.parse(response.data));
+        this.user = JSON.parse(response.data);
+        window.localStorage.setItem("user", response.data);
+      }, (error) => {
+        console.log(error);
+      });
+    } else {
+      this.$router.push({ name: 'Welcome' });
+    }
   },
   mounted() {
     this.refresh();
-    // document.addEventListener("pause", this.pause);
-    // document.addEventListener("resume", this.resume);
+    document.addEventListener("pause", this.pause);
+    document.addEventListener("resume", this.resume);
   },
   beforeDestroy() {
-    // document.removeEventListener('pause', this.pause);
-    // document.removeEventListener('resume', this.resume);
+    document.removeEventListener('pause', this.pause);
+    document.removeEventListener('resume', this.resume);
   },
   computed: {
     updateCart() {
@@ -1098,14 +1102,14 @@ export default {
         }
       });
     },
-    // pause() {
-    //   console.log("User is out of feed");
-    //   navigator.splashscreen.show();
-    // },
-    // resume() {
-    //   console.log("User is using the feed");
-    //   navigator.splashscreen.hide();
-    // },
+    pause() {
+      console.log("User is out of feed");
+      navigator.splashscreen.show();
+    },
+    resume() {
+      console.log("User is using the feed");
+      navigator.splashscreen.hide();
+    },
     follow(id) { 
       this.data.map((element, index) => {
         if (element.value.vendor.user.id == id) {
@@ -1367,7 +1371,7 @@ export default {
           this.anim23 = false;
         }, 2500);
       }
-
+// 
       if (this.num == 23 && !this.anim24) {
         this.anim24 = true;
 

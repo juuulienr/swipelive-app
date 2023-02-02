@@ -44,7 +44,7 @@
                 </div>
                 <p>{{ discussion.preview | truncate(35) }} · {{ discussion.updatedAt | formatDate }}</p>
               </div>
-              <div v-if="swipeIndex === discussion.id && swipeStatus === 'left'" @click="deleteDiscussion(index)" class="delete-swipe" :style="{width: swipeDistance + 'px'}" style="height: 56px;background: #ff453b;">
+              <div v-if="swipeIndex === discussion.id && swipeStatus === 'left'" @click="archiveDiscussion(index)" class="delete-swipe" :style="{width: swipeDistance + 'px'}" style="height: 56px;background: #ff453b;">
                 <div style="color: white;font-weight: 400;font-size: 13px;text-align: center; padding: 19px 10px 0px;">Supprimer</div>
               </div>
             </div>
@@ -135,9 +135,18 @@ export default {
 
       if (data.message.fromUser != this.user.id && this.selectedDiscussion) {
         if (data.discussionId == this.selectedDiscussion.id) {
-          this.selectedDiscussion.messages.push(data.message);
-          console.log(this.selectedDiscussion);
-          this.$refs.message.scrollToBottomWithTimeout();
+          console.log(data.message);
+          this.selectedDiscussion.messages.map((message, index) => {
+            if (message.writing) {
+              this.selectedDiscussion.messages.splice(index, 1);
+            }
+          });
+
+          if (!("stopWriting" in data.message)) {
+            this.selectedDiscussion.messages.push(data.message);
+            this.$refs.message.scrollToBottomWithTimeout();
+            this.$refs.message.seenDiscussion();
+          }
         }
       }
 
@@ -196,14 +205,7 @@ export default {
       var date = new Date(datetime);
       var date2 = new Date(Date.now() - 5 * 60 * 1000);
 
-      console.log(date);
-      console.log(date2);
-
-      if (date > date2) {
-        return true;
-      } else {
-        return false;
-      }
+      return date > date2;
     },
     startSwipe(id) {
       this.swipeIndex = id;
@@ -221,7 +223,7 @@ export default {
     },
     endSwipe(index) {
       if (this.swipeDistance > 250) {
-        this.deleteDiscussion(index);
+        this.archiveDiscussion(index);
       } else if (this.swipeDistance < 60) {
         this.swipeStatus = '';
         this.swipeIndex = null;
@@ -232,11 +234,11 @@ export default {
         this.swipeDistance = 130;
       }
     },
-    deleteDiscussion(index) {
+    archiveDiscussion(index) {
       var discussionId = this.discussions[index].id;
       this.discussions.splice(index, 1);
 
-      window.cordova.plugin.http.delete(this.baseUrl + "/user/api/discussions/" + discussionId + "/delete", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.delete(this.baseUrl + "/user/api/discussions/" + discussionId + "/archive", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(response);
       }, (response) => {
         console.log(response.error);

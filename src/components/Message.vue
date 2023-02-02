@@ -47,16 +47,16 @@
                   <div v-else-if="message.picture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
                     <img :src="cloudinary + message.picture" style="border-radius: 18px;" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
                   </div>
-                  <div v-else class="chat--message--item--text">
-                    {{ message.text }}
-                  </div>
-                  <!-- <div class="chat--message--item--text">
+                  <div v-else-if="message.writing" class="chat--message--item--text">
                     <div class="_4b0g">
                       <div class="_5pd7"></div>
                       <div class="_5pd7"></div>
                       <div class="_5pd7"></div>
                     </div>
-                  </div> -->
+                  </div>
+                  <div v-else class="chat--message--item--text">
+                    {{ message.text }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -71,7 +71,7 @@
         </svg>
       </button>
       <div>
-        <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" placeholder="Votre message">
+        <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Votre message">
       </div>
       <button @click="sendMessage()">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="css-1ktnz7v iconify iconify--ic">
@@ -97,8 +97,9 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/h_720/',
       inputMessage: '',
+      writing: false,
       imageWidth: '0px',
-      chatHeight: 'calc(100vh - 95px)',
+      chatHeight: 'calc(100vh - 55px)',
       newMessage: []
     }
   },
@@ -106,32 +107,16 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
-    if (window.cordova && (window.cordova.platformId === "browser")) {
-      this.chatHeight = 'calc(100vh - 55px)';
+    if (window.cordova && (window.cordova.platformId === "ios")) {
+      this.chatHeight = 'calc(100vh - 95px)';
     }
   },
   mounted() {
     this.scrollToBottom();
-    if (this.discussion.id) {
-      if (this.user.id == this.discussion.user.id) {
-        var unseen = this.discussion.unseen;
-      } else {
-        var unseen = this.discussion.unseenVendor;
-      }
-
-      if (unseen) {
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
-          this.discussions = JSON.parse(response.data);
-          this.$emit('updateDiscussions', this.discussions);
-        }, (response) => {
-          console.log(response.error);
-        });
-      }
-    }
+    this.seenDiscussion();
   },
   filters: {
     formatDateDiff(date) {
-      console.log(date);
       const diffInMs = new Date() - new Date(date);
       const diffInMinutes = diffInMs / 1000 / 60;
       const diffInHours = diffInMinutes / 60;
@@ -163,17 +148,17 @@ export default {
       }
     }
   },
-  methods: {    
+  methods: {
     async sendMessage() {
       if (this.inputMessage && this.inputMessage !== '') {
-        var text = this.inputMessage;
-        var httpParams = { "fromUser": this.user.id, "picture": null, "text": text, "createdAt": new Date() };
-        console.log(httpParams);
+        this.writing = false;
+        const httpParams = { "fromUser": this.user.id, "picture": null, "text": this.inputMessage, "createdAt": new Date() };
         this.discussion.messages.push(httpParams);
         this.inputMessage = '';
         this.scrollToBottom();
 
         if (this.discussion.id) {
+          console.log(httpParams);
           await window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/message", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
             this.discussions = JSON.parse(response.data);
             this.$emit('updateDiscussions', this.discussions);
@@ -181,13 +166,31 @@ export default {
             console.log(JSON.parse(response.error));
           });
         } else {
-          var httpParams2 = { "preview": text, "unseenVendor": true, "unseen": false, "user": this.discussion.user.id, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
+          const httpParams2 = { "preview": this.inputMessage, "unseenVendor": true, "unseen": false, "user": this.discussion.user.id, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
 
           await window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/add", httpParams2, { Authorization: "Bearer " + this.token }, (response) => {
             this.discussions = JSON.parse(response.data);
             this.$emit('updateDiscussions', this.discussions);
           }, (response) => {
             console.log(JSON.parse(response.error));
+          });
+        }
+      }
+    },
+    seenDiscussion() {
+      if (this.discussion.id) {
+        if (this.user.id == this.discussion.user.id) {
+          var unseen = this.discussion.unseen;
+        } else {
+          var unseen = this.discussion.unseenVendor;
+        }
+
+        if (unseen) {
+          window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
+            this.discussions = JSON.parse(response.data);
+            this.$emit('updateDiscussions', this.discussions);
+          }, (response) => {
+            console.log(response.error);
           });
         }
       }
@@ -234,7 +237,7 @@ export default {
 
         window.cordova.plugin.http.setDataSerializer('json');
         if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          var httpParams = { "fromUser": this.user.id, "picture": imageUri, pictureType: null, "loading": true, "text": null };
+          var httpParams = { "fromUser": this.user.id, "picture": imageUri, "pictureType": null, "loading": true, "text": null };
           this.discussion.messages.push(httpParams);
           this.scrollToBottomWithTimeout();
 
@@ -246,7 +249,7 @@ export default {
           });
         } else {
           var imgData = "data:image/jpeg;base64," + imageUri;
-          var httpParams = { "fromUser": this.user.id, "picture": imgData, pictureType: null, "loading": true, "text": null };
+          var httpParams = { "fromUser": this.user.id, "picture": imgData, "pictureType": null, "loading": true, "text": null };
           this.discussion.messages.push(httpParams);
           this.scrollToBottomWithTimeout();
 
@@ -261,7 +264,29 @@ export default {
         console.log("Impossible de récupérer l'image : " + error);
       }, options);
     },
+    onInput() {
+      if (this.inputMessage == '') {
+        this.writing = false;
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing/stop", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        }, (response) => {
+          console.log(response.error);
+        });
+      } else {
+        if (!this.writing) {
+          this.writing = true;
+          window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          }, (response) => {
+            console.log(response.error);
+          });
+        }
+      }
+    },
     hideDiscussion() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing/stop", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      }, (response) => {
+        console.log(response.error);
+      });
+
       this.$emit('hideDiscussion');
     },
     uploadPicture() {
