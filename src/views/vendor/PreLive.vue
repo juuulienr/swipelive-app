@@ -120,11 +120,11 @@ export default {
       checked: [],
       stocks: [],
       prices: [],
+      live: [],
       step1: true,
       step2: false,
       isCheckAll: true,
       loading: false,
-      live: [],
       dragging: false,
       pending: false
     }

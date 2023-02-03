@@ -248,7 +248,11 @@ export default {
       loading: false,
       loadingImg: false,
       isAndroid: false,
-      isReset: false
+      isReset: false,
+      device: null,
+      connection: null,
+      wifiIPAddress: null,
+      carrierIPAddress: null,
     }
   },
   created() {
@@ -269,29 +273,30 @@ export default {
     }
 
     if (window.device) {
-      console.log(window.device);
-      console.log(window.device.model);
-      console.log(window.device.platform);
-      console.log(window.device.uuid);
-      console.log(window.device.version);
-      console.log(window.device.manufacturer);
-      console.log(window.device.isVirtual);
-      console.log(window.device.serial);
+      this.device = window.device;
+      console.log(this.device);
     }
 
-    if (navigator.connection) {
-      console.log(navigator.connection.type);
+    if (navigator.connection && navigator.connection.type) {
+      this.connection = navigator.connection.type;
+      console.log(this.connection);
     }
 
     if (window.networkinterface) {
       window.networkinterface.getWiFiIPAddress((ipInformation) => {
-        console.log( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+        if (ipInformation.ip) {
+          this.wifiIPAddress = ipInformation.ip;
+          console.log(this.wifiIPAddress);
+        }
       }, (error) => {
         console.log(error);
       });
 
       window.networkinterface.getCarrierIPAddress((ipInformation) => {
-        console.log( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+        if (ipInformation.ip) {
+          this.carrierIPAddress = ipInformation.ip;
+          console.log(this.carrierIPAddress);
+        }
       }, (error) => {
         console.log(error);
       });
@@ -446,7 +451,13 @@ export default {
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.loading) {
         this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture };
+        // if (this.device) {
+        // var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "model": this.device.model, "platform": this.device.platform, "uuid": this.device.uuid, "version": this.device.version, "manufacturer": this.device.manufacturer, "isVirtual": this.device.isVirtual, "serial": this.device.serial };
+        // } else {
+        console.log(this.wifiIPAddress);
+        var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device };
+        console.log(httpParams);
+        // }
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {

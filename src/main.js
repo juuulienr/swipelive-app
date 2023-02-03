@@ -45,6 +45,8 @@ const init = () => {
 // Wait for the deviceready event to start the render
 document.addEventListener("deviceready", () => {
   init();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log("Timezone:", timezone);
 });
  
 

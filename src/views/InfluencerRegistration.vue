@@ -69,19 +69,6 @@
         </div>
         <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">18 ans et +</div>
 
-        <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
-          <fieldset>
-            <legend>Email</legend>
-            <input type="text" v-model="email" style="text-transform: lowercase;">
-          </fieldset>
-        </div>
-        
-        <div class="form--input--item" :class="{'form--input--item--error': errorPassword }">
-          <fieldset>
-            <legend>Mot de passe</legend>
-            <input type="password" v-model="password">
-          </fieldset>
-        </div>
 
         <div @click="submitStep1()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
       </div>
