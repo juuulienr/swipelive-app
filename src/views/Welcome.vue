@@ -253,6 +253,8 @@ export default {
       connection: null,
       wifiIPAddress: null,
       carrierIPAddress: null,
+      timezone: null,
+      locale: null,
     }
   },
   created() {
@@ -275,6 +277,13 @@ export default {
     if (window.device) {
       this.device = window.device;
       console.log(this.device);
+    }
+
+    try {
+      this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      this.locale = Intl.DateTimeFormat().resolvedOptions().locale;
+    } catch (error) {
+      console.error(error);
     }
 
     if (navigator.connection && navigator.connection.type) {
@@ -451,13 +460,7 @@ export default {
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.loading) {
         this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
-        // if (this.device) {
-        // var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "model": this.device.model, "platform": this.device.platform, "uuid": this.device.uuid, "version": this.device.version, "manufacturer": this.device.manufacturer, "isVirtual": this.device.isVirtual, "serial": this.device.serial };
-        // } else {
-        console.log(this.wifiIPAddress);
-        var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device };
-        console.log(httpParams);
-        // }
+        var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
