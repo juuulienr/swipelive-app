@@ -11,8 +11,27 @@
     </div>
 
 
-    <div class="checkout__body items" style="overflow: scroll; padding-bottom: 50px; padding-top: 10px;">
-      <div v-if="category && category.products.length" class="shop--part" style="margin: 0px 5px;">
+    <div v-if="category && category.products.length" class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
+      <div class="s1yvqyx7 dir dir-ltr">
+        <div class="dir dir-ltr">
+          <div class="awuxh4x dir dir-ltr">
+            <div class="cw9aemg dir dir-ltr">
+              <div class="c14whb16 dir dir-ltr">
+                <button v-for="category in categories" :key="category" :class="{ 'ccma3s' : category.id == id }" class="c1l3w0tx dir dir-ltr">
+                  <div class="c8gkmzg dir dir-ltr">
+                    <span class="c1m2z0bj c1w8ohg7 dir dir-ltr">
+                      <img class="i1wps9q8 dir dir-ltr" src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg" alt="" width="24" height="24" />
+                      <div class="tamhn2w dir dir-ltr"><span class="t1h65ots dir dir-ltr">{{ category.name }}</span></div>
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop--part" style="margin: 25px 5px 0px 5px;">
         <div v-if="product.archived == false" v-for="product in category.products" class="shop--item">
           <div>
             <div>
@@ -31,11 +50,10 @@
         </div>
       </div>
     </div>
-
-
   </main>
 </template>
 
+<style scoped src="../assets/css/category.css"></style>
 
 <script>
 
@@ -52,6 +70,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      categories: JSON.parse(window.localStorage.getItem("categories")),
       id: this.$route.params.id,
       name: this.$route.params.name,
       category: null,
@@ -70,12 +89,21 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
 
-    window.cordova.plugin.http.get(this.baseUrl + "/api/categories/" + this.id, {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+    var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+    window.cordova.plugin.http.get(this.baseUrl + "/api/categories/" + this.id, {}, httpHeader, (response) => {
       this.category = JSON.parse(response.data);
       console.log(this.category);
     }, (response) => {
       console.log(response.error);
     });
+
+    window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, httpHeader, (response) => {
+      this.categories = JSON.parse(response.data);
+      window.localStorage.setItem("categories", response.data);
+    }, (response) => {
+      console.log(response.error);
+    });
+
   },
   methods: {
     showProduct(product) {

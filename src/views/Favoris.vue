@@ -9,27 +9,9 @@
       <div class="checkout__title">Mes Favoris</div>
     </div>
 
-    <div v-if="favoris && favoris.length > 0 && selectedCategory" class="checkout__body items">
-      <div class="s1yvqyx7 dir dir-ltr">
-        <div class="dir dir-ltr">
-          <div class="awuxh4x dir dir-ltr">
-            <div class="cw9aemg dir dir-ltr">
-              <div class="c14whb16 dir dir-ltr">
-                <button v-for="category in categories" :key="category" :class="{ 'ccma3s' : category === selectedCategory }" @click="selectCategory(category)" class="c1l3w0tx dir dir-ltr">
-                  <div class="c8gkmzg dir dir-ltr">
-                    <span class="c1m2z0bj c1w8ohg7 dir dir-ltr">
-                      <img class="i1wps9q8 dir dir-ltr" src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg" alt="" width="24" height="24" />
-                      <div class="tamhn2w dir dir-ltr"><span class="t1h65ots dir dir-ltr">{{ category.name }}</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div v-if="favoris && favoris.length > 0" class="checkout__body items">
       <div class="shop--part" style="margin: 25px 5px 5px;">
-        <div v-if="heart.product.archived == false" v-for="(heart, index) in filteredFavoris" class="shop--item">
+        <div v-if="heart.product.archived == false" v-for="(heart, index) in favoris" class="shop--item">
           <div>
             <div>
               <img v-if="heart.product.uploads.length" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%;">
@@ -62,7 +44,6 @@
   </main>
 </template>
 
-<style scoped src="../assets/css/favoris.css"></style>
 
 <script>
 
@@ -96,25 +77,7 @@ export default {
 
     this.favoris = this.user.favoris;
     console.log(this.favoris);
-
-    var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-    window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, httpHeader, (response) => {
-      this.categories = JSON.parse(response.data);
-      this.selectedCategory = this.categories[0];
-      window.localStorage.setItem("categories", response.data);
-    }, (response) => {
-      console.log(response.error);
-    });
   },  
-  computed: {
-    filteredFavoris() {
-      if (this.selectedCategory) {
-        return this.favoris.filter(favoris => favoris.product.category.id === this.selectedCategory.id);
-      } else {
-        return this.favoris;
-      }
-    }
-  },
   methods: {
     removeFavoris(product, index) { 
       this.favoris.map((favoris, index) => {
@@ -128,9 +91,6 @@ export default {
       }, (response) => {
         console.log(response.error);
       });
-    },
-    selectCategory(category) {
-      this.selectedCategory = category;
     },
     goBack() {
       this.$router.back();
