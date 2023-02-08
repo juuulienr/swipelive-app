@@ -1,27 +1,19 @@
 <template>
-  <main class="products shop_3">
-    <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-        </svg>
-      </div>
-      <div v-if="category" class="checkout__title">{{ category.name }}</div>
-      <div v-else class="checkout__title">{{ name }}</div>
-    </div>
+  <main class="products shop_3" style="padding: 0px;">
 
-
-    <div v-if="category && category.products.length" class="checkout__body items" style="overflow: scroll; padding-bottom: 50px;">
+    <div v-if="categories && categories.length" class="people-section" style="padding-right: 0px; box-shadow: rgba(0,0,0,0.16) 0px 0px 6px 0px; padding-bottom: 7px;">
       <div class="s1yvqyx7 dir dir-ltr">
         <div class="dir dir-ltr">
           <div class="awuxh4x dir dir-ltr">
             <div class="cw9aemg dir dir-ltr">
               <div class="c14whb16 dir dir-ltr">
-                <button v-for="category in categories" :key="category" :class="{ 'ccma3s' : category.id == id }" class="c1l3w0tx dir dir-ltr">
+                <button @click="goToCategory(category)" v-for="category in categories" :key="category" class="c1l3w0tx dir dir-ltr">
                   <div class="c8gkmzg dir dir-ltr">
                     <span class="c1m2z0bj c1w8ohg7 dir dir-ltr">
-                      <img class="i1wps9q8 dir dir-ltr" src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg" alt="" width="24" height="24" />
-                      <div class="tamhn2w dir dir-ltr"><span class="t1h65ots dir dir-ltr">{{ category.name }}</span></div>
+                      <img v-if="category.picture" class="i1wps9q8 dir dir-ltr" :src="require(`@/assets/img/` + category.picture)" alt="" width="24" height="24" />
+                      <div class="tamhn2w dir dir-ltr">
+                        <span class="t1h65ots dir dir-ltr">{{ category.name }}</span>
+                      </div>
                     </span>
                   </div>
                 </button>
@@ -30,26 +22,25 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="shop--part" style="margin: 25px 5px 0px 5px;">
-        <div v-if="product.archived == false" v-for="product in category.products" class="shop--item">
-          <div>
-            <div>
-              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%;">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%;">
-            </div>
-          </div>
-          <div class="shop--item--details">
-            <div class="shop--item--name">{{ product.title }}</div>
-            <div class="shop--item--price">
-              <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€ 
-                <span v-if="product.compareAtPrice" class="last-price">{{ product.compareAtPrice | formatPrice }}€ </span>
-              </div>
+    <div class="shop--part" style="margin: 25px 15px 0px; gap: 20px 10px;">
+      <div v-if="product.archived == false" v-for="product in category.products" class="shop--box">
+        <div>
+          <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
+          <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%; border-radius: 10px;">
+        </div>
+        <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
+          <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ product.title }}</div>
+          <div class="shop--item--price">
+            <div class="price" style="font-size: 12px; margin: 0px;" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€
+              <span v-if="product.compareAtPrice" class="last-price" style="margin-left: 3px;">{{ product.compareAtPrice | formatPrice }}€ </span>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </main>
 </template>
 

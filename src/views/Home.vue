@@ -1,5 +1,5 @@
 <template>
-  <main style="padding: 0px 0px 70px;">
+  <main style="padding: 0px 0px 100px;">
     <div v-if="categories" class="people-section" style="background: white; padding-right: 0px; box-shadow: rgba(0,0,0,0.16) 0px 0px 6px 0px; padding-bottom: 7px;">
       <div class="s1yvqyx7 dir dir-ltr">
         <div class="dir dir-ltr">
@@ -51,14 +51,14 @@
         <div v-for="(clip, index) in clips" style="padding: 0px 5px;">
           <router-link :to="{ name: 'ListClips', params: { type: 'trending', index: index }}">
             <div class="personne">
-              <div class="checkout__header" style="z-index: 15; width: 150px; position: absolute; padding: 0.5rem 0px 0px;">
+              <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
                 <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
                   <img v-if="clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px;">
                   <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px;">
                   {{ clip.vendor.businessName }}
                 </div>
               </div>
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 150px; height: 250px;">
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 250px;">
               <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 250px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
             </div>
           </router-link>
@@ -98,14 +98,14 @@
         <div v-for="(clip, index) in clips" style="padding: 0px 5px;">
           <router-link :to="{ name: 'ListClips', params: { type: 'trending', index: index }}">
             <div class="personne">
-              <div class="checkout__header" style="z-index: 15; width: 150px; position: absolute; padding: 0.5rem 0px 0px;">
+              <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
                 <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
                   <img v-if="clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px;">
                   <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px;">
                   {{ clip.vendor.businessName }}
                 </div>
               </div>
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 150px; height: 250px;">
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 250px;">
               <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 250px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
             </div>
           </router-link>
@@ -116,7 +116,7 @@
 
 
     <!-- search -->
-    <div v-if="popupSearch" style="position: absolute; background: white; padding: 10px 15px 15px; width: 100%; z-index: 110; text-align: center;">
+    <div v-if="popupSearch" style="position: absolute; background: white; padding: 10px 15px 15px; width: 100%; z-index: 110; text-align: center; top: 0px;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <svg @click="hideSearch()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>

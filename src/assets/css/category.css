@@ -1,3 +1,7 @@
+.shop--box, .shop--box>div:first-of-type {
+    position: relative;
+}
+
 .s1in1q3d {
   position: relative;
 }
@@ -19,7 +23,7 @@
   position: unset;
 }
 
-.dir.ccma3s {
+.ccma3s {
   background-color: unset;
   cursor: default;
 }
@@ -39,6 +43,7 @@
   font-size: 12px;
   line-height: 16px;
   font-weight: 500;
+  width: -webkit-max-content;
   width: max-content;
   position: relative;
   outline: none;
@@ -54,7 +59,7 @@
   margin: 12px 0 10px;
   transition: color 0.2s ease;
 }
-.dir.c1l3w0tx::before {
+.c1l3w0tx::before {
   left: -4px;
   right: -4px;
   border-radius: 8px;
@@ -94,12 +99,13 @@
 
 @supports (-webkit-scroll-behavior:smooth) or (-moz-scroll-behavior:smooth) or (-ms-scroll-behavior:smooth) or (scroll-behavior:smooth) {
   .c14whb16 {
+    -moz-scroll-snap-type: none,inline mandatory;
     scroll-snap-type: none,inline mandatory;
   }
 }
 
 
-.dir.c14whb16 {
+.c14whb16 {
   margin: 0;
   padding-inline-start: 10px;
   padding-inline-end: 10px;
@@ -124,15 +130,11 @@
 .ccma3s .i1wps9q8 {
   opacity: 1;
 }
-.dir.i1wps9q8 {
-  transition: opacity 200ms ease,transform 200ms ease;
-}
 .i1wps9q8 {
   max-width: 100%;
-  width: 24px;
+  width: 32px;
   height: auto;
-  opacity: 0.6425339366515838;
-  -webkit-transition: opacity 200ms ease,-webkit-transform 200ms ease;
+  margin-bottom: 2px;
 }
 
 .tamhn2w {
@@ -140,23 +142,18 @@
   position: relative;
 }
 
-.dir.t1h65ots {
-  transition: transform 200ms ease;
-}
 .t1h65ots {
   display: inline-block;
-  -webkit-transition: -webkit-transform 200ms ease;
 }
 
-.dir.ccma3s .tamhn2w::after {
+.ccma3s .tamhn2w::after {
   background-color: #272c30;
 }
 .ccma3s .tamhn2w::after {
   opacity: 1;
 }
-.dir.tamhn2w::after {
+.tamhn2w::after {
   inset-inline: 0;
-  transition: opacity 0.2s ease;
 }
 .tamhn2w::after {
   position: absolute;

@@ -1,72 +1,50 @@
 <template>
-  <main v-touch:swipe.right="swipeHandler" class="my_profile1">
-    <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+  <main v-touch:swipe.right="swipeHandler" class="my_profile1" style="padding: 0px;">
+    <div class="checkout__header" style="padding: 5px 15px 15px 12px;">
+      <div @click="goBack()" class="checkout__close-btn" style="top: 10px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
-      <div class="checkout__title">Profil</div>
-      <div @click="actionSheet()" class="checkout__right-btn">
+      <div class="checkout__title"></div>
+      <div @click="actionSheet()" class="checkout__right-btn" style="top: 8px;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
         </svg>
       </div>
     </div>
 
-    <div v-if="profile && profile.vendor" class="checkout__body">
-      <div class="top-author--container" style="padding: 0px;">
-        <div class="top-author--item">
-          <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 80px; height: 80px;">
-          <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 80px; height: 80px;">
-          <div>
-            <span style="font-size: 16px; font-weight: 500;">{{ profile.vendor.businessName }}
-              <svg v-if="profile.vendor.businessType == 'company'" viewBox="0 0 24 24" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px;height: 19Px;margin-bottom: 3px;fill: #ff2a80;">
-                <g>
-                  <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path>
-                </g>
-              </svg>
-            </span>
-            <div>
-              <span>{{ followers }} abonnés</span>
-            </div>
-          </div>
-          <div @click="goToMessage(profile)" style="color: rgb(0, 132, 255);background-color: rgba(45, 136, 255, 0.2);text-align: center;width: fit-content;margin: 0px auto;padding: 12px;border-radius: 40px;font-size: 13px;font-weight: 400;margin-right: 10px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;fill: rgb(0, 132, 255);height: 20px;">
-              <path d="M128 216c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zM256 32C114.6 32 0 125.1 0 240c0 47.6 19.9 91.2 52.9 126.3C38 405.7 7 439.1 6.5 439.5c-6.6 7-8.4 17.2-4.6 26S14.4 480 24 480c61.5 0 110-25.7 139.1-46.3C192 442.8 223.2 448 256 448c141.4 0 256-93.1 256-208S397.4 32 256 32zm0 384c-28.3 0-56.3-4.3-83.2-12.8l-15.2-4.8-13 9.2c-23 16.3-58.5 35.3-102.6 39.6 12-15.1 29.8-40.4 40.8-69.6l7.1-18.7-13.7-14.6C47.3 313.7 32 277.6 32 240c0-97 100.5-176 224-176s224 79 224 176-100.5 176-224 176z"></path>
+
+    <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px;">
+
+    <div style="padding: 0px; text-align: center; margin-top: -60px;">
+      <div>
+        <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
+        <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
+        <div style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 35px; height: 35px; border: 1px solid white; border-radius: 100px;">
+            <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: white;"></path>
+            <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: rgb(255, 42, 128);"></path>
+          </svg>
+        </div>
+        <div>
+          <span style="font-size: 20px; font-weight: 500;">{{ profile.vendor.businessName }}
+            <svg v-if="profile.vendor.businessType == 'company'" viewBox="0 0 24 24" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 24px; height: 24px; margin-bottom: 4px; fill: rgb(29, 155, 240)">
+              <g>
+                <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path>
+              </g>
             </svg>
-          </div>
-        </div>
-      </div>
-
-      <p class="desc" style="margin: 10px 30px 20px; font-weight: 400; font-size: 14px; color: #1F1D2B; text-align: center;">{{ profile.vendor.summary }}</p>
-
-      <div class="info_profile">
-        <div class="btn-follow">
-          <div @click="updateFollow()" class="btn-swipe" :style="[following == true ? {'padding': '11px 30px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '12px 30px'}]" style="color: white; text-align: center; width: fit-content; background: #ff2a80; margin: 0px auto; border-radius: 30px; margin-bottom: 25px; font-weight: 500; width: 160px;">
-            <span v-if="following == true">Abonné</span>
-            <span v-else>Suivre</span>
-          </div>
-        </div>
-
-        <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 12px 0px;">
+          </span>
           <div>
-            <h4 v-if="followers">{{ followers }}</h4>
-            <h4 v-else>-</h4>
-            <p v-if="followers > 1">Abonnés</p>
-            <p v-else>Abonné</p>
-          </div>
-          <hr>
-          <div>
-            <h4 v-if="profile.vendor.clips.length">{{ profile.vendor.clips.length }}</h4>
-            <h4 v-else>-</h4>
-            <p v-if="profile.vendor.clips.length > 1">Vidéos</p>
-            <p v-else>Vidéo</p>
+            <span>{{ followers }} abonnés</span>
           </div>
         </div>
-      </div>
-
-      <div class="images_sec">
+  <!--       <div @click="goToMessage(profile)" style="color: rgb(0, 132, 255);background-color: rgba(45, 136, 255, 0.2);text-align: center;width: fit-content;margin: 0px auto;padding: 12px;border-radius: 40px;font-size: 13px;font-weight: 400;margin-right: 10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;fill: rgb(0, 132, 255);height: 20px;">
+            <path d="M128 216c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zM256 32C114.6 32 0 125.1 0 240c0 47.6 19.9 91.2 52.9 126.3C38 405.7 7 439.1 6.5 439.5c-6.6 7-8.4 17.2-4.6 26S14.4 480 24 480c61.5 0 110-25.7 139.1-46.3C192 442.8 223.2 448 256 448c141.4 0 256-93.1 256-208S397.4 32 256 32zm0 384c-28.3 0-56.3-4.3-83.2-12.8l-15.2-4.8-13 9.2c-23 16.3-58.5 35.3-102.6 39.6 12-15.1 29.8-40.4 40.8-69.6l7.1-18.7-13.7-14.6C47.3 313.7 32 277.6 32 240c0-97 100.5-176 224-176s224 79 224 176-100.5 176-224 176z"></path>
+          </svg>
+        </div> -->
+        <p class="desc" style="margin: 10px 30px 20px; font-weight: 400; font-size: 14px; color: #1F1D2B; text-align: center;">{{ profile.vendor.summary }}</p>
         <div class="images_filter">
           <ul>
             <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>
@@ -74,6 +52,22 @@
           </ul>
         </div>
 
+      </div>
+    </div>
+
+    <div v-if="profile && profile.vendor" class="checkout__body">
+
+
+ <!--      <div class="info_profile">
+        <div class="btn-follow">
+          <div @click="updateFollow()" class="btn-swipe" :style="[following == true ? {'padding': '11px 30px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '12px 30px'}]" style="color: white; text-align: center; width: fit-content; background: #ff2a80; margin: 0px auto; border-radius: 30px; margin-bottom: 25px; font-weight: 500; width: 160px;">
+            <span v-if="following == true">Abonné</span>
+            <span v-else>Suivre</span>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="images_sec">
         <div v-if="live" class="images">
           <div v-if="profile" class="row">
             <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
@@ -125,18 +119,14 @@
   border-radius: 30px;
 }
 
-.my_profile1 .images_sec {
-  padding: 30px 0px;
-}
-
-.my_profile1 .images_sec .images_filter ul {
+.images_filter ul {
   background-color: #eff1f6;
   border-radius: 11px;
   display: flex;
   justify-content: space-between;
 }
 
-.my_profile1 .images_sec .images_filter ul li {
+.images_filter ul li {
   display: inline-block;
   text-align: center;
   width: 50%;
@@ -145,7 +135,7 @@
   color: #6c7b8a;
 }
 
-.my_profile1 .images_sec .images_filter ul .active {
+.images_filter ul .active {
   background-color: #fff;
   color: #272c30;
   border-radius: 11px;
