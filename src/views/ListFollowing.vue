@@ -13,8 +13,8 @@
     <div class="checkout__body">
       <div v-if="user.vendor" class="images_filter" style="margin: 15px 0px;">
         <ul>
-          <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2773'} : {'color': '#525c66'}]">Followers </li>
-          <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2773'} : {'color': '#525c66'}]">Suivis </li>
+          <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Followers </li>
+          <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Suivis </li>
         </ul>
       </div>
       <div v-else>
@@ -117,6 +117,7 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
     
     if (this.user && this.token) {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {

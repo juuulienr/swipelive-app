@@ -334,7 +334,7 @@ svg {
 
 .images_sec .images_filter ul .active {
 	background-color: #fff;
-	color: #000;
+	color: #272c30;
 	border-radius: 10px;
 }
 
@@ -1416,7 +1416,7 @@ h4 {
 
 .images_filter ul .active {
 	background-color: #fff;
-	color: #000;
+	color: #272c30;
 	border-radius: 10px;
 }
 

@@ -1,44 +1,29 @@
 <template>
   <main style="padding: 0px 15px 15px">
-    <div class="checkout__header">
-      <div v-if="notif" class="checkout__title">Notifications</div>
-      <div v-else class="checkout__title">Comment ça marche ?</div>
-    </div>
-    <div class="checkout__body">
+    <div class="checkout__body" style="margin-top: 30px;">
       <div v-if="notif" class="notif onboarding">
-        <h5 class="title">Soyez informé !</h5>
+        <img :src="require(`@/assets/img/notif.png`)" style="width: 100%; margin-top: 30px; transform: scale(1.1);" />
+        <h5 class="title" style="margin-top: 30px;">Soyez informé !</h5>
         <div class="subtitle">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.</div>
-        <div class="container" style="margin: 60px auto 0px;">
-          <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="300"/>
-        </div>
         <div @click="allowNotif()" class="btn-step">Activer les notifications</div>
       </div>
 
       <div v-if="step1" class="step1 onboarding">
-        <h5 class="title">Glisser vers le haut</h5>
-        <div class="subtitle">Pour passer d'un live à un autre</div>
-        <div class="container">
-          <video webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/swipe-up.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <div>
+          <h5 class="title">Glisser vers le haut</h5>
+          <div class="subtitle">Pour passer d'un live à un autre</div>
+          <div class="container" style="margin-top: 0px;">
+            <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="200" :height="200"/>
+          </div>
         </div>
-        <div @click="goStep2()" class="btn-step">J'ai compris</div>
-      </div>
-
-      <div v-if="step2" class="step2 onboarding">
-        <h5 class="title">Glisser vers la gauche</h5>
-        <div class="subtitle">Pour voir le profil du présentateur</div>
-        <div class="container">
-          <video webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/swipe-left.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <div>
+          <h5 class="title">Glisser vers la gauche</h5>
+          <div class="subtitle">Pour voir le profil du présentateur</div>
+          <div class="container" style="margin-top: 0px;">
+            <lottie :options="defaultOptions2" v-on:animCreated="handleAnimation" :width="200" :height="200"/>
+          </div>
         </div>
-        <div @click="goStep3()" class="btn-step">J'ai compris</div>
-      </div>
-
-      <div v-if="step3" class="step3 onboarding">
-        <h5 class="title">Glisser vers la droite</h5>
-        <div class="subtitle">Pour accéder à ta page d'accueil personnalisée</div>
-        <div class="container">
-          <video webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/swipe-right.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-        </div>
-        <div @click="goFeed()" class="btn-step">Tout est OK</div>
+        <div @click="goFeed()" class="btn-step">Commencer à regarder</div>
       </div>
     </div>
   </main>
@@ -53,23 +38,23 @@
   align-items: center;
   justify-content: center;
   background: white;
-  height: 375px;
   padding: 0;
   border-radius: 10px;
 }
  
 .onboarding .title {
   font-weight: 600; 
-  margin-bottom: 7px; 
-  font-size: 25px; 
+  margin-bottom: 12px; 
+  font-size: 28px; 
   text-align: center; 
   margin-top: 30px;
 }
 
 .onboarding .subtitle {
-  font-weight: 500;
-  font-size: 17px; 
+  font-weight: 400;
+  font-size: 16px;
   text-align: center;
+  margin: 20px;
 }
 
 .onboarding .btn-step {
@@ -80,24 +65,20 @@
   width: calc(100vw - 30px); 
   line-height: 1.41176; 
   letter-spacing: -0.025em;
-  background: #ff2773;
-  padding: 15px 48px;
+  background: #ff2a80;
+  padding: 16px 48px;
   font-weight: 500;
   border-radius: 10px;
   font-size: 15px;
 }
 
-.onboarding video {
-  height: 300px; 
-  width: 300px; 
-  background: white;
-}
 </style>
 
 <script>
 
 import Lottie from 'vue-lottie';
-import * as animationData from '../assets/lottie/bell.json';
+import * as animationData from '../assets/lottie/swipe-up.json';
+import * as animationData2 from '../assets/lottie/swipe-left.json';
 
 export default {
   name: 'Onboarding',
@@ -107,39 +88,25 @@ export default {
   data() {
     return {
       defaultOptions: {animationData: animationData},
+      defaultOptions2: {animationData: animationData2},
       animationSpeed: 1,
       notif: true,
       step1: false,
-      step2: false,
-      step3: false,
     }
   },
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   methods: {
-    handleAnimation: function (anim) {
+    handleAnimation(anim) {
       this.anim = anim;
       this.anim.setSpeed(this.animationSpeed);
     },
     allowNotif() {
       this.notif = false;
       this.step1 = true;
-      this.step2 = false;
-      this.step3 = false;
-    },
-    goStep2() {
-      this.notif = false;
-      this.step1 = false;
-      this.step3 = false;
-      this.step2 = true;
-    },
-    goStep3() {
-      this.notif = false;
-      this.step1 = false;
-      this.step2 = false;
-      this.step3 = true;
     },
     goFeed() {
       this.$router.push({ name: 'Feed' });

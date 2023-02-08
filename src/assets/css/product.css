@@ -9,7 +9,7 @@
 .title {
 	font-weight: 500;
   font-size: 20px;
-  color: #000;
+  color: #272c30;
 }
 
 .description .price {
@@ -87,8 +87,8 @@ header img {
 .variants .option.active {
   font-weight: 600;
   color: #fff;
-  background: #ff2773;
-  border: 1px solid #ff2773;
+  background: #ff2a80;
+  border: 1px solid #ff2a80;
 }
 
 .variants .option.unavailable {
@@ -309,7 +309,7 @@ header img {
   font-size: 16px;
   font-weight: 500;
   margin-top: 3px;
-  color: #000;
+  color: #272c30;
 }
 hr {
 	flex-shrink: 0;

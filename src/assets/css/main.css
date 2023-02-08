@@ -28,7 +28,7 @@ body {
   margin: 0px;
   background: white;
   font-weight: 500;
-  color: #000;
+  color: #272c30;
 }
 
 * {
@@ -96,7 +96,7 @@ li {
   vertical-align: top;
 }
 .btn-swipe {
-  background: #ff2773;
+  background: #ff2a80;
   padding: 15px 48px;
   font-weight: 500;
   border-radius: 10px;
@@ -195,7 +195,7 @@ body.dark-mode {
 
 .loader {
   border: 3px solid rgba(255,55,176,.3);
-  border-top-color: #ff2773;
+  border-top-color: #ff2a80;
   border-radius: 50%;
   width: 3em;
   height: 3em;
@@ -252,15 +252,15 @@ body.dark-mode {
 .checkout__close-btn svg {
   width: 20px; 
   height: 20px; 
-  fill: #000;
+  fill: #272c30;
 }
 
 .checkout__title {
   text-align: center;
   font-weight: 500; 
   margin-bottom: 0px; 
-  color: rgb(0, 0, 0); 
-  font-size: 18px;
+  color: #272c30; 
+  font-size: 16px;
 }
 
 .checkout__right-btn {
@@ -1039,7 +1039,7 @@ select {
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
   padding: 3px;
-  background: #ff2773;
+  background: #ff2a80;
   color: #fff;
   font-weight: bold;
 }
@@ -1180,9 +1180,9 @@ select {
 .form--input--item fieldset legend {
   line-height: 1.4375em;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   padding: 0px;
-  color: #525c66;
+  color: #a9aaac;
   display: block;
   transform-origin: left top;
   white-space: nowrap;
@@ -1254,10 +1254,10 @@ select {
 }
 
 .form--input--item--active fieldset {
-  border: solid 2px #ff2773;
+  border: solid 2px #ff2a80;
 }
 .form--input--item--active fieldset legend {
-  color: #ff2773;
+  color: #ff2a80;
 }
 
 .form--input--item--error fieldset {
@@ -1435,7 +1435,7 @@ svg.loading circle {
 
 .shop--item {
   background-color: rgb(255, 255, 255);
-  color: #000;
+  color: #272c30;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   overflow: hidden;
   position: relative;
@@ -1524,7 +1524,7 @@ svg.loading circle {
   height: 18px;
   width: 18px;
   border-radius: 100%;
-  background-color: #ff2773;
+  background-color: #ff2a80;
   color: rgb(255, 255, 255);
   font-size: 13px;
   display: flex;

@@ -22,10 +22,10 @@
       <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px; display: flex; flex-wrap: nowrap; overflow-x: auto; width: auto; padding: 10px 0;">
         <div class="images_filter" style="width: calc(100vw - 30px)">
           <ul>
-            <li @click="showNumber1()" v-bind:class="{active: show1}" :style="[show1 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
-            <li @click="showNumber2()" v-bind:class="{active: show2}" :style="[show2 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
-            <li @click="showNumber3()" v-bind:class="{active: show3}" :style="[show3 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Litige</li>
-            <li @click="showNumber4()" v-bind:class="{active: show4}"  :style="[show4 ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
+            <li @click="showNumber1()" v-bind:class="{active: show1}" :style="[show1 ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
+            <li @click="showNumber2()" v-bind:class="{active: show2}" :style="[show2 ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
+            <li @click="showNumber3()" v-bind:class="{active: show3}" :style="[show3 ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Litige</li>
+            <li @click="showNumber4()" v-bind:class="{active: show4}"  :style="[show4 ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
           </ul>
         </div>
       </div>
@@ -44,7 +44,7 @@
               <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
       			</div>
             <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
-            <span v-else class="css-4ioo3c" style="color: #000;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
+            <span v-else class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
             <!-- litige -->
             <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
       		</div>
@@ -111,6 +111,7 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.orders = JSON.parse(response.data);

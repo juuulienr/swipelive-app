@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
+    <NavBar v-if="showNavbar"/>
   </div>
 </template>
 
@@ -12,15 +13,23 @@
 
 
 <script>
+import NavBar from "@/components/NavBar";
+
 export default {
   name: 'app',
-  components: {},
+  components: { NavBar },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       pingInterval: null,
+      showNavbar: false
+    }
+  },
+  created() {
+    if (this.$route.name == "Home") {
+      this.showNavbar = true;
     }
   },
   mounted() {
@@ -30,6 +39,11 @@ export default {
       this.token = window.localStorage.getItem("token");
       this.ping();
     }, 240000); //4 min
+  },
+  updated() {
+    if (this.$route.name == "Home") {
+      this.showNavbar = true;
+    }
   },
   beforeDestroy() {
     clearInterval(this.pingInterval);

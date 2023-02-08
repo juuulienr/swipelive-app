@@ -48,7 +48,7 @@
         </div>
         <div @click="showMultistream()" class="video-page__influencer-username-holder" style="padding-right: 5px;">
           <span class="video-page__influencer-video-count">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 10px; fill: #ff2773;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 10px; fill: #ff2a80;">
               <path class="fa-primary" d="M288 200C257.1 200 232 225.1 232 256S257.1 312 288 312S344 286.9 344 256S318.9 200 288 200z"/>
               <path class="fa-secondary" d="M64 256c0-51.5 16.98-99.91 49.13-139.1c11.05-13.78 8.844-33.94-4.953-45c-13.75-10.97-33.89-8.812-44.98 4.938C22.44 126.8 0 190.7 0 256c0 65.28 22.44 129.2 63.19 180C69.52 443.9 78.8 448 88.17 448c7.031 0 14.09-2.312 20-7.031c13.8-11.06 16-31.22 4.953-45C80.98 355.9 64 307.5 64 256zM512.8 75.96c-11.09-13.78-31.23-15.97-44.98-4.938c-13.8 11.06-16 31.22-4.953 45C495 156.1 512 204.5 512 256c0 51.5-16.98 99.91-49.13 139.1c-11.05 13.78-8.844 33.94 4.953 45C473.7 445.7 480.8 448 487.8 448c9.375 0 18.66-4.094 24.98-11.97C553.6 385.2 576 321.3 576 256C576 190.7 553.6 126.8 512.8 75.96zM392.3 149.1c-9.962 8.75-10.95 23.91-2.19 33.87c34.97 39.78 34.97 104.5 0 144.3c-8.758 9.969-7.772 25.12 2.19 33.87c4.567 3.1 10.21 5.969 15.84 5.969c6.678 0 13.32-2.75 18.06-8.156c50.33-57.25 50.33-150.4 0-207.7C417.4 142.2 402.3 141.2 392.3 149.1zM183.7 149.1C173.8 141.2 158.6 142.2 149.8 152.2c-50.33 57.25-50.33 150.4 0 207.7c4.739 5.406 11.39 8.156 18.06 8.156c5.614 0 11.28-1.969 15.84-5.969c9.962-8.75 10.95-23.91 2.19-33.87c-34.97-39.78-34.97-104.5 0-144.3C194.7 173.9 193.7 158.7 183.7 149.1z" style="fill: white;"/>
             </svg>
@@ -63,7 +63,7 @@
           <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: rgb(0, 0, 0);">Promotions</span>
+          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #272c30;">Promotions</span>
         </div>
 
         <div class="items" style="overflow: scroll; padding: 15px 0px 40px;">
@@ -200,7 +200,7 @@
               <hr class="facebook-hr"/>
               <div class="facebook-title">
                 <div class="video-page__influencer-username2">Pages</div>
-                <div v-if="!isShowPages" @click="showPages()" style="margin-right: 12px; color: #ff2773;">Activer</div>
+                <div v-if="!isShowPages" @click="showPages()" style="margin-right: 12px; color: #ff2a80;">Activer</div>
               </div>
               <div v-if="pages.length > 0" v-for="(page, index) in pages" class="top-author--item" style="box-shadow: none; padding: 0px">
                 <img :src="page.picture.data.url"/>
@@ -222,7 +222,7 @@
               <hr class="facebook-hr"/>
               <div class="facebook-title">
                 <div class="video-page__influencer-username2">Groupes</div>
-                <div v-if="!isShowGroups" @click="showGroups()" style="margin-right: 12px; color: #ff2773;">Activer</div>
+                <div v-if="!isShowGroups" @click="showGroups()" style="margin-right: 12px; color: #ff2a80;">Activer</div>
               </div>
               <div v-if="groups.length > 0" v-for="(group, index) in groups" class="top-author--item" style="box-shadow: none; padding: 0px">
                 <img :src="group.picture.data.url"/>
@@ -525,7 +525,7 @@
           </div>  
           <div v-if="liveProducts.length > 1" @click="changeProduct()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count" style="padding: 20px 10px;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;height: 18px;fill: #ff2773;transform: rotate(180deg);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;height: 18px;fill: #ff2a80;transform: rotate(180deg);">
                 <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
               </svg>
             </span>
@@ -684,7 +684,7 @@
               <div v-else class="performance-text">Vue</div>
             </div>
             <div class="performance-card">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #ff2773;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #ff2a80;">
                 <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path>
               </svg>
               <h4 class="performance-h4">{{ countLikes }}</h4>
@@ -1014,6 +1014,7 @@ export default {
     async stop() {
       window.StatusBar.overlaysWebView(false);
       window.StatusBar.styleDefault();
+      window.StatusBar.backgroundColorByHexString("#ffffff");
 
       this.ready = false;
       this.performance = true;

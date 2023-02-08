@@ -42,7 +42,7 @@
           <div class="shop--item--details">
             <div class="shop--item--name">{{ product.title }}</div>
             <div class="shop--item--price">
-              <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#000'}]"> {{ product.price | formatPrice }}€ 
+              <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€ 
                 <span v-if="product.compareAtPrice" class="last-price">{{ product.compareAtPrice | formatPrice }}€ </span>
               </div>
             </div>
@@ -88,6 +88,7 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
 
     var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
     window.cordova.plugin.http.get(this.baseUrl + "/api/categories/" + this.id, {}, httpHeader, (response) => {

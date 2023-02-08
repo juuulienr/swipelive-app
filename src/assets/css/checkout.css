@@ -406,7 +406,7 @@
 }
 
 .checkout__btn-apple {
-  background-color: #000;
+  background-color: #272c30;
   -webkit-appearance: -apple-pay-button;
   -apple-pay-button-type: buy;
   background-image: -webkit-named-image(apple-pay-logo-white);
@@ -1051,11 +1051,11 @@
 }
 
 .checkout_payment_type:focus {
-  border: 1px solid #000;
+  border: 1px solid #272c30;
 }
 
 .checkout_payment_type:active {
-  border: 1px solid #000;
+  border: 1px solid #272c30;
 }
 
 .checkout_payment_type {
@@ -1080,7 +1080,7 @@
 
 .images_filter ul .active {
   background-color: #fff;
-  color: #000;
+  color: #272c30;
   border-radius: 10px;
 }
 
@@ -1201,11 +1201,11 @@
   margin-top: -26px;
   margin-bottom: 15px;
   text-align: center;
-  border: 1px solid #ff2773;
+  border: 1px solid #ff2a80;
   padding: 3px;
   margin: -33px auto 18px;
   width: 130px;
-  background: #ff2773;
+  background: #ff2a80;
   border-radius: 50px;
   font-weight: 500;
   color: #fff;

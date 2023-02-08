@@ -12,7 +12,7 @@
 }
 
 .slick-dots li.slick-active button:before {
-	color: #ff2773 !important;
+	color: #ff2a80 !important;
 }
 
 .b-dashboard {
@@ -740,7 +740,7 @@ img.zoom {
 }
 
 .scrollToMe {
-	-webkit-mask-image: -webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(rgb(0, 0, 0)));
+	-webkit-mask-image: -webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30));
   max-height: 200px;
   position: absolute;
   left: 15px;
@@ -1389,7 +1389,7 @@ img.zoom {
   text-align: center; 
   font-size: 17px; 
   margin: 0px auto; 
-  color: #000;
+  color: #272c30;
 }
 
 .shop-popup {
@@ -1414,7 +1414,7 @@ img.zoom {
   text-align: center; 
   font-size: 17px; 
   margin: 0px auto; 
-  color: #000;
+  color: #272c30;
 }
 
 .shop-popup .shop--part {
@@ -1444,7 +1444,7 @@ img.zoom {
   text-align: center; 
   font-size: 17px;
   margin: 0px auto; 
-  color: #000;
+  color: #272c30;
 }
 
 .promo-popup .promo-info {

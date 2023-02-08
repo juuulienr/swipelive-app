@@ -12,7 +12,7 @@
     <div class="checkout__body">
       <div class="cards-main">
         <div class="current--balance" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 15px; border-radius: 11px; margin: 15px 5px;">
-          <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 14px; text-align: center; display: block; flex: 1 1 auto; margin-bottom: -10px;color: #000;"> Montant disponible
+          <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 14px; text-align: center; display: block; flex: 1 1 auto; margin-bottom: -10px;color: #272c30;"> Montant disponible
           </div>
           <div>
             <h3 style="font-weight: 600; margin-bottom: 0px; text-align: center; font-size: 35px;">{{ user.vendor.available | formatPrice }}€</h3>
@@ -37,7 +37,7 @@
               <div style="font-size: 12px;color: #999;">15 commandes</div>
             </div>
             <div style="padding-top: 10px;margin-bottom: 0px;"> 149,50€ 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(0, 0, 0); width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
             </div>
@@ -47,7 +47,7 @@
               <div style="font-size: 12px;color: #999;">9 commandes</div>
             </div>
             <div style="padding-top: 10px;margin-bottom: 0px;"> 87,50€ 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(0, 0, 0); width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
             </div>
@@ -57,7 +57,7 @@
               <div style="font-size: 12px;color: #999;">0 commande</div>
             </div>
             <div style="padding-top: 10px;margin-bottom: 0px;"> 0,00€ 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(0, 0, 0); width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
             </div>
@@ -67,7 +67,7 @@
               <div style="font-size: 12px;color: #999;">0 commande</div>
             </div>
             <div style="padding-top: 10px;margin-bottom: 0px;"> 0,00€ 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(0, 0, 0); width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
             </div>
@@ -129,10 +129,10 @@
                   <div>
                     Compte bancaire<br>
                     <!-- <div style="font-size: 12px; color: rgb(153, 153, 153);">FR*****7658</div> -->
-                    <div style="font-size: 12px; color: #ff2773; font-weight: 600">Ajouter un compte</div>
+                    <div style="font-size: 12px; color: #ff2a80; font-weight: 600">Ajouter un compte</div>
                   </div>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(0, 0, 0);width: 18px;height: 18px;margin-left: 3px;margin-top: 11px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30;width: 18px;height: 18px;margin-left: 3px;margin-top: 11px;">
                   <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
                 </svg>
               </div>
@@ -189,9 +189,9 @@
           <div class="checkout__title">Revenu du mois</div>
         </div>
         <div class="checkout__body" style="overflow: scroll; padding: 15px 10px">
-          <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: 30px;color: #ff2773;">Avril 2022</div>
+          <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: 30px;color: #ff2a80;">Avril 2022</div>
           <div class="current--balance" style="argin: 15px 0px;">
-            <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: -10px;color: rgb(0, 0, 0);">Revenu Net</div>
+            <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: -10px;color: #272c30;">Revenu Net</div>
             <div>
               <h3 style="font-weight: 600;margin-bottom: 0px;font-size: 50px;">0,00€</h3>
             </div>
@@ -253,6 +253,7 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   methods: {
     hideWithdraw() {

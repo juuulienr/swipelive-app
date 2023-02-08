@@ -35,7 +35,7 @@
               <div>
                 <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
               </div>
-              <span class="css-4ioo3c" style="color: #000; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
+              <span class="css-4ioo3c" style="color: #272c30; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
             </div>
           </div>
 
@@ -45,7 +45,7 @@
               <div>
                 <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
               </div>
-              <span class="css-4ioo3c" style="color: #000; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
+              <span class="css-4ioo3c" style="color: #272c30; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
             </div>
           </div>
 
@@ -55,7 +55,7 @@
               <div>
                 <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
               </div>
-              <span class="css-4ioo3c" style="color: #000; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
+              <span class="css-4ioo3c" style="color: #272c30; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
             </div>
           </div>
         </div>
@@ -143,6 +143,7 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   methods: {
     showInfos() {

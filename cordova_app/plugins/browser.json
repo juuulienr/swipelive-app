@@ -19,9 +19,6 @@
     "cordova-plugin-android-permissions": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-android-window-background": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
@@ -35,9 +32,6 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-battery-status": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-camera": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-device": {
@@ -80,16 +74,7 @@
     "cordova-plugin-safariviewcontroller": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-vibration": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-x-socialsharing": {
@@ -104,7 +89,16 @@
     "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "skwas-cordova-plugin-datetimepicker": {
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-taptic-engine": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-enable-cleartext-traffic": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

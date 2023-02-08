@@ -2,10 +2,10 @@
 .btn-open {
   position: fixed; 
   z-index: 15; 
-  left: 25px; 
-  width: calc(100vw - 50px); 
+  left: 20px; 
+  width: calc(100vw - 40px); 
   bottom: 40px; 
-  font-size: 15px; 
+  font-size: 16px; 
   line-height: 1.41176; 
   letter-spacing: -0.025em; 
   border-radius: 16px; 
@@ -15,10 +15,17 @@
   text-align: center; 
   background: rgb(255 39 115); 
   padding: 15px;
+  height: 54px;
 }
 
 .store-products-item__login-popup.store-products-item__login-popup--active {
   bottom: 0;
+}
+
+.bg-welcome {
+  background: url("../img/bg-welcome.png") no-repeat;
+  background-size: cover;
+  height: 100%;
 }
 
 .store-products-item__login-popup {
@@ -57,31 +64,29 @@ svg {
 }
 
 .social-container-NE2xk .channel-item-wrapper-2gBWB {
-  width: 100%;
-  min-height: 54px;
+  width: 275px;
   border: 1px solid #e0e3eb;
-  box-sizing: border-box;
-  border-radius: 10px;
-  display: flex;
+  border-radius: 30px;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 20px;
-  padding: 0px 40px;
   cursor: pointer;
-  background: white;
+  margin: 0 auto 20px;
+  padding-left: 10px;
+  align-items: center;
+  display: flex;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 .social-container-NE2xk .channel-item-wrapper-2gBWB .channel-name-2qzLW {
-  word-break: break-word;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex: 1;
   text-align: center;
   font-size: 15px;
   color: #525c66;
   font-weight: 500;
+  margin-left: 10px;
 }
 
 .social-container-NE2xk {
@@ -126,7 +131,6 @@ svg {
 
 .tv-signin-dialog__separator {
   margin-bottom: 26px;
-  padding-top: 6px;
   position: relative;
   text-align: center;
   -webkit-user-select: none;
@@ -136,21 +140,21 @@ svg {
 .tv-signin-dialog__separator-text {
   background-color: #fff;
   border-radius: 50%;
-  color: #6a6d78;
+  color: #a8abac;
   display: inline-block;
   padding: 0 15px;
   position: relative;
 }
 
 .tv-signin-dialog__separator:before {
-  background-color: #e0e3eb;
+  background-color: #ececee;
   content: "";
   display: block;
   height: 1px;
   left: 0;
   position: absolute;
   right: 0;
-  top: 15px;
+  top: 12px;
 }
 
 .form--input--item {
@@ -224,8 +228,8 @@ svg {
 }
 
 .general--profile > span div svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   margin-bottom: 8px;
 }
 .store-products-item__login-popup::-webkit-scrollbar {

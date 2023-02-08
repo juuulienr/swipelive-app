@@ -88,11 +88,11 @@
             <div class="top-author--item">
               <img :src="require(`@/assets/img/domicile.png`)"/>
               <div style="margin-left: 7px;">
-                <span style="font-weight: 500; color: #ff2773;">Ajouter une adresse de livraison</span>
+                <span style="font-weight: 500; color: #ff2a80;">Ajouter une adresse de livraison</span>
               </div>
               <div style="margin-right: 5px;">
                 <span style="float: right;">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #ff2773;width: 16px;height: 16px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #ff2a80;width: 16px;height: 16px;">
                     <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
                   </svg>
                 </span>
@@ -286,7 +286,7 @@
           </fieldset>
         </div>
 
-        <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); margin: 0 auto; background: #ff2773">Enregistrer</div>
+        <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); margin: 0 auto; background: #ff2a80">Enregistrer</div>
       </div>
     </div>
 
@@ -376,8 +376,8 @@
       <div class="checkout__body" style="padding: 18px 0px;">
 		    <div class="images_filter">
 		      <ul>
-		        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#ff2773'} : {'color': '#525c66'}]">Carte </li>
-		        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#ff2773'} : {'color': '#525c66'}]">Liste des relais </li>
+		        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Carte </li>
+		        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Liste des relais </li>
 		      </ul>
 		    </div>
 		    <div v-if="tabMap">
@@ -417,8 +417,8 @@
               <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
                 <div>{{ point.house_number }} {{ point.street }}</div>
                 <div>{{ point.zip }} {{ point.city }}</div>
-                <div v-if="point.distance > 1000" style="text-transform: lowercase;color: #ff2773;font-size: 13px;margin-top: 3px;"> {{ (point.distance / 1000).toFixed(2).replace(".", ",") }}km</div>
-                <div v-else style="text-transform: lowercase;color: #ff2773;font-size: 13px;margin-top: 3px;"> {{ point.distance }}m</div>
+                <div v-if="point.distance > 1000" style="text-transform: lowercase;color: #ff2a80;font-size: 13px;margin-top: 3px;"> {{ (point.distance / 1000).toFixed(2).replace(".", ",") }}km</div>
+                <div v-else style="text-transform: lowercase;color: #ff2a80;font-size: 13px;margin-top: 3px;"> {{ point.distance }}m</div>
               </div>
               <span v-if="shippingProducts && shippingProducts.service_point && service.carrier == point.carrier" v-for="service in shippingProducts.service_point" style="float: right;margin-top: -52px;font-weight: 400;font-size: 14px;">
                 {{ service.price | formatPrice }}€
@@ -507,7 +507,7 @@
             <div style="font-weight: 400;padding: 5px;text-align: center;">Les horaires d'ouverture peuvent différer.</div>
           </div>
       	</div>
-        <div @click="saveRelay(point)" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); position: absolute; bottom: 45px; margin: 0 auto; background: #ff2773">Selectionner</div>
+        <div @click="saveRelay(point)" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); position: absolute; bottom: 45px; margin: 0 auto; background: #ff2a80">Selectionner</div>
       </div>
     </div>
   </main>

@@ -26,7 +26,7 @@
           <div class="shop--item--details">
             <div class="shop--item--name">{{ heart.product.title }}</div>
             <div class="shop--item--price">
-              <div class="price" :style="[heart.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#000'}]"> {{ heart.product.price | formatPrice }}€ 
+              <div class="price" :style="[heart.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ heart.product.price | formatPrice }}€ 
                 <span v-if="heart.product.compareAtPrice" class="last-price">{{ heart.product.compareAtPrice | formatPrice }}€ </span>
               </div>
             </div>
@@ -74,7 +74,8 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
-
+    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
     this.favoris = this.user.favoris;
     console.log(this.favoris);
   },  

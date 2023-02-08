@@ -9,10 +9,10 @@
     <allow-intent href="*"/>
 
     <platform name="browser">
-        <preference name="SplashScreen" value="res/screen/browser/screen.png"/>
-        <preference name="SplashScreenBackgroundColor" value="#ffffff"/>
-        <preference name="SplashScreenWidth" value="128"/>
-        <preference name="SplashScreenHeight" value="128"/>
+      <preference name="SplashScreen" value="res/screen/browser/screen.png"/>
+      <preference name="SplashScreenBackgroundColor" value="#ffffff"/>
+      <preference name="SplashScreenWidth" value="128"/>
+      <preference name="SplashScreenHeight" value="128"/>
     </platform>
 
     <platform name="android">
@@ -20,6 +20,13 @@
         <feature name="SocialSharing">
             <param name="android-package" value="nl.xservices.plugins.SocialSharing"/>
         </feature>
+        <preference name="android-compileSdkVersion" value="30"/>
+        <preference name="android-targetSdkVersion" value="30"/>
+        <preference name="android-minSdkVersion" value="22"/>
+        <preference name="GradlePluginKotlinEnabled" value="true"/>
+        <preference name="AndroidXEnabled" value="true"/>
+        <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
+
         <splash density="port-ldpi" src="res/screen/android/screen-ldpi-portrait.png"/>
         <splash density="port-mdpi" src="res/screen/android/screen-mdpi-portrait.png"/>
         <splash density="port-hdpi" src="res/screen/android/screen-hdpi-portrait.png"/>
@@ -37,7 +44,7 @@
         <icon density="hdpi" src="res/icon/android/hdpi.png"/>
         <icon density="xhdpi" src="res/icon/android/xhdpi.png"/>
         <icon density="xxhdpi" src="res/icon/android/xxhdpi.png"/>
-        <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png"/>
+        <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png"/>   
     </platform>
 
     <platform name="ios">
@@ -71,9 +78,7 @@
         <feature name="SocialSharing">
             <param name="ios-package" value="SocialSharing"/>
         </feature>
-        <preference name="deployment-target" value="12.0" />
-        <preference name="UseSwiftLanguageVersion" value="5" />
-        <preference name="KeyboardShrinksView" value="true"/>
+        
         <splash src="res/screen/ios/Default@2x~universal~anyany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comcom.png"/>
@@ -81,25 +86,24 @@
         <splash src="res/screen/ios/Default@3x~universal~anycom.png"/>
         <splash src="res/screen/ios/Default@3x~universal~comany.png"/>
         <icon height="1024" src="res/icon/ios/icon-1024.png" width="1024"/>
+        
+        <preference name="deployment-target" value="12.0"/>
+        <preference name="UseSwiftLanguageVersion" value="5" />
+        <preference name="KeyboardShrinksView" value="true"/>
+        <preference name="SwiftVersion" value="5"/>
     </platform>
 
-    <preference name="android-compileSdkVersion" value="30"/>
-    <preference name="android-targetSdkVersion" value="30"/>
-    <preference name="android-minSdkVersion" value="22"/>
-    <preference name="GradlePluginKotlinEnabled" value="true"/>
-    <preference name="AllowInlineMediaPlayback" value="true"/>
-    <preference name="AndroidXEnabled" value="true"/>
-    <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
-    <preference name="DisallowOverscroll" value="true"/>
-    <preference name="orientation" value="portrait"/>
 
-    <preference name="SplashScreenDelay" value="3500"/>
-    <preference name="FadeSplashScreen" value="false"/>
-    <preference name="FadeSplashScreenDuration" value="500"/>
-    <preference name="ShowSplashScreenSpinner" value="false"/>
+    <preference name="AllowInlineMediaPlayback" value="true"/>
+    <preference name="DisallowOverscroll" value="true"/>
+    <preference name="orientation" value="portrait"/>>
 
     <preference name="StatusBarOverlaysWebView" value="true"/>
     <preference name="StatusBarBackgroundColor" value="#ffffff"/>
     <preference name="StatusBarStyle" value="lightcontent"/>
     <preference name="InAppBrowserStatusBarStyle" value="lightcontent"/>
+    <preference name="SplashScreenDelay" value="2000"/>
+    <preference name="FadeSplashScreen" value="false"/>
+    <preference name="FadeSplashScreenDuration" value="500"/>
+    <preference name="ShowSplashScreenSpinner" value="false"/>
 </widget>

@@ -21,7 +21,7 @@
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 80px; height: 80px;">
           <div>
             <span style="font-size: 16px; font-weight: 500;">{{ profile.vendor.businessName }}
-              <svg v-if="profile.vendor.businessType == 'company'" viewBox="0 0 24 24" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px;height: 19Px;margin-bottom: 3px;fill: #ff2773;">
+              <svg v-if="profile.vendor.businessType == 'company'" viewBox="0 0 24 24" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px;height: 19Px;margin-bottom: 3px;fill: #ff2a80;">
                 <g>
                   <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path>
                 </g>
@@ -43,7 +43,7 @@
 
       <div class="info_profile">
         <div class="btn-follow">
-          <div @click="updateFollow()" class="btn-swipe" :style="[following == true ? {'padding': '11px 30px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '12px 30px'}]" style="color: white; text-align: center; width: fit-content; background: #ff2773; margin: 0px auto; border-radius: 30px; margin-bottom: 25px; font-weight: 500; width: 160px;">
+          <div @click="updateFollow()" class="btn-swipe" :style="[following == true ? {'padding': '11px 30px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '12px 30px'}]" style="color: white; text-align: center; width: fit-content; background: #ff2a80; margin: 0px auto; border-radius: 30px; margin-bottom: 25px; font-weight: 500; width: 160px;">
             <span v-if="following == true">Abonné</span>
             <span v-else>Suivre</span>
           </div>
@@ -69,8 +69,8 @@
       <div class="images_sec">
         <div class="images_filter">
           <ul>
-            <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>
-            <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2773', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Boutique</li>
+            <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>
+            <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Boutique</li>
           </ul>
         </div>
 
@@ -96,7 +96,7 @@
               <div class="shop--item--details">
                 <div class="shop--item--name">{{ product.title }}</div>
                 <div class="shop--item--price">
-                  <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#000'}]"> {{ product.price | formatPrice }}€ 
+                  <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€ 
                     <span v-if="product.compareAtPrice" class="last-price">{{ product.compareAtPrice | formatPrice }}€ </span>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
 }
 
 .my_profile1 .info_profile .btn-follow .btn {
-  background: #ff2773;
+  background: #ff2a80;
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
   padding: 10px 42px;
   font-weight: bold;
@@ -147,7 +147,7 @@
 
 .my_profile1 .images_sec .images_filter ul .active {
   background-color: #fff;
-  color: #000;
+  color: #272c30;
   border-radius: 11px;
 }
 
@@ -199,6 +199,7 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);  
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
 
     var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {

@@ -9,7 +9,7 @@
       <div v-if="productId" class="checkout__title">Modifier</div>
       <div v-else class="checkout__title">Ajouter</div>
       <div v-if="productId" @click="deleteProduct()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
-        <div style="color: #ff2773; font-weight: 600;">Supprimer</div>
+        <div style="color: #ff2a80; font-weight: 600;">Supprimer</div>
       </div>
     </div>
 
@@ -119,7 +119,7 @@
           <div style="margin-bottom: 20px;margin-top: 0px;">
             <div v-if="product.variants.length" style="font-size: 16px; margin-top: 10px;">Variantes</div>
             <div v-else style="font-size: 16px; margin-top: 10px;">Options</div>
-            <div v-if="product.variants.length" @click="addVariant()" style="color: #ff2773; margin-top: 10px;">Modifier</div>
+            <div v-if="product.variants.length" @click="addVariant()" style="color: #ff2a80; margin-top: 10px;">Modifier</div>
           </div>
         </div>
         <div class="form-container-3hjAo" style="margin-bottom: 35px;">
@@ -143,7 +143,7 @@
             </div>
           </div>
           <div v-else>
-            <div @click="addVariant()" class="btn-swipe" style="color: #ff2773; background: white; border: 1px solid #ff2773; text-align: center; width: calc(100vw - 110px); margin: 20px auto;">Ajouter des options</div>
+            <div @click="addVariant()" class="btn-swipe" style="color: #ff2a80; background: white; border: 1px solid #ff2a80; text-align: center; width: calc(100vw - 110px); margin: 20px auto;">Ajouter des options</div>
           </div>
         </div>
 
@@ -225,7 +225,7 @@
           </div>
           <div v-else>
             <hr><br>
-            <div @click="addOption()" class="btn-swipe" style="color: #ff2773; background: white; border: 1px solid #ff2773; text-align: center; width: calc(100vw - 110px); margin: 0px auto;">Ajouter une 2ème option</div>
+            <div @click="addOption()" class="btn-swipe" style="color: #ff2a80; background: white; border: 1px solid #ff2a80; text-align: center; width: calc(100vw - 110px); margin: 0px auto;">Ajouter une 2ème option</div>
           </div>
 
           <div @click="generate()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto; position: absolute; bottom: 45px;">Enregistrer</div>
@@ -371,6 +371,7 @@ export default {
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
 
     if (window.cordova && (window.cordova.platformId === "android")) {
       this.isAndroid = true;

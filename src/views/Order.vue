@@ -105,7 +105,7 @@
 
 
       <div class="css-1h7d8f3" style="box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;padding: 5px 10px;margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
-        <div class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2773;font-weight: 600;font-size: 16px;">Livraison prévu : 
+        <div class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2a80;font-weight: 600;font-size: 16px;">Livraison prévu : 
           <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery }}</span>
           <span v-else>-</span>
         </div>
@@ -239,9 +239,9 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
 
     // move to component
-
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.order = JSON.parse(response.data);
       this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);

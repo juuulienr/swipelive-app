@@ -23,7 +23,7 @@
           <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
         </div>
         <div class="col-3" style="text-align: center; padding-left: 0px; margin-top: 12px;">
-          <span class="css-4ioo3c" style="color: rgb(255, 255, 255);background-color: #ff2773; padding: 15px;">-15%</span> 
+          <span class="css-4ioo3c" style="color: rgb(255, 255, 255);background-color: #ff2a80; padding: 15px;">-15%</span> 
         </div>
       </div>
       <div v-if="product.options.length">

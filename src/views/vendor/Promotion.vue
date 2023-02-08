@@ -52,7 +52,7 @@
             <div>
               <h4 style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;">-50%</h4>
               <p>Valable sur toute la boutique </p>
-              <h4 style="font-size: 19px; margin-top: 10px; margin-bottom: 0px; color: #ff2773; border: 1px solid #ff2773; padding: 3px; width: 120px; margin: 10px auto; border-radius: 10px;">PROMO50</h4>
+              <h4 style="font-size: 19px; margin-top: 10px; margin-bottom: 0px; color: #ff2a80; border: 1px solid #ff2a80; padding: 3px; width: 120px; margin: 10px auto; border-radius: 10px;">PROMO50</h4>
             </div>
           </div>
         </div>
@@ -132,6 +132,7 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   methods: {
     goBack() {

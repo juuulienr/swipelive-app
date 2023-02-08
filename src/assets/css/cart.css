@@ -397,7 +397,7 @@
 }
 
 .checkout__btn-apple {
-	background-color: #000;
+	background-color: #272c30;
 	-webkit-appearance: -apple-pay-button;
 	-apple-pay-button-type: buy;
 	background-image: -webkit-named-image(apple-pay-logo-white);
