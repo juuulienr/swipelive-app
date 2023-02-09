@@ -2,32 +2,26 @@
   <main v-touch:swipe.right="swipeHandler" class="my_profile1" style="padding: 0px;">
     <div class="checkout__header" style="padding: 5px 15px 15px 12px;">
       <div @click="goBack()" class="checkout__close-btn" style="top: 10px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-        </svg>
+        <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
       </div>
       <div class="checkout__title"></div>
       <div @click="actionSheet()" class="checkout__right-btn" style="top: 8px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
-        </svg>
+        <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
+        <img @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 0px; top: 118px;"/>
       </div>
     </div>
 
 
-    <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px;">
-
-    <div style="padding: 0px; text-align: center; margin-top: -60px;">
+    <img v-if="profile && profile.vendor" :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px;">
+    <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -60px;">
       <div>
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <div style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 35px; height: 35px; border: 1px solid white; border-radius: 100px;">
-            <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: white;"></path>
-            <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: rgb(255, 42, 128);"></path>
-          </svg>
+          <img v-if="!following" @click="updateFollow()" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px;"/>
+          <img v-else @click="updateFollow()" :src="require(`@/assets/img/check-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px;"/>
         </div>
-        <div>
+        <div style="margin-top: 7px;">
           <span style="font-size: 20px; font-weight: 500;">{{ profile.vendor.businessName }}
             <svg v-if="profile.vendor.businessType == 'company'" viewBox="0 0 24 24" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 24px; height: 24px; margin-bottom: 4px; fill: rgb(29, 155, 240)">
               <g>
@@ -36,62 +30,42 @@
             </svg>
           </span>
           <div>
-            <span>{{ followers }} abonnés</span>
+            <span style="font-weight: 400">{{ followers }} abonnés</span>
           </div>
         </div>
-  <!--       <div @click="goToMessage(profile)" style="color: rgb(0, 132, 255);background-color: rgba(45, 136, 255, 0.2);text-align: center;width: fit-content;margin: 0px auto;padding: 12px;border-radius: 40px;font-size: 13px;font-weight: 400;margin-right: 10px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px;fill: rgb(0, 132, 255);height: 20px;">
-            <path d="M128 216c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zM256 32C114.6 32 0 125.1 0 240c0 47.6 19.9 91.2 52.9 126.3C38 405.7 7 439.1 6.5 439.5c-6.6 7-8.4 17.2-4.6 26S14.4 480 24 480c61.5 0 110-25.7 139.1-46.3C192 442.8 223.2 448 256 448c141.4 0 256-93.1 256-208S397.4 32 256 32zm0 384c-28.3 0-56.3-4.3-83.2-12.8l-15.2-4.8-13 9.2c-23 16.3-58.5 35.3-102.6 39.6 12-15.1 29.8-40.4 40.8-69.6l7.1-18.7-13.7-14.6C47.3 313.7 32 277.6 32 240c0-97 100.5-176 224-176s224 79 224 176-100.5 176-224 176z"></path>
-          </svg>
-        </div> -->
+
         <p class="desc" style="margin: 10px 30px 20px; font-weight: 400; font-size: 14px; color: #1F1D2B; text-align: center;">{{ profile.vendor.summary }}</p>
-        <div class="images_filter">
+        <div class="images_filter" style="padding: 10px; position: sticky; background-color: white; top: 0px; z-index: 1000000;">
           <ul>
             <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>
             <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Boutique</li>
           </ul>
         </div>
 
-      </div>
-    </div>
-
-    <div v-if="profile && profile.vendor" class="checkout__body">
-
-
- <!--      <div class="info_profile">
-        <div class="btn-follow">
-          <div @click="updateFollow()" class="btn-swipe" :style="[following == true ? {'padding': '11px 30px', 'border': '1px solid rgba(99, 99, 99, 0.4)', 'background': 'white', 'color': 'rgba(99, 99, 99, 0.4)'} : {'padding': '12px 30px'}]" style="color: white; text-align: center; width: fit-content; background: #ff2a80; margin: 0px auto; border-radius: 30px; margin-bottom: 25px; font-weight: 500; width: 160px;">
-            <span v-if="following == true">Abonné</span>
-            <span v-else>Suivre</span>
-          </div>
-        </div>
-      </div> -->
-
-      <div class="images_sec">
-        <div v-if="live" class="images">
-          <div v-if="profile" class="row">
-            <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
-              <router-link v-if="clip.status == 'available'" :to="{ name: 'ListClips', params: { type: 'profile', index: index, profileId: profile.id }}">
-                <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; height: calc(100% - 10px)">
-              </router-link>
+        <div class="images_sec" style="padding: 0px 10px;">
+          <div v-if="live" class="images" style="margin-bottom: 30px;">
+            <div v-if="profile" class="row">
+              <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
+                <router-link v-if="clip.status == 'available'" :to="{ name: 'ListClips', params: { type: 'profile', index: index, profileId: profile.id }}">
+                  <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover;">
+                </router-link>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div v-if="shop" class="items" style="margin-top: 20px; padding: 0px 5px;">
-          <div v-if="profile && profile.vendor.products" class="shop--part" style="margin: 0px;">
-            <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--item">
-              <div>
+          <div v-if="shop" class="items" style="padding: 5px;">
+            <div v-if="profile && profile.vendor.products" class="shop--part" style="gap: 20px 10px;">
+              <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--box">
                 <div>
-                  <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
-                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
+                  <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
+                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%; border-radius: 10px;">
                 </div>
-              </div>
-              <div class="shop--item--details">
-                <div class="shop--item--name">{{ product.title }}</div>
-                <div class="shop--item--price">
-                  <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€ 
-                    <span v-if="product.compareAtPrice" class="last-price">{{ product.compareAtPrice | formatPrice }}€ </span>
+                <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
+                  <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ product.title }}</div>
+                  <div class="shop--item--price">
+                    <div class="price" style="font-size: 12px; margin: 0px;" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€
+                      <span v-if="product.compareAtPrice" class="last-price" style="margin-left: 3px;">{{ product.compareAtPrice | formatPrice }}€ </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -139,10 +113,6 @@
   background-color: #fff;
   color: #272c30;
   border-radius: 11px;
-}
-
-.my_profile1 .images_sec .images {
-  margin-top: 10px;
 }
 
 .my_profile1 .images_sec .images .row {
@@ -264,7 +234,7 @@ export default {
       this.notif = true;
     },
     actionSheet() {
-      var buttonLabels = [ 'Mute', 'Partager', 'Signaler'];
+      var buttonLabels = [ 'Partager', 'Se désabonner', 'Silencieux', 'Signaler'];
       var options = {
         buttonLabels: buttonLabels,
         addCancelButtonWithLabel: 'Annuler',
