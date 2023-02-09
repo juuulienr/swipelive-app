@@ -10,7 +10,7 @@
 
       <div v-if="step1" class="step1 onboarding">
         <div>
-          <h5 class="title">Glisser vers le haut</h5>
+          <h5 class="title" style="margin-top: 0px">Glisser vers le haut</h5>
           <div class="subtitle">Pour passer d'un live à un autre</div>
           <div class="container" style="margin-top: 0px;">
             <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="200" :height="200"/>

@@ -42,7 +42,7 @@
 </template>
 
 
-<style scoped src="../../assets/css/shopvendor.css"></style>
+<style scoped src="../../assets/css/shop.css"></style>
 
 <script>
 

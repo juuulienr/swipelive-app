@@ -16,8 +16,8 @@
 
         <!-- viewers -->
         <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
-          <lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
-          <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1">
+          <lottie :options="defaultOptions" :width="20" v-on:animCreated="handleAnimation"/>
+          <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
           </span>
         </div>
@@ -232,46 +232,22 @@
 
 
         <!-- profil -->
-        <div v-if="feed.value.vendor && !finished[index].value" class="video-page__influencer-badge2" :style="{'top': safeareaTop }">
-          <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-img2">
-            <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture">
-            <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
-          </div>
-          <div @click="goProfile(feed.value.vendor.user.id)" class="video-page__influencer-username-holder2">
-            <div class="video-page__influencer-username2" style="font-size: 15px;">{{ feed.value.vendor.businessName }}</div>
-          </div>
-          <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; left: 18px; border-radius: 50px; padding: 5px;">
-	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; border: 1px solid white; border-radius: 100px;">
-              <path style="fill: white;" d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
-              <path style="fill: #ff2a80;" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z"/>
-	          </svg>
+        <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
+          <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
+            <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
+            <img v-else @click="updateFollow()" :src="require(`@/assets/img/check-circle.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
+
+            <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;">
+            <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> {{ feed.value.vendor.businessName }}
           </div>
         </div>
 
 
-
-        <!-- cart + account + promo -->
-        <div v-if="!finished[index].value" :style="{'top': safeareaTop }" class="video-page__influencer-badge3">
-          <div @click="showPromo()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
+        <!-- cart + close -->
+        <div v-if="!finished[index].value" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;">
+          <div @click="goHome()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 45px; height: 40px; padding: 10px; fill: white;">
-                <path d="M536.5 170.7l-135.7-131.9c-9.453-9.219-24.67-9-33.94 .5c-9.234 9.5-9.016 24.69 .5 33.94l135.5 131.7C519 221.1 528 242.8 528 265.8s-8.969 44.63-25.3 60.95l-111.7 112.4c-9.344 9.406-9.312 24.59 .0938 33.94C395.8 477.7 401.9 480 408 480c6.172 0 12.33-2.359 17.02-7.078l111.7-112.3C562 335.3 576 301.6 576 265.8S562 196.2 536.5 170.7zM463.6 225.6L286.4 48.4C277.4 39.38 259.6 32 246.8 32H60C44.54 32 32 44.54 32 60v186.8c0 12.76 7.381 30.58 16.4 39.6l177.2 177.2c21.87 21.87 57.32 21.87 79.2 .002l158.8-158.8C485.5 282.9 485.5 247.5 463.6 225.6zM144 176c-17.67 0-32-14.32-32-32c0-17.68 14.33-32 32-32s32 14.32 32 32C176 161.7 161.7 176 144 176z"></path>
-              </svg>
-            </span>
-          </div>
-          <div @click="showCart()" class="video-page__influencer-username-holder">
-            <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
-                <path d="M416 160h-72V120C344 53.83 290.2 0 224 0S104 53.83 104 120V160H32C14.33 160 0 174.3 0 192v240C0 476.2 35.82 512 80 512h288c44.18 0 80-35.82 80-80V192C448 174.3 433.7 160 416 160zM152 120C152 80.3 184.3 48 224 48s72 32.3 72 72V160h-144V120zM128 248C114.8 248 104 237.3 104 224S114.8 200 128 200S152 210.8 152 224S141.3 248 128 248zM320 248c-13.25 0-24-10.75-24-24S306.8 200 320 200S344 210.8 344 224S333.3 248 320 248z"/>
-              </svg>
-            </span>
-            <span v-if="updateCart > 0" class="counter-badge" style="top: 9px; right: 50px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
-          </div>
-          <div @click="goToAccount()" class="video-page__influencer-username-holder" style="padding-right: 5px;">
-            <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
-                <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
-              </svg>
+              <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
             </span>
           </div>
         </div>
@@ -314,8 +290,7 @@
                 <div class="video-page__price">
                   <div class="video-page__price-line">
                     <div class="video-page__price"> {{ feed.value.liveProducts[display - 1].product.price| formatPrice }}€ 
-                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€</span> 
-                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc2">-{{((1 - (feed.value.liveProducts[display - 1].product.price / feed.value.liveProducts[display - 1].product.compareAtPrice)) * 100).toFixed() }}%</span>
+                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€ <img v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
                     </div>
                   </div>
                 </div>
@@ -338,8 +313,8 @@
                 <div class="video-page__price">
                   <div class="video-page__price-line">
                     <div class="video-page__price"> {{ feed.value.product.price | formatPrice }}€ 
-                      <span v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice | formatPrice }}€</span> 
-                      <span v-if="feed.value.product.compareAtPrice" class="disc2">-{{((1 - (feed.value.product.price / feed.value.product.compareAtPrice)) * 100).toFixed() }}%</span>
+                      <span v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice | formatPrice }}€ 
+                        <img v-if="feed.value.product.compareAtPrice" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
                     </div>
                   </div>
                 </div>
@@ -353,9 +328,7 @@
         <div v-if="feed.value.vendor && !finished[index].value" :style="{'bottom': safeareaBottom }" @click="showShop(feed.value.vendor)" class="video-page__influencer-badge5">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 46px;height: 40px;padding: 10px;fill: white;">
-                <path d="M144 32h-96C21.49 32 0 53.49 0 80v96C0 202.5 21.49 224 48 224h96C170.5 224 192 202.5 192 176v-96C192 53.49 170.5 32 144 32zM400 288h-96C277.5 288 256 309.5 256 336v96c0 26.51 21.49 48 48 48h96c26.51 0 48-21.49 48-48v-96C448 309.5 426.5 288 400 288zM400 32h-96C277.5 32 256 53.49 256 80v96C256 202.5 277.5 224 304 224h96C426.5 224 448 202.5 448 176v-96C448 53.49 426.5 32 400 32zM144 288h-96C21.49 288 0 309.5 0 336v96C0 458.5 21.49 480 48 480h96C170.5 480 192 458.5 192 432v-96C192 309.5 170.5 288 144 288z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/all-products.svg`)" style="width: 23px; height: 23px; margin-left: 8px;"/>
             </span>
           </div>
         </div>
@@ -376,9 +349,7 @@
         <div v-if="!finished[index].value" @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 42px; height: 40px; padding: 10px; fill: white;">
-                <path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z"/>
-              </svg>
+              <img :src="require(`@/assets/img/share.svg`)" style="width: 23px; height: 23px; margin-left: 9px;"/>
             </span>
           </div>
         </div>
@@ -406,32 +377,6 @@
       </button>
     </div>
     
-
-    <!-- promo popup -->
-    <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active promo-popup">
-      <div @click="hidePromo()" style="display: flex;">
-        <div class="scroll-indicator"></div>
-      </div>
-      <div style="margin: 0px;">
-        <div class="promo-box">
-          <span class="promo-title">Promotion</span>
-        </div>
-        <p class="promo-info">Cette promotion sera appliqué automatiquement lors du passage en caisse.</p>
-        <div class="promo-container">
-          <div class="profile--follow">
-            <div style="width: 40%; margin-top: 5px;">
-              <img class="promo-img" src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/4867e58fd6de4ee2021100c8341714e4.jpeg">
-            </div>
-            <hr class="promo-hr">
-            <div>
-              <h4 class="promo-h4">-50%</h4>
-              <p>Valable sur toute la boutique </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
@@ -482,31 +427,24 @@
 
 
     <!-- shop popup -->
-    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active shop-popup">
+    <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active shop-popup" style="padding-bottom: 0px;">
       <div @click="hideShop()" style="display: flex;">
         <div class="scroll-indicator"></div>
       </div>
-      <div style="margin: 0px;">
-        <div class="shop-box">
-          <span class="shop-title">Boutique de {{ shop.businessName }}</span>
-        </div>
-      </div>
       <div v-if="shop" class="checkout__body items">
-        <div class="shop--part">
-          <div v-if="product.archived == false" v-for="product in shop.products" @click="showProduct(product)" class="shop--item">
-            <div>
-              <div>
-                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%;">
-                <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%;">
+        <div class="lasted--product" style="margin-top: 15px;">
+          <div v-if="product.archived == false" v-for="product in shop.products" @click="showProduct(product)" class="product--item">
+            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
+            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 90px; height: 90px;">
+            <div class="details">
+              <div class="title">{{ product.title }}</div>
+              <div class="price" style="margin-top: 8px;">{{ product.price | formatPrice }}€ 
+                <span v-if="product.compareAtPrice" class="disc" style="font-size: 14px; text-decoration: line-through; color: #999; padding-left: 5px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€ 
+                </span> 
               </div>
             </div>
-            <div class="shop--item--details">
-              <div class="shop--item--name">{{ product.title }}</div>
-              <div class="shop--item--price">
-                <div class="price" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€ 
-                  <span v-if="product.compareAtPrice" class="last-price">{{ product.compareAtPrice | formatPrice }}€ </span>
-                </div>
-              </div>
+            <div v-if="product.compareAtPrice" style="margin-right: 10px;">
+              <img :src="require(`@/assets/img/discount.svg`)" style="width: 25px; height: 25px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
             </div>
           </div>
         </div>
@@ -578,10 +516,9 @@ export default {
       safeareaBottom2: '82px',
       safeareaBottom3: '210px',
       safeareaTop: '25px',
-      safeareaTop2: '85px',
+      safeareaTop2: '30px',
       writeInput: '0px',
       content: "",
-      popupPromo: false,
       popupProduct: false,
       popupCart: false,
       popupShop: false,
@@ -626,7 +563,7 @@ export default {
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
-      this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 60px)';
+      this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 5px)';
       this.throttle = 500;
     }
 
@@ -735,7 +672,7 @@ export default {
           if (this.data[index].type == "live") {
             this.finished[index].value = true;
           } else {
-            if (!this.popupShop && !this.popupCart && !this.popupPromo && !this.popupProduct && !this.popupShop && !this.popupCheckout) {
+            if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupShop && !this.popupCheckout) {
               var el = document.getElementById('feed');
               if (el) {
                 el.scrollTop += window.innerHeight;
@@ -770,7 +707,6 @@ export default {
       this.myPlayer.muted = true;
     },
     addToCart() {
-      this.popupPromo = false;
       this.popupCheckout = false;
       this.popupProduct = false;
       this.popupCart = false;
@@ -831,41 +767,25 @@ export default {
         this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
       }
     },
-    showPromo() {
-      this.popupPromo = true;
-      this.popupProduct = false;
-      this.popupShop = false;
-      this.popupCart = false;
-    },
-    hidePromo() {
-      this.popupPromo = false;
-      this.popupCart = false;
-      this.popupShop = false;
-      this.popupProduct = false;
-    },
     showCart() {
       this.popupCart = true;
-      this.popupPromo = false;
       this.popupProduct = false;
       this.popupShop = false;
     },
     hideCart() {
       this.popupCart = false;
-      this.popupPromo = false;
       this.popupShop = false;
       this.popupProduct = false;
     },
     showShop(shop) {
       this.shop = shop;
       this.popupShop = true;
-      this.popupPromo = false;
       this.popupCart = false;
       this.popupProduct = false;
     },
     hideShop() {    
       this.popupShop = false;
       this.popupCart = false;
-      this.popupPromo = false;
       this.popupProduct = false;
       this.shop = [];
     },
@@ -1017,6 +937,9 @@ export default {
         console.log(response.error);
       });
     },
+    goHome() {
+      this.$router.push({ name: 'Home' });
+    },
     stopLive() {
       if (this.data[this.visible].type == "live") {
         this.pusher.unsubscribe(this.data[this.visible].value.channel);
@@ -1148,7 +1071,6 @@ export default {
     showCheckoutChild(lineItems) {
       this.lineItems = lineItems;
       this.popupCart = false;
-      this.popupPromo = false;
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCheckout = true;
@@ -1157,7 +1079,6 @@ export default {
     paymentSuccessChild(order) {
       console.log(order);
       this.popupCart = false;
-      this.popupPromo = false;
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCheckout = false;
@@ -1178,7 +1099,6 @@ export default {
     },
     hideCheckoutChild() {
       this.popupCart = false;
-      this.popupPromo = false;
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCheckout = false;
