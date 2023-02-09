@@ -236,19 +236,25 @@
           <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
             <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
             <img v-else @click="updateFollow()" :src="require(`@/assets/img/check-circle.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
-
             <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;">
-            <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> {{ feed.value.vendor.businessName }}
+            <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> {{ feed.value.vendor.businessName }} 
+            <img :src="require(`@/assets/img/verified.svg`)" style="width: 18px; height: 18px;"/>
           </div>
         </div>
 
 
         <!-- cart + close -->
-        <div v-if="!finished[index].value" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;">
+        <div v-if="!finished[index].value" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;flex-direction: column;">
           <div @click="goHome()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
             </span>
+          </div>            
+          <div v-if="updateCart > 0" class="video-page__influencer-username-holder">
+            <span class="video-page__influencer-video-count">
+              <img :src="require(`@/assets/img/bag.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
+            </span>
+            <span class="counter-badge" style="top: 45px; right: 3px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
           </div>
         </div>
 
@@ -380,15 +386,15 @@
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
-      <svg @click="hideProduct()" xmlns="http://www.w3.org/2000/svg" class="hide-svg" viewBox="0 0 448 512">
-        <path d="M432.6 209.3l-191.1 183.1C235.1 397.8 229.1 400 224 400s-11.97-2.219-16.59-6.688L15.41 209.3C5.814 200.2 5.502 184.1 14.69 175.4c9.125-9.625 24.38-9.938 33.91-.7187L224 342.8l175.4-168c9.5-9.219 24.78-8.906 33.91 .7187C442.5 184.1 442.2 200.2 432.6 209.3z"/>
-      </svg>
-      <svg v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg">
+      <div @click="hideProduct()" style="display: flex;">
+        <div class="scroll-indicator" style="margin: 15px auto 0px;"></div>
+      </div>
+      <svg v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg" style="top: 45px;filter: drop-shadow(0px 0px 1px #222);">
         <g transform="matrix( 1 0 0 1 1 3 )">
           <path d="M16 0C13.8 0 12.2 1.2 11 2.5C9.8 1.3 8.2 0 6 0C2.5 0 0 2.9 0 6.5C0 8.3 0.7 9.9 2 11L11 19.5L20 11C21.2 9.8 22 8.3 22 6.5C22 2.9 19.5 0 16 0Z" fill="#FFFFFF"></path>
         </g>
       </svg>
-      <svg v-else @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg">
+      <svg v-else @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg" style="top: 45px;filter: drop-shadow(0px 0px 1px #222);">
         <g transform="matrix( 1 0 0 1 1 2 )">
           <path d="M15 3C17.5 3 19 4.90001 19 7.20001C19 8.40001 18.4 9.49999 17.7 10.3C16.5 11.5 11 16 11 16C11 16 5.50005 11.5 4.30005 10.3C3.50005 9.49999 3 8.40001 3 7.20001C3 4.90001 4.5 3 7 3C8.7 3 10.3 4.6 11 6C11.7 4.6 13.3 3 15 3ZM15 0C13.5 0 12.1 0.599994 11 1.39999C9.9 0.499994 8.5 0 7 0C3 0 0 3.10001 0 7.20001C0 9.10001 0.799951 10.9 2.19995 12.4C3.59995 13.9 11 19.9 11 19.9C11 19.9 18.4 13.9 19.8 12.4C21.2 10.9 22 9.10001 22 7.20001C22 3.10001 19 0 15 0Z" fill="#FFFFFF" style="fill: white;"></path>
         </g>

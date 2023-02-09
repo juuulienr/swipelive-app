@@ -15,16 +15,17 @@
 
     <div class="product--info">
       <div class="row">
-        <div class="col-9">
+        <div class="col-12">
           <div class="title">{{ product.title }}</div>
           <div v-if="variant && variant.price" class="new-price" style="color: #333;">{{ variant.price | formatPrice }}€</div>
           <div v-else class="new-price" style="color: #333;">{{ product.price | formatPrice }}€</div>
           <div v-if="variant && variant.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ variant.compareAtPrice | formatPrice }}€</div>
           <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
         </div>
-        <div class="col-3" style="text-align: center; padding-left: 0px; margin-top: 12px;">
-          <span class="css-4ioo3c" style="color: rgb(255, 255, 255);background-color: #ff2a80; padding: 15px;">-15%</span> 
-        </div>
+      </div>
+      <div v-if="product.compareAtPrice" style=" margin-top: 10px; margin-bottom: -5px;">
+        <img :src="require(`@/assets/img/discount.svg`)" style="width: 24px;height: 24px;transform: rotate(-30deg);">
+        <span style=" margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-15% supplémentaire à la caisse</span> 
       </div>
       <div v-if="product.options.length">
         <hr style="margin: 20px 0px;">
@@ -44,11 +45,11 @@
 
       <div style="margin-bottom: 20px;">
         <hr style="margin: 20px 0px;">
-        <div v-html="product.description" style="margin-top: 10px; font-size: 14px; color: rgb(82, 92, 102); font-weight: 400;"></div>
+        <div v-html="product.description" style="margin-top: 10px; font-size: 15px; color: rgb(82, 92, 102); font-weight: 400;"></div>
       </div>
       <hr>
       <div style="padding: 5px;">Échanges & Retours</div>
-      <div style="font-weight: 400; padding: 5px; font-size: 14px; color: rgb(82, 92, 102);">
+      <div style="font-weight: 400; padding: 5px; font-size: 15px; color: rgb(82, 92, 102);">
         Les marques sont responsables du remplacement des produits qui arrivent endommagés ou perdus lors de la livraison. Swipe Live n'accepte pas les retours ni les échanges. 
         <br> <br> 
         Dans l'un de ces cas, veuillez contacter la marque via la messagerie pour résoudre le problème. Assurez-vous d'inclure votre numéro de commande, le nom du produit et la raison.
