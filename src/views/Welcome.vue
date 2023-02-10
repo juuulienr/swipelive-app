@@ -282,11 +282,10 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(true);
     window.StatusBar.styleDefault();
-    console.log(this.baseUrl);
     
     var isAuthenticated = AuthAPI.isAuthenticated();
     if (isAuthenticated) {
-      this.$router.push({ name: 'Feed' });
+      this.$router.push({ name: 'Home' });
     }
 
     if (window.cordova && (window.cordova.platformId === "ios")) {

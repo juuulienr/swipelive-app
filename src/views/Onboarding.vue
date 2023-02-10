@@ -10,13 +10,13 @@
 
       <div v-if="step1" class="step1 onboarding">
         <div>
-          <h5 class="title" style="margin-top: 0px">Glisser vers le haut</h5>
+          <h5 class="title">Glisser vers le haut</h5>
           <div class="subtitle">Pour passer d'un live à un autre</div>
           <div class="container" style="margin-top: 0px;">
             <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="200" :height="200"/>
           </div>
         </div>
-        <div>
+        <div style="margin-top: 50px;">
           <h5 class="title">Glisser vers la gauche</h5>
           <div class="subtitle">Pour voir le profil du présentateur</div>
           <div class="container" style="margin-top: 0px;">
@@ -44,17 +44,17 @@
  
 .onboarding .title {
   font-weight: 600; 
-  margin-bottom: 12px; 
+  margin-bottom: 0px; 
   font-size: 28px; 
   text-align: center; 
-  margin-top: 30px;
+  margin-top: 0px;
 }
 
 .onboarding .subtitle {
   font-weight: 400;
   font-size: 16px;
   text-align: center;
-  margin: 20px;
+  margin: 5px 20px;
 }
 
 .onboarding .btn-step {

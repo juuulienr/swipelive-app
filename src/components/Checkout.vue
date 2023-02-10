@@ -15,7 +15,7 @@
         <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row">
           <div class="checkout__product-info">
             <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image"/>
-            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image"/>
+            <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image"/>
             <span class="counter-badge">{{ lineItem.quantity }}</span>
             <div style="padding-right: 30px;">   
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>

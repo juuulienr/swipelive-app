@@ -23,7 +23,7 @@
         </div>
         <div style="margin-top: 7px;">
           <span style="font-size: 20px; font-weight: 500;">{{ profile.vendor.businessName }}
-            <img v-if="profile.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 24px; height: 24px; margin-bottom: 4px;"/>
+            <img v-if="profile.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 19px; height: 19px; margin-bottom: 4px;"/>
           </span>
           <div>
             <span style="font-weight: 400">{{ followers }} abonnés</span>
@@ -54,7 +54,7 @@
               <div v-if="product.archived == false" v-for="product in profile.vendor.products" class="shop--box">
                 <div>
                   <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
-                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%; border-radius: 10px;">
+                  <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">
                 </div>
                 <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
                   <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ product.title }}</div>

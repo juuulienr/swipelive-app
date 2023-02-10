@@ -200,7 +200,7 @@
           <div class="video-page__product-top">
             <div class="video-page__image">
               <img v-if="clip.product.uploads" :src="cloudinary256x256 + clip.product.uploads[0].filename">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
+              <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
             </div>
             <div class="video-page__info">
               <div style="height: 38px;">
@@ -320,7 +320,7 @@
             <div @click="showProduct(product)">
               <div style="text-align:center;">
                 <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">
-                <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">
+                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="padding: 5px; width: calc(33vw - 15px); height: calc(33vw - 15px); object-fit: cover; border-radius: 8px;">
                 <div style="position: absolute; top: 15px;">
                   <div class="btn-swipe" style="color: white; text-align: center; font-size: 12px; background: rgb(24, 206, 160); padding: 3px 10px; border-radius: 7px; font-weight: 600;"> {{ product.price | formatPrice }}€
                   </div>

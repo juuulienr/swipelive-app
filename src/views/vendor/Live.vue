@@ -505,7 +505,7 @@
         <div class="video-page__product-top">
           <div class="video-page__image">
             <img v-if="liveProducts[0].product.uploads.length" :src="cloudinary256x256 + liveProducts[0].product.uploads[0].filename">
-            <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+            <img v-else :src="require(`@/assets/img/no-preview.png`)">
           </div>
           <div class="video-page__info">
             <div>
@@ -597,7 +597,7 @@
           <div v-if="orders && orders.length > 0" class="top-author--container">
             <div v-for="order in orders" class="top-author--item" style="position: relative">
               <img v-if="order.upload" :src="cloudinary256x256 + order.upload"/>
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)"/>
+              <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
               <span class="order-counter">{{ order.nbProducts }}</span>
               <div>
                 <div><span>#{{ order.number }}</span></div>

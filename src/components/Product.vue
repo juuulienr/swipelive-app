@@ -9,7 +9,7 @@
     </div>
     <div v-else style="width: 100vw;">
       <div class="vue-slick">
-        <img :src="require(`@/assets/img/no-preview.jpg`)">
+        <img :src="require(`@/assets/img/no-preview.png`)">
       </div>
     </div>
 

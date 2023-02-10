@@ -29,7 +29,7 @@
           <div class="lasted--product" style="margin-top: 12px;">
             <div v-for="(product, index) in products" :key="product.id" v-if="product.archived == false && (stocks[index] > 0 || product.quantity > 0)" class="product--item">
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+              <img v-else :src="require(`@/assets/img/no-preview.png`)">
               <div class="details">
                 <div class="title">{{ product.title }}</div>
                 <div class="price stock-available" v-if="stocks[index] > 0">{{ stocks[index] }} en stock | {{ prices[index] | formatPrice }}€</div>
@@ -77,7 +77,7 @@
               <div class="col-3 col-img">
                 <div class="img_item">
                   <img v-if="element.product.uploads.length" :src="cloudinary256x256 + element.product.uploads[0].filename">
-                  <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+                  <img v-else :src="require(`@/assets/img/no-preview.png`)">
                 </div>
               </div>
               <div class="col-6" style="padding-left: 0px; padding-right: 0px;">

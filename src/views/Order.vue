@@ -64,7 +64,7 @@
         <div v-for="lineItem in order.lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 0.5rem 0;">
           <div class="checkout__product-info" style="padding-right: 0px;">
             <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px;"/>
-            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" class="checkout__image" style="border-radius: 10px;"/>
+            <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image" style="border-radius: 10px;"/>
             <span class="counter-badge" style="top: 12px;left: 62px;">{{ lineItem.quantity }}</span>
             <div>
               <h5 class="checkout__name" style="font-weight: 500; font-size: 14px;"> {{ lineItem.product.title }} </h5>

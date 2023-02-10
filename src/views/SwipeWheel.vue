@@ -21,7 +21,7 @@
         <div style="position: absolute; width: 100%; z-index: 100000; background: white; top: 315px; border-radius: 30px;">
           <div class="top-author--container" style="border-radius: 10px; border: 2px solid #68dfb9; margin: 15px; background: #68dfb924; margin: 20px 15px 0px !important;">
             <div class="top-author--item">
-              <img :src="require(`@/assets/img/no-preview.jpg`)"/>
+              <img :src="require(`@/assets/img/no-preview.png`)"/>
               <div>
                 <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
               </div>

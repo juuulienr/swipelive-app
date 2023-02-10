@@ -16,7 +16,7 @@
         <div class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in products" v-if="product.archived == false" @click="editProduct(product.id)" class="product--item">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
-            <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+            <img v-else :src="require(`@/assets/img/no-preview.png`)">
             <div class="details">
               <div class="title">{{ product.title }}</div>
               <div class="price stock-available" v-if="stocks[index] > 0">{{ stocks[index] }} en stock</div>

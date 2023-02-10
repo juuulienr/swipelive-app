@@ -75,7 +75,7 @@
           <div class="personne">
             <div>
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 150px; border-radius: 10px;">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 150px; border-radius: 10px;">
+              <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 150px; border-radius: 10px;">
             </div>
             <div class="shop--item--details" style="width: 150px; padding: 0px; margin-top: 6px; padding-left: 5px;">
               <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ product.title }}</div>

@@ -383,10 +383,10 @@
 }
 
 .video-page__product-box .video-page__price .disc {
-  font-size: 14px; 
+  font-size: 13px; 
   text-decoration: line-through; 
   color: rgb(153, 153, 153); 
-  padding-left: 5px; 
+  padding-left: 3px; 
   font-weight: 500;
 }
 

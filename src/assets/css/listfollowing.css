@@ -1,8 +1,7 @@
 .top-author--container {
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  gap: 20px;
+  padding: 0px !important;
 }
 .top-author--item {
   display: flex;
@@ -34,7 +33,7 @@
 
 .top-author--item > div > div {
   line-height: 1.5;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   color: #525c66;
   display: flex;
@@ -51,7 +50,7 @@
   text-align: center;
   width: fit-content;
   margin: 0px auto;
-  padding: 5px 24px;
+  padding: 5px 18px;
   border-radius: 30px;
   font-size: 13px;
 }

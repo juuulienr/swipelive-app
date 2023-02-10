@@ -1,5 +1,5 @@
 <template>
-  <main class="products shop_3">
+  <main class="products shop_3" style="padding: 0px;">
     <div class="checkout__header" style="padding: 5px 10px 15px;">
       <div @click="goBack()" class="checkout__close-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -10,29 +10,29 @@
     </div>
 
     <div v-if="favoris && favoris.length > 0" class="checkout__body items">
-      <div class="shop--part" style="margin: 25px 5px 5px;">
-        <div v-if="heart.product.archived == false" v-for="(heart, index) in favoris" class="shop--item">
+      <div class="shop--part" style="margin: 10px 15px 0px; gap: 20px 10px;">
+        <div v-if="heart.product.archived == false" v-for="(heart, index) in favoris" class="shop--box">
           <div>
             <div>
-              <img v-if="heart.product.uploads.length" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%;">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 100%;">
-              <svg @click="removeFavoris(heart.product, index)" width="24px" height="24px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 25px; height: 25px; fill: white; border-radius: 30px; position: absolute; top: 10px; right: 10px; z-index: 100000000;">
+              <img v-if="heart.product.uploads.length" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
+              <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">
+              <svg @click="removeFavoris(heart.product, index)" width="24px" height="24px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 25px; height: 25px; fill: white; border-radius: 30px; position: absolute; top: 10px; right: 10px; z-index: 100000000;filter: drop-shadow(0px 0px 1px #222);">
                 <g transform="matrix( 1 0 0 1 1 3 )">
                   <path d="M16 0C13.8 0 12.2 1.2 11 2.5C9.8 1.3 8.2 0 6 0C2.5 0 0 2.9 0 6.5C0 8.3 0.7 9.9 2 11L11 19.5L20 11C21.2 9.8 22 8.3 22 6.5C22 2.9 19.5 0 16 0Z" fill="#FFFFFF"></path>
                 </g>
               </svg>
             </div>
           </div>
-          <div class="shop--item--details">
-            <div class="shop--item--name">{{ heart.product.title }}</div>
+          <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
+            <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ heart.product.title }}</div>
             <div class="shop--item--price">
-              <div class="price" :style="[heart.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ heart.product.price | formatPrice }}€ 
-                <span v-if="heart.product.compareAtPrice" class="last-price">{{ heart.product.compareAtPrice | formatPrice }}€ </span>
+              <div class="price" style="font-size: 12px; margin: 0px; font-weight: 500;" :style="[heart.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ heart.product.price | formatPrice }}€
+                <span v-if="heart.product.compareAtPrice" class="last-price" style="margin-left: 3px;">{{ heart.product.compareAtPrice | formatPrice }}€ </span>
               </div>
             </div>
           </div>
         </div>
-      </div> 
+      </div>
     </div>   
     <div v-else class="checkout__body items">
       <div class="container" style="margin: 100px auto 0px; text-align: center;">
@@ -44,6 +44,12 @@
   </main>
 </template>
 
+
+<style>
+.shop--box, .shop--box>div:first-of-type {
+  position: relative;
+}
+</style>
 
 <script>
 

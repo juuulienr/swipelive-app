@@ -238,7 +238,7 @@
             <img v-else @click="updateFollow()" :src="require(`@/assets/img/check-circle.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
             <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;">
             <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> {{ feed.value.vendor.businessName }} 
-            <img :src="require(`@/assets/img/verified.svg`)" style="width: 18px; height: 18px;"/>
+            <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
           </div>
         </div>
 
@@ -286,7 +286,7 @@
           <div class="video-page__product-top">
             <div class="video-page__image">
               <img v-if="feed.value.liveProducts[display - 1].product.uploads" :src="cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+              <img v-else :src="require(`@/assets/img/no-preview.png`)">
             </div>
             <div class="video-page__info">
               <div>
@@ -295,7 +295,7 @@
               <div class="video-page__price-row">
                 <div class="video-page__price">
                   <div class="video-page__price-line">
-                    <div class="video-page__price"> {{ feed.value.liveProducts[display - 1].product.price| formatPrice }}€ 
+                    <div class="video-page__price" :style="[feed.value.liveProducts[display - 1].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.liveProducts[display - 1].product.price| formatPrice }}€ 
                       <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€ <img v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
                     </div>
                   </div>
@@ -309,7 +309,7 @@
           <div class="video-page__product-top">
             <div class="video-page__image">
               <img v-if="feed.value.product.uploads" :src="cloudinary256x256 + feed.value.product.uploads[0].filename">
-              <img v-else :src="require(`@/assets/img/no-preview.jpg`)">
+              <img v-else :src="require(`@/assets/img/no-preview.png`)">
             </div>
             <div class="video-page__info">
               <div>
@@ -318,7 +318,7 @@
               <div class="video-page__price-row">
                 <div class="video-page__price">
                   <div class="video-page__price-line">
-                    <div class="video-page__price"> {{ feed.value.product.price | formatPrice }}€ 
+                    <div class="video-page__price" :style="[feed.value.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.product.price | formatPrice }}€ 
                       <span v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice | formatPrice }}€ 
                         <img v-if="feed.value.product.compareAtPrice" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
                     </div>
@@ -441,11 +441,11 @@
         <div class="lasted--product" style="margin-top: 15px;">
           <div v-if="product.archived == false" v-for="product in shop.products" @click="showProduct(product)" class="product--item">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
-            <img v-else :src="require(`@/assets/img/no-preview.jpg`)" style="width: 90px; height: 90px;">
+            <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 90px; height: 90px;">
             <div class="details">
               <div class="title">{{ product.title }}</div>
-              <div class="price" style="margin-top: 8px;">{{ product.price | formatPrice }}€ 
-                <span v-if="product.compareAtPrice" class="disc" style="font-size: 14px; text-decoration: line-through; color: #999; padding-left: 5px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€ 
+              <div class="price" style="margin-top: 8px;" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">{{ product.price | formatPrice }}€ 
+                <span v-if="product.compareAtPrice" class="disc" style="font-size: 12px; text-decoration: line-through; color: #999; padding-left: 5px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€ 
                 </span> 
               </div>
             </div>

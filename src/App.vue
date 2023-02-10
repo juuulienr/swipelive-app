@@ -28,8 +28,10 @@ export default {
     }
   },
   created() {
-    if (this.$route.name == "Home") {
+    if (this.$route.name == "Home" || this.$route.name == "ListMessages" || this.$route.name == "Account") {
       this.showNavbar = true;
+    } else {
+      this.showNavbar = false;
     }
   },
   mounted() {
@@ -41,8 +43,10 @@ export default {
     }, 240000); //4 min
   },
   updated() {
-    if (this.$route.name == "Home") {
+    if (this.$route.name == "Home" || this.$route.name == "ListMessages" || this.$route.name == "Account") {
       this.showNavbar = true;
+    } else {
+      this.showNavbar = false;
     }
   },
   beforeDestroy() {
