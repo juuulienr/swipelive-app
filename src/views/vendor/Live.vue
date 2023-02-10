@@ -610,7 +610,9 @@
           </div>
           <div v-else class="checkout__body">
             <div class="container" style="margin: 0px auto; text-align: center;">
-              <video style="height: 180px; width: 180px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+              <div style="margin: 0px auto;">
+                <lottie :options="defaultOptions3" :width="180"/>
+              </div>
             </div>
             <h5 class="orders-none">Aucune commande</h5>
             <div class="orders-none-text">Vos commandes apparaîtront ici.</div>
@@ -647,7 +649,9 @@
           </div>
           <div v-else>
             <div class="container" style="margin: 0px auto; text-align: center;">
-              <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/follower.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+            <div style="margin: 0px auto;">
+              <lottie :options="defaultOptions2" :width="220"/>
+            </div>
             </div>
             <h5 class="viewers-none">Aucun spectateur</h5>
             <div class="viewers-none-text">Vos spectateurs apparaîtront ici.</div>
@@ -670,7 +674,9 @@
       <div class="checkout__body">
         <div class="cards-main">
           <div class="container" style="text-align: center;">
-            <video style="height: 175px; width: 175px; background: white; margin-top: 15px;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/trophy.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+            <div style="margin: 0px auto;">
+              <lottie :options="defaultOptions" :width="200"/>
+            </div>
           </div>
           <div class="performance-title">Bravo {{ user.vendor.businessName }} !</div>
           <p class="performance-p">Voici quelques statistiques du live.</p>
@@ -724,6 +730,8 @@ import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
 import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/golive.json';
+import * as animationData2 from '../../assets/lottie/no-viewer.json';
+import * as animationData3 from '../../assets/lottie/no-order.json';
 
 export default {
   name: 'Feed',
@@ -740,6 +748,8 @@ export default {
       bambuserId: window.localStorage.getItem("bambuserId"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
+      defaultOptions2: {animationData: animationData2},
+      defaultOptions3: {animationData: animationData3},
       animationSpeed: 1,
       comments: [],
       purchases: [],

@@ -13,14 +13,14 @@
           <h5 class="title">Glisser vers le haut</h5>
           <div class="subtitle">Pour passer d'un live à un autre</div>
           <div class="container" style="margin-top: 0px;">
-            <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="200" :height="200"/>
+            <lottie :options="defaultOptions" :width="200" :height="200"/>
           </div>
         </div>
         <div style="margin-top: 50px;">
           <h5 class="title">Glisser vers la gauche</h5>
           <div class="subtitle">Pour voir le profil du présentateur</div>
           <div class="container" style="margin-top: 0px;">
-            <lottie :options="defaultOptions2" v-on:animCreated="handleAnimation" :width="200" :height="200"/>
+            <lottie :options="defaultOptions2" :width="200" :height="200"/>
           </div>
         </div>
         <div @click="goFeed()" class="btn-step">Commencer à regarder</div>
@@ -89,7 +89,6 @@ export default {
     return {
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
-      animationSpeed: 1,
       notif: true,
       step1: false,
     }
@@ -100,10 +99,6 @@ export default {
     window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   methods: {
-    handleAnimation(anim) {
-      this.anim = anim;
-      this.anim.setSpeed(this.animationSpeed);
-    },
     allowNotif() {
       this.notif = false;
       this.step1 = true;

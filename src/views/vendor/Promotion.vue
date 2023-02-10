@@ -103,9 +103,11 @@
       </div>
       <div v-else>
         <div class="container" style="margin: 100px auto 0px; text-align: center;">
-          <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/discount.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <div style="margin: 0px auto;">
+            <lottie :options="defaultOptions" :width="200"/>
+          </div>
         </div>
-        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune promotion</h5>
+        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune promotion</h5>
         <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos promotions apparaîtront ici.</div>
       </div>
     </div>
@@ -116,13 +118,19 @@
 
 
 <script>
+import Lottie from 'vue-lottie';
+import * as animationData from '../../assets/lottie/discount.json';
 
 export default {
   name: 'Promotion',
+  components: {
+    'lottie': Lottie,
+  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      defaultOptions: {animationData: animationData},
       promotions: [],
       popupPromo: false,
       isChecked: false,

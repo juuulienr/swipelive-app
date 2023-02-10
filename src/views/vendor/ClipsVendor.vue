@@ -6,7 +6,7 @@
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
-      <div class="checkout__title">Clips</div>
+      <div class="checkout__title">Replays</div>
     </div>
 
     <div class="checkout__body">
@@ -42,17 +42,19 @@
                   </span>
                 </span>
               </div>
-              <p style="top: 176.5px; position: relative; text-align: center; font-size: 15px; font-weight: 400; margin-bottom: 0px;">Clip en création</p>
+              <p style="top: 176.5px; position: relative; text-align: center; font-size: 15px; font-weight: 400; margin-bottom: 0px;">Replay en création</p>
             </div>
           </div>
         </div>
-       <!--  <div v-else>
+        <div v-else>
           <div class="container" style="margin: 100px auto 0px; text-align: center;">
-            <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/clip.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+            <div style="margin: 0px auto;">
+              <lottie :options="defaultOptions" :width="200"/>
+            </div>
           </div>
-          <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun clip</h5>
-          <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos clips apparaîtront ici.</div>
-        </div> -->
+          <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun replay</h5>
+          <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos replays apparaîtront ici.</div>
+        </div>
       </div>
     </div>
   </main>
@@ -61,12 +63,18 @@
 
 
 <script>
+import Lottie from 'vue-lottie';
+import * as animationData from '../../assets/lottie/replay.json';
 
 export default {
   name: 'ClipsVendor',
+  components: {
+    'lottie': Lottie,
+  },
   data() {
     return {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      defaultOptions: {animationData: animationData},
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       clips: [],

@@ -48,41 +48,50 @@
             <!-- litige -->
             <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
       		</div>
+          <div v-empty>
+            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+              <div style="margin: 0px auto;">
+                <lottie :options="defaultOptions" :width="200"/>
+              </div>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+          </div>
         </div>
-    <!-- <div v-else class="checkout__body">
-      <div class="container" style="margin: 100px auto 0px; text-align: center;">
-        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-      </div>
-      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
-      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
-    </div> -->
+        
         <div v-if="show2" class="top-author--container">
+          <div>
+            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+              <div style="margin: 0px auto;">
+                <lottie :options="defaultOptions" :width="200"/>
+              </div>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande en cours</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+          </div>
         </div>
-    <!-- <div v-else class="checkout__body">
-      <div class="container" style="margin: 100px auto 0px; text-align: center;">
-        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-      </div>
-      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
-      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
-    </div> -->
         <div v-if="show3" class="top-author--container">
+          <div>
+            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+              <div style="margin: 0px auto;">
+                <lottie :options="defaultOptions" :width="200"/>
+              </div>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun litige</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+          </div>
         </div>
-    <!-- <div v-else class="checkout__body">
-      <div class="container" style="margin: 100px auto 0px; text-align: center;">
-        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-      </div>
-      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
-      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
-    </div> -->
         <div v-if="show4" class="top-author--container">
+          <div>
+            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+              <div style="margin: 0px auto;">
+                <lottie :options="defaultOptions" :width="200"/>
+              </div>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+          </div>
         </div>
-    <!-- <div v-else class="checkout__body">
-      <div class="container" style="margin: 100px auto 0px; text-align: center;">
-        <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/order.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-      </div>
-      <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucune commande</h5>
-      <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
-    </div> -->
       </div>
     </div>
   </main>
@@ -93,15 +102,22 @@
 
 <script>
 
+import Lottie from 'vue-lottie';
+import * as animationData from '../assets/lottie/order.json';
+
 export default {
   name: 'ListOrders',
+  components: {
+    'lottie': Lottie,
+  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      orders: null,
+      defaultOptions: {animationData: animationData},
+      orders: [],
       show1: true,
       show2: false,
       show3: false,

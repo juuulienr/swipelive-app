@@ -16,8 +16,9 @@
     <div class="checkout__body">
       <div @click="uploadSheet()" class="drop--file">
         <div class="drop--img">
-          <video v-if="isAndroid" style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-          <video v-else style="height: 120px; width: 100px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/upload-img.mp4`)"></video>
+          <div style="margin: 0px auto;">
+            <lottie :options="defaultOptions" :width="120"/>
+          </div>
         </div>
         <div class="drop--text">
           <h5>Ajouter des photos</h5>
@@ -302,12 +303,20 @@
 
 <script>
 
+import Lottie from 'vue-lottie';
+import * as animationData from '../../assets/lottie/upload.json';
+
+
 export default {
   name: 'AddEditProduct',
+  components: {
+    'lottie': Lottie,
+  },
   data() {
     return {
       productId: this.$route.params.productId,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      defaultOptions: {animationData: animationData},
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       product: {

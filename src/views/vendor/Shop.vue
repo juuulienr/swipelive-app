@@ -30,13 +30,15 @@
           </div>
         </div>
       </div>
-    <!--   <div v-else>
+      <div v-else>
         <div class="container" style="margin: 100px auto 0px; text-align: center;">
-          <video style="height: 220px; width: 220px; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/product.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+          <div style="margin: 0px auto;">
+            <lottie :options="defaultOptions" :width="200"/>
+          </div>
         </div>
-        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Aucun article</h5>
+        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun article</h5>
         <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos articles apparaîtront ici.</div>
-      </div> -->
+      </div>
     </div>
   </main>
 </template>
@@ -45,14 +47,21 @@
 <style scoped src="../../assets/css/shop.css"></style>
 
 <script>
+import Lottie from 'vue-lottie';
+import * as animationData from '../../assets/lottie/no-product.json';
+
 
 export default {
   name: 'Shop',
+  components: {
+    'lottie': Lottie,
+  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      defaultOptions: {animationData: animationData},
       stocks: [],
       prices: [],
       products: null,

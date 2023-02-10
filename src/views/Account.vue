@@ -43,9 +43,17 @@
 
 
 
-      <div v-if="user" class="info_profile">
-        <div v-if="user.vendor" @click="goPrelive()" class="btn-follow">
-          <div class="btn-swipe" style="color: white; text-align: center; width: fit-content; background: #ff2a80; margin: 0px auto; padding: 14px 70px; border-radius: 11px; margin-bottom: 25px; font-weight: 500">Lancer un direct</div>
+
+      <div v-if="user.vendor" style="background: #ff2a80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
+        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+          <router-link :to="{ name: 'PreLive' }">
+            <span style="font-size: 16px; color: #fff;">
+              <img :src="require(`@/assets/img/video.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            </span>
+            <span style="font-weight: 500; color: #fff">Lancer un direct</span>
+            <span style="float: right;">
+            </span>
+          </router-link>
         </div>
       </div>
 
@@ -91,7 +99,7 @@
             <span style="font-size: 16px; color: #333;">
               <img :src="require(`@/assets/img/clips.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Clips</span>
+            <span style="font-weight: 500; color: #272c30">Replays</span>
             <span style="float: right;">
               <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
             </span>
@@ -219,9 +227,9 @@
         <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
           <router-link :to="{ name: 'About' }">
             <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/support.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+              <img :src="require(`@/assets/img/info.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Support</span>
+            <span style="font-weight: 500; color: #272c30">Informations</span>
             <span style="float: right;">
               <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
             </span>
@@ -284,9 +292,6 @@ export default {
     },
     goBack() {
       this.$router.push({ name: 'Feed' });
-    },
-    goPrelive() {
-      this.$router.push({ name: 'PreLive' });
     },
     goEditProfile() {
       this.$router.push({ name: 'EditUser' });
