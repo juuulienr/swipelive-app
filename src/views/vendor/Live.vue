@@ -248,9 +248,9 @@
       </div>
 
 
-      <div :style="{'bottom': safeareaBottom }" @click="start()" style="left: calc(50vw - 64px); position: absolute; z-index: 20;">
+      <div :style="{'bottom': safeareaBottom }" @click="start()" style="left: calc(50vw - 75px); position: absolute; z-index: 20;">
         <div style="margin: 0px auto;">
-          <lottie :options="defaultOptions" :width="128" v-on:animCreated="handleAnimation"/>
+          <lottie :options="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
         </div>
       </div>
     </div>
