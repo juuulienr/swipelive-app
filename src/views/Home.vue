@@ -28,8 +28,8 @@
     	<div class="list_persone" style="display:flex; padding: 0px; padding-left: 5px;">
     		<div @click="addFollowing()" style="padding: 0px 5px;">
   				<div class="personne">
-  					<img class="user" :src="require(`@/assets/img/add-follow.svg`)" style="border: 2px solid rgb(255, 42, 128); padding: 30px;">
-  					<h5 class="name" style="margin-top: 5px;">Rechercher</h5>
+  					<img class="user" :src="require(`@/assets/img/add-follow.png`)">
+  					<h5 class="name" style="margin-top: 7px;">Rechercher</h5>
   				</div>
     		</div>
         <div v-if="user" v-for="(follow, index) in user.following" style="padding: 0px 5px;">
@@ -37,7 +37,7 @@
             <div class="personne">
               <img v-if="follow.following.picture" :src="cloudinary256x256 + follow.following.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px;">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="border: 2px solid #ff2a80; padding: 3px;">
-              <h5 class="name" style="margin-top: 5px;">{{ follow.following.vendor.businessName }}</h5>
+              <h5 class="name" style="margin-top: 7px;">{{ follow.following.vendor.businessName }}</h5>
             </div>
           </router-link>
         </div>
@@ -58,8 +58,8 @@
                   {{ clip.vendor.businessName }}
                 </div>
               </div>
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 250px;">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 250px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px;">
+              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
             </div>
           </router-link>
         </div>
@@ -105,8 +105,8 @@
                   {{ clip.vendor.businessName }}
                 </div>
               </div>
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 250px;">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 250px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px;">
+              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
             </div>
           </router-link>
         </div>

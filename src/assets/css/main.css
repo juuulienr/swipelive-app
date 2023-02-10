@@ -1297,7 +1297,6 @@ select {
   outline: none;
   resize: none;
   color: #525c66;
-  padding: 5px 0px 0px 10px;
 }
 .form--input--textarea {
   margin-top: 24px;

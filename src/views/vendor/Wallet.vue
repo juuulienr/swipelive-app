@@ -11,7 +11,7 @@
 
     <div class="checkout__body">
       <div class="cards-main">
-        <div class="current--balance" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 15px; border-radius: 11px; margin: 15px 5px;">
+        <div class="current--balance" style="padding: 15px; border-radius: 11px; margin: 15px 5px;">
           <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 14px; text-align: center; display: block; flex: 1 1 auto; margin-bottom: -10px;color: #272c30;"> Montant disponible
           </div>
           <div>
@@ -28,10 +28,12 @@
           </div>
         </div>
 
-        <div class="current--balance" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 15px; border-radius: 11px; margin: 25px 5px;">
-          <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Graphique</div>
-          <br><br><br><br><br>
-          <hr style="width: 100%">
+            <hr style="width: 100%;margin: 15px 0px;">
+
+        <div class="current--balance" style="padding: 15px; border-radius: 11px; margin: 25px 5px;">
+          <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
+          <!-- <br><br><br><br><br> -->
+          <!-- <hr style="width: 100%"> -->
           <div @click="showHistory()" class="current--balance--two" style="padding: 5px 0px;">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Avril 2022<br> 
               <div style="font-size: 12px;color: #999;">15 commandes</div>
@@ -74,7 +76,10 @@
           </div>
         </div>
 
-        <div class="current--balance" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 15px; border-radius: 11px; margin: 15px 5px 25px;">
+
+        <hr style="width: 100%;margin: 15px 0px;">
+
+        <div class="current--balance" style="padding: 15px; border-radius: 11px; margin: 15px 5px 25px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Retrait</div>
           <div class="current--balance--two" style="padding: 5px 0px;">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Transfert<br> 

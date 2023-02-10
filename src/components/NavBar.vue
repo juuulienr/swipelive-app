@@ -88,7 +88,7 @@
   align-items: center !important;
   border-top: 1px solid #EBEBEB !important;
   position: fixed !important;
-  bottom: -60px !important;
+  bottom: -65px !important;
   height: 120px !important;
   left: 0px !important;
   right: 0px !important;

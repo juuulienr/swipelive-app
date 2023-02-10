@@ -285,7 +285,7 @@ export default {
     
     var isAuthenticated = AuthAPI.isAuthenticated();
     if (isAuthenticated) {
-      this.$router.push({ name: 'Home' });
+      this.$router.push({ name: 'Feed' });
     }
 
     if (window.cordova && (window.cordova.platformId === "ios")) {
@@ -358,7 +358,7 @@ export default {
         await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", { "username": this.loginEmail, "password": this.loginPassword }, httpHeader, (response) => {
           var result = JSON.parse(response.data);
           window.localStorage.setItem("token", result.token);
-          this.$router.push({ name: 'Home' });
+          this.$router.push({ name: 'Feed' });
         }, (response) => {
           this.loading = false;
           this.errorLoginPassword = true;
@@ -522,7 +522,7 @@ export default {
         if (newUser == true) {
           this.$router.push({ name: 'Onboarding' });
         } else {
-          this.$router.push({ name: 'Home' });
+          this.$router.push({ name: 'Feed' });
         }
       }, (response) => {
         this.loading = false;

@@ -168,7 +168,7 @@
             <div>
               <div class="form--input--item" :class="{'form--input--item--error': errorNameOption1 }" style="margin-bottom: 25px;">
                 <fieldset>
-                  <legend>Nom de l'option</legend>
+                  <legend>Titre de l'option</legend>
                   <input type="text" placeholder="Taille, Couleur, Matière..." v-model="inputNameOption1" style="text-transform: capitalize;">
                 </fieldset>
               </div>

@@ -14,35 +14,19 @@
         <div v-if="clips && clips.length" class="row" style="margin: 0px;">
           <div v-for="clip in clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: calc(100% - 10px)">
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover;">
               <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
-                <button class="remove-photo c-button c-button--filled c-button--small c-button--primary c-button--inline c-button--inverse c-button--truncatedc-button--icon-left c-button--without-text" type="button" style="border-radius: 100%; height: 34px;">
-                  <span class="c-button__content">
-                    <span class="c-button__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;fill: rgb(153, 153, 153);padding: 10px 0px 10px 0px;border-radius: 30px;">
-                        <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
-                      </svg>
-                    </span>
-                  </span>
-                </button>
+                <img :src="require(`@/assets/img/ellipsis-h-white.svg`)" style="width: 30px; height: 30px; margin-right: 7px; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px);"/>
               </div>
-              <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: calc(100% - 10px); position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
+              <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
               <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
-                <img v-if="clip.product.uploads" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%);">
-                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%);">
+                <img v-if="clip.product.uploads" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white;">
+                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white;">
               </div>
             </div>
-            <div v-else style="border-radius: 10px; width: calc(50vw - 25px); height: 320px; margin: 0 auto; border: 2px solid rgba(145, 158, 171, 0.24);">
-              <div style="position: absolute; text-align: center; margin: 0 auto; left: 42%; top: 42%;">
-                <span style="margin: 0 auto; text-align: center;">
-                  <span>
-                    <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
-                      <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
-                    </svg>
-                  </span>
-                </span>
-              </div>
-              <p style="top: 176.5px; position: relative; text-align: center; font-size: 15px; font-weight: 400; margin-bottom: 0px;">Replay en création</p>
+            <div v-else style="border-radius: 10px; width: calc(50vw - 25px); margin: 0 auto;">
+              <img :src="require(`@/assets/img/waiting-video.png`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover;">
+              <p style="top: 150px; color: white; text-align: center; left: 30Px; position: absolute; text-align: center; font-size: 15px; margin-bottom: 0px;">Replay en création</p>
             </div>
           </div>
         </div>

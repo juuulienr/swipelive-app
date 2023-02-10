@@ -63,7 +63,7 @@
           <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
-          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #272c30;">Promotions</span>
+          <span style="text-align: center; font-size: 17px; margin: 0px auto; color: #272c30;">Créer une promotion</span>
         </div>
 
         <div class="items" style="overflow: scroll; padding: 15px 0px 40px;">
@@ -135,7 +135,7 @@
           <span class="multistream-title">Connexion Streaming</span>
         </div>
 
-        <div class="items" style="overflow: scroll; padding: 15px 30px 40px;">
+        <div class="items" style="overflow: scroll; padding: 15px 15px 40px;">
           <div class="multistream-div" style="margin-bottom: 15px;">
             <div @click="showFacebook()" class="multistream-card">
               <img :src="require(`@/assets/img/facebook.svg`)"/>
@@ -514,8 +514,8 @@
             <div class="video-page__price-row">
               <div class="video-page__price">
                 <div class="video-page__price-line">
-                  <div class="video-page__price">{{ liveProducts[0].product.price | formatPrice }}€
-                    <span v-if="liveProducts[0].product.compareAtPrice" class="disc" style="font-size: 14px; text-decoration: line-through; color: rgb(153, 153, 153); padding-left: 5px; font-weight: 400;">{{ liveProducts[0].product.compareAtPrice | formatPrice }}€</span>
+                  <div class="video-page__price" :style="[liveProducts[0].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">{{ liveProducts[0].product.price | formatPrice }}€
+                    <span v-if="liveProducts[0].product.compareAtPrice" class="disc" style="font-size: 13px; text-decoration: line-through; color: #999; padding-left: 3px; font-weight: 500;">{{ liveProducts[0].product.compareAtPrice | formatPrice }}€ <img v-if="liveProducts[0].product.compareAtPrice" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span>
                   </div>
                   <div class="price stock-available" v-if="available">{{ available }} en stock</div>
                   <div class="price stock-unavailable" v-else-if="available == 0">Épuisé</div>
@@ -525,9 +525,7 @@
           </div>  
           <div v-if="liveProducts.length > 1" @click="changeProduct()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count" style="padding: 20px 10px;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;height: 18px;fill: #ff2a80;transform: rotate(180deg);">
-                <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
-              </svg>
+              <img :src="require(`@/assets/img/double-arrow.svg`)" style="width: 34px; height: 34px;"/>
             </span>
           </div>
         </div>
@@ -641,9 +639,7 @@
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
               <div @click="bannedViewer(user.id, index)">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 24px;height: 24px;fill: rgba(255, 0, 0, 0.5);border-radius: 30px;">
-                  <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM512 256c0 141.4-114.6 256-256 256S0 397.4 0 256S114.6 0 256 0S512 114.6 512 256z"></path>
-                </svg>
+                <img :src="require(`@/assets/img/ban.svg`)" style="width: 24px; height: 24px;"/>
               </div>
             </div>
           </div>
@@ -675,7 +671,7 @@
         <div class="cards-main">
           <div class="container" style="text-align: center;">
             <div style="margin: 0px auto;">
-              <lottie :options="defaultOptions" :width="200"/>
+              <lottie :options="defaultOptions4" :width="200"/>
             </div>
           </div>
           <div class="performance-title">Bravo {{ user.vendor.businessName }} !</div>
@@ -732,6 +728,7 @@ import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/golive.json';
 import * as animationData2 from '../../assets/lottie/no-viewer.json';
 import * as animationData3 from '../../assets/lottie/no-order.json';
+import * as animationData4 from '../../assets/lottie/trophy.json';
 
 export default {
   name: 'Feed',
@@ -750,6 +747,7 @@ export default {
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
       defaultOptions3: {animationData: animationData3},
+      defaultOptions4: {animationData: animationData4},
       animationSpeed: 1,
       comments: [],
       purchases: [],
@@ -806,7 +804,7 @@ export default {
       countViews: 0,
       countOrders: 0,
       amount: "0.00",
-      available: null,
+      available: "100",
       fbToken: null,
       fbIdentifier: null,
       fbPageIdentifier: null,

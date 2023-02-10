@@ -13,7 +13,7 @@
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 85px;">
       <div v-if="step1" class="items">
         <div class="my_form_check">
-          Tous les articles
+          Selectionner tous les articles
           <label for="sliderAll" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
             <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
               <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': isCheckAll }">

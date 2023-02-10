@@ -11,6 +11,16 @@
     </div>
 
     <div class="checkout__body">
+      <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
+        <div style="border-right: 1px solid #eff1f6;">
+          <h4>150k</h4>
+          <p>Followers</p>
+        </div>
+        <div>
+          <h4>25</h4>
+          <p>Suivis</p>
+        </div>
+      </div>
       <div v-if="user.vendor" class="images_filter" style="margin: 15px 0px;">
         <ul>
           <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Followers </li>

@@ -10,6 +10,17 @@
     </div>
 
     <div class="checkout__body">
+      <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
+        <div style="border-right: 1px solid #eff1f6;">
+          <h4>10</h4>
+          <p>En stock</p>
+        </div>
+        <div>
+          <h4>3</h4>
+          <p>Épuisé</p>
+        </div>
+      </div>
+
       <div @click="addProduct()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px;">Ajouter un article</div>
 
       <div v-if="products" class="items">
