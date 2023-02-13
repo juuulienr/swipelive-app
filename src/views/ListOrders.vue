@@ -49,7 +49,7 @@
             <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
       		</div>
           <div v-else>
-            <div class="container" style="margin: 200px auto 0px; text-align: center;">
+            <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>
@@ -61,7 +61,7 @@
         
         <div v-if="show2" class="top-author--container">
           <div>
-            <div class="container" style="margin: 200px auto 0px; text-align: center;">
+            <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>
@@ -72,7 +72,7 @@
         </div>
         <div v-if="show3" class="top-author--container">
           <div>
-            <div class="container" style="margin: 200px auto 0px; text-align: center;">
+            <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>
@@ -83,7 +83,7 @@
         </div>
         <div v-if="show4" class="top-author--container">
           <div>
-            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+            <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>

@@ -13,11 +13,13 @@
     <div class="checkout__body">
       <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
         <div style="border-right: 1px solid #eff1f6;">
-          <h4>150k</h4>
+          <h4 v-if="following.length">{{ following.length }}</h4>
+          <h4 v-else>-</h4>
           <p>Followers</p>
         </div>
         <div>
-          <h4>25</h4>
+          <h4 v-if="followers.length">{{ followers.length }}</h4>
+          <h4 v-else>-</h4>
           <p>Suivis</p>
         </div>
       </div>
@@ -44,7 +46,7 @@
             </div>
           </div>
           <div v-else>
-            <div class="container" style="margin: 200px auto 0px; text-align: center;">
+            <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>
@@ -72,7 +74,7 @@
           </div>
         </div>
         <div v-else>
-          <div class="container" style="margin: 200px auto 0px; text-align: center;">
+          <div class="container" style="margin: 120px auto 0px; text-align: center;">
             <div style="margin: 0px auto;">
               <lottie :options="defaultOptions" :width="200"/>
             </div>
@@ -98,7 +100,7 @@
           </div>
         </div>
         <div v-else>
-          <div class="container" style="margin: 200px auto 0px; text-align: center;">
+          <div class="container" style="margin: 120px auto 0px; text-align: center;">
             <div style="margin: 0px auto;">
               <lottie :options="defaultOptions" :width="200"/>
             </div>

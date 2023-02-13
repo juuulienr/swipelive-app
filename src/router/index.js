@@ -68,7 +68,7 @@ export default new Router({
       name: 'Account',
       component: Account
     }, {
-      path: '/category/:id/:name?',
+      path: '/category/:id',
       name: 'Category',
       component: Category
     }, {

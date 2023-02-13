@@ -247,7 +247,7 @@
               <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
             </span>
           </div>            
-          <div v-if="updateCart > 0" class="video-page__influencer-username-holder">
+          <div @click="showCart()" v-if="updateCart > 0" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/bag.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
             </span>

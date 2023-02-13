@@ -11,7 +11,7 @@
 
     <div class="checkout__body">
       <div>
-        <div class="container" style="margin: 200px auto 0px; text-align: center;">
+        <div class="container" style="margin: 120px auto 0px; text-align: center;">
           <div style="margin: 0px auto;">
             <lottie :options="defaultOptions" :width="200"/>
           </div>

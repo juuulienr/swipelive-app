@@ -6,7 +6,7 @@
           <div class="awuxh4x dir dir-ltr">
             <div class="cw9aemg dir dir-ltr">
               <div class="c14whb16 dir dir-ltr">
-                <button @click="goToCategory(category)" v-for="category in categories" :key="category" :class="{ 'ccma3s' : category.id == id }" class="c1l3w0tx dir dir-ltr">
+                <button @click="goToCategory(category)" v-for="category in categories" :key="category" class="c1l3w0tx dir dir-ltr">
                   <div class="c8gkmzg dir dir-ltr">
                     <span class="c1m2z0bj c1w8ohg7 dir dir-ltr">
                       <img v-if="category.picture" class="i1wps9q8 dir dir-ltr" :src="require(`@/assets/img/` + category.picture)" alt="" width="24" height="24" />
@@ -59,7 +59,7 @@
                 </div>
               </div>
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px;">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
+              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
             </div>
           </router-link>
         </div>
@@ -106,7 +106,7 @@
                 </div>
               </div>
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px;">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 150px; top: 0px;"></div>
+              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
             </div>
           </router-link>
         </div>
@@ -131,7 +131,7 @@
         </div>
       </div>
     </div>
-    <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll;height: calc(100vh - 60px);">
+    <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: calc(100vh - 60px);">
     	<div class="list_persone" style="margin-top: 15px; padding: 0px 10px;">
     		<div class="suggested">
     			<div v-if="suggestions && suggestions.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
@@ -271,7 +271,7 @@ export default {
       this.$router.push({ name: 'Profile', params: { id: id } });
     },
     goToCategory(category) {
-      this.$router.push({ name: 'Category', params: { id: category.id, name: category.name } });
+      this.$router.push({ name: 'Category', params: { id: category.id } });
     }
   }
 };

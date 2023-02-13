@@ -146,19 +146,16 @@
   display: inline-block;
 }
 
-.ccma3s .tamhn2w::after {
+.ccma3s .c8gkmzg::after {
   background-color: #272c30;
-}
-.ccma3s .tamhn2w::after {
   opacity: 1;
 }
-.tamhn2w::after {
+
+.c8gkmzg::after {
   inset-inline: 0;
-}
-.tamhn2w::after {
   position: absolute;
   content: '';
   height: 2px;
-  top: calc(100% + 12px);
+  top: calc(100% + 10px);
   opacity: 0;
 }
