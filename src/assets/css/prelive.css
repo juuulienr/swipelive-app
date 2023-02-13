@@ -7,6 +7,15 @@
 img {
   width:100%
 }
+.rules p {
+  font-size: 14px;
+  font-weight: 400;
+}
+.rules span {
+  line-height: 32px;
+  font-size: 15px;
+  font-weight: 500;
+}
 
 .my_form_check {
   display: flex;

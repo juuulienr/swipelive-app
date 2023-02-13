@@ -44,7 +44,7 @@
             </div>
           </div>
           <div v-else>
-            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+            <div class="container" style="margin: 200px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div v-else>
-          <div class="container" style="margin: 100px auto 0px; text-align: center;">
+          <div class="container" style="margin: 200px auto 0px; text-align: center;">
             <div style="margin: 0px auto;">
               <lottie :options="defaultOptions" :width="200"/>
             </div>
@@ -94,11 +94,11 @@
                 <span v-else>{{user.followers.length }} abonné</span>
               </div>
             </div>
-            <div @click="unfollow(user.id)" class="btn-follow">Abonné</div>
+            <div @click="unfollow(user.id)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Abonné</div>
           </div>
         </div>
         <div v-else>
-          <div class="container" style="margin: 100px auto 0px; text-align: center;">
+          <div class="container" style="margin: 200px auto 0px; text-align: center;">
             <div style="margin: 0px auto;">
               <lottie :options="defaultOptions" :width="200"/>
             </div>

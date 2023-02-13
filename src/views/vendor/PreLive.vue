@@ -6,11 +6,37 @@
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
-      <div v-if="step1" class="checkout__title">Articles</div>
+      <div v-if="rules" class="checkout__title">Règles du Live</div>
+      <div v-else-if="step1" class="checkout__title">Articles</div>
       <div v-else class="checkout__title">Ordre de passage</div>
     </div>
 
     <div class="checkout__body" style="overflow: scroll; padding-bottom: 85px;">
+      <div v-if="rules" class="items rules">
+        <p style="margin-top: 10px;">Veuillez suivre ces règles concernant les directs. <br>
+        Merci de nous aider à faire en sorte que la communauté reste sûre et amusante !</p>
+
+        <p><span>Amusez-vous et invitez des amis 🎉 </span> <br>
+        Les lives sont plus sympas avec votre communauté. Assurez-vous de faire la promotion de vos articles et n'oubliez pas de les partager.</p>
+
+        <p><span>Ne vendez pas de contrefaçons ou d'article illicite 🚨  </span> <br>
+        Si vous n'êtes pas sûr de l'authenticité d'un produit, ne le vendez pas. Il vaut mieux être honnête.</p>
+
+        <p><span>Dites la vérité ✌️  </span> <br>
+        Soyez transparent sur ce que vous vendez et donnez des détails sur vos articles. Les acheteurs apprécient l'honnêteté.</p>
+
+        <p> <span>Soyez respectueux 💙  </span> <br>
+        N’oubliez pas de rester poli et courtois en toutes circonstances. Ne vous engagez pas dans le harcèlement ou l'intimidation sur Swipe Live.</p>
+
+        <p><span>Envoyez vos articles dans les 3 jours ouvrés 📦 </span> <br>
+        Ne faites pas attendre vos clients et emballez correctement vos articles pour qu'ils ne soient pas endommagés pendant le transport.</p>
+
+        <p style="text-align:center; font-weight: 500; font-size: 15px; margin-top: 25px;"> Nous vous souhaitons de nombreux succès <br> sur Swipe Live !</p>
+
+        <div @click="goStep1()" class="btn-swipe btn-prelive">
+          <div>BONNES VENTES ! 🚀</div>
+        </div>
+      </div>
       <div v-if="step1" class="items">
         <div class="my_form_check">
           Selectionner tous les articles
@@ -121,7 +147,8 @@ export default {
       stocks: [],
       prices: [],
       live: [],
-      step1: true,
+      rules: true,
+      step1: false,
       step2: false,
       isCheckAll: true,
       loading: false,
@@ -171,6 +198,11 @@ export default {
     });
   },
   methods: {
+    goStep1() {
+      this.rules = false;
+      this.step1 = true;
+      this.step2 = false;
+    },
     async goStep2() {
       console.log(this.selected);
 

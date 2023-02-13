@@ -74,26 +74,31 @@
             </fieldset>
           </div>
           
-          <div class="form--input--item">
-            <fieldset>
-              <legend>Type de remise</legend>
-              <select required v-model="type" :style="{'color': type ? '#525c66': 'rgba(145,158,171,.8)'}">
-                <option value="" selected>Choisir un type</option>
-                <option value="percent">Pourcentage</option>
-                <option value="euro">Euro</option>
-              </select>
-            </fieldset>
-          </div>
 
-          <div class="form--input--item">
-            <fieldset>
-              <legend>Valeur de la remise</legend>
-              <input type="text" placeholder="Ex: 30" v-model="discount">
-            </fieldset>
+          <div class="form--input">
+            <div class="form--input--item">
+              <fieldset>
+                <legend>Type de remise</legend>
+                <select required v-model="type" :style="{'color': type ? '#525c66': 'rgba(145,158,171,.8)'}">
+                  <option value="" selected>Choisir un type</option>
+                  <option value="percent">Pourcentage</option>
+                  <option value="euro">Euro</option>
+                </select>
+              </fieldset>
+            </div>
+            <div class="form--input--item">
+              <fieldset>
+                <legend>Valeur de la remise</legend>
+                <input type="text" placeholder="Ex: 30" v-model="discount">
+              </fieldset>
+            </div>
+            <br>
+            <div @click="savePromo()" class="btn-swipe" style="color: white; text-align: center;">Enregistrer</div>
           </div>
-          <br>
-          <div @click="savePromo()" class="btn-swipe" style="color: white; text-align: center;">Enregistrer</div>
+          
+          <hr> 
 
+          <!-- afficher les promotions -->
           <div v-if="listPromo">
             <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px; ">La promotion sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
 

@@ -241,7 +241,7 @@ body.dark-mode {
 .checkout__body {
   height: calc(100% - 50px);
   overflow: scroll; 
-  padding-bottom: 50px;
+  padding-bottom: 80px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -1290,13 +1290,13 @@ select {
   box-sizing: content-box;
   background: none;
   margin: 0px;
-  -webkit-tap-highlight-color: transparent;
   display: block;
   min-width: 0px;
   width: 100%;
   outline: none;
   resize: none;
   color: #525c66;
+  padding-right: 0px;
 }
 .form--input--textarea {
   margin-top: 24px;

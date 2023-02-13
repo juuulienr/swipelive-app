@@ -33,7 +33,7 @@
 
       <div class="top-author" style="margin-top: 15px;">
       	<div v-if="show1" class="top-author--container">
-      		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="position: relative">
+      		<div v-if="orders && orders.length > 0" v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="position: relative">
       			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
             <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
             <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
@@ -48,8 +48,8 @@
             <!-- litige -->
             <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
       		</div>
-          <div v-empty>
-            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+          <div v-else>
+            <div class="container" style="margin: 200px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>
@@ -61,7 +61,7 @@
         
         <div v-if="show2" class="top-author--container">
           <div>
-            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+            <div class="container" style="margin: 200px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>
@@ -72,7 +72,7 @@
         </div>
         <div v-if="show3" class="top-author--container">
           <div>
-            <div class="container" style="margin: 100px auto 0px; text-align: center;">
+            <div class="container" style="margin: 200px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <lottie :options="defaultOptions" :width="200"/>
               </div>

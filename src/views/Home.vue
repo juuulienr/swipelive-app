@@ -139,8 +139,8 @@
               <div class="personne">
                 <img @click="goToProfile(suggestion.id)" v-if="suggestion.picture" :src="cloudinary256x256 + suggestion.picture" class="user" style="margin-bottom: 8px;"/>
                 <img @click="goToProfile(suggestion.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
-                <img v-if="!searchFollowing[index].value" @click="follow(suggestion.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 68px;"/>
-                <img v-else @click="follow(suggestion.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 68px;"/>
+                <img v-if="!searchFollowing[index].value" @click="follow(suggestion.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
+                <img v-else @click="follow(suggestion.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
                 <h5 @click="goToProfile(suggestion.id)" class="name">{{ suggestion.vendor.businessName }}
                   <img :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
                 </h5>
@@ -149,7 +149,7 @@
               </div>
             </div>
           </div>
-          <!-- <div v-else></div> -->
+          <div v-else></div>
     		</div>
     	</div>
     </div>

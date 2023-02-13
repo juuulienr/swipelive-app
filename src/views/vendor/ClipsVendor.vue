@@ -16,7 +16,7 @@
             <div v-if="clip.status == 'available'">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover;">
               <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
-                <img :src="require(`@/assets/img/ellipsis-h-white.svg`)" style="width: 30px; height: 30px; margin-right: 7px; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px);"/>
+                <img :src="require(`@/assets/img/ellipsis-h-white.svg`)" style="width: 30px; height: 30px; margin-top: -5px; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px);"/>
               </div>
               <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
               <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div v-else>
-          <div class="container" style="margin: 100px auto 0px; text-align: center;">
+          <div class="container" style="margin: 200px auto 0px; text-align: center;">
             <div style="margin: 0px auto;">
               <lottie :options="defaultOptions" :width="200"/>
             </div>
