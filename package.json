@@ -15,8 +15,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@bugsnag/js": "^7.11.0",
-    "@bugsnag/plugin-vue": "^7.11.0",
     "@sentry/tracing": "^7.36.0",
     "@sentry/vue": "^7.36.0",
     "es6-promise": "^4.2.8",

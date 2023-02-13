@@ -232,6 +232,7 @@
         <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
           <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
             <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
+            <img v-if="clickFollow" :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
             <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;">
             <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> {{ feed.value.vendor.businessName }} 
             <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
@@ -478,6 +479,7 @@
 import Lottie from 'vue-lottie';
 import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
+import * as Sentry from "@sentry/vue";
 
 import Checkout from '../components/Checkout';
 import Product from '../components/Product';
@@ -537,6 +539,8 @@ export default {
       popupShop: false,
       popupCheckout: false,
       purchase: false,
+      purchasePicture: false,
+      clickFollow: false,
       throttle: 1000,
       http: null,
       anim1: false,
@@ -596,21 +600,13 @@ export default {
     } else {
       this.$router.push({ name: 'Welcome' });
     }
+
+    if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
+      Sentry.setUser({ email: this.user.email });
+    }
   },
   mounted() {
     this.refresh();
-
-    setTimeout(() => {
-      this.purchase = true;
-        this.purchasePicture = true;
-      setTimeout(() => {
-        this.purchasePicture = false;
-      }, 1700);
-      setTimeout(() => {
-        this.purchase = false;
-      }, 3000);
-    }, 1000);
-
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
   },
@@ -1048,6 +1044,16 @@ export default {
         if ('order' in data) {
           console.log(data.order);
 
+          setTimeout(() => {
+            this.purchase = true;
+              this.purchasePicture = true;
+            setTimeout(() => {
+              this.purchasePicture = false;
+            }, 1700);
+            setTimeout(() => {
+              this.purchase = false;
+            }, 3000);
+          }, 1000);
         }
       });
     },
@@ -1063,6 +1069,11 @@ export default {
       this.data.map((element, index) => {
         if (element.value.vendor.user.id == id) {
           this.following[index].value = true;
+          this.clickFollow = true;
+
+          setTimeout(() => {
+            this.clickFollow = false;
+          }, 2000);
         }
       });
 

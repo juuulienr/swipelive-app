@@ -147,8 +147,8 @@ export default {
       stocks: [],
       prices: [],
       live: [],
-      rules: true,
-      step1: false,
+      rules: window.localStorage.getItem("rules") ? false : true,
+      step1: window.localStorage.getItem("rules") ? true : false,
       step2: false,
       isCheckAll: true,
       loading: false,
@@ -202,6 +202,7 @@ export default {
       this.rules = false;
       this.step1 = true;
       this.step2 = false;
+      window.localStorage.setItem("rules", true);
     },
     async goStep2() {
       console.log(this.selected);

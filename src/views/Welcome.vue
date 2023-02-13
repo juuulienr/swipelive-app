@@ -71,14 +71,14 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginEmail }" style="margin-top: 15px">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" v-model="loginEmail" style="text-transform: lowercase;">
+            <input type="text" id="email" v-model="loginEmail" style="text-transform: lowercase;">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginPassword }" style="margin-bottom: 15px;">
           <fieldset>
             <legend>Mot de passe</legend>
-            <input type="password" v-model="loginPassword">
+            <input type="password" id="password" v-model="loginPassword">
           </fieldset>
         </div>
 

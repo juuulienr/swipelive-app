@@ -288,6 +288,7 @@ export default {
       window.localStorage.removeItem('trend');
       window.localStorage.removeItem('categories');
       window.localStorage.removeItem('banned');
+      window.localStorage.removeItem('rules');
       this.$router.push({ name: 'Welcome' });
     },
     goBack() {

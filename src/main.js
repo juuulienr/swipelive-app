@@ -4,8 +4,6 @@ import App from './App.vue';
 import Pusher from 'pusher-js';
 import Vue2TouchEvents from 'vue2-touch-events';
 import router from './router/index';
-import Bugsnag from '@bugsnag/js';
-import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue-observe-visibility';
 import * as VueGoogleMaps from "vue2-google-maps";
 import * as Sentry from "@sentry/vue";
@@ -19,8 +17,18 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
   window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");
 
-  Bugsnag.start({ apiKey: 'd97d0497cb27fb9f2bcf2da2ba9c8bbe', plugins: [new BugsnagPluginVue()]});
-  Vue.use(Bugsnag.getPlugin('vue'));
+  Sentry.init({
+    Vue,
+    dsn: "https://a5c845548724498ab2df9bd84636ae30@o4504616296972288.ingest.sentry.io/4504616299200512",
+    integrations: [
+      new BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+        tracePropagationTargets: ["localhost", "swipelive.fr", /^\//],
+      }),
+    ],
+    tracesSampleRate: 1.0,
+  });
+
 } else {
   Vue.config.productionTip = false;
   window.localStorage.setItem("baseUrl", "http://127.0.0.1:8000");
@@ -34,37 +42,6 @@ Vue.use(VueGoogleMaps, {
 		libraries: "places"
 	}
 });
-
-Sentry.init({
-  Vue,
-  dsn: "https://a5c845548724498ab2df9bd84636ae30@o4504616296972288.ingest.sentry.io/4504616299200512",
-  integrations: [
-    new BrowserTracing({
-      routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-      tracePropagationTargets: ["localhost", "swipelive.fr", /^\//],
-    }),
-  ],
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-});
-
-
-// Sentry.init({
-//   Vue,
-//   dsn: "https://a5c845548724498ab2df9bd84636ae30@o4504616296972288.ingest.sentry.io/4504616299200512",
-
-//   // This sets the sample rate to be 10%. You may want this to be 100% while
-//   // in development and sample at a lower rate in production
-//   replaysSessionSampleRate: 0.1,
-//   // If the entire session is not sampled, use the below sample rate to sample
-//   // sessions when an error occurs.
-//   replaysOnErrorSampleRate: 1.0,
-
-//   integrations: [new Sentry.Replay()],
-// });
-
 
 
 const init = () => {
