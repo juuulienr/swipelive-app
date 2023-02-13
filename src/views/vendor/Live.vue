@@ -753,7 +753,6 @@ export default {
       defaultOptions2: {animationData: animationData2},
       defaultOptions3: {animationData: animationData3},
       defaultOptions4: {animationData: animationData4},
-      animationSpeed: 1,
       comments: [],
       purchases: [],
       liveProducts: [],

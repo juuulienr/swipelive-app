@@ -246,7 +246,6 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       defaultOptions: {animationData: animationData},
-      animationSpeed: 1,
     }
   },
   filters: {

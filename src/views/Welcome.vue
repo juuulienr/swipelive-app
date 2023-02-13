@@ -244,7 +244,6 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       defaultOptions: {animationData: animationData},
-      animationSpeed: 1,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       popup: false,
       popupPassword: false,

@@ -49,11 +49,8 @@
         <!-- purchase -->
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
-            <!-- <div class="video-page__influencer-img" style="padding-right: 0px;"> -->
-              <!-- <img class="zoom" :src="require(`@/assets/img/badge-vente.png`)" style="border-radius: 50%; width: 175px; height: 175px; object-fit: cover;"/> -->
-            <!-- </div> -->
-            <img class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute;" />
-            <lottie :options="defaultOptions3" v-on:animCreated="handleAnimation" style="position: absolute; width: 100vh; height: 100vh"/>
+            <img v-if="purchasePicture" class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute; z-index: 100000000; border: 3px solid white;" />
+            <lottie :options="defaultOptions3" v-on:animCreated="handleAnimation2" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>
         </div>
 
@@ -408,6 +405,16 @@
     </div>
 
 
+    <!-- follow popup -->
+    <!-- afficher 30 sec et cacher ou cliquer en dehors pour fermer + afficher en live-->
+    <!-- <div class="store-products-item__login-popup store-products-item__login-popup--active shop-popup" style="padding-bottom: 0px; height: 21%; overflow-y: initial; text-align: center;"> -->
+      <!-- <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 72px; border-radius: 50%; border: 3px solid white; height: 72px; margin-top: -40px;"> -->
+    <!--   <img :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 72px; border-radius: 50%; border: 3px solid white; height: 72px; margin-top: -40px;">
+      <div style="margin-bottom: 5px;">amber19111</div>
+      <p style="font-size: 11px; text-align: center; font-weight: 400; color: #999;">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
+      <div class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
+    </div> -->
+
 
     <!-- cart popup -->
     <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active cart-popup">
@@ -478,7 +485,7 @@ import Cart from '../components/Cart';
 
 import * as animationData from '../assets/lottie/live.json';
 import * as animationData2 from '../assets/lottie/arrow.json';
-import * as animationData3 from '../assets/lottie/confetti.json';
+import * as animationData3 from '../assets/lottie/purchase.json';
 
 export default {
   name: 'Feed',
@@ -504,6 +511,7 @@ export default {
       defaultOptions2: {animationData: animationData2},
       defaultOptions3: {animationData: animationData3},
       animationSpeed: 1,
+      animationSpeed2: 2,
       following: [],
       comments: [],
       finished: [],
@@ -591,6 +599,18 @@ export default {
   },
   mounted() {
     this.refresh();
+
+    setTimeout(() => {
+      this.purchase = true;
+        this.purchasePicture = true;
+      setTimeout(() => {
+        this.purchasePicture = false;
+      }, 1700);
+      setTimeout(() => {
+        this.purchase = false;
+      }, 3000);
+    }, 1000);
+
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
   },
@@ -623,8 +643,12 @@ export default {
     }
   },
   methods: {
-    handleAnimation: function (anim) {
+    handleAnimation(anim) {
       this.anim = anim;
+    },
+    handleAnimation2(anim) {
+      this.anim = anim;
+      this.anim.setSpeed(2);
     },
     visibilityChanged(isVisible, entry, index) {
       if (isVisible) {
@@ -1024,12 +1048,6 @@ export default {
         if ('order' in data) {
           console.log(data.order);
 
-          setTimeout(() => {
-            this.purchase = true;
-            setTimeout(() => {
-              this.purchase = false;
-            }, 3000);
-          }, 1000);
         }
       });
     },
