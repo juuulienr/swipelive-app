@@ -49,7 +49,7 @@
       <h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-for="(clip, index) in clips" style="padding: 0px 5px;">
-          <router-link :to="{ name: 'ListClips', params: { type: 'trending', index: index }}">
+          <router-link :to="{ name: 'Feed', params: { type: 'trending', index: index }}">
             <div class="personne">
               <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
                 <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
@@ -96,7 +96,7 @@
       <h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 15px;">Nouveautés ⭐️</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-for="(clip, index) in clips" style="padding: 0px 5px;">
-          <router-link :to="{ name: 'ListClips', params: { type: 'trending', index: index }}">
+          <router-link :to="{ name: 'Feed', params: { type: 'trending', index: index }}">
             <div class="personne">
               <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
                 <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
@@ -183,7 +183,7 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-    
+
     var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
     window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, httpHeader, (response) => {
       this.categories = JSON.parse(response.data);
@@ -199,7 +199,7 @@ export default {
       console.log(response.error);
     });
 
-    window.cordova.plugin.http.get(this.baseUrl + "/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.products = JSON.parse(response.data);
     }, (response) => {
       console.log(response.error);

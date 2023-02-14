@@ -1402,6 +1402,36 @@ img.zoom {
   color: #272c30;
 }
 
+.follow-popup {
+  overflow-y: scroll; 
+  height: 21%; 
+  width: 100vw; 
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%); 
+  padding: 0px 10px 0px; 
+  left: 0px; 
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px;
+  overflow-y: initial; 
+  text-align: center;
+}
+
+.follow-popup img {
+  margin: 5px; 
+  width: 72px; 
+  height: 72px; 
+  border-radius: 50%; 
+  border: 3px solid white; 
+  margin-top: -40px;
+}
+
+
+.follow-popup .follow-text {
+  font-size: 11px; 
+  text-align: center; 
+  font-weight: 400; 
+  color: #999;
+}
+
 .shop-popup {
   overflow-y: scroll; 
   height: 60%; 

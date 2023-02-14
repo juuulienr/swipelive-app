@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Welcome from '@/views/Welcome'
 import Onboarding from '@/views/Onboarding'
 import VendorRegistration from '@/views/VendorRegistration'
-import InfluencerRegistration from '@/views/InfluencerRegistration'
 
 import Feed from '@/views/Feed'
 import Home from '@/views/Home'
@@ -15,18 +14,17 @@ import Profile from '@/views/Profile'
 import Category from '@/views/Category'
 import ListOrders from '@/views/ListOrders'
 import ListMessages from '@/views/ListMessages'
-import Order from '@/views/Order'
-import Account from '@/views/Account'
+import ListFollowing from '@/views/ListFollowing'
 import EditUser from '@/views/EditUser'
-import ListClips from '@/views/ListClips'
+import Account from '@/views/Account'
+import Order from '@/views/Order'
 
 
 import Shop from '@/views/vendor/Shop'
 import Partner from '@/views/vendor/Partner'
 import Promotion from '@/views/vendor/Promotion'
-import ListFollowing from '@/views/ListFollowing'
 import AddEditProduct from '@/views/vendor/AddEditProduct'
-import ClipsVendor from '@/views/vendor/ClipsVendor'
+import ListClips from '@/views/vendor/ListClips'
 import PreLive from '@/views/vendor/PreLive'
 import Live from '@/views/vendor/Live'
 import Wallet from '@/views/vendor/Wallet'
@@ -44,15 +42,11 @@ export default new Router({
       name: 'Onboarding',
       component: Onboarding
     }, {
-      path: '/influencer/registration',
-      name: 'InfluencerRegistration',
-      component: InfluencerRegistration
-    }, {
       path: '/vendor/registration',
       name: 'VendorRegistration',
       component: VendorRegistration
     }, {
-      path: '/feed',
+      path: '/feed/:type?/:index?/:profileId?',
       name: 'Feed',
       component: Feed
     }, {
@@ -97,8 +91,8 @@ export default new Router({
       component: Live
     }, {
       path: '/vendor/clips',
-      name: 'ClipsVendor',
-      component: ClipsVendor
+      name: 'ListClips',
+      component: ListClips
     }, {
       path: '/vendor/shop',
       name: 'Shop',
@@ -123,10 +117,6 @@ export default new Router({
       path: '/discussions/:discussionId?/:userId?/:picture?/:businessName?',
       name: 'ListMessages',
       component: ListMessages
-    }, {
-      path: '/clips/:type/:index/:profileId',
-      name: 'ListClips',
-      component: ListClips
     }, {
       path: '/order/:id',
       name: 'Order',

@@ -51,7 +51,7 @@ import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/replay.json';
 
 export default {
-  name: 'ClipsVendor',
+  name: 'ListClips',
   components: {
     'lottie': Lottie,
   },

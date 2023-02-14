@@ -407,14 +407,13 @@
 
 
     <!-- follow popup -->
-    <!-- afficher 30 sec et cacher ou cliquer en dehors pour fermer + afficher en live-->
-    <!-- <div class="store-products-item__login-popup store-products-item__login-popup--active shop-popup" style="padding-bottom: 0px; height: 21%; overflow-y: initial; text-align: center;"> -->
-      <!-- <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 72px; border-radius: 50%; border: 3px solid white; height: 72px; margin-top: -40px;"> -->
-    <!--   <img :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 72px; border-radius: 50%; border: 3px solid white; height: 72px; margin-top: -40px;">
-      <div style="margin-bottom: 5px;">amber19111</div>
-      <p style="font-size: 11px; text-align: center; font-weight: 400; color: #999;">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
-      <div class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
-    </div> -->
+    <div v-if="popupFollow" class="store-products-item__login-popup store-products-item__login-popup--active follow-popup">
+      <img v-if="data[visible].value.vendor.user.picture" :src="cloudinary256x256 + data[visible].value.vendor.user.picture">
+      <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+      <div style="margin-bottom: 5px;">{{ data[visible].value.vendor.businessName }}</div>
+      <p class="follow-text">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
+      <div @click="follow(data[visible].value.vendor.user.id)" class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
+    </div>
 
 
     <!-- cart popup -->
@@ -500,9 +499,9 @@ export default {
   mixins: [ clickaway ],
   data() {
     return {
-      data: [],
-      videos: [],
-      lineItems: [],
+      anchor: this.$route.params.index,
+      type: this.$route.params.type,
+      profileId: this.$route.params.profileId,
       user: JSON.parse(window.localStorage.getItem("user")),
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
@@ -512,6 +511,9 @@ export default {
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
       defaultOptions3: {animationData: animationData3},
+      data: [],
+      videos: [],
+      lineItems: [],
       animationSpeed: 1,
       animationSpeed2: 2,
       following: [],
@@ -538,6 +540,7 @@ export default {
       popupCart: false,
       popupShop: false,
       popupCheckout: false,
+      popupFollow: false,
       purchase: false,
       purchasePicture: false,
       clickFollow: false,
@@ -606,6 +609,7 @@ export default {
     }
   },
   mounted() {
+    console.log('anchor', this.anchor);
     this.refresh();
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
@@ -675,6 +679,15 @@ export default {
           if (this.data[index].type == "live") {
             this.display = value.display;
             this.startLive(value);
+
+            setTimeout(() => {
+              if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
+                this.popupFollow = true;
+                setTimeout(() => {
+                  this.popupFollow = false;
+                }, 30000); // 30 secondes
+              }
+            }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
           }
 
           if (this.comments[index].value.length > 0) {
@@ -890,7 +903,18 @@ export default {
       this.popupProduct = false;
       this.loading = true;
 
-      this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      if (this.type == "profile") {
+        var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
+        var auth = null;
+      } else if (this.type == "trending") {
+        var url = this.baseUrl + "/user/api/clips/trending/feed";
+        var auth = { Authorization: "Bearer " + this.token };
+      } else {
+        var url = this.baseUrl + "/user/api/feed";
+        var auth = { Authorization: "Bearer " + this.token };
+      }
+
+      this.http.get(url, {}, auth, (response) => {
         var result = JSON.parse(response.data);
         console.log(result);
 
@@ -932,16 +956,62 @@ export default {
 
               this.following.push({ "value": isFollower });
               this.finished.push({ "value": false });
-              console.log(this.following);
 
-              if (index == 0) {
+              if (this.anchor) {
+                if (this.anchor == index) {
+                  this.videos.push({ "value": value.resourceUri });
+                  this.comments.push({ "value": value.comments });
+
+                  if (index > 0) {
+                    setTimeout(() => {
+                      var el = document.getElementById('feed');
+                      if (el) {
+                        el.scrollTop += window.innerHeight * index;
+                      }
+                    });
+                  }
+
+                  // si c'est un live
+                  if (element.type == "live") {
+                    this.display = value.display;
+                    this.startLive(value);
+
+                    setTimeout(() => {
+                      if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
+                        this.popupFollow = true;
+                        setTimeout(() => {
+                          this.popupFollow = false;
+                        }, 30000); // 30 secondes
+                      }
+                    }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
+                  }
+
+                  if (this.comments[index].value.length > 0) {
+                    this.scrollToElement();
+                  }
+
+                  this.launchPlayer(value, index);
+                } else {
+                  this.videos.push({ "value": "" });
+                  this.comments.push({ "value": [] });
+                }
+              } else if (index == 0) {
                 this.videos.push({ "value": value.resourceUri });
                 this.comments.push({ "value": value.comments });
 
-              // si c'est un live
+                // si c'est un live
                 if (element.type == "live") {
                   this.display = value.display;
                   this.startLive(value);
+
+                  setTimeout(() => {
+                    if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
+                      this.popupFollow = true;
+                      setTimeout(() => {
+                        this.popupFollow = false;
+                      }, 30000); // 30 secondes
+                    }
+                  }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
                 }
 
                 if (this.comments[index].value.length > 0) {
@@ -1070,17 +1140,18 @@ export default {
         if (element.value.vendor.user.id == id) {
           this.following[index].value = true;
           this.clickFollow = true;
+          this.popupFollow = false;
 
           setTimeout(() => {
             this.clickFollow = false;
           }, 2000);
-        }
-      });
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        window.localStorage.setItem("user", response.data);
-      }, (response) => {
-        console.log(response.error);
+          window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+            window.localStorage.setItem("user", response.data);
+          }, (response) => {
+            console.log(response.error);
+          });
+        }
       });
     },
     favoris(product) { 

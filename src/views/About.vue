@@ -53,7 +53,7 @@
       </div>
 
 <!-- 
-      <div @click="goToMessage()" class="btn-swipe" style="color: white; text-align: center; width: calc(100% - 30px); position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); font-weight: 500;">
+      <div class="btn-swipe" style="color: white; text-align: center; width: calc(100% - 30px); position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); font-weight: 500;">
         <img :src="require(`@/assets/img/comment-white.svg`)" style="width: 24px; height: 24px; transform: none"/>
         Contacter Swipe Live
       </div> -->
@@ -109,12 +109,26 @@ export default {
     goBack() {
       this.$router.push({ name: 'Account' });
     },
-    goToMessage() {
-      // this.$router.push({ name: 'ListMessages' });
-    },
     deleteAccount() {
-      // afficher popup pour confirmer
-      // supprimer le compte
+      navigator.notification.confirm(
+        'Voulez-vous vraiment supprimer ce compte ?',
+         this.onConfirm(), 
+        'Supprimer', 
+        ['Annuler','Supprimer'] 
+      );
+    },
+    onConfirm(index) {
+      console.log(index);
+      if (index == 2) {
+        // supprimer le compte
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('user');
+        window.localStorage.removeItem('trend');
+        window.localStorage.removeItem('categories');
+        window.localStorage.removeItem('banned');
+        window.localStorage.removeItem('rules');
+        this.$router.push({ name: 'Welcome' });
+      }
     }
   }
 };

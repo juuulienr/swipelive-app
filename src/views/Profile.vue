@@ -7,12 +7,12 @@
       <div class="checkout__title"></div>
       <div @click="actionSheet()" class="checkout__right-btn" style="top: 8px;">
         <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
-        <img @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 0px; top: 118px;"/>
+        <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 0px; top: 118px;"/>
       </div>
     </div>
 
 
-    <img v-if="profile && profile.vendor" :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px;">
+    <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px;">
     <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -60px;">
       <div>
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
@@ -42,7 +42,7 @@
           <div v-if="live" class="images" style="margin-bottom: 30px;">
             <div v-if="profile" class="row">
               <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
-                <router-link v-if="clip.status == 'available'" :to="{ name: 'ListClips', params: { type: 'profile', index: index, profileId: profile.id }}">
+                <router-link v-if="clip.status == 'available'" :to="{ name: 'Feed', params: { type: 'profile', index: index, profileId: profile.id }}">
                   <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover;">
                 </router-link>
               </div>
@@ -230,7 +230,7 @@ export default {
       this.notif = true;
     },
     actionSheet() {
-      var buttonLabels = [ 'Partager', 'Se désabonner', 'Silencieux', 'Signaler'];
+      var buttonLabels = [ 'Partager', 'Silencieux', 'Signaler'];
       var options = {
         buttonLabels: buttonLabels,
         addCancelButtonWithLabel: 'Annuler',

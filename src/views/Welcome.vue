@@ -402,21 +402,22 @@ export default {
       // ajouter apple
     // },
     resetPassword() {
-      // this.errorEmailRecovery = false;
+      this.errorEmailRecovery = false;
 
       // envoyer mail pour reinitialiser mdp
-      // if (!this.forgotEmail) {
-      //   this.errorEmailRecovery = true;
-      // }
+      if (!this.forgotEmail) {
+        this.errorEmailRecovery = true;
+      }
 
-      // if (!this.errorEmailRecovery && !this.isReset) {
-      //   this.isReset = true;
-      // }
+      if (!this.errorEmailRecovery && !this.isReset) {
+        this.isReset = true;
+      }
     },
     open() {
       window.StatusBar.overlaysWebView(false);  
       window.StatusBar.styleDefault();
       window.StatusBar.backgroundColorByHexString("#ffffff");
+      
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;

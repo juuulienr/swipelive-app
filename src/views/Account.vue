@@ -95,7 +95,7 @@
       </div>
       <div v-if="user.vendor" style="border: 1px solid rgb(221, 221, 221) !important; border-radius: 16px; margin-top: 25px;">
         <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
-          <router-link :to="{ name: 'ClipsVendor' }">
+          <router-link :to="{ name: 'ListClips' }">
             <span style="font-size: 16px; color: #333;">
               <img :src="require(`@/assets/img/clips.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
             </span>
@@ -244,7 +244,6 @@
         </div>
       </div>
 
-
     </div>
   </main>
 </template>
@@ -270,16 +269,6 @@ export default {
     window.StatusBar.overlaysWebView(false);  
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-
-    if (this.user.vendor) {
-      if (this.user.vendor.products.length) {
-        this.user.vendor.products.map(product => {
-          if (product.archived == false) {
-            this.nbProducts += 1;
-          }
-        });
-      }
-    }
   },
   methods: {
     logout() {
@@ -296,21 +285,6 @@ export default {
     },
     goEditProfile() {
       this.$router.push({ name: 'EditUser' });
-    },
-    goToShop() {
-      this.$router.push({ name: 'Shop' });
-    },
-    goToClip() {
-      this.$router.push({ name: 'ClipsVendor' });
-    },
-    goToOrder() {
-      this.$router.push({ name: 'ListOrders' });
-    },
-    goToFavoris() {
-      this.$router.push({ name: 'Favoris' });
-    },
-    goToFollowing() {
-      this.$router.push({ name: 'ListFollowing' });
     },
     goToVendorRegistration() {
       this.$router.push({ name: 'VendorRegistration' });
