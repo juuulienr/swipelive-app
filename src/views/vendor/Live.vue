@@ -93,8 +93,9 @@
               </fieldset>
             </div>
             <br>
-            <div @click="savePromo()" class="btn-swipe" style="color: white; text-align: center;">Enregistrer</div>
           </div>
+          
+          <div @click="savePromo()" class="btn-swipe" style="color: white; text-align: center;">Enregistrer</div>
           
           <hr> 
 
@@ -255,7 +256,7 @@
 
       <div :style="{'bottom': safeareaBottom }" @click="start()" style="left: calc(50vw - 75px); position: absolute; z-index: 20;">
         <div style="margin: 0px auto;">
-          <lottie :options="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
+          <Lottie :options="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
         </div>
       </div>
     </div>
@@ -614,7 +615,7 @@
           <div v-else class="checkout__body">
             <div class="container" style="margin: 0px auto; text-align: center;">
               <div style="margin: 0px auto;">
-                <lottie :options="defaultOptions3" :width="180"/>
+                <Lottie :options="defaultOptions3" :width="180"/>
               </div>
             </div>
             <h5 class="orders-none">Aucune commande</h5>
@@ -651,7 +652,7 @@
           <div v-else>
             <div class="container" style="margin: 0px auto; text-align: center;">
             <div style="margin: 0px auto;">
-              <lottie :options="defaultOptions2" :width="220"/>
+              <Lottie :options="defaultOptions2" :width="220"/>
             </div>
             </div>
             <h5 class="viewers-none">Aucun spectateur</h5>
@@ -676,7 +677,7 @@
         <div class="cards-main">
           <div class="container" style="text-align: center;">
             <div style="margin: 0px auto;">
-              <lottie :options="defaultOptions4" :width="200"/>
+              <Lottie :options="defaultOptions4" :width="200"/>
             </div>
           </div>
           <div class="performance-title">Bravo {{ user.vendor.businessName }} !</div>
@@ -739,7 +740,7 @@ export default {
   name: 'Feed',
   mixins: [ clickaway ],
   components: {
-    'lottie': Lottie
+    Lottie
   },
   data() {
     return {

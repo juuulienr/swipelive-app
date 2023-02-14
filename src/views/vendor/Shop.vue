@@ -12,11 +12,11 @@
     <div class="checkout__body">
       <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
         <div style="border-right: 1px solid #eff1f6;">
-          <h4>10</h4>
+          <h4>{{ available }}</h4>
           <p>En stock</p>
         </div>
         <div>
-          <h4>3</h4>
+          <h4>{{ soldOut }}</h4>
           <p>Épuisé</p>
         </div>
       </div>
@@ -44,7 +44,7 @@
       <div v-else>
         <div class="container" style="margin: 120px auto 0px; text-align: center;">
           <div style="margin: 0px auto;">
-            <lottie :options="defaultOptions" :width="200"/>
+            <Lottie :options="defaultOptions" :width="200"/>
           </div>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun article</h5>
@@ -65,7 +65,7 @@ import * as animationData from '../../assets/lottie/no-product.json';
 export default {
   name: 'Shop',
   components: {
-    'lottie': Lottie,
+    Lottie
   },
   data() {
     return {
@@ -75,6 +75,8 @@ export default {
       defaultOptions: {animationData: animationData},
       stocks: [],
       prices: [],
+      soldOut: 0,
+      available: 0,
       products: null,
     }
   },
@@ -106,6 +108,18 @@ export default {
           });
           this.stocks[index] = quantity;
           this.prices[index] = price;
+
+          if (quantity > 0) {
+            this.available += 1;
+          } else {
+            this.soldOut += 1;
+          }
+        } else {
+          if (product.quantity > 0) {
+            this.available += 1;
+          } else {
+            this.soldOut += 1;
+          }
         }
       });
     }, (response) => {

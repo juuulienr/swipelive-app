@@ -13,14 +13,14 @@
           <h5 class="title">Glisser vers le haut</h5>
           <div class="subtitle">Pour passer d'un live à un autre</div>
           <div class="container" style="margin-top: 0px;">
-            <lottie :options="defaultOptions" :width="200" :height="200"/>
+            <Lottie :options="defaultOptions" :width="200" :height="200"/>
           </div>
         </div>
         <div style="margin-top: 50px;">
           <h5 class="title">Glisser vers la gauche</h5>
           <div class="subtitle">Pour voir le profil du présentateur</div>
           <div class="container" style="margin-top: 0px;">
-            <lottie :options="defaultOptions2" :width="200" :height="200"/>
+            <Lottie :options="defaultOptions2" :width="200" :height="200"/>
           </div>
         </div>
         <div @click="goFeed()" class="btn-step">Commencer à regarder</div>
@@ -83,7 +83,7 @@ import * as animationData2 from '../assets/lottie/swipe-left.json';
 export default {
   name: 'Onboarding',
   components: {
-    'lottie': Lottie
+    Lottie
   },
   data() {
     return {

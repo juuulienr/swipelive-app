@@ -18,6 +18,7 @@ import ListFollowing from '@/views/ListFollowing'
 import EditUser from '@/views/EditUser'
 import Account from '@/views/Account'
 import Order from '@/views/Order'
+import Cart from '@/components/Cart'
 
 
 import Shop from '@/views/vendor/Shop'
@@ -53,6 +54,10 @@ export default new Router({
       path: '/home',
       name: 'Home',
       component: Home
+    }, {
+      path: '/cart',
+      name: 'Cart',
+      component: Cart
     }, {
       path: '/profile/:id',
       name: 'Profile',

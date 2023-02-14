@@ -62,7 +62,7 @@
     <div v-else>
       <div class="container" style="margin: 120px auto 0px; text-align: center;">
         <div style="margin: 0px auto;">
-          <lottie :options="defaultOptions" :width="200"/>
+          <Lottie :options="defaultOptions" :width="200"/>
         </div>
         <h5 style="font-weight: 500; font-size: 20px;text-align: center; margin-bottom: 8px; margin-top: 30px;">Swipe Roulette</h5>
         <div style="font-weight: 400;font-size: 15px;text-align: center;">La Swipe Roulette sera bientôt disponible 😉</div>
@@ -83,7 +83,7 @@
       <div class="checkout__body info-wheel" style="overflow: scroll; padding: 15px 20px 50px;">
         <div class="container" style="text-align: center;">
           <div style="margin: 0px auto 20px;">
-            <lottie :options="defaultOptions" :width="200"/>
+            <Lottie :options="defaultOptions" :width="200"/>
           </div>
           <h4 style="margin-top: 0px; margin-bottom: 50px;">Et si acheter devient un jeu ?</h4>
         </div>
@@ -131,7 +131,7 @@ import * as animationData from '../assets/lottie/gift.json';
 export default {
   name: 'SwipeWheel',
   components: {
-    'lottie': Lottie
+    Lottie
   },
   data() {
     return {

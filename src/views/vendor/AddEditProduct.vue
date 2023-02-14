@@ -17,7 +17,7 @@
       <div @click="uploadSheet()" class="drop--file">
         <div class="drop--img">
           <div style="margin: 0px auto;">
-            <lottie :options="defaultOptions" :width="120"/>
+            <Lottie :options="defaultOptions" :width="120"/>
           </div>
         </div>
         <div class="drop--text">
@@ -310,7 +310,7 @@ import * as animationData from '../../assets/lottie/upload.json';
 export default {
   name: 'AddEditProduct',
   components: {
-    'lottie': Lottie,
+    Lottie
   },
   data() {
     return {

@@ -11,7 +11,7 @@
       <div v-else class="checkout__title">Ordre de passage</div>
     </div>
 
-    <div class="checkout__body" style="overflow: scroll; padding-bottom: 85px;">
+    <div class="checkout__body" style="overflow: initial; padding-bottom: 85px;">
       <div v-if="rules" class="items rules">
         <p style="margin-top: 10px;">Veuillez suivre ces règles concernant les directs. <br>
         Merci de nous aider à faire en sorte que la communauté reste sûre et amusante !</p>

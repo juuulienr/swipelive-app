@@ -208,3 +208,59 @@ a {
   text-align: center;
 }
 
+.account-band {
+  border: none; 
+  margin: 0px; 
+  text-align: left; 
+  padding-left: 20px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 14px 24px; 
+  border: none;
+}
+
+.account-box {
+  border: 1px solid rgb(221, 221, 221) !important; 
+  border-radius: 16px;
+}
+
+.account-band .img1 {
+  width: 24px; 
+  height: 24px; 
+  margin-right: 16px
+}
+
+.account-band .img2 {
+  width: 27px; 
+  height: 27px;
+}
+
+.account-band .title {
+  font-weight: 500; 
+  color: #272c30;
+}
+
+.account-band .left-side {
+  font-size: 16px; 
+  color: #333;
+}
+
+.btn-logout {
+  border: none; 
+  margin: 0px; 
+  text-align: left; 
+  padding-left: 20px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 14px 24px; 
+  border: none;
+}
+
+
+.btn-logout span {
+  font-weight: 500; 
+  color: rgba(255, 0, 0, 50%);
+}
+

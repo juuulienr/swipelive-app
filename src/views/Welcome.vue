@@ -205,7 +205,7 @@
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 15px;">
         <div style="margin: 0px auto;">
-          <lottie :options="defaultOptions" :width="200" v-on:animCreated="handleAnimation"/>
+          <Lottie :options="defaultOptions" :width="200" v-on:animCreated="handleAnimation"/>
         </div>
 
         <p v-if="isReset" style="font-size: 13px; color: #525c66; text-align: left; margin-bottom: 30px; font-weight: 400;">Un mail a été envoyé pour réinitialiser votre mot de passe.</p>
@@ -238,7 +238,7 @@ import * as animationData from '../assets/lottie/forgot-password.json';
 export default {
   name: 'Welcome',
   components: {
-    'lottie': Lottie
+    Lottie
   },
   data() {
     return {

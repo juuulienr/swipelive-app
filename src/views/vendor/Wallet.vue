@@ -11,7 +11,7 @@
 
     <div class="checkout__body">
       <div class="cards-main">
-        <div class="current--balance" style="padding: 15px; border-radius: 11px; margin: 15px 5px;">
+        <div class="current--balance" style="border-radius: 11px; margin: 15px 5px;">
           <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 16px; text-align: center; display: block; flex: 1 1 auto; margin-bottom: -10px;color: #272c30;"> Montant disponible
           </div>
           <div>
@@ -30,7 +30,7 @@
 
         <hr style="width: 100%;margin: 15px 0px;">
 
-        <div class="current--balance" style="padding: 15px; border-radius: 11px; margin: 25px 5px;">
+        <div class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
           <div @click="showHistory()" class="current--balance--two" style="padding: 5px 0px;">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Avril 2022<br> 
@@ -77,7 +77,7 @@
 
         <hr style="width: 100%;margin: 15px 0px;">
 
-        <div class="current--balance" style="padding: 15px; border-radius: 11px; margin: 15px 5px 25px;">
+        <div class="current--balance" style="border-radius: 11px; margin: 15px 5px 25px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Retrait</div>
           <div class="current--balance--two" style="padding: 5px 0px;">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Transfert<br> 
@@ -166,7 +166,7 @@
           <div v-else>
 
             <div style="margin: 60px auto 0px;">
-              <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="200"/>
+              <Lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="200"/>
             </div>
 
             <p style="margin-bottom: 0px;color: black;font-weight: 500;font-size: 14px;padding: 0px 10px;margin-top: 35px;text-align: center;">
@@ -191,9 +191,9 @@
           </div>
           <div class="checkout__title">Revenu du mois</div>
         </div>
-        <div class="checkout__body" style="overflow: scroll; padding: 15px 10px">
+        <div style="padding: 5px;">
           <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: 30px;color: #ff2a80;">Avril 2022</div>
-          <div class="current--balance" style="argin: 15px 0px;">
+          <div class="current--balance" style="margin: 15px 0px;">
             <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: -10px;color: #272c30;">Revenu Net</div>
             <div>
               <h3 style="font-weight: 600;margin-bottom: 0px;font-size: 50px;">0,00€</h3>
@@ -230,7 +230,7 @@ import * as animationData from '../../assets/lottie/success.json';
 export default {
   name: 'Wallet',
   components: {
-    'lottie': Lottie
+    Lottie
   },
   data() {
     return {

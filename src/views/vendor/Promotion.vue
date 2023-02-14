@@ -60,7 +60,7 @@
       <div v-else>
         <div class="container" style="margin: 100px auto 0px; text-align: center;">
           <div style="margin: 0px auto;">
-            <lottie :options="defaultOptions" :width="200"/>
+            <Lottie :options="defaultOptions" :width="200"/>
           </div>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune promotion</h5>
@@ -122,7 +122,7 @@ import * as animationData from '../../assets/lottie/discount.json';
 export default {
   name: 'Promotion',
   components: {
-    'lottie': Lottie,
+    Lottie
   },
   data() {
     return {

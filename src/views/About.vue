@@ -112,7 +112,7 @@ export default {
     deleteAccount() {
       navigator.notification.confirm(
         'Voulez-vous vraiment supprimer ce compte ?',
-         this.onConfirm(), 
+         this.onConfirm, 
         'Supprimer', 
         ['Annuler','Supprimer'] 
       );

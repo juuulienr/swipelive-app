@@ -16,7 +16,7 @@
 
         <!-- viewers -->
         <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
-          <lottie :options="defaultOptions" :width="20" v-on:animCreated="handleAnimation"/>
+          <Lottie :options="defaultOptions" :width="20" v-on:animCreated="handleAnimation"/>
           <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
           </span>
@@ -41,7 +41,7 @@
           <div class="video-page__influencer-username6">{{ feed.value.vendor.businessName }}</div>
         </div>
         <div v-if="finished[index].value" class="finished-swipe">
-          <lottie :options="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
+          <Lottie :options="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
           <h4>Swipe vers le haut pour passer au prochain</h4>
         </div>
 
@@ -50,7 +50,7 @@
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
             <img v-if="purchasePicture" class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute; z-index: 100000000; border: 3px solid white;" />
-            <lottie :options="defaultOptions3" v-on:animCreated="handleAnimation2" style="position: absolute; width: 100vh; height: 100vh"/>
+            <Lottie :options="defaultOptions3" v-on:animCreated="handleAnimation2" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>
         </div>
 
@@ -422,9 +422,6 @@
         <div class="scroll-indicator"></div>
       </div>
       <div style="margin: 0px;">
-        <div class="cart-box">
-          <span class="cart-title">Panier</span>
-        </div>
         <Cart :lineItems="lineItems" @updateCart="updateCartChild" @showCheckout="showCheckoutChild"></Cart>
       </div>
     </div>
@@ -494,7 +491,7 @@ export default {
     Product,
     Cart,
     Checkout,
-    'lottie': Lottie
+    Lottie
   },
   mixins: [ clickaway ],
   data() {
@@ -597,6 +594,10 @@ export default {
       	console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
         window.localStorage.setItem("user", response.data);
+        
+        if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
+          Sentry.setUser({ email: this.user.email });
+        }
       }, (error) => {
         console.log(error);
       });
@@ -604,9 +605,6 @@ export default {
       this.$router.push({ name: 'Welcome' });
     }
 
-    if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
-      Sentry.setUser({ email: this.user.email });
-    }
   },
   mounted() {
     console.log('anchor', this.anchor);
@@ -909,6 +907,9 @@ export default {
       } else if (this.type == "trending") {
         var url = this.baseUrl + "/user/api/clips/trending/feed";
         var auth = { Authorization: "Bearer " + this.token };
+      } else if (this.type == "latest") {
+        var url = this.baseUrl + "/user/api/clips/latest/feed";
+        var auth = { Authorization: "Bearer " + this.token };
       } else {
         var url = this.baseUrl + "/user/api/feed";
         var auth = { Authorization: "Bearer " + this.token };
@@ -1197,6 +1198,17 @@ export default {
         }, (response) => { 
           console.log(response.error); 
         });
+      } else {
+        setTimeout(() => {
+          this.purchase = true;
+            this.purchasePicture = true;
+          setTimeout(() => {
+            this.purchasePicture = false;
+          }, 1700);
+          setTimeout(() => {
+            this.purchase = false;
+          }, 3000);
+        }, 1000);
       }
 
       window.StatusBar.styleLightContent();

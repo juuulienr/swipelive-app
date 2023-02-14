@@ -11,7 +11,7 @@
 
     <div class="checkout__body">
       <div>
-        <div class="general--profile" style="padding-top: 10px;">
+        <div class="general--profile" style="padding-top: 10px; padding-bottom: 30px;">
           <div>
             <span @click="uploadSheet()" style="border: 2px solid #ff2a80;">
               <span>

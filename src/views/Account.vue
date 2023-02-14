@@ -4,7 +4,7 @@
       <div class="checkout__title">Mon compte</div>
     </div>
 
-    <div class="checkout__body">
+    <div class="checkout__body" style="padding-bottom: 85px">
       <div v-if="user" class="top-author--container" style="padding: 0px; align-items: center;">
         <div @click="goEditProfile()" class="top-author--item">
           <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="margin: 5px; width: 70px; height: 70px;">
@@ -42,13 +42,11 @@
       </div>
 
 
-
-
       <div v-if="user.vendor" style="background: #ff2a80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'PreLive' }">
             <span style="font-size: 16px; color: #fff;">
-              <img :src="require(`@/assets/img/video.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+              <img class="img1":src="require(`@/assets/img/video.svg`)"/>
             </span>
             <span style="font-weight: 500; color: #fff">Lancer un direct</span>
             <span style="float: right;">
@@ -58,96 +56,96 @@
       </div>
 
 
-      <div v-if="user.vendor" style="border: 1px solid rgb(221, 221, 221) !important; border-radius: 16px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+      <div v-if="user.vendor" class="account-box">
+        <div class="account-band">
           <router-link :to="{ name: 'Shop' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/shop.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/shop.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Boutique</span>
+            <span class="title">Boutique</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'ListOrders' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/orders.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1" :src="require(`@/assets/img/orders.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Commandes</span>
+            <span class="title">Commandes</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'Wallet' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/wallet.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/wallet.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Porte-monnaie</span>
+            <span class="title">Porte-monnaie</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
       </div>
-      <div v-if="user.vendor" style="border: 1px solid rgb(221, 221, 221) !important; border-radius: 16px; margin-top: 25px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+      <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
+        <div class="account-band">
           <router-link :to="{ name: 'ListClips' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/clips.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/clips.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Replays</span>
+            <span class="title">Replays</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'Promotion' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/promotion.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/promotion.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Promotions</span>
+            <span class="title">Promotions</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
       </div>
-      <div v-if="user.vendor" style="border: 1px solid rgb(221, 221, 221) !important; border-radius: 16px; margin-top: 25px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+      <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
+        <div class="account-band">
           <router-link :to="{ name: 'ListFollowing' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/followers.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/followers.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Communauté</span>
+            <span class="title">Communauté</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'Partner' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/partner.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/partner.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Partenariats</span>
+            <span class="title">Partenariats</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'Favoris' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/favoris.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/favoris.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Favoris</span>
+            <span class="title">Favoris</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
@@ -155,83 +153,78 @@
 
 
 
-
-
-      <div v-if="!user.vendor" style="border: 1px solid rgb(221, 221, 221) !important; border-radius: 16px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+      <div v-if="!user.vendor" class="account-box">
+        <div class="account-band">
           <router-link :to="{ name: 'ListOrders' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/orders.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/orders.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Commandes</span>
+            <span class="title">Commandes</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'ListFollowing' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/followers.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/followers.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Abonnements</span>
+            <span class="title">Abonnements</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'Favoris' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/favoris.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/favoris.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Favoris</span>
+            <span class="title">Favoris</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
       </div>
 
 
-
-
-      <div v-if="!user.vendor" style="border: 1px solid rgb(221, 221, 221) !important; border-radius: 16px; margin-top: 25px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+      <div v-if="!user.vendor" class="account-box" style="margin-top: 25px;">
+        <div class="account-band">
           <router-link :to="{ name: 'SwipeWheel' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/trophy.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/trophy.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Swipe Roulette</span>
+            <span class="title">Swipe Roulette</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
       </div>
 
 
-
-      <div style="border: 1px solid rgb(221, 221, 221) !important; border-radius: 16px; margin-top: 25px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+      <div  class="account-box" style="margin-top: 25px;">
+        <div class="account-band">
           <router-link :to="{ name: 'About' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/star.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/star.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Noter Swipe Live</span>
+            <span class="title">Noter Swipe Live</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border: none;">
+        <div class="account-band">
           <router-link :to="{ name: 'About' }">
-            <span style="font-size: 16px; color: #333;">
-              <img :src="require(`@/assets/img/info.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/info.svg`)"/>
             </span>
-            <span style="font-weight: 500; color: #272c30">Informations</span>
+            <span class="title">Informations</span>
             <span style="float: right;">
-              <img :src="require(`@/assets/img/chevron-right.svg`)" style="width: 27px; height: 27px;"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </router-link>
         </div>
@@ -239,8 +232,8 @@
 
 
       <div @click="logout()" style="margin-top: 25px;">
-        <div style="border: none; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center; justify-content: center; padding: 14px 24px; border: none;">
-          <span style="font-weight: 500; color: rgba(255, 0, 0, 50%)">Déconnexion</span>
+        <div class="btn-logout">
+          <span>Déconnexion</span>
         </div>
       </div>
 
@@ -262,7 +255,6 @@ export default {
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      nbProducts: 0
     }
   },
   created() {
