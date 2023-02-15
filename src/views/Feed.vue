@@ -421,6 +421,9 @@
       <div @click="hideCart()" style="display: flex;">
         <div class="scroll-indicator"></div>
       </div>
+      <div class="cart-box">
+        <span class="cart-title">Panier</span>
+      </div>
       <div style="margin: 0px;">
         <Cart :lineItems="lineItems" @updateCart="updateCartChild" @showCheckout="showCheckoutChild"></Cart>
       </div>

@@ -1,8 +1,5 @@
 <template>
   <main class="cart" style="height: 68vh;">
-    <div class="cart-box">
-      <span class="cart-title">Panier</span>
-    </div>
     <div class="checkout">
       <div v-if="lineItems && lineItems.length" class="checkout__body">
         <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">

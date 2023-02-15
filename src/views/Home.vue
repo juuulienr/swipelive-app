@@ -197,6 +197,7 @@ export default {
       categories: JSON.parse(window.localStorage.getItem("categories")),
       clips: JSON.parse(window.localStorage.getItem("trend")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      searchFollowing: [],
       latestClips: [],
       following: null,
       popupSearch: false,
@@ -205,7 +206,6 @@ export default {
       product: null,
       variant: null,
       suggestions: null,
-      searchFollowing: [],
       products: null,
       loading: false
     }
@@ -330,7 +330,7 @@ export default {
       console.log(variant);
     },
     addToCart() {
-      this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": this.product.vendor });
+      // this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": this.product.vendor });
       this.popupProduct = false;
     }
   }

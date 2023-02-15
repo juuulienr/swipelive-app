@@ -27,32 +27,32 @@
         <div class="informations" style="margin: 40px auto; width: 100%; border-radius: 10px; color: black; font-weight: 400; font-size: 15px; text-align: left; padding: 0px 15px; line-height: 29px;">
           <div style="font-weight: 500; margin-bottom: 20px; font-size: 16px;">Chaque vendeur bénéficie :</div>
           <div>
-              <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
-              Boutique intégrée
+            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            Boutique intégrée
           </div>
           <div>
-              <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
-              Lives et replay
+            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            Lives et replay
           </div>
           <div>
-              <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
-              Tarifs réduits sur les livraisons
+            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            Tarifs réduits sur les livraisons
           </div>
           <div>
-              <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
-              Paiements intégrés et sécurisés
+            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            Paiements intégrés et sécurisés
           </div>
           <div>
-              <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
-              Messagerie instantanée
+            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            Messagerie instantanée
           </div>
           <div>
-              <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
-              Notifications en temps réel
+            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            Notifications en temps réel
           </div>
           <div>
-              <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
-              Diffusion sur les réseaux sociaux
+            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            Diffusion sur les réseaux sociaux
           </div>
         </div>
 
@@ -171,7 +171,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>
-              <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder=""></vue-google-autocomplete>
+            <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder=""></vue-google-autocomplete>
           </fieldset>
         </div>
 
@@ -241,301 +241,301 @@
 </template>
 
 <style scoped>
-.general--profile {
-  padding-bottom: 45px;
-}
+  .general--profile {
+    padding-bottom: 45px;
+  }
 
-.general--profile > span {
-  width: 144px;
-  height: 144px;
-  margin: auto;
-  border-radius: 50%;
-  display: block;
-  padding: 8px;
-  border: 1px dashed rgba(145, 158, 171, 0.32);
-  position: relative;
-}
+  .general--profile > span {
+    width: 144px;
+    height: 144px;
+    margin: auto;
+    border-radius: 50%;
+    display: block;
+    padding: 8px;
+    border: 1px dashed rgba(145, 158, 171, 0.32);
+    position: relative;
+  }
 
-.general--profile > span > span {
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  outline: none;
-  display: flex;
-  overflow: hidden;
-  border-radius: 50%;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
+  .general--profile > span > span {
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    display: flex;
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
 
-.general--profile > span > span > span {
-  line-height: 0;
-  display: block;
-  overflow: hidden;
-  z-index: 8;
-  width: 100%;
-  height: 100%;
-  background-size: cover !important;
-}
+  .general--profile > span > span > span {
+    line-height: 0;
+    display: block;
+    overflow: hidden;
+    z-index: 8;
+    width: 100%;
+    height: 100%;
+    background-size: cover !important;
+  }
 
-.general--profile > span > span > span img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  .general--profile > span > span > span img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-.general--profile > span div {
-  display: flex;
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: calc(100% - 16px);
-  height: calc(100% - 16px);
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  color: #525c66;
-  background-color: rgb(244, 246, 248);
-  border-radius: 50%;
-  cursor: pointer;
-}
+  .general--profile > span div {
+    display: flex;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: #525c66;
+    background-color: rgb(244, 246, 248);
+    border-radius: 50%;
+    cursor: pointer;
+  }
 
-.general--profile > span div span {
-  line-height: 1.5;
-  font-size: 0.75rem;
-}
+  .general--profile > span div span {
+    line-height: 1.5;
+    font-size: 0.75rem;
+  }
 
-.general--profile > span div svg {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 8px;
-}
+  .general--profile > span div svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 8px;
+  }
 
 </style>
 
 <style>
   
-.display-mode {
-  display: initial !important;
-  z-index: 100000000000;
-}
+  .display-mode {
+    display: initial !important;
+    z-index: 100000000000;
+  }
 
-.hdpi.pac-logo:after {
-  background: none !important;
-  height: 0px !important;
-}
+  .hdpi.pac-logo:after {
+    background: none !important;
+    height: 0px !important;
+  }
 
-.pac-item {
-  padding: 3px 12px !important;
-  border: none !important;
-  font-size: 14px !important;
-}
+  .pac-item {
+    padding: 3px 12px !important;
+    border: none !important;
+    font-size: 14px !important;
+  }
 
-.hdpi .pac-icon {
-  display: none !important;
-}
+  .hdpi .pac-icon {
+    display: none !important;
+  }
 
-.pac-item-query {
-  font-size: 14px !important;
-}
+  .pac-item-query {
+    font-size: 14px !important;
+  }
 
-.pac-container {
-  box-shadow: 0 6px 19px 0 #d9d9d9 !important;
-  border-top: none !important;
-  border-radius: 7px !important;
-  padding: 7px 3px !important;
-}
+  .pac-container {
+    box-shadow: 0 6px 19px 0 #d9d9d9 !important;
+    border-top: none !important;
+    border-radius: 7px !important;
+    padding: 7px 3px !important;
+  }
 
 
 </style>
 
 <script>
 
-import VueGoogleAutocomplete from "vue-google-autocomplete";
+  import VueGoogleAutocomplete from "vue-google-autocomplete";
 
-export default {
-  name: 'VendorRegistration',
-  components: { VueGoogleAutocomplete },
-  data() {
-    return {
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      user: JSON.parse(window.localStorage.getItem("user")),
-      type: true,
-      step1: false,
-      step2: false,
-      step3: false,
-      email: null,
-      businessType: null,
-      summary: null,
-      businessName: null,
-      company: null,
-      siren: null,
-      address: null,
-      zip: null,
-      city: null,
-      picture: null,
-      errorFirstname: false,
-      errorLastname: false,
-      errorEmail: false,
-      errorDay: false,
-      errorMonth: false,
-      errorYear: false,
-      errorBusinessType: false,
-      errorBusinessName: false,
-      errorCompany: false,
-      errorSiren: false,
-      errorAddress: false,
-      errorZip: false,
-      errorCity: false,
-      errorSummary: false,
-      errorCountry: false,
-      errorPhone: false,
-      errorPicture: false,
-      errorRegistration: null,
-      showAutocomplete: false,
-      loadingImg: false,
-      loading: false,
-    }
-  },
-  created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-  },
-  methods: {
-    submitStep1() {
-      this.errorEmail = false;
-      this.errorFirstname = false;
-      this.errorLastname = false;
-      this.errorDay = false;
-      this.errorMonth = false;
-      this.errorYear = false;
-      this.errorPhone = false;
-      this.errorPicture = false;
+  export default {
+    name: 'VendorRegistration',
+    components: { VueGoogleAutocomplete },
+    data() {
+      return {
+        cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+        baseUrl: window.localStorage.getItem("baseUrl"),
+        token: window.localStorage.getItem("token"),
+        user: JSON.parse(window.localStorage.getItem("user")),
+        type: true,
+        step1: false,
+        step2: false,
+        step3: false,
+        email: null,
+        businessType: null,
+        summary: null,
+        businessName: null,
+        company: null,
+        siren: null,
+        address: null,
+        zip: null,
+        city: null,
+        picture: null,
+        errorFirstname: false,
+        errorLastname: false,
+        errorEmail: false,
+        errorDay: false,
+        errorMonth: false,
+        errorYear: false,
+        errorBusinessType: false,
+        errorBusinessName: false,
+        errorCompany: false,
+        errorSiren: false,
+        errorAddress: false,
+        errorZip: false,
+        errorCity: false,
+        errorSummary: false,
+        errorCountry: false,
+        errorPhone: false,
+        errorPicture: false,
+        errorRegistration: null,
+        showAutocomplete: false,
+        loadingImg: false,
+        loading: false,
+      }
+    },
+    created() {
+      window.StatusBar.overlaysWebView(false);
+      window.StatusBar.styleDefault();
+      window.StatusBar.backgroundColorByHexString("#ffffff");
+    },
+    methods: {
+      submitStep1() {
+        this.errorEmail = false;
+        this.errorFirstname = false;
+        this.errorLastname = false;
+        this.errorDay = false;
+        this.errorMonth = false;
+        this.errorYear = false;
+        this.errorPhone = false;
+        this.errorPicture = false;
 
-      if (!this.user.email) {
-        this.errorEmail = true;
-      } else {
-        if (!this.validEmail(this.user.email)) {
+        if (!this.user.email) {
           this.errorEmail = true;
+        } else {
+          if (!this.validEmail(this.user.email)) {
+            this.errorEmail = true;
+          }
         }
-      }
 
-      if (!this.user.firstname) {
-        this.errorFirstname = true;
-      }
+        if (!this.user.firstname) {
+          this.errorFirstname = true;
+        }
 
-      if (!this.user.lastname) {
-        this.errorLastname = true;
-      }
+        if (!this.user.lastname) {
+          this.errorLastname = true;
+        }
 
-      if (!this.user.phone) {
-        this.errorPhone = true;
-      } else {
-        if (!this.checkPhone(this.user.phone)) {
+        if (!this.user.phone) {
           this.errorPhone = true;
         } else {
-          this.user.phone = this.user.phone.replace(/\s/g, '');
-          console.log(this.user.phone);
+          if (!this.checkPhone(this.user.phone)) {
+            this.errorPhone = true;
+          } else {
+            this.user.phone = this.user.phone.replace(/\s/g, '');
+            console.log(this.user.phone);
+          }
         }
-      }
 
-      if (!this.user.picture) {
-        this.errorPicture = true;
-      }
+        if (!this.user.picture) {
+          this.errorPicture = true;
+        }
 
-      if (!this.user.day) {
-        this.errorDay = true;
-      } else {
-        if (parseInt(this.user.day) > 31 || parseInt(this.user.day) < 1) {
+        if (!this.user.day) {
           this.errorDay = true;
+        } else {
+          if (parseInt(this.user.day) > 31 || parseInt(this.user.day) < 1) {
+            this.errorDay = true;
+          }
         }
-      }
 
-      if (!this.user.month) {
-        this.errorMonth = true;
-      } else {
-        if (parseInt(this.user.month) > 12 || parseInt(this.user.month) == 0) {
+        if (!this.user.month) {
           this.errorMonth = true;
-        } else if (parseInt(this.user.month) < 10) {
-          this.user.month = "0" + parseInt(this.user.month);
+        } else {
+          if (parseInt(this.user.month) > 12 || parseInt(this.user.month) == 0) {
+            this.errorMonth = true;
+          } else if (parseInt(this.user.month) < 10) {
+            this.user.month = "0" + parseInt(this.user.month);
+          }
         }
-      }
 
-      if (!this.user.year) {
-        this.errorYear = true;
-      } else {
-        if (this.user.year.length == 4) {
-          var today = new Date();
-          var limit = today.getFullYear() - 100;
-          if (parseInt(this.user.year) > limit) {
-            var adult = today.setFullYear(today.getFullYear() - 18);
-            adult = new Date(adult);
+        if (!this.user.year) {
+          this.errorYear = true;
+        } else {
+          if (this.user.year.length == 4) {
+            var today = new Date();
+            var limit = today.getFullYear() - 100;
+            if (parseInt(this.user.year) > limit) {
+              var adult = today.setFullYear(today.getFullYear() - 18);
+              adult = new Date(adult);
 
-            if (adult < new Date(this.user.year)) {
+              if (adult < new Date(this.user.year)) {
+                this.errorYear = true;
+              }
+            } else {
               this.errorYear = true;
             }
           } else {
             this.errorYear = true;
           }
-        } else {
-          this.errorYear = true;
-        }
-      }
-
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorPhone && !this.errorPicture) {
-        this.step1 = false;
-        this.step2 = true;
-      }
-    }, 
-    submitStep2() {
-      this.errorSummary = false;
-      this.errorBusinessName = false;
-      this.errorAddress = false;
-      this.errorCompany = false;
-      this.errorSiren = false;
-      this.errorZip = false;
-      this.errorCity = false;
-
-      if (!this.summary) {
-        this.errorSummary = true;
-      }
-
-      if (!this.businessName) {
-        this.errorBusinessName = true;
-      }
-
-      if (!this.address) {
-        this.errorAddress = true;
-      }
-
-      if (!this.zip) {
-        this.errorZip = true;
-      }
-
-      if (!this.city) {
-        this.errorCity = true;
-      }
-
-      if (!this.country) {
-        this.errorCountry = true;
-      }
-
-      if (this.businessType == "company") {
-        if (!this.company) {
-          this.errorCompany = true;
         }
 
-        if (!this.siren) {
-          this.errorSiren = true;
+        if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorPhone && !this.errorPicture) {
+          this.step1 = false;
+          this.step2 = true;
         }
-      }
-      
-      switch (this.country) {
+      }, 
+      submitStep2() {
+        this.errorSummary = false;
+        this.errorBusinessName = false;
+        this.errorAddress = false;
+        this.errorCompany = false;
+        this.errorSiren = false;
+        this.errorZip = false;
+        this.errorCity = false;
+
+        if (!this.summary) {
+          this.errorSummary = true;
+        }
+
+        if (!this.businessName) {
+          this.errorBusinessName = true;
+        }
+
+        if (!this.address) {
+          this.errorAddress = true;
+        }
+
+        if (!this.zip) {
+          this.errorZip = true;
+        }
+
+        if (!this.city) {
+          this.errorCity = true;
+        }
+
+        if (!this.country) {
+          this.errorCountry = true;
+        }
+
+        if (this.businessType == "company") {
+          if (!this.company) {
+            this.errorCompany = true;
+          }
+
+          if (!this.siren) {
+            this.errorSiren = true;
+          }
+        }
+        
+        switch (this.country) {
         case "France":
           this.countryShort = "FR";
           break;
@@ -548,194 +548,194 @@ export default {
         default:
           this.countryShort = null;
           this.errorCountry = true;
-      }
-
-      if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorCountry) {
-        this.loading = true;
-        this.submit();
-      }
-    }, 
-    submitStep3() {
-      this.$router.push({ name: 'Account' });
-    }, 
-    async submit() {
-      window.cordova.plugin.http.setDataSerializer('json');
-      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
-
-      await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-        window.localStorage.setItem("user", response.data);
-        this.loading = false;
-        this.step1 = false;
-        this.step2 = false;
-        this.step3 = true;
-      }, (response) => {
-        console.log(JSON.parse(response.error));
-        this.errorRegistration = JSON.parse(response.error);
-        this.loading = false;
-      });
-    }, 
-    validEmail(email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
-    uploadSheet() {
-      var options = {
-        title: 'Ajouter une photo',
-        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
-        addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
-      };
-      window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
-          this.openFilePicker();
-        } else if (index == 2) {
-          this.openCamera();
         }
+
+        if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorCountry) {
+          this.loading = true;
+          this.submit();
+        }
+      }, 
+      submitStep3() {
+        this.$router.push({ name: 'Account' });
+      }, 
+      async submit() {
+        window.cordova.plugin.http.setDataSerializer('json');
+        var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
+
+        await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(response);
+          window.localStorage.setItem("user", response.data);
+          this.loading = false;
+          this.step1 = false;
+          this.step2 = false;
+          this.step3 = true;
+        }, (response) => {
+          console.log(JSON.parse(response.error));
+          this.errorRegistration = JSON.parse(response.error);
+          this.loading = false;
+        });
+      }, 
+      validEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+      },
+      uploadSheet() {
+        var options = {
+          title: 'Ajouter une photo',
+          buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
+          addCancelButtonWithLabel: 'Annuler',
+          androidEnableCancelButton : true,
+          winphoneEnableCancelButton : true
+        };
+        window.plugins.actionsheet.show(options, (index) => {
+          console.log(index);
+          if (index == 1) {
+            this.openFilePicker();
+          } else if (index == 2) {
+            this.openCamera();
+          }
+        }, (error) => {
+          console.log(error);
+        });
+      },
+      openFilePicker() {
+        var options = {
+          quality: 90,
+          destinationType: Camera.DestinationType.FILE_URI,
+          sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+          encodingType: Camera.EncodingType.JPEG,
+          mediaType: Camera.MediaType.PICTURE,
+          targetHeight: 256,
+          targetWidth: 256,
+          allowEdit: true,
+          correctOrientation: true
+        }
+
+        this.uploadImage(options);
+      },
+      openCamera() {
+        var options = {
+          quality: 90,
+          destinationType: Camera.DestinationType.FILE_URI,
+          sourceType: Camera.PictureSourceType.CAMERA,
+          encodingType: Camera.EncodingType.JPEG,
+          mediaType: Camera.MediaType.PICTURE,
+          targetHeight: 256,
+          targetWidth: 256,
+          allowEdit: true,
+          correctOrientation: true,
+        }
+
+        this.uploadImage(options);
+      },
+      uploadImage(options) {
+        navigator.camera.getPicture((imageUri) => {
+          console.log(imageUri);
+          this.errorPicture = false;
+          this.loadingImg = true;
+
+          window.cordova.plugin.http.setDataSerializer('json');
+          if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+            window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+              var result = JSON.parse(response.data);
+              this.user.picture = result.picture;
+              this.loadingImg = false;
+            }, function(response) {
+              console.log(response.error);
+            });
+          } else {
+            var imgData = "data:image/jpeg;base64," + imageUri;
+            window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
+              var result = JSON.parse(response.data);
+              this.user.picture = result.picture;
+              this.loadingImg = false;
+            }, function(response) {
+              console.log(response.error);
+            });
+          }
+        }, (error) => {
+          console.log("Impossible de récupérer l'image : " + error);
+        }, options);
+      },
+      goBack() {
+        if (this.type) {
+          this.$router.push({ name: 'Account' });
+        } else if (this.step1) {
+          this.type = true;
+          this.step1 = false;
+          this.step2 = false;
+        } else if (this.step2) {
+          this.step1 = true;
+          this.step2 = false;
+        }
+      },
+      goStep1(businessType) {
+        this.businessType = businessType;
+        this.type = false;
+        this.step1 = true;
+      },
+      handleError(error) {
+        console.log(error);
+      },
+      updateAddressData(addressData) {
+        var data = addressData.split(',');
+        this.$refs.address.update(data[0]);
+        this.address = data[0];
+      },
+      getAddressData(addressData, placeResultData, id) {
+        console.log(addressData, placeResultData);
+        
+        if (addressData.street_number) {
+          var street = addressData.street_number + ' ' + addressData.route;
+          this.countryShort = placeResultData.address_components[5].short_name;
+        } else {
+          var street = addressData.route;
+          this.countryShort = placeResultData.address_components[4].short_name;
+        }
+
+        this.$refs.address.update(street);
+        this.address = street;
+        this.zip = addressData.postal_code;
+        this.city = addressData.locality;
+        this.country = addressData.country;
+      },
+      blurAddressInput() {
+        this.showAutocomplete = false;
+        document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+      },
+      focusAddressInput() {
+        this.showAutocomplete = true;
+      },
+      inputChangeAddressInput(input) {
+        if (input.newVal.length > 2 && this.showAutocomplete) {
+          document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+        } else {
+          document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+        }
+      },
+      selectCountry() {
+       var data = {
+        numbers: [
+         {description: "France"},
+         {description: "Belgique"},
+         {description: "Luxembourg"},
+         ],
+      };
+
+      var config = {
+        title: "",
+        items:[
+         [data.numbers]
+         ],
+        positiveButtonText: "Choisir",
+        negativeButtonText: "Annuler"
+      };
+
+      window.SelectorCordovaPlugin.showSelector(config, (result) => {
+        this.country = result[0].description;
       }, (error) => {
         console.log(error);
       });
-    },
-    openFilePicker() {
-      var options = {
-        quality: 90,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        targetHeight: 256,
-        targetWidth: 256,
-        allowEdit: true,
-        correctOrientation: true
-      }
-
-      this.uploadImage(options);
-    },
-    openCamera() {
-      var options = {
-        quality: 90,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        targetHeight: 256,
-        targetWidth: 256,
-        allowEdit: true,
-        correctOrientation: true,
-      }
-
-      this.uploadImage(options);
-    },
-    uploadImage(options) {
-      navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        this.errorPicture = false;
-        this.loadingImg = true;
-
-        window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            var result = JSON.parse(response.data);
-            this.user.picture = result.picture;
-            this.loadingImg = false;
-          }, function(response) {
-            console.log(response.error);
-          });
-        } else {
-          var imgData = "data:image/jpeg;base64," + imageUri;
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            var result = JSON.parse(response.data);
-            this.user.picture = result.picture;
-            this.loadingImg = false;
-          }, function(response) {
-            console.log(response.error);
-          });
-        }
-      }, (error) => {
-        console.log("Impossible de récupérer l'image : " + error);
-      }, options);
-    },
-    goBack() {
-      if (this.type) {
-        this.$router.push({ name: 'Account' });
-      } else if (this.step1) {
-        this.type = true;
-        this.step1 = false;
-        this.step2 = false;
-      } else if (this.step2) {
-        this.step1 = true;
-        this.step2 = false;
-      }
-    },
-    goStep1(businessType) {
-      this.businessType = businessType;
-      this.type = false;
-      this.step1 = true;
-    },
-    handleError(error) {
-      console.log(error);
-    },
-    updateAddressData(addressData) {
-      var data = addressData.split(',');
-      this.$refs.address.update(data[0]);
-      this.address = data[0];
-    },
-    getAddressData(addressData, placeResultData, id) {
-      console.log(addressData, placeResultData);
-      
-      if (addressData.street_number) {
-        var street = addressData.street_number + ' ' + addressData.route;
-        this.countryShort = placeResultData.address_components[5].short_name;
-      } else {
-        var street = addressData.route;
-        this.countryShort = placeResultData.address_components[4].short_name;
-      }
-
-      this.$refs.address.update(street);
-      this.address = street;
-      this.zip = addressData.postal_code;
-      this.city = addressData.locality;
-      this.country = addressData.country;
-    },
-    blurAddressInput() {
-      this.showAutocomplete = false;
-      document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
-    },
-    focusAddressInput() {
-      this.showAutocomplete = true;
-    },
-    inputChangeAddressInput(input) {
-      if (input.newVal.length > 2 && this.showAutocomplete) {
-        document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
-      } else {
-        document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
-      }
-    },
-    selectCountry() {
-    	var data = {
-    		numbers: [
-    			{description: "France"},
-    			{description: "Belgique"},
-    			{description: "Luxembourg"},
-    		],
-    	};
-
-	    var config = {
-	    	title: "",
-	    	items:[
-	    		[data.numbers]
-	    	],
-	    	positiveButtonText: "Choisir",
-	    	negativeButtonText: "Annuler"
-	    };
-
-	    window.SelectorCordovaPlugin.showSelector(config, (result) => {
-	    	this.country = result[0].description;
-	    }, (error) => {
-	    	console.log(error);
-	    });
     },
     checkPhone(phone) {
       var regex = /^(?:0|00|\+)(?:\d ?){6,14}\d$/;

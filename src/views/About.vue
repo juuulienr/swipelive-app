@@ -51,12 +51,6 @@
         </span>
         <span style="font-weight: 400; color: #272c30;">Supprimer mon compte</span>
       </div>
-
-<!-- 
-      <div class="btn-swipe" style="color: white; text-align: center; width: calc(100% - 30px); position: absolute; bottom: calc(env(safe-area-inset-bottom) + 25px); font-weight: 500;">
-        <img :src="require(`@/assets/img/comment-white.svg`)" style="width: 24px; height: 24px; transform: none"/>
-        Contacter Swipe Live
-      </div> -->
     </div>
   </main>
 </template>
@@ -110,12 +104,7 @@ export default {
       this.$router.push({ name: 'Account' });
     },
     deleteAccount() {
-      navigator.notification.confirm(
-        'Voulez-vous vraiment supprimer ce compte ?',
-         this.onConfirm, 
-        'Supprimer', 
-        ['Annuler','Supprimer'] 
-      );
+      navigator.notification.confirm('Voulez-vous vraiment supprimer ce compte ?', this.onConfirm, 'Êtes-vous sûr ?', ['Annuler','Supprimer']);
     },
     onConfirm(index) {
       console.log(index);

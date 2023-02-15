@@ -1534,7 +1534,7 @@ span.filter--choice > input:checked ~ .svg--point {
 
 .popup-viewers {
   overflow-y: scroll; 
-  height: 55%; 
+  height: 50%; 
   width: 100vw; 
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
   padding: 0px 10px 15px; 

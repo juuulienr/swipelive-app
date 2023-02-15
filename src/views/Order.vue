@@ -95,7 +95,7 @@
       </div>
 
 
-      <hr>
+      <hr v-if="user.id == order.vendor.user.id && order.shippingStatus != 'ready-to-send'">
 
       <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
         <div v-if="user.id == order.vendor.user.id && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2a80;font-weight: 600;font-size: 17px;">
