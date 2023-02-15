@@ -15,7 +15,7 @@
       <div @click="menuActive(1)" :class="active_el == 1 ? '_1e1aumhl' : '_45o9ez'">
         <router-link class="_469le2" :to="{ name: 'ListMessages' }">
           <div class="_jro6t0" style="top: 2px;">
-            <div class="_jgit7bg" :class="active_el == 1 ? '_jgit7bg' : '_tbbnrnx'">
+            <div :class="active_el == 1 ? '_jgit7bg' : '_tbbnrnx'">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
                 <path  d="M10.0007,0 C12.6497,0 15.1997,1.05 17.0697,2.93 C18.9497,4.811 20.0007,7.35 20.0007,10.01 C20.0007,13.51 18.1597,16.76 15.1597,18.57 C12.1597,20.38 8.4297,20.48 5.3307,18.83 L5.3307,18.83 L5.2997,18.83 C5.0007,18.71 4.7597,18.5 4.4797,18.36 C4.1707,18.23 3.8197,18.21 3.5007,18.311 C2.7597,18.57 2.0097,18.78 1.2397,18.96 C0.8397,18.97 0.7197,18.73 0.7197,18.34 C0.8997,17.55 1.1397,16.769 1.4207,16.01 C1.5297,15.68 1.5007,15.33 1.3307,15.019 L1.3307,15.019 L1.1307,14.63 C0.3897,13.22 0.0007,11.65 0.0007,10.061 L0.0007,10.061 L0.0007,10 C0.0007,7.35 1.0497,4.8 2.9297,2.93 C4.8097,1.05 7.3497,0 10.0007,0 Z M14.6097,8.73 C13.9097,8.73 13.3307,9.3 13.3307,10.01 C13.3307,10.71 13.9097,11.29 14.6097,11.29 C15.3197,11.29 15.8897,10.71 15.8897,10.01 C15.8897,9.3 15.3197,8.73 14.6097,8.73 Z M10.0007,8.73 C9.2907,8.73 8.7197,9.3 8.7197,10.01 C8.7197,10.71 9.2907,11.29 10.0007,11.29 C10.7107,11.29 11.2797,10.71 11.2797,10.01 C11.2797,9.3 10.7107,8.73 10.0007,8.73 Z M5.3897,8.73 C4.6797,8.73 4.1097,9.3 4.1097,10.01 C4.1097,10.71 4.6797,11.29 5.3897,11.29 C6.0897,11.29 6.6707,10.71 6.6707,10.01 C6.6707,9.3 6.0897,8.73 5.3897,8.73 Z" transform="translate(2 2)"/>
               </svg>
@@ -39,6 +39,7 @@
         <router-link class="_469le2" :to="{ name: 'Cart' }">
           <div class="_jro6t0">
             <div :class="active_el == 3 ? '_jgit7bg' : '_tbbnrnx'">
+              <div :class="active_el != 3 ? 'bgh3vnd b1fqacje' : ''"></div>
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
                 <path d="M6.4229,0.7125 C8.0229,-0.2375 10.0229,-0.2375 11.6229,0.7125 C13.2229,1.6625 14.1629,3.4125 14.0929,5.2625 L14.0929,5.2625 L14.0929,5.4925 C15.3529,5.4925 16.6829,6.3725 17.1429,8.5125 L17.1429,8.5125 L17.9129,14.5025 C18.4839,18.4125 16.2129,20.0025 13.1629,20.0025 L13.1629,20.0025 L4.8729,20.0025 C1.8139,20.0025 -0.5271,18.9025 0.1029,14.5025 L0.1029,14.5025 L0.8829,8.5125 C1.0029,7.6225 1.4329,6.7925 2.1029,6.1825 C2.6139,5.7335 3.2729,5.4925 3.9529,5.4925 L3.9529,5.4925 L3.9529,5.2625 C3.8729,3.4125 4.8239,1.6625 6.4229,0.7125 Z M11.8929,8.7125 C11.4039,8.7125 11.0029,9.1025 11.0029,9.5925 C11.0029,10.0725 11.4039,10.4725 11.8929,10.4725 C12.1229,10.4725 12.3529,10.3825 12.5129,10.2125 C12.6829,10.0525 12.7729,9.8225 12.7729,9.5925 C12.7729,9.1025 12.3729,8.7125 11.8929,8.7125 Z M6.0929,8.7125 C5.6029,8.7125 5.2029,9.1025 5.2029,9.5925 C5.2029,10.0725 5.6029,10.4725 6.0929,10.4725 C6.5829,10.4725 6.9729,10.0725 6.9729,9.5925 C6.9729,9.1025 6.5829,8.7125 6.0929,8.7125 Z M9.0029,1.7425 C7.0529,1.7425 5.4729,3.3225 5.4729,5.2625 L5.4729,5.2625 L5.4729,5.4835 L12.5429,5.4835 L12.5429,5.2625 C12.5429,3.3225 10.9629,1.7425 9.0029,1.7425 Z" transform="translate(3 2)"/>
               </svg>
@@ -65,26 +66,15 @@
 
 <style type="text/css">
 
-._tbbnrnx i {
-  font-size: 22px; 
-  color: #B0B0B0; 
-  margin-bottom: 4px;
-}
-
-._jgit7bg i {
-  font-size: 22px; 
-  margin-bottom: 4px;
+._jro6t0 svg {
+  transform: scale(1.3);
+  fill: #a3a8ab;
+  height: 28px;
+  width: 28px;
 }
 
 ._1m294zs {
-  -webkit-box-align: center !important;
-  -ms-flex-align: center !important;
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
   display: flex !important;
-  -webkit-align-items: center !important;
   align-items: center !important;
   border-top: 1px solid #EBEBEB !important;
   position: fixed !important;
@@ -94,9 +84,7 @@
   right: 0px !important;
   padding-bottom: 60px !important;
   background: #ffffff !important;
-  -webkit-transition: -webkit-transform .2s cubic-bezier(0.455, 0.030, 0.515, 0.955),transform .2s cubic-bezier(0.455, 0.030, 0.515, 0.955), visibility .2s !important;
-  -moz-transition: transform .2s cubic-bezier(0.455, 0.030, 0.515, 0.955), visibility .2s !important;
-  transition: -ms-transform .2s cubic-bezier(0.455, 0.030, 0.515, 0.955),-webkit-transform .2s cubic-bezier(0.455, 0.030, 0.515, 0.955),transform .2s cubic-bezier(0.455, 0.030, 0.515, 0.955), visibility .2s !important;
+  transition: transform .2s cubic-bezier(0.455, 0.030, 0.515, 0.955), visibility .2s !important;
   z-index: 1000 !important;
 }
 
@@ -107,20 +95,10 @@
 }
 
 ._tbbnrnx {
-  -webkit-box-align: center !important;
-  -ms-flex-align: center !important;
-  -webkit-box-pack: center !important;
-  -ms-flex-pack: center !important;
   width: 30px !important;
   height: 30px !important;
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
   display: flex !important;
-  -webkit-justify-content: center !important;
   justify-content: center !important;
-  -webkit-align-items: center !important;
   align-items: center !important;
   margin-bottom: 2px !important;
   color: #B0B0B0 !important;
@@ -129,42 +107,17 @@
 
 
 ._h0klba {
-  -webkit-box-pack: center !important;
-  -ms-flex-pack: center !important;
-  -webkit-box-align: start !important;
-  -ms-flex-align: start !important;
-  -webkit-flex: 1 0 auto !important;
-  -ms-flex: 1 0 auto !important;
   flex: 1 0 auto !important;
-  -webkit-align-items: flex-start !important;
   align-items: flex-start !important;
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
   display: flex !important;
-  -webkit-justify-content: center !important;
   justify-content: center !important;
   margin: 0 auto !important;
 }
 
 ._45o9ez {
-  -webkit-box-align: center !important;
-  -ms-flex-align: center !important;
-  -webkit-box-direction: normal !important;
-  -webkit-box-orient: vertical !important;
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
   display: flex !important;
-  -webkit-flex: 1 1 0 !important;
-  -ms-flex: 1 1 0 !important;
   flex: 1 1 0 !important;
-  -webkit-flex-direction: column !important;
-  -ms-flex-direction: column !important;
   flex-direction: column !important;
-  -webkit-align-items: center !important;
   align-items: center !important;
   cursor: pointer !important;
   background-color: transparent !important;
@@ -173,32 +126,15 @@
   border: 0px !important;
   max-width: 20% !important;
   min-width: 0px !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
   overflow-wrap: break-word !important;
-  -webkit-hyphens: auto !important;
-  -moz-hyphens: auto !important;
-  -ms-hyphens: auto !important;
   hyphens: auto !important;
   padding: 0 2px !important;
 }
 
 ._1e1aumhl {
-  -webkit-box-align: center !important;
-  -ms-flex-align: center !important;
-  -webkit-box-direction: normal !important;
-  -webkit-box-orient: vertical !important;
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
   display: flex !important;
-  -webkit-flex: 1 1 0 !important;
-  -ms-flex: 1 1 0 !important;
   flex: 1 1 0 !important;
-  -webkit-flex-direction: column !important;
-  -ms-flex-direction: column !important;
   flex-direction: column !important;
-  -webkit-align-items: center !important;
   align-items: center !important;
   cursor: pointer !important;
   background-color: transparent !important;
@@ -207,21 +143,12 @@
   border: 0px !important;
   max-width: 20% !important;
   min-width: 0px !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
   overflow-wrap: break-word !important;
-  -webkit-hyphens: auto !important;
-  -moz-hyphens: auto !important;
-  -ms-hyphens: auto !important;
   hyphens: auto !important;
   padding: 0 2px !important;
-  color: #FF385C !important;
 }
 
 ._jro6t0 {
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
   display: flex !important;
   justify-content: center;
 }
@@ -236,35 +163,24 @@
   max-height: 24px !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 2 !important;
-  -webkit-box-orient: vertical !important;
   font-weight: 600 !important;
   overflow-wrap: break-word !important;
   color: #222222 !important;
 }
 
 ._jgit7bg {
-  -webkit-box-align: center !important;
-  -ms-flex-align: center !important;
-  -webkit-box-pack: center !important;
-  -ms-flex-pack: center !important;
   width: 30px !important;
   height: 30px !important;
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -ms-flexbox !important;
-  display: -webkit-flex !important;
   display: flex !important;
-  -webkit-justify-content: center !important;
   justify-content: center !important;
-  -webkit-align-items: center !important;
   align-items: center !important;
   margin-bottom: 2px !important;
   position: relative !important;
-  color: #e90062 !important;
 }
 
+._jgit7bg svg {
+  fill: #ff2a80 !important;
+}
 
 ._1bntpbx {
   overflow: clip !important;
@@ -276,8 +192,6 @@
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   display: -webkit-box !important;
-  -webkit-line-clamp: 2 !important;
-  -webkit-box-orient: vertical !important;
   font-weight: 600 !important;
   overflow-wrap: break-word !important;
   color: #717171 !important;
@@ -289,9 +203,6 @@
   max-height: 24px !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 2 !important;
-  -webkit-box-orient: vertical !important;
   font-weight: 600 !important;
   overflow-wrap: break-word !important;
   color: #222222 !important;
@@ -302,29 +213,34 @@
   width:  100%;
 }
 
-._jro6t0 svg {
-  transform: scale(1.3);
-  fill: #a3a8ab !important;
-  height: 28px;
-  width: 28px;
+.bgh3vnd {
+  background-color: #ff2a80;
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  top: -2px;
+  left: 22px;
+  vertical-align: top;
 }
 
 </style>
 
 <script>
 
-  export default {
-    name: "NavBar",
-    data: function() {
-      return {
-        active_el: 0,
-      }
+export default {
+  name: "NavBar",
+  data: function() {
+    return {
+      active_el: 0,
+    }
+  },
+  methods: {
+    menuActive(el) {
+      this.active_el = el;   
     },
-    methods: {
-      menuActive(el) {
-        this.active_el = el;   
-      },
-    }  
-  };
+  }  
+};
 
 </script>

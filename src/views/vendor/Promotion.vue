@@ -10,49 +10,52 @@
     </div>
 
     <div class="checkout__body">
-      <div @click="showPromo()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px;">Ajouter une promotion</div>
+      <div @click="showPromo()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px; background: linear-gradient(90deg,#ff9000,#ff5000);">Ajouter une promotion</div>
       <div v-if="promotions && promotions.length > 0">
-        <div style="box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;margin: 5px;padding: 18px 0px;border-radius: 10px;">
+        <div style="border: 1px solid #272c30; margin: 5px;padding: 18px 0px;border-radius: 10px;">
           <p style="text-align: center;margin-bottom: 22Px;">Performances</p>
           <div class="profile--follow">
             <div>
-              <h4>3</h4>
-              <p>Promotions</p>
+              <h4>{{ promotions.length }}</h4>
+              <p v-if="promotions.length > 1">Promotions</p>
+              <p v-else>Promotion</p>
             </div>
-            <hr>
+            <hr style="width: 1px;">
             <div>
-              <h4>5</h4>
+              <h4>-</h4>
               <p>Utilisés</p>
             </div>
-            <hr>
+            <hr style="width: 1px;">
             <div>
-              <h4>100,58€</h4>
+              <h4>-</h4>
               <p>Total</p>
             </div>
           </div>
         </div>
 
-        <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px;">La promotion sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
+        <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px;">La promotion activé sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
 
-        <div style="box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
+        <div v-for="(promo, index) in promotions" style="border: 1px solid rgb(255, 102, 0); margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
           <div class="profile--follow">
             <div style="width: 40%; margin-top: 5px;">
-              <img src="https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/4867e58fd6de4ee2021100c8341714e4.jpeg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
+              <img :src="require(`@/assets/img/discount.svg`)" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
               <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
-                <span @click="check()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
-                  <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': isChecked }">
-                    <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" :checked="isChecked">
+                <span @click="check(promo)" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
+                  <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': promo.isActive }">
+                    <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" :checked="promo.isActive">
                     <span class="MuiSwitch-thumb css-byglaq"></span>
                     <span class="MuiTouchRipple-root css-w0pj6f"></span>
                   </span><span class="MuiSwitch-track css-1ju1kxc"></span>
                 </span>
               </label>
             </div>
-            <hr style="margin: 0px;border-width: 0 2px 0 0;border-style: dashed;border-color: rgba(145,158,171,.24);">
+            <hr style="margin: 0px;border-width: 0 2px 0 0;border-style: dashed;border-color: rgba(145,158,171,.24); width: 1px;">
             <div>
-              <h4 style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;">-50%</h4>
+              <svg @click="deletePromo(promo, index)" style="width: 24Px; height: 24px; right: 8px; position: absolute;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path fill="#999999" d="M13.4,12l4.3-4.3c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L12,10.6L7.7,6.3c-0.4-0.4-1-0.4-1.4,0c-0.4,0.4-0.4,1,0,1.4l4.3,4.3l-4.3,4.3C6.1,16.5,6,16.7,6,17c0,0.6,0.4,1,1,1c0.3,0,0.5-0.1,0.7-0.3l4.3-4.3l4.3,4.3c0.2,0.2,0.4,0.3,0.7,0.3s0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L13.4,12z"/></svg>
+              <h4 v-if="promo.type == 'percent'" style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: rgb(255, 102, 0);">-{{promo.value}}%</h4>
+              <h4 v-else style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: rgb(255, 102, 0);">-{{promo.value}}€</h4>
               <p>Valable sur toute la boutique </p>
-              <h4 style="font-size: 19px; margin-top: 10px; margin-bottom: 0px; color: #ff2a80; border: 1px solid #ff2a80; padding: 3px; width: 120px; margin: 10px auto; border-radius: 10px;">PROMO50</h4>
+              <h4 style="font-size: 15px; margin: 10px auto; color: rgb(255, 102, 0); border: 1px solid rgb(255, 102, 0); padding: 3px; width: 100px; border-radius: 10px;">{{ promo.title }}</h4>
             </div>
           </div>
         </div>
@@ -83,17 +86,17 @@
           <div class="form--input--item">
             <fieldset>
               <legend>Titre de la promotion</legend>
-              <input type="text" placeholder="Ex: PROMO10">
+              <input type="text" v-model="promotion.title" placeholder="Ex: PROMO10" style="text-transform: uppercase;">
             </fieldset>
           </div>
           
           <div class="form--input--item">
             <fieldset>
               <legend>Type de remise</legend>
-              <select required v-model="type" :style="{'color': type ? '#525c66': 'rgba(145,158,171,.8)'}">
+              <select required v-model="promotion.type" :style="{'color': promotion.type ? '#525c66': 'rgba(145,158,171,.8)'}">
                 <option value="" selected>Choisir un type</option>
                 <option value="percent">Pourcentage</option>
-                <option value="euro">Euro</option>
+                <option value="fixe">Fixe</option>
               </select>
             </fieldset>
           </div>
@@ -101,7 +104,7 @@
           <div class="form--input--item">
             <fieldset>
               <legend>Valeur de la remise</legend>
-              <input type="text" placeholder="Ex: 30">
+              <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 30">
             </fieldset>
           </div>
           <br>
@@ -128,17 +131,30 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      user: JSON.parse(window.localStorage.getItem("user")),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
-      promotions: [],
       popupPromo: false,
-      isChecked: false,
-      type: "",
+      promotions: [],
+      promotion: {
+        'title': '',
+        'type': '',
+        'value': null,
+        'isActive': true
+      },
     }
   },
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+
+
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.promotions = JSON.parse(response.data);
+    }, (response) => {
+      console.log(response.error);
+    });
   },
   methods: {
     goBack() {
@@ -149,17 +165,51 @@ export default {
     }, 
     savePromo() {
       this.popupPromo = false;
+      this.promotions.map((promo, index) => {
+        promo.isActive = false;
+      });
+
+      this.promotion.vendor = this.user.id;
+
+      if (this.promotion.value) {
+        this.promotion.value = parseFloat(this.promotion.value);
+      }
+
+      window.cordova.plugin.http.setDataSerializer('json');
+      window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        this.promotions.unshift(JSON.parse(response.data));
+        this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
+      }, (response) => {
+        console.log(JSON.parse(response.error));
+      });
+    },
+    deletePromo(promo, index) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.promotions.splice(index, 1);
+        console.log(response);
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     showPromo() {
       this.popupPromo = true;
     },
-    check() {
-      console.log(this.isChecked);
-      if(this.isChecked) {
-       this.isChecked = false;
+    check(promo) {
+      if(promo.isActive) {
+        promo.isActive = false;
       } else {
-       this.isChecked = true;
+        this.promotions.map((promotion, index) => {
+          promotion.isActive = false;
+        });
+        promo.isActive = true;
       }
+
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/activate/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+      }, (response) => {
+        console.log(response.error);
+      });
     }
   }
 };
