@@ -55,7 +55,7 @@
               <h4 v-if="promo.type == 'percent'" style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: rgb(255, 102, 0);">-{{promo.value}}%</h4>
               <h4 v-else style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: rgb(255, 102, 0);">-{{promo.value}}€</h4>
               <p>Valable sur toute la boutique </p>
-              <h4 style="font-size: 15px; margin: 10px auto; color: rgb(255, 102, 0); border: 1px solid rgb(255, 102, 0); padding: 3px; width: 100px; border-radius: 10px;">{{ promo.title }}</h4>
+              <h4 style="font-size: 15px; margin: 10px auto; color: rgb(255, 102, 0); border: 1px solid rgb(255, 102, 0); padding: 3px 15px; border-radius: 10px;text-transform: uppercase;">{{ promo.title }}</h4>
             </div>
           </div>
         </div>
@@ -90,22 +90,24 @@
             </fieldset>
           </div>
           
-          <div class="form--input--item">
-            <fieldset>
-              <legend>Type de remise</legend>
-              <select required v-model="promotion.type" :style="{'color': promotion.type ? '#525c66': 'rgba(145,158,171,.8)'}">
-                <option value="" selected>Choisir un type</option>
-                <option value="percent">Pourcentage</option>
-                <option value="fixe">Fixe</option>
-              </select>
-            </fieldset>
-          </div>
+          <div class="form--input">
+            <div class="form--input--item">
+              <fieldset>
+                <legend>Type de remise</legend>
+                <select required v-model="promotion.type" :style="{'color': promotion.type ? '#525c66': 'rgba(145,158,171,.8)'}">
+                  <option value="" selected>Choisir un type</option>
+                  <option value="percent">Pourcentage</option>
+                  <option value="fixe">Fixe</option>
+                </select>
+              </fieldset>
+            </div>
 
-          <div class="form--input--item">
-            <fieldset>
-              <legend>Valeur de la remise</legend>
-              <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 30">
-            </fieldset>
+            <div class="form--input--item" :class="{'form--input--item--error': promotion.type == 'percent' && promotion.value > 99 }">
+              <fieldset>
+                <legend>Valeur de la remise</legend>
+                <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 30">
+              </fieldset>
+            </div>
           </div>
           <br>
           <div @click="savePromo()" class="btn-swipe" style="color: white; text-align: center;">Enregistrer</div>
@@ -149,7 +151,6 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions", {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.promotions = JSON.parse(response.data);
     }, (response) => {
@@ -164,25 +165,26 @@ export default {
       this.popupPromo = false;
     }, 
     savePromo() {
-      this.popupPromo = false;
-      this.promotions.map((promo, index) => {
-        promo.isActive = false;
-      });
-
-      this.promotion.vendor = this.user.id;
-
       if (this.promotion.value) {
         this.promotion.value = parseFloat(this.promotion.value);
       }
 
-      window.cordova.plugin.http.setDataSerializer('json');
-      window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-        this.promotions.unshift(JSON.parse(response.data));
-        this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
-      }, (response) => {
-        console.log(JSON.parse(response.error));
-      });
+      if (this.promotion.type == 'fixe' || (this.promotion.type == 'percent' && this.promotion.value < 100)) {
+        this.popupPromo = false;
+        this.promotion.vendor = this.user.id;
+        // this.promotion.title = this.promotion.title.toUpperCase();
+        this.promotions.map((promo, index) => {
+          promo.isActive = false;
+        });
+
+        window.cordova.plugin.http.setDataSerializer('json');
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
+          this.promotions.unshift(JSON.parse(response.data));
+          this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
+        }, (response) => {
+          console.log(JSON.parse(response.error));
+        });
+      }
     },
     deletePromo(promo, index) {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {

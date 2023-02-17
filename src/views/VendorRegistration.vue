@@ -1,7 +1,7 @@
 <template>
   <main style="padding: 0px 15px 15px;">
-    <div class="checkout__header">
-      <div v-if="!step3" @click="goBack()" class="checkout__close-btn">
+    <div v-if="!step3" class="checkout__header">
+      <div @click="goBack()" class="checkout__close-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -230,7 +230,7 @@
         <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 25px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue {{ businessName }} sur <br> Swipe Live vendeur 👋 </h5>
         <br />
         <div style="font-weight: 400; font-size: 15px; margin-top: 10px; padding: 0px 10px; text-align: justify; line-height: 27px;">Vous pouvez dès à présent créer votre communauté et exploiter la vidéo en direct pour offrir des expériences d'achat fun et unique avec des taux de conversion 10 fois supérieurs à ceux des sites de commerce électronique traditionnels.</div>
-        <div style="font-weight: 500;font-size: 18px;margin-top: 45px;text-align: justify;text-align: center;text-justify: inter-word;">Bonnes ventes 🚀</div>
+        <div style="font-weight: 500;font-size: 18px;margin-top: 30px;text-align: justify;text-align: center;text-justify: inter-word;">Bonnes ventes 🚀</div>
 
         <div @click="submitStep3()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
           <span>Accéder</span>
@@ -353,189 +353,191 @@
 
 <script>
 
-  import VueGoogleAutocomplete from "vue-google-autocomplete";
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 
-  export default {
-    name: 'VendorRegistration',
-    components: { VueGoogleAutocomplete },
-    data() {
-      return {
-        cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-        baseUrl: window.localStorage.getItem("baseUrl"),
-        token: window.localStorage.getItem("token"),
-        user: JSON.parse(window.localStorage.getItem("user")),
-        type: true,
-        step1: false,
-        step2: false,
-        step3: false,
-        email: null,
-        businessType: null,
-        summary: null,
-        businessName: null,
-        company: null,
-        siren: null,
-        address: null,
-        zip: null,
-        city: null,
-        picture: null,
-        errorFirstname: false,
-        errorLastname: false,
-        errorEmail: false,
-        errorDay: false,
-        errorMonth: false,
-        errorYear: false,
-        errorBusinessType: false,
-        errorBusinessName: false,
-        errorCompany: false,
-        errorSiren: false,
-        errorAddress: false,
-        errorZip: false,
-        errorCity: false,
-        errorSummary: false,
-        errorCountry: false,
-        errorPhone: false,
-        errorPicture: false,
-        errorRegistration: null,
-        showAutocomplete: false,
-        loadingImg: false,
-        loading: false,
-      }
-    },
-    created() {
-      window.StatusBar.overlaysWebView(false);
-      window.StatusBar.styleDefault();
-      window.StatusBar.backgroundColorByHexString("#ffffff");
-    },
-    methods: {
-      submitStep1() {
-        this.errorEmail = false;
-        this.errorFirstname = false;
-        this.errorLastname = false;
-        this.errorDay = false;
-        this.errorMonth = false;
-        this.errorYear = false;
-        this.errorPhone = false;
-        this.errorPicture = false;
+export default {
+  name: 'VendorRegistration',
+  components: { VueGoogleAutocomplete },
+  data() {
+    return {
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      user: JSON.parse(window.localStorage.getItem("user")),
+      type: true,
+      step1: false,
+      step2: false,
+      step3: false,
+      email: null,
+      businessType: null,
+      summary: null,
+      businessName: null,
+      company: null,
+      siren: null,
+      address: null,
+      zip: null,
+      city: null,
+      picture: null,
+      errorFirstname: false,
+      errorLastname: false,
+      errorEmail: false,
+      errorDay: false,
+      errorMonth: false,
+      errorYear: false,
+      errorBusinessType: false,
+      errorBusinessName: false,
+      errorCompany: false,
+      errorSiren: false,
+      errorAddress: false,
+      errorZip: false,
+      errorCity: false,
+      errorSummary: false,
+      errorCountry: false,
+      errorPhone: false,
+      errorPicture: false,
+      errorRegistration: null,
+      showAutocomplete: false,
+      loadingImg: false,
+      loading: false,
+    }
+  },
+  created() {
+    window.StatusBar.overlaysWebView(false);
+    window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
+  },
+  methods: {
+    submitStep1() {
+      this.errorEmail = false;
+      this.errorFirstname = false;
+      this.errorLastname = false;
+      this.errorDay = false;
+      this.errorMonth = false;
+      this.errorYear = false;
+      this.errorPhone = false;
+      this.errorPicture = false;
 
-        if (!this.user.email) {
+      if (!this.user.email) {
+        this.errorEmail = true;
+      } else {
+        if (!this.validEmail(this.user.email)) {
           this.errorEmail = true;
-        } else {
-          if (!this.validEmail(this.user.email)) {
-            this.errorEmail = true;
-          }
         }
+      }
 
-        if (!this.user.firstname) {
-          this.errorFirstname = true;
-        }
+      if (!this.user.firstname) {
+        this.errorFirstname = true;
+      }
 
-        if (!this.user.lastname) {
-          this.errorLastname = true;
-        }
+      if (!this.user.lastname) {
+        this.errorLastname = true;
+      }
 
-        if (!this.user.phone) {
+      if (!this.user.phone) {
+        this.errorPhone = true;
+      } else {
+        if (!this.checkPhone(this.user.phone)) {
           this.errorPhone = true;
         } else {
-          if (!this.checkPhone(this.user.phone)) {
-            this.errorPhone = true;
-          } else {
-            this.user.phone = this.user.phone.replace(/\s/g, '');
-            console.log(this.user.phone);
-          }
+          this.user.phone = this.user.phone.replace(/\s/g, '');
+          console.log(this.user.phone);
         }
+      }
 
-        if (!this.user.picture) {
-          this.errorPicture = true;
-        }
+      if (!this.user.picture) {
+        this.errorPicture = true;
+      }
 
-        if (!this.user.day) {
+      if (!this.user.day) {
+        this.errorDay = true;
+      } else {
+        if (parseInt(this.user.day) > 31 || parseInt(this.user.day) < 1) {
           this.errorDay = true;
-        } else {
-          if (parseInt(this.user.day) > 31 || parseInt(this.user.day) < 1) {
-            this.errorDay = true;
-          }
         }
+      }
 
-        if (!this.user.month) {
+      if (!this.user.month) {
+        this.errorMonth = true;
+      } else {
+        if (parseInt(this.user.month) > 12 || parseInt(this.user.month) == 0) {
           this.errorMonth = true;
-        } else {
-          if (parseInt(this.user.month) > 12 || parseInt(this.user.month) == 0) {
-            this.errorMonth = true;
-          } else if (parseInt(this.user.month) < 10) {
-            this.user.month = "0" + parseInt(this.user.month);
-          }
+        } else if (parseInt(this.user.month) < 10) {
+          this.user.month = "0" + parseInt(this.user.month);
         }
+      }
 
-        if (!this.user.year) {
-          this.errorYear = true;
-        } else {
-          if (this.user.year.length == 4) {
-            var today = new Date();
-            var limit = today.getFullYear() - 100;
-            if (parseInt(this.user.year) > limit) {
-              var adult = today.setFullYear(today.getFullYear() - 18);
-              adult = new Date(adult);
+      if (!this.user.year) {
+        this.errorYear = true;
+      } else {
+        if (this.user.year.length == 4) {
+          var today = new Date();
+          var limit = today.getFullYear() - 100;
+          if (parseInt(this.user.year) > limit) {
+            var adult = today.setFullYear(today.getFullYear() - 18);
+            adult = new Date(adult);
 
-              if (adult < new Date(this.user.year)) {
-                this.errorYear = true;
-              }
-            } else {
+            if (adult < new Date(this.user.year)) {
               this.errorYear = true;
             }
           } else {
             this.errorYear = true;
           }
+        } else {
+          this.errorYear = true;
+        }
+      }
+
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorPhone && !this.errorPicture) {
+        this.step1 = false;
+        this.step2 = true;
+      }
+    }, 
+    submitStep2() {
+      this.errorSummary = false;
+      this.errorBusinessName = false;
+      this.errorCompany = false;
+      this.errorAddress = false;
+      this.errorCompany = false;
+      this.errorCountry = false;
+      this.errorSiren = false;
+      this.errorZip = false;
+      this.errorCity = false;
+
+      if (!this.summary) {
+        this.errorSummary = true;
+      }
+
+      if (!this.businessName) {
+        this.errorBusinessName = true;
+      }
+
+      if (!this.address) {
+        this.errorAddress = true;
+      }
+
+      if (!this.zip) {
+        this.errorZip = true;
+      }
+
+      if (!this.city) {
+        this.errorCity = true;
+      }
+
+      if (!this.country) {
+        this.errorCountry = true;
+      }
+
+      if (this.businessType == "company") {
+        if (!this.company) {
+          this.errorCompany = true;
         }
 
-        if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorPhone && !this.errorPicture) {
-          this.step1 = false;
-          this.step2 = true;
+        if (!this.siren) {
+          this.errorSiren = true;
         }
-      }, 
-      submitStep2() {
-        this.errorSummary = false;
-        this.errorBusinessName = false;
-        this.errorAddress = false;
-        this.errorCompany = false;
-        this.errorSiren = false;
-        this.errorZip = false;
-        this.errorCity = false;
-
-        if (!this.summary) {
-          this.errorSummary = true;
-        }
-
-        if (!this.businessName) {
-          this.errorBusinessName = true;
-        }
-
-        if (!this.address) {
-          this.errorAddress = true;
-        }
-
-        if (!this.zip) {
-          this.errorZip = true;
-        }
-
-        if (!this.city) {
-          this.errorCity = true;
-        }
-
-        if (!this.country) {
-          this.errorCountry = true;
-        }
-
-        if (this.businessType == "company") {
-          if (!this.company) {
-            this.errorCompany = true;
-          }
-
-          if (!this.siren) {
-            this.errorSiren = true;
-          }
-        }
-        
-        switch (this.country) {
+      }
+      
+      switch (this.country) {
         case "France":
           this.countryShort = "FR";
           break;
@@ -548,178 +550,178 @@
         default:
           this.countryShort = null;
           this.errorCountry = true;
-        }
+      }
 
-        if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorCountry) {
-          this.loading = true;
-          this.submit();
-        }
-      }, 
-      submitStep3() {
-        this.$router.push({ name: 'Account' });
-      }, 
-      async submit() {
-        window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "pushToken": this.pushToken, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
+      if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorCountry) {
+        this.loading = true;
+        this.submit();
+      }
+    }, 
+    submitStep3() {
+      this.$router.push({ name: 'Account' });
+    }, 
+    async submit() {
+      window.cordova.plugin.http.setDataSerializer('json');
+      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
 
-        await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
-          window.localStorage.setItem("user", response.data);
-          this.loading = false;
-          this.step1 = false;
-          this.step2 = false;
-          this.step3 = true;
-        }, (response) => {
-          console.log(JSON.parse(response.error));
-          this.errorRegistration = JSON.parse(response.error);
-          this.loading = false;
-        });
-      }, 
-      validEmail(email) {
-        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-      },
-      uploadSheet() {
-        var options = {
-          title: 'Ajouter une photo',
-          buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
-          addCancelButtonWithLabel: 'Annuler',
-          androidEnableCancelButton : true,
-          winphoneEnableCancelButton : true
-        };
-        window.plugins.actionsheet.show(options, (index) => {
-          console.log(index);
-          if (index == 1) {
-            this.openFilePicker();
-          } else if (index == 2) {
-            this.openCamera();
-          }
-        }, (error) => {
-          console.log(error);
-        });
-      },
-      openFilePicker() {
-        var options = {
-          quality: 90,
-          destinationType: Camera.DestinationType.FILE_URI,
-          sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-          encodingType: Camera.EncodingType.JPEG,
-          mediaType: Camera.MediaType.PICTURE,
-          targetHeight: 256,
-          targetWidth: 256,
-          allowEdit: true,
-          correctOrientation: true
+      await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        window.localStorage.setItem("user", response.data);
+        this.loading = false;
+        this.step1 = false;
+        this.step2 = false;
+        this.step3 = true;
+      }, (response) => {
+        console.log(JSON.parse(response.error));
+        this.errorRegistration = JSON.parse(response.error);
+        this.loading = false;
+      });
+    }, 
+    validEmail(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    uploadSheet() {
+      var options = {
+        title: 'Ajouter une photo',
+        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
+        addCancelButtonWithLabel: 'Annuler',
+        androidEnableCancelButton : true,
+        winphoneEnableCancelButton : true
+      };
+      window.plugins.actionsheet.show(options, (index) => {
+        console.log(index);
+        if (index == 1) {
+          this.openFilePicker();
+        } else if (index == 2) {
+          this.openCamera();
         }
-
-        this.uploadImage(options);
-      },
-      openCamera() {
-        var options = {
-          quality: 90,
-          destinationType: Camera.DestinationType.FILE_URI,
-          sourceType: Camera.PictureSourceType.CAMERA,
-          encodingType: Camera.EncodingType.JPEG,
-          mediaType: Camera.MediaType.PICTURE,
-          targetHeight: 256,
-          targetWidth: 256,
-          allowEdit: true,
-          correctOrientation: true,
-        }
-
-        this.uploadImage(options);
-      },
-      uploadImage(options) {
-        navigator.camera.getPicture((imageUri) => {
-          console.log(imageUri);
-          this.errorPicture = false;
-          this.loadingImg = true;
-
-          window.cordova.plugin.http.setDataSerializer('json');
-          if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-            window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-              var result = JSON.parse(response.data);
-              this.user.picture = result.picture;
-              this.loadingImg = false;
-            }, function(response) {
-              console.log(response.error);
-            });
-          } else {
-            var imgData = "data:image/jpeg;base64," + imageUri;
-            window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-              var result = JSON.parse(response.data);
-              this.user.picture = result.picture;
-              this.loadingImg = false;
-            }, function(response) {
-              console.log(response.error);
-            });
-          }
-        }, (error) => {
-          console.log("Impossible de récupérer l'image : " + error);
-        }, options);
-      },
-      goBack() {
-        if (this.type) {
-          this.$router.push({ name: 'Account' });
-        } else if (this.step1) {
-          this.type = true;
-          this.step1 = false;
-          this.step2 = false;
-        } else if (this.step2) {
-          this.step1 = true;
-          this.step2 = false;
-        }
-      },
-      goStep1(businessType) {
-        this.businessType = businessType;
-        this.type = false;
-        this.step1 = true;
-      },
-      handleError(error) {
+      }, (error) => {
         console.log(error);
-      },
-      updateAddressData(addressData) {
-        var data = addressData.split(',');
-        this.$refs.address.update(data[0]);
-        this.address = data[0];
-      },
-      getAddressData(addressData, placeResultData, id) {
-        console.log(addressData, placeResultData);
-        
-        if (addressData.street_number) {
-          var street = addressData.street_number + ' ' + addressData.route;
-          this.countryShort = placeResultData.address_components[5].short_name;
-        } else {
-          var street = addressData.route;
-          this.countryShort = placeResultData.address_components[4].short_name;
-        }
+      });
+    },
+    openFilePicker() {
+      var options = {
+        quality: 90,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        targetHeight: 256,
+        targetWidth: 256,
+        allowEdit: true,
+        correctOrientation: true
+      }
 
-        this.$refs.address.update(street);
-        this.address = street;
-        this.zip = addressData.postal_code;
-        this.city = addressData.locality;
-        this.country = addressData.country;
-      },
-      blurAddressInput() {
-        this.showAutocomplete = false;
-        document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
-      },
-      focusAddressInput() {
-        this.showAutocomplete = true;
-      },
-      inputChangeAddressInput(input) {
-        if (input.newVal.length > 2 && this.showAutocomplete) {
-          document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+      this.uploadImage(options);
+    },
+    openCamera() {
+      var options = {
+        quality: 90,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        targetHeight: 256,
+        targetWidth: 256,
+        allowEdit: true,
+        correctOrientation: true,
+      }
+
+      this.uploadImage(options);
+    },
+    uploadImage(options) {
+      navigator.camera.getPicture((imageUri) => {
+        console.log(imageUri);
+        this.errorPicture = false;
+        this.loadingImg = true;
+
+        window.cordova.plugin.http.setDataSerializer('json');
+        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+            var result = JSON.parse(response.data);
+            this.user.picture = result.picture;
+            this.loadingImg = false;
+          }, function(response) {
+            console.log(response.error);
+          });
         } else {
-          document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+          var imgData = "data:image/jpeg;base64," + imageUri;
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
+            var result = JSON.parse(response.data);
+            this.user.picture = result.picture;
+            this.loadingImg = false;
+          }, function(response) {
+            console.log(response.error);
+          });
         }
-      },
-      selectCountry() {
-       var data = {
+      }, (error) => {
+        console.log("Impossible de récupérer l'image : " + error);
+      }, options);
+    },
+    goBack() {
+      if (this.type) {
+        this.$router.push({ name: 'Account' });
+      } else if (this.step1) {
+        this.type = true;
+        this.step1 = false;
+        this.step2 = false;
+      } else if (this.step2) {
+        this.step1 = true;
+        this.step2 = false;
+      }
+    },
+    goStep1(businessType) {
+      this.businessType = businessType;
+      this.type = false;
+      this.step1 = true;
+    },
+    handleError(error) {
+      console.log(error);
+    },
+    updateAddressData(addressData) {
+      var data = addressData.split(',');
+      this.$refs.address.update(data[0]);
+      this.address = data[0];
+    },
+    getAddressData(addressData, placeResultData, id) {
+      console.log(addressData, placeResultData);
+      
+      if (addressData.street_number) {
+        var street = addressData.street_number + ' ' + addressData.route;
+        this.countryShort = placeResultData.address_components[5].short_name;
+      } else {
+        var street = addressData.route;
+        this.countryShort = placeResultData.address_components[4].short_name;
+      }
+
+      this.$refs.address.update(street);
+      this.address = street;
+      this.zip = addressData.postal_code;
+      this.city = addressData.locality;
+      this.country = addressData.country;
+    },
+    blurAddressInput() {
+      this.showAutocomplete = false;
+      document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+    },
+    focusAddressInput() {
+      this.showAutocomplete = true;
+    },
+    inputChangeAddressInput(input) {
+      if (input.newVal.length > 2 && this.showAutocomplete) {
+        document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
+      } else {
+        document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
+      }
+    },
+    selectCountry() {
+      var data = {
         numbers: [
          {description: "France"},
          {description: "Belgique"},
          {description: "Luxembourg"},
-         ],
+        ],
       };
 
       var config = {
@@ -741,6 +743,6 @@
       var regex = /^(?:0|00|\+)(?:\d ?){6,14}\d$/;
       return regex.test(phone);
     },
-  }  
+  }
 };
 </script>

@@ -13,6 +13,7 @@
 
     <div class="checkout__body" style="overflow: initial; padding-bottom: 85px;">
       <div v-if="rules" class="items rules">
+        <br>
         <p>Veuillez suivre ces règles concernant les directs. <br>
         Merci de nous aider à faire en sorte que la communauté reste sûre et amusante !</p>
 

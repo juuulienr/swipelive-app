@@ -1458,7 +1458,7 @@ span.filter--choice > input:checked ~ .svg--point {
 
 .promotion {
   overflow-y: scroll; 
-  height: 70%; 
+  height: 95%; 
   width: 100vw; 
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
   padding: 0px 15px 15px; 

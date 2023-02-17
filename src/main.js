@@ -8,6 +8,7 @@ import VueObserveVisibility from 'vue-observe-visibility';
 import * as VueGoogleMaps from "vue2-google-maps";
 import * as Sentry from "@sentry/vue";
 import { BrowserTracing } from "@sentry/tracing";
+import store from "./store/store.js";
 
 
 
@@ -46,6 +47,7 @@ Vue.use(VueGoogleMaps, {
 
 const init = () => {
   new Vue({
+    store,
     router,
     render: h => h(App)
   }).$mount('#app')

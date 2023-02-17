@@ -11,23 +11,78 @@
     </div>
 
     <div class="checkout__body">
-      <div v-if="user.vendor" class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
-        <div style="border-right: 1px solid #eff1f6;">
-          <h4 v-if="followers">{{ followers.length }}</h4>
-          <h4 v-else>-</h4>
-          <p>Followers</p>
+      <div v-if="user.vendor">
+
+        <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
+          <div style="border-right: 1px solid #eff1f6;">
+            <h4 v-if="followers">{{ followers.length }}</h4>
+            <p>Followers</p>
+          </div>
+          <div>
+            <h4 v-if="following">{{ following.length }}</h4>
+            <p>Suivis</p>
+          </div>
         </div>
-        <div>
-          <h4 v-if="following">{{ following.length }}</h4>
-          <h4 v-else>-</h4>
-          <p>Suivis</p>
+
+        <div class="images_filter" style="margin: 15px 0px;">
+          <ul>
+            <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Followers </li>
+            <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Suivis </li>
+          </ul>
         </div>
-      </div>
-      <div v-if="user.vendor" class="images_filter" style="margin: 15px 0px;">
-        <ul>
-          <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Followers </li>
-          <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Suivis </li>
-        </ul>
+
+        <div v-if="tabFollowers" class="top-author">
+          <div v-if="followers && followers.length" class="top-author--container">
+            <div v-for="user in followers" class="top-author--item">
+              <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
+              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+              <div>
+                <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
+                <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
+              </div>
+              <div @click="actionSheet(user.id)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; fill: #999; border-radius: 30px;">
+                  <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <div class="container" style="margin: 120px auto 0px; text-align: center;">
+              <div style="margin: 0px auto;">
+                <Lottie :options="defaultOptions" :width="200"/>
+              </div>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun abonné</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos abonnés apparaîtront ici.</div>
+          </div>
+        </div>
+
+        <div v-if="tabFollowing" class="top-author">
+          <div v-if="following && following.length" class="top-author--container">
+            <div v-for="user in following" class="top-author--item">
+              <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
+              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+              <div>
+                <span>{{ user.vendor.businessName }}</span>
+                <div>
+                  <span v-if="user.followers.length > 1">{{user.followers.length }} abonnés</span>
+                  <span v-else>{{user.followers.length }} abonné</span>
+                </div>
+              </div>
+              <div @click="unfollow(user.id)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Abonné</div>
+            </div>
+          </div>
+          <div v-else>
+            <div class="container" style="margin: 120px auto 0px; text-align: center;">
+              <div style="margin: 0px auto;">
+                <Lottie :options="defaultOptions" :width="200"/>
+              </div>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun abonnement</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos abonnements apparaîtront ici.</div>
+          </div>
+        </div>
       </div>
       <div v-else>
         <div class="top-author">
@@ -54,59 +109,6 @@
             <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun abonnement</h5>
             <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos abonnements apparaîtront ici.</div>
           </div>
-        </div>
-      </div>
-
-      <div v-if="tabFollowers && !loading" class="top-author">
-        <div v-if="followers && followers.length" class="top-author--container">
-          <div v-for="user in followers" class="top-author--item">
-            <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
-      			<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
-            <div>
-              <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
-              <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
-            </div>
-            <div @click="actionSheet(user.id)">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; fill: #999; border-radius: 30px;">
-                <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div v-else>
-          <div class="container" style="margin: 120px auto 0px; text-align: center;">
-            <div style="margin: 0px auto;">
-              <Lottie :options="defaultOptions" :width="200"/>
-            </div>
-          </div>
-          <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun abonné</h5>
-          <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos abonnés apparaîtront ici.</div>
-        </div>
-      </div>
-
-      <div v-if="tabFollowing && !loading" class="top-author">
-        <div v-if="following && following.length" class="top-author--container">
-          <div v-for="user in following" class="top-author--item">
-            <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
-      			<img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
-            <div>
-              <span>{{ user.vendor.businessName }}</span>
-              <div>
-                <span v-if="user.followers.length > 1">{{user.followers.length }} abonnés</span>
-                <span v-else>{{user.followers.length }} abonné</span>
-              </div>
-            </div>
-            <div @click="unfollow(user.id)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Abonné</div>
-          </div>
-        </div>
-        <div v-else>
-          <div class="container" style="margin: 120px auto 0px; text-align: center;">
-            <div style="margin: 0px auto;">
-              <Lottie :options="defaultOptions" :width="200"/>
-            </div>
-          </div>
-          <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun abonnement</h5>
-          <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos abonnements apparaîtront ici.</div>
         </div>
       </div>
     </div>
@@ -138,32 +140,25 @@ export default {
       tabFollowing: false,
       followers: null,
       following: null,
-      loading: true,
     }
   },
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+  
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.following = JSON.parse(response.data);
+    }, (response) => {
+      console.log(response.error);
+    });
     
-    if (this.user && this.token) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.following = JSON.parse(response.data);
-	      this.loading = false;
-        console.log(this.following);
+    if (this.user.vendor) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.followers = JSON.parse(response.data);
       }, (response) => {
         console.log(response.error);
       });
-      
-      if (this.user.vendor) {
-	      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers", {}, { Authorization: "Bearer " + this.token }, (response) => {
-	        this.followers = JSON.parse(response.data);
-	        this.loading = false;
-	        console.log(this.followers);
-	      }, (response) => {
-	        console.log(response.error);
-	      });
-      }
     }
   },
   methods: {
@@ -197,7 +192,7 @@ export default {
       });
     },
     actionSheet(userId) {
-      var buttonLabels = ['Supprimer ce follower'];
+      var buttonLabels = [ 'Supprimer ce follower' ];
       var options = {
         buttonLabels: buttonLabels,
         addCancelButtonWithLabel: 'Annuler',

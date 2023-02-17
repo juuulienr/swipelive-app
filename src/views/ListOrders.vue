@@ -10,7 +10,7 @@
     </div>
 
     <div class="checkout__body">
-      <div>
+      <div v-if="user.vendor">
         <div class="chat--left--head--input">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
             <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
@@ -33,21 +33,23 @@
 
       <div class="top-author" style="margin-top: 15px;">
       	<div v-if="show1" class="top-author--container">
-      		<div v-if="orders && orders.length > 0" v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="position: relative">
-      			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
-            <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
-            <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
-      			<div>
-      				<div><span>#{{ order.number }}</span></div>
-      				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-              <span v-else>{{ order.vendor.businessName }}</span>
-              <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
-      			</div>
-            <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
-            <span v-else class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
-            <!-- litige -->
-            <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
-      		</div>
+          <div v-if="orders && orders.length > 0">
+        		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="position: relative">
+        			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
+              <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+              <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+        			<div>
+        				<div><span>#{{ order.number }}</span></div>
+        				<span v-if="user.id == order.vendor.user.id">{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                <span v-else>{{ order.vendor.businessName }}</span>
+                <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+        			</div>
+              <span v-if="user.id == order.vendor.user.id" class="css-4ioo3c">{{ order.total | formatPrice }}€</span>
+              <span v-else class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
+              <!-- litige -->
+              <!-- <span v-else class="css-4ioo3c" style="color: #ff9800; background-color: rgba(255,171,0,.16);">{{ order.total | formatPrice }}€</span> -->
+        		</div>
+          </div>
           <div v-else>
             <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
@@ -88,7 +90,7 @@
                 <Lottie :options="defaultOptions" :width="200"/>
               </div>
             </div>
-            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande</h5>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande terminée</h5>
             <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
           </div>
         </div>

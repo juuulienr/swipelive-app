@@ -309,14 +309,12 @@ export default {
 
     if (navigator.connection && navigator.connection.type) {
       this.connection = navigator.connection.type;
-      console.log(this.connection);
     }
 
     if (window.networkinterface) {
       window.networkinterface.getWiFiIPAddress((ipInformation) => {
         if (ipInformation.ip) {
           this.wifiIPAddress = ipInformation.ip;
-          console.log(this.wifiIPAddress);
         }
       }, (error) => {
         console.log(error);
@@ -325,7 +323,6 @@ export default {
       window.networkinterface.getCarrierIPAddress((ipInformation) => {
         if (ipInformation.ip) {
           this.carrierIPAddress = ipInformation.ip;
-          console.log(this.carrierIPAddress);
         }
       }, (error) => {
         console.log(error);
@@ -505,6 +502,7 @@ export default {
         }, (response) => {
           this.loading = false;
           console.log(response.error);
+          window.plugins.toast.show(response.error, 'long', 'top', {}, {});
         });
       }
     },
@@ -527,6 +525,7 @@ export default {
       }, (response) => {
         this.loading = false;
         console.log(response.error);
+        window.plugins.toast.show(response.error, 'long', 'top', {}, {});
       });
     },
     handleAnimation: function (anim) {

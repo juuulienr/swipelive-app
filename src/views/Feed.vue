@@ -231,13 +231,20 @@
         <!-- profil -->
         <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
           <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
-            <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
-            <img v-if="clickFollow" :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 23px; height: 23px; background-color: white; border-radius: 100px; position: absolute; top: 24px;"/>
+            <span>
+              <span style="position: absolute;top: 11px;padding: 10px;">
+                <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)"  :src="require(`@/assets/img/plus-circle.svg`)" style="width: 20px;height: 20px;background-color: white;border-radius: 100px;">
+                <img v-if="clickFollow" :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 20px;height: 20px;background-color: white;border-radius: 100px;">
+              </span>
+            </span>
             <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;">
-            <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> {{ feed.value.vendor.businessName }} 
+            <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
+            <span @click="goProfile(feed.value.vendor.user.id)">{{ feed.value.vendor.businessName }} </span>
             <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
           </div>
         </div>
+
+
 
 
         <!-- cart + close -->
@@ -293,7 +300,7 @@
                 <div class="video-page__price">
                   <div class="video-page__price-line">
                     <div class="video-page__price" :style="[feed.value.liveProducts[display - 1].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.liveProducts[display - 1].product.price| formatPrice }}€ 
-                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€ <img v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
+                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€ <img v-if="feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
                     </div>
                   </div>
                 </div>
@@ -317,7 +324,7 @@
                   <div class="video-page__price-line">
                     <div class="video-page__price" :style="[feed.value.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.product.price | formatPrice }}€ 
                       <span v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice | formatPrice }}€ 
-                        <img v-if="feed.value.product.compareAtPrice" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
+                        <img v-if="feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span> 
                     </div>
                   </div>
                 </div>
@@ -455,7 +462,7 @@
                 </span> 
               </div>
             </div>
-            <div v-if="product.compareAtPrice" style="margin-right: 10px;">
+            <div v-if="shop.promotions.find(promo => promo.isActive === true)" style="margin-right: 10px;">
               <img :src="require(`@/assets/img/discount.svg`)" style="width: 25px; height: 25px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
             </div>
           </div>
@@ -527,7 +534,6 @@ export default {
       visible: 0,
       loading: true,
       popup: false,
-      promo: true,
       cart: true,
       safeareaBottom: '25px',
       safeareaBottom2: '82px',

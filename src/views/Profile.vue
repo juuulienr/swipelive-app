@@ -223,14 +223,11 @@ export default {
       window.plugins.actionsheet.show(options, (index) => {
         console.log(index);
         if (index == 1) {
-        } else if (index == 2) {
           window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
+        } else if (index == 2) {
+          // mettre en silencieux
         } else if (index == 3) {
-          window.plugins.toast.show("L'utilisateur a été signalé !", 'long', 'top', function(a){
-            console.log('toast success: ' + a);
-          }, function(b){
-            console.log('toast error: ' + b);
-          });
+          window.plugins.toast.show("L'utilisateur a été signalé !", 'long', 'top', {}, {});
         }
       }, (error) => {
         console.log(error);

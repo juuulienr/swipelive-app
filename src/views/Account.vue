@@ -43,15 +43,13 @@
 
 
       <div v-if="user.vendor" style="background: #ff2a80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
-        <div class="account-band">
-          <router-link :to="{ name: 'PreLive' }">
-            <span style="font-size: 16px; color: #fff;">
-              <img class="img1":src="require(`@/assets/img/video.svg`)"/>
-            </span>
-            <span style="font-weight: 500; color: #fff">Lancer un direct</span>
-            <span style="float: right;">
-            </span>
-          </router-link>
+        <div @click="goToPrelive()" class="account-band" style="justify-content: left;">
+          <span style="font-size: 16px; color: #fff;">
+            <img class="img1":src="require(`@/assets/img/video.svg`)"/>
+          </span>
+          <span style="font-weight: 500; color: #fff">Lancer un direct</span>
+          <span style="float: right;">
+          </span>
         </div>
       </div>
 
@@ -205,9 +203,9 @@
       </div>
 
 
-      <div  class="account-box" style="margin-top: 25px;">
-        <div class="account-band">
-          <router-link :to="{ name: 'About' }">
+      <div class="account-box" style="margin-top: 25px;">
+        <div class="account-band" style="justify-content: left;">
+          <div @click="addReview()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/star.svg`)"/>
             </span>
@@ -215,7 +213,7 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
           <router-link :to="{ name: 'About' }">
@@ -255,12 +253,19 @@ export default {
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      // count: 0
     }
   },
   created() {
     window.StatusBar.overlaysWebView(false);  
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+  },
+  mounted() {
+    // console.log(this.count);
+    // console.log(this.$store);
+    // console.log(this.$store.getters.getCount);
+    // this.count = this.$store.getters.getCount;
   },
   methods: {
     logout() {
@@ -275,8 +280,18 @@ export default {
     goBack() {
       this.$router.push({ name: 'Feed' });
     },
+    addReview() {
+      // window.cordova.plugins.AppReview.openStoreScreen(null, true);
+    },
     goEditProfile() {
       this.$router.push({ name: 'EditUser' });
+    },
+    goToPrelive() {
+      if (this.user.vendor.products.length > 0) {
+        this.$router.push({ name: 'PreLive' });
+      } else {
+        this.$router.push({ name: 'Shop' });
+      }
     },
     goToVendorRegistration() {
       this.$router.push({ name: 'VendorRegistration' });

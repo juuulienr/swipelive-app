@@ -336,7 +336,11 @@ export default {
       });
 
       if (!exist) {
-        this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
+        if (user.vendor.businessName) {
+          this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
+        } else {
+          this.$router.push({ name: 'ListMessages' });
+        }
       }
     },
   }
