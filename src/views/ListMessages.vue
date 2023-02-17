@@ -47,7 +47,7 @@
         </div>
       </div>
       <div v-else>
-        <div class="container" style="margin: 120px auto 0px; text-align: center;">
+        <div class="container" style="margin: 180px auto 0px; text-align: center;">
           <div style="margin: 0px auto;">
             <Lottie :options="defaultOptions" :width="200"/>
           </div>

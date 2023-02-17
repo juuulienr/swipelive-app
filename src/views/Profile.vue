@@ -125,7 +125,6 @@ export default {
       followers: null,
       product: null,
       variant: null,
-      nbProducts: 0
     }
   },
   filters: {
@@ -152,14 +151,6 @@ export default {
               this.notif = true;
             }
           });
-        });
-      }
-
-      if (this.profile.vendor.products) {
-        this.profile.vendor.products.map(product => {
-          if (product.archived == false) {
-            this.nbProducts += 1;
-          }
         });
       }
     }, (response) => {

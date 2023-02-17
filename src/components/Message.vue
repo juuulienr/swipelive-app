@@ -153,6 +153,7 @@ export default {
       if (this.inputMessage && this.inputMessage !== '') {
         this.writing = false;
         const httpParams = { "fromUser": this.user.id, "picture": null, "text": this.inputMessage, "createdAt": new Date() };
+        const httpParams2 = { "preview": this.inputMessage, "unseenVendor": true, "unseen": false, "user": this.discussion.user.id, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
         this.discussion.messages.push(httpParams);
         this.inputMessage = '';
         this.scrollToBottom();
@@ -166,8 +167,6 @@ export default {
             console.log(JSON.parse(response.error));
           });
         } else {
-          const httpParams2 = { "preview": this.inputMessage, "unseenVendor": true, "unseen": false, "user": this.discussion.user.id, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
-
           await window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/add", httpParams2, { Authorization: "Bearer " + this.token }, (response) => {
             this.discussions = JSON.parse(response.data);
             this.$emit('updateDiscussions', this.discussions);

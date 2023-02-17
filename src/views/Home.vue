@@ -311,6 +311,7 @@ export default {
       this.$router.push({ name: 'Category', params: { id: category.id } });
     },
     showProduct(product) {
+      console.log(product);
       this.product = product;
       this.popupProduct = true;
     },
