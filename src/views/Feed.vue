@@ -622,6 +622,13 @@ export default {
         console.log(response.error);
       });
     }
+    
+    window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+      this.$store.commit('setAllProducts', JSON.parse(response.data));
+    }, (response) => {
+      console.log(response.error);
+    });
+
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.$store.commit('setClipsTrending', JSON.parse(response.data));
@@ -641,8 +648,8 @@ export default {
       console.log(response.error);
     });
 
-    window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
-      this.$store.commit('setAllProducts', JSON.parse(response.data));
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setDiscussions', JSON.parse(response.data));
     }, (response) => {
       console.log(response.error);
     });

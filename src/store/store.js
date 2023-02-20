@@ -11,6 +11,7 @@ export default new Vuex.Store({
     clipsTrending: [],
     clipsLatest: [],
     allProducts: [],
+    discussions: [],
   },
   mutations: { 
     // synchronous, for change use commit
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     setAllProducts(state, data) {
       state.allProducts = data;
+    },
+    setDiscussions(state, data) {
+      state.discussions = data;
     },
   },
   actions: { 
@@ -49,6 +53,9 @@ export default new Vuex.Store({
     },
     getAllProducts(state) {
       return state.allProducts;
+    },
+    getDiscussions(state) {
+      return state.discussions;
     },
   }
 });
