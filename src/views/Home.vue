@@ -131,7 +131,7 @@
         </div>
       </div>
     </div>
-    <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: calc(100vh - 60px);">
+    <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: calc(100vh - 60px); animation: none">
     	<div class="list_persone" style="margin-top: 15px; padding: 0px 10px;">
     		<div class="suggested">
     			<div v-if="suggestions && suggestions.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">

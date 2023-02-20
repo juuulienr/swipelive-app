@@ -12,7 +12,7 @@
     </div>
 
     <!-- welcome popup -->
-    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px;"> 
+    <div v-if="popup" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="bg-welcome" style="padding: 15px;">
         <div class="checkout__title" style="margin-top: 12px; font-size: 22px; margin-bottom: 20px;">Achetez, Vendez & Swipez 🛍</div>
         <p style="text-align: center;margin: 0px 30px;font-weight: 400;margin-bottom: 30px;">Créez un compte pour commencer à acheter, vendre et profiter de plein de réductions en live !</p>
@@ -58,7 +58,7 @@
 
 
     <!-- login popup -->
-    <div v-if="popupLogin" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px;"> 
+    <div v-if="popupLogin" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
         <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
            <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
@@ -126,7 +126,7 @@
 
 
     <!-- registration popup -->
-    <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px;"> 
+    <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
         <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
            <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
@@ -196,7 +196,7 @@
 
 
     <!-- forgot password popup -->
-    <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px;"> 
+    <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
         <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
            <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>

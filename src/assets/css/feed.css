@@ -1115,10 +1115,10 @@ img.zoom {
 	background-color: #fff;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
-	animation-duration: 400ms !important;
-	animation-iteration-count: 1 !important;
-	animation-fill-mode: both !important;
-	animation-name: keyframe_d37zz3 !important;
+  animation-duration: 400ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: keyframe_d37zz3;
 	z-index: 1000000000;
 }
 
