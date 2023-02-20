@@ -142,7 +142,7 @@
                 <img v-if="!searchFollowing[index].value" @click="follow(suggestion.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
                 <img v-else @click="follow(suggestion.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
                 <h5 @click="goToProfile(suggestion.id)" class="name">{{ suggestion.vendor.businessName }}
-                  <img :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
+                  <img v-if="suggestion.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
                 </h5>
                 <p @click="goToProfile(suggestion.id)" v-if="suggestion.followers.length > 1" class="sous_name" style="color: #999; font-weight: 400;">{{suggestion.followers.length }} abonnés</p>
                 <p @click="goToProfile(suggestion.id)" v-else class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{ suggestion.followers.length }} abonné</p>
@@ -157,9 +157,8 @@
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
       <img @click="hideProduct()" :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; right: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; right: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">

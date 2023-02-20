@@ -172,7 +172,7 @@ export default {
       if (this.promotion.type == 'fixe' || (this.promotion.type == 'percent' && this.promotion.value < 100)) {
         this.popupPromo = false;
         this.promotion.vendor = this.user.id;
-        // this.promotion.title = this.promotion.title.toUpperCase();
+        this.promotion.title = this.promotion.title.toUpperCase();
         this.promotions.map((promo, index) => {
           promo.isActive = false;
         });
@@ -183,6 +183,7 @@ export default {
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
         }, (response) => {
           console.log(JSON.parse(response.error));
+          window.plugins.toast.show(JSON.parse(response.error), 'long', 'top', {}, {});
         });
       }
     },
