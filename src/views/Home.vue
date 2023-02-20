@@ -45,7 +45,7 @@
     </div>
 
 
-    <div v-if="clips" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="clips && clips.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-for="(clip, index) in clips" style="padding: 0px 5px;">
@@ -68,7 +68,7 @@
 
 
 
-    <div v-if="products" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="products && products.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Top Produits 🛍</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-if="product.archived == false" v-for="product in products" @click="showProduct(product)" style="padding: 0px 5px;">
@@ -92,7 +92,7 @@
 
 
 
-    <div v-if="clips" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="latestClips && latestClips.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Nouveautés ⭐️</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-for="(clip, index) in latestClips" style="padding: 0px 5px;">
@@ -185,11 +185,12 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
-      categories: JSON.parse(window.localStorage.getItem("categories")),
-      clips: JSON.parse(window.localStorage.getItem("trend")),
+      categories: this.$store.getters.getCategories,
+      clips: this.$store.getters.getClipsTrending,
+      latestClips: this.$store.getters.getClipsLatest,
+      products: this.$store.getters.getProductsTrending,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
-      latestClips: [],
       following: null,
       popupSearch: false,
       popupProduct: false,
@@ -197,7 +198,6 @@ export default {
       product: null,
       variant: null,
       suggestions: null,
-      products: null,
       loading: false
     }
   },
@@ -205,33 +205,6 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-
-    var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-    window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, httpHeader, (response) => {
-      this.categories = JSON.parse(response.data);
-      window.localStorage.setItem("categories", response.data);
-    }, (response) => {
-      console.log(response.error);
-    });
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.clips = JSON.parse(response.data);
-      window.localStorage.setItem("trend", response.data);
-    }, (response) => {
-      console.log(response.error);
-    });
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.latestClips = JSON.parse(response.data);
-    }, (response) => {
-      console.log(response.error);
-    });
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.products = JSON.parse(response.data);
-    }, (response) => {
-      console.log(response.error);
-    });
   },
   methods: {
     goAccount() {
@@ -267,7 +240,6 @@ export default {
           }
 
           this.searchFollowing.push({ "value": isFollower });
-          console.log(this.searchFollowing);
         });
       }, (response) => {
         console.log(response.error);

@@ -67,7 +67,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      categories: JSON.parse(window.localStorage.getItem("categories")),
+      categories: this.$store.getters.getCategories,
       token: window.localStorage.getItem("token"),
       defaultOptions: {animationData: animationData},
       selectedCategory: '',

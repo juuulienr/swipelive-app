@@ -6,23 +6,49 @@ Vue.use(Vuex);
 // Create a new store instance.
 export default new Vuex.Store({
   state: {
-    count: 50
+    categories: [],
+    productsTrending: [],
+    clipsTrending: [],
+    clipsLatest: [],
+    allProducts: [],
   },
   mutations: { 
-    // synchronous
-    // change use commit
-    setCount(state, data) {
-      state.count = data;
-    }
+    // synchronous, for change use commit
+    setCategories(state, data) {
+      state.categories = data;
+    },
+    setClipsTrending(state, data) {
+      state.clipTrending = data;
+    },
+    setClipsLatest(state, data) {
+      state.clipLatest = data;
+    },
+    setProductsTrending(state, data) {
+      state.productsTrending = data;
+    },
+    setAllProducts(state, data) {
+      state.allProducts = data;
+    },
   },
   actions: { 
-    // asynchronous
-    // change use dispatch
+    // asynchronous, for change use dispatch
   }, 
   modules: {},
   getters: {
-    getCount(state) {
-      return state.count;
-    }
+    getCategories(state) {
+      return state.categories;
+    },
+    getClipsTrending(state) {
+      return state.clipTrending;
+    },
+    getClipsLatest(state) {
+      return state.clipLatest;
+    },
+    getProductsTrending(state) {
+      return state.productsTrending;
+    },
+    getAllProducts(state) {
+      return state.allProducts;
+    },
   }
 });

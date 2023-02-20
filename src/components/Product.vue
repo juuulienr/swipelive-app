@@ -1,6 +1,6 @@
 <template>
   <div v-if="product" class="product">
-    <div v-if="product.uploads" style="width: 100%;">
+    <div v-if="product.uploads.length > 0" style="width: 100%;">
       <VueSlickCarousel v-bind="settings">
         <div class="vue-slick" v-for="upload in product.uploads" v-bind:key="upload.id">
           <img :src="cloudinary750x750 + upload.filename">

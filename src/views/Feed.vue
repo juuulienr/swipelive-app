@@ -608,13 +608,44 @@ export default {
     } else {
       this.$router.push({ name: 'Welcome' });
     }
-
   },
   mounted() {
     console.log('anchor', this.anchor);
     this.refresh();
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
+
+    if (!this.$store.getters.getCategories.length) {
+      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+        this.$store.commit('setCategories', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
+
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setClipsTrending', JSON.parse(response.data));
+    }, (response) => {
+      console.log(response.error);
+    });
+
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setClipsLatest', JSON.parse(response.data));
+    }, (response) => {
+      console.log(response.error);
+    });
+
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setProductsTrending', JSON.parse(response.data));
+    }, (response) => {
+      console.log(response.error);
+    });
+
+    window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+      this.$store.commit('setAllProducts', JSON.parse(response.data));
+    }, (response) => {
+      console.log(response.error);
+    });
   },
   beforeDestroy() {
     document.removeEventListener('pause', this.pause);

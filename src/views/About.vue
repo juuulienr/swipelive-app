@@ -114,8 +114,6 @@ export default {
         // supprimer le compte
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('user');
-        window.localStorage.removeItem('trend');
-        window.localStorage.removeItem('categories');
         window.localStorage.removeItem('banned');
         window.localStorage.removeItem('rules');
         this.$router.push({ name: 'Welcome' });

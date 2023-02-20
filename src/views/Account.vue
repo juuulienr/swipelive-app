@@ -278,7 +278,6 @@ export default {
       token: window.localStorage.getItem("token"),
       user: JSON.parse(window.localStorage.getItem("user")),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      // count: 0
     }
   },
   created() {
@@ -286,18 +285,10 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
   },
-  mounted() {
-    // console.log(this.count);
-    // console.log(this.$store);
-    // console.log(this.$store.getters.getCount);
-    // this.count = this.$store.getters.getCount;
-  },
   methods: {
     logout() {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user');
-      window.localStorage.removeItem('trend');
-      window.localStorage.removeItem('categories');
       window.localStorage.removeItem('banned');
       window.localStorage.removeItem('rules');
       this.$router.push({ name: 'Welcome' });

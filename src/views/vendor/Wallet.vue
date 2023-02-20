@@ -142,7 +142,7 @@
             </div>
           </div>
           <div v-else-if="bank">
-            <div class="form--input--item" style="margin-top: 45px;">
+            <div class="form--input--item" style="margin-top: 15px;">
               <fieldset>
                 <legend>IBAN</legend>
                 <input type="text" maxlength="27" placeholder="FRXX XXXX XXXX XXXXX XXXX XXXX XXX"/>

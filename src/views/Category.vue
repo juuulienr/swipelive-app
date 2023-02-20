@@ -87,11 +87,11 @@ export default {
       user: JSON.parse(window.localStorage.getItem("user")),
       lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      categories: JSON.parse(window.localStorage.getItem("categories")),
+      categories: this.$store.getters.getCategories,
       defaultOptions: {animationData: animationData},
       id: this.$route.params.id,
       selectedCategory: null,
-      products: null,
+      products: this.$store.getters.getAllProducts,
       popupProduct: false,
       product: null,
       variant: null,
@@ -126,14 +126,6 @@ export default {
     } else {
       this.selectedCategory = this.categories[0]; 
     }
-
-    var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-    window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, httpHeader, (response) => {
-      this.products = JSON.parse(response.data);
-      console.log(this.products);
-    }, (response) => {
-      console.log(response.error);
-    });
   },
   methods: {   
     goBack() {
