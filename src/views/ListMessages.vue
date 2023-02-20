@@ -168,6 +168,9 @@ export default {
       });
     });
   },
+  beforeDestroy() {
+    this.pusher.unsubscribe("discussion_channel");
+  },
   filters: {
     truncate(text, length) {
       if (text.length > length) {

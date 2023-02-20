@@ -4,7 +4,7 @@
       <div class="checkout__title">Mon compte</div>
     </div>
 
-    <div class="checkout__body" style="padding-bottom: 85px">
+    <div class="checkout__body" style="padding-bottom: 70px">
       <div v-if="user" class="top-author--container" style="padding: 0px; align-items: center;">
         <div @click="goEditProfile()" class="top-author--item">
           <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="margin: 5px; width: 70px; height: 70px;">
@@ -91,6 +91,17 @@
       </div>
       <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
+          <router-link :to="{ name: 'ListOrders' }">
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/purchases.svg`)"/>
+            </span>
+            <span class="title">Achats</span>
+            <span style="float: right;">
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
+            </span>
+          </router-link>
+        </div>
+        <div class="account-band">
           <router-link :to="{ name: 'ListClips' }">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/clips.svg`)"/>
@@ -155,9 +166,9 @@
         <div class="account-band">
           <router-link :to="{ name: 'ListOrders' }">
             <span class="left-side">
-              <img class="img1":src="require(`@/assets/img/orders.svg`)"/>
+              <img class="img1":src="require(`@/assets/img/purchases.svg`)"/>
             </span>
-            <span class="title">Commandes</span>
+            <span class="title">Achats</span>
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
@@ -226,15 +237,29 @@
             </span>
           </router-link>
         </div>
-      </div>
-
-
-      <div @click="logout()" style="margin-top: 25px;">
-        <div class="btn-logout">
-          <span>Déconnexion</span>
+        <div class="account-band" style="justify-content: left;">
+          <div @click="logout()" style="width: 100%">
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/power.svg`)"/>
+            </span>
+            <span class="title">Déconnexion</span>
+            <span style="float: right;">
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
+            </span>
+          </div>
         </div>
       </div>
 
+
+      <div style="margin-top: 25px;">
+        <div class="box-network">
+          <img :src="require(`@/assets/img/facebook-link.svg`)" style="width: 48px; height: 48px; margin-right: 20px;"/>
+          <img :src="require(`@/assets/img/instagram-link.svg`)" style="width: 48px; height: 48px;"/>
+        </div>
+      </div>
+      <div class="box-network" style="padding: 0px;">      
+        <img :src="require(`@/assets/img/logo-text.png`)" style="width: 150px; height: 80px;"/>
+      </div>
     </div>
   </main>
 </template>

@@ -1341,7 +1341,6 @@ span.filter--choice > input:checked ~ .svg--point {
 .multistream-card .available {
   font-size: 13px; 
   color: #18cea0; 
-  font-weight: 400; 
   margin-top: 10px;
 }
 

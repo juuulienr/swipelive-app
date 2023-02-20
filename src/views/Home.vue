@@ -24,7 +24,7 @@
     </div>
 
     <div class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
-    	<h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 15px;">Abonnements</h2>
+    	<h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Abonnements</h2>
     	<div class="list_persone" style="display:flex; padding: 0px; padding-left: 5px;">
     		<div @click="addFollowing()" style="padding: 0px 5px;">
   				<div class="personne">
@@ -46,7 +46,7 @@
 
 
     <div v-if="clips" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
-      <h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
+      <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-for="(clip, index) in clips" style="padding: 0px 5px;">
           <router-link :to="{ name: 'Feed', params: { type: 'trending', index: index }}">
@@ -69,7 +69,7 @@
 
 
     <div v-if="products" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
-      <h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 15px;">Top Produits 🛍</h2>
+      <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Top Produits 🛍</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-if="product.archived == false" v-for="product in products" @click="showProduct(product)" style="padding: 0px 5px;">
           <div class="personne">
@@ -93,7 +93,7 @@
 
 
     <div v-if="clips" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
-      <h2 v-touch:swipe.left="swipeHandler" style="font-weight: 500; font-size: 16px; margin-left: 15px;">Nouveautés ⭐️</h2>
+      <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Nouveautés ⭐️</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-for="(clip, index) in latestClips" style="padding: 0px 5px;">
           <router-link :to="{ name: 'Feed', params: { type: 'latest', index: index }}">
@@ -156,19 +156,10 @@
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
-      <div @click="hideProduct()" style="display: flex;">
-        <div class="scroll-indicator" style="margin: 15px auto 0px;"></div>
-      </div>
-      <svg v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg" style="top: 45px;filter: drop-shadow(0px 0px 1px #222);">
-        <g transform="matrix( 1 0 0 1 1 3 )">
-          <path d="M16 0C13.8 0 12.2 1.2 11 2.5C9.8 1.3 8.2 0 6 0C2.5 0 0 2.9 0 6.5C0 8.3 0.7 9.9 2 11L11 19.5L20 11C21.2 9.8 22 8.3 22 6.5C22 2.9 19.5 0 16 0Z" fill="#FFFFFF"></path>
-        </g>
-      </svg>
-      <svg v-else @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg" style="top: 45px;filter: drop-shadow(0px 0px 1px #222);">
-        <g transform="matrix( 1 0 0 1 1 2 )">
-          <path d="M15 3C17.5 3 19 4.90001 19 7.20001C19 8.40001 18.4 9.49999 17.7 10.3C16.5 11.5 11 16 11 16C11 16 5.50005 11.5 4.30005 10.3C3.50005 9.49999 3 8.40001 3 7.20001C3 4.90001 4.5 3 7 3C8.7 3 10.3 4.6 11 6C11.7 4.6 13.3 3 15 3ZM15 0C13.5 0 12.1 0.599994 11 1.39999C9.9 0.499994 8.5 0 7 0C3 0 0 3.10001 0 7.20001C0 9.10001 0.799951 10.9 2.19995 12.4C3.59995 13.9 11 19.9 11 19.9C11 19.9 18.4 13.9 19.8 12.4C21.2 10.9 22 9.10001 22 7.20001C22 3.10001 19 0 15 0Z" fill="#FFFFFF" style="fill: white;"></path>
-        </g>
-      </svg>
+      <img @click="hideProduct()" :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; right: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; right: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -243,11 +234,6 @@ export default {
     });
   },
   methods: {
-    swipeHandler(dir) {
-      if (dir == "left") {
-        this.$router.push('/feed');
-      }
-    },
     goAccount() {
       this.$router.push({ name: 'Account' });
     },

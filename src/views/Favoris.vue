@@ -16,11 +16,7 @@
             <div>
               <img v-if="heart.product.uploads.length" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
               <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">
-              <svg @click="removeFavoris(heart.product, index)" width="24px" height="24px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 25px; height: 25px; fill: white; border-radius: 30px; position: absolute; top: 10px; right: 10px; z-index: 100000000;filter: drop-shadow(0px 0px 1px #222);">
-                <g transform="matrix( 1 0 0 1 1 3 )">
-                  <path d="M16 0C13.8 0 12.2 1.2 11 2.5C9.8 1.3 8.2 0 6 0C2.5 0 0 2.9 0 6.5C0 8.3 0.7 9.9 2 11L11 19.5L20 11C21.2 9.8 22 8.3 22 6.5C22 2.9 19.5 0 16 0Z" fill="#FFFFFF"></path>
-                </g>
-              </svg>
+              <img @click="removeFavoris(heart.product, index)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 32px; height: 32px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px);"/>
             </div>
           </div>
           <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">

@@ -32,8 +32,8 @@
 
 
       <div class="top-author" style="margin-top: 15px;">
-      	<div v-if="show1" class="top-author--container">
-          <div v-if="orders && orders.length > 0">
+      	<div v-if="show1">
+          <div v-if="orders && orders.length > 0" class="top-author--container">
         		<div v-for="order in orders" @click="goToOrder(order.id)" class="top-author--item" style="position: relative">
         			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
               <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
@@ -61,8 +61,8 @@
           </div>
         </div>
         
-        <div v-if="show2" class="top-author--container">
-          <div>
+        <div v-if="show2">
+          <div class="top-author--container">
             <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <Lottie :options="defaultOptions" :width="200"/>
@@ -72,8 +72,8 @@
             <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
           </div>
         </div>
-        <div v-if="show3" class="top-author--container">
-          <div>
+        <div v-if="show3">
+          <div class="top-author--container">
             <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <Lottie :options="defaultOptions" :width="200"/>
@@ -83,8 +83,8 @@
             <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
           </div>
         </div>
-        <div v-if="show4" class="top-author--container">
-          <div>
+        <div v-if="show4">
+          <div class="top-author--container">
             <div class="container" style="margin: 120px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
                 <Lottie :options="defaultOptions" :width="200"/>

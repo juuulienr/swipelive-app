@@ -246,7 +246,7 @@ a {
   color: #333;
 }
 
-.btn-logout {
+.box-network {
   border: none; 
   margin: 0px; 
   text-align: left; 
@@ -258,9 +258,4 @@ a {
   border: none;
 }
 
-
-.btn-logout span {
-  font-weight: 500; 
-  color: rgba(255, 0, 0, 50%);
-}
 

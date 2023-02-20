@@ -51,6 +51,7 @@
             <img @click="goToMessage(order.vendor.user)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px;"/>
           </div>
         </div>
+
         <hr style="margin-top: 5px;">
         <div v-for="lineItem in order.lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 0.5rem 0; position: relative;">
           <div class="checkout__product-info" style="padding-right: 0px;">
@@ -60,6 +61,9 @@
             <div>
               <h5 class="checkout__name" style="font-weight: 500; font-size: 14px;"> {{ lineItem.product.title }} </h5>
               <div v-if="lineItem.variant" class="checkout__attr" style="font-weight: 500; font-size: 13px;color: #525c66;">{{ lineItem.variant.title }}</div>
+            </div>
+            <div style="margin-left: 30px">
+              <span class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
             </div>
           </div>
         </div>
@@ -257,8 +261,8 @@ export default {
       window.plugins.actionsheet.show(options, (index) => {
         console.log(index);
         if (index == 1) {
-        	// send message
-          this.$router.push({ name: 'ListMessages' });
+        	// supprimer commande si la commande n'est pas envoyé
+          // this.$router.push({ name: 'ListMessages' });
         } else if (index == 2) {
           this.$router.push({ name: 'ListMessages' });
         }

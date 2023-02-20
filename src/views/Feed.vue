@@ -49,7 +49,7 @@
         <!-- purchase -->
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
-            <img v-if="purchasePicture" class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; position: absolute; z-index: 100000000; border: 3px solid white;" />
+            <img v-if="purchasePicture" class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
             <Lottie :options="defaultOptions3" v-on:animCreated="handleAnimation2" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>
         </div>
@@ -232,15 +232,15 @@
         <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
           <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
             <span>
-              <span style="position: absolute;top: 11px;padding: 10px;">
-                <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)"  :src="require(`@/assets/img/plus-circle.svg`)" style="width: 20px;height: 20px;background-color: white;border-radius: 100px;">
-                <img v-if="clickFollow" :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 20px;height: 20px;background-color: white;border-radius: 100px;">
+              <span style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
+                <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)"  :src="require(`@/assets/img/plus-circle.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
+                <img v-if="clickFollow" :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
               </span>
             </span>
-            <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;">
+            <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 7px;">
             <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
             <span @click="goProfile(feed.value.vendor.user.id)">{{ feed.value.vendor.businessName }} </span>
-            <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
+            <img @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
           </div>
         </div>
 
@@ -393,16 +393,8 @@
       <div @click="hideProduct()" style="display: flex;">
         <div class="scroll-indicator" style="margin: 15px auto 0px;"></div>
       </div>
-      <svg v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg" style="top: 45px;filter: drop-shadow(0px 0px 1px #222);">
-        <g transform="matrix( 1 0 0 1 1 3 )">
-          <path d="M16 0C13.8 0 12.2 1.2 11 2.5C9.8 1.3 8.2 0 6 0C2.5 0 0 2.9 0 6.5C0 8.3 0.7 9.9 2 11L11 19.5L20 11C21.2 9.8 22 8.3 22 6.5C22 2.9 19.5 0 16 0Z" fill="#FFFFFF"></path>
-        </g>
-      </svg>
-      <svg v-else @click="favoris(product)" xmlns="http://www.w3.org/2000/svg" class="heart-svg" style="top: 45px;filter: drop-shadow(0px 0px 1px #222);">
-        <g transform="matrix( 1 0 0 1 1 2 )">
-          <path d="M15 3C17.5 3 19 4.90001 19 7.20001C19 8.40001 18.4 9.49999 17.7 10.3C16.5 11.5 11 16 11 16C11 16 5.50005 11.5 4.30005 10.3C3.50005 9.49999 3 8.40001 3 7.20001C3 4.90001 4.5 3 7 3C8.7 3 10.3 4.6 11 6C11.7 4.6 13.3 3 15 3ZM15 0C13.5 0 12.1 0.599994 11 1.39999C9.9 0.499994 8.5 0 7 0C3 0 0 3.10001 0 7.20001C0 9.10001 0.799951 10.9 2.19995 12.4C3.59995 13.9 11 19.9 11 19.9C11 19.9 18.4 13.9 19.8 12.4C21.2 10.9 22 9.10001 22 7.20001C22 3.10001 19 0 15 0Z" fill="#FFFFFF" style="fill: white;"></path>
-        </g>
-      </svg>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 38px; height: 38px; position: absolute; top: 40px; right: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; right: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -846,21 +838,6 @@ export default {
     goToAccount() {
       this.stopLive();
       this.$router.push({ name: 'Account' });
-    },
-    swipeHandler(direction) {
-      if (direction == "right") {
-        this.stopLive();
-        this.$router.push({ name: 'Home' });
-      }
-
-      if (direction == "left") {
-        this.stopLive();
-        if (this.data[this.visible].value.vendor.user.id == this.user.id) {
-          this.$router.push({ name: 'Account' });
-        } else {
-          this.$router.push({ name: 'Profile', params: { id: this.data[this.visible].value.vendor.user.id } });
-        }
-      }
     },
     openPopup() {
       this.popup = true;

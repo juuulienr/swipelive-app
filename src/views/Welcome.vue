@@ -52,7 +52,7 @@
         </div>
 
         <p style="text-align: center;margin: 10px 30px 15px;font-weight: 400;color: #a7a8a9;">Avez-vous déjà un compte ?</p>
-        <p @click="userLogin()" style="text-align: center;font-weight: 400;color: #ff2a80;">SE CONNECTER</p>
+        <p @click="userLogin()" style="text-align: center;color: #ff2a80;">SE CONNECTER</p>
       </div>
     </div>
 

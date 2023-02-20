@@ -16,10 +16,12 @@
         <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
           <div style="border-right: 1px solid #eff1f6;">
             <h4 v-if="followers">{{ followers.length }}</h4>
+            <h4 v-else>0</h4>
             <p>Followers</p>
           </div>
           <div>
             <h4 v-if="following">{{ following.length }}</h4>
+            <h4 v-else>0</h4>
             <p>Suivis</p>
           </div>
         </div>

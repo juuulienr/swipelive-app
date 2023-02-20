@@ -14,13 +14,11 @@
     <div class="checkout__body" style="overflow: initial; padding-bottom: 85px;">
       <div v-if="rules" class="items rules">
         <br>
-        <p>Veuillez suivre ces règles concernant les directs. <br>
-        Merci de nous aider à faire en sorte que la communauté reste sûre et amusante !</p>
 
         <p><span>Amusez-vous et invitez des amis 🎉 </span> <br>
         Les lives sont plus sympas avec votre communauté. Assurez-vous de faire la promotion de vos articles et n'oubliez pas de les partager.</p>
 
-        <p><span>Ne vendez pas de contrefaçons ou d'article illicite 🚨  </span> <br>
+        <p><span>Pas de contrefaçons ou d'article illicite 🚨  </span> <br>
         Si vous n'êtes pas sûr de l'authenticité d'un produit, ne le vendez pas. Il vaut mieux être honnête.</p>
 
         <p><span>Dites la vérité ✌️  </span> <br>
@@ -31,8 +29,6 @@
 
         <p><span>Envoyez vos articles dans les 3 jours ouvrés 📦 </span> <br>
         Ne faites pas attendre vos clients et emballez correctement vos articles pour qu'ils ne soient pas endommagés pendant le transport.</p>
-
-        <p style="text-align:center; font-weight: 500; font-size: 15px; margin-top: 25px;"> Nous vous souhaitons de nombreux succès <br> sur Swipe Live !</p>
 
         <div @click="goStep1()" class="btn-swipe btn-prelive">
           <div>BONNES VENTES ! 🚀</div>
@@ -260,7 +256,7 @@ export default {
       }
     },
     goBack() {
-      if (this.step1) {
+      if (this.step1 || this.rules) {
         this.$router.push({ name: 'Account' });
       } else {
         this.step2 = false;
