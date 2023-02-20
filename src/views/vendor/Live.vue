@@ -1360,7 +1360,7 @@ export default {
       this.popupOrders = false;
     },
     goOrders() {
-      this.$router.push({ name: 'ListOrders' });
+      this.$router.push({ name: 'ListOrders', params: { 'isOrder': true } });
     },
     handleAnimation: function (anim) {
       this.anim = anim;

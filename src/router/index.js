@@ -115,7 +115,7 @@ export default new Router({
       name: 'EditUser',
       component: EditUser
     }, {
-      path: '/vendor/orders',
+      path: '/vendor/orders/:isOrder',
       name: 'ListOrders',
       component: ListOrders
     }, {

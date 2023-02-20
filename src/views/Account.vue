@@ -67,7 +67,7 @@
           </router-link>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'ListOrders' }">
+          <router-link :to="{ name: 'ListOrders', params: { 'isOrder': true } }">
             <span class="left-side">
               <img class="img1" :src="require(`@/assets/img/orders.svg`)"/>
             </span>
@@ -91,7 +91,7 @@
       </div>
       <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
-          <router-link :to="{ name: 'ListOrders' }">
+          <router-link :to="{ name: 'ListOrders', params: { 'isOrder': false } }">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/purchases.svg`)"/>
             </span>
@@ -164,7 +164,7 @@
 
       <div v-if="!user.vendor" class="account-box">
         <div class="account-band">
-          <router-link :to="{ name: 'ListOrders' }">
+          <router-link :to="{ name: 'ListOrders', params: { 'isOrder': false } }">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/purchases.svg`)"/>
             </span>
@@ -253,8 +253,8 @@
 
       <div style="margin-top: 25px;">
         <div class="box-network">
-          <img :src="require(`@/assets/img/facebook-link.svg`)" style="width: 48px; height: 48px; margin-right: 20px;"/>
-          <img :src="require(`@/assets/img/instagram-link.svg`)" style="width: 48px; height: 48px;"/>
+          <img @click="openUrl('https://www.facebook.com/swipelive.fr')" :src="require(`@/assets/img/facebook-link.svg`)" style="width: 48px; height: 48px; margin-right: 20px;"/>
+          <img @click="openUrl('https://www.instagram.com/swipeliveapp')" :src="require(`@/assets/img/instagram-link.svg`)" style="width: 48px; height: 48px;"/>
         </div>
       </div>
       <div class="box-network" style="padding: 0px;">      
@@ -320,6 +320,19 @@ export default {
     },
     goToVendorRegistration() {
       this.$router.push({ name: 'VendorRegistration' });
+    },
+    openUrl(url) {
+      window.SafariViewController.isAvailable((available) => {
+        if (available) {
+          window.SafariViewController.show({ url: url }, (result) => {
+            console.log(result);
+          }, (error) => {
+            console.log("KO: " + error);
+          })
+        } else {
+          window.cordova.InAppBrowser.open(url, '_system', 'location=no');
+        }
+      });
     },
   }
 };
