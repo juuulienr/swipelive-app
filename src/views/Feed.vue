@@ -393,14 +393,17 @@
       <div @click="hideProduct()" style="display: flex;">
         <div class="scroll-indicator" style="margin: 15px auto 0px;"></div>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
-      <div class="groups">
+      <div v-if="product.quantity > 0" class="groups">
         <div @click="addToCart()" class="btn-swipe btn-addtoCart">Ajouter</div>
         <div @click="goCheckout()" class="btn-swipe btn-checkout">Acheter</div>
+      </div>
+      <div v-else class="groups">
+        <div class="btn-swipe btn-checkout" style="color: rgb(170, 170, 170); background: #eff1f6; width: 100%">Épuisé</div>
       </div>
     </div>
 

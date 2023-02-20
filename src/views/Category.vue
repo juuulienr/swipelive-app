@@ -58,7 +58,8 @@
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
       <div class="groups">
-        <div @click="addToCart()" class="btn-swipe btn-checkout">Ajouter</div>
+        <div v-if="product.quantity > 0" @click="addToCart()" class="btn-swipe btn-checkout">Ajouter</div>
+        <div v-else class="btn-swipe btn-checkout" style="color: rgb(170, 170, 170); background: #eff1f6;">Épuisé</div>
       </div>
     </div>
     

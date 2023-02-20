@@ -266,7 +266,7 @@ export default {
         	// supprimer commande si la commande n'est pas envoyé
           // this.$router.push({ name: 'ListMessages' });
         } else if (index == 2) {
-          // this.$router.push({ name: 'ListMessages' });
+          window.plugins.toast.show("La commande a été signalé !", 'long', 'top', {}, {});
         }
       }, (error) => {
         console.log(error);
