@@ -41,7 +41,7 @@
                 <span v-if="follow.follower.vendor">{{ follow.follower.vendor.businessName }}</span>
                 <span v-else>{{ follow.follower.firstname }} {{ follow.follower.lastname }}</span>
               </div>
-              <div @click="actionSheet(follow, index)">
+              <div @click="actionSheet(follow.follower, index)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; fill: #999; border-radius: 30px;">
                   <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
                 </svg>
@@ -71,7 +71,7 @@
                   <span v-else>{{follow.following.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(follow, index)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Abonné</div>
+              <div @click="unfollow(follow.following, index)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Abonné</div>
             </div>
           </div>
           <div v-else>
@@ -98,7 +98,7 @@
                   <span v-else>{{follow.following.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(follow, index)" class="btn-follow">Abonné</div>
+              <div @click="unfollow(follow.following, index)" class="btn-follow">Abonné</div>
             </div>
           </div>
           <div v-else>
@@ -183,9 +183,8 @@ export default {
         winphoneEnableCancelButton : true
       };
 
-      window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
+      window.plugins.actionsheet.show(options, (result) => {
+        if (result == 1) {
           this.removeFollower(follow, index);
         }
       }, (error) => {

@@ -246,11 +246,19 @@ export default {
   name: "NavBar",
   data: function() {
     return {
-      active_el: 4,
+      active_el: 0,
     }
   },
   created() {
-    this.active_el = 0;
+    if (this.$route.name == "Home" || this.$route.name == "Category") {
+      this.active_el = 0;
+    } else if (this.$route.name == "Cart") {
+      this.active_el = 1;
+    } else if (this.$route.name == "ListMessages") {
+      this.active_el = 3;
+    } else {
+      this.active_el = 4;
+    }
   },
   methods: {
     menuActive(el) {
