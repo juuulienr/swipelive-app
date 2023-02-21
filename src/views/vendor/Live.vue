@@ -756,7 +756,7 @@ export default {
     return {
       id: this.$route.params.id,
       baseUrl: window.localStorage.getItem("baseUrl"),
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
@@ -1311,15 +1311,16 @@ export default {
 
       if (this.promotion.type == 'fixe' || (this.promotion.type == 'percent' && this.promotion.value < 100)) {
         this.promotion.vendor = this.user.id;
-        // this.promotion.title = this.promotion.title.toUpperCase();
+        this.promotion.title = this.promotion.title.toUpperCase();
         this.user.vendor.promotions.map((promo, index) => {
           promo.isActive = false;
         });
+        this.user.vendor.promotions.unshift(this.promotion);
 
         window.cordova.plugin.http.setDataSerializer('json');
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
-          this.user.vendor.promotions.unshift(JSON.parse(response.data));
+          this.$store.commit('setUser', JSON.parse(response.data));
+          this.user = this.$store.getters.getUser;
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
         }, (response) => {
           console.log(JSON.parse(response.error));
@@ -1327,9 +1328,9 @@ export default {
       }
     },
     deletePromo(promo, index) {
+      this.user.vendor.promotions.splice(index, 1);
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.user.vendor.promotions.splice(index, 1);
-        console.log(response);
+        this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -1345,7 +1346,8 @@ export default {
       }
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/activate/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.user = this.$store.getters.getUser;
       }, (response) => {
         console.log(response.error);
       });

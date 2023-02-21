@@ -45,10 +45,10 @@
     </div>
 
 
-    <div v-if="clips && clips.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="clipsTrending && clipsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
-        <div v-for="(clip, index) in clips" style="padding: 0px 5px;">
+        <div v-for="(clip, index) in clipsTrending" style="padding: 0px 5px;">
           <router-link :to="{ name: 'Feed', params: { type: 'trending', index: index }}">
             <div class="personne">
               <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
@@ -68,10 +68,10 @@
 
 
 
-    <div v-if="products && products.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="productsTrending && productsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Top Produits 🛍</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
-        <div v-if="product.archived == false" v-for="product in products" @click="showProduct(product)" style="padding: 0px 5px;">
+        <div v-if="product.archived == false" v-for="product in productsTrending" @click="showProduct(product)" style="padding: 0px 5px;">
           <div class="personne">
             <div>
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 150px; border-radius: 10px;">
@@ -134,7 +134,22 @@
     <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: calc(100vh - 60px); animation: none">
     	<div class="list_persone" style="margin-top: 15px; padding: 0px 10px;">
     		<div class="suggested">
-    			<div v-if="suggestions && suggestions.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
+    			<div v-if="results && results.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
+            <div v-for="(result, index) in results">
+              <div class="personne">
+                <img @click="goToProfile(result.id)" v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px;"/>
+                <img @click="goToProfile(result.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
+                <img v-if="!searchFollowing[index].value" @click="follow(result.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
+                <img v-else @click="follow(result.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
+                <h5 @click="goToProfile(result.id)" class="name">{{ result.vendor.businessName }}
+                  <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
+                </h5>
+                <p @click="goToProfile(result.id)" v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
+                <p @click="goToProfile(result.id)" v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
+              </div>
+            </div>
+          </div>
+          <div v-else style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
             <div v-for="(suggestion, index) in suggestions">
               <div class="personne">
                 <img @click="goToProfile(suggestion.id)" v-if="suggestion.picture" :src="cloudinary256x256 + suggestion.picture" class="user" style="margin-bottom: 8px;"/>
@@ -144,12 +159,11 @@
                 <h5 @click="goToProfile(suggestion.id)" class="name">{{ suggestion.vendor.businessName }}
                   <img v-if="suggestion.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
                 </h5>
-                <p @click="goToProfile(suggestion.id)" v-if="suggestion.followers.length > 1" class="sous_name" style="color: #999; font-weight: 400;">{{suggestion.followers.length }} abonnés</p>
-                <p @click="goToProfile(suggestion.id)" v-else class="sous_name" style="margin-top: 5px; color: #999; font-weight: 400;">{{ suggestion.followers.length }} abonné</p>
+                <p @click="goToProfile(suggestion.id)" v-if="suggestion.followers.length > 1" class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{suggestion.followers.length }} abonnés</p>
+                <p @click="goToProfile(suggestion.id)" v-else class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ suggestion.followers.length }} abonné</p>
               </div>
             </div>
           </div>
-          <div v-else></div>
     		</div>
     	</div>
     </div>
@@ -184,11 +198,12 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       categories: this.$store.getters.getCategories,
-      clips: this.$store.getters.getClipsTrending,
+      clipsTrending: this.$store.getters.getClipsTrending,
       latestClips: this.$store.getters.getClipsLatest,
-      products: this.$store.getters.getProductsTrending,
+      productsTrending: this.$store.getters.getProductsTrending,
+      suggestions: this.$store.getters.getSuggestions,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
       following: null,
@@ -197,7 +212,7 @@ export default {
       searchValue: "",
       product: null,
       variant: null,
-      suggestions: null,
+      results: [],
       loading: false
     }
   },
@@ -205,6 +220,8 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+
+    this.changed();
   },
   methods: {
     goAccount() {
@@ -223,27 +240,52 @@ export default {
       this.changed();
     }, 
     changed() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
-        this.suggestions = JSON.parse(response.data);
-        this.searchFollowing = [];
+      if (this.searchValue.length > 2) {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.searchFollowing = [];
+          this.results = JSON.parse(response.data);
+          this.results.map((element, index) => {
+            var followers = element.followers;
+            var isFollower = false;
 
-        this.suggestions.map((element, index) => {
-          var followers = element.followers;
-          var isFollower = false;
+            if (followers.length) {
+              followers.map((element, index) => {
+                if (element.follower.id == this.user.id) {
+                  isFollower = true;
+                }
+              });
+            }
 
-          if (followers.length) {
-            followers.map((element, index) => {
-              if (element.follower.id == this.user.id) {
-                isFollower = true;
-              }
-            });
-          }
-
-          this.searchFollowing.push({ "value": isFollower });
+            this.searchFollowing.push({ "value": isFollower });
+          });
+        }, (response) => {
+          console.log(response.error);
         });
-      }, (response) => {
-        console.log(response.error);
-      });
+      } else {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.results = [];
+          this.searchFollowing = [];
+      
+          this.suggestions = JSON.parse(response.data);
+          this.$store.commit('setSuggestions', JSON.parse(response.data));
+          this.suggestions.map((element, index) => {
+            var followers = element.followers;
+            var isFollower = false;
+
+            if (followers.length) {
+              followers.map((element, index) => {
+                if (element.follower.id == this.user.id) {
+                  isFollower = true;
+                }
+              });
+            }
+
+            this.searchFollowing.push({ "value": isFollower });
+          });
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
     },
     follow(id, index) {
       if (this.searchFollowing[index].value) {
@@ -256,7 +298,7 @@ export default {
         setTimeout(() => {
           this.changed();
           this.user = JSON.parse(response.data);
-          window.localStorage.setItem("user", response.data);
+          this.$store.commit('setUser', JSON.parse(response.data));
         }, 300);
       }, (response) => {
         console.log(response.error);
@@ -280,7 +322,7 @@ export default {
     favoris(product) { 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
-        window.localStorage.setItem("user", response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

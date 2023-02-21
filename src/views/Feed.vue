@@ -504,7 +504,7 @@ export default {
       anchor: this.$route.params.index,
       type: this.$route.params.type,
       profileId: this.$route.params.profileId,
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       banned: window.localStorage.getItem("banned") ? JSON.parse(window.localStorage.getItem("banned")) : [],
@@ -597,7 +597,8 @@ export default {
       this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
       	console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
-        window.localStorage.setItem("user", response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.$store.commit('setUser', JSON.parse(response.data));
         
         if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
           Sentry.setUser({ email: this.user.email });
@@ -644,12 +645,6 @@ export default {
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.$store.commit('setProductsTrending', JSON.parse(response.data));
-    }, (response) => {
-      console.log(response.error);
-    });
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.$store.commit('setDiscussions', JSON.parse(response.data));
     }, (response) => {
       console.log(response.error);
     });
@@ -1175,7 +1170,7 @@ export default {
           }, 2000);
 
           window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-            window.localStorage.setItem("user", response.data);
+            this.$store.commit('setUser', JSON.parse(response.data));
           }, (response) => {
             console.log(response.error);
           });
@@ -1185,7 +1180,7 @@ export default {
     favoris(product) { 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
-        window.localStorage.setItem("user", response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

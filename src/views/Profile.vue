@@ -108,7 +108,7 @@ export default {
       loading: false,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       popupProduct: false,
       profile: null,
@@ -168,7 +168,7 @@ export default {
         }
 
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          window.localStorage.setItem("user", response.data);
+          this.$store.commit('setUser', JSON.parse(response.data));
           this.loading = false;
         }, (response) => {
           console.log(response.error);
@@ -238,7 +238,7 @@ export default {
     favoris(product) { 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
-        window.localStorage.setItem("user", response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

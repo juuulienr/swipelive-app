@@ -11,8 +11,8 @@
 
     <div class="checkout__body">
       <div class="images">
-        <div v-if="clips && clips.length" class="row" style="margin: 0px;">
-          <div v-for="clip in clips" class="col-6 col-img" style="padding: 5px;">
+        <div v-if="user.vendor.clips && user.vendor.clips.length" class="row" style="margin: 0px;">
+          <div v-for="clip in user.vendor.clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover;">
               <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
@@ -57,26 +57,17 @@ export default {
   },
   data() {
     return {
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      defaultOptions: {animationData: animationData},
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      clips: [],
-      loading: true,
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      defaultOptions: {animationData: animationData},
+      user: this.$store.getters.getUser,
     }
   },
   created() {    
     window.StatusBar.overlaysWebView(false);  
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    	console.log(JSON.parse(response.data));
-      this.clips = JSON.parse(response.data);
-      this.loading = false;
-    }, (response) => {
-      console.log(response.error);
-    });
   },
   methods: {
     actionSheet(id) {
@@ -92,9 +83,7 @@ export default {
     			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
         } else if (index == 2) {
 			    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/" + id + "/delete", {}, { Authorization: "Bearer " + this.token }, (response) => {
-			    	console.log(JSON.parse(response.data));
-			      this.clips = JSON.parse(response.data);
-			      this.loading = false;
+            this.$store.commit('setUser', JSON.parse(response.data));
 			    }, (response) => {
 			      console.log(response.error);
 			    });

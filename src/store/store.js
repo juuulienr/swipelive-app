@@ -6,15 +6,18 @@ Vue.use(Vuex);
 // Create a new store instance.
 export default new Vuex.Store({
   state: {
+    user: [],
     categories: [],
     productsTrending: [],
     clipsTrending: [],
     clipsLatest: [],
     allProducts: [],
-    discussions: [],
   },
   mutations: { 
     // synchronous, for change use commit
+    setUser(state, data) {
+      state.user = data;
+    },
     setCategories(state, data) {
       state.categories = data;
     },
@@ -30,15 +33,19 @@ export default new Vuex.Store({
     setAllProducts(state, data) {
       state.allProducts = data;
     },
-    setDiscussions(state, data) {
-      state.discussions = data;
-    },
   },
   actions: { 
     // asynchronous, for change use dispatch
   }, 
   modules: {},
   getters: {
+    getUser(state) {
+      return state.user;
+    },
+    getPromotions(state) {
+      console.log(state.user.vendor.promotions);
+      return state.user.vendor.promotions;
+    },
     getCategories(state) {
       return state.categories;
     },
@@ -53,9 +60,6 @@ export default new Vuex.Store({
     },
     getAllProducts(state) {
       return state.allProducts;
-    },
-    getDiscussions(state) {
-      return state.discussions;
     },
   }
 });

@@ -240,7 +240,7 @@ export default {
       errorIBAN: null,
       withdraw: true,
       bank: false,
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       defaultOptions: {animationData: animationData},

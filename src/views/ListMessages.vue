@@ -85,10 +85,10 @@ export default {
       businessName: this.$route.params.businessName,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
-      discussions: this.$store.getters.getDiscussions,
+      discussions: [],
       selectedDiscussion: null,
       searchTerm: "",
       swipeStatus: '',
@@ -107,19 +107,27 @@ export default {
     if (this.userId) {
       this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
     } else {
-      this.discussions.map((discussion, index) => {
-        if (discussion.user.id == this.user.id) {
-          discussion.isOnline = this.isOnline(discussion.vendor.securityUsers[0].connectedAt);
-        } else {
-          discussion.isOnline = this.isOnline(discussion.user.securityUsers[0].connectedAt);
-        }
-        console.log(discussion.isOnline);
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        this.discussions = JSON.parse(response.data);
+        console.log(this.discussions);
+        this.discussions.map((discussion, index) => {
+          if (discussion.user.id == this.user.id) {
+            discussion.isOnline = this.isOnline(discussion.vendor.securityUsers[0].connectedAt);
+          } else {
+            discussion.isOnline = this.isOnline(discussion.user.securityUsers[0].connectedAt);
+          }
+          console.log(discussion.isOnline);
 
-        if (this.discussionId && discussion.id == this.discussionId) {
-          this.selectedDiscussion = discussion;
-        }
+          if (this.discussionId && discussion.id == this.discussionId) {
+            this.selectedDiscussion = discussion;
+          }
+        });
+      }, (response) => {
+        console.log(response.error);
       });
     }
+
 
     this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
     var channel = this.pusher.subscribe("discussion_channel");

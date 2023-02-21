@@ -9,9 +9,9 @@
       <div class="checkout__title">Favoris</div>
     </div>
 
-    <div v-if="favoris && favoris.length > 0" class="checkout__body items">
+    <div v-if="user.favoris && user.favoris.length > 0" class="checkout__body items">
       <div class="shop--part" style="margin: 10px 15px 0px; gap: 20px 10px;">
-        <div v-if="heart.product.archived == false" v-for="(heart, index) in favoris" class="shop--box">
+        <div v-if="heart.product.archived == false" v-for="(heart, index) in user.favoris" class="shop--box">
           <div>
             <div>
               <img v-if="heart.product.uploads.length" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
@@ -65,13 +65,11 @@ export default {
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
-      user: JSON.parse(window.localStorage.getItem("user")),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      categories: this.$store.getters.getCategories,
       token: window.localStorage.getItem("token"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      user: this.$store.getters.getUser,
+      categories: this.$store.getters.getCategories,
       defaultOptions: {animationData: animationData},
-      selectedCategory: '',
-      favoris: [],
     }
   },
   filters: {
@@ -84,20 +82,17 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-    
-    this.favoris = this.user.favoris;
-    console.log(this.favoris);
   },  
   methods: {
     removeFavoris(product, index) { 
-      this.favoris.map((favoris, index) => {
+      this.user.favoris.map((favoris, index) => {
         if (favoris.product.id == product.id) {
-          this.favoris.splice(index, 1);
+          this.user.favoris.splice(index, 1);
         }
       });
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        window.localStorage.setItem("user", response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

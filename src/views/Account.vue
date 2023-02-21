@@ -113,7 +113,7 @@
           </router-link>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'Promotion' }">
+          <router-link :to="{ name: 'ListPromotions' }">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/promotion.svg`)"/>
             </span>
@@ -276,7 +276,7 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
     }
   },
@@ -288,7 +288,6 @@ export default {
   methods: {
     logout() {
       window.localStorage.removeItem('token');
-      window.localStorage.removeItem('user');
       window.localStorage.removeItem('banned');
       window.localStorage.removeItem('rules');
       this.$router.push({ name: 'Welcome' });

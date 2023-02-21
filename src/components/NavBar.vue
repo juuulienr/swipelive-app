@@ -246,8 +246,11 @@ export default {
   name: "NavBar",
   data: function() {
     return {
-      active_el: 0,
+      active_el: 4,
     }
+  },
+  created() {
+    this.active_el = 0;
   },
   methods: {
     menuActive(el) {

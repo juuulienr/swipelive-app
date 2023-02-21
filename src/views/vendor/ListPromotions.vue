@@ -11,13 +11,13 @@
 
     <div class="checkout__body">
       <div @click="showPromo()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px; background: linear-gradient(90deg,#ff9000,#ff5000);">Ajouter une promotion</div>
-      <div v-if="promotions && promotions.length > 0">
+      <div v-if="user.vendor.promotions && user.vendor.promotions.length > 0">
         <div style="border: 1px solid #272c30; margin: 5px;padding: 18px 0px;border-radius: 10px;">
           <p style="text-align: center;margin-bottom: 22Px;">Performances</p>
           <div class="profile--follow">
             <div>
-              <h4>{{ promotions.length }}</h4>
-              <p v-if="promotions.length > 1">Promotions</p>
+              <h4>{{ user.vendor.promotions.length }}</h4>
+              <p v-if="user.vendor.promotions.length > 1">Promotions</p>
               <p v-else>Promotion</p>
             </div>
             <hr style="width: 1px;">
@@ -35,7 +35,7 @@
 
         <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px;">La promotion activé sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
 
-        <div v-for="(promo, index) in promotions" style="border: 1px solid rgb(255, 102, 0); margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
+        <div v-for="(promo, index) in user.vendor.promotions" style="border: 1px solid rgb(255, 102, 0); margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
           <div class="profile--follow">
             <div style="width: 40%; margin-top: 5px;">
               <img :src="require(`@/assets/img/discount.svg`)" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
@@ -125,7 +125,7 @@ import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/discount.json';
 
 export default {
-  name: 'Promotion',
+  name: 'ListPromotions',
   components: {
     Lottie
   },
@@ -133,11 +133,10 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: JSON.parse(window.localStorage.getItem("user")),
+      user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       popupPromo: false,
-      promotions: [],
       promotion: {
         'title': '',
         'type': '',
@@ -151,10 +150,10 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.promotions = JSON.parse(response.data);
-    }, (response) => {
-      console.log(response.error);
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setUser', JSON.parse(response.data));
+    }, (error) => {
+      console.log(error);
     });
   },
   methods: {
@@ -170,16 +169,19 @@ export default {
       }
 
       if (this.promotion.type == 'fixe' || (this.promotion.type == 'percent' && this.promotion.value < 100)) {
-        this.popupPromo = false;
-        this.promotion.vendor = this.user.id;
-        this.promotion.title = this.promotion.title.toUpperCase();
-        this.promotions.map((promo, index) => {
+        this.user.vendor.promotions.map((promo, index) => {
           promo.isActive = false;
         });
 
+        this.promotion.vendor = this.user.id;
+        this.promotion.title = this.promotion.title.toUpperCase();
+        this.user.vendor.promotions.unshift(this.promotion);
+        this.popupPromo = false;
+
         window.cordova.plugin.http.setDataSerializer('json');
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
-          this.promotions.unshift(JSON.parse(response.data));
+          this.$store.commit('setUser', JSON.parse(response.data));
+          this.user = this.$store.getters.getUser;
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
         }, (response) => {
           console.log(JSON.parse(response.error));
@@ -188,9 +190,9 @@ export default {
       }
     },
     deletePromo(promo, index) {
+      this.user.vendor.promotions.splice(index, 1);
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.promotions.splice(index, 1);
-        console.log(response);
+        this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -202,14 +204,15 @@ export default {
       if(promo.isActive) {
         promo.isActive = false;
       } else {
-        this.promotions.map((promotion, index) => {
+        this.user.vendor.promotions.map((promotion, index) => {
           promotion.isActive = false;
         });
         promo.isActive = true;
       }
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/activate/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.user = this.$store.getters.getUser;
       }, (response) => {
         console.log(response.error);
       });

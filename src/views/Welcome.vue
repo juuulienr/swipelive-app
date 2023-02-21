@@ -497,7 +497,7 @@ export default {
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
           console.log(response);
-          window.localStorage.setItem("user", response.data);
+          this.$store.commit('setUser', JSON.parse(response.data));
           this.authenticate(true);
         }, (response) => {
           this.loading = false;

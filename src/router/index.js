@@ -23,7 +23,7 @@ import Cart from '@/components/Cart'
 
 import Shop from '@/views/vendor/Shop'
 import Partner from '@/views/vendor/Partner'
-import Promotion from '@/views/vendor/Promotion'
+import ListPromotions from '@/views/vendor/ListPromotions'
 import AddEditProduct from '@/views/vendor/AddEditProduct'
 import ListClips from '@/views/vendor/ListClips'
 import PreLive from '@/views/vendor/PreLive'
@@ -104,8 +104,8 @@ export default new Router({
       component: Shop
     }, {
       path: '/vendor/promotions',
-      name: 'Promotion',
-      component: Promotion
+      name: 'ListPromotions',
+      component: ListPromotions
     }, {
       path: '/vendor/partner',
       name: 'Partner',
