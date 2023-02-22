@@ -22,9 +22,8 @@
             <p style="margin-bottom: 0px;color: #999; font-weight: 400; font-size: 14px;">{{ user.vendor.pending | formatPrice }}€</p>
           </div>
           <div class="current--balance--btn" style="margin-top: 10px; margin-bottom: 5px;">
-            <div @click="showWithdraw()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">
-              Transférer
-            </div>
+            <div v-if="user.vendor.available > 0" @click="showWithdraw()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">Transférer</div>
+            <div v-else class="btn-swipe" style="color: rgb(170, 170, 170); background: rgb(239, 241, 246); text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">Transférer</div>
           </div>
         </div>
 
@@ -32,41 +31,13 @@
 
         <div class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
-          <div @click="showHistory()" class="current--balance--two" style="padding: 5px 0px;">
-            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Avril 2022<br> 
-              <div style="font-size: 12px;color: #999;">15 commandes</div>
+          <div v-for="(data, index) in orderedMonthData" @click="showHistory(data)" class="current--balance--two" style="padding: 5px 0px;">
+            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">
+              <div style="text-transform: capitalize;">{{ formatMonth(data.month) }}</div>
+              <div v-if="data.orders.length > 1" style="font-size: 12px;color: #999;">{{ data.orders.length }} commandes</div>
+              <div v-else style="font-size: 12px;color: #999;">{{ data.orders.length }} commande</div>
             </div>
-            <div style="padding-top: 10px;margin-bottom: 0px;"> 149,50€ 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
-            </div>
-          </div>
-          <div @click="showHistory()" class="current--balance--two" style="padding: 5px 0px;">
-            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Mars 2022<br> 
-              <div style="font-size: 12px;color: #999;">9 commandes</div>
-            </div>
-            <div style="padding-top: 10px;margin-bottom: 0px;"> 87,50€ 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
-            </div>
-          </div>
-          <div @click="showHistory()" class="current--balance--two" style="padding: 5px 0px;">
-            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Février 2022<br> 
-              <div style="font-size: 12px;color: #999;">0 commande</div>
-            </div>
-            <div style="padding-top: 10px;margin-bottom: 0px;"> 0,00€ 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
-                <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-              </svg>
-            </div>
-          </div>
-          <div @click="showHistory()" class="current--balance--two" style="padding: 5px 0px;">
-            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Janvier 2022<br> 
-              <div style="font-size: 12px;color: #999;">0 commande</div>
-            </div>
-            <div style="padding-top: 10px;margin-bottom: 0px;"> 0,00€ 
+            <div style="padding-top: 10px;margin-bottom: 0px;"> {{ data.subTotal | formatPrice }}€
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
@@ -75,21 +46,15 @@
         </div>
 
 
-        <hr style="width: 100%;margin: 15px 0px;">
+        <hr v-if="user.vendor.withdraws.length > 0" style="width: 100%;margin: 15px 0px;">
 
-        <div class="current--balance" style="border-radius: 11px; margin: 15px 5px 25px;">
+        <div v-if="user.vendor.withdraws.length > 0" class="current--balance" style="border-radius: 11px; margin: 15px 5px 25px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Retrait</div>
-          <div class="current--balance--two" style="padding: 5px 0px;">
+          <div v-for="withdraw in user.vendor.withdraws" class="current--balance--two" style="padding: 5px 0px;">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Transfert<br> 
-              <div style="font-size: 12px;color: #999;">FR*****7658 - 14/12/2022</div>
+              <div style="font-size: 12px;color: #999;">FR*****{{withdraw.last4}} - {{ withdraw.createdAt | formatDate }}</div>
             </div>
-            <div style="padding-top: 10px;margin-bottom: 0px; color: red; font-weight: 500"> -149,50€</div>
-          </div>
-          <div class="current--balance--two" style="padding: 5px 0px;">
-            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Transfert<br> 
-              <div style="font-size: 12px;color: #999;">FR*****7658 - 18/12/2022</div>
-            </div>
-            <div style="padding-top: 10px;margin-bottom: 0px; color: red; font-weight: 500"> -69,50€</div>
+            <div style="padding-top: 10px;margin-bottom: 0px; color: red; font-weight: 500">-{{ withdraw.amount | formatPrice }}€</div>
           </div>
         </div>
       </div>
@@ -111,10 +76,11 @@
           <div v-if="withdraw">
             <div class="form--input--item" style="margin: 0px 0px 60px;">
               <fieldset style="border: none; text-align: center;">
-                <input ref="amount" type="text" maxlength="6" placeholder="0€" inputmode="decimal" style="font-weight: 600; text-align: center; font-size: 45px; width: calc(100vw - 45px); margin-top: 50px; color: black;"/>
+                <input v-model="withdrawAmount" @input="limitDecimals" step="0.01" ref="withdrawAmount" type="text" maxlength="6" placeholder="0€" inputmode="decimal" style="font-weight: 600; text-align: center; font-size: 45px; width: calc(100vw - 45px); margin-top: 50px; color: black;"/>
               </fieldset>
             </div>
-            <div @click="saveWithdraw()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">Envoyer</div>
+            <div v-if="checkAvailability" @click="saveWithdraw()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">Envoyer</div>
+            <div v-else class="btn-swipe" style="color: rgb(170, 170, 170); background: rgb(239, 241, 246); text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">Envoyer</div>
 
             <div @click="showBank()" class="current--balance" style="padding: 15px; border-radius: 11px; margin: 40px 10px 10px; box-shadow: 0 0 5px rgb(0 0 0 / 20%);">
               <div class="current--balance--two" style="padding: 5px 0px;">
@@ -131,8 +97,8 @@
                   </svg>
                   <div>
                     Compte bancaire<br>
-                    <!-- <div style="font-size: 12px; color: rgb(153, 153, 153);">FR*****7658</div> -->
-                    <div style="font-size: 12px; color: #ff2a80; font-weight: 600">Ajouter un compte</div>
+                    <div v-if="user.vendor.bankAccounts.length > 0" style="color: rgb(153, 153, 153);">{{ user.vendor.bankAccounts[0].country }}*****{{ user.vendor.bankAccounts[0].last4 }}</div>
+                    <div v-else style="color: #ff2a80; font-weight: 600">Ajouter un compte</div>
                   </div>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30;width: 18px;height: 18px;margin-left: 3px;margin-top: 11px;">
@@ -142,38 +108,46 @@
             </div>
           </div>
           <div v-else-if="bank">
-            <div class="form--input--item" style="margin-top: 15px;">
+            <div class="images_filter" style="padding-bottom: 10px;">
+              <ul>
+                <li @click="showIndividual()" v-bind:class="{active: individual}" :style="[individual ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Particulier</li>
+                <li @click="showCompany()" v-bind:class="{active: company}" :style="[company ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Entreprise</li>
+              </ul>
+            </div>
+            <div class="form--input--item" :class="{'form--input--item--error': errorBank && !iban }" style="margin-top: 15px;">
               <fieldset>
                 <legend>IBAN</legend>
-                <input type="text" maxlength="27" placeholder="FRXX XXXX XXXX XXXXX XXXX XXXX XXX"/>
+                <input v-model="iban" type="text" maxlength="27" placeholder="FRXX XXXX XXXX XXXXX XXXX XXXX XXX"/>
               </fieldset>
             </div>
-            <div class="form--input--item">
+            <div v-if="individual" class="form--input--item" :class="{'form--input--item--error': errorBank && !firstname }">
               <fieldset>
                 <legend>Prénom</legend>
-                <input type="text"/>
+                <input v-model="firstname" type="text"/>
               </fieldset>
             </div>
-            <div class="form--input--item">
+            <div v-if="individual" class="form--input--item" :class="{'form--input--item--error': errorBank && !lastname }">
               <fieldset>
                 <legend>Nom</legend>
-                <input type="text" placeholder="" />
+                <input v-model="lastname" type="text"/>
               </fieldset>
             </div>
-
+            <div v-if="company" class="form--input--item" :class="{'form--input--item--error': errorBank && !businessName }">
+              <fieldset>
+                <legend>Nom de l'entreprise</legend>
+                <input v-model="businessName" type="text"/>
+              </fieldset>
+            </div>
             <div @click="saveBankAccount()" class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600;">Enregistrer</div>
           </div>
           <div v-else>
-
             <div style="margin: 60px auto 0px;">
-              <Lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="200"/>
+              <Lottie :options="defaultOptions" v-on:animCreated="handleAnimation" :width="150"/>
             </div>
-
             <p style="margin-bottom: 0px;color: black;font-weight: 500;font-size: 14px;padding: 0px 10px;margin-top: 35px;text-align: center;">
               Votre demande de retrait a bien été prise en compte, <br>
               votre argent arrivera sur votre compte sous 1 à 5 jours ouvrés.
             </p>
-
             <div @click="hideWithdraw()" class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600; bottom: 40px; position: absolute; width: 100%">Fermer</div>
           </div>
         </div>
@@ -192,24 +166,24 @@
           <div class="checkout__title">Revenu du mois</div>
         </div>
         <div style="padding: 5px;">
-          <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: 30px;color: #ff2a80;">Avril 2022</div>
+          <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: 30px;color: #ff2a80; text-transform: capitalize;">{{ formatMonth(history.month) }}</div>
           <div class="current--balance" style="margin: 15px 0px;">
             <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: -10px;color: #272c30;">Revenu Net</div>
             <div>
-              <h3 style="font-weight: 600;margin-bottom: 0px;font-size: 50px;">0,00€</h3>
+              <h3 style="font-weight: 600;margin-bottom: 0px;font-size: 50px;">{{ history.remaining | formatPrice }}€</h3>
             </div>
             <div class="current--balance--two" style="margin-top: 10px;">
-              <p style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">15 commandes</p>
-              <p style="margin-bottom: 0px;color: black;font-weight: 600;font-size: 14px;">152,54€</p>
+              <p style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commandes</p>
+              <p style="margin-bottom: 0px;color: black;font-weight: 600;font-size: 14px;">{{ history.subTotal | formatPrice }}€</p>
             </div>
             <div class="current--balance--two" style="margin-top: 10px;">
               <p style="margin-bottom: 0px; color: rgb(153, 153, 153); font-weight: 400; font-size: 14px;">Commission Swipe Live</p>
-              <p style="margin-bottom: 0px; color: rgb(153, 153, 153); font-weight: 400; font-size: 14px;">-15,65€</p>
+              <p style="margin-bottom: 0px; color: rgb(153, 153, 153); font-weight: 400; font-size: 14px;">-{{ history.fees | formatPrice }}€</p>
             </div>
             <hr style="width: 100%;margin: 15px 0px;">
             <div class="current--balance--two">
               <p style="margin-bottom: 0px;color: rgb(153, 153, 153);font-weight: 400;font-size: 14px;font-weight: 600;color: black;">Revenu net</p>
-              <p style="margin-bottom: 0px;color: rgb(153, 153, 153);font-weight: 400;font-size: 14px;font-weight: 600;color: black;">137,65€</p>
+              <p style="margin-bottom: 0px;color: rgb(153, 153, 153);font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.remaining | formatPrice }}€</p>
             </div>
           </div>
         </div>
@@ -237,8 +211,15 @@ export default {
       popupWithdraw: false,
       popupHistory: false,
       iban: null,
-      errorIBAN: null,
+      firstname: null,
+      lastname: null,
+      businessName: null,
+      individual: true,
+      company: false,
+      errorBank: false,
+      history: null,
       withdraw: true,
+      withdrawAmount: null,
       bank: false,
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -250,6 +231,10 @@ export default {
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    formatDate(datetime) {
+      const date = new Date(datetime);
+      return date.toLocaleDateString(navigator.language);
     }
   },
   created() {
@@ -257,7 +242,63 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
   },
+  computed: {
+    orderedMonthData() {
+      const monthData = {};
+
+      // Iterate over orders and group them by month
+      this.user.vendor.sales.forEach((order) => {
+        const month = order.createdAt.substr(0, 7);
+        if (!monthData[month]) {
+          monthData[month] = {
+            month: month,
+            subTotal: "0.00",
+            fees: "0.00",
+            remaining: "0.00",
+            orders: []
+          };
+        }
+
+        monthData[month].orders.push(order);
+        monthData[month].subTotal = parseFloat(monthData[month].subTotal) + parseFloat(order.subTotal);
+        monthData[month].subTotal.toFixed(2);
+        monthData[month].fees = parseFloat(monthData[month].fees) + parseFloat(order.fees);
+        monthData[month].fees.toFixed(2);
+        monthData[month].remaining = parseFloat(monthData[month].subTotal) - parseFloat(monthData[month].fees);
+        monthData[month].remaining.toFixed(2);
+      });
+
+      // Sort monthData in descending order by month
+      const sortedMonthData = Object.values(monthData).sort(
+        (a, b) => b.month.localeCompare(a.month)
+      );
+
+      return sortedMonthData;
+    },
+    checkAvailability() {
+      if (this.withdrawAmount && this.user.vendor.available) {
+        var withdrawAmount = parseFloat(this.withdrawAmount.replace(",","."));
+        var available = parseFloat(this.user.vendor.available.replace(",","."));
+        withdrawAmount.toFixed(2);
+        available.toFixed(2);
+        if (available >= withdrawAmount) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return false;
+    },
+  },
   methods: {
+    showIndividual() {
+      this.individual = true;
+      this.company = false;
+    }, 
+    showCompany() {
+      this.individual = false;
+      this.company = true;
+    },
     hideWithdraw() {
       this.popupWithdraw = false;
       this.withdraw = true;
@@ -266,19 +307,39 @@ export default {
     showWithdraw() {
       this.popupWithdraw = true;
       this.withdraw = true;
-      this.$nextTick(() => this.$refs.amount.focus());
+      this.$nextTick(() => this.$refs.withdrawAmount.focus());
     },
     saveBankAccount() {
-      this.withdraw = true;
-      this.bank = false;
+      this.errorBank = false;
+      if (this.iban && this.iban.length == 27) {
+        if ((this.company && this.businessName) || (this.individual && this.firstname && this.lastname)) {
+          this.withdraw = true;
+          this.bank = false;
 
-      // if (this.iban && this.iban.length == 27) {
-      //   window.cordova.plugin.http.post(this.baseUrl + "/user/api/bank/add", { "iban": this.iban }, { Authorization: "Bearer " + this.token }, (response) => {
-      //     this.popupBankAccount = false;
-      //   }, (response) => {
-      //     console.log(response.error);
-      //   });
-      // }
+          if (this.company && this.businessName) {
+            this.firstname = null;
+            this.lastname = null;
+          } else {
+            this.businessName = null;
+          }
+
+          const last4 = this.iban.substr(this.iban.length - 4);
+          const countryCode = this.iban.substr(0, 2);
+          const number = this.iban.substr(2);
+
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/bank/add", { "number": number, "last4": last4, "countryCode": countryCode, "firstname": this.firstname, "lastname": this.lastname, "businessName": this.businessName }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.$store.commit('setUser', JSON.parse(response.data));
+            this.user = this.$store.getters.getUser;
+            this.popupBankAccount = false;
+          }, (response) => {
+            console.log(response.error);
+          });
+        } else {
+          this.errorBank = true;
+        }
+      } else {
+        this.errorBank = true;
+      }
     },
     showBank() {
       this.withdraw = false;
@@ -287,20 +348,42 @@ export default {
     hideHistory() {
       this.popupHistory = false;
     },
-    showHistory() {
+    showHistory(data) {
+      this.history = data;
       this.popupHistory = true;
     },
     saveWithdraw() {
-      this.withdraw = false;
-      this.bank = false;
-      // window.cordova.plugin.http.get(this.baseUrl + "/user/api/withdraw", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      // }, (response) => {
-      //   console.log(response.error);
-      // });
+      if (this.withdrawAmount) {
+        this.withdraw = false;
+        this.bank = false;
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/withdraw", { "withdrawAmount": this.withdrawAmount.replace(",",".") }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.$store.commit('setUser', JSON.parse(response.data));
+          this.user = this.$store.getters.getUser;
+          this.withdrawAmount = null;
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
     },
     goBack() {
       this.$router.push({ name: 'Account' });
     },
+    formatMonth(dateString) {
+      const date = new Date(dateString + '-01');
+      return date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+    },
+    limitDecimals() {
+      console.log("event", this.withdrawAmount);
+      if (this.withdrawAmount) {
+        const numDecimals = (this.withdrawAmount.toString().split('.')[1] || '').length;
+        if (numDecimals > 2) {
+          this.withdrawAmount = parseFloat(this.withdrawAmount).toFixed(2);
+        // } else if (numDecimals > 2) {
+          
+        }
+      } 
+    },
+
   }
 };
 

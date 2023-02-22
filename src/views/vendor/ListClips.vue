@@ -20,12 +20,12 @@
               </div>
               <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
               <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
-                <img v-if="clip.product.uploads" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white;">
-                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white;">
+                <img v-if="clip.product.uploads" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #ecf0f1;">
+                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #ecf0f1;">
               </div>
             </div>
             <div v-else style="border-radius: 10px; width: calc(50vw - 25px); margin: 0 auto;">
-              <img :src="require(`@/assets/img/waiting-video.png`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover;">
+              <img :src="require(`@/assets/img/waiting-video.png`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #ecf0f1;">
               <p style="top: 150px; color: white; text-align: center; left: 30Px; position: absolute; text-align: center; font-size: 15px; margin-bottom: 0px;">Replay en création</p>
             </div>
           </div>

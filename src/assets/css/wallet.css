@@ -155,3 +155,27 @@
   background-color: #e6fff7;
   font-weight: 700;
 }
+
+
+.images_filter ul {
+  background-color: #eff1f6;
+  border-radius: 11px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.images_filter ul li {
+  display: inline-block;
+  text-align: center;
+  width: 50%;
+  margin: 2px;
+  padding: 1vh 0;
+  color: #6c7b8a;
+  font-size: 15px;
+}
+
+.images_filter ul .active {
+  background-color: #fff;
+  color: #272c30;
+  border-radius: 11px;
+}

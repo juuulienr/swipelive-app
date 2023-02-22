@@ -17,7 +17,6 @@ import ListMessages from '@/views/ListMessages'
 import ListFollowing from '@/views/ListFollowing'
 import EditUser from '@/views/EditUser'
 import Account from '@/views/Account'
-import Order from '@/views/Order'
 import Cart from '@/components/Cart'
 
 
@@ -122,10 +121,6 @@ export default new Router({
       path: '/discussions/:discussionId?/:userId?/:picture?/:businessName?',
       name: 'ListMessages',
       component: ListMessages
-    }, {
-      path: '/order/:id',
-      name: 'Order',
-      component: Order
     }, {
       path: '/wallet',
       name: 'Wallet',
