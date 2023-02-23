@@ -74,9 +74,11 @@
         </div>
         <div class="checkout__body" style="overflow: scroll; padding: 15px 0px;">
           <div v-if="withdraw">
+            <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 16px; text-align: center; display: block; flex: 1 1 auto; color: #272c30;"> Montant disponible : <span @click="addAmount()" style="color: #1890ff; text-decoration: underline;">{{ user.vendor.available | formatPrice }}€</span>
+            </div>
             <div class="form--input--item" style="margin: 0px 0px 60px;">
               <fieldset style="border: none; text-align: center;">
-                <input v-model="withdrawAmount" @input="limitDecimals" step="0.01" ref="withdrawAmount" type="text" maxlength="6" placeholder="0€" inputmode="decimal" style="font-weight: 600; text-align: center; font-size: 45px; width: calc(100vw - 45px); margin-top: 50px; color: black;"/>
+                <input v-model="withdrawAmount" @input="limitDecimals" ref="withdrawAmount" type="text" placeholder="0€" inputmode="decimal" style="font-weight: 600; text-align: center; font-size: 45px; width: calc(100vw - 45px); margin-top: 50px; color: black;"/>
               </fieldset>
             </div>
             <div v-if="checkAvailability" @click="saveWithdraw()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">Envoyer</div>
@@ -373,17 +375,20 @@ export default {
       return date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
     },
     limitDecimals() {
-      console.log("event", this.withdrawAmount);
       if (this.withdrawAmount) {
         const numDecimals = (this.withdrawAmount.toString().split('.')[1] || '').length;
+        const numDecimalsComma = (this.withdrawAmount.toString().split(',')[1] || '').length;
+
         if (numDecimals > 2) {
-          this.withdrawAmount = parseFloat(this.withdrawAmount).toFixed(2);
-        // } else if (numDecimals > 2) {
-          
+          this.withdrawAmount = this.withdrawAmount.slice(0, this.withdrawAmount.indexOf(".") + 3);
+        } else if (numDecimalsComma > 2) {
+          this.withdrawAmount = this.withdrawAmount.slice(0, this.withdrawAmount.indexOf(",") + 3);
         }
       } 
     },
-
+    addAmount() {
+      this.withdrawAmount = this.user.vendor.available;
+    }
   }
 };
 
