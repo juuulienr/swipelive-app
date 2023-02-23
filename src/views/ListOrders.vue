@@ -17,7 +17,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
-            <input ref="search" type="text" placeholder="Rechercher" style="height: 1.75em"/>
+            <input ref="search" type="text" v-model="searchTerm" placeholder="Rechercher" style="height: 1.75em"/>
           </div>
         </div>
 
@@ -36,7 +36,7 @@
         <div class="top-author">
         	<div v-if="show1">
             <div v-if="sales && sales.length > 0" class="top-author--container">
-          		<div v-for="order in sales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+          		<div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
           			<img v-if="order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
@@ -350,6 +350,7 @@ export default {
       popupOrder: false, 
       sales: [],
       purchases: [],
+      searchTerm: "",
       show1: true,
       show2: false,
       show3: false,
@@ -379,6 +380,14 @@ export default {
       const date = new Date(datetime);
       return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     }
+  },
+  computed: {
+    filteredSales() {
+      return this.sales.filter(sale => {
+        const search = this.searchTerm.toLowerCase();
+        return (sale.buyer.firstname.toLowerCase().includes(search) || sale.buyer.lastname.toLowerCase().includes(search) || sale.number.toString().toLowerCase().includes(search));
+      });
+    },
   },
   methods: {
     nbProducts(lineItems) {
