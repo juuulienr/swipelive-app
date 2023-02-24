@@ -106,7 +106,14 @@
             </div>
           </draggable>
 
-          <div @click="submit()" class="btn-swipe btn-prelive">Continuer</div>
+          <div @click="submit()" class="btn-swipe btn-prelive">
+            <span v-if="loading">
+              <svg viewBox="25 25 50 50" class="loading">
+                <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+              </svg>
+            </span>
+            <span v-else>Continuer</span>
+          </div>
         </div>
       </div>
     </div>

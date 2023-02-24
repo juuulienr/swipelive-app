@@ -29,7 +29,7 @@
 
         <hr style="width: 100%;margin: 15px 0px;">
 
-        <div class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
+        <div v-if="orderedMonthData.length > 0" class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
           <div v-for="(data, index) in orderedMonthData" @click="showHistory(data)" class="current--balance--two" style="padding: 5px 0px;">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">
@@ -42,6 +42,17 @@
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
             </div>
+          </div>
+        </div>
+        <div v-else class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
+          <div>
+            <div class="container" style="margin: 50px auto 0px; text-align: center;">
+              <div style="margin: 0px auto;">
+                <Lottie :options="defaultOptions2" :width="200"/>
+              </div>
+            </div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Un récapitulatif des commandes apparaîtra ici.</div>
           </div>
         </div>
 
@@ -202,6 +213,7 @@
 
 import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/success.json';
+import * as animationData2 from '../../assets/lottie/wallet.json';
 
 export default {
   name: 'Wallet',
@@ -227,6 +239,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       defaultOptions: {animationData: animationData},
+      defaultOptions2: {animationData: animationData2},
     }
   },
   filters: {

@@ -546,6 +546,7 @@ export default {
       purchasePicture: false,
       clickFollow: false,
       throttle: 1000,
+      myPlayer: null,
       http: null,
       anim1: false,
       anim2: false,
@@ -572,7 +573,6 @@ export default {
       anim23: false,
       anim24: false,
       num: 0,
-      myPlayer: null
     }
   },
   created() {

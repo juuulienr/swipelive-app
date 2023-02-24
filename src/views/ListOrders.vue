@@ -60,7 +60,7 @@
           </div>
           
           <div v-if="show2">
-            <div class="top-author--container">
+            <div>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
@@ -71,7 +71,7 @@
             </div>
           </div>
           <div v-if="show3">
-            <div class="top-author--container">
+            <div>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
@@ -82,7 +82,7 @@
             </div>
           </div>
           <div v-if="show4">
-            <div class="top-author--container">
+            <div>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
@@ -111,7 +111,7 @@
               </div>
             </div>
             <div v-else>
-              <div class="container" style="margin: 120px auto 0px; text-align: center;">
+              <div class="container" style="margin: 180px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
                 </div>
