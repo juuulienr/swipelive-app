@@ -26,7 +26,8 @@
             <img v-if="profile.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 19px; height: 19px; margin-bottom: 4px;"/>
           </span>
           <div>
-            <span style="font-weight: 400">{{ followers }} abonnés</span>
+            <span v-if="followers > 1" style="font-weight: 400">{{ followers }} abonnés</span>
+            <span v-else style="font-weight: 400">{{ followers }} abonné</span>
           </div>
         </div>
 

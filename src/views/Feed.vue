@@ -249,7 +249,7 @@
 
         <!-- cart + close -->
         <div v-if="!finished[index].value" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;flex-direction: column;">
-          <div @click="goHome()" class="video-page__influencer-username-holder">
+          <div @click="goBack()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
             </span>
@@ -1031,8 +1031,13 @@ export default {
         console.log(response.error);
       });
     },
-    goHome() {
-      this.$router.push({ name: 'Home' });
+    goBack() {
+      if (this.type == "profile" && this.profileId) {
+        // this.$router.push({ name: 'Profile', params: { id: this.profileId } });
+        this.$router.back();
+      } else {
+        this.$router.push({ name: 'Home' });
+      }
     },
     stopLive() {
       if (this.data[this.visible].type == "live") {

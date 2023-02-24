@@ -46,7 +46,7 @@
           </label>
         </div>
 
-        <div v-if="user.vendor.products.length > 0" class="items">
+        <div v-if="products.length > 0" class="items">
           <div class="lasted--product" style="margin-top: 12px;">
             <div v-for="(product, index) in products" :key="product.id" class="product--item">
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
@@ -63,7 +63,7 @@
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': checked[index].selected }">
-                        <input type="checkbox" :checked="checked[index].selected" :id="product.id" :value="{ 'product': product.id, 'priority': index + 1 }" v-model="selected" @change="updateCheckAll(index)" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3">
+                        <input type="checkbox" :checked="checked[index].selected" :id="product.id" :value="{ 'product': product, 'priority': index + 1 }" v-model="selected" @change="updateCheckAll(index)" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -76,19 +76,14 @@
         </div>
 
         <div @click="goStep2()" class="btn-swipe btn-prelive">
-          <span v-if="loading">
-            <svg viewBox="25 25 50 50" class="loading">
-              <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
-            </svg>
-          </span>
-          <span v-else>Continuer</span>
+          <span>Continuer</span>
         </div>
       </div>
       <div v-if="step2" class="items">
         <p class="p_item">Déplacer les articles par ordre de passage.</p>
-        <div v-if="live.liveProducts.length" class="one_item">
-          <draggable :list="live.liveProducts" :move="checkMove" @start="dragging = true" @end="dragging = false">
-            <div v-for="(element, index) in live.liveProducts" :key="element.id" class="row align-items-center draggable-item">
+        <div v-if="selected.length" class="one_item">
+          <draggable :list="selected" :move="checkMove" @start="dragging = true" @end="dragging = false">
+            <div v-for="(element, index) in selected" :key="element.id" class="row align-items-center draggable-item">
               <div class="col-1">
                 <div style="font-size: 18px; color: rgb(99, 115, 129);">{{ index + 1 }}</div>
               </div>
@@ -144,7 +139,6 @@ export default {
       isCheckAll: true,
       loading: false,
       dragging: false,
-      pending: false,
       products: [],
       selected: [],
       checked: [],
@@ -161,19 +155,21 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-    
-    this.filterProducts();
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.$store.commit('setUser', JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-      this.filterProducts();
-    }, (error) => {
-      console.log(error);
-    });
+    this.filterProducts();
+    // window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    //   this.$store.commit('setUser', JSON.parse(response.data));
+    //   this.user = JSON.parse(response.data);
+    //   this.filterProducts();
+    // }, (error) => {
+    //   console.log(error);
+    // });
   },
   methods: {
     filterProducts() {
+      // this.products = [];
+      // this.selected = [];
+      // this.checked = [];
       this.products = this.user.vendor.products.filter((product, index) => {
         if (this.getProductQuantity(product) !== "Épuisé") {
           return true;
@@ -181,7 +177,7 @@ export default {
       });
 
       this.products.map((product, index) => {
-        this.selected.push({ 'product': product.id, 'priority': index + 1 });
+        this.selected.push({ 'product': product, 'priority': index + 1 });
         this.checked.push({ 'selected': true });
       });
     },
@@ -194,45 +190,32 @@ export default {
     async goStep2() {
       console.log(this.selected);
 
-      if (this.selected.length > 0 && !this.pending) {
-        var httpParams = { "views": 0, "status": 0, "liveProducts": this.selected };
-        this.loading = true;
-
-        window.cordova.plugin.http.setDataSerializer('json');
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/prelive", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          var result = JSON.parse(response.data);
-          this.live = result;
-          console.log(this.liveProducts);
-
-          if (this.selected.length > 1) {
-            this.step1 = false;
-            this.step2 = true;
-            this.loading = false;
-          } else {
-            this.$router.push({ name: 'Live', params: { id: result.id } });
-          }
-        }, (response) => {
-          this.loading = false;
-          console.log(response.error);
-        });
+      if (this.selected.length > 0) {
+        if (this.selected.length > 1) {
+          this.step1 = false;
+          this.step2 = true;
+        } else {
+          this.submit();
+        }
       }
     },
     async submit() {
-      if (!this.pending) {
-        this.pending = true;
-        this.live.liveProducts.map((element, index) => { 
-          var priority = index + 1;
-          
-          window.cordova.plugin.http.setDataSerializer('json');
-          window.cordova.plugin.http.put(this.baseUrl + "/user/api/liveproducts/edit/" + element.id, { "priority": priority }, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => {
-            this.pending = false;
-            console.log(response.error);
-          });
+      if (!this.loading) {
+        this.loading = true;
+        var liveProducts = [];
+        this.selected.map((element, index) => { 
+          liveProducts.push({ 'product': element.product.id, 'priority': index + 1 });
         });
 
-        if (this.pending) {
+        window.cordova.plugin.http.setDataSerializer('json');
+        var httpParams = { "views": 0, "status": 0, "liveProducts": liveProducts };
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/prelive", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+          this.live = JSON.parse(response.data);
           this.$router.push({ name: 'Live', params: { id: this.live.id } });
-        }
+        }, (response) => {
+          console.log(response.error);
+          this.loading = false;
+        });
       }
     },
     totalVariantQuantity(variants) {
