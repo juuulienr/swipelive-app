@@ -108,7 +108,6 @@ export default {
       if (this.products) {
         return this.products.filter(product => product.category.id === this.selectedCategory.id);
       }
-
       return false;
     }
   },

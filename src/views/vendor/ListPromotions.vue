@@ -152,6 +152,7 @@ export default {
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
       this.$store.commit('setUser', JSON.parse(response.data));
+      this.user = JSON.parse(response.data);
     }, (error) => {
       console.log(error);
     });

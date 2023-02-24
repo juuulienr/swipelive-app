@@ -13,21 +13,19 @@
 
     <div class="checkout__body" style="overflow: initial; padding-bottom: 85px;">
       <div v-if="rules" class="items rules">
-        <br>
-
-        <p><span>Amusez-vous et invitez des amis 🎉 </span> <br>
+        <p><span>Amusez-vous et invitez des amis 🎉</span><br>
         Les lives sont plus sympas avec votre communauté. Assurez-vous de faire la promotion de vos articles et n'oubliez pas de les partager.</p>
 
-        <p><span>Pas de contrefaçons ou d'article illicite 🚨  </span> <br>
+        <p><span>Pas de contrefaçons ou d'article illicite 🚨</span><br>
         Si vous n'êtes pas sûr de l'authenticité d'un produit, ne le vendez pas. Il vaut mieux être honnête.</p>
 
-        <p><span>Dites la vérité ✌️  </span> <br>
+        <p><span>Dites la vérité ✌️</span><br>
         Soyez transparent sur ce que vous vendez et donnez des détails sur vos articles. Les acheteurs apprécient l'honnêteté.</p>
 
-        <p> <span>Soyez respectueux 💙  </span> <br>
+        <p> <span>Soyez respectueux 💙</span><br>
         N’oubliez pas de rester poli et courtois en toutes circonstances. Ne vous engagez pas dans le harcèlement ou l'intimidation sur Swipe Live.</p>
 
-        <p><span>Envoyez vos articles dans les 3 jours ouvrés 📦 </span> <br>
+        <p><span>Envoyez vos articles dans les 3 jours ouvrés 📦</span><br>
         Ne faites pas attendre vos clients et emballez correctement vos articles pour qu'ils ne soient pas endommagés pendant le transport.</p>
 
         <div @click="goStep1()" class="btn-swipe btn-prelive">
@@ -40,7 +38,7 @@
           <label for="sliderAll" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
             <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
               <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': isCheckAll }">
-                <input @click="checkAll()" id="sliderAll" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" checked="">
+                <input @click="checkAll()" id="sliderAll" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" checked>
                 <span class="MuiSwitch-thumb css-byglaq"></span>
                 <span class="MuiTouchRipple-root css-w0pj6f"></span>
               </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -48,16 +46,18 @@
           </label>
         </div>
 
-        <div v-if="products.length" class="items">
+        <div v-if="user.vendor.products.length > 0" class="items">
           <div class="lasted--product" style="margin-top: 12px;">
-            <div v-for="(product, index) in products" :key="product.id" v-if="stocks[index] > 0 || product.quantity > 0" class="product--item">
+            <div v-for="(product, index) in products" :key="product.id" class="product--item">
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
               <img v-else :src="require(`@/assets/img/no-preview.png`)">
               <div class="details">
                 <div class="title">{{ product.title }}</div>
-                <div class="price stock-available" v-if="stocks[index] > 0">{{ stocks[index] }} en stock | {{ prices[index] | formatPrice }}€</div>
-                <div class="price stock-available" v-else-if="product.quantity > 0">{{ product.quantity }} en stock | {{ product.price | formatPrice }}€</div>
+                <div class="price" style="display: inline-block;" :class="{ 'stock-unavailable': isProductUnavailable(product), 'stock-available': !isProductUnavailable(product) }">{{ getProductQuantity(product) }} | 
+                  <span v-if="product.variants.length > 0"> {{ lowestVariantPrice(product.variants) | formatPrice }}€</span>
+                  <span v-else> {{ product.price | formatPrice }}€</span>
                 </div>
+              </div>
               <div>
                 <div class="price">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -133,24 +133,22 @@ export default {
   },
   data() {
     return {
-      baseUrl: window.localStorage.getItem("baseUrl"),
       user: this.$store.getters.getUser,
+      baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      products: [],
-      selected: [],
-      checked: [],
-      stocks: [],
-      prices: [],
-      live: [],
       rules: window.localStorage.getItem("rules") ? false : true,
       step1: window.localStorage.getItem("rules") ? true : false,
       step2: false,
       isCheckAll: true,
       loading: false,
       dragging: false,
-      pending: false
+      pending: false,
+      products: [],
+      selected: [],
+      checked: [],
+      live: [],
     }
   },
   filters: {
@@ -163,38 +161,30 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    this.filterProducts();
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.products = JSON.parse(response.data);
-      if (this.products.length == 0) {
-        this.$router.push({ name: 'AddEditProduct' });
-      } else {
-        this.products.map((product, index) => {
-          this.selected.push({ 'product': product.id, 'priority': index + 1 });
-          this.checked.push({ 'selected': true });
-
-          if (product.variants.length) {
-            var quantity = 0;
-            var price = null;
-            product.variants.map((variant) => {
-              if (!price) {
-                price = variant.price;
-              }
-              if (price && variant.price < price) {
-                price = variant.price;
-              }
-              quantity = quantity + variant.quantity;
-            });
-            this.stocks[index] = quantity;
-            this.prices[index] = price;
-          }
-        });
-      }
-    }, (response) => {
-      console.log(response.error);
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setUser', JSON.parse(response.data));
+      this.user = JSON.parse(response.data);
+      this.filterProducts();
+    }, (error) => {
+      console.log(error);
     });
   },
   methods: {
+    filterProducts() {
+      this.products = this.user.vendor.products.filter((product, index) => {
+        if (this.getProductQuantity(product) !== "Épuisé") {
+          return true;
+        }
+      });
+
+      this.products.map((product, index) => {
+        this.selected.push({ 'product': product.id, 'priority': index + 1 });
+        this.checked.push({ 'selected': true });
+      });
+    },
     goStep1() {
       this.rules = false;
       this.step1 = true;
@@ -226,6 +216,49 @@ export default {
           console.log(response.error);
         });
       }
+    },
+    async submit() {
+      if (!this.pending) {
+        this.pending = true;
+        this.live.liveProducts.map((element, index) => { 
+          var priority = index + 1;
+          
+          window.cordova.plugin.http.setDataSerializer('json');
+          window.cordova.plugin.http.put(this.baseUrl + "/user/api/liveproducts/edit/" + element.id, { "priority": priority }, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => {
+            this.pending = false;
+            console.log(response.error);
+          });
+        });
+
+        if (this.pending) {
+          this.$router.push({ name: 'Live', params: { id: this.live.id } });
+        }
+      }
+    },
+    totalVariantQuantity(variants) {
+      return variants.reduce((total, variant) => total + variant.quantity, 0);
+    },
+    lowestVariantPrice(variants) {
+      const lowestPrice = Math.min(...variants.map((variant) => variant.price));
+      return lowestPrice;
+    },
+    getProductQuantity(product) {
+      if (product.quantity === 0) {
+        return "Épuisé";
+      } else if (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0) {
+        return "Épuisé";
+      } else if (product.variants.length === 0) {
+        return product.quantity + " en stock";
+      } else {
+        var quantity = this.totalVariantQuantity(product.variants);
+        return quantity + " en stock";
+      }
+    },
+    isProductUnavailable(product) {
+      return (product.quantity === 0) || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
+    },
+    checkMove(event) {
+      console.log(event);
     },
     checkAll() {
       this.isCheckAll = !this.isCheckAll;
@@ -261,27 +294,6 @@ export default {
       } else {
         this.step2 = false;
         this.step1 = true;
-      }
-    },
-    checkMove(event) {
-      console.log(event);
-    },
-    async submit() {
-      if (!this.pending) {
-        this.pending = true;
-        this.live.liveProducts.map((element, index) => { 
-          var priority = index + 1;
-          
-          window.cordova.plugin.http.setDataSerializer('json');
-          window.cordova.plugin.http.put(this.baseUrl + "/user/api/liveproducts/edit/" + element.id, { "priority": priority }, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => {
-            this.pending = false;
-            console.log(response.error);
-          });
-        });
-
-        if (this.pending) {
-          this.$router.push({ name: 'Live', params: { id: this.live.id } });
-        }
       }
     },
   }

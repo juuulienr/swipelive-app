@@ -1,5 +1,5 @@
 <template>
-  <div class="livestream">
+  <div class="livestream" style="background: black;">
     <div v-if="browser" id="player" style="height: 100vh; overflow: hidden;"></div>
 
     <div v-if="prelive" class="prelive">

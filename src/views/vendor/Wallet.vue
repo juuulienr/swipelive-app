@@ -243,6 +243,13 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setUser', JSON.parse(response.data));
+      this.user = JSON.parse(response.data);
+    }, (error) => {
+      console.log(error);
+    });
   },
   computed: {
     orderedMonthData() {
