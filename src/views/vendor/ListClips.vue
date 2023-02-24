@@ -14,7 +14,7 @@
         <div v-if="user.vendor.clips && user.vendor.clips.length" class="row" style="margin: 0px;">
           <div v-for="clip in user.vendor.clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover;">
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #ecf0f1;">
               <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
                 <img :src="require(`@/assets/img/ellipsis-h-white.svg`)" style="width: 30px; height: 30px; margin-top: -5px; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px);"/>
               </div>

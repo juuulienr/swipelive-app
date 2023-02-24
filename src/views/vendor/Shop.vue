@@ -12,31 +12,29 @@
     <div class="checkout__body">
       <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
         <div style="border-right: 1px solid #eff1f6;">
-          <h4>{{ available }}</h4>
+          <h4>{{ numberOfProductsInStock }}</h4>
           <p>En stock</p>
         </div>
         <div>
-          <h4>{{ soldOut }}</h4>
+          <h4>{{ numberOfOutOfStockProducts }}</h4>
           <p>Épuisé</p>
         </div>
       </div>
 
       <div @click="addProduct()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px;">Ajouter un article</div>
 
-      <div v-if="products" class="items">
+      <div v-if="user.vendor.products.length > 0" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
-          <div v-for="(product, index) in products" v-if="product.archived == false" @click="editProduct(product.id)" class="product--item">
+          <div v-for="(product, index) in sortedProducts" @click="editProduct(product.id)" class="product--item">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
             <img v-else :src="require(`@/assets/img/no-preview.png`)">
             <div class="details">
               <div class="title">{{ product.title }}</div>
-              <div class="price stock-available" v-if="stocks[index] > 0">{{ stocks[index] }} en stock</div>
-              <div class="price stock-unavailable" v-else-if="stocks[index] == 0">Épuisé</div>
-              <div class="price stock-available" v-else-if="product.quantity > 0">{{ product.quantity }} en stock</div>
-              <div class="price stock-unavailable" v-else>Épuisé</div>
+              <div class="price" :class="{ 'stock-unavailable': isProductUnavailable(product), 'stock-available': !isProductUnavailable(product) }">{{ getProductQuantity(product) }}</div>
             </div>
             <div style="margin-right: 10px;">
-              <div class="price">{{ product.price | formatPrice }}€</div>
+              <div v-if="product.variants.length > 0" class="price">{{ lowestVariantPrice(product.variants) | formatPrice }}€</div>
+              <div v-else class="price">{{ product.price | formatPrice }}€</div>
             </div>
           </div>
         </div>
@@ -73,10 +71,7 @@ export default {
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
-      stocks: [],
-      prices: [],
-      soldOut: 0,
-      available: 0,
+      user: this.$store.getters.getUser,
       products: null,
     }
   },
@@ -86,47 +81,63 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
+  computed: {
+    sortedProducts() {
+      return this.user.vendor.products.sort((a, b) => {
+        const aQuantity = a.variants.length > 0 ? this.totalVariantQuantity(a.variants) : a.quantity;
+        const bQuantity = b.variants.length > 0 ? this.totalVariantQuantity(b.variants) : b.quantity;
+
+        if (aQuantity === bQuantity) {
+          return 0;
+        } else if (aQuantity === 0 || bQuantity > 0) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+    },
+    numberOfProductsInStock() {
+      return this.user.vendor.products.filter((product) => this.getProductQuantity(product) !== "Épuisé").length;
+    },
+    numberOfOutOfStockProducts() {
+      return this.user.vendor.products.filter((product) => this.getProductQuantity(product) === "Épuisé").length;
+    },
+  },
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-    
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.products = JSON.parse(response.data);
-      this.products.map((product, index) => {
-        if (product.variants.length) {
-          var quantity = 0;
-          var price = null;
-          product.variants.map((variant) => {
-            if (!price) {
-              price = variant.price;
-            }
-            if (price && variant.price < price) {
-              price = variant.price;
-            }
-            quantity = quantity + variant.quantity;
-          });
-          this.stocks[index] = quantity;
-          this.prices[index] = price;
 
-          if (quantity > 0) {
-            this.available += 1;
-          } else {
-            this.soldOut += 1;
-          }
-        } else {
-          if (product.quantity > 0) {
-            this.available += 1;
-          } else {
-            this.soldOut += 1;
-          }
-        }
-      });
-    }, (response) => {
-      console.log(response.error);
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.$store.commit('setUser', JSON.parse(response.data));
+      this.user = JSON.parse(response.data);
+    }, (error) => {
+      console.log(error);
     });
   },
   methods: {
+    totalVariantQuantity(variants) {
+      return variants.reduce((total, variant) => total + variant.quantity, 0);
+    },
+    lowestVariantPrice(variants) {
+      const lowestPrice = Math.min(...variants.map((variant) => variant.price));
+      return lowestPrice;
+    },
+    getProductQuantity(product) {
+      if (product.quantity === 0) {
+        return "Épuisé";
+      } else if (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0) {
+        return "Épuisé";
+      } else if (product.variants.length === 0) {
+        return product.quantity + " en stock";
+      } else {
+        var quantity = this.totalVariantQuantity(product.variants);
+        return quantity + " en stock";
+      }
+    },
+    isProductUnavailable(product) {
+      return (product.quantity === 0) || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
+    },
     addProduct() {
       this.$router.push({ name: 'AddEditProduct' });
     },

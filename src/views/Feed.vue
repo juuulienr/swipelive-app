@@ -447,7 +447,7 @@
       </div>
       <div v-if="shop" class="checkout__body items">
         <div class="lasted--product" style="margin-top: 15px;">
-          <div v-if="product.archived == false" v-for="product in shop.products" @click="showProduct(product)" class="product--item">
+          <div v-for="product in shop.products" @click="showProduct(product)" class="product--item">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
             <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 90px; height: 90px;">
             <div class="details">
@@ -598,7 +598,6 @@ export default {
       	console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
-        this.$store.commit('setUser', JSON.parse(response.data));
         
         if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
           Sentry.setUser({ email: this.user.email });
@@ -611,42 +610,20 @@ export default {
     }
   },
   mounted() {
-    console.log('anchor', this.anchor);
     this.refresh();
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
 
-    if (!this.$store.getters.getCategories.length) {
-      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
-        this.$store.commit('setCategories', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    }
-    
-    // window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
-    //   this.$store.commit('setAllProducts', JSON.parse(response.data));
-    // }, (response) => {
-    //   console.log(response.error);
-    // });
-
-    // window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //   this.$store.commit('setClipsTrending', JSON.parse(response.data));
-    // }, (response) => {
-    //   console.log(response.error);
-    // });
-
-    // window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //   this.$store.commit('setClipsLatest', JSON.parse(response.data));
-    // }, (response) => {
-    //   console.log(response.error);
-    // });
-
-    // window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //   this.$store.commit('setProductsTrending', JSON.parse(response.data));
-    // }, (response) => {
-    //   console.log(response.error);
-    // });
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      var result = JSON.parse(response.data);
+      this.$store.commit('setCategories', JSON.parse(result.categories));
+      this.$store.commit('setClipsTrending', JSON.parse(result.trendingClips));
+      this.$store.commit('setClipsLatest', JSON.parse(result.latestClips));
+      this.$store.commit('setAllProducts', JSON.parse(result.allProducts));
+      this.$store.commit('setProductsTrending', JSON.parse(result.trendingProducts));
+    }, (response) => {
+      console.log(response.error);
+    });
   },
   beforeDestroy() {
     document.removeEventListener('pause', this.pause);

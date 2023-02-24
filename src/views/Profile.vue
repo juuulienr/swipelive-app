@@ -51,7 +51,7 @@
 
           <div v-if="shop" class="items" style="padding: 5px;">
             <div v-if="profile && profile.vendor.products" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
-              <div v-if="product.archived == false" v-for="product in profile.vendor.products" @click="showProduct(product)" class="shop--box">
+              <div v-for="product in profile.vendor.products" @click="showProduct(product)" class="shop--box">
                 <div>
                   <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
                   <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">

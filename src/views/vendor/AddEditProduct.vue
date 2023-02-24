@@ -9,7 +9,7 @@
       <div v-if="productId" class="checkout__title">Modifier</div>
       <div v-else class="checkout__title">Ajouter</div>
       <div v-if="productId" @click="deleteProduct()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
-        <div style="color: #ff2a80; font-weight: 600;">Supprimer</div>
+        <div style="color: #ff2a80;">Supprimer</div>
       </div>
     </div>
 
@@ -39,7 +39,7 @@
             </svg>
           </button>
         </div>
-        <div v-if="loadingImg" style="border: 2px solid rgba(145,158,171,.24);">
+        <div v-if="loadingImg" style="border: 2px solid rgba(145,158,171,.24); background: #ecf0f1;">
           <span style="margin: 0 auto;">
             <span style="top: calc(50% - 13px); left: calc(50% - 13px);">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
@@ -149,7 +149,17 @@
         </div>
 
         <hr>
-        <div @click="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 45px 0px 25px;">Enregistrer</div>
+
+        <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 15px 0px 10px; ">
+          <div @click="submit()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; width: calc(100vw - 30px); margin: 0 auto;">
+            <span v-if="loading">
+              <svg viewBox="25 25 50 50" class="loading">
+                <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+              </svg>
+            </span>
+            <span v-else>Enregistrer</span>
+          </div>
+        </div>
       </div>
 
 
@@ -319,6 +329,7 @@ export default {
       defaultOptions: {animationData: animationData},
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      user: this.$store.getters.getUser,
       product: {
         'title': '',
         'description': '',
@@ -329,12 +340,12 @@ export default {
         'compareAtPrice': null,
         'quantity': '',
         'weight': '',
-        'weightUnit': 'kg',
+        'weightUnit': 'g',
         'uploads': [],
         'variants': [],
         'options': [],
       },
-      categories: [],
+      categories: this.$store.getters.getCategories,
       popupVariant: false,
       popupEditVariant: false,
       errorTitle: false,
@@ -356,6 +367,8 @@ export default {
       errorInputOption1: false,
       errorNameOption2: false,
       loadingImg: false,
+      loadingDelete: false,
+      loading: false,
       isAndroid: false,
       visible: "",
       variant: [],
@@ -386,31 +399,34 @@ export default {
       this.isAndroid = true;
     }
 
-    window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
-      this.categories = JSON.parse(response.data);
-    }, (response) => {
-      console.log(response.error);
-    });
+    if (!this.$store.getters.getCategories.length) {
+      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+        this.categories = JSON.parse(response.data);
+        this.$store.commit('setCategories', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
   },
   mounted() {
     if (this.productId) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.product = JSON.parse(response.data);
+      this.user.vendor.products.map((product, index) => {
+        if (this.productId == product.id) {
+          this.product = product;
 
-        if (this.product.options) {
-          this.product.options.map((element, index) => { 
-            if (element.position == 1) {
-              this.inputNameOption1 = element.name;
-              this.valuesOption1 = element.data;
-            } else {
-              this.inputNameOption2 = element.name;
-              this.valuesOption2 = element.data;
-              this.option2 = true;
-            }
-          });
+          if (this.product.options) {
+            this.product.options.map((element, index) => { 
+              if (element.position == 1) {
+                this.inputNameOption1 = element.name;
+                this.valuesOption1 = element.data;
+              } else {
+                this.inputNameOption2 = element.name;
+                this.valuesOption2 = element.data;
+                this.option2 = true;
+              }
+            });
+          }
         }
-      }, (response) => {
-        console.log(response.error);
       });
     }
   },
@@ -456,7 +472,8 @@ export default {
         }
       }
 
-      if (!this.errorTitle && !this.errorDescription && !this.errorCategory && !this.errorWeight && !this.errorPrice && !this.errorCompareAtPrice) {
+      if (!this.errorTitle && !this.errorDescription && !this.errorCategory && !this.errorWeight && !this.errorPrice && !this.errorCompareAtPrice && !this.loading) {
+        this.loading = true;
         if (this.product.variants) {
           this.product.variants.map((element, index) => { 
           	console.log(element, index);
@@ -479,6 +496,7 @@ export default {
             console.log(response);
             this.$router.push({ name: 'Shop' });
           }, (response) => {
+            this.loading = false;
             console.log(JSON.parse(response.error));
           });
         } else {
@@ -486,6 +504,7 @@ export default {
             console.log(response);
             this.$router.push({ name: 'Shop' });
           }, (response) => {
+            this.loading = false;
             console.log(JSON.parse(response.error));
           });
         }
@@ -578,10 +597,12 @@ export default {
       });
     },
     deleteProduct() {
-      if (this.productId) {
+      if (this.productId && !this.loadingDelete) {
+        this.loadingDelete = true;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/delete/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
           this.$router.push({ name: 'Shop' });
         }, (response) => {
+          this.loadingDelete = false;
           console.log(response.error);
         });
       }

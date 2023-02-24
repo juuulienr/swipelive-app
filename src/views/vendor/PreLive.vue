@@ -50,7 +50,7 @@
 
         <div v-if="products.length" class="items">
           <div class="lasted--product" style="margin-top: 12px;">
-            <div v-for="(product, index) in products" :key="product.id" v-if="product.archived == false && (stocks[index] > 0 || product.quantity > 0)" class="product--item">
+            <div v-for="(product, index) in products" :key="product.id" v-if="stocks[index] > 0 || product.quantity > 0" class="product--item">
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
               <img v-else :src="require(`@/assets/img/no-preview.png`)">
               <div class="details">
@@ -169,7 +169,7 @@ export default {
       if (this.products.length == 0) {
         this.$router.push({ name: 'AddEditProduct' });
       } else {
-        this.products.map((product, index) => { 
+        this.products.map((product, index) => {
           this.selected.push({ 'product': product.id, 'priority': index + 1 });
           this.checked.push({ 'selected': true });
 

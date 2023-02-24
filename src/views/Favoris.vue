@@ -11,7 +11,7 @@
 
     <div v-if="user.favoris && user.favoris.length > 0" class="checkout__body items">
       <div class="shop--part" style="margin: 10px 15px 0px; gap: 20px 10px;">
-        <div v-if="heart.product.archived == false" v-for="(heart, index) in user.favoris" class="shop--box">
+        <div v-for="(heart, index) in user.favoris" class="shop--box">
           <div>
             <div>
               <img v-if="heart.product.uploads.length" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
