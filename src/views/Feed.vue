@@ -253,12 +253,6 @@
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
             </span>
-          </div>            
-          <div @click="showCart()" v-if="updateCart > 0" class="video-page__influencer-username-holder">
-            <span class="video-page__influencer-video-count">
-              <img :src="require(`@/assets/img/bag.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
-            </span>
-            <span class="counter-badge" style="top: 45px; right: 3px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
           </div>
         </div>
 
@@ -334,18 +328,18 @@
         </div>
 
         
-        <!-- list of products -->
-        <div v-if="feed.value.vendor && !finished[index].value" :style="{'bottom': safeareaBottom }" @click="showShop(feed.value.vendor)" class="video-page__influencer-badge5">
+        <!-- likes -->
+ <!--        <div v-if="!finished[index].value" @click="addAnimation()" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge5" style="right: 70px; left: initial;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <img :src="require(`@/assets/img/all-products.svg`)" style="width: 23px; height: 23px; margin-left: 8px;"/>
+              <img :src="require(`@/assets/img/heart-feed.svg`)" style="width: 23px; height: 23px; margin-left: 8px;"/>
             </span>
           </div>
-        </div>
+        </div> -->
 
 
         <!-- send comment -->
-        <div v-if="!finished[index].value" @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }">
+        <div v-if="!finished[index].value" @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="left: 20px; right: 225px;">
           <div class="video-page__influencer-username-holder">
             <div class="video-page__influencer-username"> Commenter...</div>
             <span class="video-page__influencer-video-count">
@@ -354,18 +348,53 @@
           </div>
         </div>
 
+        <div :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: hsla(0,0%,100%,.15); right: 20px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center; left: 205px;">
+          <div @click="showCart()" class="video-page__influencer-username-holder" style="padding-left: 10px;">
+            <span class="video-page__influencer-video-count">
+              <img :src="require(`@/assets/img/bag.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
+            </span>
+            <span class="counter-badge" :style="{'bottom': safeareaBottom4 }" style="right: 141px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
+          </div>
+          <div v-if="!finished[index].value" @click="addAnimation()" class="video-page__influencer-username-holder">
+            <span class="video-page__influencer-video-count">
+              <img :src="require(`@/assets/img/heart-feed.svg`)" style="width: 40px; height: 40px; padding: 8px; margin: 0px 4px;" />
+            </span>
+          </div>
+          <div v-if="!finished[index].value" @click="share" class="video-page__influencer-username-holder">
+            <span class="video-page__influencer-video-count">
+              <img :src="require(`@/assets/img/share.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
+            </span>
+          </div>
+          <div v-if="feed.value.vendor && !finished[index].value" @click="showShop(feed.value.vendor)" class="video-page__influencer-username-holder" style="padding-right: 10px;">
+            <span class="video-page__influencer-video-count">
+              <img :src="require(`@/assets/img/all-products2.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 6px;" />
+            </span>
+          </div>
+        </div>
+
+
+        <!-- cart -->
+ <!--        <div @click="showCart()" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge5" style="right: 170px; left: initial;">
+          <div class="video-page__influencer-username-holder">
+            <span class="video-page__influencer-video-count">
+              <img :src="require(`@/assets/img/bag.svg`)" style="width: 23px; height: 23px; margin-left: 8px;"/>
+            </span>
+            <span class="counter-badge" style="top: 45px; right: 3px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
+          </div>
+        </div> -->
+
         
         <!-- share -->
-        <div v-if="!finished[index].value" @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4">
+     <!--    <div v-if="!finished[index].value" @click="share" :style="{'bottom': safeareaBottom }" class="video-page__influencer-badge4" style="right: 120px;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/share.svg`)" style="width: 23px; height: 23px; margin-left: 9px;"/>
             </span>
           </div>
         </div>
-        
-        <!-- like -->
-        <img v-if="!finished[index].value" @click="addAnimation()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" class="heart-animation">
+         -->
+        <!-- list of products -->
+        <!-- <img v-if="feed.value.vendor && !finished[index].value" @click="showShop(feed.value.vendor)" :src="require(`@/assets/img/all-products2.svg`)" :style="{'bottom': safeareaBottom }" class="heart-animation"> -->
         
         <!-- video -->
         <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
@@ -533,6 +562,7 @@ export default {
       safeareaBottom: '25px',
       safeareaBottom2: '82px',
       safeareaBottom3: '210px',
+      safeareaBottom4: '32px',
       safeareaTop: '25px',
       safeareaTop2: '30px',
       writeInput: '0px',
@@ -583,6 +613,7 @@ export default {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
+      this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 7px)';
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 5px)';
       this.throttle = 500;

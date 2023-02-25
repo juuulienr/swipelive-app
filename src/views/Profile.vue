@@ -13,7 +13,7 @@
 
 
     <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px; height: 190px;">
-    <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -60px;">
+    <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -95px;">
       <div>
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <p class="desc" style="margin: 10px 30px 20px; font-weight: 400; font-size: 14px; color: #1F1D2B; text-align: center;">{{ profile.vendor.summary }}</p>
+        <p class="desc" style="margin: 20px 30px; text-align: center;">{{ profile.vendor.summary }}</p>
         <div class="images_filter" style="padding: 10px; background-color: white; z-index: 1000000;">
           <ul>
             <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>

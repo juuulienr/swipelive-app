@@ -17,8 +17,8 @@
       <div class="row">
         <div class="col-12">
           <div class="title">{{ product.title }}</div>
-          <div v-if="variant && variant.price" class="new-price" style="color: #333;">{{ variant.price | formatPrice }}€</div>
-          <div v-else class="new-price" style="color: #333;">{{ product.price | formatPrice }}€</div>
+          <div v-if="variant && variant.price" class="new-price" style="color: rgb(24, 206, 160);">{{ variant.price | formatPrice }}€</div>
+          <div v-else class="new-price" style="color: rgb(24, 206, 160);">{{ product.price | formatPrice }}€</div>
           <div v-if="variant && variant.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ variant.compareAtPrice | formatPrice }}€</div>
           <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
         </div>
