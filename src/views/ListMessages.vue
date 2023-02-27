@@ -88,8 +88,8 @@ export default {
       user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
-      discussions: [],
       selectedDiscussion: null,
+      discussions: [],
       searchTerm: "",
       swipeStatus: '',
       swipeIndex: null,
@@ -104,6 +104,7 @@ export default {
     window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   mounted() {
+      console.log(this.userId);
     if (this.userId) {
       this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
     } else {

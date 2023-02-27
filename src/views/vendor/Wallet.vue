@@ -51,8 +51,8 @@
                 <Lottie :options="defaultOptions2" :width="200"/>
               </div>
             </div>
-            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande</h5>
-            <div style="font-weight: 400;font-size: 15px;text-align: center;">Un récapitulatif des commandes apparaîtra ici.</div>
+            <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun retrait</h5>
+            <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos retraits apparaîtront ici.</div>
           </div>
         </div>
 

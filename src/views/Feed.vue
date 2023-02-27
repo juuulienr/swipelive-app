@@ -339,7 +339,7 @@
 
 
         <!-- send comment -->
-        <div v-if="!finished[index].value" @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="left: 20px; right: 225px;">
+        <div v-if="!finished[index].value" @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="left: 15px; right: 215px;">
           <div class="video-page__influencer-username-holder">
             <div class="video-page__influencer-username"> Commenter...</div>
             <span class="video-page__influencer-video-count">
@@ -348,12 +348,12 @@
           </div>
         </div>
 
-        <div :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: hsla(0,0%,100%,.15); right: 20px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center; left: 205px;">
+        <div :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: hsla(0,0%,100%,.15); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
           <div @click="showCart()" class="video-page__influencer-username-holder" style="padding-left: 10px;">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/bag.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
             </span>
-            <span class="counter-badge" :style="{'bottom': safeareaBottom4 }" style="right: 141px; height: 14px; width: 14px; font-size: 10px;">{{ updateCart }}</span>
+            <span v-if="updateCart > 0" class="counter-badge" :style="{'bottom': safeareaBottom4 }" style="right: 141px; height: 14px; width: 14px; font-size: 10px; font-weight: 600">{{ updateCart }}</span>
           </div>
           <div v-if="!finished[index].value" @click="addAnimation()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
@@ -407,12 +407,10 @@
     <!-- input comment -->
     <div v-if="popup" class="css-1dko8fk" :style="{'bottom': writeInput }" style="height: 55px; border-radius: 0px;">
       <div class="css-miqn2j">
-        <input v-focus v-on-clickaway="away" placeholder="Aa" type="text" class="css-9gu6qp" v-model="content"/>
+        <input v-focus v-on-clickaway="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2a80; background: white"/>
       </div>
-      <button id="buttonSend" :class="{'Mui-disabled': content.length == 0 }" class="css-il3d4y">
-        <svg id="svgSend" width="24" height="24">
-          <path id="pathSend" d="M3.4 20.4l17.45-7.48a1 1 0 0 0 0-1.84L3.4 3.6a.993.993 0 0 0-1.39.91L2 9.12c0 .5.37.93.87.99L17 12L2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z" fill="currentColor"></path>
-        </svg>
+      <button id="buttonSend" class="css-il3d4y" style="padding: 0px;">
+        <img :src="require(`@/assets/img/arrow-circle-up.svg`)" style="height: 36px; height: 36px;" />
       </button>
     </div>
     

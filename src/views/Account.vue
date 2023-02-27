@@ -4,7 +4,7 @@
       <div class="checkout__title">Mon compte</div>
     </div>
 
-    <div class="checkout__body" style="padding-bottom: 85px; padding-top: 15px;">
+    <div class="checkout__body" style="padding-bottom: 95px; padding-top: 15px;">
       <div v-if="user" class="top-author--container" style="padding: 0px; align-items: center;">
         <div @click="goEditProfile()" class="top-author--item">
           <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
