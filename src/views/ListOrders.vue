@@ -133,6 +133,11 @@
           </svg>
         </div>
         <div class="checkout__title">Commande #{{ order.number }}</div>
+        <div @click="actionSheet()" class="checkout__right-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
+          </svg>
+        </div>
       </div>
       <div>
         <div v-if="type == 'sale' && order.shippingStatus == 'ready-to-send'">
@@ -496,6 +501,7 @@ export default {
     },
     cancelOrder() {
       // annuler commande si la commande n'est pas envoyé
+      
     },
     actionSheet() {
       // mettre en rouge annuler la commande
