@@ -37,7 +37,7 @@
         	<div v-if="show1">
             <div v-if="sales && sales.length > 0" class="top-author--container">
           		<div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-          			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
+          			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
           			<div>
@@ -99,7 +99,7 @@
           <div>
             <div v-if="purchases && purchases.length > 0" class="top-author--container">
               <div v-for="order in purchases" @click="showOrder(order, 'purchase')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
@@ -179,7 +179,7 @@
           <div v-for="lineItem in order.lineItems" class="checkout__row checkout__product-info-row" style="display: initial; position: relative; padding: 0px;">
             <div class="checkout__product-info" style="padding: 7px 0px;">
               <div style="display: flex; padding-right: 0px; align-items: center;">
-                <img v-if="lineItem.product && lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
+                <img v-if="lineItem.product && lineItem.product.uploads.length" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
                 <span class="counter-badge" style="top: 3px;left: 54px;">{{ lineItem.quantity }}</span>
                 <div style="margin-left: 15px;">
@@ -474,7 +474,7 @@ export default {
     closeOrder() {
       this.popupConfirmation = false;
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/closed", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.order = JSON.parse(response.data);
+        this.hideOrder();
       }, (response) => {
         console.log(response.error);
       });
@@ -500,11 +500,14 @@ export default {
       }
     },
     cancelOrder() {
-      // annuler commande si la commande n'est pas envoyé
-      
+      // window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      //   this.hideOrder();
+      // }, (response) => {
+      //   console.log(response.error);
+      // });
     },
     actionSheet() {
-      // mettre en rouge annuler la commande
+      // mettre en rouge annuler la commande et afficher que si commande n'est pas envoyé
       var options = {
         buttonLabels: ['Annuler la commande', 'Signaler un problème'],
         addCancelButtonWithLabel: 'Retour',

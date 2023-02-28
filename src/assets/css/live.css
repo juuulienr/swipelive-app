@@ -1217,8 +1217,8 @@ span.filter--choice > input:checked ~ .svg--point {
 
 .order-counter {
   position: absolute;
-  top: 14px;
-  left: 67px;
+  top: 7px;
+  left: 58px;
   height: 24px;
   width: 24px;
   border-radius: 100%;

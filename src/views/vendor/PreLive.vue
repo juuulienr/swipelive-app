@@ -13,7 +13,7 @@
 
     <div class="checkout__body" style="overflow: initial; padding-bottom: 85px;">
       <div v-if="rules" class="items rules">
-        <p><span>Amusez-vous et invitez des amis 🎉</span><br>
+        <p style="margin-top: 15px;"><span>Amusez-vous et invitez des amis 🎉</span><br>
         Les lives sont plus sympas avec votre communauté. Assurez-vous de faire la promotion de vos articles et n'oubliez pas de les partager.</p>
 
         <p><span>Pas de contrefaçons ou d'article illicite 🚨</span><br>

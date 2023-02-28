@@ -654,13 +654,13 @@
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
               <div @click="bannedViewer(user.id, index)">
-                <img :src="require(`@/assets/img/ban.svg`)" style="width: 24px; height: 24px;"/>
+                <img :src="require(`@/assets/img/ban.svg`)" style="width: 24px !important; height: 24px !important;"/>
               </div>
             </div>
           </div>
           <div v-else>
             <div class="container" style="margin: 0px auto; text-align: center;">
-            <div style="margin: 0px auto;">
+            <div style="margin: 20px auto 0px;">
               <Lottie :options="defaultOptions2" :width="220"/>
             </div>
             </div>
@@ -861,6 +861,7 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     formatDate(datetime) {
+      console.log(datetime);
       const date = new Date(datetime);
       return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     }

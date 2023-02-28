@@ -283,7 +283,7 @@
         <div v-if="feed.type == 'live' && feed.value.liveProducts.length > 0 && !finished[index].value" @click="showProduct(feed.value.liveProducts[display - 1].product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
-              <img v-if="feed.value.liveProducts[display - 1].product.uploads" :src="cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
+              <img v-if="feed.value.liveProducts[display - 1].product.uploads.length" :src="cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
               <img v-else :src="require(`@/assets/img/no-preview.png`)">
             </div>
             <div class="video-page__info">
@@ -306,7 +306,7 @@
         <div v-if="feed.type == 'clip' && feed.value.product && !finished[index].value" @click="showProduct(feed.value.product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
-              <img v-if="feed.value.product.uploads" :src="cloudinary256x256 + feed.value.product.uploads[0].filename">
+              <img v-if="feed.value.product.uploads.length" :src="cloudinary256x256 + feed.value.product.uploads[0].filename">
               <img v-else :src="require(`@/assets/img/no-preview.png`)">
             </div>
             <div class="video-page__info">
@@ -339,7 +339,7 @@
           </div>
         </div>
 
-        <div :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: hsla(0,0%,100%,.15); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
+        <div v-if="!finished[index].value" :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: hsla(0,0%,100%,.15); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
 
           <!-- cart -->
           <div @click="showCart()" class="video-page__influencer-username-holder" style="padding-left: 10px;">
@@ -350,21 +350,21 @@
           </div>
 
           <!-- likes -->
-          <div v-if="!finished[index].value" @click="addAnimation()" class="video-page__influencer-username-holder">
+          <div @click="addAnimation()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/heart-feed.svg`)" style="width: 40px; height: 40px; padding: 8px; margin: 0px 4px;" />
             </span>
           </div>
 
           <!-- share -->
-          <div v-if="!finished[index].value" @click="share" class="video-page__influencer-username-holder">
+          <div @click="share" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/share.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
             </span>
           </div>
 
           <!-- shop -->
-          <div v-if="feed.value.vendor && !finished[index].value" @click="showShop(feed.value.vendor)" class="video-page__influencer-username-holder" style="padding-right: 10px;">
+          <div @click="showShop(feed.value.vendor)" class="video-page__influencer-username-holder" style="padding-right: 10px;">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/all-products.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 6px;" />
             </span>
