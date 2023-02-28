@@ -36,9 +36,10 @@
               <p class="css-11r9ii4">Sous-total</p>
               <h6 class="css-yemnbq">{{ subTotal | formatPrice }}€</h6>
             </div>
-          <!--   <div class="css-9jay18">
-              <p class="css-11r9ii4" style="color: #18cea0; font-weight: 500;">PROMO10</p>
-              <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-10,00€</h6>
+         <!--    <div v-if="promotion" class="css-9jay18">
+              <p class="css-11r9ii4" style="color: #18cea0; font-weight: 500;">{{ promotion.title }}</p>
+              <h6 v-if="promotion.type == 'percent'" class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-{{promotion.value}}%</h6>
+              <h6 v-else class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-{{promotion.value}}€</h6>
             </div> -->
             <div class="css-9jay18">
               <p class="css-11r9ii4">Livraison</p>
@@ -145,7 +146,7 @@
               <span style="text-transform: capitalize;">Point relais</span>
             </div>
             <div style="margin-right: 5px;">
-			        <div class="filter--choice">
+			        <div v-if="!loadingShipping" class="filter--choice">
 			        	<div>
 			        		<div class="gender--choice">
 			        			<label>
@@ -170,7 +171,7 @@
               <span style="text-transform: capitalize;">Domicile</span>
             </div>
             <div style="margin-right: 5px;">
-			        <div class="filter--choice">
+			        <div v-if="!loadingShipping" class="filter--choice">
 			        	<div>
 			        		<div class="gender--choice">
 			        			<label>
@@ -558,16 +559,18 @@ import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 export default {
   name: 'Checkout',
-  props: ['lineItems'],
   components: { VueGoogleAutocomplete },
   data() {
     return {
+      fullscreen: this.$route.params.fullscreen,
+      lineItems: this.$store.getters.getLineItems,
+      user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       sendcloud_pk: window.localStorage.getItem("sendcloud_pk"),
-      user: JSON.parse(window.localStorage.getItem("user")),
       carriers: [],
+      promotion: null,
       subTotal: null,
       shippingPrice: null,
       shippingMethodId: null,
@@ -604,6 +607,7 @@ export default {
       paymentType: null,
       shippingProducts: null,
       locationMarkers: [],
+      loadingShipping: true,
       mapOptions: {
         zoomControl: true,
         mapTypeControl: false,
@@ -625,6 +629,7 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    console.log(this.lineItems);
   
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
@@ -658,6 +663,14 @@ export default {
       this.center = marker;
       this.shippingAddress = true;
     	this.getShippingPrice();
+    }
+
+    if (this.lineItems.length > 0 && this.lineItems[0].vendor) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.lineItems[0].vendor + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.promotion = JSON.parse(response.data);
+      }, (response) => {
+        console.log(response.error);
+      });
     }
   },
 	computed: {
@@ -759,6 +772,7 @@ export default {
       window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.shippingProducts = JSON.parse(response.data);
+        this.loadingShipping = false;
       }, (response) => {
         console.log(response.error);
       });
@@ -772,7 +786,6 @@ export default {
 	      this.locationMarkers = [];
 	      this.mapSelected = null;
 
-	      console.log(this.center);
 	      window.cordova.plugin.http.setDataSerializer('json');
 	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "carrier": "mondial_relay,chronopost", "radius": "20000" }, {}, (response) => {
 	        this.points = JSON.parse(response.data);
@@ -864,22 +877,27 @@ export default {
       this.tabList = true;
     },
     goBack() {
-      this.$emit('hideCheckout');
+      if (this.fullscreen) {
+        this.$router.push({ name: 'Cart', params: { fullscreen: true }});
+      } else {
+        this.$emit('hideCheckout');
+      }
     },
     payment() {
-      console.log(this.lineItems);
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
   	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(JSON.parse(response.data));
-          this.$emit('paymentSuccess', JSON.parse(response.data));
+          this.lineItems = [];
+          this.$store.commit('setLineItems', this.lineItems);
+          this.$root.$children[0].updateLineItems();
+
+          if (this.fullscreen) {
+            this.$router.push({ name: 'Home' });
+          } else {
+            this.$emit('paymentSuccess', JSON.parse(response.data));
+          }
   	    }, (response) => {
   	      console.log(response.error);
-          
-          window.plugins.toast.show(response.error, 'long', 'top', function(a){
-            console.log('toast success: ' + a);
-          }, function(b){
-            console.log('toast error: ' + b);
-          });
+          window.plugins.toast.show(response.error, 'long', 'top', {}, {});
   	    });
       }
     },

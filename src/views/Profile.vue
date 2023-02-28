@@ -7,12 +7,11 @@
       <div class="checkout__title"></div>
       <div @click="actionSheet()" class="checkout__right-btn" style="top: 45px;">
         <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
-        <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 0px; top: 118px;"/>
       </div>
     </div>
 
-
     <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px; height: 190px;">
+    <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 12px; top: 155px;"/>
     <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -95px;">
       <div>
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
@@ -103,14 +102,15 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
+      user: this.$store.getters.getUser,
+      lineItems: this.$store.getters.getLineItems,
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       live: true,
       shop: false,
       following: false,
       loading: false,
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       popupProduct: false,
       profile: null,
       notif: true,
@@ -246,9 +246,69 @@ export default {
     },
     selectVariantChild(variant) {
       console.log(variant);
+      this.variant = variant;
     },
     addToCart() {
       this.popupProduct = false;
+
+      if (typeof this.product.vendor == "object") {
+        var vendor = this.product.vendor.id;
+      } else {
+        var vendor = this.product.vendor;
+      } 
+
+      if (this.lineItems.length) {
+        var exist = false;
+        var newVendor = false;
+
+        this.lineItems.map(lineItem => {
+          if (lineItem.vendor != vendor) {
+            newVendor = true;
+          }
+        });
+
+        if (newVendor == false) {
+          this.lineItems.map(lineItem => {
+            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
+              exist = true;
+              lineItem.quantity += 1;
+            } else if (lineItem.product.id == this.product.id) {
+              if (!this.variant) {
+                exist = true;
+                lineItem.quantity += 1;
+              }
+            }
+          });
+        } else {
+          exist = true;
+          navigator.notification.confirm(
+            'Ce article va remplacer votre ancien panier',
+            (buttonIndex) => {
+              if (window.cordova.platformId == "browser") {
+                var id = 1;
+              } else {
+                var id = 2;
+              }
+              if (buttonIndex == id) {
+                this.lineItems = [];
+                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
+                this.$store.commit('setLineItems', this.lineItems);
+                this.$root.$children[0].updateLineItems();
+              }
+            },   
+            'Nouveau panier ?', 
+            ['Conserver','Nouveau'] 
+          );
+        }
+
+        if (!exist) {
+          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
+          this.$store.commit('setLineItems', this.lineItems);
+        }
+      } else {
+        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
+        this.$store.commit('setLineItems', this.lineItems);
+      }
     }
   }
 };

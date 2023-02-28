@@ -13,8 +13,8 @@ import store from "./store/store.js";
 
 
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
-  Vue.config.productionTip = true;
   Pusher.logToConsole = true;
+  Vue.config.productionTip = true;
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
   window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");
 
@@ -24,7 +24,7 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
     integrations: [
       new BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracePropagationTargets: ["localhost", "swipelive.fr", /^\//],
+        tracePropagationTargets: ["swipelive.fr", /^\//],
       }),
     ],
     tracesSampleRate: 1.0,
@@ -33,6 +33,7 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
 } else {
   Vue.config.productionTip = false;
   window.localStorage.setItem("baseUrl", "http://127.0.0.1:8000");
+  window.localStorage.setItem("sendcloud_pk", "3826686f2dbc418380898cc254fc0d28");
 }
 
 Vue.use(VueObserveVisibility);
@@ -76,11 +77,13 @@ document.addEventListener("backbutton", () => {
 
 // network
 document.addEventListener("offline", () => {
-  // console.log("User is offline");
+  console.log("User is offline");
+  window.plugins.toast.show("Vous n'êtes pas connecté à internet", 'long', 'top', {}, {});
 });
 
 document.addEventListener("online", () => {
-  // console.log("User is online");
+  console.log("User is online");
+  // window.plugins.toast.show("Vous êtes de nouveau connecté à internet", 'long', 'top', {}, {});
 });
 
 

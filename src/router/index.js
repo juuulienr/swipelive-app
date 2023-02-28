@@ -18,6 +18,7 @@ import ListFollowing from '@/views/ListFollowing'
 import EditUser from '@/views/EditUser'
 import Account from '@/views/Account'
 import Cart from '@/components/Cart'
+import Checkout from '@/components/Checkout'
 
 
 import Shop from '@/views/vendor/Shop'
@@ -54,9 +55,13 @@ export default new Router({
       name: 'Home',
       component: Home
     }, {
-      path: '/cart',
+      path: '/cart/:fullscreen?',
       name: 'Cart',
       component: Cart
+    }, {
+      path: '/checkout/:fullscreen?',
+      name: 'Checkout',
+      component: Checkout
     }, {
       path: '/profile/:id',
       name: 'Profile',

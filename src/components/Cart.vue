@@ -1,5 +1,8 @@
 <template>
-  <main class="cart" style="height: 68vh;">
+  <main class="cart">
+    <div class="checkout__header" style="padding-right: 20px; padding-left: 20px;">
+      <div class="checkout__title">Panier</div>
+    </div>
     <div class="checkout">
       <div v-if="lineItems && lineItems.length" class="checkout__body">
         <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">
@@ -14,8 +17,8 @@
               <div>
                 <span v-if="lineItem.variant" style="font-size: 14px;">{{ lineItem.variant.price * lineItem.quantity | formatPrice }}€</span>
                 <span v-else style="font-size: 14px;">{{ lineItem.product.price * lineItem.quantity | formatPrice }}€</span>
-                <span v-if="lineItem.variant && lineItem.variant.compareAtPrice" class="last-price">{{ lineItem.variant.compareAtPrice | formatPrice }}€ </span>
-                <span v-else-if="lineItem.product.compareAtPrice" class="last-price">{{ lineItem.product.compareAtPrice | formatPrice }}€ </span>
+                <span v-if="lineItem.variant && lineItem.variant.compareAtPrice" class="last-price">{{ lineItem.variant.compareAtPrice * lineItem.quantity | formatPrice }}€ </span>
+                <span v-else-if="lineItem.product.compareAtPrice" class="last-price">{{ lineItem.product.compareAtPrice * lineItem.quantity | formatPrice }}€ </span>
               </div>
             </div>
           </div>
@@ -32,7 +35,7 @@
           </div>
         </div>
 
-        <div v-if="subTotal" class="css-13dslnb">
+        <div v-if="subTotal" class="css-13dslnb" :style="[fullscreen ? {'bottom': 'calc(env(safe-area-inset-bottom) + 65px)'} : {'bottom': 'calc(env(safe-area-inset-bottom) + 30px)'}]">
           <div class="css-18mhetb">
             <div class="css-9jay18">
               <h6 class="css-k9tjo5">Sous-total</h6>
@@ -48,8 +51,8 @@
           </div>
         </div>
       </div>
-      <div v-else class="checkout__body" style="text-align: center; margin-top: 100px;">
-        <div class="container" style="margin: 120px auto 0px; text-align: center;">
+      <div v-else class="checkout__body" style="text-align: center;">
+        <div class="container" style="margin: 150px auto 0px; text-align: center;">
           <div style="margin: 0px auto;">
             <Lottie :options="defaultOptions" :width="200"/>
           </div>
@@ -72,12 +75,14 @@ import * as animationData from '../assets/lottie/order.json';
 
 export default {
   name: 'Cart',
-  props: ['lineItems'],
   components: {
     Lottie
   },
   data() {
     return {
+      fullscreen: this.$route.params.fullscreen,
+      user: this.$store.getters.getUser,
+      lineItems: this.$store.getters.getLineItems,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
@@ -92,6 +97,7 @@ export default {
     }
   },
   created() {
+    console.log(this.fullscreen);
     this.updateCart();
   },
   methods: {
@@ -132,10 +138,16 @@ export default {
         this.subTotal = this.subTotal.toFixed(2);
       }
 
-      this.$emit('updateCart', this.lineItems);
+      if (!this.fullscreen) {
+        this.$emit('updateCart', this.lineItems);
+      }
     },
     showCheckout() {
-      this.$emit('showCheckout', this.lineItems);
+      if (this.fullscreen) {
+        this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
+      } else {
+        this.$emit('showCheckout', this.lineItems);
+      }
     },
   }
 };

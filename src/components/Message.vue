@@ -74,7 +74,7 @@
         <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici..." style="border: 2px solid #ff2a80; background: white;">
       </div>
       <button @click="sendMessage()" style="margin: 0px;">
-        <img :src="require(`@/assets/img/arrow-circle-up.svg`)" style="height: 36px; height: 36px;" />
+        <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; height: 36px;"/>
       </button>
     </div>
   </div>

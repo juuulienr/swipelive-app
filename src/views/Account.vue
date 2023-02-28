@@ -26,7 +26,7 @@
 
       <p v-if="user.vendor" class="desc" style="margin: 20px 30px; text-align: center;">{{ user.vendor.summary }}</p>
 
-      <div v-if="!user.vendor" @click="goToVendorRegistration()" class="top-author--container" style="padding: 16px;align-items: center;box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px !important;margin: 10px;border: 1px solid rgb(221, 221, 221) !important;border-radius: 12px !important; margin-bottom: 30px;">
+      <div v-if="!user.vendor" @click="goToVendorRegistration()" class="top-author--container" style="padding: 16px;align-items: center;box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px !important;margin: 10px;border: 1px solid rgb(221, 221, 221) !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px;">
         <div class="top-author--item">
           <div style="margin: 0px 0px 0px 8px;">
             <span style="font-size: 16px;font-weight: 500;font-size: 18px !important;line-height: 22px !important;margin: 0px 0px 8px !important;padding: 0px !important;">Vendez vos articles sur Swipe Live</span>
@@ -294,6 +294,7 @@ export default {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('banned');
       window.localStorage.removeItem('rules');
+      this.$store.commit('resetState');
       this.$router.push({ name: 'Welcome' });
     },
     goBack() {

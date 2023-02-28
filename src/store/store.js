@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: [],
+    lineItems: [],
     categories: [],
     productsTrending: [],
     clipsTrending: [],
@@ -15,8 +16,20 @@ export default new Vuex.Store({
   },
   mutations: { 
     // synchronous, for change use commit
+    resetState(state) {
+      state.user = [];
+      state.lineItems = [];
+      state.categories = [];
+      state.productsTrending = [];
+      state.clipsTrending = [];
+      state.clipsLatest = [];
+      state.allProducts = [];
+    },
     setUser(state, data) {
       state.user = data;
+    },
+    setLineItems(state, data) {
+      state.lineItems = data;
     },
     setCategories(state, data) {
       state.categories = data;
@@ -42,9 +55,8 @@ export default new Vuex.Store({
     getUser(state) {
       return state.user;
     },
-    getPromotions(state) {
-      console.log(state.user.vendor.promotions);
-      return state.user.vendor.promotions;
+    getLineItems(state) {
+      return state.lineItems;
     },
     getCategories(state) {
       return state.categories;

@@ -199,6 +199,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
+      lineItems: this.$store.getters.getLineItems,
       categories: this.$store.getters.getCategories,
       clipsTrending: this.$store.getters.getClipsTrending,
       latestClips: this.$store.getters.getClipsLatest,
@@ -336,11 +337,70 @@ export default {
     },
     selectVariantChild(variant) {
       console.log(variant);
+      this.variant = variant;
     },
     addToCart() {
-      // this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": this.product.vendor });
       this.popupProduct = false;
-    }
+
+      if (typeof this.product.vendor == "object") {
+        var vendor = this.product.vendor.id;
+      } else {
+        var vendor = this.product.vendor;
+      } 
+
+      if (this.lineItems.length) {
+        var exist = false;
+        var newVendor = false;
+
+        this.lineItems.map(lineItem => {
+          if (lineItem.vendor != vendor) {
+            newVendor = true;
+          }
+        });
+
+        if (newVendor == false) {
+          this.lineItems.map(lineItem => {
+            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
+              exist = true;
+              lineItem.quantity += 1;
+            } else if (lineItem.product.id == this.product.id) {
+              if (!this.variant) {
+                exist = true;
+                lineItem.quantity += 1;
+              }
+            }
+          });
+        } else {
+          exist = true;
+          navigator.notification.confirm(
+            'Ce article va remplacer votre ancien panier',
+            (buttonIndex) => {
+              if (window.cordova.platformId == "browser") {
+                var id = 1;
+              } else {
+                var id = 2;
+              }
+              if (buttonIndex == id) {
+                this.lineItems = [];
+                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
+                this.$store.commit('setLineItems', this.lineItems);
+                this.$root.$children[0].updateLineItems();
+              }
+            },   
+            'Nouveau panier ?', 
+            ['Conserver','Nouveau'] 
+          );
+        }
+
+        if (!exist) {
+          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
+          this.$store.commit('setLineItems', this.lineItems);
+        }
+      } else {
+        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
+        this.$store.commit('setLineItems', this.lineItems);
+      }
+    },
   }
 };
 

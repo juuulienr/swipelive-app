@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
-    <NavBar v-if="showNavbar"/>
+    <NavBar ref="navbar" :lineItems="lineItems" v-if="showNavbar"/>
   </div>
 </template>
 
@@ -22,12 +22,14 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: JSON.parse(window.localStorage.getItem("user")),
+      lineItems: this.$store.getters.getLineItems,
+      user: this.$store.getters.getUser,
       pingInterval: null,
       showNavbar: false
     }
   },
   created() {
+    this.updateLineItems();
     if (this.$route.name == "Home" || this.$route.name == "ListMessages" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
       this.showNavbar = true;
     } else {
@@ -37,12 +39,13 @@ export default {
   mounted() {
     this.ping();
     this.pingInterval = setInterval(() => {
-      this.user = JSON.parse(window.localStorage.getItem("user"));
+      this.user = this.$store.getters.getUser;
       this.token = window.localStorage.getItem("token");
       this.ping();
     }, 240000); //4 min
   },
   updated() {
+    this.lineItems = this.$store.getters.getLineItems;
     if (this.$route.name == "Home" || this.$route.name == "ListMessages" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
       this.showNavbar = true;
     } else {
@@ -61,6 +64,9 @@ export default {
           console.log(response.error);
         });
       }
+    },
+    updateLineItems() {
+      this.lineItems = this.$store.getters.getLineItems;
     }
   }
 };

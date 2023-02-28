@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div v-if="filteredProducts.length" class="shop--part" style="margin: 25px 15px 0px; gap: 20px 10px; padding-bottom: 80px;">
+    <div v-if="filteredProducts.length" class="shop--part" style="margin: 25px 15px 0px; gap: 20px 10px; padding-bottom: 120px;">
       <div v-for="product in filteredProducts" @click="showProduct(product)" class="shop--box">
         <div>
           <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
@@ -85,13 +85,13 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       user: this.$store.getters.getUser,
-      lineItems: window.localStorage.getItem("lineItems") ? JSON.parse(window.localStorage.getItem("lineItems")) : [],
+      lineItems: this.$store.getters.getLineItems,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       categories: this.$store.getters.getCategories,
       defaultOptions: {animationData: animationData},
+      products: this.$store.getters.getAllProducts,
       id: this.$route.params.id,
       selectedCategory: null,
-      products: this.$store.getters.getAllProducts,
       popupProduct: false,
       product: null,
       variant: null,
@@ -151,9 +151,69 @@ export default {
     },
     selectVariantChild(variant) {
       console.log(variant);
+      this.variant = variant;
     },
     addToCart() {
       this.popupProduct = false;
+
+      if (typeof this.product.vendor == "object") {
+        var vendor = this.product.vendor.id;
+      } else {
+        var vendor = this.product.vendor;
+      } 
+
+      if (this.lineItems.length) {
+        var exist = false;
+        var newVendor = false;
+
+        this.lineItems.map(lineItem => {
+          if (lineItem.vendor != vendor) {
+            newVendor = true;
+          }
+        });
+
+        if (newVendor == false) {
+          this.lineItems.map(lineItem => {
+            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
+              exist = true;
+              lineItem.quantity += 1;
+            } else if (lineItem.product.id == this.product.id) {
+              if (!this.variant) {
+                exist = true;
+                lineItem.quantity += 1;
+              }
+            }
+          });
+        } else {
+          exist = true;
+          navigator.notification.confirm(
+            'Ce article va remplacer votre ancien panier',
+            (buttonIndex) => {
+              if (window.cordova.platformId == "browser") {
+                var id = 1;
+              } else {
+                var id = 2;
+              }
+              if (buttonIndex == id) {
+                this.lineItems = [];
+                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
+                this.$store.commit('setLineItems', this.lineItems);
+                this.$root.$children[0].updateLineItems();
+              }
+            },   
+            'Nouveau panier ?', 
+            ['Conserver','Nouveau'] 
+          );
+        }
+
+        if (!exist) {
+          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
+          this.$store.commit('setLineItems', this.lineItems);
+        }
+      } else {
+        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
+        this.$store.commit('setLineItems', this.lineItems);
+      }
     }
   }
 };
