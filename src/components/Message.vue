@@ -4,15 +4,15 @@
       <svg @click="hideDiscussion()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
         <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
       </svg>
-      <div v-if="discussion.user.id == user.id" class="chat--head--profil">
+      <div v-if="discussion.user == user.id" class="chat--head--profil">
         <div class="chat--head--profil--img">
           <img v-if="discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.vendor.vendor.businessName }}</p>
-          <div v-if="discussion.isOnline" class="chat--head--status">En ligne</div>
-          <div v-else-if="discussion.user.securityUsers" class="chat--head--status">{{ discussion.vendor.securityUsers[0].connectedAt | formatDateDiff }}</div>
+          <div v-if="isUserOnline(discussion)" class="chat--head--status">En ligne</div>
+          <div v-else-if="discussion.vendor.securityUsers" class="chat--head--status">{{ discussion.vendor.securityUsers[0].connectedAt | formatDateDiff }}</div>
         </div>
       </div>
       <div v-else class="chat--head--profil">
@@ -22,8 +22,8 @@
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</p>
-          <div v-if="discussion.isOnline" class="chat--head--status">En ligne</div>
-          <div v-else-if="discussion.user.securityUsers" class="chat--head--status">{{ discussion.user.securityUsers[0].connectedAt | formatDateDiff }}</div>
+          <div v-if="isUserOnline(discussion)" class="chat--head--status">En ligne</div>
+          <div v-else-if="discussion.vendor.securityUsers" class="chat--head--status">{{ discussion.user.securityUsers[0].connectedAt | formatDateDiff }}</div>
         </div>
       </div>
     </div>
@@ -65,16 +65,14 @@
       </div>
     </div>
     <div class="chat--foot">    
-      <button @click="uploadPicture()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 24px; height: 24px; fill: #b2b2b2;">
-          <path d="M152 120c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48S178.5 120 152 120zM447.1 32h-384C28.65 32-.0091 60.65-.0091 96v320c0 35.35 28.65 64 63.1 64h384c35.35 0 64-28.65 64-64V96C511.1 60.65 483.3 32 447.1 32zM463.1 409.3l-136.8-185.9C323.8 218.8 318.1 216 312 216c-6.113 0-11.82 2.768-15.21 7.379l-106.6 144.1l-37.09-46.1c-3.441-4.279-8.934-6.809-14.77-6.809c-5.842 0-11.33 2.529-14.78 6.809l-75.52 93.81c0-.0293 0 .0293 0 0L47.99 96c0-8.822 7.178-16 16-16h384c8.822 0 16 7.178 16 16V409.3z"/>
-        </svg>
+      <button @click="uploadPicture()" style="margin: 0px; padding: 5px;">
+        <img :src="require(`@/assets/img/plus-square.svg`)" style="height: 34px; width: 34px;"/>
       </button>
       <div>
-        <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici..." style="border: 2px solid #ff2a80; background: white;">
+        <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
       </div>
-      <button @click="sendMessage()" style="margin: 0px;">
-        <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; height: 36px;"/>
+      <button @click="sendMessage()" style="margin: 0px; padding: 5px;">
+        <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; width: 36px;"/>
       </button>
     </div>
   </div>
@@ -102,9 +100,6 @@ export default {
     }
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-
     if (window.cordova && (window.cordova.platformId === "ios")) {
       this.chatHeight = 'calc(100vh - 95px)';
     }
@@ -147,36 +142,46 @@ export default {
     }
   },
   methods: {
+    isUserOnline(discussion) {
+      if (discussion.user == this.user.id) {
+        var datetime = discussion.vendor.securityUsers[0].connectedAt;
+      } else {
+        var datetime = discussion.user.securityUsers[0].connectedAt;
+      }
+
+      var date = new Date(datetime);
+      var date2 = new Date(Date.now() - 5 * 60 * 1000);
+
+      return date > date2;
+    },
     async sendMessage() {
       if (this.inputMessage && this.inputMessage !== '') {
         this.writing = false;
-        const httpParams = { "fromUser": this.user.id, "picture": null, "text": this.inputMessage, "createdAt": new Date() };
-        const httpParams2 = { "preview": this.inputMessage, "unseenVendor": true, "unseen": false, "user": this.discussion.user.id, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
+        var preview = this.inputMessage;
+        var httpParams = { "fromUser": this.user.id, "picture": null, "text": preview, "createdAt": new Date() };
         this.discussion.messages.push(httpParams);
         this.inputMessage = '';
         this.scrollToBottom();
 
         if (this.discussion.id) {
-          console.log(httpParams);
-          await window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/message", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
-          }, (response) => {
-            console.log(JSON.parse(response.error));
-          });
+          var url = this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/message";
         } else {
-          await window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/add", httpParams2, { Authorization: "Bearer " + this.token }, (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
-          }, (response) => {
-            console.log(JSON.parse(response.error));
-          });
+          var url = this.baseUrl + "/user/api/discussions/add";
+          httpParams = { "preview": preview, "unseenVendor": true, "unseen": false, "user": this.discussion.user, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
         }
+
+        await window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+          this.user = JSON.parse(response.data);
+          this.$store.commit('setUser', JSON.parse(response.data));
+          this.$emit('updateDiscussions', this.user);
+        }, (response) => {
+          console.log(JSON.parse(response.error));
+        });
       }
     },
     seenDiscussion() {
       if (this.discussion.id) {
-        if (this.user.id == this.discussion.user.id) {
+        if (this.user.id == this.discussion.user) {
           var unseen = this.discussion.unseen;
         } else {
           var unseen = this.discussion.unseenVendor;
@@ -184,8 +189,9 @@ export default {
 
         if (unseen) {
           window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
+            this.user = JSON.parse(response.data);
+            this.$store.commit('setUser', JSON.parse(response.data));
+            this.$emit('updateDiscussions', this.user);
           }, (response) => {
             console.log(response.error);
           });
@@ -203,11 +209,8 @@ export default {
       }, 200);
     },
     getImageSize(message) {
-      console.log(this.$refs.image);
       var width = this.$refs.image[0].naturalWidth;
       var height = this.$refs.image[0].naturalHeight;
-      console.log(width);
-      console.log(height);
 
       if (width > height) {
         message.pictureType = "landscape";
@@ -239,8 +242,9 @@ export default {
           this.scrollToBottomWithTimeout();
 
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
+            this.user = JSON.parse(response.data);
+            this.$store.commit('setUser', JSON.parse(response.data));
+            this.$emit('updateDiscussions', this.user);
           }, function(response) {
             console.log(response.error);
           });
@@ -251,8 +255,9 @@ export default {
           this.scrollToBottomWithTimeout();
 
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
+            this.user = JSON.parse(response.data);
+            this.$store.commit('setUser', JSON.parse(response.data));
+            this.$emit('updateDiscussions', this.user);
           }, function(response) {
             console.log(response.error);
           });
@@ -262,29 +267,35 @@ export default {
       }, options);
     },
     onInput() {
-      if (this.inputMessage == '') {
+      if (this.discussion.id) {
+        if (this.inputMessage == '') {
+          this.stopWriting();
+        } else {
+          if (!this.writing) {
+            this.startWriting();
+          }
+        }
+      }
+    },
+    hideDiscussion() {
+      this.stopWriting();
+      this.$emit('hideDiscussion');
+    },
+    stopWriting() {
+      if (this.writing) {
         this.writing = false;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing/stop", {}, { Authorization: "Bearer " + this.token }, (response) => {
         }, (response) => {
           console.log(response.error);
         });
-      } else {
-        if (!this.writing) {
-          this.writing = true;
-          window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing", {}, { Authorization: "Bearer " + this.token }, (response) => {
-          }, (response) => {
-            console.log(response.error);
-          });
-        }
       }
     },
-    hideDiscussion() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing/stop", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    startWriting() {
+      this.writing = true;
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing", {}, { Authorization: "Bearer " + this.token }, (response) => {
       }, (response) => {
         console.log(response.error);
       });
-
-      this.$emit('hideDiscussion');
     },
     uploadPicture() {
       var options = {

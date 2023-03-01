@@ -22,13 +22,13 @@ import Checkout from '@/components/Checkout'
 
 
 import Shop from '@/views/vendor/Shop'
-import Partner from '@/views/vendor/Partner'
-import ListPromotions from '@/views/vendor/ListPromotions'
 import AddEditProduct from '@/views/vendor/AddEditProduct'
+import ListPartners from '@/views/vendor/ListPartners'
+import ListPromotions from '@/views/vendor/ListPromotions'
 import ListClips from '@/views/vendor/ListClips'
+import Wallet from '@/views/vendor/Wallet'
 import PreLive from '@/views/vendor/PreLive'
 import Live from '@/views/vendor/Live'
-import Wallet from '@/views/vendor/Wallet'
 
 Vue.use(Router);
 
@@ -112,8 +112,8 @@ export default new Router({
       component: ListPromotions
     }, {
       path: '/vendor/partner',
-      name: 'Partner',
-      component: Partner
+      name: 'ListPartners',
+      component: ListPartners
     }, {
       path: '/user/edit',
       name: 'EditUser',

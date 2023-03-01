@@ -907,16 +907,17 @@ export default {
       this.broadcaster = window.bambuser.broadcaster;
       this.broadcaster.setApplicationId(this.bambuserId, () => {
         this.broadcaster.switchCamera();
+        this.broadcaster.setTitle("Live" + this.id);
+        this.broadcaster.setAuthor(this.user.vendor.businessName);
+        setTimeout(() => {
+          this.broadcaster.showViewfinderBehindWebView();
+          document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
+        }, 200);
       }, (err) => { 
         console.log(err);
+        window.plugins.toast.show("Une erreur est survenue !", 'long', 'top', {}, {});
       });
 
-      this.broadcaster.setTitle("Live" + this.id);
-      this.broadcaster.setAuthor(this.user.vendor.businessName);
-      setTimeout(() => {
-        this.broadcaster.showViewfinderBehindWebView();
-        document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-      }, 1000);
     } else {
       setTimeout(() => {
         var ressourceUri = "https://cdn.bambuser.net/broadcasts/20057381-f1d8-6fc1-1aa6-6fc9a896afc0?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1671610447&da_static=1&da_ttl=0&da_signature=f19839f85cb0bcf6376f8816b899ee4c79728afd8087a23ddeb5307c0d4e345d";

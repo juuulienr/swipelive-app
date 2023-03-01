@@ -134,7 +134,7 @@
           </router-link>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'Partner' }">
+          <router-link :to="{ name: 'ListPartners' }">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/partner.svg`)"/>
             </span>

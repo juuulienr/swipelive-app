@@ -30,7 +30,7 @@ import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/partner.json';
 
 export default {
-  name: 'Partner',
+  name: 'ListPartners',
   components: {
     Lottie,
   },

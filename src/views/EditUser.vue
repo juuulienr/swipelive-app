@@ -120,7 +120,14 @@
         </div>
 
 
-        <div @click="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 25px 0px;">Enregistrer</div>
+        <div @click="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 25px 0px;">
+          <span v-if="loading">
+            <svg viewBox="25 25 50 50" class="loading">
+              <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+            </svg>
+          </span>
+          <span v-else>Enregistrer</span>
+        </div>
       </div>
     </div>
   </main>
@@ -155,6 +162,7 @@ export default {
       errorCity: false,
       errorCountry: false,
       loadingImg: false,
+      loading: false,
       vendor: null,
     }
   },
@@ -250,6 +258,7 @@ export default {
       }
 
       if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry && !this.errorPhone) {
+        this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
         if (this.user.vendor) {
           var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
@@ -262,6 +271,7 @@ export default {
           this.$router.push({ name: 'Account' });
         }, (response) => {
           console.log(JSON.parse(response.error));
+          this.loading = false;
         });
       }
     }, 

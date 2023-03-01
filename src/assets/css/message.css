@@ -769,24 +769,21 @@ h4 {
   color: currentcolor;
   padding: 4px 0 5px;
   border: 0;
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   height: 30px;
   margin: 0;
-  -webkit-tap-highlight-color: transparent;
   display: block;
   min-width: 0;
   width: 100%;
-  -webkit-animation-name: mui-auto-fill-cancel;
   animation-name: mui-auto-fill-cancel;
-  -webkit-animation-duration: 10ms;
   animation-duration: 10ms;
   outline: none;
   padding-left: 15px;
   padding-right: 10px;
   font-size: 14px;
-  background: #f4f4f4;
   border-radius: 30px;
+  border: 2px solid #ff2a80; 
+  background: white;
 }
 .chat--foot--btn {
 	display: flex;
@@ -800,7 +797,6 @@ h4 {
 	justify-content: center;
 	position: relative;
 	box-sizing: border-box;
-	-webkit-tap-highlight-color: transparent;
 	background-color: transparent;
 	outline: 0px;
 	border: 0px;
