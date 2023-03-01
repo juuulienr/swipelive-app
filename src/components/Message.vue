@@ -144,9 +144,17 @@ export default {
   methods: {
     isUserOnline(discussion) {
       if (discussion.user == this.user.id) {
-        var datetime = discussion.vendor.securityUsers[0].connectedAt;
+        if (discussion.vendor.securityUsers) {
+          var datetime = discussion.vendor.securityUsers[0].connectedAt;
+        } else {
+          return false;
+        }
       } else {
-        var datetime = discussion.user.securityUsers[0].connectedAt;
+        if (discussion.user.securityUsers) {
+          var datetime = discussion.user.securityUsers[0].connectedAt;
+        } else {
+          return false;
+        }
       }
 
       var date = new Date(datetime);
