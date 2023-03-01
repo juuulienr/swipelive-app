@@ -13,6 +13,7 @@ export default new Vuex.Store({
     clipsTrending: [],
     clipsLatest: [],
     allProducts: [],
+    profile: [],
   },
   mutations: { 
     // synchronous, for change use commit
@@ -24,6 +25,7 @@ export default new Vuex.Store({
       state.clipsTrending = [];
       state.clipsLatest = [];
       state.allProducts = [];
+      state.profile = [];
     },
     setUser(state, data) {
       state.user = data;
@@ -45,6 +47,9 @@ export default new Vuex.Store({
     },
     setAllProducts(state, data) {
       state.allProducts = data;
+    },
+    setProfile(state, data) {
+      state.profile = data;
     },
   },
   actions: { 
@@ -72,6 +77,9 @@ export default new Vuex.Store({
     },
     getAllProducts(state) {
       return state.allProducts;
+    },
+    getProfile(state) {
+      return state.profile;
     },
   }
 });

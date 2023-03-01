@@ -6,12 +6,12 @@
       </div>
       <div class="checkout__title"></div>
       <div @click="actionSheet()" class="checkout__right-btn" style="top: 45px;">
+        <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 12px; top: 155px;"/>
         <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
       </div>
     </div>
 
     <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px; height: 190px;">
-    <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 12px; top: 155px;"/>
     <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -95px;">
       <div>
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
@@ -129,9 +129,11 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.overlaysWebView(true);
 
-    var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
-      this.profile = JSON.parse(response.data);
+    console.log(this.$store.getters.getProfile);
+
+
+    if (this.$store.getters.getProfile) {
+      this.profile = this.$store.getters.getProfile;
       this.followers = this.profile.followers.length;
       
       if (this.profile.followers && this.user) {
@@ -144,9 +146,26 @@ export default {
           });
         });
       }
-    }, (response) => {
-      console.log(response.error);
-    });
+    } else {
+      var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+      window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
+        this.profile = JSON.parse(response.data);
+        this.followers = this.profile.followers.length;
+        
+        if (this.profile.followers && this.user) {
+          this.profile.followers.map((follower, index) => {
+            this.user.following.map((following, index) => {
+              if (follower.id == following.id) {
+                this.following = true;
+                this.notif = true;
+              }
+            });
+          });
+        }
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
   },
   methods: {
     showShop() {

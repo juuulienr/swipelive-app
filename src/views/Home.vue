@@ -33,13 +33,13 @@
   				</div>
     		</div>
         <div v-if="user" v-for="(follow, index) in user.following" style="padding: 0px 5px;">
-          <router-link :to="{ name: 'Profile', params: { id: follow.following.id } }">
+          <div @click="goToProfile(follow.following)">
             <div class="personne">
               <img v-if="follow.following.picture" :src="cloudinary256x256 + follow.following.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #ecf0f1;">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="border: 2px solid #ff2a80; padding: 3px; background: #ecf0f1;">
               <h5 class="name" style="margin-top: 7px;">{{ follow.following.vendor.businessName }}</h5>
             </div>
-          </router-link>
+          </div>
         </div>
     	</div>
     </div>
@@ -137,30 +137,30 @@
     			<div v-if="results && results.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
             <div v-for="(result, index) in results">
               <div class="personne">
-                <img @click="goToProfile(result.id)" v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px;"/>
-                <img @click="goToProfile(result.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
+                <img @click="goToProfile(result)" v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px;"/>
+                <img @click="goToProfile(result)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
                 <img v-if="!searchFollowing[index].value" @click="follow(result.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
                 <img v-else @click="follow(result.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
-                <h5 @click="goToProfile(result.id)" class="name">{{ result.vendor.businessName }}
+                <h5 @click="goToProfile(result)" class="name">{{ result.vendor.businessName }}
                   <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
                 </h5>
-                <p @click="goToProfile(result.id)" v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
-                <p @click="goToProfile(result.id)" v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
+                <p @click="goToProfile(result)" v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
+                <p @click="goToProfile(result)" v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
               </div>
             </div>
           </div>
           <div v-else style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
             <div v-for="(suggestion, index) in suggestions">
               <div class="personne">
-                <img @click="goToProfile(suggestion.id)" v-if="suggestion.picture" :src="cloudinary256x256 + suggestion.picture" class="user" style="margin-bottom: 8px;"/>
-                <img @click="goToProfile(suggestion.id)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
+                <img @click="goToProfile(suggestion)" v-if="suggestion.picture" :src="cloudinary256x256 + suggestion.picture" class="user" style="margin-bottom: 8px;"/>
+                <img @click="goToProfile(suggestion)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
                 <img v-if="!searchFollowing[index].value" @click="follow(suggestion.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
                 <img v-else @click="follow(suggestion.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
-                <h5 @click="goToProfile(suggestion.id)" class="name">{{ suggestion.vendor.businessName }}
+                <h5 @click="goToProfile(suggestion)" class="name">{{ suggestion.vendor.businessName }}
                   <img v-if="suggestion.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
                 </h5>
-                <p @click="goToProfile(suggestion.id)" v-if="suggestion.followers.length > 1" class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{suggestion.followers.length }} abonnés</p>
-                <p @click="goToProfile(suggestion.id)" v-else class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ suggestion.followers.length }} abonné</p>
+                <p @click="goToProfile(suggestion)" v-if="suggestion.followers.length > 1" class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{suggestion.followers.length }} abonnés</p>
+                <p @click="goToProfile(suggestion)" v-else class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ suggestion.followers.length }} abonné</p>
               </div>
             </div>
           </div>
@@ -312,8 +312,9 @@ export default {
         console.log(response.error);
       });
     },
-    goToProfile(id) {
-      this.$router.push({ name: 'Profile', params: { id: id } });
+    goToProfile(profile) {
+      this.$store.commit('setProfile', profile);
+      this.$router.push({ name: 'Profile', params: { id: profile.id } });
     },
     goToCategory(category) {
       this.$router.push({ name: 'Category', params: { id: category.id } });

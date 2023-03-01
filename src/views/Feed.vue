@@ -237,10 +237,10 @@
                 <img v-if="clickFollow" :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
               </span>
             </span>
-            <img v-if="feed.value.vendor.user.picture" @click="goProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 7px;">
-            <img v-else @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
-            <span @click="goProfile(feed.value.vendor.user.id)">{{ feed.value.vendor.businessName }} </span>
-            <img v-if="feed.value.vendor.businessType == 'company'" @click="goProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
+            <img v-if="feed.value.vendor.user.picture" @click="goToProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 7px;">
+            <img v-else @click="goToProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
+            <span @click="goToProfile(feed.value.vendor.user.id)">{{ feed.value.vendor.businessName }} </span>
+            <img v-if="feed.value.vendor.businessType == 'company'" @click="goToProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
           </div>
         </div>
 
@@ -846,14 +846,10 @@ export default {
       this.popupProduct = false;
       this.shop = [];
     },
-    goProfile(id) {
+    goToProfile(profile) {
       this.stopLive();
-
-      if (this.user.id == id) {
-        this.$router.push({ name: 'Account' });
-      } else {
-        this.$router.push({ name: 'Profile', params: { id: id } });
-      }
+      this.$store.commit('setProfile', []);
+      this.$router.push({ name: 'Profile', params: { id: profile.id } });
     },
     goToAccount() {
       this.stopLive();

@@ -23,11 +23,11 @@
           <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
         </div>
       </div>
-      <div v-if="product.vendor && product.vendor.promotions.length && promo.isActive" v-for="promo in product.vendor.promotions" style="margin-top: 10px; margin-bottom: -5px;">
+     <!--  <div v-if="product.vendor && product.vendor.promotions.length && promo.isActive" v-for="promo in product.vendor.promotions" style="margin-top: 10px; margin-bottom: -5px;">
         <img :src="require(`@/assets/img/discount.svg`)" style="width: 24px;height: 24px;transform: rotate(-30deg);">
         <span v-if="promo.type == 'percent'" style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promo.value }}% supplémentaire à la caisse</span> 
         <span v-else style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promo.value }}€ supplémentaire à la caisse</span> 
-      </div>
+      </div> -->
       <div v-if="product.options.length">
         <hr style="margin: 20px 0px;">
         <div class="technology" style="font-weight: 400;">{{ product.options[0].name }}</div>
