@@ -57,168 +57,168 @@
 
         <!-- heart animation -->
         <div v-if="videos[index].value && !finished[index].value" class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
-          <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
+          <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_6">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 11px;">
+          <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_8">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 9px;">
+          <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_9">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 13px;">
+          <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_10">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">    
+          <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">    
             <div class="_g19 KeyframeAnimation-js_11"> 
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 15px;">
+          <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_12">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
+          <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_13">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_14">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_15">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_16">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_17">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_18">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_19">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_20">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_21">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_22">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_23">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_24">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_25">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_26">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_27">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_28">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_29">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>
               </div>
             </div>
           </div>
-          <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_30">
               <div class="_g19 KeyframeAnimation-js_7">
                 <img :src="require(`@/assets/img/love.png`)"/>

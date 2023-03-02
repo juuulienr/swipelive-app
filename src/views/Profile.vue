@@ -6,8 +6,8 @@
       </div>
       <div class="checkout__title"></div>
       <div @click="actionSheet()" class="checkout__right-btn" style="top: 45px;">
-        <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; right: 12px; top: 155px;"/>
         <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
+        <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; top: 115px; right: 0px;"/>
       </div>
     </div>
 
@@ -25,8 +25,8 @@
             <img v-if="profile.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 19px; height: 19px; margin-bottom: 4px;"/>
           </span>
           <div>
-            <span v-if="followers > 1" style="font-weight: 400">{{ followers }} abonnés</span>
-            <span v-else style="font-weight: 400">{{ followers }} abonné</span>
+            <span v-if="profile.followers.length > 1" style="font-weight: 400">{{ profile.followers.length }} abonnés</span>
+            <span v-else style="font-weight: 400">{{ profile.followers.length }} abonné</span>
           </div>
         </div>
 
@@ -114,7 +114,6 @@ export default {
       popupProduct: false,
       profile: null,
       notif: true,
-      followers: null,
       product: null,
       variant: null,
     }
@@ -129,12 +128,21 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.overlaysWebView(true);
 
-    console.log(this.$store.getters.getProfile);
-
-
-    if (this.$store.getters.getProfile) {
-      this.profile = this.$store.getters.getProfile;
-      this.followers = this.profile.followers.length;
+    this.profile = this.$store.getters.getProfile;
+    if (this.profile.followers && this.user) {
+      this.profile.followers.map((follower, index) => {
+        this.user.following.map((following, index) => {
+          if (follower.id == following.id) {
+            this.following = true;
+            this.notif = true;
+          }
+        });
+      });
+    }
+    
+    var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
+      this.profile = JSON.parse(response.data);
       
       if (this.profile.followers && this.user) {
         this.profile.followers.map((follower, index) => {
@@ -146,26 +154,9 @@ export default {
           });
         });
       }
-    } else {
-      var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-      window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
-        this.profile = JSON.parse(response.data);
-        this.followers = this.profile.followers.length;
-        
-        if (this.profile.followers && this.user) {
-          this.profile.followers.map((follower, index) => {
-            this.user.following.map((following, index) => {
-              if (follower.id == following.id) {
-                this.following = true;
-                this.notif = true;
-              }
-            });
-          });
-        }
-      }, (response) => {
-        console.log(response.error);
-      });
-    }
+    }, (response) => {
+      console.log(response.error);
+    });
   },
   methods: {
     showShop() {
@@ -181,10 +172,8 @@ export default {
         this.loading = true;
         if (this.following == true) {
           this.following = false;
-          this.followers--;
         } else {
           this.following = true;
-          this.followers++;
         }
 
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
