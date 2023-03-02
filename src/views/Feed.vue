@@ -4,14 +4,14 @@
       <div v-if="feed.value" v-touch:swipe="swipeHandler">
 
         <!-- background top/bottom -->
-        <div v-if="!loading" class="filter-top"></div>
-        <div v-if="!loading" class="filter-bottom"></div>
+        <div v-if="!loading[index].value" class="filter-top"></div>
+        <div v-if="!loading[index].value" class="filter-bottom"></div>
         
 
         <!-- loader -->
-        <div v-if="loading || finished[index].value" class="filter-blur"></div>
-        <img v-if="loading && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
-        <img v-else-if="loading" :src="require(`@/assets/img/anonyme.jpg`)" class="filter-img">
+        <div v-if="loading[index].value || finished[index].value" class="filter-blur"></div>
+        <img v-if="loading[index].value && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
+        <img v-else-if="loading[index].value" :src="require(`@/assets/img/anonyme.jpg`)" class="filter-img">
 
 
         <!-- viewers -->
@@ -372,7 +372,7 @@
         </div>
 
         <!-- video -->
-        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading ? 'hidden': 'visible'}"></div>
+        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}"></div>
         
         <!-- visible -->
         <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
@@ -526,7 +526,7 @@ export default {
       viewers: 0,
       display: 1,
       visible: 0,
-      loading: true,
+      loading: [],
       popup: false,
       cart: true,
       safeareaBottom: '25px',
@@ -666,7 +666,6 @@ export default {
       if (isVisible) {
         if (index != this.visible) {
           console.log(index, this.visible);
-          this.loading = true;
           this.popup = false;
           this.popupProduct = false;
           this.popupCart = false;
@@ -682,6 +681,8 @@ export default {
 
           this.videos[this.visible].value = "";
           this.comments[this.visible].value = [];
+          this.loading[this.visible].value = true;
+          this.loading[index].value = true;
           this.visible = index;
 
           var value = this.data[index].value;
@@ -734,7 +735,7 @@ export default {
           });
 
           this.myPlayer.addEventListener('canplay', () => {
-            this.loading = false;
+            this.loading[index].value = false;
           });
 
           this.myPlayer.scaleMode = "aspectFill";
@@ -896,12 +897,11 @@ export default {
       }, 200);
     },
     onVideoLoaded(e) {
-      this.loading = false;
+      this.loading[index].value = false;
     },
     refresh() {
       this.popup = false;
       this.popupProduct = false;
-      this.loading = true;
 
       if (this.type == "profile") {
         var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
@@ -926,6 +926,7 @@ export default {
           this.videos = [];
           this.comments = [];
           this.following = [];
+          this.loading = [];
           this.display = 1;
           this.viewers = 0;
           this.visible = 0;
@@ -958,6 +959,7 @@ export default {
               }
 
               this.following.push({ "value": isFollower });
+              this.loading.push({ "value": true });
               this.finished.push({ "value": false });
 
               if (this.anchor) {

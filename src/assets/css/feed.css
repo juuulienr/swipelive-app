@@ -1273,7 +1273,7 @@ img.zoom {
 
 .filter-blur {
   backdrop-filter: saturate(180%) blur(55px); 
-  background-color: rgba(25, 25, 25, 0.8);
+  background-color: rgba(25, 25, 25, 0.6);
   top: 0px;
   z-index: 10; 
   width: 100%;
