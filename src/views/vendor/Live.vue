@@ -817,7 +817,7 @@ export default {
       countViews: 0,
       countOrders: 0,
       amount: "0.00",
-      available: "100",
+      available: null,
       fbToken: null,
       fbTokenPage: null,
       fbIdentifier: null,
@@ -864,7 +864,8 @@ export default {
     },
     formatDate(datetime) {
       console.log(datetime);
-      const date = new Date(datetime);
+      console.log(datetime.date);
+      const date = new Date(datetime.date);
       return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     }
   },
@@ -1068,7 +1069,8 @@ export default {
       }
 
       this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.user = JSON.parse(response.data);
       }, (response) => {
         console.log(response.error);
       });
