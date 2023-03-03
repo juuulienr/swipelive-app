@@ -580,7 +580,9 @@
 
 
       <!-- like -->
-      <img @click="addAnimation()" :src="require(`@/assets/img/heart.svg`)" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 20;">
+      <div @click="addAnimation()" :style="{'bottom': safeareaBottom }" style="position: absolute; width: 40px; height: 40px; right: 15px; z-index: 20;">
+        <img :src="require(`@/assets/img/heart.svg`)" style="width: 40px; height: 40px;">
+      </div>
 
 
       <!-- input comment -->
@@ -660,7 +662,7 @@
           </div>
           <div v-else>
             <div class="container" style="margin: 0px auto; text-align: center;">
-            <div style="margin: 20px auto 0px;">
+            <div style="margin: 50px auto 0px;">
               <Lottie :options="defaultOptions2" :width="220"/>
             </div>
             </div>

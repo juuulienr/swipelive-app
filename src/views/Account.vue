@@ -250,8 +250,12 @@
 
       <div style="margin-top: 25px;">
         <div class="box-network">
-          <img @click="openUrl('https://www.facebook.com/swipelive.fr')" :src="require(`@/assets/img/facebook-link.svg`)" style="width: 48px; height: 48px; margin-right: 20px;"/>
-          <img @click="openUrl('https://www.instagram.com/swipeliveapp')" :src="require(`@/assets/img/instagram-link.svg`)" style="width: 48px; height: 48px;"/>
+          <div @click="openUrl('https://www.facebook.com/swipelive.fr')">
+            <img :src="require(`@/assets/img/facebook-link.svg`)" style="width: 48px; height: 48px; margin-right: 20px;"/>
+          </div>
+          <div @click="openUrl('https://www.instagram.com/swipeliveapp')">
+            <img :src="require(`@/assets/img/instagram-link.svg`)" style="width: 48px; height: 48px;"/>
+          </div>
         </div>
       </div>
       <div class="box-network" style="padding: 0px;">      

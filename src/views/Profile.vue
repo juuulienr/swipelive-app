@@ -7,7 +7,9 @@
       <div class="checkout__title"></div>
       <div @click="actionSheet()" class="checkout__right-btn" style="top: 45px;">
         <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
-        <img v-if="profile && profile.vendor" @click="goToMessage(profile)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px; position: absolute; top: 115px; right: 0px;"/>
+        <div v-if="profile && profile.vendor" @click="goToMessage(profile)" style="width: 28px; height: 28px; position: absolute; top: 115px; right: 0px;">
+          <img :src="require(`@/assets/img/comment-dots.svg`)"/>
+        </div>
       </div>
     </div>
 
@@ -17,8 +19,8 @@
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <div style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
-          <img v-if="!following" @click="updateFollow()" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px;"/>
-          <img v-else @click="updateFollow()" :src="require(`@/assets/img/check-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px;"/>
+          <img v-if="!following" @click="updateFollow()" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
+          <img v-else @click="updateFollow()" :src="require(`@/assets/img/check-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
         </div>
         <div style="margin-top: 7px;">
           <span style="font-size: 20px; font-weight: 500;">{{ profile.vendor.businessName }}
@@ -73,9 +75,11 @@
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
-      <img @click="hideProduct()" :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
+        <img :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
+      </div>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -113,7 +117,6 @@ export default {
       loading: false,
       popupProduct: false,
       profile: null,
-      notif: true,
       product: null,
       variant: null,
     }
@@ -129,36 +132,28 @@ export default {
     window.StatusBar.overlaysWebView(true);
 
     this.profile = this.$store.getters.getProfile;
-    if (this.profile.followers && this.user) {
-      this.profile.followers.map((follower, index) => {
-        this.user.following.map((following, index) => {
-          if (follower.id == following.id) {
-            this.following = true;
-            this.notif = true;
-          }
-        });
-      });
-    }
+    this.getFollowers();
     
     var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
       this.profile = JSON.parse(response.data);
-      
-      if (this.profile.followers && this.user) {
-        this.profile.followers.map((follower, index) => {
-          this.user.following.map((following, index) => {
-            if (follower.id == following.id) {
-              this.following = true;
-              this.notif = true;
-            }
-          });
-        });
-      }
+      this.getFollowers();
     }, (response) => {
       console.log(response.error);
     });
   },
   methods: {
+    getFollowers() {
+      if (this.profile && this.profile.followers) {
+        this.profile.followers.map((follower, index) => {
+          this.user.following.map((following, index) => {
+            if (follower.id == following.id) {
+              this.following = true;
+            }
+          });
+        });
+      }
+    },
     showShop() {
       this.shop = true;
       this.live = false;
@@ -168,30 +163,20 @@ export default {
       this.live = true;
     },
     updateFollow() {
-      if (this.user && this.token) {
-        this.loading = true;
-        if (this.following == true) {
-          this.following = false;
-        } else {
-          this.following = true;
-        }
-
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setUser', JSON.parse(response.data));
-          this.loading = false;
-        }, (response) => {
-          console.log(response.error);
-          this.loading = false;
-        });
+      this.loading = true;
+      if (this.following == true) {
+        this.following = false;
       } else {
-        this.$router.push({ name: 'Welcome' });
+        this.following = true;
       }
-    },
-    notifOff() {
-      this.notif = false;
-    },
-    notifOn() {
-      this.notif = true;
+
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.loading = false;
+      }, (response) => {
+        console.log(response.error);
+        this.loading = false;
+      });
     },
     actionSheet() {
       var buttonLabels = [ 'Partager', 'Silencieux', 'Signaler'];

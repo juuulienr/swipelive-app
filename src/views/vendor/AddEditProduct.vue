@@ -127,17 +127,17 @@
           <p style="font-size: 14px; color: rgb(153, 153, 153); margin-top: 10px; font-weight: 400;">Ajoutez des options si cet article possède des variantes, telles que des tailles ou des couleurs différentes.</p>
           <div v-if="product.variants.length" class="items">
             <div class="lasted--product">
-              <div v-for="(variant, index) in product.variants" class="product--item" style="align-items: center;">
-                <img @click="editVariant(index)" v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
-                <div @click="editVariant(index)" class="details">
+              <div v-for="(variant, index) in product.variants" @click="editVariant(index)" class="product--item" style="align-items: center;">
+                <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
+                <div class="details">
                   <div class="title">{{ variant.title }}</div>
                   <div v-if="variant.quantity" class="price stock-available">{{ variant.quantity }} en stock</div>
                   <div v-else class="price stock-unavailable">Épuisé</div>
                 </div>
-                <div @click="editVariant(index)" style="margin-right: 20px;">
+                <div style="margin-right: 20px;">
                   <div class="price">{{ variant.price | formatPrice }}€</div>
                 </div>
-                <div @click="deleteVariant(index)" style="padding: 10px;">
+                <div style="padding: 10px;">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style=" width: 16px; fill: red; margin-bottom: 3px;"><path d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"></path></svg>
                 </div>
               </div>

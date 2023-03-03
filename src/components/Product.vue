@@ -107,6 +107,9 @@
   font-weight: 700;
 }
 
+.slick-list {
+  overflow-y: -webkit-paged-x !important;
+}
 </style>
 
 <script>

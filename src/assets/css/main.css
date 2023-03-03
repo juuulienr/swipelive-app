@@ -115,6 +115,13 @@ li {
   height: 100%;
   width: 1.5em;
 }
+
+img {
+  -webkit-touch-callout: none !important; 
+  -webkit-user-select: none !important; 
+  pointer-events: none;
+}
+
 svg {
   overflow: hidden;
   vertical-align: middle;
@@ -1259,6 +1266,10 @@ select {
   font-size: 14px;
   font-weight: 500;
   color: #525c66;
+}
+
+.slick-list {
+  overflow-y: -webkit-paged-x;
 }
 
 .form--input--item--active fieldset {

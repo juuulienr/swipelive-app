@@ -137,30 +137,38 @@
     			<div v-if="results && results.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
             <div v-for="(result, index) in results">
               <div class="personne">
-                <img @click="goToProfile(result)" v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px;"/>
-                <img @click="goToProfile(result)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
-                <img v-if="!searchFollowing[index].value" @click="follow(result.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
-                <img v-else @click="follow(result.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
-                <h5 @click="goToProfile(result)" class="name">{{ result.vendor.businessName }}
-                  <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
-                </h5>
-                <p @click="goToProfile(result)" v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
-                <p @click="goToProfile(result)" v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
+                <div @click="goToProfile(result)">
+                  <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
+                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
+                  <h5 class="name">{{ result.vendor.businessName }}
+                    <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
+                  </h5>
+                  <p v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
+                  <p v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
+                </div>
+                <div @click="follow(result.id, index)" style="position: absolute; right: 8px; top: 50px; width: 30px; height: 30px; ">
+                  <img v-if="!searchFollowing[index].value" :src="require(`@/assets/img/plus-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
+                  <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
+                </div>
               </div>
             </div>
           </div>
           <div v-else style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
-            <div v-for="(suggestion, index) in suggestions">
+            <div v-for="(result, index) in suggestions">
               <div class="personne">
-                <img @click="goToProfile(suggestion)" v-if="suggestion.picture" :src="cloudinary256x256 + suggestion.picture" class="user" style="margin-bottom: 8px;"/>
-                <img @click="goToProfile(suggestion)" v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px;"/>
-                <img v-if="!searchFollowing[index].value" @click="follow(suggestion.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
-                <img v-else @click="follow(suggestion.id, index)" :src="require(`@/assets/img/check-circle.svg`)" style="width: 30px; height: 30px; border: 1px solid white; background: white; border-radius: 100px; position: absolute; right: 8px; top: 50px;"/>
-                <h5 @click="goToProfile(suggestion)" class="name">{{ suggestion.vendor.businessName }}
-                  <img v-if="suggestion.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
-                </h5>
-                <p @click="goToProfile(suggestion)" v-if="suggestion.followers.length > 1" class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{suggestion.followers.length }} abonnés</p>
-                <p @click="goToProfile(suggestion)" v-else class="sous_name" :style="suggestion.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ suggestion.followers.length }} abonné</p>
+                <div @click="goToProfile(result)">
+                  <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
+                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
+                  <h5 class="name">{{ result.vendor.businessName }}
+                    <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
+                  </h5>
+                  <p v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
+                  <p v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
+                </div>
+                <div @click="follow(result.id, index)" style="position: absolute; right: 8px; top: 50px; width: 30px; height: 30px; ">
+                  <img v-if="!searchFollowing[index].value" :src="require(`@/assets/img/plus-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
+                  <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
+                </div>
               </div>
             </div>
           </div>
@@ -170,9 +178,11 @@
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
-      <img @click="hideProduct()" :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
+        <img :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
+      </div>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
+      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -328,8 +338,8 @@ export default {
       this.popupProduct = false;
       this.product = null;
     },
-    favoris(product) { 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+    favoris() { 
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {

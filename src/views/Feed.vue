@@ -232,24 +232,28 @@
         <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
           <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
             <span>
-              <span style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
-                <img v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)"  :src="require(`@/assets/img/plus-circle.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
-                <img v-if="clickFollow" :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
+              <span v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
+                <img :src="require(`@/assets/img/plus-circle.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
+              </span>
+              <span v-if="clickFollow" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
+                <img :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
               </span>
             </span>
-            <img v-if="feed.value.vendor.user.picture" @click="goToProfile(feed.value.vendor.user.id)" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 7px;">
-            <img v-else @click="goToProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
-            <span @click="goToProfile(feed.value.vendor.user.id)">{{ feed.value.vendor.businessName }} </span>
-            <img v-if="feed.value.vendor.businessType == 'company'" @click="goToProfile(feed.value.vendor.user.id)" :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
+            <span @click="goToProfile(feed.value.vendor.user.id)">
+              <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 7px;">
+              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
+              <span>{{ feed.value.vendor.businessName }} </span>
+              <img v-if="feed.value.vendor.businessType == 'company'" :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
+            </span>
           </div>
         </div>
 
 
 
 
-        <!-- cart + close -->
-        <div v-if="!finished[index].value" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;flex-direction: column;">
-          <div @click="goBack()" class="video-page__influencer-username-holder">
+        <!-- close feed -->
+        <div v-if="!finished[index].value" @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;flex-direction: column;">
+          <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
             </span>
@@ -395,8 +399,8 @@
       <div @click="hideProduct()" style="display: flex;">
         <div class="scroll-indicator" style="margin: 15px auto 0px;"></div>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);"/>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -716,12 +720,20 @@ export default {
       if (typeof value.resourceUri === 'string') {
         setTimeout(() => {
           console.log(value.resourceUri);
-          this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-          console.log(this.myPlayer);
 
           // Listen to player events
+          this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
+          this.myPlayer.scaleMode = "aspectFill";
+          this.myPlayer.play();
+
+          this.myPlayer.addEventListener('canplay', () => {
+            this.loading[index].value = false;
+            if (window.cordova.platformId == "browser") {
+              this.myPlayer.muted = true;
+            }
+          });
+
           this.myPlayer.addEventListener('ended', () => {
-            console.log('player ended');
             if (this.data[index].type == "live") {
               this.finished[index].value = true;
             } else {
@@ -733,13 +745,6 @@ export default {
               }
             }
           });
-
-          this.myPlayer.addEventListener('canplay', () => {
-            this.loading[index].value = false;
-          });
-
-          this.myPlayer.scaleMode = "aspectFill";
-          this.myPlayer.play();
         }, 500);
       }
     },
@@ -847,10 +852,10 @@ export default {
       this.popupProduct = false;
       this.shop = [];
     },
-    goToProfile(profile) {
+    goToProfile(id) {
       this.stopLive();
       this.$store.commit('setProfile', []);
-      this.$router.push({ name: 'Profile', params: { id: profile.id } });
+      this.$router.push({ name: 'Profile', params: { id: id } });
     },
     goToAccount() {
       this.stopLive();
@@ -1442,6 +1447,32 @@ export default {
       } else {
         this.num = this.num + 1;
       }
+    },
+    hideAnimation() {
+      this.anim1 = false;
+      this.anim2 = false;
+      this.anim3 = false;
+      this.anim4 = false;
+      this.anim5 = false;
+      this.anim6 = false;
+      this.anim7 = false;
+      this.anim8 = false;
+      this.anim9 = false;
+      this.anim10 = false;
+      this.anim11 = false;
+      this.anim12 = false;
+      this.anim13 = false;
+      this.anim14 = false;
+      this.anim15 = false;
+      this.anim16 = false;
+      this.anim17 = false;
+      this.anim18 = false;
+      this.anim19 = false;
+      this.anim20 = false;
+      this.anim21 = false;
+      this.anim22 = false;
+      this.anim23 = false;
+      this.anim24 = false;
     },
   }
 };

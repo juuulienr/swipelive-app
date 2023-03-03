@@ -162,7 +162,9 @@
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                 <div><span>{{ order.createdAt | formatDate }}</span></div>
               </div>
-              <img @click="goToMessage(order.buyer)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px;"/>
+              <div @click="goToMessage(order.buyer)" style="width: 28px; height: 28px;">
+                <img :src="require(`@/assets/img/comment-dots.svg`)"/>
+              </div>
             </div>
             <div v-else class="top-author--item" style="padding: 0px; box-shadow: none;">
               <img v-if="order.vendor.user.picture" :src="cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
@@ -171,7 +173,9 @@
                 <span>{{ order.vendor.businessName }}</span>
                 <div><span>{{ order.createdAt | formatDate }}</span></div>
               </div>
-              <img @click="goToMessage(order.vendor.user)" :src="require(`@/assets/img/comment-dots.svg`)" style="width: 28px; height: 28px;"/>
+              <div @click="goToMessage(order.vendor.user)" style="width: 28px; height: 28px;">
+                <img :src="require(`@/assets/img/comment-dots.svg`)"/>
+              </div>
             </div>
           </div>
 
