@@ -239,7 +239,7 @@
                 <img :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
               </span>
             </span>
-            <span @click="goToProfile(feed.value.vendor.user.id)">
+            <span @click="goToProfile(feed.value.vendor)">
               <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 7px;">
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
               <span>{{ feed.value.vendor.businessName }} </span>
@@ -603,15 +603,16 @@ export default {
     }
 
     if (this.type == "profile") {
-      var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
-      var auth = null;
-
-      this.http.get(url, {}, auth, (response) => {
-       var result = JSON.parse(response.data);
-       this.refresh(result);
-      }, (response) => {
-        console.log(response.error);
-      });
+      if (this.$store.getters.getClipsProfile.length) {
+        this.refresh(this.$store.getters.getClipsProfile);
+      } else {
+        this.http.get(this.baseUrl + "/api/profile/" + this.profileId + "/clips", {}, null, (response) => {
+         this.$store.commit('setClipsProfile', JSON.parse(response.data));
+         this.refresh(JSON.parse(response.data));
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
     } else if (this.type == "trending") {
       if (this.$store.getters.getClipsTrending.length) {
         this.refresh(this.$store.getters.getClipsTrending);
@@ -634,7 +635,7 @@ export default {
         });
       }
     }
-    
+
     this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
       console.log(JSON.parse(response.data));
       this.user = JSON.parse(response.data);
@@ -891,10 +892,18 @@ export default {
       this.popupProduct = false;
       this.shop = [];
     },
-    goToProfile(id) {
+    goToProfile(vendor) {
       this.stopLive();
-      this.$store.commit('setProfile', []);
-      this.$router.push({ name: 'Profile', params: { id: id } });
+
+      var user = vendor.user;
+      var profile = vendor;
+
+      delete profile.user;
+      user.vendor = profile;
+      delete user.vendor.clips;
+
+      this.$store.commit('setProfile', user);
+      this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
     goToAccount() {
       this.stopLive();
@@ -1072,7 +1081,15 @@ export default {
     goBack() {
       this.stopLive();
       if (this.type == "profile" && this.profileId) {
-        this.$router.back();
+        var user = this.data[this.visible].value.vendor.user;
+        var profile = this.data[this.visible].value.vendor;
+
+        delete profile.user;
+        user.vendor = profile;
+        delete user.vendor.clips;
+
+        this.$store.commit('setProfile', user);
+        this.$router.push({ name: 'Profile', params: { id: user.id } });
       } else {
         this.$router.push({ name: 'Home' });
       }

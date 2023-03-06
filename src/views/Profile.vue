@@ -43,10 +43,10 @@
         <div class="images_sec" style="padding: 0px 10px;">
           <div v-if="live" class="images" style="margin-bottom: 30px;">
             <div v-if="profile" class="row">
-              <div v-for="(clip, index) in profile.vendor.clips" class="col-6 col-img">
-                <router-link v-if="clip.status == 'available'" :to="{ name: 'Feed', params: { type: 'profile', index: index, profileId: profile.id }}">
+              <div v-for="(clip, index) in profile.vendor.clips" v-if="clip.status == 'available'" class="col-6 col-img">
+                <div @click="goToFeed(index)">
                   <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover;">
-                </router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -136,11 +136,19 @@ export default {
     
     var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
+      console.log(JSON.parse(response.data));
       this.profile = JSON.parse(response.data);
       this.getFollowers();
     }, (response) => {
       console.log(response.error);
     });
+
+    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/clips", {}, null, (response) => {
+     this.$store.commit('setClipsProfile', JSON.parse(response.data));
+    }, (response) => {
+      console.log(response.error);
+    });
+
   },
   methods: {
     getFollowers() {
@@ -215,6 +223,9 @@ export default {
       if (!exist) {
         this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
       }
+    },
+    goToFeed(index) {
+      this.$router.push({ name: 'Feed', params: { type: 'profile', index: index, profileId: this.profile.id } });
     },
     showProduct(product) {
       window.StatusBar.overlaysWebView(false);  
