@@ -229,7 +229,7 @@ export default {
       this.popupProduct = false;
       this.product = null;
     },
-    favoris(product) { 
+    favoris(product) {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));

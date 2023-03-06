@@ -583,6 +583,10 @@ export default {
     window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
 
+    if (!this.token) {
+      this.$router.push({ name: 'Welcome' });
+    }
+
     if (window.cordova && window.cordova.platformId !== "android") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
@@ -597,23 +601,6 @@ export default {
       this.http = window.cordova.plugin.http;
       this.http.setDataSerializer('json');
     }
-
-    if (this.token) {
-      this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      	console.log(JSON.parse(response.data));
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
-        
-        if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
-          Sentry.setUser({ email: this.user.email });
-        }
-      }, (error) => {
-        console.log(error);
-      });
-    } else {
-      this.$router.push({ name: 'Welcome' });
-    }
-
 
     if (this.type == "profile") {
       var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
@@ -635,6 +622,8 @@ export default {
       }
     } else {
       if (this.$store.getters.getFeed.length) {
+        this.anchor = this.$store.getters.getFeedAnchor;
+        console.log(this.anchor);
         this.refresh(this.$store.getters.getFeed);
       } else {
         this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
@@ -645,13 +634,23 @@ export default {
         });
       }
     }
-  },
-  mounted() {
-    document.addEventListener("pause", this.pause);
-    document.addEventListener("resume", this.resume);
+    
+    this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      console.log(JSON.parse(response.data));
+      this.user = JSON.parse(response.data);
+      this.$store.commit('setUser', JSON.parse(response.data));
+      
+      if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
+        Sentry.setUser({ email: this.user.email });
+      }
+    }, (error) => {
+      console.log(error);
+    });
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
+
+    this.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
       var result = JSON.parse(response.data);
+      console.log(result);
       this.$store.commit('setCategories', JSON.parse(result.categories));
       this.$store.commit('setClipsTrending', JSON.parse(result.trendingClips));
       this.$store.commit('setClipsLatest', JSON.parse(result.latestClips));
@@ -660,6 +659,11 @@ export default {
     }, (response) => {
       console.log(response.error);
     });
+
+  },
+  mounted() {
+    document.addEventListener("pause", this.pause);
+    document.addEventListener("resume", this.resume);
   },
   beforeDestroy() {
     document.removeEventListener('pause', this.pause);
@@ -719,6 +723,10 @@ export default {
           this.loading[this.visible].value = true;
           this.loading[index].value = true;
           this.visible = index;
+
+          if (!this.type) {
+            this.$store.commit('setFeedAnchor', this.visible);
+          }
 
           var value = this.data[index].value;
           this.videos[index].value = value.resourceUri;
@@ -1062,8 +1070,8 @@ export default {
       }
     },
     goBack() {
+      this.stopLive();
       if (this.type == "profile" && this.profileId) {
-        // this.$router.push({ name: 'Profile', params: { id: this.profileId } });
         this.$router.back();
       } else {
         this.$router.push({ name: 'Home' });

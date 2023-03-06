@@ -7,7 +7,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: [],
-    feed: [],
     lineItems: [],
     categories: [],
     productsTrending: [],
@@ -15,6 +14,8 @@ export default new Vuex.Store({
     clipsLatest: [],
     allProducts: [],
     profile: [],
+    feed: [],
+    feedAnchor: null,
   },
   mutations: { 
     // synchronous, for change use commit
@@ -28,12 +29,10 @@ export default new Vuex.Store({
       state.allProducts = [];
       state.profile = [];
       state.feed = [];
+      state.feedAnchor = null;
     },
     setUser(state, data) {
       state.user = data;
-    },
-    setFeed(state, data) {
-      state.feed = data;
     },
     setLineItems(state, data) {
       state.lineItems = data;
@@ -56,6 +55,12 @@ export default new Vuex.Store({
     setProfile(state, data) {
       state.profile = data;
     },
+    setFeed(state, data) {
+      state.feed = data;
+    },
+    setFeedAnchor(state, data) {
+      state.feedAnchor = data;
+    },
   },
   actions: { 
     // asynchronous, for change use dispatch
@@ -64,9 +69,6 @@ export default new Vuex.Store({
   getters: {
     getUser(state) {
       return state.user;
-    },
-    getFeed(state) {
-      return state.feed;
     },
     getLineItems(state) {
       return state.lineItems;
@@ -88,6 +90,12 @@ export default new Vuex.Store({
     },
     getProfile(state) {
       return state.profile;
+    },
+    getFeed(state) {
+      return state.feed;
+    },
+    getFeedAnchor(state) {
+      return state.feedAnchor;
     },
   }
 });

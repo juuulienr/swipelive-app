@@ -79,6 +79,8 @@ export default {
   },
   data() {
     return {
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
       defaultOptions: {animationData: animationData},
       notif: true,
       step1: false,
@@ -88,6 +90,14 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+
+    if (this.token && !this.$store.getters.getFeed.length) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.$store.commit('setFeed', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
   },
   methods: {
     allowNotif() {
