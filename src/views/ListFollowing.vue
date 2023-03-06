@@ -175,15 +175,17 @@ export default {
       });
     },
     actionSheet(follow, index) {
-      var buttonLabels = [ 'Supprimer ce follower' ];
       var options = {
-        buttonLabels: buttonLabels,
+        buttonLabels: [],
         addCancelButtonWithLabel: 'Annuler',
+        addDestructiveButtonWithLabel : 'Supprimer ce follower',
+        destructiveButtonLast: true,
         androidEnableCancelButton : true,
         winphoneEnableCancelButton : true
       };
 
       window.plugins.actionsheet.show(options, (result) => {
+        console.log(result);
         if (result == 1) {
           this.removeFollower(follow, index);
         }

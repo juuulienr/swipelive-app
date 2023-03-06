@@ -613,9 +613,40 @@ export default {
     } else {
       this.$router.push({ name: 'Welcome' });
     }
+
+
+    if (this.type == "profile") {
+      var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
+      var auth = null;
+
+      this.http.get(url, {}, auth, (response) => {
+       var result = JSON.parse(response.data);
+       this.refresh(result);
+      }, (response) => {
+        console.log(response.error);
+      });
+    } else if (this.type == "trending") {
+      if (this.$store.getters.getClipsTrending.length) {
+        this.refresh(this.$store.getters.getClipsTrending);
+      }
+    } else if (this.type == "latest") {
+      if (this.$store.getters.getClipsLatest.length) {
+        this.refresh(this.$store.getters.getClipsLatest);
+      }
+    } else {
+      if (this.$store.getters.getFeed.length) {
+        this.refresh(this.$store.getters.getFeed);
+      } else {
+        this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+         this.$store.commit('setFeed', JSON.parse(response.data));
+         this.refresh(JSON.parse(response.data));
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
+    }
   },
   mounted() {
-    this.refresh();
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
 
@@ -904,113 +935,76 @@ export default {
     onVideoLoaded(e) {
       this.loading[index].value = false;
     },
-    refresh() {
+    refresh(result) {
       this.popup = false;
       this.popupProduct = false;
+      console.log(result);
 
-      if (this.type == "profile") {
-        var url = this.baseUrl + "/api/profile/" + this.profileId + "/clips";
-        var auth = null;
-      } else if (this.type == "trending") {
-        var url = this.baseUrl + "/user/api/clips/trending/feed";
-        var auth = { Authorization: "Bearer " + this.token };
-      } else if (this.type == "latest") {
-        var url = this.baseUrl + "/user/api/clips/latest/feed";
-        var auth = { Authorization: "Bearer " + this.token };
-      } else {
-        var url = this.baseUrl + "/user/api/feed";
-        var auth = { Authorization: "Bearer " + this.token };
-      }
+      if (result.length) {
+        this.data = [];
+        this.videos = [];
+        this.comments = [];
+        this.following = [];
+        this.loading = [];
+        this.display = 1;
+        this.viewers = 0;
+        this.visible = 0;
 
-      this.http.get(url, {}, auth, (response) => {
-        var result = JSON.parse(response.data);
-        console.log(result);
-
-        if (result.length) {
-          this.data = [];
-          this.videos = [];
-          this.comments = [];
-          this.following = [];
-          this.loading = [];
-          this.display = 1;
-          this.viewers = 0;
-          this.visible = 0;
-
-          result.map((element, index) => {
-            var showElement = true;
+        result.map((element, index) => {
+          if ("value" in element) {
             var value = JSON.parse(element.value);
-            console.log(value);
+            var type = element.type;
+          } else {
+            var value = element;
+            var type = "clip";
+          }
 
-            if (this.banned.length > 0) {
-              this.banned.map((ban, index) => {
-                if (ban.id == value.id) {
-                  showElement = false;
+          console.log(element);
+          var showElement = true;
+          console.log(value);
+
+          if (this.banned.length > 0) {
+            this.banned.map((ban, index) => {
+              if (ban.id == value.id) {
+                showElement = false;
+              }
+            });
+          }
+
+          if (showElement) {
+            this.data.push({ "type": type, "value": value });
+            var followers = value.vendor.user.followers;
+            var isFollower = false;
+
+            if (followers.length) {
+              followers.map((element, index) => {
+                console.log(element);
+                if (element.follower.id == this.user.id) {
+                  isFollower = true;
                 }
               });
             }
 
-            if (showElement) {
-              this.data.push({ "type": element.type, "value": value });
-              var followers = value.vendor.user.followers;
-              var isFollower = false;
+            this.following.push({ "value": isFollower });
+            this.loading.push({ "value": true });
+            this.finished.push({ "value": false });
 
-              if (followers.length) {
-                followers.map((element, index) => {
-                  console.log(element);
-                  if (element.follower.id == this.user.id) {
-                    isFollower = true;
-                  }
-                });
-              }
-
-              this.following.push({ "value": isFollower });
-              this.loading.push({ "value": true });
-              this.finished.push({ "value": false });
-
-              if (this.anchor) {
-                if (this.anchor == index) {
-                  this.videos.push({ "value": value.resourceUri });
-                  this.comments.push({ "value": value.comments });
-
-                  if (index > 0) {
-                    setTimeout(() => {
-                      var el = document.getElementById('feed');
-                      if (el) {
-                        el.scrollTop += window.innerHeight * index;
-                      }
-                    });
-                  }
-
-                  // si c'est un live
-                  if (element.type == "live") {
-                    this.display = value.display;
-                    this.startLive(value);
-
-                    setTimeout(() => {
-                      if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
-                        this.popupFollow = true;
-                        setTimeout(() => {
-                          this.popupFollow = false;
-                        }, 30000); // 30 secondes
-                      }
-                    }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
-                  }
-
-                  if (this.comments[index].value.length > 0) {
-                    this.scrollToElement();
-                  }
-
-                  this.launchPlayer(value, index);
-                } else {
-                  this.videos.push({ "value": "" });
-                  this.comments.push({ "value": [] });
-                }
-              } else if (index == 0) {
+            if (this.anchor) {
+              if (this.anchor == index) {
                 this.videos.push({ "value": value.resourceUri });
                 this.comments.push({ "value": value.comments });
 
+                if (index > 0) {
+                  setTimeout(() => {
+                    var el = document.getElementById('feed');
+                    if (el) {
+                      el.scrollTop += window.innerHeight * index;
+                    }
+                  });
+                }
+
                 // si c'est un live
-                if (element.type == "live") {
+                if (type == "live") {
                   this.display = value.display;
                   this.startLive(value);
 
@@ -1033,14 +1027,39 @@ export default {
                 this.videos.push({ "value": "" });
                 this.comments.push({ "value": [] });
               }
+            } else if (index == 0) {
+              this.videos.push({ "value": value.resourceUri });
+              this.comments.push({ "value": value.comments });
+
+              // si c'est un live
+              if (type == "live") {
+                this.display = value.display;
+                this.startLive(value);
+
+                setTimeout(() => {
+                  if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
+                    this.popupFollow = true;
+                    setTimeout(() => {
+                      this.popupFollow = false;
+                    }, 30000); // 30 secondes
+                  }
+                }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
+              }
+
+              if (this.comments[index].value.length > 0) {
+                this.scrollToElement();
+              }
+
+              this.launchPlayer(value, index);
+            } else {
+              this.videos.push({ "value": "" });
+              this.comments.push({ "value": [] });
             }
-          });
-        } else {
-          this.$router.push({ name: 'Account' });
-        }
-      }, (response) => {
-        console.log(response.error);
-      });
+          }
+        });
+      } else {
+        this.$router.push({ name: 'Account' });
+      }
     },
     goBack() {
       if (this.type == "profile" && this.profileId) {
@@ -1204,7 +1223,6 @@ export default {
       this.popupCheckout = false;
       this.myPlayer.muted = false;
       this.lineItems = [];
-
 
       if (this.data[this.visible].type == "live") {
         this.http.get(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/orders/" + order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {

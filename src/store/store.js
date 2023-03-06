@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: [],
+    feed: [],
     lineItems: [],
     categories: [],
     productsTrending: [],
@@ -26,9 +27,13 @@ export default new Vuex.Store({
       state.clipsLatest = [];
       state.allProducts = [];
       state.profile = [];
+      state.feed = [];
     },
     setUser(state, data) {
       state.user = data;
+    },
+    setFeed(state, data) {
+      state.feed = data;
     },
     setLineItems(state, data) {
       state.lineItems = data;
@@ -59,6 +64,9 @@ export default new Vuex.Store({
   getters: {
     getUser(state) {
       return state.user;
+    },
+    getFeed(state) {
+      return state.feed;
     },
     getLineItems(state) {
       return state.lineItems;
