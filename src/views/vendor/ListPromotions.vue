@@ -179,7 +179,7 @@ export default {
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
         }, (response) => {
           console.log(JSON.parse(response.error));
-          window.plugins.toast.show(JSON.parse(response.error), 'long', 'top', {}, {});
+          window.plugins.toast.show(JSON.parse(response.error), 'long', 'top');
         });
       }
     },

@@ -86,7 +86,7 @@
         </div>
       </div>
       <div v-else>
-        <div class="top-author">
+        <div class="top-author" style="margin-top: 15px;">
           <div v-if="user.following && user.following.length" class="top-author--container">
             <div v-for="(follow, index) in user.following" class="top-author--item">
               <img v-if="follow.following.picture"class="user" :src="cloudinary256x256 + follow.following.picture">

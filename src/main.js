@@ -77,33 +77,28 @@ document.addEventListener("backbutton", () => {
 
 // network
 document.addEventListener("offline", () => {
-  console.log("User is offline");
-  window.plugins.toast.show("Vous n'êtes pas connecté à internet", 'long', 'top', {}, {});
+  window.plugins.toast.show("Pas de connexion Internet", 'long', 'top');
 });
 
-document.addEventListener("online", () => {
-  console.log("User is online");
-  // window.plugins.toast.show("Vous êtes de nouveau connecté à internet", 'long', 'top', {}, {});
-});
+// document.addEventListener("online", () => {
+  // window.plugins.toast.show("Vous êtes de nouveau connecté à internet", 'long', 'top');
+// });
 
 
 // battery
-window.addEventListener("batterystatus", (event) => {
-  // console.log("Level: " + event.level + " isPlugged: " + event.isPlugged);
-}, false);
+// window.addEventListener("batterystatus", (event) => {
+  // window.plugins.toast.show("Level: " + event.level + " isPlugged: " + event.isPlugged, 'long', 'top');
+// }, false);
 
-window.addEventListener("batterylow", (event) => {
-  // console.log("Battery Level Low " + status.level + "%");
-}, false);
 
 window.addEventListener("batterycritical", (event) => {
-  // console.log("Battery Level Critical " + status.level + "%\n Recharger le téléphone !");
+  window.plugins.toast.show("Niveau de batterie critique : " + event.level + "%", 'long', 'top');
 }, false);
 
 
 // error
 window.addEventListener("cordovacallbackerror", function (event) {
-   console.log(event);
+  console.log(event);
 });
 
 

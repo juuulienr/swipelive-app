@@ -3,8 +3,8 @@
     <!-- velcome video -->
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
-        <video v-if="isAndroid" style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-        <video v-else style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
+        <video v-if="isAndroid" ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <video v-else ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
     <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" @click="open()" class="btn-open" :style="{'bottom': safeareaBottom }">
@@ -234,6 +234,7 @@
 import AuthAPI from "../utils/auth.js";
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/forgot-password.json';
+import * as Sentry from "@sentry/vue";
   
 export default {
   name: 'Welcome',
@@ -329,7 +330,17 @@ export default {
       });
     }
   },
+  mounted() {
+    this.$refs.welcomeVideo.addEventListener('loadeddata', this.onVideoLoaded);
+  },  
+  beforeDestroy() {
+    this.$refs.welcomeVideo.removeEventListener('loadeddata', this.onVideoLoaded);
+  },
   methods: {
+    onVideoLoaded() {
+      console.log("video loaded");
+      navigator.splashscreen.hide();
+    },
     async login() {
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
@@ -502,7 +513,7 @@ export default {
         }, (response) => {
           this.loading = false;
           console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top', {}, {});
+          window.plugins.toast.show(response.error, 'long', 'top');
         });
       }
     },
@@ -525,7 +536,7 @@ export default {
       }, (response) => {
         this.loading = false;
         console.log(response.error);
-        window.plugins.toast.show(response.error, 'long', 'top', {}, {});
+        window.plugins.toast.show(response.error, 'long', 'top');
       });
     },
     handleAnimation: function (anim) {

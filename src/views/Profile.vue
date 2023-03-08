@@ -202,7 +202,7 @@ export default {
         } else if (index == 2) {
           // mettre en silencieux
         } else if (index == 3) {
-          window.plugins.toast.show("L'utilisateur a été signalé !", 'long', 'top', {}, {});
+          window.plugins.toast.show("L'utilisateur a été signalé !", 'long', 'top');
         }
       }, (error) => {
         console.log(error);

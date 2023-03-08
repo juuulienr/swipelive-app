@@ -86,6 +86,7 @@ export default {
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
       lineItems: this.$store.getters.getLineItems,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',

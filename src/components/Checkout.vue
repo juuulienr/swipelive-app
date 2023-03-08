@@ -629,6 +629,7 @@ export default {
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
+    window.StatusBar.backgroundColorByHexString("#ffffff");
     console.log(this.lineItems);
   
     if (this.lineItems.length) {
@@ -897,7 +898,7 @@ export default {
           }
   	    }, (response) => {
   	      console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top', {}, {});
+          window.plugins.toast.show(response.error, 'long', 'top');
   	    });
       }
     },

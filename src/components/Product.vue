@@ -23,11 +23,11 @@
           <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
         </div>
       </div>
-     <!--  <div v-if="product.vendor && product.vendor.promotions.length && promo.isActive" v-for="promo in product.vendor.promotions" style="margin-top: 10px; margin-bottom: -5px;">
+      <div v-if="promotion" style="margin-top: 10px; margin-bottom: -5px;">
         <img :src="require(`@/assets/img/discount.svg`)" style="width: 24px;height: 24px;transform: rotate(-30deg);">
-        <span v-if="promo.type == 'percent'" style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promo.value }}% supplémentaire à la caisse</span> 
-        <span v-else style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promo.value }}€ supplémentaire à la caisse</span> 
-      </div> -->
+        <span v-if="promotion.type == 'percent'" style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promotion.value }}% supplémentaire à la caisse</span> 
+        <span v-else style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promotion.value }}€ supplémentaire à la caisse</span> 
+      </div>
       <div v-if="product.options.length">
         <hr style="margin: 20px 0px;">
         <div class="technology" style="font-weight: 400;">{{ product.options[0].name }}</div>
@@ -132,6 +132,7 @@ export default {
       available: [],
       available2: [],
       unavailable: false,
+      promotion: null,
       selected: "",
       selected2: "",
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -164,6 +165,14 @@ export default {
     }
 
     this.loadOptions();
+
+    if (this.product.vendor) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.product.vendor.id + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.promotion = JSON.parse(response.data);
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
   },
   methods: {
     updateVariant(option1, available) {

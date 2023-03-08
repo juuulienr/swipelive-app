@@ -32,7 +32,7 @@
   					<h5 class="name" style="margin-top: 7px;">Rechercher</h5>
   				</div>
     		</div>
-        <div v-if="user" v-for="(follow, index) in user.following" style="padding: 0px 5px;">
+        <div v-if="user.length !== 0 && user.following" v-for="(follow, index) in user.following" style="padding: 0px 5px;">
           <div @click="goToProfile(follow.following)">
             <div class="personne">
               <img v-if="follow.following.picture" :src="cloudinary256x256 + follow.following.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #ecf0f1;">
@@ -138,8 +138,8 @@
             <div v-for="(result, index) in results">
               <div class="personne">
                 <div @click="goToProfile(result)">
-                  <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
+                  <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto; background: rgb(236, 240, 241);"/>
+                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto; background: rgb(236, 240, 241);"/>
                   <h5 class="name">{{ result.vendor.businessName }}
                     <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
                   </h5>
@@ -157,8 +157,8 @@
             <div v-for="(result, index) in suggestions">
               <div class="personne">
                 <div @click="goToProfile(result)">
-                  <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto;"/>
+                  <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto; background: rgb(236, 240, 241);"/>
+                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto; background: rgb(236, 240, 241);"/>
                   <h5 class="name">{{ result.vendor.businessName }}
                     <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
                   </h5>
@@ -181,8 +181,8 @@
       <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
         <img :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
+      <!-- <img v-if="user.length !== 0 && user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/> -->
+      <!-- <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/> -->
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -217,7 +217,6 @@ export default {
       suggestions: this.$store.getters.getSuggestions,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
-      following: null,
       popupSearch: false,
       popupProduct: false,
       searchValue: "",
@@ -232,14 +231,19 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.$store.commit('setUser', JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-    }, (error) => {
-      console.log(error);
-    });
 
-    this.changed();
+    if (this.user.length == 0) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        this.user = JSON.parse(response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.changed();
+      }, (error) => {
+        console.log(error);
+      }); 
+    } else {
+      this.changed();
+    }
   },
   methods: {
     goAccount() {
@@ -330,7 +334,6 @@ export default {
       this.$router.push({ name: 'Category', params: { id: category.id } });
     },
     showProduct(product) {
-      console.log(product);
       this.product = product;
       this.popupProduct = true;
     },

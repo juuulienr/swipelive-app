@@ -498,9 +498,14 @@ hr {
 	text-align: center;
 }
 .vue-slick img {
-	width: 100vw;
-	height: 100vw;
+	width: calc(100vw - 24px);
+	height: calc(100vw - 24px);
   border-radius: 25px; 
-  padding: 12px;
+  margin: 12px;
   object-fit: cover;
+  background: rgb(236, 240, 241);
 }
+
+
+
+

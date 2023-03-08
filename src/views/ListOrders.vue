@@ -524,7 +524,7 @@ export default {
         if (index == 1) {
           this.cancelOrder();
         } else if (index == 2) {
-          window.plugins.toast.show("La commande a été signalé !", 'long', 'top', {}, {});
+          window.plugins.toast.show("La commande a été signalé !", 'long', 'top');
         }
       }, (error) => {
         console.log(error);

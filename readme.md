@@ -40,8 +40,7 @@ WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
 }
 
 
-4) Pod update dans platforms/ios 
-+ Ajouter dans Podfile
+4) Ajouter dans Podfile + Pod update dans platforms/ios 
 
 post_install do |installer|
  installer.pods_project.targets.each do |target|

@@ -45,6 +45,9 @@
     "cordova-plugin-dialogs": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-enable-cleartext-traffic": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-facebook-connect": {
       "APP_ID": "936988141017522",
       "APP_NAME": "SWIPE LIVE",
@@ -101,9 +104,6 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-wheel-selector-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-enable-cleartext-traffic": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },

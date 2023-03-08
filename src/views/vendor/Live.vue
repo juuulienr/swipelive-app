@@ -609,7 +609,7 @@
         </div>
 
         <div class="top-author" style="margin-top: 15px;">
-          <div v-if="orders && orders.length > 0" class="top-author--container">
+          <div v-if="orders && orders.length > 0" class="top-author--container" style="margin-bottom: 40px;">
             <div v-for="order in orders" class="top-author--item" style="position: relative">
               <img v-if="order.upload" :src="cloudinary256x256 + order.upload"/>
               <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
@@ -647,7 +647,7 @@
         </div>
 
         <div class="top-author" style="margin-top: 15px;">
-          <div v-if="spectators && spectators.length > 0" class="top-author--container" style="gap: 0px;">
+          <div v-if="spectators && spectators.length > 0" class="top-author--container" style="gap: 0px; margin-bottom: 40px;">
             <div v-for="(user, index) in spectators" class="top-author--item" style="box-shadow: none;">
               <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
@@ -864,8 +864,7 @@ export default {
     },
     formatDate(datetime) {
       console.log(datetime);
-      console.log(datetime.date);
-      const date = new Date(datetime.date);
+      const date = new Date(datetime);
       return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     }
   },
@@ -906,29 +905,7 @@ export default {
       }
     }
 
-    if (window.bambuser && window.bambuser.broadcaster && (window.cordova.platformId === "ios" || window.cordova.platformId === "android")) {
-      this.broadcaster = window.bambuser.broadcaster;
-      this.broadcaster.setApplicationId(this.bambuserId, () => {
-        this.broadcaster.switchCamera();
-        this.broadcaster.setTitle("Live" + this.id);
-        this.broadcaster.setAuthor(this.user.vendor.businessName);
-        setTimeout(() => {
-          this.broadcaster.showViewfinderBehindWebView();
-          document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-        }, 200);
-      }, (err) => { 
-        console.log(err);
-        window.plugins.toast.show("Une erreur est survenue !", 'long', 'top', {}, {});
-      });
-
-    } else {
-      setTimeout(() => {
-        var ressourceUri = "https://cdn.bambuser.net/broadcasts/20057381-f1d8-6fc1-1aa6-6fc9a896afc0?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1671610447&da_static=1&da_ttl=0&da_signature=f19839f85cb0bcf6376f8816b899ee4c79728afd8087a23ddeb5307c0d4e345d";
-        this.video = window.BambuserPlayer.create(document.getElementById('player'), ressourceUri);
-        this.video.scaleMode = "aspectFill";
-        this.video.play();
-      }, 200);
-    }
+    this.initiateBroadcast();
   },
   directives: {
     focus: {
@@ -1003,6 +980,30 @@ export default {
       }, (response) => { 
         console.log(response.error); 
       });
+    },
+    async initiateBroadcast() {
+      if (window.bambuser && window.bambuser.broadcaster && (window.cordova.platformId === "ios" || window.cordova.platformId === "android")) {
+        this.broadcaster = window.bambuser.broadcaster;
+        try {
+          await this.broadcaster.setApplicationId(this.bambuserId);
+          this.broadcaster.switchCamera();
+          this.broadcaster.setTitle("Live" + this.id);
+          this.broadcaster.setAuthor(this.user.vendor.businessName);
+          setTimeout(() => {
+            this.broadcaster.showViewfinderBehindWebView();
+            document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
+          }, 300);
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        setTimeout(() => {
+          var ressourceUri = "https://cdn.bambuser.net/broadcasts/20057381-f1d8-6fc1-1aa6-6fc9a896afc0?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1671610447&da_static=1&da_ttl=0&da_signature=f19839f85cb0bcf6376f8816b899ee4c79728afd8087a23ddeb5307c0d4e345d";
+          this.video = window.BambuserPlayer.create(document.getElementById('player'), ressourceUri);
+          this.video.scaleMode = "aspectFill";
+          this.video.play();
+        }, 200);
+      }
     },
     async start() {
       if (this.broadcaster) {
@@ -1084,7 +1085,7 @@ export default {
       if (!this.errListenerId) {
         this.errListenerId = this.broadcaster.addEventListener('connectionError', status => {
           console.log("Une erreur est survenue : " + status);
-          window.plugins.toast.show("Une erreur est survenue !", 'long', 'top', {}, {});
+          window.plugins.toast.show("Une erreur est survenue !", 'long', 'top');
 
           this.broadcaster.hideViewfinder();
           this.broadcaster.removeEventListener(this.errListenerId);
@@ -1141,7 +1142,8 @@ export default {
                 this.countOrders += 1;
                 this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
                 this.amount = this.amount.toFixed(2);
-                this.orders.push(data.order);
+                data.order.createdAt = new Date();
+                this.orders.unshift(data.order);
                 this.available = data.order.available;
               }
             });
@@ -1161,27 +1163,29 @@ export default {
           console.log(this.groups);
 
           // stream on facebook
-          this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
-            var result = JSON.parse(response.data);
-            this.fbStreamId = result.fbStreamId; 
-            console.log(this.fbStreamId);
+          if (this.fbToken) {
+            this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
+              var result = JSON.parse(response.data);
+              this.fbStreamId = result.fbStreamId; 
+              console.log(this.fbStreamId);
 
-            var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=ten_per_second&fields=from{name,id},message';
-            var source = new EventSource(url);
-            console.log(source);
+              var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=ten_per_second&fields=from{name,id},message';
+              var source = new EventSource(url);
+              console.log(source);
 
-            source.onmessage = function(event) {
-              console.log(event);
-            };
-            source.onerror = function(error) {
-              console.log('error', error);
-            };
-            source.open = function(open) {
-              console.log(open);
-            };
-          }, (response) => {
-            console.log(response.error);
-          });
+              source.onmessage = function(event) {
+                console.log(event);
+              };
+              source.onerror = function(error) {
+                console.log('error', error);
+              };
+              source.open = function(open) {
+                console.log(open);
+              };
+            }, (response) => {
+              console.log(response.error);
+            });
+          }
         }, (response) => {
           console.log(response.error);
         });
@@ -1193,7 +1197,7 @@ export default {
           console.log("status change : " + status);
 
           if (status == "reconnecting") {
-            window.plugins.toast.show('Tentative de reconnexion ...', 'long', 'top', {}, {});
+            window.plugins.toast.show('Tentative de reconnexion ...', 'long', 'top');
           }
 
           if (status == "finishing") {

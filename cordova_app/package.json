@@ -80,9 +80,9 @@
       "cordova-plugin-enable-cleartext-traffic": {}
     },
     "platforms": [
+      "android",
       "browser",
-      "ios",
-      "android"
+      "ios"
     ]
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 <template>
   <div ref="feed" id="feed" class="feed">
     <div v-if="data.length" v-for="(feed, index) in data" class="feed-scroll">
-      <div v-if="feed.value" v-touch:swipe="swipeHandler">
+      <div v-if="feed.value">
 
         <!-- background top/bottom -->
         <div v-if="!loading[index].value" class="filter-top"></div>
@@ -38,7 +38,7 @@
               </svg>
             </div>
           </div>
-          <div class="video-page__influencer-username6">{{ feed.value.vendor.businessName }}</div>
+          <div class="video-page__influencer-username6" style="font-weight: 600">{{ feed.value.vendor.businessName }}</div>
         </div>
         <div v-if="finished[index].value" class="finished-swipe">
           <Lottie :options="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
@@ -252,7 +252,7 @@
 
 
         <!-- close feed -->
-        <div v-if="!finished[index].value" @click="goBack()" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;flex-direction: column;">
+        <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;flex-direction: column;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
@@ -602,6 +602,16 @@ export default {
       this.http.setDataSerializer('json');
     }
 
+    if (this.user.length == 0) {
+      this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        this.user = JSON.parse(response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
+      }, (error) => {
+        console.log(error);
+      });
+    }
+
     if (this.type == "profile") {
       if (this.$store.getters.getClipsProfile.length) {
         this.refresh(this.$store.getters.getClipsProfile);
@@ -624,7 +634,6 @@ export default {
     } else {
       if (this.$store.getters.getFeed.length) {
         this.anchor = this.$store.getters.getFeedAnchor;
-        console.log(this.anchor);
         this.refresh(this.$store.getters.getFeed);
       } else {
         this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
@@ -636,27 +645,19 @@ export default {
       }
     }
 
-    this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      console.log(JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-      this.$store.commit('setUser', JSON.parse(response.data));
-      
-      if (window.cordova && window.cordova.platformId == "android" || window.cordova.platformId == "ios") {
-        Sentry.setUser({ email: this.user.email });
-      }
-    }, (error) => {
-      console.log(error);
-    });
 
-
-    this.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    window.cordova.plugin.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      console.log(response);
       var result = JSON.parse(response.data);
-      console.log(result);
       this.$store.commit('setCategories', JSON.parse(result.categories));
+      this.categories = JSON.parse(result.categories);
       this.$store.commit('setClipsTrending', JSON.parse(result.trendingClips));
+      this.clipsTrending = JSON.parse(result.categories);
       this.$store.commit('setClipsLatest', JSON.parse(result.latestClips));
-      this.$store.commit('setAllProducts', JSON.parse(result.allProducts));
+      this.latestClips = JSON.parse(result.categories);
       this.$store.commit('setProductsTrending', JSON.parse(result.trendingProducts));
+      this.productsTrending = JSON.parse(result.categories);
+      this.$store.commit('setAllProducts', JSON.parse(result.allProducts));
     }, (response) => {
       console.log(response.error);
     });
@@ -756,10 +757,9 @@ export default {
       }
     },
     launchPlayer(value, index) {
-      console.log(typeof value.resourceUri);
       if (typeof value.resourceUri === 'string') {
         setTimeout(() => {
-          console.log(value.resourceUri);
+          console.log(value);
 
           // Listen to player events
           this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
@@ -768,6 +768,7 @@ export default {
 
           this.myPlayer.addEventListener('canplay', () => {
             this.loading[index].value = false;
+            navigator.splashscreen.hide();
             if (window.cordova.platformId == "browser") {
               this.myPlayer.muted = true;
             }
@@ -892,8 +893,8 @@ export default {
       this.popupProduct = false;
       this.shop = [];
     },
-    goToProfile(vendor) {
-      this.stopLive();
+    async goToProfile(vendor) {
+      await this.stopLive();
 
       var user = vendor.user;
       var profile = vendor;
@@ -905,8 +906,8 @@ export default {
       this.$store.commit('setProfile', user);
       this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
-    goToAccount() {
-      this.stopLive();
+    async goToAccount() {
+      await this.stopLive();
       this.$router.push({ name: 'Account' });
     },
     openPopup() {
@@ -924,6 +925,8 @@ export default {
     },
     send() {
       this.popup = false;
+      var content = this.content;
+      this.content = "";
 
       if (this.user.vendor && this.user.vendor.businessName) {
         var vendor = { "businessName": this.user.vendor.businessName };
@@ -931,11 +934,10 @@ export default {
         var vendor = null;
       }
 
-      this.comments[this.visible].value.push({ "content": this.content, "user": { "vendor": vendor, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
+      this.comments[this.visible].value.push({ "content": content, "user": { "vendor": vendor, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
       this.scrollToElement();
       
-      this.http.post(this.baseUrl + "/user/api/" + this.data[this.visible].type + "/" + this.data[this.visible].value.id + "/comment/add", { "content": this.content }, { Authorization: "Bearer " + this.token }, (response) => {
-        this.content = "";
+      this.http.post(this.baseUrl + "/user/api/" + this.data[this.visible].type + "/" + this.data[this.visible].value.id + "/comment/add", { "content": content }, { Authorization: "Bearer " + this.token }, (response) => {
       }, (response) => {
         console.log(response.error);
       });
@@ -955,7 +957,6 @@ export default {
     refresh(result) {
       this.popup = false;
       this.popupProduct = false;
-      console.log(result);
 
       if (result.length) {
         this.data = [];
@@ -976,9 +977,7 @@ export default {
             var type = "clip";
           }
 
-          console.log(element);
           var showElement = true;
-          console.log(value);
 
           if (this.banned.length > 0) {
             this.banned.map((ban, index) => {
@@ -995,7 +994,6 @@ export default {
 
             if (followers.length) {
               followers.map((element, index) => {
-                console.log(element);
                 if (element.follower.id == this.user.id) {
                   isFollower = true;
                 }
@@ -1078,30 +1076,17 @@ export default {
         this.$router.push({ name: 'Account' });
       }
     },
-    goBack() {
-      this.stopLive();
-      if (this.type == "profile" && this.profileId) {
-        var user = this.data[this.visible].value.vendor.user;
-        var profile = this.data[this.visible].value.vendor;
-
-        delete profile.user;
-        user.vendor = profile;
-        delete user.vendor.clips;
-
-        this.$store.commit('setProfile', user);
-        this.$router.push({ name: 'Profile', params: { id: user.id } });
-      } else {
-        this.$router.push({ name: 'Home' });
-      }
+    async goHome() {
+      await this.stopLive();
+      this.$router.push({ name: 'Home' });
     },
     stopLive() {
       if (this.data[this.visible].type == "live") {
         this.pusher.unsubscribe(this.data[this.visible].value.channel);
 
         this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
         }, (response) => { 
-          console.log(response.error); 
+          console.log("Stop live update views : " + response.error); 
         });
       }
     },
@@ -1109,7 +1094,7 @@ export default {
       var channel = this.pusher.subscribe(value.channel);
       channel.bind("pusher:subscription_succeeded", (response) => {
         this.http.put(this.baseUrl + "/user/api/live/" + value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => { 
-          console.log(response.error); 
+          console.log("Start live update views : " + response.error); 
         });
       });
 
@@ -1171,8 +1156,6 @@ export default {
         }
 
         if ('order' in data) {
-          console.log(data.order);
-
           setTimeout(() => {
             this.purchase = true;
               this.purchasePicture = true;
@@ -1286,7 +1269,6 @@ export default {
 
       if (this.data[this.visible].type == "live") {
         this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
         }, (response) => { 
           console.log(response.error); 
         });

@@ -12,10 +12,10 @@
     <div class="checkout__body">
       <div class="images">
         <div v-if="user.vendor.clips && user.vendor.clips.length" class="row" style="margin: 0px;">
-          <div v-for="clip in user.vendor.clips" class="col-6 col-img" style="padding: 5px;">
+          <div v-for="(clip, index) in user.vendor.clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #ecf0f1;">
-              <div @click="actionSheet(clip.id)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
+              <div @click="actionSheet(clip.id, index)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
                 <img :src="require(`@/assets/img/ellipsis-h-white.svg`)" style="width: 30px; height: 30px; margin-top: -5px; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px);"/>
               </div>
               <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
@@ -77,7 +77,7 @@ export default {
     });
   },
   methods: {
-    actionSheet(id) {
+    actionSheet(id, clipIndex) {
       var options = {
         buttonLabels: ['Partager', 'Supprimer'],
         addCancelButtonWithLabel: 'Annuler',
@@ -85,10 +85,10 @@ export default {
         winphoneEnableCancelButton : true
       };
       window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
         if (index == 1) {
     			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
         } else if (index == 2) {
+          this.user.vendor.clips.splice(clipIndex, 1);
 			    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/" + id + "/delete", {}, { Authorization: "Bearer " + this.token }, (response) => {
             this.$store.commit('setUser', JSON.parse(response.data));
 			    }, (response) => {

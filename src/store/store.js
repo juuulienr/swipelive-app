@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
   mutations: { 
     // synchronous, for change use commit
     resetState(state) {
+      console.log(state);
       state.user = [];
       state.lineItems = [];
       state.categories = [];
@@ -32,6 +34,7 @@ export default new Vuex.Store({
       state.profile = [];
       state.feed = [];
       state.feedAnchor = null;
+      console.log(state);
     },
     setUser(state, data) {
       state.user = data;
@@ -71,6 +74,7 @@ export default new Vuex.Store({
     // asynchronous, for change use dispatch
   }, 
   modules: {},
+  plugins: [createPersistedState()],
   getters: {
     getUser(state) {
       return state.user;
