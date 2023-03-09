@@ -12,7 +12,7 @@
     <div class="checkout__body">
       <div @click="showPromo()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px; background: linear-gradient(90deg,#ff9000,#ff5000);">Ajouter une promotion</div>
       <div v-if="user.vendor.promotions && user.vendor.promotions.length > 0">
-        <div style="border: 1px solid #272c30; margin: 5px;padding: 18px 0px;border-radius: 10px;">
+ <!--        <div style="border: 1px solid #272c30; margin: 5px;padding: 18px 0px;border-radius: 10px;">
           <p style="text-align: center;margin-bottom: 22Px;">Performances</p>
           <div class="profile--follow">
             <div>
@@ -32,7 +32,7 @@
             </div>
           </div>
         </div>
-
+ -->
         <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px;">La promotion activé sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
 
         <div v-for="(promo, index) in user.vendor.promotions" style="border: 1px solid rgb(255, 102, 0); margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
@@ -175,7 +175,6 @@ export default {
         window.cordova.plugin.http.setDataSerializer('json');
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setUser', JSON.parse(response.data));
-          this.user = this.$store.getters.getUser;
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
         }, (response) => {
           console.log(JSON.parse(response.error));
@@ -206,7 +205,6 @@ export default {
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/activate/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));
-        this.user = this.$store.getters.getUser;
       }, (response) => {
         console.log(response.error);
       });

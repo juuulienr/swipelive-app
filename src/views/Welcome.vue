@@ -338,7 +338,6 @@ export default {
   },
   methods: {
     onVideoLoaded() {
-      console.log("video loaded");
       navigator.splashscreen.hide();
     },
     async login() {
@@ -365,7 +364,13 @@ export default {
         await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", { "username": this.loginEmail, "password": this.loginPassword }, httpHeader, (response) => {
           var result = JSON.parse(response.data);
           window.localStorage.setItem("token", result.token);
-          this.$router.push({ name: 'Feed' });
+
+          window.cordova.plugin.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + result.token }, (response) => {
+           this.$store.commit('setFeed', JSON.parse(response.data));
+           this.$router.push({ name: 'Feed' });
+          }, (response) => {
+            console.log(response.error);
+          });
         }, (response) => {
           this.loading = false;
           this.errorLoginPassword = true;
@@ -528,11 +533,19 @@ export default {
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
         var result = JSON.parse(response.data);
         window.localStorage.setItem("token", result.token);
-        if (newUser == true) {
-          this.$router.push({ name: 'Onboarding' });
-        } else {
-          this.$router.push({ name: 'Feed' });
-        }
+
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + result.token }, (response) => {
+         this.$store.commit('setFeed', JSON.parse(response.data));
+         
+          if (newUser == true) {
+            this.$router.push({ name: 'Onboarding' });
+          } else {
+            this.$router.push({ name: 'Feed' });
+          }
+        }, (response) => {
+          console.log(response.error);
+        });
+
       }, (response) => {
         this.loading = false;
         console.log(response.error);

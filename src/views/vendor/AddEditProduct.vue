@@ -493,20 +493,15 @@ export default {
 
         if (this.productId) {
           await window.cordova.plugin.http.put(this.baseUrl + "/user/api/product/edit/" + this.productId, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-            console.log(response);
+            this.$store.commit('setUser', JSON.parse(response.data));
             window.plugins.toast.showWithOptions({
               message: "L'article a bien été modifié !",
               duration: "short", // 2000 ms
               position: "top",
               addPixelsY: 50,
               styling: {
-                opacity: 1.0, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
                 backgroundColor: '#18cea0', // make sure you use #RRGGBB. Default #333333
                 textColor: '#FFFFFF', // Ditto. Default #FFFFFF
-                textSize: 14, // Default is approx. 13.
-                cornerRadius: 20, // minimum is 0 (square). iOS default 20, Android default 100
-                horizontalPadding: 5, // iOS default 16, Android default 50
-                verticalPadding: 5 // iOS default 12, Android default 30
               }
             });
 
@@ -517,20 +512,15 @@ export default {
           });
         } else {
           await window.cordova.plugin.http.post(this.baseUrl + "/user/api/product/add", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-            console.log(response);
+            this.$store.commit('setUser', JSON.parse(response.data));
             window.plugins.toast.showWithOptions({
               message: "L'article a bien été modifié !",
               duration: "short", // 2000 ms
               position: "top",
               addPixelsY: 50,
               styling: {
-                opacity: 1.0, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
                 backgroundColor: '#18cea0', // make sure you use #RRGGBB. Default #333333
                 textColor: '#FFFFFF', // Ditto. Default #FFFFFF
-                textSize: 14, // Default is approx. 13.
-                cornerRadius: 20, // minimum is 0 (square). iOS default 20, Android default 100
-                horizontalPadding: 5, // iOS default 16, Android default 50
-                verticalPadding: 5 // iOS default 12, Android default 30
               }
             });
             this.$router.push({ name: 'Shop' });

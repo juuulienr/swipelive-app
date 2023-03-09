@@ -35,6 +35,24 @@ export default {
     } else {
       this.showNavbar = false;
     }
+
+    if (this.$store.getters.getCategories.length == 0) {
+      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+        this.$store.commit('setCategories', JSON.parse(response.data));
+        console.log(response);
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
+
+    if (this.$store.getters.getAllProducts.length == 0) {
+      window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+        this.$store.commit('setAllProducts', JSON.parse(response.data));
+        console.log(response);
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
   },
   mounted() {
     this.ping();
@@ -45,6 +63,7 @@ export default {
     }, 240000); //4 min
   },
   updated() {
+    console.log("updated");
     this.lineItems = this.$store.getters.getLineItems;
     if (this.$route.name == "Home" || this.$route.name == "ListMessages" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
       this.showNavbar = true;

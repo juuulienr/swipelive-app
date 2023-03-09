@@ -645,23 +645,15 @@ export default {
       }
     }
 
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      console.log(response);
+    this.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      console.log(JSON.parse(response.data));
       var result = JSON.parse(response.data);
-      this.$store.commit('setCategories', JSON.parse(result.categories));
-      this.categories = JSON.parse(result.categories);
       this.$store.commit('setClipsTrending', JSON.parse(result.trendingClips));
-      this.clipsTrending = JSON.parse(result.categories);
       this.$store.commit('setClipsLatest', JSON.parse(result.latestClips));
-      this.latestClips = JSON.parse(result.categories);
       this.$store.commit('setProductsTrending', JSON.parse(result.trendingProducts));
-      this.productsTrending = JSON.parse(result.categories);
-      this.$store.commit('setAllProducts', JSON.parse(result.allProducts));
     }, (response) => {
       console.log(response.error);
     });
-
   },
   mounted() {
     document.addEventListener("pause", this.pause);
@@ -757,6 +749,8 @@ export default {
       }
     },
     launchPlayer(value, index) {
+      console.log(value.resourceUri);
+      console.log(typeof value.resourceUri === 'string');
       if (typeof value.resourceUri === 'string') {
         setTimeout(() => {
           console.log(value);
