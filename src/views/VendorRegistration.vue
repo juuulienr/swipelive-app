@@ -57,8 +57,9 @@
         </div>
 
         <div style="margin-top: 20px; text-align: center; margin: 15px 15px 0px;">
-          <div style="font-size: 16px;"> Notre commission : <br> 9% sur chaque vente. </div>
-          <div style="color: #ff2a80; font-size: 16px;"> Vous Gagnez, Nous Gagnons ! </div><br>
+          <div style="font-size: 16px;color: rgb(255, 42, 128);font-size: 17px;">Pas d'abonnement, Pas de contrat...</div>
+          <div style="font-size: 15px;">Une petite commission de 9% sur chaque vente</div>
+          <div style="color: rgb(255, 42, 128);font-size: 17px;margin-top: 7px;">Vous gagnez, Nous gagnons ! </div>
           <div style="font-weight: 400; text-align: left; font-size: 13px; color: #525c66;">
             6% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> + 3% de frais bancaire classique.
           </div> 
