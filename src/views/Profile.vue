@@ -18,7 +18,7 @@
       <div>
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
-        <div v-if="following !== null" @click="updateFollow()" style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
+        <div v-if="profile.followers" @click="updateFollow()" style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
           <img v-if="!following" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
           <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
         </div>
@@ -42,11 +42,16 @@
 
         <div class="images_sec" style="padding: 0px 10px;">
           <div v-if="live" class="images" style="margin-bottom: 30px;">
-            <div v-if="profile" class="row">
+            <div v-if="profile && profile.vendor.clips" class="row">
               <div v-for="(clip, index) in profile.vendor.clips" v-if="clip.status == 'available'" class="col-6 col-img">
                 <div @click="goToFeed(index)">
-                  <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover;">
+                  <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee;">
                 </div>
+              </div>
+            </div>
+            <div v-else class="row">
+              <div v-for="i in 6" class="col-6 col-img">
+                  <div style="border-radius: 10px; width: 100%; height: 300px; background: #eeeeee;"></div>
               </div>
             </div>
           </div>
@@ -55,7 +60,7 @@
             <div v-if="profile && profile.vendor.products" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
               <div v-for="product in profile.vendor.products" @click="showProduct(product)" class="shop--box">
                 <div>
-                  <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
+                  <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee;">
                   <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">
                 </div>
                 <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
@@ -111,12 +116,12 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      profile: this.$store.getters.getProfile,
       live: true,
       shop: false,
-      following: null,
+      following: false,
       loading: false,
       popupProduct: false,
-      profile: null,
       product: null,
       variant: null,
     }
@@ -130,9 +135,6 @@ export default {
   created() {
     window.StatusBar.styleDefault();
     window.StatusBar.overlaysWebView(true);
-
-    this.profile = this.$store.getters.getProfile;
-    this.getFollowers();
     
     var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {

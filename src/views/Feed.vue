@@ -645,15 +645,9 @@ export default {
       }
     }
 
-    this.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      console.log(JSON.parse(response.data));
-      var result = JSON.parse(response.data);
-      this.$store.commit('setClipsTrending', JSON.parse(result.trendingClips));
-      this.$store.commit('setClipsLatest', JSON.parse(result.latestClips));
-      this.$store.commit('setProductsTrending', JSON.parse(result.trendingProducts));
-    }, (response) => {
-      console.log(response.error);
-    });
+    if (this.$store.getters.getClipsTrending.length == 0 || this.$store.getters.getClipsLatest.length == 0 || this.$store.getters.getProductsTrending.length == 0) {
+      this.loadHomeData();
+    }
   },
   mounted() {
     document.addEventListener("pause", this.pause);
@@ -782,6 +776,17 @@ export default {
           });
         }, 500);
       }
+    },
+    loadHomeData() {
+      this.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        var result = JSON.parse(response.data);
+        this.$store.commit('setClipsTrending', JSON.parse(result.trendingClips));
+        this.$store.commit('setClipsLatest', JSON.parse(result.latestClips));
+        this.$store.commit('setProductsTrending', JSON.parse(result.trendingProducts));
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     showProduct(product) {
       this.product = product;
@@ -1170,6 +1175,7 @@ export default {
     resume() {
       console.log("User is using the feed");
       navigator.splashscreen.hide();
+      this.loadHomeData();
     },
     follow(id) { 
       this.data.map((element, index) => {

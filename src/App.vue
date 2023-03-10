@@ -83,8 +83,8 @@ export default {
       }
     },
     loadAllProducts() {
-      if (this.$store.getters.getAllProducts.length == 0) {
-        window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+      if (this.$store.getters.getAllProducts.length == 0 && this.user && this.token) {
+        window.cordova.plugin.http.get(this.baseUrl + "/api/products/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setAllProducts', JSON.parse(response.data));
           console.log(response);
         }, (response) => {

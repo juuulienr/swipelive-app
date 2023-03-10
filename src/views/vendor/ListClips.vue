@@ -14,18 +14,18 @@
         <div v-if="user.vendor.clips && user.vendor.clips.length" class="row" style="margin: 0px;">
           <div v-for="(clip, index) in user.vendor.clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #ecf0f1;">
+              <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #eeeeee;">
               <div @click="actionSheet(clip.id, index)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
                 <img :src="require(`@/assets/img/ellipsis-h-white.svg`)" style="width: 30px; height: 30px; margin-top: -5px; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px);"/>
               </div>
               <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
               <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
-                <img v-if="clip.product.uploads.length" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #ecf0f1;">
-                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #ecf0f1;">
+                <img v-if="clip.product.uploads.length" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #eeeeee;">
+                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #eeeeee;">
               </div>
             </div>
             <div v-else style="border-radius: 10px; width: calc(50vw - 25px); margin: 0 auto;">
-              <img :src="require(`@/assets/img/waiting-video.png`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #ecf0f1;">
+              <img :src="require(`@/assets/img/waiting-video.png`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #eeeeee;">
               <p style="top: 150px; color: white; text-align: center; left: 30Px; position: absolute; text-align: center; font-size: 15px; margin-bottom: 0px;">Replay en création</p>
             </div>
           </div>

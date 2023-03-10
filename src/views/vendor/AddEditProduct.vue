@@ -39,7 +39,7 @@
             </svg>
           </button>
         </div>
-        <div v-if="loadingImg" style="border: 2px solid rgba(145,158,171,.24); background: #ecf0f1;">
+        <div v-if="loadingImg" style="border: 2px solid rgba(145,158,171,.24); background: #eeeeee;">
           <span style="margin: 0 auto;">
             <span style="top: calc(50% - 13px); left: calc(50% - 13px);">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
