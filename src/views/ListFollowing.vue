@@ -71,7 +71,7 @@
                   <span v-else>{{follow.following.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(follow.following, index)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Abonné</div>
+              <div @click="unfollow(follow.following, index)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Se désabonner</div>
             </div>
           </div>
           <div v-else>
@@ -98,7 +98,7 @@
                   <span v-else>{{follow.following.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(follow.following, index)" class="btn-follow">Abonné</div>
+              <div @click="unfollow(follow.following, index)" class="btn-follow">Se désabonner</div>
             </div>
           </div>
           <div v-else>

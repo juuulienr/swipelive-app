@@ -57,8 +57,8 @@
         </div>
 
         <div style="margin-top: 20px; text-align: center; margin: 15px 15px 0px;">
-          <div style="font-size: 16px;"> Notre commission : 9% sur chaque vente. </div>
-          <div style="color: #ff2a80; font-size: 16px;"> Vous gagnez, Nous gagnons ! </div><br>
+          <div style="font-size: 16px;"> Notre commission : <br> 9% sur chaque vente. </div>
+          <div style="color: #ff2a80; font-size: 16px;"> Vous Gagnez, Nous Gagnons ! </div><br>
           <div style="font-weight: 400; text-align: left; font-size: 13px; color: #525c66;">
             6% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> + 3% de frais bancaire classique.
           </div> 
@@ -227,13 +227,12 @@
       <div v-if="step3" class="step3">
         <img :src="require(`@/assets/img/welcome-vendor.jpg`)" style="width: calc(100vw - 30px); border-radius: 10px;">
 
-        <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 25px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue {{ businessName }} sur <br> Swipe Live vendeur 👋 </h5>
+        <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 24px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue {{ businessName }} 👋 <br> dans votre espace vendeur !</h5>
         <br />
         <div style="font-weight: 400; font-size: 15px; margin-top: 10px; padding: 0px 10px; text-align: justify; line-height: 27px;">Vous pouvez dès à présent créer votre communauté et exploiter la vidéo en direct pour offrir des expériences d'achat fun et unique avec des taux de conversion 10 fois supérieurs à ceux des sites de commerce électronique traditionnels.</div>
-        <div style="font-weight: 500;font-size: 18px;margin-top: 30px;text-align: justify;text-align: center;text-justify: inter-word;">Bonnes ventes 🚀</div>
 
         <div @click="submitStep3()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
-          <span>Accéder</span>
+          <span>Bonnes ventes 🚀</span>
         </div>
       </div>
     </div>

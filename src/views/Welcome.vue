@@ -22,7 +22,7 @@
             <div class="channel-icon-wrapper-2eYxZ">
               <img :src="require(`@/assets/img/mail.png`)" style="width: 24px; height: 24px; margin-bottom: 7px;"/>
             </div>
-            <div class="channel-name-2qzLW" style="color: white;">Continuer par email</div>
+            <div class="channel-name-2qzLW" style="color: white;">S'inscrire par email</div>
           </div>
         </div>
 

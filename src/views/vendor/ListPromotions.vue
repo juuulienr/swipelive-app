@@ -176,6 +176,7 @@ export default {
         window.cordova.plugin.http.setDataSerializer('json');
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setUser', JSON.parse(response.data));
+          this.user = this.$store.getters.getUser;
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
           console.log(this.promotion);
         }, (response) => {

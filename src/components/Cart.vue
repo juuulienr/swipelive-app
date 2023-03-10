@@ -35,7 +35,7 @@
           </div>
         </div>
 
-        <div v-if="subTotal" class="css-13dslnb" :style="[fullscreen ? {'bottom': 'calc(env(safe-area-inset-bottom) + 65px)'} : {'bottom': 'calc(env(safe-area-inset-bottom) + 30px)'}]">
+        <div v-if="subTotal" class="css-13dslnb" :style="[fullscreen ? {'bottom': 'calc(env(safe-area-inset-bottom) + 65px)'} : {'bottom': 'calc(env(safe-area-inset-bottom) + 10px)'}]">
           <div class="css-18mhetb">
             <div class="css-9jay18">
               <h6 class="css-k9tjo5">Sous-total</h6>
@@ -46,7 +46,7 @@
           </div>
           <div style="margin: 15px auto;">
             <div @click="showCheckout()" style="text-align: center;">
-              <div class="btn-swipe" style="height: 50px; padding: 14px 36px;">Paiement</div>
+              <div class="btn-swipe">Paiement</div>
             </div>
           </div>
         </div>

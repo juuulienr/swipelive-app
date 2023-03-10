@@ -9,7 +9,7 @@
         <div @click="goEditProfile()" class="top-author--item">
           <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
           <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
-          <img :src="require(`@/assets/img/cog.svg`)" style="width: 27px; padding: 3px; height: 27px; border: 1px solid rgb(221, 221, 221) !important; margin-left: -30px; margin-top: 58px; background: white;"/>
+          <img :src="require(`@/assets/img/cog.svg`)" style="width: 32px; padding: 3px; height: 32px; border: 1px solid rgb(221, 221, 221) !important; margin-left: -35px; margin-top: 58px; background: white;"/>
           <div style="margin: 0 0 0 8px">
             <span v-if="user.vendor" style="font-size: 16px; font-weight: 500; margin-left: 4px;">{{ user.vendor.businessName }}
               <svg v-if="user.vendor.businessType == 'company'" viewBox="0 0 24 24" aria-label="Compte certifié" role="img" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px;height: 19px;margin-bottom: 3px;fill: #ff2a80; margin-left: 5px;"><g><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path></g></svg>
@@ -26,7 +26,7 @@
 
       <p v-if="user.vendor" class="desc" style="margin: 20px 30px; text-align: center;">{{ user.vendor.summary }}</p>
 
-      <div v-if="!user.vendor" @click="goToVendorRegistration()" class="top-author--container" style="padding: 16px;align-items: center;box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px !important;margin: 10px;border: 1px solid rgb(221, 221, 221) !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px;">
+      <div v-if="!user.vendor" class="top-author--container" style="padding: 16px;align-items: center; margin: 10px;border: 1px solid #ff2a80 !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px; gap: 10px;">
         <div class="top-author--item">
           <div style="margin: 0px 0px 0px 8px;">
             <span style="font-size: 16px;font-weight: 500;font-size: 18px !important;line-height: 22px !important;margin: 0px 0px 8px !important;padding: 0px !important;">Vendez vos articles sur Swipe Live</span>
@@ -35,6 +35,11 @@
             </div>
           </div>
           <img :src="require(`@/assets/img/become-seller.png`)" class="user" style="height: 100%;width: 120px;border-radius: 0px;">
+        </div>
+        <div @click="goToVendorRegistration()" style="background: rgb(255, 42, 128) !important; border-radius: 16px; width: 200px">
+          <div class="account-band" style="justify-content: center; padding: 12px;">
+            <span style="font-weight: 500; color: #fff">Devenir vendeur</span>
+          </div>
         </div>
       </div>
 

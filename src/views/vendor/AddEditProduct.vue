@@ -300,7 +300,7 @@
               </fieldset>
             </div>
 
-            <div @click="saveEditVariant()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); position: absolute; bottom: 45px; margin: 0 auto;">Enregistrer</div>
+            <div @click="saveEditVariant()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto;">Enregistrer</div>
           </div>
         </div>
       </div>

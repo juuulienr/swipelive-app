@@ -694,9 +694,9 @@ export default {
         if (index != this.visible) {
           console.log(index, this.visible);
           this.popup = false;
-          this.popupProduct = false;
-          this.popupCart = false;
-          this.popupShop = false;
+          // this.popupProduct = false;
+          // this.popupCart = false;
+          // this.popupShop = false;
           this.display = 1;
           this.viewers = 0;
           this.product = null;
@@ -763,15 +763,17 @@ export default {
           });
 
           this.myPlayer.addEventListener('ended', () => {
+            console.log("end of video");
             if (this.data[index].type == "live") {
               this.finished[index].value = true;
             } else {
-              if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupShop && !this.popupCheckout) {
+              // if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
                 var el = document.getElementById('feed');
+            console.log(el);
                 if (el) {
                   el.scrollTop += window.innerHeight;
                 }
-              }
+              // }
             }
           });
         }, 500);
@@ -916,6 +918,8 @@ export default {
       if (event.target.id == "buttonSend" || event.target.id == "imgSend") {
         if (this.content && this.content.length > 0) {
           this.send();
+        } else {
+          this.popup = false;
         }
       } else if (event.target.className !== "css-1dko8fk" && event.target.className !== "css-miqn2j") {
         this.popup = false;

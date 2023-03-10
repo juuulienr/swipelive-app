@@ -65,13 +65,13 @@
       </div>
     </div>
     <div class="chat--foot">    
-      <button @click="uploadPicture()" style="margin: 0px; padding: 5px;">
+      <button @click="uploadPicture()" style="margin: 0px 5px; padding: 5px;">
         <img :src="require(`@/assets/img/plus-square.svg`)" style="height: 34px; width: 34px;"/>
       </button>
       <div>
         <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
       </div>
-      <button @click="sendMessage()" style="margin: 0px; padding: 5px;">
+      <button @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
         <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; width: 36px;"/>
       </button>
     </div>

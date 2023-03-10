@@ -46,6 +46,11 @@
               <div v-for="(clip, index) in profile.vendor.clips" v-if="clip.status == 'available'" class="col-6 col-img">
                 <div @click="goToFeed(index)">
                   <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee;">
+                  <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
+                  <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
+                    <img v-if="clip.product.uploads.length" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #eeeeee;">
+                    <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #eeeeee;">
+                  </div>
                 </div>
               </div>
             </div>
