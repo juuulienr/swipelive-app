@@ -172,10 +172,12 @@ export default {
         this.user.vendor.promotions.unshift(this.promotion);
         this.popupPromo = false;
 
+          console.log(this.promotion);
         window.cordova.plugin.http.setDataSerializer('json');
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setUser', JSON.parse(response.data));
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
+          console.log(this.promotion);
         }, (response) => {
           console.log(JSON.parse(response.error));
           window.plugins.toast.show(JSON.parse(response.error), 'long', 'top');

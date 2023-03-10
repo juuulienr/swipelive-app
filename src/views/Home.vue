@@ -134,7 +134,7 @@
     <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: calc(100vh - 60px); animation: none">
     	<div class="list_persone" style="margin-top: 15px; padding: 0px 10px;">
     		<div class="suggested">
-    			<div v-if="results.length && searchFollowing.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
+    			<div v-if="results.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
             <div v-for="(result, index) in results">
               <div class="personne">
                 <div @click="goToProfile(result)">
@@ -146,7 +146,7 @@
                   <p v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
                   <p v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
                 </div>
-                <div @click="follow(result.id, index)" style="position: absolute; right: 8px; top: 50px; width: 30px; height: 30px; ">
+                <div v-if="searchFollowing.length" @click="follow(result.id, index)" style="position: absolute; right: 8px; top: 50px; width: 30px; height: 30px; ">
                   <img v-if="!searchFollowing[index].value" :src="require(`@/assets/img/plus-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
                   <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
                 </div>
@@ -249,9 +249,10 @@ export default {
       this.changed();
     }, 
     changed() {
-      this.searchFollowing = [];
-      this.loadingSearch = true;
+      console.log(this.$store.getters.getSuggestions.length);
+      console.log(this.$store.getters.getSuggestions);
       if (this.searchValue.length > 0) {
+        this.loadingSearch = true;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
           this.results = JSON.parse(response.data);
           this.updateSearchFollowing();
@@ -261,6 +262,7 @@ export default {
         });
       } else {
         if (this.$store.getters.getSuggestions.length == 0) {
+          this.loadingSearch = true;
           window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
             this.results = JSON.parse(response.data);
             this.updateSearchFollowing();
@@ -276,6 +278,7 @@ export default {
       }
     },
     updateSearchFollowing() {
+      this.searchFollowing = [];
       this.results.map((element, index) => {
         var followers = element.followers;
         var isFollower = false;
