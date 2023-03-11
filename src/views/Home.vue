@@ -235,16 +235,12 @@ export default {
       this.loadClipsTrending();
     }
 
-    if (this.$store.getters.getClipsLatest.length == 0) {
-      this.loadClipsLatest();
-    }
-
     if (this.$store.getters.getProductsTrending.length == 0) {
       this.loadProductsTrending();
     }
 
-    if (this.$store.getters.getAllProducts.length == 0) {
-      this.loadAllProducts();
+    if (this.$store.getters.getClipsLatest.length == 0) {
+      this.loadClipsLatest();
     }
   },
   methods: {

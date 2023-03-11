@@ -54,10 +54,18 @@
                 </div>
               </div>
             </div>
-            <div v-else class="row">
+            <div v-else-if="loading" class="row">
               <div v-for="i in 6" class="col-6 col-img">
-                  <div style="border-radius: 10px; width: 100%; height: 300px; background: #eeeeee;"></div>
+                <div style="border-radius: 10px; width: 100%; height: 300px; background: #eeeeee;"></div>
               </div>
+            </div>
+            <div v-else class="row">
+              <div class="container" style="margin: 120px auto 0px; text-align: center;">
+                <div style="margin: 0px auto;">
+                  <Lottie :options="defaultOptions" :width="200"/>
+                </div>
+              </div>
+              <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun clips</h5>
             </div>
           </div>
 
@@ -77,6 +85,14 @@
                   </div>
                 </div>
               </div>
+              </div>
+            <div v-else>
+              <div class="container" style="margin: 120px auto 0px; text-align: center;">
+                <div style="margin: 0px auto;">
+                  <Lottie :options="defaultOptions2" style="width:100%"/>
+                </div>
+              </div>
+              <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun produit</h5>
             </div>
           </div>
         </div>
@@ -107,11 +123,16 @@
 <script>
   
 import Product from '../components/Product';
+import Lottie from 'vue-lottie';
+import * as animationData2 from '../assets/lottie/no-product.json';
+import * as animationData from '../assets/lottie/replay.json';
+
 
 export default {
   name: 'Profile',
   components: {
-    Product
+    Product,
+    Lottie
   },
   data() {
     return {
@@ -122,6 +143,8 @@ export default {
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       profile: this.$store.getters.getProfile,
+      defaultOptions: {animationData: animationData},
+      defaultOptions2: {animationData: animationData2},
       live: true,
       shop: false,
       following: false,

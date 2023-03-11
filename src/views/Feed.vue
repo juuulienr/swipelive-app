@@ -602,7 +602,7 @@ export default {
       this.http.setDataSerializer('json');
     }
 
-    if (this.user.length == 0) {
+    // if (this.user.length == 0) {
       this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
@@ -610,7 +610,7 @@ export default {
       }, (error) => {
         console.log(error);
       });
-    }
+    // }
 
     if (this.type == "profile") {
       if (this.$store.getters.getClipsProfile.length) {
@@ -655,10 +655,6 @@ export default {
 
     if (this.$store.getters.getProductsTrending.length == 0) {
       this.loadProductsTrending();
-    }
-
-    if (this.$store.getters.getAllProducts.length == 0) {
-      this.loadAllProducts();
     }
   },
   mounted() {
@@ -809,13 +805,6 @@ export default {
       this.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.$store.commit('setProductsTrending', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    loadAllProducts() {
-      this.http.get(this.baseUrl + "/user/api/products/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setAllProducts', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

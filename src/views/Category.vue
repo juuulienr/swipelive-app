@@ -38,6 +38,11 @@
         </div>
       </div>
     </div>
+    <div v-else-if="loadingProducts" class="shop--part" style="margin: 25px 15px 0px; gap: 20px 10px;">
+      <div v-for="i in 8" class="shop--box">
+        <div style="border-radius: 10px; width: 100%; height: 200px; background: #eeeeee;"></div>
+      </div>
+    </div>
     <div v-else>
       <div class="container" style="margin: 120px auto 0px; text-align: center;">
         <div style="margin: 0px auto;">
@@ -96,6 +101,7 @@ export default {
       id: this.$route.params.id,
       selectedCategory: null,
       popupProduct: false,
+      loadingProducts: true,
       product: null,
       variant: null,
     }
@@ -138,7 +144,7 @@ export default {
     loadAllProducts() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.products = JSON.parse(response.data);
-        this.$store.commit('setAllProducts', JSON.parse(response.data));
+        this.loadingProducts = false;
       }, (response) => {
         console.log(response.error);
       });

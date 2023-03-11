@@ -287,6 +287,7 @@ export default {
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
     window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      console.log(JSON.parse(response.data));
       this.$store.commit('setUser', JSON.parse(response.data));
       this.user = JSON.parse(response.data);
     }, (error) => {
