@@ -146,9 +146,8 @@
                   <p v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
                   <p v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
                 </div>
-                <div v-if="searchFollowing.length" @click="follow(result.id, index)" style="position: absolute; right: 8px; top: 50px; width: 30px; height: 30px; ">
-                  <img v-if="!searchFollowing[index].value" :src="require(`@/assets/img/plus-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
-                  <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
+                <div v-if="searchFollowing.length" style="position: absolute; right: 8px; top: 50px; width: 30px; height: 30px; ">
+                  <img v-if="!searchFollowing[index].value" @click="follow(result.id, index)" :src="require(`@/assets/img/plus-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
                 </div>
               </div>
             </div>

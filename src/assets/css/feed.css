@@ -759,7 +759,6 @@ img.zoom {
 }
 
 .scrollToMe {
-	-webkit-mask-image: -webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30));
   max-height: 200px;
   position: absolute;
   left: 15px;

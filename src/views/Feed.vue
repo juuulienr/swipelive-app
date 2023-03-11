@@ -263,7 +263,7 @@
         
 
         <!-- comments -->
-        <div v-if="comments[index].value.length && !finished[index].value" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="margin-right: 50px;">
+        <div v-if="comments[index].value.length && !finished[index].value" class="scrollToMe" ref="scrollToMe" :style="[comments[index].value.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
           <div v-for="comment in comments[index].value" style="display: flex;">
             <div style="padding-right: 6px;">
               <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" class="video-page__influencer-img">
@@ -645,8 +645,20 @@ export default {
       }
     }
 
-    if (this.$store.getters.getClipsTrending.length == 0 || this.$store.getters.getClipsLatest.length == 0 || this.$store.getters.getProductsTrending.length == 0) {
-      this.loadHomeData();
+    if (this.$store.getters.getClipsTrending.length == 0) {
+      this.loadClipsTrending();
+    }
+
+    if (this.$store.getters.getClipsLatest.length == 0) {
+      this.loadClipsLatest();
+    }
+
+    if (this.$store.getters.getProductsTrending.length == 0) {
+      this.loadProductsTrending();
+    }
+
+    if (this.$store.getters.getAllProducts.length == 0) {
+      this.loadAllProducts();
     }
   },
   mounted() {
@@ -694,9 +706,9 @@ export default {
         if (index != this.visible) {
           console.log(index, this.visible);
           this.popup = false;
-          // this.popupProduct = false;
-          // this.popupCart = false;
-          // this.popupShop = false;
+          this.popupProduct = false;
+          this.popupCart = false;
+          this.popupShop = false;
           this.display = 1;
           this.viewers = 0;
           this.product = null;
@@ -763,29 +775,47 @@ export default {
           });
 
           this.myPlayer.addEventListener('ended', () => {
-            console.log("end of video");
             if (this.data[index].type == "live") {
               this.finished[index].value = true;
             } else {
-              // if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
+              if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
                 var el = document.getElementById('feed');
-            console.log(el);
                 if (el) {
                   el.scrollTop += window.innerHeight;
                 }
-              // }
+              }
             }
           });
         }, 500);
       }
     },
-    loadHomeData() {
-      this.http.get(this.baseUrl + "/user/api/home", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    loadClipsTrending() {
+      this.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
-        var result = JSON.parse(response.data);
-        this.$store.commit('setClipsTrending', JSON.parse(result.trendingClips));
-        this.$store.commit('setClipsLatest', JSON.parse(result.latestClips));
-        this.$store.commit('setProductsTrending', JSON.parse(result.trendingProducts));
+        this.$store.commit('setClipsTrending', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    loadClipsLatest() {
+      this.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        this.$store.commit('setClipsLatest', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    loadProductsTrending() {
+      this.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        this.$store.commit('setProductsTrending', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    loadAllProducts() {
+      this.http.get(this.baseUrl + "/user/api/products/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.$store.commit('setAllProducts', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -1179,7 +1209,6 @@ export default {
     resume() {
       console.log("User is using the feed");
       navigator.splashscreen.hide();
-      this.loadHomeData();
     },
     follow(id) { 
       this.data.map((element, index) => {

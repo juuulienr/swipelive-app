@@ -496,7 +496,7 @@
 
 
       <!-- comments -->
-      <div v-if="comments.length" class="scrollToMe" ref="scrollToMe" :style="{'bottom': safeareaBottom3 }" style="margin-right: 50px;">
+      <div v-if="comments.length" class="scrollToMe" ref="scrollToMe" :style="[ comments.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
         <div v-for="comment in comments" style="display: flex;">
           <div class="video-page__influencer-img" style="padding-right: 6px;">
             <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture">
@@ -756,7 +756,6 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       user: this.$store.getters.getUser,
       token: window.localStorage.getItem("token"),
-      bambuserId: window.localStorage.getItem("bambuserId"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
@@ -871,6 +870,7 @@ export default {
   created() {
     window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
+    document.getElementsByTagName('body')[0].classList.add("dark-mode");
 
     if (window.cordova.plugin && window.cordova.plugin.http) {
       this.http = window.cordova.plugin.http;
@@ -887,10 +887,6 @@ export default {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
       this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
-
-      if (!this.bambuserId) {
-        window.localStorage.setItem("bambuserId", "Eqza0IhJO8JKQTs37D0VKQ");
-      }
     }
 
     if (window.cordova && window.cordova.platformId === "android") {
@@ -899,13 +895,13 @@ export default {
       this.safeareaBottom = '25px';
       this.safeareaBottom2 = '82px';
       this.safeareaBottom3 = '210px';
-
-      if (!this.bambuserId) {
-        window.localStorage.setItem("bambuserId", "7a1Fm1qdrF4bYhnTfZosPA");
-      }
     }
 
     this.initiateBroadcast();
+  },
+  beforeDestroy() {
+    document.getElementsByTagName('body')[0].classList.remove("dark-mode");
+    document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
   },
   directives: {
     focus: {
@@ -951,12 +947,13 @@ export default {
       }
     },
     send() {
+      var content = this.content;
       this.popup = false;
+      this.content = "";
       this.comments.push({ "content": this.content, "user": { "vendor": { "businessName": this.user.vendor.businessName }, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
       this.scrollToElement();
 
-      this.http.post(this.baseUrl + "/user/api/live/" + this.id + "/comment/add", { "content": this.content }, { Authorization: "Bearer " + this.token }, (response) => {
-        this.content = "";
+      this.http.post(this.baseUrl + "/user/api/live/" + this.id + "/comment/add", { "content": content }, { Authorization: "Bearer " + this.token }, (response) => {
       }, (response) => {
         console.log(response.error);
       });
@@ -983,16 +980,32 @@ export default {
     },
     async initiateBroadcast() {
       if (window.bambuser && window.bambuser.broadcaster && (window.cordova.platformId === "ios" || window.cordova.platformId === "android")) {
-        this.broadcaster = window.bambuser.broadcaster;
         try {
-          await this.broadcaster.setApplicationId(this.bambuserId);
-          this.broadcaster.switchCamera();
-          this.broadcaster.setTitle("Live" + this.id);
-          this.broadcaster.setAuthor(this.user.vendor.businessName);
+          if (window.cordova && window.cordova.platformId === "ios") {
+            await window.bambuser.broadcaster.setApplicationId("Eqza0IhJO8JKQTs37D0VKQ");
+          } else {
+            await window.bambuser.broadcaster.setApplicationId("7a1Fm1qdrF4bYhnTfZosPA");
+          }
+          await window.bambuser.broadcaster.switchCamera();
+          this.showBroadcast();
+        } catch (e) {
+          this.showBroadcast();
+        }
+      }
+    },
+    async showBroadcast() {
+      if (window.bambuser && window.bambuser.broadcaster && (window.cordova.platformId === "ios" || window.cordova.platformId === "android")) {
+        this.broadcaster = window.bambuser.broadcaster;
+
+        try {
+          await this.broadcaster.setTitle("Live" + this.id);
+          await this.broadcaster.setAuthor(this.user.vendor.businessName);
+          await this.broadcaster.showViewfinderBehindWebView();
+
           setTimeout(() => {
-            this.broadcaster.showViewfinderBehindWebView();
+            document.getElementsByTagName('body')[0].classList.remove("dark-mode");
             document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-          }, 300);
+          }, 500);
         } catch (e) {
           console.log(e);
         }

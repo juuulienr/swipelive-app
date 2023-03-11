@@ -26,7 +26,7 @@
 
       <p v-if="user.vendor" class="desc" style="margin: 20px 30px; text-align: center;">{{ user.vendor.summary }}</p>
 
-      <div v-if="!user.vendor" class="top-author--container" style="padding: 16px;align-items: center; margin: 10px;border: 1px solid #ff2a80 !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px; gap: 10px;">
+      <div v-if="!user.vendor" @click="goToVendorRegistration()" class="top-author--container" style="padding: 16px;align-items: center; margin: 10px;border: 1px solid #ff2a80 !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px; gap: 10px;">
         <div class="top-author--item">
           <div style="margin: 0px 0px 0px 8px;">
             <span style="font-size: 16px;font-weight: 500;font-size: 18px !important;line-height: 22px !important;margin: 0px 0px 8px !important;padding: 0px !important;">Vendez vos articles sur Swipe Live</span>
@@ -35,11 +35,6 @@
             </div>
           </div>
           <img :src="require(`@/assets/img/become-seller.png`)" class="user" style="height: 100%;width: 120px;border-radius: 0px;">
-        </div>
-        <div @click="goToVendorRegistration()" style="background: rgb(255, 42, 128) !important; border-radius: 16px; width: 200px">
-          <div class="account-band" style="justify-content: center; padding: 12px;">
-            <span style="font-weight: 500; color: #fff">Devenir vendeur</span>
-          </div>
         </div>
       </div>
 
