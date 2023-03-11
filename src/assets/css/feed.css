@@ -1386,7 +1386,7 @@ img.zoom {
 
 .cart-popup {
   overflow-y: scroll; 
-  height: 55%; 
+  height: 65%; 
   width: 100vw; 
   box-shadow: 0 0 5px rgb(0 0 0 / 20%); 
   padding: 0px 5px 15px; 
