@@ -92,10 +92,10 @@
 
 
 
-    <div v-if="latestClips && latestClips.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="clipsLatest && clipsLatest.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Nouveautés ⭐️</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
-        <div v-for="(clip, index) in latestClips" style="padding: 0px 5px;">
+        <div v-for="(clip, index) in clipsLatest" style="padding: 0px 5px;">
           <router-link :to="{ name: 'Feed', params: { type: 'latest', index: index }}">
             <div class="personne">
               <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
@@ -200,7 +200,7 @@ export default {
       lineItems: this.$store.getters.getLineItems,
       categories: this.$store.getters.getCategories,
       clipsTrending: this.$store.getters.getClipsTrending,
-      latestClips: this.$store.getters.getClipsLatest,
+      clipsLatest: this.$store.getters.getClipsLatest,
       productsTrending: this.$store.getters.getProductsTrending,
       results: this.$store.getters.getSuggestions,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
@@ -261,6 +261,7 @@ export default {
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
+        this.clipsTrending = JSON.parse(response.data);
         this.$store.commit('setClipsTrending', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
@@ -269,6 +270,7 @@ export default {
     loadClipsLatest() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
+        this.clipsLatest = JSON.parse(response.data);
         this.$store.commit('setClipsLatest', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
@@ -277,14 +279,8 @@ export default {
     loadProductsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
+        this.productsTrending = JSON.parse(response.data);
         this.$store.commit('setProductsTrending', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    loadAllProducts() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setAllProducts', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

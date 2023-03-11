@@ -119,6 +119,8 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
+    this.loadAllProducts();
+
     if (this.id) {
       this.categories.map((category, index) => {
         if (category.id == this.id) {
@@ -132,6 +134,14 @@ export default {
   methods: {   
     goBack() {
       this.$router.back();
+    },
+    loadAllProducts() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.products = JSON.parse(response.data);
+        this.$store.commit('setAllProducts', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     selectCategory(category) {
       this.selectedCategory = category;
