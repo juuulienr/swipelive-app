@@ -13,8 +13,6 @@ export default new Vuex.Store({
     productsTrending: [],
     clipsTrending: [],
     clipsLatest: [],
-    clipsProfile: [],
-    allProducts: [],
     profile: [],
     suggestions: [],
     feed: [],
@@ -30,8 +28,6 @@ export default new Vuex.Store({
       state.productsTrending = [];
       state.clipsTrending = [];
       state.clipsLatest = [];
-      state.clipsProfile = [];
-      state.allProducts = [];
       state.profile = [];
       state.suggestions = [];
       state.feed = [];
@@ -56,9 +52,6 @@ export default new Vuex.Store({
     setProductsTrending(state, data) {
       state.productsTrending = data;
     },
-    setAllProducts(state, data) {
-      state.allProducts = data;
-    },
     setProfile(state, data) {
       state.profile = data;
     },
@@ -70,9 +63,6 @@ export default new Vuex.Store({
     },
     setFeedAnchor(state, data) {
       state.feedAnchor = data;
-    },
-    setClipsProfile(state, data) {
-      state.clipsProfile = data;
     },
   },
   actions: { 
@@ -96,14 +86,8 @@ export default new Vuex.Store({
     getClipsLatest(state) {
       return state.clipsLatest;
     },
-    getClipsProfile(state) {
-      return state.clipsProfile;
-    },
     getProductsTrending(state) {
       return state.productsTrending;
-    },
-    getAllProducts(state) {
-      return state.allProducts;
     },
     getProfile(state) {
       return state.profile;

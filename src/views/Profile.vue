@@ -64,8 +64,8 @@
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
                 </div>
+                <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun clips</h5>
               </div>
-              <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun clips</h5>
             </div>
           </div>
 
@@ -85,14 +85,14 @@
                   </div>
                 </div>
               </div>
-              </div>
+            </div>
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions2" style="width:100%"/>
                 </div>
+                <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun produit</h5>
               </div>
-              <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun produit</h5>
             </div>
           </div>
         </div>
@@ -172,13 +172,6 @@ export default {
     }, (response) => {
       console.log(response.error);
     });
-
-    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/clips", {}, null, (response) => {
-     this.$store.commit('setClipsProfile', JSON.parse(response.data));
-    }, (response) => {
-      console.log(response.error);
-    });
-
   },
   methods: {
     getFollowers() {
