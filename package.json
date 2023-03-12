@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@sentry/tracing": "^7.36.0",
-    "@sentry/vue": "^7.36.0",
+    "@sentry/tracing": "^7.42.0",
+    "@sentry/vue": "^7.42.0",
     "es6-promise": "^4.2.8",
     "jwt-decode": "^3.1.1",
     "pusher-js": "^7.0.3",

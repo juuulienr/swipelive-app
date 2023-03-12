@@ -451,8 +451,11 @@
       <div @click="hideShop()" style="display: flex;">
         <div class="scroll-indicator"></div>
       </div>
-      <div v-if="shop" class="checkout__body items">
-        <div class="lasted--product" style="margin-top: 15px;">
+      <div class="checkout__header" style="padding-right: 20px; padding-left: 20px; padding-bottom: 10px;">
+        <div class="checkout__title">Boutique</div>
+      </div>
+      <div v-if="shop.length" class="checkout__body items">
+        <div class="lasted--product">
           <div v-for="product in shop" @click="showProduct(product)" class="product--item">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
             <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 90px; height: 90px;">
@@ -613,7 +616,7 @@ export default {
       this.http.setDataSerializer('json');
     }
 
-    // if (this.user.length == 0) {
+    if (this.user.length == 0) {
       this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
@@ -621,7 +624,7 @@ export default {
       }, (error) => {
         console.log(error);
       });
-    // }
+    }
 
     if (this.type == "profile") {
       this.http.get(this.baseUrl + "/api/profile/" + this.profileId + "/clips", {}, null, (response) => {
@@ -630,13 +633,19 @@ export default {
         console.log(response.error);
       });
     } else if (this.type == "trending") {
-      if (this.$store.getters.getClipsTrending.length) {
-        this.refresh(this.$store.getters.getClipsTrending);
-      }
+      this.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.$store.commit('setClipsTrending', JSON.parse(response.data));
+        this.refresh(JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
     } else if (this.type == "latest") {
-      if (this.$store.getters.getClipsLatest.length) {
-        this.refresh(this.$store.getters.getClipsLatest);
-      }
+      this.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.$store.commit('setClipsLatest', JSON.parse(response.data));
+        this.refresh(JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
     } else {
       if (this.$store.getters.getFeed.length) {
         this.anchor = this.$store.getters.getFeedAnchor;
@@ -663,7 +672,7 @@ export default {
       this.loadProductsTrending();
     }
 
-    if (this.$store.getters.getProductsTrending.length == 0) {
+    if (this.$store.getters.getFollowing.length == 0) {
       this.loadFollowing();
     }
   },
@@ -1017,6 +1026,7 @@ export default {
         this.visible = 0;
 
         result.map((element, index) => {
+          console.log(element);
           if ("value" in element) {
             var value = JSON.parse(element.value);
             var type = element.type;
