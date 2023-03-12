@@ -48,6 +48,11 @@
                 <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
           		</div>
             </div>
+            <div v-else-if="loadingOrders">
+              <div class="loader2">
+                <span></span>
+              </div>
+            </div>
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
@@ -110,6 +115,11 @@
                 <span class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
               </div>
             </div>
+            <div v-else-if="loadingPurchases">
+              <div class="loader2">
+                <span></span>
+              </div>
+            </div>
             <div v-else>
               <div class="container" style="margin: 180px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
@@ -123,6 +133,8 @@
         </div>
       </div>
     </div>
+
+
 
     <!-- order popup -->
     <div v-if="popupOrder" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);    overflow: scroll; padding-bottom: 80px;">
@@ -357,6 +369,9 @@ export default {
       defaultOptions: {animationData: animationData},
       popupConfirmation: false,
       popupOrder: false, 
+      loadingPurchases: true, 
+      loadingOrders: true, 
+      popupOrder: false, 
       sales: [],
       purchases: [],
       searchTerm: "",
@@ -374,18 +389,8 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    if (this.isOrder) {
-      this.sales = this.user.vendor.sales;
-    } else {
-      this.purchases = this.user.purchases;
-    }
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.$store.commit('setUser', JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-    }, (error) => {
-      console.log(error);
-    });
+    this.loadOrders();
+    this.loadPurchases();
   },
   filters: {
     formatPrice(value) {
@@ -414,6 +419,22 @@ export default {
         });
       }
       return count;
+    },
+    loadOrders() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.sales = JSON.parse(response.data);
+        this.loadingOrders = false;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    loadPurchases() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/purchases", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.purchases = JSON.parse(response.data);
+        this.loadingPurchases = false;
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     showOrder(order, type) {
       this.popupOrder = true;

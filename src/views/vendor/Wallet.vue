@@ -269,33 +269,37 @@ export default {
       const monthData = {};
 
       // Iterate over orders and group them by month
-      this.user.vendor.sales.forEach((order) => {
-        const month = order.createdAt.substr(0, 7);
-        if (!monthData[month]) {
-          monthData[month] = {
-            month: month,
-            subTotal: "0.00",
-            fees: "0.00",
-            remaining: "0.00",
-            orders: []
-          };
-        }
+      // if (this.user.vendor.sales.length) {
+      //   this.user.vendor.sales.forEach((order) => {
+      //     const month = order.createdAt.substr(0, 7);
+      //     if (!monthData[month]) {
+      //       monthData[month] = {
+      //         month: month,
+      //         subTotal: "0.00",
+      //         fees: "0.00",
+      //         remaining: "0.00",
+      //         orders: []
+      //       };
+      //     }
 
-        monthData[month].orders.push(order);
-        monthData[month].subTotal = parseFloat(monthData[month].subTotal) + parseFloat(order.subTotal);
-        monthData[month].subTotal.toFixed(2);
-        monthData[month].fees = parseFloat(monthData[month].fees) + parseFloat(order.fees);
-        monthData[month].fees.toFixed(2);
-        monthData[month].remaining = parseFloat(monthData[month].subTotal) - parseFloat(monthData[month].fees);
-        monthData[month].remaining.toFixed(2);
-      });
+      //     monthData[month].orders.push(order);
+      //     monthData[month].subTotal = parseFloat(monthData[month].subTotal) + parseFloat(order.subTotal);
+      //     monthData[month].subTotal.toFixed(2);
+      //     monthData[month].fees = parseFloat(monthData[month].fees) + parseFloat(order.fees);
+      //     monthData[month].fees.toFixed(2);
+      //     monthData[month].remaining = parseFloat(monthData[month].subTotal) - parseFloat(monthData[month].fees);
+      //     monthData[month].remaining.toFixed(2);
+      //   });
 
-      // Sort monthData in descending order by month
-      const sortedMonthData = Object.values(monthData).sort(
-        (a, b) => b.month.localeCompare(a.month)
-      );
+      //   // Sort monthData in descending order by month
+      //   const sortedMonthData = Object.values(monthData).sort(
+      //     (a, b) => b.month.localeCompare(a.month)
+      //   );
 
-      return sortedMonthData;
+      //   return sortedMonthData;
+      // } else {
+        return monthData;
+      // }
     },
     checkAvailability() {
       if (this.withdrawAmount && this.user.vendor.available) {

@@ -38,9 +38,9 @@
         </div>
       </div>
     </div>
-    <div v-else-if="loadingProducts" class="shop--part" style="margin: 25px 15px 0px; gap: 20px 10px;">
-      <div v-for="i in 8" class="shop--box">
-        <div style="border-radius: 10px; width: 100%; height: 200px; background: #eeeeee;"></div>
+    <div v-else-if="loadingProducts">
+      <div class="loader2">
+        <span></span>
       </div>
     </div>
     <div v-else>
