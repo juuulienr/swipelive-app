@@ -16,7 +16,8 @@
           <div style="border-right: 1px solid #eff1f6;">
             <h4 v-if="user.followers">{{ user.followers.length }}</h4>
             <h4 v-else>0</h4>
-            <p>Followers</p>
+            <p v-if="user.followers.length > 1">Abonnés</p>
+            <p v-else>Abonné</p>
           </div>
           <div>
             <h4 v-if="user.following">{{ user.following.length }}</h4>
@@ -27,7 +28,7 @@
 
         <div class="images_filter" style="margin: 15px 0px;">
           <ul>
-            <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Followers </li>
+            <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Abonnés </li>
             <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Suivis </li>
           </ul>
         </div>

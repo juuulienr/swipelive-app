@@ -5,8 +5,8 @@
         <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
       </div>
       <div class="checkout__title"></div>
-      <div @click="actionSheet()" class="checkout__right-btn" style="top: 45px;">
-        <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
+      <div class="checkout__right-btn" style="top: 45px;">
+        <img @click="actionSheet()" :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
         <div v-if="profile && profile.vendor" @click="goToMessage(profile)" style="width: 28px; height: 28px; position: absolute; top: 115px; right: 0px;">
           <img :src="require(`@/assets/img/comment-dots.svg`)"/>
         </div>
