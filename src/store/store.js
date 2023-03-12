@@ -16,6 +16,7 @@ export default new Vuex.Store({
     profile: [],
     suggestions: [],
     feed: [],
+    following: [],
     feedAnchor: null,
   },
   mutations: { 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
       state.profile = [];
       state.suggestions = [];
       state.feed = [];
+      state.following = [];
       state.feedAnchor = null;
       console.log(state);
     },
@@ -60,6 +62,9 @@ export default new Vuex.Store({
     },
     setFeed(state, data) {
       state.feed = data;
+    },
+    setFollowing(state, data) {
+      state.following = data;
     },
     setFeedAnchor(state, data) {
       state.feedAnchor = data;
@@ -97,6 +102,9 @@ export default new Vuex.Store({
     },
     getFeed(state) {
       return state.feed;
+    },
+    getFollowing(state) {
+      return state.following;
     },
     getFeedAnchor(state) {
       return state.feedAnchor;

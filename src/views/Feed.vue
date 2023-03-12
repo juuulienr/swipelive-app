@@ -453,7 +453,7 @@
       </div>
       <div v-if="shop" class="checkout__body items">
         <div class="lasted--product" style="margin-top: 15px;">
-          <div v-for="product in shop.products" @click="showProduct(product)" class="product--item">
+          <div v-for="product in shop" @click="showProduct(product)" class="product--item">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
             <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 90px; height: 90px;">
             <div class="details">
@@ -463,11 +463,19 @@
                 </span> 
               </div>
             </div>
-            <div v-if="shop.promotions.find(promo => promo.isActive === true)" style="margin-right: 10px;">
+          <!--   <div v-if="shop.promotions.find(promo => promo.isActive === true)" style="margin-right: 10px;">
               <img :src="require(`@/assets/img/discount.svg`)" style="width: 25px; height: 25px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
-            </div>
+            </div> -->
           </div>
         </div>
+      </div>
+      <div v-else-if="loadingProducts">
+        <div class="loader2">
+          <span></span>
+        </div>
+      </div>
+      <div v-else>
+        Aucun produits
       </div>
     </div>
   </div>
@@ -654,6 +662,10 @@ export default {
     if (this.$store.getters.getProductsTrending.length == 0) {
       this.loadProductsTrending();
     }
+
+    if (this.$store.getters.getProductsTrending.length == 0) {
+      this.loadFollowing();
+    }
   },
   mounted() {
     document.addEventListener("pause", this.pause);
@@ -807,6 +819,14 @@ export default {
         console.log(response.error);
       });
     },
+    loadFollowing() {
+      this.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        this.$store.commit('setFollowing', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     showProduct(product) {
       this.product = product;
       this.variant = null;
@@ -899,11 +919,19 @@ export default {
       this.popupShop = false;
       this.popupProduct = false;
     },
-    showShop(shop) {
-      this.shop = shop;
+    showShop(vendor) {
       this.popupShop = true;
       this.popupCart = false;
       this.popupProduct = false;
+      this.loadShopVendor(vendor.id);
+    },
+    loadShopVendor(id) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/vendor/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.shop = JSON.parse(response.data);
+        this.loadingShop = false;
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     hideShop() {    
       this.popupShop = false;

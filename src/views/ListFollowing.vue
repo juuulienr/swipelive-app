@@ -33,19 +33,24 @@
         </div>
 
         <div v-if="tabFollowers" class="top-author">
-          <div v-if="user.followers && user.followers.length" class="top-author--container">
-            <div v-for="(follow, index) in user.followers" class="top-author--item">
-              <img v-if="follow.follower.picture" class="user" :src="cloudinary256x256 + follow.follower.picture">
+          <div v-if="followers.length" class="top-author--container">
+            <div v-for="(user, index) in followers" class="top-author--item">
+              <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
-                <span v-if="follow.follower.vendor">{{ follow.follower.vendor.businessName }}</span>
-                <span v-else>{{ follow.follower.firstname }} {{ follow.follower.lastname }}</span>
+                <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
+                <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
-              <div @click="actionSheet(follow.follower, index)">
+              <div @click="actionSheet(user, index)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px; fill: #999; border-radius: 30px;">
                   <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
                 </svg>
               </div>
+            </div>
+          </div>
+          <div v-else-if="loadingFollowers">
+            <div class="loader2">
+              <span></span>
             </div>
           </div>
           <div v-else>
@@ -60,18 +65,23 @@
         </div>
 
         <div v-if="tabFollowing" class="top-author">
-          <div v-if="user.following && user.following.length" class="top-author--container">
-            <div v-for="(follow, index) in user.following" class="top-author--item">
-              <img v-if="follow.following.picture"class="user" :src="cloudinary256x256 + follow.following.picture">
+          <div v-if="following.length" class="top-author--container">
+            <div v-for="(user, index) in following" class="top-author--item">
+              <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
-                <span>{{ follow.following.vendor.businessName }}</span>
+                <span>{{ user.vendor.businessName }}</span>
                 <div>
-                  <span v-if="follow.following.followers.length > 1">{{follow.following.followers.length }} abonnés</span>
-                  <span v-else>{{follow.following.followers.length }} abonné</span>
+                  <span v-if="user.followers.length > 1">{{user.followers.length }} abonnés</span>
+                  <span v-else>{{user.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(follow.following, index)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Se désabonner</div>
+              <div @click="unfollow(user, index)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Se désabonner</div>
+            </div>
+          </div>
+          <div v-else-if="loadingFollowing">
+            <div class="loader2">
+              <span></span>
             </div>
           </div>
           <div v-else>
@@ -87,18 +97,23 @@
       </div>
       <div v-else>
         <div class="top-author" style="margin-top: 15px;">
-          <div v-if="user.following && user.following.length" class="top-author--container">
-            <div v-for="(follow, index) in user.following" class="top-author--item">
-              <img v-if="follow.following.picture"class="user" :src="cloudinary256x256 + follow.following.picture">
+          <div v-if="following.length" class="top-author--container">
+            <div v-for="(user, index) in following" class="top-author--item">
+              <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
-                <span>{{ follow.following.vendor.businessName }}</span>
+                <span>{{ user.vendor.businessName }}</span>
                 <div>
-                  <span v-if="follow.following.followers.length > 1">{{follow.following.followers.length }} abonnés</span>
-                  <span v-else>{{follow.following.followers.length }} abonné</span>
+                  <span v-if="user.followers.length > 1">{{user.followers.length }} abonnés</span>
+                  <span v-else>{{user.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(follow.following, index)" class="btn-follow">Se désabonner</div>
+              <div @click="unfollow(user, index)" class="btn-follow">Se désabonner</div>
+            </div>
+          </div>
+          <div v-else-if="loadingFollowing">
+            <div class="loader2">
+              <span></span>
             </div>
           </div>
           <div v-else>
@@ -137,6 +152,10 @@ export default {
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
+      followers: [],
+      following: [],
+      loadingFollowers: true,
+      loadingFollowing: true,
       tabFollowers: true,
       tabFollowing: false,
     }
@@ -145,8 +164,27 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+
+    this.loadFollowers();
+    this.loadFollowing();
   },
   methods: {
+    loadFollowers() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.followers = JSON.parse(response.data);
+        this.loadingFollowers = false;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    loadFollowing() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.following = JSON.parse(response.data);
+        this.loadingFollowing = false;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     showFollowers() {
       this.tabFollowers = true;
       this.tabFollowing = false;
@@ -156,7 +194,7 @@ export default {
       this.tabFollowing = true;
     },
     unfollow(follow, index) {
-      this.user.following.splice(index, 1);
+      this.following.splice(index, 1);
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + follow.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
@@ -166,15 +204,15 @@ export default {
     goBack() {
       this.$router.push({ name: 'Account' });
     },
-    removeFollower(follow, index) {
-      this.user.followers.splice(index, 1);
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers/remove/" + follow.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+    removeFollower(user, index) {
+      this.followers.splice(index, 1);
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers/remove/" + user.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
     },
-    actionSheet(follow, index) {
+    actionSheet(user, index) {
       var options = {
         buttonLabels: [],
         addCancelButtonWithLabel: 'Annuler',
@@ -187,7 +225,7 @@ export default {
       window.plugins.actionsheet.show(options, (result) => {
         console.log(result);
         if (result == 1) {
-          this.removeFollower(follow, index);
+          this.removeFollower(user, index);
         }
       }, (error) => {
         console.log(error);

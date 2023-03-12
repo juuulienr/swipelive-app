@@ -32,15 +32,15 @@
   					<h5 class="name" style="margin-top: 7px;">Rechercher</h5>
   				</div>
     		</div>
-     <!--    <div v-if="user.length !== 0 && user.following" v-for="(follow, index) in user.following" style="padding: 0px 5px;">
-          <div @click="goToProfile(follow.following)">
+        <div v-if="following.length && clipsTrending.length > 0 " v-for="(user, index) in following" style="padding: 0px 5px;">
+          <div @click="goToProfile(user)">
             <div class="personne">
-              <img v-if="follow.following.picture" :src="cloudinary256x256 + follow.following.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
+              <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
-              <h5 class="name" style="margin-top: 7px;">{{ follow.following.vendor.businessName }}</h5>
+              <h5 class="name" style="margin-top: 7px;">{{ user.vendor.businessName }}</h5>
             </div>
           </div>
-        </div> -->
+        </div>
     	</div>
     </div>
 
@@ -203,6 +203,7 @@ export default {
       clipsLatest: this.$store.getters.getClipsLatest,
       productsTrending: this.$store.getters.getProductsTrending,
       results: this.$store.getters.getSuggestions,
+      following: this.$store.getters.getFollowing,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
       popupSearch: false,
@@ -242,6 +243,10 @@ export default {
     if (this.$store.getters.getClipsLatest.length == 0) {
       this.loadClipsLatest();
     }
+
+    if (this.$store.getters.getFollowing.length == 0) {
+      this.loadFollowing();
+    }
   },
   methods: {
     goAccount() {
@@ -277,6 +282,15 @@ export default {
         console.log(JSON.parse(response.data));
         this.productsTrending = JSON.parse(response.data);
         this.$store.commit('setProductsTrending', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    loadFollowing() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        this.following = JSON.parse(response.data);
+        this.$store.commit('setFollowing', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -349,9 +363,9 @@ export default {
         console.log(response.error);
       });
     },
-    goToProfile(profile) {
-      this.$store.commit('setProfile', profile);
-      this.$router.push({ name: 'Profile', params: { id: profile.id } });
+    goToProfile(user) {
+      this.$store.commit('setProfile', user);
+      this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
     goToCategory(category) {
       this.$router.push({ name: 'Category', params: { id: category.id } });

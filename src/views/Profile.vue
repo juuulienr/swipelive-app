@@ -54,9 +54,9 @@
                 </div>
               </div>
             </div>
-            <div v-else-if="loading" class="row">
-              <div v-for="i in 6" class="col-6 col-img">
-                <div style="border-radius: 10px; width: 100%; height: 300px; background: #eeeeee;"></div>
+            <div v-else-if="loadingProfile">
+              <div class="loader2">
+                <span></span>
               </div>
             </div>
             <div v-else class="row">
@@ -84,6 +84,11 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div v-else-if="loadingProfile">
+              <div class="loader2">
+                <span></span>
               </div>
             </div>
             <div v-else>
@@ -145,11 +150,11 @@ export default {
       profile: this.$store.getters.getProfile,
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
+      popupProduct: false,
+      loadingProfile: true,
       live: true,
       shop: false,
       following: false,
-      loading: false,
-      popupProduct: false,
       product: null,
       variant: null,
     }
@@ -168,6 +173,7 @@ export default {
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
       console.log(JSON.parse(response.data));
       this.profile = JSON.parse(response.data);
+      this.loadingProfile = false;
       this.getFollowers();
     }, (response) => {
       console.log(response.error);
@@ -194,7 +200,6 @@ export default {
       this.live = true;
     },
     updateFollow() {
-      this.loading = true;
       if (this.following == true) {
         this.following = false;
       } else {
@@ -203,10 +208,8 @@ export default {
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));
-        this.loading = false;
       }, (response) => {
         console.log(response.error);
-        this.loading = false;
       });
     },
     actionSheet() {
