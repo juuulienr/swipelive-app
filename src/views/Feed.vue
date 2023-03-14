@@ -3,9 +3,8 @@
     <div v-if="data.length" v-for="(feed, index) in data" class="feed-scroll">
       <div v-if="feed.value">
 
-        <!-- background top/bottom -->
-        <!-- <div v-if="videos[index].value && !finished[index].value" class="filter-top"></div> -->
-        <div v-if="videos[index].value && !finished[index].value" class="filter-bottom"></div>
+        <!-- background bottom -->
+        <div v-if="!loading[index].value" class="filter-bottom"></div>
         
 
         <!-- loader -->
@@ -15,16 +14,10 @@
 
 
         <!-- viewers -->
-     <!--    <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
-          <Lottie :options="defaultOptions" :width="20" v-on:animCreated="handleAnimation"/>
-          <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
-            <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
-          </span>
-        </div> -->
-        <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
+        <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
           <Lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
           <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
-            <span style="padding-left: 5px; font-weight: bold;">698</span>
+            <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
           </span>
         </div>
 
@@ -235,21 +228,12 @@
 
 
         <!-- profil -->
-  <!--       <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
-          <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
-            <span>
-              <span v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
+  <!--      <span v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
                 <img :src="require(`@/assets/img/plus-circle.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
               </span>
               <span v-if="clickFollow" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
                 <img :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
               </span>
-            </span>
-            <span @click="goToProfile(feed.value.vendor)">
-              <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 7px;">
-              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 40px;height: 40px;border: 2px solid white;border-radius: 30px;left: 12px;top: 12px;object-fit: cover;z-index: 10000;margin-right: 3px;"> 
-              <span>{{ feed.value.vendor.businessName }} </span>
-              <img v-if="feed.value.vendor.businessType == 'company'" :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
             </span>
           </div>
         </div> -->
@@ -258,11 +242,13 @@
         
         <!-- profil -->
         <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 117px);" class="checkout__header">
-          <div style="display: flex;">
+          <div @click="goToProfile(feed.value.vendor)" style="display: flex;">
             <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
             <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
-              <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">{{ feed.value.vendor.businessName }}</div>
+              <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">
+                {{ feed.value.vendor.businessName }}
+              </div>
               <div style="text-align: left; font-size: 12px; margin-top: -3px; display: flex;">
                 <div>
                   <img :src="require(`@/assets/img/users.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
@@ -277,7 +263,7 @@
             </div>
             <div style="margin-top: 4px;">
               <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #f2295b 100%);">
-                  <img :src="require(`@/assets/img/check-white.svg`)" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
+                 <img :src="require(`@/assets/img/check-white.svg`)" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
               </div>
               <!-- <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #f2295b 100%);">Suivre</div> -->
             </div>
@@ -382,13 +368,14 @@
         </div>
 
         <div v-if="!finished[index].value" :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: rgba(0, 0, 0, 0.25); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
-
           <!-- cart -->
           <div @click="showCart()" class="video-page__influencer-username-holder" style="padding-left: 10px;">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/bag.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
             </span>
-            <span v-if="updateCart > 0" class="counter-badge" :style="{'bottom': safeareaBottom4 }" style="right: 141px; height: 14px; width: 14px; font-size: 10px; font-weight: 600">{{ updateCart }}</span>
+            <span v-if="updateCart > 0" class="counter-badge" :style="{'bottom': safeareaBottom4 }" style="right: 141px; height: 14px; width: 14px; font-size: 10px; font-weight: 600">
+              {{ updateCart }}
+            </span>
           </div>
 
           <!-- likes -->
@@ -768,6 +755,10 @@ export default {
             this.stopLive();
           }
 
+          // if (document.getElementsByTagName("iframe").length > 0) {
+          //   document.getElementsByTagName("iframe")[0].remove();
+          // }
+
           this.videos[this.visible].value = "";
           this.comments[this.visible].value = [];
           this.loading[this.visible].value = true;
@@ -807,11 +798,14 @@ export default {
     launchPlayer(value, index) {
       console.log(value.resourceUri);
       console.log(typeof value.resourceUri === 'string');
-      if (typeof value.resourceUri === 'string') {
+      if (value.resourceUri && typeof value.resourceUri === 'string') {
         setTimeout(() => {
+          console.log(document.getElementById('player'+index));
           console.log(value);
 
+
           // Listen to player events
+          // var myPlayer = window.BambuserPlayer.create(document.getElementById('player0'), "https://cdn.bambuser.net/broadcasts/6f2d6a0d-c998-55b4-d1e8-214653ecc25c?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1670495430&da_static=1&da_ttl=0&da_signature=f1ab6c07d5a2f4a282521e5c4bf7df22aae6312699162683fa8d49c793b6e62b");
           this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
           this.myPlayer.scaleMode = "aspectFill";
           this.myPlayer.play();
@@ -835,6 +829,11 @@ export default {
                 }
               }
             }
+          });
+
+          this.myPlayer.addEventListener('error', (error) => {
+            console.log("error player", error);
+            // this.myPlayer.play();
           });
         }, 500);
       }

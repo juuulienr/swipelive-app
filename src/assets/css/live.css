@@ -351,7 +351,6 @@
   z-index: 20;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  background-color: rgba(0, 0, 0, .25);
   padding: 0.5rem;
   padding-right: 0.7rem;
   -webkit-box-align: center;
@@ -723,7 +722,6 @@
 }
 
 .scrollToMe {
-  -webkit-mask-image: -webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30));
   max-height: 200px; 
   display: -ms-flexbox; 
   position: absolute; 
@@ -736,7 +734,7 @@
   padding: 4px 10px 5px 10px; 
   margin-top: 0px; 
   border-radius: 11px; 
-  background-color: rgba(244,244,244,0.15);
+  background-color: rgba(0, 0, 0, 0.25);
   letter-spacing: 0.05px; 
   margin-right: 0px
 }
@@ -1355,7 +1353,7 @@ span.filter--choice > input:checked ~ .svg--point {
   width: 40px; 
   height: 40px;
   fill: white; 
-  background: rgba(244,244,244,0.15);
+  background: rgba(0, 0, 0, 0.25);
   left: 15px;
 }
 
@@ -1430,7 +1428,7 @@ span.filter--choice > input:checked ~ .svg--point {
   height: 28px;
   width: fit-content;
   left: 62px; 
-  background: rgba(244,244,244,0.15);
+  background: rgba(0, 0, 0, 0.25);
   padding: 0px 15px 0px 7px;
   border-top-left-radius: 0px;
   border-bottom-right-radius: 50px;
@@ -1447,7 +1445,7 @@ span.filter--choice > input:checked ~ .svg--point {
   padding: 18px 0px; 
   text-align: center; 
   border-radius: 30px; 
-  background: rgba(244,244,244,0.15);
+  background: rgba(0, 0, 0, 0.7);
   border: 2px solid white; 
   top: 10px; 
   margin: 0 auto; 
@@ -1772,7 +1770,11 @@ input::placeholder {
   position: absolute;
   width: 48px;
 }
-
+._g19 img {
+  height: 48px;
+  position: absolute;
+  width: 48px;
+}
 
 @keyframes KeyframeAnimation-js_5 {
   0% {
@@ -1780,7 +1782,7 @@ input::placeholder {
   }
 
   100% {
-    transform: translateY(-450px);
+    transform: translateY(-600px);
   }
 }
 

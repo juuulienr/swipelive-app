@@ -40,11 +40,11 @@
 
 
       <div v-if="user.vendor" style="background: #ff2a80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
-        <div @click="goToPrelive()" class="account-band" style="justify-content: center;">
+        <div @click="goToPrelive()" class="account-band" style="justify-content: center; padding: 14px 24px;">
           <span style="font-size: 16px; color: #fff;">
             <img style="width: 29px; height: 29px; margin-right: 10px;" class="img1":src="require(`@/assets/img/video.svg`)"/>
           </span>
-          <span style="font-weight: 500; color: #fff">Lancer un direct</span>
+          <span style="font-weight: 600; color: #fff">Lancer un direct</span>
           <span style="float: right;">
           </span>
         </div>
