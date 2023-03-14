@@ -5,11 +5,11 @@
         <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
       </div>
       <div class="checkout__title"></div>
-      <div class="checkout__right-btn" style="top: 45px;">
-        <img @click="actionSheet()" :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
-        <div v-if="profile && profile.vendor" @click="goToMessage(profile)" style="width: 28px; height: 28px; position: absolute; top: 115px; right: 0px;">
-          <img :src="require(`@/assets/img/comment-dots.svg`)"/>
-        </div>
+      <div @click="actionSheet()" class="checkout__right-btn" style="top: 45px;">
+        <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
+      </div>
+      <div v-if="profile && profile.vendor" @click="goToMessage(profile)" style="width: 28px; height: 28px; position: absolute; top: 160px; right: 15px;">
+        <img :src="require(`@/assets/img/comment-dots.svg`)"/>
       </div>
     </div>
 
@@ -18,7 +18,7 @@
       <div>
         <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
-        <div v-if="profile.followers" @click="updateFollow()" style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
+        <div v-if="profile.followers && following != null" @click="updateFollow()" style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
           <img v-if="!following" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
           <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
         </div>
@@ -42,7 +42,7 @@
 
         <div class="images_sec" style="padding: 0px 10px;">
           <div v-if="live" class="images" style="margin-bottom: 30px;">
-            <div v-if="profile && profile.vendor.clips" class="row">
+            <div v-if="profile && profile.vendor.clips && profile.vendor.clips.length" class="row">
               <div v-for="(clip, index) in profile.vendor.clips" v-if="clip.status == 'available'" class="col-6 col-img">
                 <div @click="goToFeed(index)">
                   <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee;">
@@ -70,7 +70,7 @@
           </div>
 
           <div v-if="shop" class="items" style="padding: 5px;">
-            <div v-if="profile && profile.vendor.products" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
+            <div v-if="profile && profile.vendor.products && profile.vendor.products.length" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
               <div v-for="product in profile.vendor.products" @click="showProduct(product)" class="shop--box">
                 <div>
                   <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee;">
@@ -154,7 +154,7 @@ export default {
       loadingProfile: true,
       live: true,
       shop: false,
-      following: false,
+      following: null,
       product: null,
       variant: null,
     }
@@ -182,6 +182,7 @@ export default {
   methods: {
     getFollowers() {
       if (this.profile && this.profile.followers) {
+        this.following = false;
         this.profile.followers.map((follower, index) => {
           this.user.following.map((following, index) => {
             if (follower.id == following.id) {
@@ -238,17 +239,7 @@ export default {
       this.$router.back();
     },
     goToMessage(user) {
-      var exist = false;
-      this.user.discussions.map((discussion, index) => {
-        if (discussion.vendor.id == user.id) {
-          exist = true;
-          this.$router.push({ name: 'ListMessages', params: { discussionId: discussion.id } });
-        }
-      });
-
-      if (!exist) {
-        this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
-      }
+      this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
     },
     goToFeed(index) {
       this.$router.push({ name: 'Feed', params: { type: 'profile', index: index, profileId: this.profile.id } });

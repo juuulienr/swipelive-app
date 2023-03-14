@@ -26,7 +26,7 @@
       <div v-if="user.vendor.products.length > 0" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in sortedProducts" @click="editProduct(product.id)" class="product--item">
-            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
+            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style=" background: #eeeeee">
             <img v-else :src="require(`@/assets/img/no-preview.png`)">
             <div class="details">
               <div class="title">{{ product.title }}</div>
@@ -138,7 +138,15 @@ export default {
     isProductUnavailable(product) {
       return (product.quantity === 0) || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
     },
-    addProduct() {
+    addProduct() {      
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'AddEditProduct' });
     },
     editProduct(id) {

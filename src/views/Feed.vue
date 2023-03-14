@@ -4,8 +4,8 @@
       <div v-if="feed.value">
 
         <!-- background top/bottom -->
-        <div v-if="!loading[index].value" class="filter-top"></div>
-        <div v-if="!loading[index].value" class="filter-bottom"></div>
+        <!-- <div v-if="videos[index].value && !finished[index].value" class="filter-top"></div> -->
+        <div v-if="videos[index].value && !finished[index].value" class="filter-bottom"></div>
         
 
         <!-- loader -->
@@ -229,12 +229,12 @@
 
 
         <!-- profil -->
-        <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
+  <!--       <div v-if="feed.value.vendor && !finished[index].value" class="checkout__header" style="z-index: 15;width: 100%;position: absolute;padding: 0px;" :style="{'top': safeareaTop }">
           <div class="checkout__title" style="margin-bottom: 0px;color: white;font-size: 16px;line-height: 26px;text-transform: capitalize;font-weight: 500;">
             <span>
-           <!--    <span v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
+              <span v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
                 <img :src="require(`@/assets/img/plus-circle.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
-              </span> -->
+              </span>
               <span v-if="clickFollow" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
                 <img :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
               </span>
@@ -246,8 +246,34 @@
               <img v-if="feed.value.vendor.businessType == 'company'" :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;"/>
             </span>
           </div>
-        </div>
+        </div> -->
 
+
+        
+        <!-- profil -->
+        <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 120px);" class="checkout__header">
+          <div style="display: flex;">
+            <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+            <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+            <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
+              <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">{{ feed.value.vendor.businessName }}</div>
+              <div style="text-align: left; font-size: 12px; margin-top: -3px; display: flex;">
+                <div>
+                  <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
+                </div>
+                <div style="padding: 0px 5px;">327</div>
+                <div>|</div>
+                <div style="padding: 0px 5px;">
+                  <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
+                </div>
+                <div>27k</div>
+              </div>
+            </div>
+            <div style="margin-top: 4px;">
+              <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">Suivre</div>
+            </div>
+          </div>
+        </div>
 
 
 
@@ -451,7 +477,7 @@
       <div @click="hideShop()" style="display: flex;">
         <div class="scroll-indicator"></div>
       </div>
-      <div class="checkout__header" style="padding-right: 20px; padding-left: 20px; padding-bottom: 10px;">
+      <div class="checkout__header" style="padding-right: 20px; padding-left: 20px; padding-bottom: 15px;">
         <div class="checkout__title">Boutique</div>
       </div>
       <div v-if="shop.length" class="checkout__body items">
@@ -472,13 +498,10 @@
           </div>
         </div>
       </div>
-      <div v-else-if="loadingProducts">
+      <div v-else-if="loadingShop">
         <div class="loader2">
           <span></span>
         </div>
-      </div>
-      <div v-else>
-        Aucun produits
       </div>
     </div>
   </div>
@@ -555,6 +578,7 @@ export default {
       safeareaTop2: '30px',
       writeInput: '0px',
       content: "",
+      loadingShop: true,
       popupProduct: false,
       popupCart: false,
       popupShop: false,
@@ -647,17 +671,17 @@ export default {
         console.log(response.error);
       });
     } else {
-      if (this.$store.getters.getFeed.length) {
-        this.anchor = this.$store.getters.getFeedAnchor;
-        this.refresh(this.$store.getters.getFeed);
-      } else {
+      // if (this.$store.getters.getFeed.length) {
+      //   this.anchor = this.$store.getters.getFeedAnchor;
+      //   this.refresh(this.$store.getters.getFeed);
+      // } else {
         this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
          this.$store.commit('setFeed', JSON.parse(response.data));
          this.refresh(JSON.parse(response.data));
         }, (response) => {
           console.log(response.error);
         });
-      }
+      // }
     }
 
     if (this.$store.getters.getClipsTrending.length == 0) {
@@ -935,6 +959,7 @@ export default {
       this.loadShopVendor(vendor.id);
     },
     loadShopVendor(id) {
+      this.loadingShop = true;
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/vendor/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.shop = JSON.parse(response.data);
         this.loadingShop = false;

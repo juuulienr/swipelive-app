@@ -4,7 +4,7 @@
       <svg @click="hideDiscussion()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
         <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
       </svg>
-      <div v-if="discussion.user == user.id" class="chat--head--profil">
+      <div v-if="discussion.user.id == user.id" class="chat--head--profil">
         <div class="chat--head--profil--img">
           <img v-if="discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
@@ -143,7 +143,7 @@ export default {
   },
   methods: {
     isUserOnline(discussion) {
-      if (discussion.user == this.user.id) {
+      if (discussion.user.id == this.user.id) {
         if (discussion.vendor.securityUsers) {
           var datetime = discussion.vendor.securityUsers[0].connectedAt;
         } else {
@@ -175,13 +175,12 @@ export default {
           var url = this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/message";
         } else {
           var url = this.baseUrl + "/user/api/discussions/add";
-          httpParams = { "preview": preview, "unseenVendor": true, "unseen": false, "user": this.discussion.user, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
+          httpParams = { "preview": preview, "unseenVendor": true, "unseen": false, "user": this.discussion.user.id, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
         }
 
         await window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          this.user = JSON.parse(response.data);
-          this.$store.commit('setUser', JSON.parse(response.data));
-          this.$emit('updateDiscussions', this.user);
+          this.discussions = JSON.parse(response.data);
+          this.$emit('updateDiscussions', this.discussions);
         }, (response) => {
           console.log(JSON.parse(response.error));
         });
@@ -197,9 +196,8 @@ export default {
 
         if (unseen) {
           window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
-            this.user = JSON.parse(response.data);
-            this.$store.commit('setUser', JSON.parse(response.data));
-            this.$emit('updateDiscussions', this.user);
+            this.discussions = JSON.parse(response.data);
+            this.$emit('updateDiscussions', this.discussions);
           }, (response) => {
             console.log(response.error);
           });
@@ -250,9 +248,8 @@ export default {
           this.scrollToBottomWithTimeout();
 
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            this.user = JSON.parse(response.data);
-            this.$store.commit('setUser', JSON.parse(response.data));
-            this.$emit('updateDiscussions', this.user);
+            this.discussions = JSON.parse(response.data);
+            this.$emit('updateDiscussions', this.discussions);
           }, function(response) {
             console.log(response.error);
           });
@@ -263,9 +260,8 @@ export default {
           this.scrollToBottomWithTimeout();
 
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.user = JSON.parse(response.data);
-            this.$store.commit('setUser', JSON.parse(response.data));
-            this.$emit('updateDiscussions', this.user);
+            this.discussions = JSON.parse(response.data);
+            this.$emit('updateDiscussions', this.discussions);
           }, function(response) {
             console.log(response.error);
           });

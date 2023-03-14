@@ -44,6 +44,11 @@
             </div>
           </div>
         </div>
+        <div v-else-if="loadingOrders">
+          <div class="loader2">
+            <span></span>
+          </div>
+        </div>
         <div v-else class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div>
             <div class="container" style="margin: 50px auto 0px; text-align: center;">
@@ -222,6 +227,12 @@ export default {
   },
   data() {
     return {
+      user: this.$store.getters.getUser,
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      defaultOptions: {animationData: animationData},
+      defaultOptions2: {animationData: animationData2},
+      loadingOrders: true,
       popupWithdraw: false,
       popupHistory: false,
       iban: null,
@@ -235,11 +246,7 @@ export default {
       withdraw: true,
       withdrawAmount: null,
       bank: false,
-      user: this.$store.getters.getUser,
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      defaultOptions: {animationData: animationData},
-      defaultOptions2: {animationData: animationData2},
+      sales: [],
     }
   },
   filters: {
@@ -257,49 +264,44 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.$store.commit('setUser', JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-    }, (error) => {
-      console.log(error);
-    });
+    this.loadOrders();
   },
   computed: {
     orderedMonthData() {
       const monthData = {};
 
       // Iterate over orders and group them by month
-      // if (this.user.vendor.sales.length) {
-      //   this.user.vendor.sales.forEach((order) => {
-      //     const month = order.createdAt.substr(0, 7);
-      //     if (!monthData[month]) {
-      //       monthData[month] = {
-      //         month: month,
-      //         subTotal: "0.00",
-      //         fees: "0.00",
-      //         remaining: "0.00",
-      //         orders: []
-      //       };
-      //     }
+      if (this.sales.length) {
+        this.sales.forEach((order) => {
+          const month = order.createdAt.substr(0, 7);
+          if (!monthData[month]) {
+            monthData[month] = {
+              month: month,
+              subTotal: "0.00",
+              fees: "0.00",
+              remaining: "0.00",
+              orders: []
+            };
+          }
 
-      //     monthData[month].orders.push(order);
-      //     monthData[month].subTotal = parseFloat(monthData[month].subTotal) + parseFloat(order.subTotal);
-      //     monthData[month].subTotal.toFixed(2);
-      //     monthData[month].fees = parseFloat(monthData[month].fees) + parseFloat(order.fees);
-      //     monthData[month].fees.toFixed(2);
-      //     monthData[month].remaining = parseFloat(monthData[month].subTotal) - parseFloat(monthData[month].fees);
-      //     monthData[month].remaining.toFixed(2);
-      //   });
+          monthData[month].orders.push(order);
+          monthData[month].subTotal = parseFloat(monthData[month].subTotal) + parseFloat(order.subTotal);
+          monthData[month].subTotal.toFixed(2);
+          monthData[month].fees = parseFloat(monthData[month].fees) + parseFloat(order.fees);
+          monthData[month].fees.toFixed(2);
+          monthData[month].remaining = parseFloat(monthData[month].subTotal) - parseFloat(monthData[month].fees);
+          monthData[month].remaining.toFixed(2);
+        });
 
-      //   // Sort monthData in descending order by month
-      //   const sortedMonthData = Object.values(monthData).sort(
-      //     (a, b) => b.month.localeCompare(a.month)
-      //   );
+        // Sort monthData in descending order by month
+        const sortedMonthData = Object.values(monthData).sort(
+          (a, b) => b.month.localeCompare(a.month)
+        );
 
-      //   return sortedMonthData;
-      // } else {
+        return sortedMonthData;
+      } else {
         return monthData;
-      // }
+      }
     },
     checkAvailability() {
       if (this.withdrawAmount && this.user.vendor.available) {
@@ -317,6 +319,14 @@ export default {
     },
   },
   methods: {
+    loadOrders() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.sales = JSON.parse(response.data);
+        this.loadingOrders = false;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     showIndividual() {
       this.individual = true;
       this.company = false;

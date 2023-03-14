@@ -819,6 +819,14 @@ export default {
       this.valuesOption2.splice(index, 1);
     },
     goBack() {
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Shop' });
     },
     generate() {

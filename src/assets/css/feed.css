@@ -350,7 +350,7 @@
 	align-items: center;
   padding: 4px 10px 5px 10px; 
   border-radius: 11px; 
-  background-color: rgba(255, 255, 255, 0.075); 
+  background-color: rgba(0, 0, 0, 0.25);
   letter-spacing: 0.05px; 
 }
 
@@ -364,7 +364,7 @@
 .video-page__influencer-badge .video-page__influencer-title {
   font-size: 13px; 
   font-weight: 600; 
-  text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;
+  text-shadow: rgb(0 0 0 / 80%) 0px 0px 3px;
   text-transform: capitalize;
 }
 
@@ -372,7 +372,7 @@
 .video-page__influencer-badge .video-page__influencer-content {
   font-weight: 400; 
   font-size: 14px; 
-  text-shadow: rgb(0 0 0 / 60%) 0px 1px 4px;
+  text-shadow: rgb(0 0 0 / 80%) 0px 0px 3px;
 }
 
 .scrollToMe .video-page__influencer-img {
@@ -492,7 +492,7 @@ img.zoom {
 	left: 70px;
 	z-index: 10000000;
 	border-radius: 25px;
-	background-color: rgba(255, 255, 255, 0.15);
+	background-color: rgba(0, 0, 0, 0.25);
   padding: 9px 20px; 
 	align-items: center;
   right: 125px;
@@ -559,9 +559,9 @@ img.zoom {
 	position: absolute;
 	z-index: 20;
 	border-radius: 25px;
-	background-color: rgba(255, 255, 255, 0.15);
+	background-color: rgba(0, 0, 0, 0.25);
 	align-items: center;
-  right: 15px;
+  right: 10px;
 }
 
 .video-page__influencer-badge3 .video-page__influencer-username {
@@ -586,7 +586,7 @@ img.zoom {
   display: flex;
   position: absolute;
   border-radius: 25px;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.25);
   align-items: center;
   width: 40px; 
   height: 40px; 
@@ -615,7 +615,7 @@ img.zoom {
 .video-page__influencer-badge5 {
 	display: flex;
 	position: absolute;
-	background-color: rgba(255, 255, 255, 0.15);
+	background-color: rgba(0, 0, 0, 0.25);
 	align-items: center;
   width: 40px; 
   height: 40px; 
@@ -688,7 +688,7 @@ img.zoom {
   left: 15px;
   z-index: 20;
   border-radius: 25px;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.25);
   align-items: center;
 }
 
@@ -962,7 +962,6 @@ img.zoom {
   height: 25px;
   width: fit-content;
   left: 15px; 
-  padding: 0px 10px;
   border-radius: 50px; 
   z-index: 20;
 }

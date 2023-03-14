@@ -291,5 +291,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-nativepagetransitions": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-nativepagetransitions"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

@@ -134,7 +134,7 @@
     <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: calc(100vh - 60px); animation: none">
     	<div class="list_persone" style="margin-top: 15px; padding: 0px 10px;">
     		<div class="suggested">
-    	<!-- 		<div v-if="results.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
+    			<div v-if="results.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
             <div v-for="(result, index) in results">
               <div class="personne">
                 <div @click="goToProfile(result)">
@@ -159,7 +159,7 @@
           </div>
           <div v-else style="margin: 50px 0px;">
             Aucun résultat
-          </div> -->
+          </div>
     		</div>
     	</div>
     </div>
@@ -224,12 +224,12 @@ export default {
         console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
-        // this.changed();
+        this.changed();
       }, (error) => {
         console.log(error);
       }); 
     } else {
-      // this.changed();
+      this.changed();
     }
 
     if (this.$store.getters.getClipsTrending.length == 0) {
@@ -298,11 +298,8 @@ export default {
     hideSearch() {
       this.popupSearch = false;
       this.searchValue = "";
-      this.changed();
     }, 
     changed() {
-      console.log(this.$store.getters.getSuggestions.length);
-      console.log(this.$store.getters.getSuggestions);
       if (this.searchValue.length > 0) {
         this.loadingSearch = true;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
@@ -313,39 +310,33 @@ export default {
           console.log(response.error);
         });
       } else {
-        if (this.$store.getters.getSuggestions.length == 0) {
-          this.loadingSearch = true;
-          window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.results = JSON.parse(response.data);
-            // this.updateSearchFollowing();
-            this.loadingSearch = false;
-          }, (response) => {
-            console.log(response.error);
-          });
-        } else {
-          this.results = this.$store.getters.getSuggestions;
+        this.loadingSearch = true;
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.results = JSON.parse(response.data);
           // this.updateSearchFollowing();
           this.loadingSearch = false;
-        }
+        }, (response) => {
+          console.log(response.error);
+        });
       }
     },
-    // updateSearchFollowing() {
-    //   this.searchFollowing = [];
-    //   this.results.map((element, index) => {
-    //     var followers = element.followers;
-    //     var isFollower = false;
+    updateSearchFollowing() {
+      this.searchFollowing = [];
+      this.results.map((element, index) => {
+        var followers = element.followers;
+        var isFollower = false;
 
-    //     if (followers.length) {
-    //       followers.map((element, index) => {
-    //         if (element.follower.id == this.user.id) {
-    //           isFollower = true;
-    //         }
-    //       });
-    //     }
+        if (followers.length) {
+          followers.map((element, index) => {
+            if (element.follower.id == this.user.id) {
+              isFollower = true;
+            }
+          });
+        }
 
-    //     this.searchFollowing.push({ "value": isFollower });
-    //   });
-    // },
+        this.searchFollowing.push({ "value": isFollower });
+      });
+    },
     follow(id, index) {
       if (this.searchFollowing[index].value) {
         this.searchFollowing[index].value = false;

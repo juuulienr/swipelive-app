@@ -105,6 +105,9 @@
     },
     "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-nativepagetransitions": {
+      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {

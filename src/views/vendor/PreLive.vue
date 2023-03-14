@@ -11,7 +11,7 @@
       <div v-else class="checkout__title">Ordre de passage</div>
     </div>
 
-    <div class="checkout__body" style="overflow: initial; padding-bottom: 85px;">
+    <div class="checkout__body" style="overflow: initial;">
       <div v-if="rules" class="items rules"><br>
         <p><span>Amusez-vous et invitez des amis 🎉</span><br>
         Les lives sont plus sympas avec votre communauté. Assurez-vous de faire la promotion de vos articles et n'oubliez pas de les partager.</p>
@@ -47,7 +47,7 @@
         </div>
 
         <div v-if="products.length > 0" class="items">
-          <div class="lasted--product" style="margin-top: 12px;">
+          <div class="lasted--product" style="margin-top: 12px; padding-bottom: 140px;">
             <div v-for="(product, index) in products" :key="product.id" class="product--item">
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
               <img v-else :src="require(`@/assets/img/no-preview.png`)">

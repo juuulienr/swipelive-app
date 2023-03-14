@@ -91,6 +91,12 @@
           </div>
           
           <div class="form--input">
+            <div class="form--input--item" :class="{'form--input--item--error': promotion.type == 'percent' && promotion.value > 99 }">
+              <fieldset>
+                <legend>Valeur de la remise</legend>
+                <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 30">
+              </fieldset>
+            </div>
             <div class="form--input--item">
               <fieldset>
                 <legend>Type de remise</legend>
@@ -99,13 +105,6 @@
                   <option value="percent">Pourcentage</option>
                   <option value="fixe">Fixe</option>
                 </select>
-              </fieldset>
-            </div>
-
-            <div class="form--input--item" :class="{'form--input--item--error': promotion.type == 'percent' && promotion.value > 99 }">
-              <fieldset>
-                <legend>Valeur de la remise</legend>
-                <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 30">
               </fieldset>
             </div>
           </div>

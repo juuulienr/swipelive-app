@@ -5,7 +5,7 @@
     </div>
 
     <div v-if="!selectedDiscussion" class="checkout__body" style="padding: 0px 15px 15px;">
-      <div v-if="user.discussions.length > 0">
+      <div>
         <div>
           <div class="chat--left--head--input">
             <svg viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
@@ -16,11 +16,11 @@
         </div>
 
 
-        <div class="chat--left" style="overflow: hidden;">
+        <div v-if="discussions.length" class="chat--left" style="overflow: hidden;">
           <div v-for="(discussion, index) in filteredDiscussions" class="chat--left--messages">
             <div @click="showDiscussion(discussion)" class="chat--left--message message--open">
               <div class="chat--left--head--profil">
-                <span v-if="discussion.user == user.id">
+                <span v-if="discussion.user.id == user.id">
                   <img v-if="discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
                   <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
                 </span>
@@ -32,9 +32,9 @@
               </div>
               <div class="chat--left--message--detail">
                 <div class="chat--left--message--top">
-                  <h6 v-if="discussion.user == user.id">{{ discussion.vendor.vendor.businessName }}</h6>
+                  <h6 v-if="discussion.user.id == user.id">{{ discussion.vendor.vendor.businessName }}</h6>
                   <h6 v-else>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</h6>
-                  <span v-if="discussion.user == user.id && discussion.unseen" class="not--read"></span>
+                  <span v-if="discussion.user.id == user.id && discussion.unseen" class="not--read"></span>
                   <span v-if="discussion.vendor.id == user.id && discussion.unseenVendor" class="not--read"></span>
                 </div>
                 <p>{{ discussion.preview | truncate(35) }} · {{ discussion.updatedAt | formatDate }}</p>
@@ -42,15 +42,20 @@
             </div>
           </div>
         </div>
-      </div>
-      <div v-else>
-        <div class="container" style="margin: 180px auto 0px; text-align: center;">
-          <div style="margin: 0px auto;">
-            <Lottie :options="defaultOptions" :width="200"/>
+        <div v-else-if="loadingDiscussions">
+          <div class="loader2">
+            <span></span>
           </div>
         </div>
-        <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune discussion</h5>
-        <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos discussions apparaîtront ici.</div>
+        <div v-else>
+          <div class="container" style="margin: 180px auto 0px; text-align: center;">
+            <div style="margin: 0px auto;">
+              <Lottie :options="defaultOptions" :width="200"/>
+            </div>
+          </div>
+          <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune discussion</h5>
+          <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos discussions apparaîtront ici.</div>
+        </div>
       </div>
     </div>
 
@@ -85,7 +90,9 @@ export default {
       user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
+      discussions: [],
       selectedDiscussion: null,
+      loadingDiscussions: true,
       searchTerm: "",
     }
   },
@@ -95,15 +102,7 @@ export default {
     window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   mounted() {
-    if (this.userId) {
-      this.selectedDiscussion = { "id": null, "user": this.user.id, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
-    } else if (this.discussionId) {
-      this.user.discussions.map((discussion, index) => {
-        if (discussion.id == this.discussionId) {
-          this.selectedDiscussion = discussion;
-        }
-      });
-    }
+    this.loadDiscussions();
 
     this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
     var channel = this.pusher.subscribe("discussion_channel");
@@ -130,8 +129,7 @@ export default {
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(response);
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
+        this.discussions = JSON.parse(response.data);
       }, (response) => {
         console.log(response.error);
       });
@@ -165,10 +163,10 @@ export default {
   },
   computed: {
     filteredDiscussions() {
-      return this.user.discussions.filter(discussion => {
+      return this.discussions.filter(discussion => {
         const search = this.searchTerm.toLowerCase();
 
-        if (discussion.user == this.user.id) {
+        if (discussion.user.id == this.user.id) {
           return discussion.vendor.vendor.businessName.toLowerCase().includes(search);
         } else {
           return (discussion.user.firstname.toLowerCase().includes(search) || discussion.user.lastname.toLowerCase().includes(search));
@@ -177,11 +175,32 @@ export default {
     },
   },
   methods: {
+    loadDiscussions() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        this.discussions = JSON.parse(response.data);
+        this.loadingDiscussions = false;
+
+        if (this.userId && this.discussions.length > 0) {
+          this.discussions.map((discussion, index) => {
+            if (this.userId == discussion.user.id || this.userId == discussion.vendor.id) {
+              this.selectedDiscussion = discussion;
+            }
+          });
+
+          if (!this.selectedDiscussion) {
+            this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
+          }
+        }
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     goBack() {
       this.$router.push({ name: 'Account' });
     },
     isUserOnline(discussion) {
-      if (discussion.user == this.user.id) {
+      if (discussion.user.id == this.user.id) {
         var datetime = discussion.vendor.securityUsers[0].connectedAt;
       } else {
         var datetime = discussion.user.securityUsers[0].connectedAt;
@@ -193,18 +212,13 @@ export default {
       return date > date2;
     },
     showDiscussion(discussion) {
-      this.swipeStatus = '';
-      this.swipeIndex = null;
-      this.swipeStartX = 0;
-      this.swipeEndX = 0;
-      this.swipeDistance = 0;
       this.selectedDiscussion = discussion;
     },
     hideDiscussionChild() {
       this.selectedDiscussion = null;
     },
-    updateDiscussionsChild(user) {
-      this.user = user;
+    updateDiscussionsChild(discussions) {
+      this.discussions = discussions;
     },
   }
 };

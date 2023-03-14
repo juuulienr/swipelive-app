@@ -309,6 +309,11 @@ export default {
       // window.cordova.plugins.AppReview.openStoreScreen(null, true);
     },
     goEditProfile() {
+      const options = {
+        direction: 'left',
+        duration: 200,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'EditUser' });
     },
     goToPrelive() {

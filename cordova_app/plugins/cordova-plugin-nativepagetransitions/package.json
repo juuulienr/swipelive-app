@@ -1,0 +1,31 @@
+{
+  "version": "0.6.6",
+  "name": "cordova-plugin-nativepagetransitions",
+  "cordova_name": "Native Page Transitions",
+  "description": "Slide out the current page to reveal the next one. By a native transitions.",
+  "license": "MIT",
+  "author": "Original version by Telerik / Eddy Verbruggen <eddyverbruggen@gmail.com> (https://github.com/EddyVerbruggen)",
+  "repo": "https://github.com/tlacroix/NativePageTransitions.git",
+  "keywords": [
+    "Native transitions",
+    "Native page transitions",
+    "Slide",
+    "Flip",
+    "Drawer",
+    "Menu",
+    "Curl",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "platforms": [
+    "ios",
+    "android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ]
+}

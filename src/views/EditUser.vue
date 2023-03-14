@@ -357,6 +357,14 @@ export default {
       }, options);
     },
     goBack() {
+      const options = {
+        direction: 'right',
+        duration: 200,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Account' });
     },
     handleError(error) {

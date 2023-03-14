@@ -255,7 +255,7 @@ body.dark-mode {
   bottom: 0;
   margin: auto;
   border: 2px solid;
-  border-color: transparent #272c30 #272c30;
+  border-color: transparent #9aa0a7 #9aa0a7;
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -271,7 +271,7 @@ body.dark-mode {
   display: inline-block;
   position: relative;
   border: 2px solid;
-  border-color: #272c30 #272c30 transparent;
+  border-color: #9aa0a7 #9aa0a7 transparent;
   -webkit-animation: rotation 1s linear infinite;
   animation: rotation 1s linear infinite;
 }

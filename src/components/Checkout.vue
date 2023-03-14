@@ -223,8 +223,13 @@
 
 
     <div @click="payment()" class="div-payment">
-      <div style="text-align: center;">
-        <div class="btn-swipe">Payer</div>
+      <div class="btn-swipe" style="text-align: center;">
+        <span v-if="loadingPayment">
+          <svg viewBox="25 25 50 50" class="loading">
+            <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+          </svg>
+        </span>
+        <span v-else>Payer</span>
       </div>
     </div>
 
@@ -287,7 +292,15 @@
           </fieldset>
         </div>
 
-        <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); margin: 0 auto; background: #ff2a80">Enregistrer</div>
+
+        <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); margin: 0 auto; background: #ff2a80">
+          <span v-if="loadingAddress">
+            <svg viewBox="25 25 50 50" class="loading">
+              <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+            </svg>
+          </span>
+          <span v-else>Enregistrer</span>
+        </div>
       </div>
     </div>
 
@@ -385,6 +398,11 @@
     			<gmap-map v-if="points && locationMarkers.length > 0" :zoom="13" :center="center" :options="mapOptions" style="width:100%; height: calc(100vh - 390px); margin-top: 15px;">
 	    			<gmap-marker :key="index" v-for="(m, index) in locationMarkers" :position="m.position" @click="updateMapSelected(m.position,index)"></gmap-marker>
     			</gmap-map>
+          <div v-else>
+            <div class="loader2">
+              <span></span>
+            </div>
+          </div>
 
 	    		<div v-if="mapSelected">
             <div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="border-radius: 10px;margin: 35px 5px 22px;border: none; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
@@ -608,6 +626,8 @@ export default {
       shippingProducts: null,
       locationMarkers: [],
       loadingShipping: true,
+      loadingPayment: false,
+      loadingAddress: false,
       mapOptions: {
         zoomControl: true,
         mapTypeControl: false,
@@ -748,7 +768,7 @@ export default {
     	}
 
       if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
-        this.popupShippingAddress = false;
+        this.loadingAddress = true;
         this.shippingAddress = true;
         this.getShippingPrice();
 
@@ -763,9 +783,15 @@ export default {
         }
 
         window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+          this.user = JSON.parse(response.data);
+          this.$store.commit('setUser', JSON.parse(response.data));
+          this.popupShippingAddress = false;
+          this.loadingAddress = false;
           console.log(response);
         }, (response) => {
           console.log(response);
+          this.popupShippingAddress = false;
+          this.loadingAddress = false;
         });
       }
     },
@@ -886,10 +912,12 @@ export default {
     },
     payment() {
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
+        this.loadingPayment = true;
   	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
           this.lineItems = [];
           this.$store.commit('setLineItems', this.lineItems);
           this.$root.$children[0].updateLineItems();
+          this.loadingPayment = false;
 
           if (this.fullscreen) {
             this.$router.push({ name: 'Home' });
@@ -899,6 +927,7 @@ export default {
   	    }, (response) => {
   	      console.log(response.error);
           window.plugins.toast.show(response.error, 'long', 'top');
+          this.loadingPayment = false;
   	    });
       }
     },

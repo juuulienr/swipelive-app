@@ -52,7 +52,7 @@
         </div>
       </div>
       <div v-else class="checkout__body" style="text-align: center;">
-        <div class="container" style="margin: 150px auto 0px; text-align: center;">
+        <div class="container" :style="[fullscreen ? {'margin': '150px auto 0px'} : {'margin': '75px auto 0px'}]" style="text-align: center;">
           <div style="margin: 0px auto;">
             <Lottie :options="defaultOptions" :width="200"/>
           </div>

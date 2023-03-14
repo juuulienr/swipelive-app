@@ -37,7 +37,7 @@
         	<div v-if="show1">
             <div v-if="sales && sales.length > 0" class="top-author--container">
           		<div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-          			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
+          			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
           			<div>
@@ -104,7 +104,7 @@
           <div>
             <div v-if="purchases && purchases.length > 0" class="top-author--container">
               <div v-for="order in purchases" @click="showOrder(order, 'purchase')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
@@ -508,21 +508,11 @@ export default {
       this.popupConfirmation = true;
     },
     goToMessage(user) {
-      var exist = false;
-      this.user.discussions.map((discussion, index) => {
-        if (discussion.vendor.id == user.id) {
-          exist = true;
-          this.$router.push({ name: 'ListMessages', params: { discussionId: discussion.id } });
-        }
-      });
-
-      if (!exist) {
-        if (user.vendor) {
-          this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
-        } else {
-          this.$router.push({ name: 'ListMessages' });
-        }
-      }
+      if (user.vendor) {
+        this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
+      } else {
+        this.$router.push({ name: 'ListMessages' });
+      } 
     },
     cancelOrder() {
       // window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
