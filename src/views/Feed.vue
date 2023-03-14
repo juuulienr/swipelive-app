@@ -15,10 +15,16 @@
 
 
         <!-- viewers -->
-        <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
+     <!--    <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
           <Lottie :options="defaultOptions" :width="20" v-on:animCreated="handleAnimation"/>
           <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
+          </span>
+        </div> -->
+        <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
+          <Lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
+          <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
+            <span style="padding-left: 5px; font-weight: bold;">698</span>
           </span>
         </div>
 
@@ -60,168 +66,168 @@
           <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_6">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_8">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_9">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_10">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">    
             <div class="_g19 KeyframeAnimation-js_11"> 
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_12">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_13">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_14">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_15">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_16">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_17">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_18">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_19">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_20">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_21">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_22">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_23">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_24">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_25">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_26">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_27">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_28">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_29">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
           <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
             <div class="_g19 KeyframeAnimation-js_30">
               <div class="_g19 KeyframeAnimation-js_7">
-                <img :src="require(`@/assets/img/love.png`)"/>
+                <img :src="require(`@/assets/img/heart-red.svg`)"/>
               </div>
             </div>
           </div>
@@ -251,7 +257,7 @@
 
         
         <!-- profil -->
-        <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 120px);" class="checkout__header">
+        <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 117px);" class="checkout__header">
           <div style="display: flex;">
             <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
@@ -259,18 +265,21 @@
               <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">{{ feed.value.vendor.businessName }}</div>
               <div style="text-align: left; font-size: 12px; margin-top: -3px; display: flex;">
                 <div>
-                  <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
+                  <img :src="require(`@/assets/img/users.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
                 <div style="padding: 0px 5px;">327</div>
                 <div>|</div>
                 <div style="padding: 0px 5px;">
-                  <img :src="require(`@/assets/img/verified-white.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
+                  <img :src="require(`@/assets/img/heart-red.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
                 <div>27k</div>
               </div>
             </div>
             <div style="margin-top: 4px;">
-              <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">Suivre</div>
+              <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #f2295b 100%);">
+                  <img :src="require(`@/assets/img/check-white.svg`)" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
+              </div>
+              <!-- <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #f2295b 100%);">Suivre</div> -->
             </div>
           </div>
         </div>
@@ -278,7 +287,7 @@
 
 
         <!-- close feed -->
-        <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop }" class="video-page__influencer-badge3" style="background-color: transparent;flex-direction: column;">
+        <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge3" style="flex-direction: column;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
@@ -372,7 +381,7 @@
           </div>
         </div>
 
-        <div v-if="!finished[index].value" :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: hsla(0,0%,100%,.15); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
+        <div v-if="!finished[index].value" :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: rgba(0, 0, 0, 0.25); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
 
           <!-- cart -->
           <div @click="showCart()" class="video-page__influencer-username-holder" style="padding-left: 10px;">
@@ -575,7 +584,8 @@ export default {
       safeareaBottom3: '210px',
       safeareaBottom4: '32px',
       safeareaTop: '25px',
-      safeareaTop2: '30px',
+      safeareaTop2: '37px',
+      safeareaTop3: '32px',
       writeInput: '0px',
       content: "",
       loadingShop: true,
@@ -631,7 +641,8 @@ export default {
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
       this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 7px)';
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
-      this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 5px)';
+      this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 12px)';
+      this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 7px)';
       this.throttle = 500;
     }
 

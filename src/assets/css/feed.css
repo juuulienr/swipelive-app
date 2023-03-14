@@ -961,9 +961,12 @@ img.zoom {
   position: absolute;
   height: 25px;
   width: fit-content;
-  left: 15px; 
   border-radius: 50px; 
   z-index: 20;
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 0px 9px;
+  padding-bottom: 3px;
+  left: 10px;
 }
 
 .qv66sw1b {
@@ -1829,6 +1832,11 @@ video::-webkit-media-controls-start-playback-button {
   position: absolute;
   width: 48px;
 }
+._g19 img {
+  height: 48px;
+  position: absolute;
+  width: 48px;
+}
 
 
 @keyframes KeyframeAnimation-js_5 {
@@ -1837,7 +1845,7 @@ video::-webkit-media-controls-start-playback-button {
   }
 
   100% {
-    transform: translateY(-450px);
+    transform: translateY(-600px);
   }
 }
 
