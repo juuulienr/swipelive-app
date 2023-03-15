@@ -27,8 +27,8 @@
             <img v-if="profile.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 19px; height: 19px; margin-bottom: 4px;"/>
           </span>
           <div>
-            <span v-if="profile.followers.length > 1" style="font-weight: 400">{{ profile.followers.length }} abonnés</span>
-            <span v-else style="font-weight: 400">{{ profile.followers.length }} abonné</span>
+            <span v-if="profile.followers.length > 1" style="font-weight: 400">{{ followers }} abonnés</span>
+            <span v-else style="font-weight: 400">{{ followers }} abonné</span>
           </div>
         </div>
 
@@ -155,6 +155,7 @@ export default {
       live: true,
       shop: false,
       following: null,
+      followers: 0,
       product: null,
       variant: null,
     }
@@ -183,6 +184,7 @@ export default {
     getFollowers() {
       if (this.profile && this.profile.followers) {
         this.following = false;
+        this.followers = this.profile.followers.length;
         this.profile.followers.map((follower, index) => {
           this.user.following.map((following, index) => {
             if (follower.id == following.id) {
@@ -203,8 +205,10 @@ export default {
     updateFollow() {
       if (this.following == true) {
         this.following = false;
+        this.followers = this.followers - 1;
       } else {
         this.following = true;
+        this.followers = this.followers + 1;
       }
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {

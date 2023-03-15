@@ -50,6 +50,10 @@
         </div>
       </div>
 
+      <button @click="impact('medium')">impact medium</button><br/><br/>
+      <button @click="impact('heavy')">impact heavy</button><br/><br/>
+      <button @click="impact('rigid')">impact rigid</button><br/><br/>
+
 
       <div v-if="user.vendor" class="account-box">
         <div class="account-band">
@@ -338,6 +342,11 @@ export default {
           window.cordova.InAppBrowser.open(url, '_system', 'location=no');
         }
       });
+    },
+    impact(style) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: style });
+      }
     },
   }
 };

@@ -166,9 +166,10 @@ export default {
 
     this.loadOptions();
 
-    if (this.product.vendor) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.product.vendor.id + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    if (this.product.id) {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.product.id + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.promotion = JSON.parse(response.data);
+        console.log(this.promotion);
       }, (response) => {
         console.log(response.error);
       });

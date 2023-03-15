@@ -30,12 +30,12 @@
               <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)"/>
             </div>
-        <!--     <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" class="follow">
+            <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" class="follow">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 32px; height: 32px; border: 1px solid white; border-radius: 100px;">
                 <path d="M352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: white;"></path>
                 <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256C397.4 512 512 397.4 512 256S397.4 0 256 0zM352 280H280V352c0 13.2-10.8 24-23.1 24C242.8 376 232 365.2 232 352V280H160C146.8 280 136 269.2 136 256c0-13.2 10.8-24 24-24H232V160c0-13.2 10.8-24 24-24C269.2 136 280 146.8 280 160v72h72C365.2 232 376 242.8 376 256C376 269.2 365.2 280 352 280z" style="fill: rgb(255, 39, 115);"></path>
               </svg>
-            </div> -->
+            </div>
           </div>
           <div class="video-page__influencer-username6" style="font-weight: 600">{{ feed.value.vendor.businessName }}</div>
         </div>
@@ -229,19 +229,6 @@
 
 
         <!-- profil -->
-  <!--      <span v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
-                <img :src="require(`@/assets/img/plus-circle.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
-              </span>
-              <span v-if="clickFollow" style="position: absolute; top: 24px; padding: 0px 10px 5px;;">
-                <img :src="require(`@/assets/img/check-circle-white.svg`)" style="width: 21px;height: 21px;background-color: white;border-radius: 100px;">
-              </span>
-            </span>
-          </div>
-        </div> -->
-
-
-        
-        <!-- profil -->
         <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 117px);" class="checkout__header">
           <div style="display: flex;">
             <img @click="goToProfile(feed.value.vendor)" v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
@@ -254,7 +241,7 @@
                 <div>
                   <img :src="require(`@/assets/img/users.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
-                <div style="padding: 0px 5px;">{{ feed.value.vendor.user.followers.length }}</div>
+                <div style="padding: 0px 5px;">{{ followers[index].value }}</div>
                 <div>|</div>
                 <div style="padding: 0px 5px;">
                   <img :src="require(`@/assets/img/heart-red.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
@@ -262,11 +249,11 @@
                 <div>{{ totalLikes[index].value }}</div>
               </div>
             </div>
-            <div style="margin-top: 4px;">
-              <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">
+            <div v-if="feed.value.vendor.user.id != user.id" style="margin-top: 4px;">
+              <div v-if="following[index].value == false" @click="follow(feed.value.vendor.user.id)" class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">Suivre</div>
+              <div v-else class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">
                  <img :src="require(`@/assets/img/check-white.svg`)" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
               </div>
-              <!-- <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">Suivre</div> -->
             </div>
           </div>
         </div>
@@ -321,7 +308,7 @@
                   <div class="video-page__price-line">
                     <div class="video-page__price" :style="[feed.value.liveProducts[display - 1].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.liveProducts[display - 1].product.price| formatPrice }}€ 
                       <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€ 
-                        <!-- <img v-if="feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/> -->
+                        <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                       </span> 
                     </div>
                   </div>
@@ -346,7 +333,7 @@
                   <div class="video-page__price-line">
                     <div class="video-page__price" :style="[feed.value.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.product.price | formatPrice }}€ 
                       <span v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice | formatPrice }}€ 
-                        <!-- <img v-if="feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/> -->
+                        <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                       </span> 
                     </div>
                   </div>
@@ -441,14 +428,14 @@
 
 
     <!-- follow popup -->
-  <!--   <div v-if="popupFollow" class="store-products-item__login-popup store-products-item__login-popup--active follow-popup">
+    <div v-if="popupFollow" class="store-products-item__login-popup store-products-item__login-popup--active follow-popup">
       <img v-if="data[visible].value.vendor.user.picture" :src="cloudinary256x256 + data[visible].value.vendor.user.picture">
       <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
       <div style="margin-bottom: 5px;">{{ data[visible].value.vendor.businessName }}</div>
       <p class="follow-text">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
       <div @click="follow(data[visible].value.vendor.user.id)" class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
     </div>
- -->
+
 
     <!-- cart popup -->
     <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active cart-popup">
@@ -489,9 +476,9 @@
                 </span> 
               </div>
             </div>
-          <!--   <div v-if="shop.promotions.find(promo => promo.isActive === true)" style="margin-right: 10px;">
+            <div v-if="data[visible].value.vendor.promotions.length && data[visible].value.vendor.promotions.find(promo => promo.isActive === true)" style="margin-right: 10px;">
               <img :src="require(`@/assets/img/discount.svg`)" style="width: 25px; height: 25px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -555,7 +542,8 @@ export default {
       videos: [],
       animationSpeed: 1,
       animationSpeed2: 2,
-      // following: [],
+      following: [],
+      followers: [],
       totalLikes: [],
       comments: [],
       finished: [],
@@ -585,7 +573,6 @@ export default {
       popupFollow: false,
       purchase: false,
       purchasePicture: false,
-      clickFollow: false,
       throttle: 1000,
       myPlayer: null,
       http: null,
@@ -676,7 +663,7 @@ export default {
       //   this.refresh(this.$store.getters.getFeed);
       // } else {
         this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
-         this.$store.commit('setFeed', JSON.parse(response.data));
+         // this.$store.commit('setFeed', JSON.parse(response.data));
          this.refresh(JSON.parse(response.data));
         }, (response) => {
           console.log(response.error);
@@ -787,12 +774,12 @@ export default {
             this.startLive(value);
 
             setTimeout(() => {
-              // if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
-              //   this.popupFollow = true;
-              //   setTimeout(() => {
-              //     this.popupFollow = false;
-              //   }, 30000); // 30 secondes
-              // }
+              if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
+                this.popupFollow = true;
+                setTimeout(() => {
+                  this.popupFollow = false;
+                }, 30000); // 30 secondes
+              }
             }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
           }
 
@@ -841,7 +828,6 @@ export default {
 
           this.myPlayer.addEventListener('error', (error) => {
             console.log("error player", error);
-            // this.myPlayer.play();
           });
         }, 500);
       }
@@ -1063,7 +1049,8 @@ export default {
         this.videos = [];
         this.comments = [];
         this.totalLikes = [];
-        // this.following = [];
+        this.following = [];
+        this.followers = [];
         this.loading = [];
         this.display = 1;
         this.viewers = 0;
@@ -1093,19 +1080,22 @@ export default {
             console.log(value);
             this.data.push({ "type": type, "value": value });
             console.log(value.vendor.user.followers);
+            console.log(this.user.following);
             var followers = value.vendor.user.followers;
             var isFollower = false;
 
-            if (followers.length) {
-              followers.map((element, index) => {
-                console.log(element);
-                // if (element.follower.id == this.user.id) {
-                  // isFollower = true;
-                // }
+            if (followers.length && this.user.following.length) {
+              followers.map((follower, index) => {
+                this.user.following.map((following, index) => {
+                  if (follower.id == following.id) {
+                    isFollower = true;
+                  }
+                });
               });
             }
 
-            // this.following.push({ "value": isFollower });
+            this.followers.push({ "value": value.vendor.user.followers.length });
+            this.following.push({ "value": isFollower });
             this.totalLikes.push({ "value": value.totalLikes });
             this.loading.push({ "value": true });
             this.finished.push({ "value": false });
@@ -1130,12 +1120,12 @@ export default {
                   this.startLive(value);
 
                   setTimeout(() => {
-                    // if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
-                    //   this.popupFollow = true;
-                    //   setTimeout(() => {
-                    //     this.popupFollow = false;
-                    //   }, 30000); // 30 secondes
-                    // }
+                    if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
+                      this.popupFollow = true;
+                      setTimeout(() => {
+                        this.popupFollow = false;
+                      }, 30000); // 30 secondes
+                    }
                   }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
                 }
 
@@ -1158,12 +1148,12 @@ export default {
                 this.startLive(value);
 
                 setTimeout(() => {
-                  // if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
-                  //   this.popupFollow = true;
-                  //   setTimeout(() => {
-                  //     this.popupFollow = false;
-                  //   }, 30000); // 30 secondes
-                  // }
+                  if (this.following[index].value == false && value.vendor.user.id != this.user.id) {
+                    this.popupFollow = true;
+                    setTimeout(() => {
+                      this.popupFollow = false;
+                    }, 30000); // 30 secondes
+                  }
                 }, Math.floor(Math.random() * (300000 - 180000) + 180000)); // entre 3 et 5 minutes
               }
 
@@ -1184,14 +1174,14 @@ export default {
     },
     async goHome() {
       await this.stopLive();
-      const options = {
-        direction: 'right',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      // const options = {
+      //   direction: 'right',
+      //   duration: 300,
+      //   iosdelay: 0,
+      //   androiddelay: 0,
+      //   winphonedelay: 0,
+      // };
+      // window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Home' });
     },
     stopLive() {
@@ -1240,7 +1230,8 @@ export default {
           this.data.splice(this.visible, 1);
           this.videos.splice(this.visible, 1);
           this.comments.splice(this.visible, 1);
-          // this.following.splice(this.visible, 1);
+          this.followers.splice(this.visible, 1);
+          this.following.splice(this.visible, 1);
           this.finished.splice(this.visible, 1);
 
           var value = this.data[this.visible].value;
@@ -1291,25 +1282,21 @@ export default {
       console.log("User is using the feed");
       navigator.splashscreen.hide();
     },
-    // follow(id) { 
-    //   this.data.map((element, index) => {
-    //     if (element.value.vendor.user.id == id) {
-    //       // this.following[index].value = true;
-    //       this.clickFollow = true;
-    //       this.popupFollow = false;
+    follow(id) {
+      this.data.map((element, index) => {
+        if (element.value.vendor.user.id == id) {
+          this.following[index].value = true;
+          this.followers[index].value = this.followers[index].value + 1;
+          this.popupFollow = false;
+        }
+      });
 
-    //       setTimeout(() => {
-    //         this.clickFollow = false;
-    //       }, 2000);
-
-    //       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //         this.$store.commit('setUser', JSON.parse(response.data));
-    //       }, (response) => {
-    //         console.log(response.error);
-    //       });
-    //     }
-    //   });
-    // },
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.$store.commit('setUser', JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     favoris(product) { 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
@@ -1389,7 +1376,6 @@ export default {
         });
       } else {
         this.http.put(this.baseUrl + "/user/api/clip/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log("like add");
         }, (response) => { 
           console.log(response.error); 
         });

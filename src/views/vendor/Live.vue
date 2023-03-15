@@ -719,7 +719,7 @@
               <div class="performance-text">Montant</div>
             </div>
           </div>
-          <div v-if="countOrders > 1" @click="goOrders()" class="btn-swipe btn-orders">Voir les commandes</div>
+          <div v-if="countOrders > 0" @click="goOrders()" class="btn-swipe btn-orders">Voir les commandes</div>
           <div v-else @click="goBack()" class="btn-swipe btn-orders">Terminer</div>
         </div>
       </div>

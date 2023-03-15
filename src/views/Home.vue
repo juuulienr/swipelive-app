@@ -32,7 +32,7 @@
   					<h5 class="name" style="margin-top: 7px;">Rechercher</h5>
   				</div>
     		</div>
-        <div v-if="following.length && clipsTrending.length > 0 " v-for="(user, index) in following" style="padding: 0px 5px;">
+        <div v-if="following.length && following.length > 0 " v-for="(user, index) in following" style="padding: 0px 5px;">
           <div @click="goToProfile(user)">
             <div class="personne">
               <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
@@ -244,9 +244,7 @@ export default {
       this.loadClipsLatest();
     }
 
-    if (this.$store.getters.getFollowing.length == 0) {
-      this.loadFollowing();
-    }
+    this.loadFollowing();
   },
   methods: {
     goAccount() {
@@ -304,7 +302,7 @@ export default {
         this.loadingSearch = true;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
           this.results = JSON.parse(response.data);
-          // this.updateSearchFollowing();
+          this.updateSearchFollowing();
           this.loadingSearch = false;
         }, (response) => {
           console.log(response.error);
@@ -313,7 +311,7 @@ export default {
         this.loadingSearch = true;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
           this.results = JSON.parse(response.data);
-          // this.updateSearchFollowing();
+          this.updateSearchFollowing();
           this.loadingSearch = false;
         }, (response) => {
           console.log(response.error);
@@ -322,12 +320,14 @@ export default {
     },
     updateSearchFollowing() {
       this.searchFollowing = [];
+      console.log(this.results);
       this.results.map((element, index) => {
         var followers = element.followers;
         var isFollower = false;
 
         if (followers.length) {
           followers.map((element, index) => {
+            console.log(element);
             if (element.follower.id == this.user.id) {
               isFollower = true;
             }
@@ -345,11 +345,10 @@ export default {
       }
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        setTimeout(() => {
-          this.changed();
-          this.user = JSON.parse(response.data);
-          this.$store.commit('setUser', JSON.parse(response.data));
-        }, 300);
+        this.changed();
+        this.user = JSON.parse(response.data);
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.loadFollowing();
       }, (response) => {
         console.log(response.error);
       });
