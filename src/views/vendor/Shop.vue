@@ -138,7 +138,7 @@ export default {
     isProductUnavailable(product) {
       return (product.quantity === 0) || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
     },
-    addProduct() {      
+    addProduct() {
       const options = {
         direction: 'left',
         duration: 300,

@@ -349,9 +349,9 @@
 	margin: 0px 0px 6px 0px;
 	align-items: center;
   padding: 4px 10px 5px 10px; 
-  border-radius: 11px; 
-  background-color: rgba(0, 0, 0, 0.25);
-  letter-spacing: 0.05px; 
+  border-radius: 11px;
+  background-color: rgba(0, 0, 0, 0.15);
+  letter-spacing: 0.05px;
 }
 
 .video-page__influencer-badge .video-page__influencer-username {
@@ -364,15 +364,14 @@
 .video-page__influencer-badge .video-page__influencer-title {
   font-size: 13px; 
   font-weight: 600; 
-  text-shadow: rgb(0 0 0 / 80%) 0px 0px 3px;
+  text-shadow: rgb(0 0 0 / 50%) 0px 0px 2px;
   text-transform: capitalize;
 }
-
 
 .video-page__influencer-badge .video-page__influencer-content {
   font-weight: 400; 
   font-size: 14px; 
-  text-shadow: rgb(0 0 0 / 80%) 0px 0px 3px;
+  text-shadow: rgb(0 0 0 / 50%) 0px 0px 2px;
 }
 
 .scrollToMe .video-page__influencer-img {
@@ -559,9 +558,9 @@ img.zoom {
 	position: absolute;
 	z-index: 20;
 	border-radius: 25px;
-	background-color: rgba(0, 0, 0, 0.25);
+	background-color: transparent;
 	align-items: center;
-  right: 10px;
+  right: 15px;
 }
 
 .video-page__influencer-badge3 .video-page__influencer-username {

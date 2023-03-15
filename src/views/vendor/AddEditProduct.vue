@@ -494,17 +494,7 @@ export default {
         if (this.productId) {
           window.cordova.plugin.http.put(this.baseUrl + "/user/api/product/edit/" + this.productId, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
             this.$store.commit('setUser', JSON.parse(response.data));
-            window.plugins.toast.showWithOptions({
-              message: "L'article a bien été modifié !",
-              duration: "short", // 2000 ms
-              position: "top",
-              addPixelsY: 50,
-              styling: {
-                backgroundColor: '#18cea0', // make sure you use #RRGGBB. Default #333333
-                textColor: '#FFFFFF' // Ditto. Default #FFFFFF
-              }
-            });
-
+            window.plugins.toast.show("L'article a bien été modifié !", 'long', 'top');
             this.$router.push({ name: 'Shop' });
           }, (response) => {
             this.loading = false;
@@ -513,16 +503,7 @@ export default {
         } else {
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/product/add", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
             this.$store.commit('setUser', JSON.parse(response.data));
-            window.plugins.toast.showWithOptions({
-              message: "L'article a bien été ajouté !",
-              duration: "short", // 2000 ms
-              position: "top",
-              addPixelsY: 50,
-              styling: {
-                backgroundColor: '#18cea0', // make sure you use #RRGGBB. Default #333333
-                textColor: '#FFFFFF' // Ditto. Default #FFFFFF
-              }
-            });
+            window.plugins.toast.show("L'article a bien été ajouté !", 'long', 'top');
             this.$router.push({ name: 'Shop' });
           }, (response) => {
             this.loading = false;
@@ -622,17 +603,7 @@ export default {
         this.loadingDelete = true;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/delete/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setUser', JSON.parse(response.data));
-          window.plugins.toast.showWithOptions({
-            message: "L'article a bien été supprimé !",
-            duration: "short", // 2000 ms
-            position: "top",
-            addPixelsY: 50,
-            styling: {
-              backgroundColor: '#ff0000', // make sure you use #RRGGBB. Default #333333
-              textColor: '#FFFFFF' // Ditto. Default #FFFFFF
-            }
-          });
-
+          window.plugins.toast.show("L'article a bien été supprimé !", 'long', 'top');
           this.$router.push({ name: 'Shop' });
         }, (response) => {
           this.loadingDelete = false;

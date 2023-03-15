@@ -48,7 +48,8 @@
         <!-- purchase -->
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
-            <img v-if="purchasePicture" class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
+            <img v-if="purchasePicture && user.picture" class="zoom" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
+            <img v-else-if="purchasePicture && !user.picture" class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
             <Lottie :options="defaultOptions3" v-on:animCreated="handleAnimation2" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>
         </div>
@@ -242,10 +243,10 @@
         
         <!-- profil -->
         <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 117px);" class="checkout__header">
-          <div @click="goToProfile(feed.value.vendor)" style="display: flex;">
-            <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
-            <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
-            <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
+          <div style="display: flex;">
+            <img @click="goToProfile(feed.value.vendor)" v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+            <img @click="goToProfile(feed.value.vendor)" v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+            <div @click="goToProfile(feed.value.vendor)" class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
               <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">
                 {{ feed.value.vendor.businessName }}
               </div>
@@ -253,19 +254,19 @@
                 <div>
                   <img :src="require(`@/assets/img/users.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
-                <div style="padding: 0px 5px;">327</div>
+                <div style="padding: 0px 5px;">{{ feed.value.vendor.user.followers.length }}</div>
                 <div>|</div>
                 <div style="padding: 0px 5px;">
                   <img :src="require(`@/assets/img/heart-red.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
-                <div>27k</div>
+                <div>{{ totalLikes[index].value }}</div>
               </div>
             </div>
             <div style="margin-top: 4px;">
-              <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #f2295b 100%);">
+              <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">
                  <img :src="require(`@/assets/img/check-white.svg`)" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
               </div>
-              <!-- <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #f2295b 100%);">Suivre</div> -->
+              <!-- <div class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">Suivre</div> -->
             </div>
           </div>
         </div>
@@ -273,10 +274,10 @@
 
 
         <!-- close feed -->
-        <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge3" style="flex-direction: column;">
+        <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop2 }" class="video-page__influencer-badge3" style="flex-direction: column;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
-              <img :src="require(`@/assets/img/times.svg`)" style="width: 38px; height: 38px; padding: 5px; fill: white;"/>
+              <img :src="require(`@/assets/img/times.svg`)" style="width: 35px; height: 35px; padding: 5px; fill: white;"/>
             </span>
           </div>
         </div>
@@ -555,6 +556,7 @@ export default {
       animationSpeed: 1,
       animationSpeed2: 2,
       // following: [],
+      totalLikes: [],
       comments: [],
       finished: [],
       product: null,
@@ -755,10 +757,17 @@ export default {
             this.stopLive();
           }
 
-          // if (document.getElementsByTagName("iframe").length > 0) {
-          //   document.getElementsByTagName("iframe")[0].remove();
-          // }
+          var iframes = document.getElementsByTagName("iframe");
+          console.log(iframes);
 
+
+          if (iframes.length) {
+            for (let i = 0; i < iframes.length; i++) {
+              iframes[i].remove();
+            }
+          }
+
+          console.log(iframes);
           this.videos[this.visible].value = "";
           this.comments[this.visible].value = [];
           this.loading[this.visible].value = true;
@@ -805,7 +814,6 @@ export default {
 
 
           // Listen to player events
-          // var myPlayer = window.BambuserPlayer.create(document.getElementById('player0'), "https://cdn.bambuser.net/broadcasts/6f2d6a0d-c998-55b4-d1e8-214653ecc25c?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1670495430&da_static=1&da_ttl=0&da_signature=f1ab6c07d5a2f4a282521e5c4bf7df22aae6312699162683fa8d49c793b6e62b");
           this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
           this.myPlayer.scaleMode = "aspectFill";
           this.myPlayer.play();
@@ -1054,6 +1062,7 @@ export default {
         this.data = [];
         this.videos = [];
         this.comments = [];
+        this.totalLikes = [];
         // this.following = [];
         this.loading = [];
         this.display = 1;
@@ -1081,19 +1090,23 @@ export default {
           }
 
           if (showElement) {
+            console.log(value);
             this.data.push({ "type": type, "value": value });
-            // var followers = value.vendor.user.followers;
-            // var isFollower = false;
+            console.log(value.vendor.user.followers);
+            var followers = value.vendor.user.followers;
+            var isFollower = false;
 
-            // if (followers.length) {
-            //   followers.map((element, index) => {
-            //     if (element.follower.id == this.user.id) {
-            //       isFollower = true;
-            //     }
-            //   });
-            // }
+            if (followers.length) {
+              followers.map((element, index) => {
+                console.log(element);
+                // if (element.follower.id == this.user.id) {
+                  // isFollower = true;
+                // }
+              });
+            }
 
             // this.following.push({ "value": isFollower });
+            this.totalLikes.push({ "value": value.totalLikes });
             this.loading.push({ "value": true });
             this.finished.push({ "value": false });
 
@@ -1171,6 +1184,14 @@ export default {
     },
     async goHome() {
       await this.stopLive();
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Home' });
     },
     stopLive() {
@@ -1359,9 +1380,16 @@ export default {
     },
     addAnimation() {
       this.showAnimation();
+      this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;
 
       if (this.data[this.visible].type == "live") {
         this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        }, (response) => { 
+          console.log(response.error); 
+        });
+      } else {
+        this.http.put(this.baseUrl + "/user/api/clip/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log("like add");
         }, (response) => { 
           console.log(response.error); 
         });
