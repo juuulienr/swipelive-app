@@ -48,9 +48,9 @@
         <!-- purchase -->
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
-            <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
-            <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
-            <Lottie :options="defaultOptions3" v-on:animCreated="handleAnimation2" style="position: absolute; width: 100vh; height: 100vh"/>
+            <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
+            <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
+            <div class="bounce-in" style="text-shadow: rgba(0,0,0,.5) 0 0 2px; font-weight: 600; font-size: 20px; color: white;">Merci {{ user.firstname }} !</div>
           </div>
         </div>
 
@@ -512,7 +512,6 @@ import Cart from '../components/Cart';
 
 import * as animationData from '../assets/lottie/live.json';
 import * as animationData2 from '../assets/lottie/arrow.json';
-import * as animationData3 from '../assets/lottie/purchase.json';
 
 export default {
   name: 'Feed',
@@ -536,7 +535,6 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
-      defaultOptions3: {animationData: animationData3},
       lineItems: this.$store.getters.getLineItems,
       data: [],
       videos: [],
@@ -721,10 +719,6 @@ export default {
   methods: {
     handleAnimation(anim) {
       this.anim = anim;
-    },
-    handleAnimation2(anim) {
-      this.anim = anim;
-      this.anim.setSpeed(2);
     },
     visibilityChanged(isVisible, entry, index) {
       if (isVisible) {

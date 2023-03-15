@@ -19,54 +19,10 @@
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Bientôt disponible</h5>
         <div style="font-weight: 400;font-size: 15px;text-align: center;">Augmentez vos ventes avec l'aide des influenceurs.</div>
       </div>
-
-      <div @click="toast()">show toast</div>
-
-
-      <div class="toast-inactive" id="toast">
-        <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
-        <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
-        {{ user.firstname }} {{ user.lastname }}
-      </div>
     </div>
   </main>
 </template>
 
-
-<style>
-
-.toast-inactive{
-  width: 130px;
-  padding: 10px;
-  margin-top: -550px;
-  background-color: #fff;
-  color: #9137A6;
-  border-radius: 10px 10px;
-  font-size: 18px;
-  visibility: hidden;
-  opacity: 0;
-}
-
-.toast-active{
-  width: 130px;
-  padding: 10px;
-  margin-top: -550px;
-  background-color: #fff;
-  color: #9137A6;
-  border-radius: 10px 10px;
-  font-size: 18px;
-  visibility: visible;
-  opacity: 0;
-  animation-name: toast;
-  animation-duration: 3s;
-}
-
-@keyframes toast{
-  5%,95%{opacity: 1; margin-left: 100px}
-  15%,85%{opacity: 1; margin-left: 50px}
-}
-
-</style>
 
 <script>
 import Lottie from 'vue-lottie';
@@ -90,20 +46,10 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-
-
-    this.toast();
   },
   methods: {
     goBack() {
       this.$router.push({ name: 'Account' });
-    },
-    toast() {
-      let ts = document.getElementById("toast");
-      ts.className = "toast-active";
-      setTimeout(() => { 
-        ts.className = ts.className.replace("toast-active", "toast-inactive"); 
-      }, 4000);
     }
   }
 };
