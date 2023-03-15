@@ -48,8 +48,8 @@
         <!-- purchase -->
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
-            <img v-if="purchasePicture && user.picture" class="zoom" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
-            <img v-else-if="purchasePicture && !user.picture" class="zoom" :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
+            <img v-if="user.picture" :src="cloudinary256x256 + user.picture" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
+            <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 90px;" />
             <Lottie :options="defaultOptions3" v-on:animCreated="handleAnimation2" style="position: absolute; width: 100vh; height: 100vh"/>
           </div>
         </div>
@@ -431,7 +431,7 @@
     <div v-if="popupFollow" class="store-products-item__login-popup store-products-item__login-popup--active follow-popup">
       <img v-if="data[visible].value.vendor.user.picture" :src="cloudinary256x256 + data[visible].value.vendor.user.picture">
       <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
-      <div style="margin-bottom: 5px;">{{ data[visible].value.vendor.businessName }}</div>
+      <div style="margin-bottom: 5px; font-size: 16Px;">{{ data[visible].value.vendor.businessName }}</div>
       <p class="follow-text">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
       <div @click="follow(data[visible].value.vendor.user.id)" class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
     </div>
@@ -572,7 +572,6 @@ export default {
       popupCheckout: false,
       popupFollow: false,
       purchase: false,
-      purchasePicture: false,
       throttle: 1000,
       myPlayer: null,
       http: null,
@@ -1256,6 +1255,7 @@ export default {
 
         if ('likes' in data) {
           if (data.likes != this.user.id) {
+            this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;
             this.showAnimation();
           }
         }
@@ -1263,10 +1263,6 @@ export default {
         if ('order' in data) {
           setTimeout(() => {
             this.purchase = true;
-              this.purchasePicture = true;
-            setTimeout(() => {
-              this.purchasePicture = false;
-            }, 1700);
             setTimeout(() => {
               this.purchase = false;
             }, 3000);
@@ -1342,10 +1338,6 @@ export default {
       } else {
         setTimeout(() => {
           this.purchase = true;
-            this.purchasePicture = true;
-          setTimeout(() => {
-            this.purchasePicture = false;
-          }, 1700);
           setTimeout(() => {
             this.purchase = false;
           }, 3000);
@@ -1367,6 +1359,7 @@ export default {
     },
     addAnimation() {
       this.showAnimation();
+      console.log(this.totalLikes);
       this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;
 
       if (this.data[this.visible].type == "live") {
@@ -1605,7 +1598,7 @@ export default {
       this.anim22 = false;
       this.anim23 = false;
       this.anim24 = false;
-    },
+    }
   }
 };
 </script>

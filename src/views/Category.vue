@@ -94,7 +94,7 @@ export default {
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
       lineItems: this.$store.getters.getLineItems,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_512,w_512/',
       categories: this.$store.getters.getCategories,
       defaultOptions: {animationData: animationData},
       products: this.$store.getters.getAllProducts,

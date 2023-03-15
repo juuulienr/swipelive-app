@@ -1413,7 +1413,7 @@ img.zoom {
 
 .follow-popup {
   overflow-y: scroll; 
-  height: 21%; 
+  height: 30%; 
   width: 100vw; 
   box-shadow: 0 0 5px rgb(0 0 0 / 20%); 
   padding: 0px 10px 0px; 
@@ -1435,10 +1435,12 @@ img.zoom {
 
 
 .follow-popup .follow-text {
-  font-size: 11px; 
   text-align: center; 
   font-weight: 400; 
   color: #999;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  font-size: 12px;
 }
 
 .shop-popup {
@@ -1631,6 +1633,37 @@ video::-webkit-media-controls-start-playback-button {
 	100% { left: 15px; }
 }
 
+
+.toast-inactive{
+  width: 130px;
+  padding: 10px;
+  margin-top: -550px;
+  background-color: #fff;
+  color: #9137A6;
+  border-radius: 10px 10px;
+  font-size: 18px;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.toast-active{
+  width: 130px;
+  padding: 10px;
+  margin-top: -550px;
+  background-color: #fff;
+  color: #9137A6;
+  border-radius: 10px 10px;
+  font-size: 18px;
+  visibility: visible;
+  opacity: 0;
+  animation-name: toast;
+  animation-duration: 3s;
+}
+
+@keyframes toast{
+  5%,95%{opacity: 1; margin-left: 100px}
+  15%,85%{opacity: 1; margin-left: 50px}
+}
 
 .KeyframeAnimation-js_5 {
   animation-name: KeyframeAnimation-js_5;
