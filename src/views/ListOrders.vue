@@ -437,6 +437,9 @@ export default {
       });
     },
     showOrder(order, type) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupOrder = true;
       this.order = order;
       this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);
@@ -450,6 +453,14 @@ export default {
       this.type = null;
     },
     goBack() {
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Account' });
     }, 
     showLabel() {
@@ -467,6 +478,9 @@ export default {
       });
     },
     generateLabel() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.order = JSON.parse(response.data);
       }, (response) => {
@@ -508,6 +522,9 @@ export default {
       this.popupConfirmation = true;
     },
     goToMessage(user) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       if (user.vendor) {
         this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
       } else {
@@ -542,24 +559,36 @@ export default {
       });
     },
     showNumber1() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.show1 = true;
       this.show2 = false;
       this.show3 = false;
       this.show4 = false;
     }, 
     showNumber2() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.show1 = false;
       this.show2 = true;
       this.show3 = false;
       this.show4 = false;
     }, 
     showNumber3() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.show1 = false;
       this.show2 = false;
       this.show3 = true;
       this.show4 = false;
     }, 
     showNumber4() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.show1 = false;
       this.show2 = false;
       this.show3 = false;

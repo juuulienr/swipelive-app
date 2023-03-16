@@ -922,6 +922,9 @@ export default {
     },
     changeProduct() {
       if (this.liveProducts.length > 1) {
+        if (window.TapticEngine) {
+          TapticEngine.impact({ style: 'medium' });
+        }
         this.display = this.display + 1;
         this.liveProducts.shift();
         this.available = null;
@@ -1019,6 +1022,9 @@ export default {
     async start() {
       if (this.broadcaster) {
         try {
+          if (window.TapticEngine) {
+            TapticEngine.impact({ style: 'medium' });
+          }
           await this.broadcaster.startBroadcast();
           this.listenForError();
           this.listenForBroadcastId();
@@ -1058,6 +1064,10 @@ export default {
       window.StatusBar.overlaysWebView(false);
       window.StatusBar.styleDefault();
       window.StatusBar.backgroundColorByHexString("#ffffff");
+      
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
 
       this.ready = false;
       this.performance = true;
@@ -1220,6 +1230,9 @@ export default {
       }
     },
     showFacebook() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupMultistream = false;
 
       window.facebookConnectPlugin.login(["public_profile", "publish_video"], (response) => {
@@ -1305,12 +1318,18 @@ export default {
       });
     },
     showViewers() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupViewers = true;
     },
     hideViewers() {
       this.popupViewers = false;
     },
     showMultistream() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupMultistream = true;
       this.popupPromo = false;
     },
@@ -1318,10 +1337,16 @@ export default {
       this.popupMultistream = false;
     },
     showPromo() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupPromo = true;
       this.popupMultistream = false;
     },
     savePromo() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       if (this.promotion.value) {
         this.promotion.value = parseFloat(this.promotion.value);
       }
@@ -1373,6 +1398,9 @@ export default {
       this.popupPromo = false;
     },
     showOrders() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupOrders = true;
     },
     hideOrders() {
@@ -1385,6 +1413,9 @@ export default {
       this.anim = anim;
     },
     addAnimation() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.showAnimation();
 
       this.http.put(this.baseUrl + "/user/api/live/" + this.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {

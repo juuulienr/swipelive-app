@@ -151,12 +151,23 @@ export default {
   },
   methods: {
     goBack() {
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Account' });
     },
     hidePromo() {
       this.popupPromo = false;
     }, 
     savePromo() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       if (this.promotion.value) {
         this.promotion.value = parseFloat(this.promotion.value);
       }
@@ -185,6 +196,9 @@ export default {
       }
     },
     deletePromo(promo, index) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.user.vendor.promotions.splice(index, 1);
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));
@@ -193,6 +207,9 @@ export default {
       });
     },
     showPromo() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupPromo = true;
     },
     check(promo) {

@@ -341,6 +341,9 @@ export default {
       navigator.splashscreen.hide();
     },
     async login() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
 
@@ -380,6 +383,9 @@ export default {
       }
     },
     async facebook() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
         console.log(response);
         this.loading = true;
@@ -415,6 +421,9 @@ export default {
       // ajouter apple
     // },
     resetPassword() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.errorEmailRecovery = false;
 
       // envoyer mail pour reinitialiser mdp
@@ -427,6 +436,9 @@ export default {
       }
     },
     open() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.StatusBar.overlaysWebView(false);  
       window.StatusBar.styleDefault();
       window.StatusBar.backgroundColorByHexString("#ffffff");
@@ -440,6 +452,9 @@ export default {
       this.popup = true;
     },
     forgotPassword() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -449,6 +464,9 @@ export default {
       this.popupPassword = true;
     },
     userRegistration() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -458,6 +476,9 @@ export default {
       this.popupUserRegistration = true;
     },
     userLogin() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -467,6 +488,9 @@ export default {
       this.popupLogin = true;
     },
     openUrl(url) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.SafariViewController.isAvailable((available) => {
         if (available) {
           window.SafariViewController.show({ url: url }, (result) => {
@@ -480,6 +504,9 @@ export default {
       });
     },
     async register() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.errorFirstname = false;
       this.errorLastname = false;
       this.errorEmail = false;
@@ -556,6 +583,9 @@ export default {
       this.anim = anim;
     },
     uploadSheet() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       var options = {
         title: 'Ajouter une photo',
         buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],

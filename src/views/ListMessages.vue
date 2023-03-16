@@ -187,10 +187,10 @@ export default {
               this.selectedDiscussion = discussion;
             }
           });
+        }
 
-          if (!this.selectedDiscussion) {
-            this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
-          }
+        if (this.userId && !this.selectedDiscussion) {
+          this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
         }
       }, (response) => {
         console.log(response.error);

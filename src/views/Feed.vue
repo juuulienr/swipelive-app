@@ -261,7 +261,7 @@
 
 
         <!-- close feed -->
-        <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop2 }" class="video-page__influencer-badge3" style="flex-direction: column;">
+        <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge3" style="flex-direction: column;">
           <div class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/times.svg`)" style="width: 35px; height: 35px; padding: 5px; fill: white;"/>
@@ -374,7 +374,7 @@
           </div>
 
           <!-- share -->
-          <div @click="share" class="video-page__influencer-username-holder">
+          <div @click="share()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count">
               <img :src="require(`@/assets/img/share.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
             </span>
@@ -733,6 +733,10 @@ export default {
           this.product = null;
           this.variant = null;
 
+          // if (window.TapticEngine) {
+          //   TapticEngine.impact({ style: 'light' });
+          // }
+
           if (this.data[this.visible].type == "live") {
             this.stopLive();
           }
@@ -858,6 +862,9 @@ export default {
       });
     },
     showProduct(product) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.product = product;
       this.variant = null;
       this.popupShop = false;
@@ -870,11 +877,17 @@ export default {
       this.variant = null;
     },
     async goCheckout() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       await this.addToCart();
       this.popupCheckout = true;
       this.myPlayer.muted = true;
     },
     addToCart() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupCheckout = false;
       this.popupProduct = false;
       this.popupCart = false;
@@ -940,6 +953,9 @@ export default {
       }
     },
     showCart() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupCart = true;
       this.popupProduct = false;
       this.popupShop = false;
@@ -950,6 +966,9 @@ export default {
       this.popupProduct = false;
     },
     showShop(vendor) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupShop = true;
       this.popupCart = false;
       this.popupProduct = false;
@@ -971,6 +990,9 @@ export default {
       this.shop = [];
     },
     async goToProfile(vendor) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       await this.stopLive();
 
       var user = vendor.user;
@@ -1257,6 +1279,9 @@ export default {
         if ('order' in data) {
           setTimeout(() => {
             this.purchase = true;
+            if (window.TapticEngine) {
+              TapticEngine.impact({ style: 'heavy' });
+            }
             setTimeout(() => {
               this.purchase = false;
             }, 3000);
@@ -1273,6 +1298,9 @@ export default {
       navigator.splashscreen.hide();
     },
     follow(id) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.data.map((element, index) => {
         if (element.value.vendor.user.id == id) {
           this.following[index].value = true;
@@ -1288,6 +1316,9 @@ export default {
       });
     },
     favoris(product) { 
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
@@ -1296,6 +1327,9 @@ export default {
       });
     },
     share() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
     },
     selectVariantChild(variant) {
@@ -1352,6 +1386,9 @@ export default {
       window.StatusBar.overlaysWebView(true);
     },
     addAnimation() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.showAnimation();
       console.log(this.totalLikes);
       this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;

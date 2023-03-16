@@ -341,6 +341,9 @@ export default {
       this.bank = false;
     },
     showWithdraw() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupWithdraw = true;
       this.withdraw = true;
       this.$nextTick(() => this.$refs.withdrawAmount.focus());
@@ -402,6 +405,14 @@ export default {
       }
     },
     goBack() {
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Account' });
     },
     formatMonth(dateString) {

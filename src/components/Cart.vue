@@ -143,6 +143,9 @@ export default {
       }
     },
     showCheckout() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       if (this.fullscreen) {
         this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
       } else {

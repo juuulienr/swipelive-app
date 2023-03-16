@@ -50,14 +50,9 @@
         </div>
       </div>
 
-      <button @click="impact('medium')">impact medium</button><br/><br/>
-      <button @click="impact('heavy')">impact heavy</button><br/><br/>
-      <button @click="impact('rigid')">impact rigid</button><br/><br/>
-
-
       <div v-if="user.vendor" class="account-box">
         <div class="account-band">
-          <router-link :to="{ name: 'Shop' }">
+          <div @click="shop()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/shop.svg`)"/>
             </span>
@@ -65,10 +60,10 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'ListOrders', params: { 'isOrder': true } }">
+          <div @click="listOrders(true)" style="width: 100%">
             <span class="left-side">
               <img class="img1" :src="require(`@/assets/img/orders.svg`)"/>
             </span>
@@ -76,10 +71,10 @@
             <span style="float: right;">
               <img class="img2" class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'Wallet' }">
+          <div @click="wallet()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/wallet.svg`)"/>
             </span>
@@ -87,12 +82,12 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
       </div>
       <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
-          <router-link :to="{ name: 'ListOrders', params: { 'isOrder': false } }">
+          <div @click="listOrders(false)" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/purchases.svg`)"/>
             </span>
@@ -100,10 +95,10 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'ListClips' }">
+          <div @click="listClips()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/clips.svg`)"/>
             </span>
@@ -111,10 +106,10 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'ListPromotions' }">
+          <div @click="listPromotions()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/promotion.svg`)"/>
             </span>
@@ -122,12 +117,12 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
       </div>
       <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
-          <router-link :to="{ name: 'ListFollowing' }">
+          <div @click="listFollowing()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/followers.svg`)"/>
             </span>
@@ -135,10 +130,10 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'ListPartners' }">
+          <div @click="listPartners()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/partner.svg`)"/>
             </span>
@@ -146,10 +141,10 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'Favoris' }">
+          <div @click="favoris()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/favoris.svg`)"/>
             </span>
@@ -157,7 +152,7 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
       </div>
 
@@ -165,7 +160,7 @@
 
       <div v-if="!user.vendor" class="account-box">
         <div class="account-band">
-          <router-link :to="{ name: 'ListOrders', params: { 'isOrder': false } }">
+          <div @click="listOrders(false)" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/purchases.svg`)"/>
             </span>
@@ -173,10 +168,10 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'ListFollowing' }">
+          <div @click="listFollowing()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/followers.svg`)"/>
             </span>
@@ -184,10 +179,10 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'Favoris' }">
+          <div @click="favoris()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/favoris.svg`)"/>
             </span>
@@ -195,14 +190,14 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
       </div>
 
 
       <div v-if="!user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
-          <router-link :to="{ name: 'SwipeWheel' }">
+          <div @click="swipeWheel()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/trophy.svg`)"/>
             </span>
@@ -210,7 +205,7 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
       </div>
 
@@ -228,7 +223,7 @@
           </div>
         </div>
         <div class="account-band">
-          <router-link :to="{ name: 'About' }">
+          <div @click="about()" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/info.svg`)"/>
             </span>
@@ -236,7 +231,7 @@
             <span style="float: right;">
               <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
-          </router-link>
+          </div>
         </div>
         <div class="account-band" style="justify-content: left;">
           <div @click="logout()" style="width: 100%">
@@ -309,18 +304,178 @@ export default {
     goBack() {
       this.$router.push({ name: 'Feed' });
     },
+    about() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'About' });
+    },
+    swipeWheel() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'SwipeWheel' });
+    },
+    listOrders(isOrder) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'ListOrders', params: { 'isOrder': isOrder } });
+    },
+    listFollowing() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'ListFollowing' });
+    },
+    listPartners() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'ListPartners' });
+    },
+    favoris() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'Favoris' });
+    },
+    listClips() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'ListClips' });
+    },
+    listPromotions() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'ListPromotions' });
+    },
+    wallet() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'Wallet' });
+    },
+    shop() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
+      this.$router.push({ name: 'Shop' });
+    },
     addReview() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       // window.cordova.plugins.AppReview.openStoreScreen(null, true);
     },
     goEditProfile() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       const options = {
         direction: 'left',
-        duration: 200,
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
       };
       window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'EditUser' });
     },
     goToPrelive() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       if (this.user.vendor.products.length > 0) {
         this.$router.push({ name: 'PreLive' });
       } else {
@@ -328,9 +483,23 @@ export default {
       }
     },
     goToVendorRegistration() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'VendorRegistration' });
     },
     openUrl(url) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.SafariViewController.isAvailable((available) => {
         if (available) {
           window.SafariViewController.show({ url: url }, (result) => {
@@ -342,11 +511,6 @@ export default {
           window.cordova.InAppBrowser.open(url, '_system', 'location=no');
         }
       });
-    },
-    impact(style) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: style });
-      }
     },
   }
 };

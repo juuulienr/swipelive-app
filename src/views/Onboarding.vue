@@ -93,10 +93,16 @@ export default {
   },
   methods: {
     allowNotif() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.notif = false;
       this.step1 = true;
     },
     goFeed() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.$router.push({ name: 'Feed' });
     }
   }  

@@ -354,13 +354,22 @@ export default {
       });
     },
     goToProfile(user) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.$store.commit('setProfile', user);
       this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
     goToCategory(category) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.$router.push({ name: 'Category', params: { id: category.id } });
     },
     showProduct(product) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.product = product;
       this.popupProduct = true;
     },

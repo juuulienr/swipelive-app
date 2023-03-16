@@ -189,6 +189,9 @@ export default {
       });
     },
     goStep1() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.rules = false;
       this.step1 = true;
       this.step2 = false;
@@ -196,6 +199,9 @@ export default {
     },
     async goStep2() {
       console.log(this.selected);
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
 
       if (this.selected.length > 0) {
         if (this.selected.length > 1) {
@@ -208,6 +214,9 @@ export default {
     },
     async submit() {
       if (!this.loading) {
+        if (window.TapticEngine) {
+          TapticEngine.impact({ style: 'medium' });
+        }
         this.loading = true;
         var liveProducts = [];
         this.selected.map((element, index) => { 
@@ -251,6 +260,9 @@ export default {
       console.log(event);
     },
     checkAll() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.isCheckAll = !this.isCheckAll;
       this.selected = [];
       this.checked = [];
@@ -280,6 +292,14 @@ export default {
     },
     goBack() {
       if (this.step1 || this.rules) {
+        const options = {
+          direction: 'right',
+          duration: 300,
+          iosdelay: 0,
+          androiddelay: 0,
+          winphonedelay: 0,
+        };
+        window.plugins.nativepagetransitions.slide(options);
         this.$router.push({ name: 'Account' });
       } else {
         this.step2 = false;

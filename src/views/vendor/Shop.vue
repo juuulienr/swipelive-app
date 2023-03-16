@@ -139,6 +139,9 @@ export default {
       return (product.quantity === 0) || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
     },
     addProduct() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       const options = {
         direction: 'left',
         duration: 300,
@@ -150,9 +153,31 @@ export default {
       this.$router.push({ name: 'AddEditProduct' });
     },
     editProduct(id) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'AddEditProduct', params: { productId: id } });
     },
     goBack() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Account' });
     },
   }

@@ -150,9 +150,15 @@ export default {
       });
     },
     selectCategory(category) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.selectedCategory = category;
     },
     showProduct(product) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.product = product;
       this.popupProduct = true;
     },

@@ -195,10 +195,16 @@ export default {
       }
     },
     showShop() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.shop = true;
       this.live = false;
     }, 
     showLive() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.shop = false;
       this.live = true;
     },
@@ -243,12 +249,18 @@ export default {
       this.$router.back();
     },
     goToMessage(user) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
     },
     goToFeed(index) {
       this.$router.push({ name: 'Feed', params: { type: 'profile', index: index, profileId: this.profile.id } });
     },
     showProduct(product) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.StatusBar.overlaysWebView(false);  
       window.StatusBar.styleDefault();
       window.StatusBar.backgroundColorByHexString("#ffffff");
@@ -262,6 +274,9 @@ export default {
       this.product = null;
     },
     favoris(product) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
@@ -274,6 +289,9 @@ export default {
       this.variant = variant;
     },
     addToCart() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupProduct = false;
 
       if (typeof this.product.vendor == "object") {

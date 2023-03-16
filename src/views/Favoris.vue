@@ -196,6 +196,9 @@ export default {
   },  
   methods: {
     removeFavoris(product) { 
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.user.favoris.map((favoris, index) => {
         if (favoris.product.id == product.id) {
           this.user.favoris.splice(index, 1);
@@ -209,6 +212,9 @@ export default {
       });
     },
     showProduct(product) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.product = product;
       this.popupProduct = true;
     },
@@ -221,6 +227,9 @@ export default {
       this.variant = variant;
     },
     addToCart() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupProduct = false;
 
       if (typeof this.product.vendor == "object") {
@@ -283,6 +292,17 @@ export default {
       }
     },
     goBack() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.back();
     },
   }

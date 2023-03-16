@@ -173,6 +173,9 @@ export default {
   },
   methods: {
     async submit() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'light' });
+      }
       event.preventDefault();
       this.errorPhone = false;
       this.errorEmail = false;
@@ -359,7 +362,7 @@ export default {
     goBack() {
       const options = {
         direction: 'right',
-        duration: 200,
+        duration: 300,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
