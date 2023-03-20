@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <div v-else-if="loadingDiscussions">
+        <div v-else-if="loading">
           <div class="loader2">
             <span></span>
           </div>
@@ -92,7 +92,7 @@ export default {
       defaultOptions: {animationData: animationData},
       discussions: [],
       selectedDiscussion: null,
-      loadingDiscussions: true,
+      loading: true,
       searchTerm: "",
     }
   },
@@ -100,10 +100,10 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    this.loadDiscussions();
   },
   mounted() {
-    this.loadDiscussions();
-
     this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
     var channel = this.pusher.subscribe("discussion_channel");
 
@@ -179,7 +179,7 @@ export default {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(response);
         this.discussions = JSON.parse(response.data);
-        this.loadingDiscussions = false;
+        this.loading = false;
 
         if (this.userId && this.discussions.length > 0) {
           this.discussions.map((discussion, index) => {

@@ -368,11 +368,12 @@ export default {
           var result = JSON.parse(response.data);
           window.localStorage.setItem("token", result.token);
 
-          window.cordova.plugin.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + result.token }, (response) => {
-           this.$store.commit('setFeed', JSON.parse(response.data));
-           this.$router.push({ name: 'Feed' });
-          }, (response) => {
-            console.log(response.error);
+          window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + result.token }, (response) => {
+            console.log(JSON.parse(response.data));
+            this.$store.commit('setUser', JSON.parse(response.data));
+            this.$router.push({ name: 'Feed' });
+          }, (error) => {
+            console.log(error);
           });
         }, (response) => {
           this.loading = false;
@@ -561,18 +562,11 @@ export default {
         var result = JSON.parse(response.data);
         window.localStorage.setItem("token", result.token);
 
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + result.token }, (response) => {
-         this.$store.commit('setFeed', JSON.parse(response.data));
-         
-          if (newUser == true) {
-            this.$router.push({ name: 'Onboarding' });
-          } else {
-            this.$router.push({ name: 'Feed' });
-          }
-        }, (response) => {
-          console.log(response.error);
-        });
-
+        if (newUser == true) {
+          this.$router.push({ name: 'Onboarding' });
+        } else {
+          this.$router.push({ name: 'Feed' });
+        }
       }, (response) => {
         this.loading = false;
         console.log(response.error);

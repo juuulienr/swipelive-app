@@ -9,9 +9,9 @@
       <div class="checkout__title">Favoris</div>
     </div>
 
-    <div v-if="user.favoris && user.favoris.length > 0" class="checkout__body items">
+    <div v-if="favoris.length" class="checkout__body items">
       <div class="shop--part" style="margin: 10px 15px 0px; gap: 20px 10px;">
-        <div v-for="(heart, index) in user.favoris" @click="showProduct(heart.product)" class="shop--box">
+        <div v-for="(heart, index) in favoris" @click="showProduct(heart.product)" class="shop--box">
           <div>
             <div>
               <img v-if="heart.product.uploads.length" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px;">
@@ -30,6 +30,11 @@
         </div>
       </div>
     </div>   
+    <div v-else-if="loading">
+      <div class="loader2">
+        <span></span>
+      </div>
+    </div>
     <div v-else class="checkout__body items">
       <div class="container" style="margin: 120px auto 0px; text-align: center;">
         <div style="margin: 0px auto;">
@@ -46,8 +51,6 @@
       <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
         <img :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
-      <img v-else @click="removeFavoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -178,7 +181,9 @@ export default {
       lineItems: this.$store.getters.getLineItems,
       categories: this.$store.getters.getCategories,
       defaultOptions: {animationData: animationData},
+      favoris: [],
       popupProduct: false,
+      loading: true,
       product: null,
       variant: null,
     }
@@ -193,15 +198,25 @@ export default {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    this.loadFavoris();
   },  
   methods: {
+    loadFavoris() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.favoris = JSON.parse(response.data);
+        this.loading = false;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     removeFavoris(product) { 
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.user.favoris.map((favoris, index) => {
+      this.favoris.map((favoris, index) => {
         if (favoris.product.id == product.id) {
-          this.user.favoris.splice(index, 1);
+          this.favoris.splice(index, 1);
         }
       });
 

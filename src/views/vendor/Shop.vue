@@ -23,9 +23,9 @@
 
       <div @click="addProduct()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px;">Ajouter un article</div>
 
-      <div v-if="user.vendor.products.length > 0" class="items">
+      <div v-if="products.length" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
-          <div v-for="(product, index) in sortedProducts" @click="editProduct(product.id)" class="product--item">
+          <div v-for="(product, index) in sortedProducts" @click="editProduct(product)" class="product--item">
             <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style=" background: #eeeeee">
             <img v-else :src="require(`@/assets/img/no-preview.png`)">
             <div class="details">
@@ -37,6 +37,11 @@
               <div v-else class="price">{{ product.price | formatPrice }}€</div>
             </div>
           </div>
+        </div>
+      </div>
+      <div v-else-if="loading">
+        <div class="loader2">
+          <span></span>
         </div>
       </div>
       <div v-else>
@@ -72,7 +77,8 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       user: this.$store.getters.getUser,
-      products: null,
+      products: [],
+      loading: true,
     }
   },
   filters: {
@@ -83,7 +89,7 @@ export default {
   },
   computed: {
     sortedProducts() {
-      return this.user.vendor.products.sort((a, b) => {
+      return this.products.sort((a, b) => {
         const aQuantity = a.variants.length > 0 ? this.totalVariantQuantity(a.variants) : a.quantity;
         const bQuantity = b.variants.length > 0 ? this.totalVariantQuantity(b.variants) : b.quantity;
 
@@ -97,25 +103,29 @@ export default {
       });
     },
     numberOfProductsInStock() {
-      return this.user.vendor.products.filter((product) => this.getProductQuantity(product) !== "Épuisé").length;
+      return this.products.filter((product) => this.getProductQuantity(product) !== "Épuisé").length;
     },
     numberOfOutOfStockProducts() {
-      return this.user.vendor.products.filter((product) => this.getProductQuantity(product) === "Épuisé").length;
+      return this.products.filter((product) => this.getProductQuantity(product) === "Épuisé").length;
     },
   },
   created() {    
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.$store.commit('setUser', JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-    }, (error) => {
-      console.log(error);
-    });
+    
+    this.loadProducts();
   },
   methods: {
+    loadProducts() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        this.products = JSON.parse(response.data);
+        this.loading = false;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     totalVariantQuantity(variants) {
       return variants.reduce((total, variant) => total + variant.quantity, 0);
     },
@@ -152,7 +162,7 @@ export default {
       window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'AddEditProduct' });
     },
-    editProduct(id) {
+    editProduct(product) {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -164,7 +174,8 @@ export default {
         winphonedelay: 0,
       };
       window.plugins.nativepagetransitions.slide(options);
-      this.$router.push({ name: 'AddEditProduct', params: { productId: id } });
+      this.$store.commit('setProduct', product);
+      this.$router.push({ name: 'AddEditProduct', params: { productId: product.id } });
     },
     goBack() {
       if (window.TapticEngine) {

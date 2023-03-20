@@ -42,10 +42,10 @@
 
         <div class="images_sec" style="padding: 0px 10px;">
           <div v-if="live" class="images" style="margin-bottom: 30px;">
-            <div v-if="profile && profile.vendor.clips && profile.vendor.clips.length" class="row">
-              <div v-for="(clip, index) in profile.vendor.clips" v-if="clip.status == 'available'" class="col-6 col-img">
+            <div v-if="clips.length" class="row">
+              <div v-for="(clip, index) in clips" v-if="clip.status == 'available'" class="col-6 col-img">
                 <div @click="goToFeed(index)">
-                  <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee;">
+                  <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;">
                   <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
                   <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
                     <img v-if="clip.product.uploads.length" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #eeeeee;">
@@ -54,7 +54,7 @@
                 </div>
               </div>
             </div>
-            <div v-else-if="loadingProfile">
+            <div v-else-if="loadingClips">
               <div class="loader2">
                 <span></span>
               </div>
@@ -70,8 +70,8 @@
           </div>
 
           <div v-if="shop" class="items" style="padding: 5px;">
-            <div v-if="profile && profile.vendor.products && profile.vendor.products.length" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
-              <div v-for="product in profile.vendor.products" @click="showProduct(product)" class="shop--box">
+            <div v-if="products.length" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
+              <div v-for="product in products" @click="showProduct(product)" class="shop--box">
                 <div>
                   <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee;">
                   <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">
@@ -86,7 +86,7 @@
                 </div>
               </div>
             </div>
-            <div v-else-if="loadingProfile">
+            <div v-else-if="loadingProducts">
               <div class="loader2">
                 <span></span>
               </div>
@@ -143,15 +143,19 @@ export default {
     return {
       id: this.$route.params.id,
       user: this.$store.getters.getUser,
+      profile: this.$store.getters.getProfile,
       lineItems: this.$store.getters.getLineItems,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      profile: this.$store.getters.getProfile,
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
+      clips: [],
+      products: [],
       popupProduct: false,
       loadingProfile: true,
+      loadingClips: true,
+      loadingProducts: true,
       live: true,
       shop: false,
       following: null,
@@ -170,12 +174,29 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.overlaysWebView(true);
     
-    var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, httpHeader, (response) => {
+    this.getFollowers();
+    
+    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
       console.log(JSON.parse(response.data));
       this.profile = JSON.parse(response.data);
       this.loadingProfile = false;
-      this.getFollowers();
+    }, (response) => {
+      console.log(response.error);
+    });
+
+    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/clips", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      var result = JSON.parse(response.data);
+      result.map((element) => {
+        this.clips.push(JSON.parse(element.value));
+      });
+      this.loadingClips = false;
+    }, (response) => {
+      console.log(response.error);
+    });
+
+    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      this.products = JSON.parse(response.data);
+      this.loadingProducts = false;
     }, (response) => {
       console.log(response.error);
     });

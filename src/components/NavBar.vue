@@ -22,6 +22,7 @@
               </svg>
             </div>
           </div>
+        </router-link>
       </div>
       <div @click="menuActive(2)" :class="active_el == 2 ? '_1e1aumhl' : '_45o9ez'">
         <router-link class="_469le2" :to="{ name: 'Feed' }">

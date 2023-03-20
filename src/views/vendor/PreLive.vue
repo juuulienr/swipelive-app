@@ -46,7 +46,7 @@
           </label>
         </div>
 
-        <div v-if="products.length > 0" class="items">
+        <div v-if="products.length" class="items">
           <div class="lasted--product" style="margin-top: 12px; padding-bottom: 140px;">
             <div v-for="(product, index) in products" :key="product.id" class="product--item">
               <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename">
@@ -72,6 +72,11 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div v-else-if="loadingProducts">
+          <div class="loader2">
+            <span></span>
           </div>
         </div>
 
@@ -144,6 +149,7 @@ export default {
       step1: window.localStorage.getItem("rules") ? true : false,
       step2: false,
       isCheckAll: true,
+      loadingProducts: true,
       loading: false,
       dragging: false,
       products: [],
@@ -163,29 +169,26 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    this.filterProducts();
-    // window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //   this.$store.commit('setUser', JSON.parse(response.data));
-    //   this.user = JSON.parse(response.data);
-    //   this.filterProducts();
-    // }, (error) => {
-    //   console.log(error);
-    // });
+    this.loadProducts();
   },
   methods: {
-    filterProducts() {
-      // this.products = [];
-      // this.selected = [];
-      // this.checked = [];
-      this.products = this.user.vendor.products.filter((product, index) => {
-        if (this.getProductQuantity(product) !== "Épuisé") {
-          return true;
-        }
-      });
+    loadProducts() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        this.products = JSON.parse(response.data).filter((product, index) => {
+          if (this.getProductQuantity(product) !== "Épuisé") {
+            return true;
+          }
+        });
 
-      this.products.map((product, index) => {
-        this.selected.push({ 'product': product, 'priority': index + 1 });
-        this.checked.push({ 'selected': true });
+        this.products.map((product, index) => {
+          this.selected.push({ 'product': product, 'priority': index + 1 });
+          this.checked.push({ 'selected': true });
+        });
+
+        this.loadingProducts = false;
+      }, (response) => {
+        console.log(response.error);
       });
     },
     goStep1() {
@@ -197,7 +200,7 @@ export default {
       this.step2 = false;
       window.localStorage.setItem("rules", true);
     },
-    async goStep2() {
+    goStep2() {
       console.log(this.selected);
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -212,7 +215,7 @@ export default {
         }
       }
     },
-    async submit() {
+    submit() {
       if (!this.loading) {
         if (window.TapticEngine) {
           TapticEngine.impact({ style: 'medium' });
@@ -267,8 +270,8 @@ export default {
       this.selected = [];
       this.checked = [];
       if (this.isCheckAll) {
-        this.products.map((element, index) => { 
-          this.selected.push({ 'product': element.id, 'priority': index + 1 });
+        this.products.map((product, index) => { 
+          this.selected.push({ 'product': product, 'priority': index + 1 });
           this.checked.push({ 'selected': true });
         });
       } else {

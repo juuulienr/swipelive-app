@@ -231,8 +231,10 @@
         <!-- profil -->
         <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 117px);" class="checkout__header">
           <div style="display: flex;">
-            <img @click="goToProfile(feed.value.vendor)" v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
-            <img @click="goToProfile(feed.value.vendor)" v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+            <div @click="goToProfile(feed.value.vendor)">
+              <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+            </div>
             <div @click="goToProfile(feed.value.vendor)" class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
               <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">
                 {{ feed.value.vendor.businessName }}
@@ -246,7 +248,7 @@
                 <div style="padding: 0px 5px;">
                   <img :src="require(`@/assets/img/heart-red.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
-                <div>{{ totalLikes[index].value }}</div>
+                <div>{{ totalLikes[index].value | formatLikes }}</div>
               </div>
             </div>
             <div v-if="feed.value.vendor.user.id != user.id" style="margin-top: 4px;">
@@ -701,6 +703,15 @@ export default {
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    formatLikes(value) {
+      if (value < 1000) {
+        return value;
+      } else if (value < 1000000) {
+        return (value / 1000).toFixed(2) + 'k';
+      } else {
+        return (value / 1000000).toFixed(2) + 'm';
+      }
     }
   },
   directives: {
@@ -751,10 +762,6 @@ export default {
           this.loading[this.visible].value = true;
           this.loading[index].value = true;
           this.visible = index;
-
-          if (!this.type) {
-            this.$store.commit('setFeedAnchor', this.visible);
-          }
 
           var value = this.data[index].value;
           this.videos[index].value = value.resourceUri;
@@ -970,7 +977,7 @@ export default {
     },
     loadShopVendor(id) {
       this.loadingShop = true;
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/vendor/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/shop/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.shop = JSON.parse(response.data);
         this.loadingShop = false;
       }, (response) => {
@@ -1088,8 +1095,6 @@ export default {
           if (showElement) {
             console.log(value);
             this.data.push({ "type": type, "value": value });
-            console.log(value.vendor.user.followers);
-            console.log(this.user.following);
             var followers = value.vendor.user.followers;
             var isFollower = false;
 
@@ -1393,7 +1398,7 @@ export default {
           console.log(response.error); 
         });
       } else {
-        this.http.put(this.baseUrl + "/user/api/clip/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.http.put(this.baseUrl + "/user/api/clips/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
         }, (response) => { 
           console.log(response.error); 
         });

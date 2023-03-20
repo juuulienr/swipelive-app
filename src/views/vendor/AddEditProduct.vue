@@ -409,25 +409,22 @@ export default {
     }
   },
   mounted() {
-    if (this.productId) {
-      this.user.vendor.products.map((product, index) => {
-        if (this.productId == product.id) {
-          this.product = product;
-
-          if (this.product.options) {
-            this.product.options.map((element, index) => { 
-              if (element.position == 1) {
-                this.inputNameOption1 = element.name;
-                this.valuesOption1 = element.data;
-              } else {
-                this.inputNameOption2 = element.name;
-                this.valuesOption2 = element.data;
-                this.option2 = true;
-              }
-            });
+    if (this.productId && this.productId == this.$store.getters.getProduct.id) {
+      this.product = this.$store.getters.getProduct;
+      if (this.product.options) {
+        this.product.options.map((element, index) => { 
+          if (element.position == 1) {
+            this.inputNameOption1 = element.name;
+            this.valuesOption1 = element.data;
+          } else {
+            this.inputNameOption2 = element.name;
+            this.valuesOption2 = element.data;
+            this.option2 = true;
           }
-        }
-      });
+        });
+      }
+    } else {
+      this.$store.commit('setProduct', []);
     }
   },
   methods: {

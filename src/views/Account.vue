@@ -69,7 +69,7 @@
             </span>
             <span class="title">Commandes</span>
             <span style="float: right;">
-              <img class="img2" class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
             </span>
           </div>
         </div>

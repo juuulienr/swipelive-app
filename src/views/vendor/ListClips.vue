@@ -11,8 +11,8 @@
 
     <div class="checkout__body">
       <div class="images">
-        <div v-if="user.vendor.clips && user.vendor.clips.length" class="row" style="margin: 0px;">
-          <div v-for="(clip, index) in user.vendor.clips" class="col-6 col-img" style="padding: 5px;">
+        <div v-if="clips.length" class="row" style="margin: 0px;">
+          <div v-for="(clip, index) in clips" class="col-6 col-img" style="padding: 5px;">
             <div v-if="clip.status == 'available'">
               <img :src="clip.preview" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #eeeeee;">
               <div @click="actionSheet(clip.id, index)" class="photo-box__delete-button" style="z-index: 20;right: 15px;top: 15px;">
@@ -28,6 +28,11 @@
               <img :src="require(`@/assets/img/waiting-video.png`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #eeeeee;">
               <p style="top: 150px; color: white; text-align: center; left: 30Px; position: absolute; text-align: center; font-size: 15px; margin-bottom: 0px;">Replay en création</p>
             </div>
+          </div>
+        </div>
+        <div v-else-if="loading">
+          <div class="loader2">
+            <span></span>
           </div>
         </div>
         <div v-else>
@@ -59,24 +64,30 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
-      user: this.$store.getters.getUser,
+      clips: [],
+      loading: true,
     }
   },
   created() {    
     window.StatusBar.overlaysWebView(false);  
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
-
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.$store.commit('setUser', JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-    }, (error) => {
-      console.log(error);
-    });
+    
+    this.loadClips();
   },
   methods: {
+    loadClips() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(response);
+        this.clips = JSON.parse(response.data);
+        this.loading = false;
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
     actionSheet(id, clipIndex) {
       var options = {
         buttonLabels: ['Partager', 'Supprimer'],
@@ -88,9 +99,9 @@ export default {
         if (index == 1) {
     			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
         } else if (index == 2) {
-          this.user.vendor.clips.splice(clipIndex, 1);
+          this.clips.splice(clipIndex, 1);
 			    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/" + id + "/delete", {}, { Authorization: "Bearer " + this.token }, (response) => {
-            this.$store.commit('setUser', JSON.parse(response.data));
+            console.log(response);
 			    }, (response) => {
 			      console.log(response.error);
 			    });
