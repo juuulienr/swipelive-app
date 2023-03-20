@@ -328,7 +328,7 @@ export default {
         if (followers.length) {
           followers.map((element, index) => {
             console.log(element);
-            if (element.follower.id == this.user.id) {
+            if (element.id == this.user.id) {
               isFollower = true;
             }
           });

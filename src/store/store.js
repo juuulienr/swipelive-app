@@ -15,9 +15,7 @@ export default new Vuex.Store({
     clipsLatest: [],
     profile: [],
     suggestions: [],
-    feed: [],
     following: [],
-    feedAnchor: null,
   },
   mutations: { 
     // synchronous, for change use commit
@@ -31,9 +29,7 @@ export default new Vuex.Store({
       state.clipsLatest = [];
       state.profile = [];
       state.suggestions = [];
-      state.feed = [];
       state.following = [];
-      state.feedAnchor = null;
       console.log(state);
     },
     setUser(state, data) {
@@ -60,14 +56,8 @@ export default new Vuex.Store({
     setSuggestions(state, data) {
       state.suggestions = data;
     },
-    setFeed(state, data) {
-      state.feed = data;
-    },
     setFollowing(state, data) {
       state.following = data;
-    },
-    setFeedAnchor(state, data) {
-      state.feedAnchor = data;
     },
   },
   actions: { 
@@ -100,14 +90,8 @@ export default new Vuex.Store({
     getSuggestions(state) {
       return state.suggestions;
     },
-    getFeed(state) {
-      return state.feed;
-    },
     getFollowing(state) {
       return state.following;
-    },
-    getFeedAnchor(state) {
-      return state.feedAnchor;
     },
   }
 });

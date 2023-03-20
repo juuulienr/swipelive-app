@@ -655,17 +655,11 @@ export default {
         console.log(response.error);
       });
     } else {
-      // if (this.$store.getters.getFeed.length) {
-      //   this.anchor = this.$store.getters.getFeedAnchor;
-      //   this.refresh(this.$store.getters.getFeed);
-      // } else {
-        this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
-         // this.$store.commit('setFeed', JSON.parse(response.data));
-         this.refresh(JSON.parse(response.data));
-        }, (response) => {
-          console.log(response.error);
-        });
-      // }
+      this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+       this.refresh(JSON.parse(response.data));
+      }, (response) => {
+        console.log(response.error);
+      });
     }
 
     if (this.$store.getters.getClipsTrending.length == 0) {
