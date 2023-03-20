@@ -297,7 +297,6 @@ export default {
     logout() {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('banned');
-      window.localStorage.removeItem('rules');
       this.$store.commit('resetState');
       this.$router.push({ name: 'Welcome' });
     },
@@ -305,143 +304,43 @@ export default {
       this.$router.push({ name: 'Feed' });
     },
     about() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'About' });
     },
     swipeWheel() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'SwipeWheel' });
     },
     listOrders(isOrder) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'ListOrders', params: { 'isOrder': isOrder } });
     },
     listFollowing() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'ListFollowing' });
     },
     listPartners() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'ListPartners' });
     },
     favoris() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'Favoris' });
     },
     listClips() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'ListClips' });
     },
     listPromotions() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'ListPromotions' });
     },
     wallet() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'Wallet' });
     },
     shop() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'Shop' });
     },
     addReview() {
@@ -451,31 +350,11 @@ export default {
       // window.cordova.plugins.AppReview.openStoreScreen(null, true);
     },
     goEditProfile() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       this.$router.push({ name: 'EditUser' });
     },
     goToPrelive() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      const options = {
-        direction: 'left',
-        duration: 300,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+      this.addTapticAndSlide();
       if (this.user.vendor.products.length > 0) {
         this.$router.push({ name: 'PreLive' });
       } else {
@@ -483,19 +362,20 @@ export default {
       }
     },
     goToVendorRegistration() {
+      this.$router.push({ name: 'VendorRegistration' });
+    },
+    addTapticAndSlide() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      const options = {
+      window.plugins.nativepagetransitions.slide({
         direction: 'left',
         duration: 300,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
-      this.$router.push({ name: 'VendorRegistration' });
-    },
+      });
+    }
     openUrl(url) {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });

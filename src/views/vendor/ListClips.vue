@@ -90,11 +90,15 @@ export default {
     },
     actionSheet(id, clipIndex) {
       var options = {
-        buttonLabels: ['Partager', 'Supprimer'],
+        buttonLabels: ['Partager'],
         addCancelButtonWithLabel: 'Annuler',
+        addDestructiveButtonWithLabel : 'Supprimer',
+        destructiveButtonLast: true,
         androidEnableCancelButton : true,
         winphoneEnableCancelButton : true
       };
+
+
       window.plugins.actionsheet.show(options, (index) => {
         if (index == 1) {
     			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');

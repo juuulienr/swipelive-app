@@ -903,7 +903,6 @@ export default {
     }
 
     this.initiateBroadcast();
-    this.loadLive();
   },
   beforeDestroy() {
     document.getElementsByTagName('body')[0].classList.remove("dark-mode");
@@ -917,15 +916,6 @@ export default {
     }
   },
   methods: {
-    loadLive() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/live/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-        this.live = JSON.parse(response.data);
-        this.liveProducts = this.live.liveProducts;
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
     goBack() {
       if (this.broadcaster) {
         this.broadcaster.hideViewfinder();
@@ -946,7 +936,7 @@ export default {
         }
         this.display = this.display + 1;
         this.liveProducts.shift();
-        this.available = null;
+        this.available = this.checkQuantity();
         
         this.http.put(this.baseUrl + "/user/api/live/" + this.id + "/update/display", { "display": this.display }, { Authorization: "Bearer " + this.token }, (response) => {
         }, (response) => {
@@ -1070,6 +1060,7 @@ export default {
         this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test", "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
           this.live = JSON.parse(response.data);
           this.liveProducts = this.live.liveProducts;
+          this.available = this.checkQuantity();
 
           this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
           var channel = this.pusher.subscribe(this.live.channel);
@@ -1077,6 +1068,22 @@ export default {
           console.log(response.error);
         });
       }
+    },
+    checkQuantity() {
+      var product = this.liveProducts[0].product;
+      if (product.quantity === 0) {
+        return 0;
+      } else if (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0) {
+        return 0;
+      } else if (product.variants.length === 0) {
+        return product.quantity;
+      } else {
+        var quantity = this.totalVariantQuantity(product.variants);
+        return quantity;
+      }
+    },
+    totalVariantQuantity(variants) {
+      return variants.reduce((total, variant) => total + variant.quantity, 0);
     },
     async stop() {
       window.StatusBar.overlaysWebView(false);
@@ -1143,6 +1150,7 @@ export default {
           this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : broadcastId }, { Authorization: "Bearer " + this.token }, (response) => {
             this.live = JSON.parse(response.data);
             this.liveProducts = this.live.liveProducts;
+            this.available = this.checkQuantity();
             this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
             var channel = this.pusher.subscribe(this.live.channel);
 

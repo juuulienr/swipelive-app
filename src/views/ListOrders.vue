@@ -539,10 +539,12 @@ export default {
       // });
     },
     actionSheet() {
-      // mettre en rouge annuler la commande et afficher que si commande n'est pas envoyé
+      // afficher annuler la commande que si commande n'est pas envoyé
       var options = {
-        buttonLabels: ['Annuler la commande', 'Signaler un problème'],
+        buttonLabels: ['Signaler un problème'],
         addCancelButtonWithLabel: 'Retour',
+        addDestructiveButtonWithLabel : 'Annuler la commande',
+        destructiveButtonLast: true,
         androidEnableCancelButton : true,
         winphoneEnableCancelButton : true
       };
@@ -550,9 +552,9 @@ export default {
       window.plugins.actionsheet.show(options, (index) => {
         console.log(index);
         if (index == 1) {
-          this.cancelOrder();
-        } else if (index == 2) {
           window.plugins.toast.show("La commande a été signalé !", 'long', 'top');
+        } else if (index == 2) {
+          this.cancelOrder();
         }
       }, (error) => {
         console.log(error);

@@ -145,8 +145,8 @@ export default {
       token: window.localStorage.getItem("token"),
       bambuserId: window.localStorage.getItem("bambuserId"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      rules: window.localStorage.getItem("rules") ? false : true,
-      step1: window.localStorage.getItem("rules") ? true : false,
+      rules: this.$store.getters.getRules,
+      step1: this.$store.getters.getRules ? false : true,
       step2: false,
       isCheckAll: true,
       loadingProducts: true,
@@ -198,7 +198,7 @@ export default {
       this.rules = false;
       this.step1 = true;
       this.step2 = false;
-      window.localStorage.setItem("rules", true);
+      this.$store.commit('setRules', false);
     },
     goStep2() {
       console.log(this.selected);

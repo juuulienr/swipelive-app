@@ -17,6 +17,7 @@ export default new Vuex.Store({
     product: [],
     suggestions: [],
     following: [],
+    rules: true,
   },
   mutations: { 
     // synchronous, for change use commit
@@ -32,7 +33,7 @@ export default new Vuex.Store({
       state.product = [];
       state.suggestions = [];
       state.following = [];
-      console.log(state);
+      state.rules = true;
     },
     setUser(state, data) {
       state.user = data;
@@ -63,6 +64,9 @@ export default new Vuex.Store({
     },
     setFollowing(state, data) {
       state.following = data;
+    },
+    setRules(state, data) {
+      state.rules = data;
     },
   },
   actions: { 
@@ -100,6 +104,9 @@ export default new Vuex.Store({
     },
     getFollowing(state) {
       return state.following;
+    },
+    getRules(state) {
+      return state.rules;
     },
   }
 });

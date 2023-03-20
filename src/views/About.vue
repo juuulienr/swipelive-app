@@ -122,7 +122,6 @@ export default {
         // supprimer le compte
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('banned');
-        window.localStorage.removeItem('rules');
         this.$store.commit('resetState');
         this.$router.push({ name: 'Welcome' });
       }
