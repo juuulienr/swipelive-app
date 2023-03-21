@@ -563,6 +563,7 @@ h4 {
 	font-weight: 500;
 	line-height: 1.57143;
 	font-size: 16px;
+  text-transform: capitalize;
 }
 .chat--head--profil--name span {
 	line-height: 1.57143;
@@ -575,7 +576,6 @@ h4 {
 	justify-content: center;
 	position: relative;
 	box-sizing: border-box;
-	-webkit-tap-highlight-color: transparent;
 	background-color: transparent;
 	outline: 0px;
 	border: 0px;

@@ -375,7 +375,7 @@ export default {
         androiddelay: 0,
         winphonedelay: 0,
       });
-    }
+    },
     openUrl(url) {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });

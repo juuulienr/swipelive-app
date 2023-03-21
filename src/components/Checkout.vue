@@ -586,7 +586,7 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      sendcloud_pk: window.localStorage.getItem("sendcloud_pk"),
+      sendcloud_pk: "3826686f2dbc418380898cc254fc0d28",
       carriers: [],
       promotion: null,
       subTotal: null,

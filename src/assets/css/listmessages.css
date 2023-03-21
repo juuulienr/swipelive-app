@@ -989,6 +989,7 @@ h4 {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	display: block;
+  text-transform: capitalize;
 }
 .chat--left--message--top span {
 	font-size: 12px;

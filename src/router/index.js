@@ -123,7 +123,7 @@ export default new Router({
       name: 'ListOrders',
       component: ListOrders
     }, {
-      path: '/discussions/:discussionId?/:userId?/:picture?/:businessName?',
+      path: '/discussions/:discussionId?/:userId?/:picture?/:businessName?/:firstname?/:lastname?',
       name: 'ListMessages',
       component: ListMessages
     }, {

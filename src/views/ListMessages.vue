@@ -85,6 +85,8 @@ export default {
       userId: this.$route.params.userId,
       picture: this.$route.params.picture,
       businessName: this.$route.params.businessName,
+      firstname: this.$route.params.firstname,
+      lastname: this.$route.params.lastname,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
@@ -108,6 +110,7 @@ export default {
     var channel = this.pusher.subscribe("discussion_channel");
 
     channel.bind("new_message", (data) => {
+      console.log(data);
       console.log(data.message.fromUser != this.user.id);
       console.log(this.selectedDiscussion);
 
@@ -125,14 +128,14 @@ export default {
             this.$refs.message.seenDiscussion();
           }
         }
+        
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(response);
+          this.discussions = JSON.parse(response.data);
+        }, (response) => {
+          console.log(response.error);
+        });
       }
-
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-        this.discussions = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
     });
   },
   beforeDestroy() {
@@ -190,7 +193,11 @@ export default {
         }
 
         if (this.userId && !this.selectedDiscussion) {
-          this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
+          if (this.businessName) {
+            this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
+          } else {
+            this.selectedDiscussion = { "id": null, "user": { "id": this.userId, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture }, "vendor": {"id": this.user.id }, "messages": [] };
+          }
         }
       }, (response) => {
         console.log(response.error);

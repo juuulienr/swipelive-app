@@ -28,7 +28,6 @@
       </div>
     </div>
 
-
     <div class="chat--right">
       <div>
         <div class="container--chat--input">

@@ -320,20 +320,18 @@ export default {
     },
     updateSearchFollowing() {
       this.searchFollowing = [];
-      console.log(this.results);
       this.results.map((element, index) => {
         var followers = element.followers;
         var isFollower = false;
 
         if (followers.length) {
           followers.map((element, index) => {
-            console.log(element);
             if (element.id == this.user.id) {
               isFollower = true;
             }
           });
         }
-
+        
         this.searchFollowing.push({ "value": isFollower });
       });
     },

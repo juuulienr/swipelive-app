@@ -174,7 +174,7 @@
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                 <div><span>{{ order.createdAt | formatDate }}</span></div>
               </div>
-              <div @click="goToMessage(order.buyer)" style="width: 28px; height: 28px;">
+              <div @click="goToMessage(order.buyer, 'sale')" style="width: 28px; height: 28px;">
                 <img :src="require(`@/assets/img/comment-dots.svg`)"/>
               </div>
             </div>
@@ -185,7 +185,7 @@
                 <span>{{ order.vendor.businessName }}</span>
                 <div><span>{{ order.createdAt | formatDate }}</span></div>
               </div>
-              <div @click="goToMessage(order.vendor.user)" style="width: 28px; height: 28px;">
+              <div @click="goToMessage(order.vendor.user, 'purchase')" style="width: 28px; height: 28px;">
                 <img :src="require(`@/assets/img/comment-dots.svg`)"/>
               </div>
             </div>
@@ -521,14 +521,14 @@ export default {
     showPopupConfirmation() {
       this.popupConfirmation = true;
     },
-    goToMessage(user) {
+    goToMessage(user, type) {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      if (user.vendor) {
+      if (type == "purchase") {
         this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
       } else {
-        this.$router.push({ name: 'ListMessages' });
+        this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, firstname: user.firstname, lastname: user.lastname, businessName: null } });
       } 
     },
     cancelOrder() {

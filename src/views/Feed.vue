@@ -894,6 +894,10 @@ export default {
       this.popupCart = false;
       this.popupShop = false;
 
+      console.log(this.product);
+      console.log(this.product.vendor);
+      console.log(this.lineItems);
+
       if (typeof this.product.vendor == "object") {
         var vendor = this.product.vendor.id;
       } else {
