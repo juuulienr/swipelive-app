@@ -15,7 +15,6 @@
           </div>
         </div>
 
-
         <div v-if="discussions.length" class="chat--left" style="overflow: hidden;">
           <div v-for="(discussion, index) in filteredDiscussions" class="chat--left--messages">
             <div @click="showDiscussion(discussion)" class="chat--left--message message--open">

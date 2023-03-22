@@ -32,7 +32,7 @@
   					<h5 class="name" style="margin-top: 7px;">Rechercher</h5>
   				</div>
     		</div>
-        <div v-if="following.length && following.length > 0 " v-for="(user, index) in following" style="padding: 0px 5px;">
+        <div v-if="following.length && following.length > 0" v-for="(user, index) in following" style="padding: 0px 5px;">
           <div @click="goToProfile(user)">
             <div class="personne">
               <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
@@ -320,15 +320,16 @@ export default {
     },
     updateSearchFollowing() {
       this.searchFollowing = [];
-      this.results.map((element, index) => {
-        var followers = element.followers;
+      this.results.map((result, index) => {
         var isFollower = false;
 
-        if (followers.length) {
-          followers.map((element, index) => {
-            if (element.id == this.user.id) {
-              isFollower = true;
-            }
+        if (result.followers.length && this.user.following.length) {
+          result.followers.map((follower, index) => {
+            this.user.following.map((following, index) => {
+              if (follower.id == following.id) {
+                isFollower = true;
+              }
+            });
           });
         }
         

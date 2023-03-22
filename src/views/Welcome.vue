@@ -440,6 +440,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+
       window.StatusBar.overlaysWebView(false);  
       window.StatusBar.styleDefault();
       window.StatusBar.backgroundColorByHexString("#ffffff");

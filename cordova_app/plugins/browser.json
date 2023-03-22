@@ -103,6 +103,9 @@
     },
     "cordova-plugin-nativepagetransitions": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-native-spinner": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {

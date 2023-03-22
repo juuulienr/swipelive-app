@@ -8,7 +8,8 @@
   "author": "Swipe Live",
   "license": "Apache-2.0",
   "dependencies": {
-    "cordova-plugin-facebook-connect": "3.2.0"
+    "cordova-plugin-facebook-connect": "3.2.0",
+    "cordova-plugin-native-spinner": "^1.1.4"
   },
   "cordova": {
     "plugins": {
@@ -78,7 +79,8 @@
       "cordova-plugin-taptic-engine": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-enable-cleartext-traffic": {},
-      "cordova-plugin-nativepagetransitions": {}
+      "cordova-plugin-nativepagetransitions": {},
+      "cordova-plugin-native-spinner": {}
     },
     "platforms": [
       "android",

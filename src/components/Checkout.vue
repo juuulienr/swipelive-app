@@ -912,6 +912,7 @@ export default {
     },
     payment() {
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
+        // window.SpinnerDialog.show();
         this.loadingPayment = true;
   	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
           this.lineItems = [];
