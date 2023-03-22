@@ -106,6 +106,9 @@
     },
     "cordova-plugin-native-spinner": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-sign-in-with-apple": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {

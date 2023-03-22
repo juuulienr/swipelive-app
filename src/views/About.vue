@@ -119,7 +119,7 @@ export default {
     onConfirm(index) {
       console.log(index);
       if (index == 2) {
-        // supprimer le compte
+        // supprimer le compte, vérifier si pas de commande en cours ou argent restant
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('banned');
         this.$store.commit('resetState');

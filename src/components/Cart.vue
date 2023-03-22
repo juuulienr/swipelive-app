@@ -1,10 +1,10 @@
 <template>
-  <main class="cart">
+  <div class="cart">
     <div class="checkout__header" style="padding-right: 20px; padding-left: 20px;">
       <div class="checkout__title">Panier</div>
     </div>
-    <div class="checkout">
-      <div v-if="lineItems && lineItems.length" class="checkout__body">
+    <div v-if="lineItems && lineItems.length" class="checkout">
+      <div class="checkout__body" :style="[fullscreen ? {'height': '68vh'} : {'height': '38vh'}]" style="overflow-y: scroll;  padding: 0 10px 15px;">
         <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">
           <div class="checkout__product-info">
             <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px;">
@@ -34,24 +34,25 @@
             </div>
           </div>
         </div>
-
-        <div v-if="subTotal" class="css-13dslnb" :style="[fullscreen ? {'bottom': 'calc(env(safe-area-inset-bottom) + 65px)'} : {'bottom': 'calc(env(safe-area-inset-bottom) + 10px)'}]">
-          <div class="css-18mhetb">
-            <div class="css-9jay18">
-              <h6 class="css-k9tjo5">Sous-total</h6>
-              <div class="css-s2uf1z">
-                <h6 class="css-kdhaao">{{ subTotal | formatPrice }}€</h6>
-              </div>
-            </div>
-          </div>
-          <div style="margin: 15px auto;">
-            <div @click="showCheckout()" style="text-align: center;">
-              <div class="btn-swipe">Paiement</div>
+      </div>   
+      <div v-if="subTotal" class="css-13dslnb" :style="[fullscreen ? {'bottom': 'calc(env(safe-area-inset-bottom) + 65px)'} : {'bottom': 'calc(env(safe-area-inset-bottom) + 10px)'}]">
+        <div class="css-18mhetb">
+          <div class="css-9jay18">
+            <h6 class="css-k9tjo5">Sous-total</h6>
+            <div class="css-s2uf1z">
+              <h6 class="css-kdhaao">{{ subTotal | formatPrice }}€</h6>
             </div>
           </div>
         </div>
+        <div style="margin: 15px auto;">
+          <div @click="showCheckout()" style="text-align: center;">
+            <div class="btn-swipe">Paiement</div>
+          </div>
+        </div>
       </div>
-      <div v-else class="checkout__body" style="text-align: center;">
+    </div>  
+    <div v-else class="checkout">
+      <div class="checkout__body" style="text-align: center;">
         <div class="container" :style="[fullscreen ? {'margin': '150px auto 0px'} : {'margin': '75px auto 0px'}]" style="text-align: center;">
           <div style="margin: 0px auto;">
             <Lottie :options="defaultOptions" :width="200"/>
@@ -61,7 +62,7 @@
         <div style="font-weight: 400;font-size: 15px;text-align: center;">Ajouter des articles à votre panier.</div>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 

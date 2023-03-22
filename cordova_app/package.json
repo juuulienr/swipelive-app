@@ -80,7 +80,8 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-enable-cleartext-traffic": {},
       "cordova-plugin-nativepagetransitions": {},
-      "cordova-plugin-native-spinner": {}
+      "cordova-plugin-native-spinner": {},
+      "cordova-plugin-sign-in-with-apple": {}
     },
     "platforms": [
       "android",
@@ -114,6 +115,7 @@
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-networkinterface": "^2.0.0",
     "cordova-plugin-safariviewcontroller": "^2.0.0",
+    "cordova-plugin-sign-in-with-apple": "^0.1.2",
     "cordova-plugin-splashscreen": "^6.0.2",
     "cordova-plugin-statusbar": "github:breautek/cordova-plugin-statusbar#430e7df32c0937d46e3a596b37ecbd50a42cb9c3",
     "cordova-plugin-taptic-engine": "^2.2.0",

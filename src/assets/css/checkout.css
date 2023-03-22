@@ -1270,7 +1270,7 @@
 .div-payment {
   position: fixed; 
   bottom: 0px; 
-  width: calc(100% - 30px); 
+  width: calc(100% - 20px); 
   background: white; 
   padding-top: 20px; 
   padding-bottom: calc(env(safe-area-inset-bottom) + 20px); 

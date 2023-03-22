@@ -31,7 +31,7 @@
         </div>
 
         <div class="social-container-NE2xk">
-          <div class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
+          <div @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img :src="require(`@/assets/img/apple.png`)" style="width: 24px; height: 24px; margin-bottom: 3px;"/>
             </div>
@@ -418,9 +418,25 @@ export default {
     // google() {
       // ajouter google
     // },
-    // apple() {
+    apple() {
       // ajouter apple
-    // },
+      window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] }, function(result){
+        var data = JSON.stringify(result);
+        console.log(data);
+        console.log(data.identityToken);
+        var id_token = data.identityToken;
+        
+        // id_token = base64_decode($id_token);
+        // console.log(id_token);
+        // id_token = json_decode($id_token);
+        // console.log(id_token);
+        // id_token = (array)($id_token);
+        // console.log(id_token);
+      }, function(err){
+        console.error(err);
+        console.log(JSON.stringify(err));
+      });
+    },
     resetPassword() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });

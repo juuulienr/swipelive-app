@@ -111,6 +111,9 @@
     },
     "cordova-plugin-native-spinner": {
       "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-sign-in-with-apple": {
+      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {
