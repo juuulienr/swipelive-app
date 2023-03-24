@@ -482,6 +482,7 @@ h4 {
   z-index: 100000000;
   width: 100%;
   background-color: white;
+  top: calc(env(safe-area-inset-top));
 }
 .chat--head svg {
   width: 20px;
@@ -748,6 +749,7 @@ h4 {
   z-index: 1000000;
   width: 100%; 
   padding-top: 10px;
+  padding-bottom: 5px;
 
 }
 .chat--foot > div {

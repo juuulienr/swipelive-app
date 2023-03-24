@@ -403,7 +403,7 @@
       <div class="css-miqn2j">
         <input v-focus v-on-clickaway="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2a80; background: white"/>
       </div>
-      <button id="buttonSend" class="css-il3d4y" style="padding: 0px;">
+      <button id="btnSend" class="css-il3d4y" style="padding: 0px;">
         <img id="imgSend" :src="require(`@/assets/img/send.svg`)" style="height: 36px; height: 36px;"/>
       </button>
     </div>
@@ -683,10 +683,18 @@ export default {
   mounted() {
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
+    window.addEventListener('keyboardHeightWillChange', (event) => {
+      console.log(event.keyboardHeight);
+      var height = event.keyboardHeight.toString() + "px";
+      setTimeout(() => {
+        this.writeInput = height.toString();
+      }, 200);
+    });
   },
   beforeDestroy() {
     document.removeEventListener('pause', this.pause);
     document.removeEventListener('resume', this.resume);
+    window.removeEventListener('keyboardHeightWillChange');
   },
   computed: {
     updateCart() {
@@ -1015,10 +1023,16 @@ export default {
       this.$router.push({ name: 'Account' });
     },
     openPopup() {
+      window.Keyboard.hideFormAccessoryBar(true);
+      window.Keyboard.shrinkView(false);
+      window.Keyboard.show();
       this.popup = true;
     },
     away(event) {
-      if (event.target.id == "buttonSend" || event.target.id == "imgSend") {
+      window.Keyboard.hide();
+      window.Keyboard.hideFormAccessoryBar(false);
+      window.Keyboard.shrinkView(true);
+      if (event.target.id == "btnSend" || event.target.id == "imgSend") {
         if (this.content && this.content.length > 0) {
           this.send();
         } else {

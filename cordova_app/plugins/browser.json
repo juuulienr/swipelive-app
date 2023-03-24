@@ -109,6 +109,9 @@
     },
     "cordova-plugin-sign-in-with-apple": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-keyboard": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {
