@@ -407,17 +407,17 @@
 	    		<div v-if="mapSelected">
             <div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="border-radius: 10px;margin: 35px 5px 22px;border: none; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;">
               <div class="card-body parcelshop-card-body">
-                <div class="card-title" style="font-weight: 500; margin-bottom: 4px;">
+                <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
                   <div class="map-badge">Le plus proche</div>
-                  <img v-if="mapSelected.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
-                  <img v-else :src="require(`@/assets/img/` + mapSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+                  <img v-if="mapSelected.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+                  <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
                   {{ mapSelected.name }} 
                 </div>
                 <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
-                  <div>{{ mapSelected.house_number }} {{ mapSelected.street }}</div>
-                  <div>{{ mapSelected.zip }} {{ mapSelected.city }}</div>
+                  <div style="text-transform: uppercase;">{{ mapSelected.address1 }}</div>
+                  <div style="text-transform: uppercase;">{{ mapSelected.zip }} {{ mapSelected.city }}</div>
                 </div>
-                <span v-if="shippingProducts && shippingProducts.service_point && service.carrier == mapSelected.carrier" v-for="service in shippingProducts.service_point" style="color: #000;float: right;margin-right: 5px;margin-top: -50px;font-weight: 400;">{{ service.price | formatPrice }}€</span>
+                <span v-if="shippingProducts && shippingProducts.service_point && service.carrier_id == mapSelected.carrier_id" v-for="service in shippingProducts.service_point" style="color: #000;float: right;margin-right: 5px;margin-top: -50px;font-weight: 400;">{{ service.price | formatPrice }}€</span>
               </div>
             </div>
 		    		<div @click="saveRelay(mapSelected)" style="text-align: center;">
@@ -428,18 +428,18 @@
 		    <div v-if="tabList">
           <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="border-radius: 10px;margin: 15px 5px;border: none;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
             <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
-              <div class="card-title" style="font-weight: 500; margin-bottom: 4px;">
-                <img v-if="point.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
-                <img v-else :src="require(`@/assets/img/` + point.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+              <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
+                <img v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
+                <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
                 {{ point.name }} 
               </div>
               <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
-                <div>{{ point.house_number }} {{ point.street }}</div>
-                <div>{{ point.zip }} {{ point.city }}</div>
+                <div style="text-transform: uppercase;">{{ point.address1 }}</div>
+                <div style="text-transform: uppercase;">{{ point.zip }} {{ point.city }}</div>
                 <div v-if="point.distance > 1000" style="text-transform: lowercase;color: #ff2a80;font-size: 13px;margin-top: 3px;"> {{ (point.distance / 1000).toFixed(2).replace(".", ",") }}km</div>
                 <div v-else style="text-transform: lowercase;color: #ff2a80;font-size: 13px;margin-top: 3px;"> {{ point.distance }}m</div>
               </div>
-              <span v-if="shippingProducts && shippingProducts.service_point && service.carrier == point.carrier" v-for="service in shippingProducts.service_point" style="float: right;margin-top: -52px;font-weight: 400;font-size: 14px;">
+              <span v-if="shippingProducts && shippingProducts.service_point && service.carrier_id == point.carrier_id" v-for="service in shippingProducts.service_point" style="float: right;margin-top: -52px;font-weight: 400;font-size: 14px;">
                 {{ service.price | formatPrice }}€
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;margin-left: 7px;margin-bottom: 3px;">
                   <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z">
@@ -465,12 +465,12 @@
       <div class="checkout__body" style="padding: 18px 0px;">
       	<div class="card panel-item" style="border: none;">
           <div class="card-body parcelshop-card-body" style="padding: 5px;">
-            <div v-if="point.carrier == 'chronopost'" class="card-title card-relayinfo">
+            <div v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" class="card-title card-relayinfo">
               <img :src="require(`@/assets/img/shop2shop.png`)"> 
               Shop2Shop
             </div>
-            <div v-else-if="point.carrier == 'mondial_relay'" class="card-title card-relayinfo">
-              <img :src="require(`@/assets/img/` + point.carrier + `.png`)"> 
+            <div v-else-if="point.carrier_id == 'b139ac1f-bbb9-4235-b87e-aedcb3c32132'" class="card-title card-relayinfo">
+              <img :src="require(`@/assets/img/mondial_relay.png`)"> 
               Mondial Relay
             </div>
             <div v-else class="card-title card-relayinfo">
@@ -479,47 +479,40 @@
             </div>
             <div class="card-text">
               <div style="font-weight: 600;font-size: 20px;margin-bottom: 7px;"> {{ point.name }}</div>
-              <div>{{ point.house_number }} {{ point.street }}</div>
-              <div>{{ point.zip }} {{ point.city }}</div>
+              <div style="text-transform: uppercase;">{{ point.address1 }}</div>
+              <div style="text-transform: uppercase;">{{ point.zip }} {{ point.city }}</div>
             </div>
           </div>
-          <div v-if="point.formatted_opening_times[0].length !== 0 || point.formatted_opening_times[1].length !== 0 || point.formatted_opening_times[2].length !== 0 || point.formatted_opening_times[3].length !== 0 || point.formatted_opening_times[4].length !== 0 || point.formatted_opening_times[5].length !== 0 || point.formatted_opening_times[6].length !== 0">
+          <div v-if="point.hours">
             <hr>
             <div style="text-transform: capitalize;line-height: 40px;">
-              <div v-if="point.formatted_opening_times[0].length" class="opening-times">
+              <div v-if="point.hours[0].length" class="opening-times">
                 <div> Lundi</div>
-                <div v-if="point.formatted_opening_times[0].length > 1" class="hour">{{ point.formatted_opening_times[0][0] }}, {{ point.formatted_opening_times[0][1] }}</div>
-                <div v-else class="hour">{{ point.formatted_opening_times[0][0] }}</div>
+                <div class="hour">{{ point.hours[0].opening_hours }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[1].length" class="opening-times">
+              <div v-if="point.hours[1].length" class="opening-times">
                 <div> Mardi</div>
-                <div v-if="point.formatted_opening_times[1].length > 1" class="hour">{{ point.formatted_opening_times[1][0] }}, {{ point.formatted_opening_times[1][1] }}</div>
-                <div v-else class="hour">{{ point.formatted_opening_times[1][0] }}</div>
+                <div class="hour">{{ point.hours[1].opening_hours }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[2].length" class="opening-times">
+              <div v-if="point.hours[2].length" class="opening-times">
                 <div> Mercredi</div>
-                <div v-if="point.formatted_opening_times[2].length > 1" class="hour">{{ point.formatted_opening_times[2][0] }}, {{ point.formatted_opening_times[2][1] }}</div>
-                <div v-else class="hour">{{ point.formatted_opening_times[2][0] }}</div>
+                <div class="hour">{{ point.hours[2].opening_hours }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[3].length" class="opening-times">
+              <div v-if="point.hours[3].length" class="opening-times">
                 <div> Jeudi</div>
-                <div v-if="point.formatted_opening_times[3].length > 1" class="hour">{{ point.formatted_opening_times[3][0] }}, {{ point.formatted_opening_times[3][1] }}</div>
-                <div v-else class="hour">{{ point.formatted_opening_times[3][0] }}</div>
+                <div class="hour">{{ point.hours[3].opening_hours }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[4].length" class="opening-times">
+              <div v-if="point.hours[4].length" class="opening-times">
                 <div> Vendredi</div>
-                <div v-if="point.formatted_opening_times[4].length > 1" class="hour">{{ point.formatted_opening_times[4][0] }}, {{ point.formatted_opening_times[4][1] }}</div>
-                <div v-else class="hour">{{ point.formatted_opening_times[4][0] }}</div>
+                <div class="hour">{{ point.hours[4].opening_hours }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[5].length" class="opening-times">
+              <div v-if="point.hours[5].length" class="opening-times">
                 <div> Samedi</div>
-                <div v-if="point.formatted_opening_times[5].length > 1" class="hour">{{ point.formatted_opening_times[5][0] }}, {{ point.formatted_opening_times[5][1] }}</div>
-                <div v-else class="hour">{{ point.formatted_opening_times[5][0] }}</div>
+                <div class="hour">{{ point.hours[5].opening_hours }}</div>
               </div>
-              <div v-if="point.formatted_opening_times[6].length" class="opening-times">
+              <div v-if="point.hours[6].length" class="opening-times">
                 <div> Dimanche</div>
-                <div v-if="point.formatted_opening_times[6].length > 1" class="hour">{{ point.formatted_opening_times[6][0] }}, {{ point.formatted_opening_times[6][1] }}</div>
-                <div v-else class="hour">{{ point.formatted_opening_times[6][0] }}</div>
+                <div class="hour">{{ point.hours[6].opening_hours }}</div>
               </div>
             </div>
             <hr> 
@@ -817,23 +810,6 @@ export default {
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/dropoff-locations", { "service_point": this.shippingProducts.service_point }, { Authorization: "Bearer " + this.token }, (response) => {
           this.points = JSON.parse(response.data);
           this.points.map((point, index) => {
-            let parts = point.street.split(" ");
-            let number = 0;
-            let street = "";
-
-            for (let i = 0; i < parts.length; i++) {
-              let part = parts[i];
-              if (isNaN(part)) {
-                street += part + " ";
-              } else {
-                number = parseInt(part);
-              }
-            }
-
-            street = street.trim();
-            point.street = street;
-            point.house_number = number;
-
             var marker = {
               lat: parseFloat(point.latitude),
               lng: parseFloat(point.longitude)
