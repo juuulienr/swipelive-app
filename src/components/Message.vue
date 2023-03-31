@@ -177,20 +177,17 @@ export default {
       return date > date2;
     },
     away(event) {
-      console.log(event);
       window.Keyboard.hide();
-      window.Keyboard.hideFormAccessoryBar(false);
-      window.Keyboard.shrinkView(true);
-      console.log(event.target.id);
-      console.log(event.target.className);
+      // window.Keyboard.hideFormAccessoryBar(false);
+      // window.Keyboard.shrinkView(true);
 
       if (event.target.id == "btnSend" || event.target.id == "imgSend") {
         this.sendMessage();
       }
     },
     showKeyboard() {
-      window.Keyboard.hideFormAccessoryBar(true);
-      window.Keyboard.shrinkView(false);
+      // window.Keyboard.hideFormAccessoryBar(true);
+      // window.Keyboard.shrinkView(false);
       window.Keyboard.show();
     },
     async sendMessage() {

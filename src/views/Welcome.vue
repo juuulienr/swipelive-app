@@ -31,7 +31,7 @@
         </div>
 
         <div class="social-container-NE2xk">
-          <div @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
+          <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img :src="require(`@/assets/img/apple.png`)" style="width: 24px; height: 24px; margin-bottom: 3px;"/>
             </div>

@@ -651,6 +651,7 @@ export default {
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
     console.log(this.lineItems);
+
   
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
@@ -686,13 +687,13 @@ export default {
     	this.getShippingPrice();
     }
 
-    if (this.lineItems.length > 0 && this.lineItems[0].vendor) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.lineItems[0].vendor + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.promotion = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
-    }
+    // if (this.lineItems.length > 0 && this.lineItems[0].vendor) {
+    //   window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.lineItems[0].vendor + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    //     this.promotion = JSON.parse(response.data);
+    //   }, (response) => {
+    //     console.log(response.error);
+    //   });
+    // }
   },
 	computed: {
 		isServicePoints() {
@@ -813,10 +814,9 @@ export default {
 	      this.locationMarkers = [];
 	      this.mapSelected = null;
 
-	      window.cordova.plugin.http.setDataSerializer('json');
-	      window.cordova.plugin.http.get("https://servicepoints.sendcloud.sc/api/v2/service-points", { "access_token": this.sendcloud_pk, "country": this.countryShort.toString(), "latitude": this.center.lat.toString(), "longitude": this.center.lng.toString(), "carrier": "mondial_relay,chronopost", "radius": "20000" }, {}, (response) => {
-	        this.points = JSON.parse(response.data);
-	        this.points.map((point, index) => {
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/dropoff-locations", { "service_point": this.shippingProducts.service_point }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.points = JSON.parse(response.data);
+          this.points.map((point, index) => {
             let parts = point.street.split(" ");
             let number = 0;
             let street = "";
@@ -834,21 +834,21 @@ export default {
             point.street = street;
             point.house_number = number;
 
-		        var marker = {
-		          lat: parseFloat(point.latitude),
-		          lng: parseFloat(point.longitude)
-		        };
+            var marker = {
+              lat: parseFloat(point.latitude),
+              lng: parseFloat(point.longitude)
+            };
 
-	        	this.locationMarkers.push({ position: marker });
+            this.locationMarkers.push({ position: marker });
 
-	        	if (!this.mapSelected) {
-			        this.mapSelected = point;
-	        	}
-	        });
-	      }, function(response) {
-	        console.log(response.error);
-	      });
-    	}
+            if (!this.mapSelected) {
+              this.mapSelected = point;
+            }
+          });
+        }, (response) => {
+          console.log(response);
+        });
+      }
     },
     hideRelay() {
       this.popupRelay = false;
