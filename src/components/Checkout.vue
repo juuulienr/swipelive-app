@@ -108,22 +108,20 @@
       <!-- service_point -->
       <div v-if="shippingMethod == 'service_point' && pointSelected" class="card panel-item" style="border-radius: 10px; box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; margin: 20px 5px; border: none;">
         <div class="card-body parcelshop-card-body">
-          <div v-if="pointSelected.carrier == 'chronopost'" class="card-title" style="font-weight: 500; margin-bottom: 3px;">
-  					<img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
-            Shop2Shop
-          </div>
-          <div v-else-if="pointSelected.carrier == 'mondial_relay'" class="card-title" style="font-weight: 500; margin-bottom: 3px;">
-            <img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
-            Mondial Relay
-          </div>
-          <div v-else class="card-title" style="font-weight: 500; margin-bottom: 3px;">
-            <img :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
-            {{ pointSelected.carrier }}
+          <div class="card-title" style="font-weight: 500; margin-bottom: 3px;">
+            <div v-if="pointSelected.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'">
+              <img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+              <span>Shop2Shop</span>
+            </div>
+            <div v-else>
+              <img :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+              <span>Mondial Relay</span>
+            </div>
           </div>
           <div class="card-text" style="font-weight: 400; line-height: 20px; font-size: 14px;">
-            <div>{{ pointSelected.name }}</div>
-            <div>{{ pointSelected.house_number }} {{ pointSelected.street }}</div>
-            <div>{{ pointSelected.zip }} {{ pointSelected.city }}</div>
+            <div style="text-transform: uppercase;">{{ pointSelected.name }}</div>
+            <div style="text-transform: uppercase;">{{ pointSelected.address1 }}</div>
+            <div style="text-transform: uppercase;">{{ pointSelected.zip }} {{ pointSelected.city }}</div>
           </div>
         </div>
       </div>
@@ -454,7 +452,8 @@
 
 
     <!-- select relais -->
-    <div v-if="popupRelayInfo" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
+    <div v-if="popupRelayInfo" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
+      <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
         <div @click="hideRelayInfo()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
@@ -474,8 +473,7 @@
               Mondial Relay
             </div>
             <div v-else class="card-title card-relayinfo">
-              <img :src="require(`@/assets/img/` + point.carrier + `.png`)"> 
-              {{ point.carrier }}
+              {{ point.carrier_name }}
             </div>
             <div class="card-text">
               <div style="font-weight: 600;font-size: 20px;margin-bottom: 7px;"> {{ point.name }}</div>
@@ -483,36 +481,18 @@
               <div style="text-transform: uppercase;">{{ point.zip }} {{ point.city }}</div>
             </div>
           </div>
-          <div v-if="point.hours">
+          <div v-if="point.hours.length">
             <hr>
             <div style="text-transform: capitalize;line-height: 40px;">
-              <div v-if="point.hours[0].length" class="opening-times">
-                <div> Lundi</div>
-                <div class="hour">{{ point.hours[0].opening_hours }}</div>
-              </div>
-              <div v-if="point.hours[1].length" class="opening-times">
-                <div> Mardi</div>
-                <div class="hour">{{ point.hours[1].opening_hours }}</div>
-              </div>
-              <div v-if="point.hours[2].length" class="opening-times">
-                <div> Mercredi</div>
-                <div class="hour">{{ point.hours[2].opening_hours }}</div>
-              </div>
-              <div v-if="point.hours[3].length" class="opening-times">
-                <div> Jeudi</div>
-                <div class="hour">{{ point.hours[3].opening_hours }}</div>
-              </div>
-              <div v-if="point.hours[4].length" class="opening-times">
-                <div> Vendredi</div>
-                <div class="hour">{{ point.hours[4].opening_hours }}</div>
-              </div>
-              <div v-if="point.hours[5].length" class="opening-times">
-                <div> Samedi</div>
-                <div class="hour">{{ point.hours[5].opening_hours }}</div>
-              </div>
-              <div v-if="point.hours[6].length" class="opening-times">
-                <div> Dimanche</div>
-                <div class="hour">{{ point.hours[6].opening_hours }}</div>
+              <div v-for="(hour, index) in point.hours" class="opening-times">
+                <div v-if="hour.day == 1">Lundi</div>
+                <div v-else-if="hour.day == 2">Mardi</div>
+                <div v-else-if="hour.day == 3">Mercredi</div>
+                <div v-else-if="hour.day == 4">Jeudi</div>
+                <div v-else-if="hour.day == 5">Vendredi</div>
+                <div v-else-if="hour.day == 6">Samedi</div>
+                <div v-else>Dimanche</div>
+                <div class="hour">{{ hour.opening_hours }}</div>
               </div>
             </div>
             <hr> 
@@ -839,14 +819,14 @@ export default {
       this.popupRelayInfo = false;
 
       this.shippingProducts.service_point.map((method) => {
-      	if (method.carrier == point.carrier) {
+      	if (method.carrier_id == point.carrier_id) {
       		if (this.shippingPrice) {
 	      		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
       		}
       		this.shippingPrice = method.price;
-      		this.shippingMethodId = method.id;
-      		this.shippingName = method.name;
-      		this.shippingCarrier = method.carrier;
+      		this.shippingMethodId = method.service_id;
+      		this.shippingName = method.service_name;
+      		this.shippingCarrier = method.carrier_id;
 		      this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
       	}
       });
@@ -890,7 +870,7 @@ export default {
       if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
         // window.SpinnerDialog.show();
         this.loadingPayment = true;
-  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "servicePointId": this.pointSelected ? this.pointSelected.id : null }, { Authorization: "Bearer " + this.token }, (response) => {
+  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "serviceLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null }, { Authorization: "Bearer " + this.token }, (response) => {
           this.lineItems = [];
           this.$store.commit('setLineItems', this.lineItems);
           this.$root.$children[0].updateLineItems();
@@ -911,15 +891,15 @@ export default {
     changeToAddress() {
     	this.shippingMethod = "domicile";
       this.pointSelected = null;
-      this.shippingMethodId = this.shippingProducts.domicile[0].id;
-      this.shippingName = this.shippingProducts.domicile[0].name;
+      this.shippingMethodId = this.shippingProducts.domicile[0].service_id;
+      this.shippingName = this.shippingProducts.domicile[0].service_name;
 
   		if (this.shippingPrice) {
     		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
   		}
 
       this.shippingPrice = this.shippingProducts.domicile[0].price;
-  		this.shippingCarrier = this.shippingProducts.domicile[0].carrier;
+  		this.shippingCarrier = this.shippingProducts.domicile[0].carrier_id;
       this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
     },
     updateMapSelected(position, index) {
