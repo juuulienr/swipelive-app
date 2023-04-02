@@ -46,7 +46,14 @@
         </div>
         <div style="margin: 15px auto;">
           <div @click="showCheckout()" style="text-align: center;">
-            <div class="btn-swipe">Paiement</div>
+            <div class="btn-swipe">
+              <span v-if="loading">
+                <svg viewBox="25 25 50 50" class="loading">
+                  <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+                </svg>
+              </span>
+              <span v-else>Paiement</span>
+            </div>
           </div>
         </div>
       </div>
@@ -88,6 +95,7 @@ export default {
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
+      loading: false,
       subTotal: null
     }
   },
@@ -147,11 +155,32 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      
-      if (this.fullscreen) {
-        this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
+
+      this.getShippingPrice();
+    },
+    getShippingPrice() {
+      if (this.user.shippingAddresses.length) {
+        this.loading = true;
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems }, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(JSON.parse(response.data));
+          this.$store.commit('setShippingProducts', JSON.parse(response.data));
+          this.loading = false;
+        
+          if (this.fullscreen) {
+            this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
+          } else {
+            this.$emit('showCheckout', this.lineItems);
+          }
+        }, (response) => {
+          this.loading = false;
+          console.log(response.error);
+        });
       } else {
-        this.$emit('showCheckout', this.lineItems);
+        if (this.fullscreen) {
+          this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
+        } else {
+          this.$emit('showCheckout', this.lineItems);
+        }
       }
     },
   }

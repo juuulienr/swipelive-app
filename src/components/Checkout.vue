@@ -144,7 +144,7 @@
               <span style="text-transform: capitalize;">Point relais</span>
             </div>
             <div style="margin-right: 5px;">
-			        <div v-if="!loadingShipping" class="filter--choice">
+			        <div v-if="!loadingShipping && shippingProducts.length > 0 && shippingProducts.service_point" class="filter--choice">
 			        	<div>
 			        		<div class="gender--choice">
 			        			<label>
@@ -169,7 +169,7 @@
               <span style="text-transform: capitalize;">Domicile</span>
             </div>
             <div style="margin-right: 5px;">
-			        <div v-if="!loadingShipping" class="filter--choice">
+			        <div v-if="!loadingShipping && shippingProducts.length > 0 && shippingProducts.domicile" class="filter--choice">
 			        	<div>
 			        		<div class="gender--choice">
 			        			<label>
@@ -596,7 +596,7 @@ export default {
       center: null,
       showAutocomplete: false,
       paymentType: null,
-      shippingProducts: null,
+      shippingProducts: this.$store.getters.getShippingProducts,
       locationMarkers: [],
       loadingShipping: true,
       loadingPayment: false,
@@ -641,7 +641,7 @@ export default {
 
     this.name = this.user.firstname + ' ' + this.user.lastname;
 
-    if (this.user && this.user.shippingAddresses.length) {
+    if (this.user.shippingAddresses.length) {
     	this.name = this.user.shippingAddresses[0].name;
     	this.phone = this.user.shippingAddresses[0].phone;
     	this.address = this.user.shippingAddresses[0].houseNumber + " " + this.user.shippingAddresses[0].address;
@@ -657,7 +657,13 @@ export default {
 
       this.center = marker;
       this.shippingAddress = true;
-    	this.getShippingPrice();
+
+      console.log(this.shippingProducts);
+      if (this.shippingProducts.length == 0) {
+        this.getShippingPrice();
+      } else {
+        this.loadingShipping = false;
+      }
     }
 
     // if (this.lineItems.length > 0 && this.lineItems[0].vendor) {
@@ -744,7 +750,6 @@ export default {
       if (!this.errorName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCountry && !this.errorPhone) {
         this.loadingAddress = true;
         this.shippingAddress = true;
-        this.getShippingPrice();
 
         var houseNumber = this.address.split(' ', 1)[0];
         var street = this.address.split(houseNumber)[1].trim();
@@ -759,8 +764,7 @@ export default {
         window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
           this.user = JSON.parse(response.data);
           this.$store.commit('setUser', JSON.parse(response.data));
-          this.popupShippingAddress = false;
-          this.loadingAddress = false;
+          this.getShippingPrice();
           console.log(response);
         }, (response) => {
           console.log(response);
@@ -770,12 +774,18 @@ export default {
       }
     },
     getShippingPrice() {
-      window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems, "countryShort": this.countryShort }, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems }, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.shippingProducts = JSON.parse(response.data);
         this.loadingShipping = false;
+        this.popupShippingAddress = false;
+        this.loadingAddress = false;
       }, (response) => {
         console.log(response.error);
+        window.plugins.toast.show(response.error, 'long', 'top');
+        this.loadingShipping = false;
+        this.popupShippingAddress = false;
+        this.loadingAddress = false;
       });
     },
     showRelayPopup() {

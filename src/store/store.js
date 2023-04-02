@@ -10,6 +10,7 @@ export default new Vuex.Store({
     user: [],
     lineItems: [],
     categories: [],
+    shippingProducts: [],
     productsTrending: [],
     clipsTrending: [],
     clipsLatest: [],
@@ -26,6 +27,7 @@ export default new Vuex.Store({
       state.user = [];
       state.lineItems = [];
       state.categories = [];
+      state.shippingProducts = [];
       state.productsTrending = [];
       state.clipsTrending = [];
       state.clipsLatest = [];
@@ -43,6 +45,9 @@ export default new Vuex.Store({
     },
     setCategories(state, data) {
       state.categories = data;
+    },
+    setShippingProducts(state, data) {
+      state.shippingProducts = data;
     },
     setClipsTrending(state, data) {
       state.clipsTrending = data;
@@ -83,6 +88,9 @@ export default new Vuex.Store({
     },
     getCategories(state) {
       return state.categories;
+    },
+    getShippingProducts(state) {
+      return state.shippingProducts;
     },
     getClipsTrending(state) {
       return state.clipsTrending;
