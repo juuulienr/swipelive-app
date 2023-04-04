@@ -144,7 +144,7 @@
               <span style="text-transform: capitalize;">Point relais</span>
             </div>
             <div style="margin-right: 5px;">
-			        <div v-if="!loadingShipping && shippingProducts.length > 0 && shippingProducts.service_point" class="filter--choice">
+			        <div v-if="!loadingShipping && shippingProducts && shippingProducts.service_point" class="filter--choice">
 			        	<div>
 			        		<div class="gender--choice">
 			        			<label>
@@ -169,7 +169,7 @@
               <span style="text-transform: capitalize;">Domicile</span>
             </div>
             <div style="margin-right: 5px;">
-			        <div v-if="!loadingShipping && shippingProducts.length > 0 && shippingProducts.domicile" class="filter--choice">
+			        <div v-if="!loadingShipping && shippingProducts && shippingProducts.domicile" class="filter--choice">
 			        	<div>
 			        		<div class="gender--choice">
 			        			<label>
@@ -218,6 +218,19 @@
         </div>
       </div>
     </div>
+
+    <stripe-element-card
+    ref="stripeCard"
+    :stripe-key="stripePublicKey"
+    :options="stripeCardOptions"
+    @change="handleCardChange"
+    ></stripe-element-card>
+
+    <button @click="testPayment()">Test Stripe</button>
+
+    <div id="apple-pay-button"></div>
+
+
 
 
     <div @click="payment()" class="div-payment">
@@ -465,15 +478,13 @@
       	<div class="card panel-item" style="border: none;">
           <div class="card-body parcelshop-card-body" style="padding: 5px;">
             <div v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" class="card-title card-relayinfo">
-              <img :src="require(`@/assets/img/shop2shop.png`)"> 
-              Shop2Shop
+              <img :src="require(`@/assets/img/shop2shop.png`)"> Shop2Shop
             </div>
             <div v-else-if="point.carrier_id == 'b139ac1f-bbb9-4235-b87e-aedcb3c32132'" class="card-title card-relayinfo">
-              <img :src="require(`@/assets/img/mondial_relay.png`)"> 
-              Mondial Relay
+              <img :src="require(`@/assets/img/mondial_relay.png`)"> Mondial Relay
             </div>
             <div v-else class="card-title card-relayinfo">
-              {{ point.carrier_name }}
+              {{ point.service_name }}
             </div>
             <div class="card-text">
               <div style="font-weight: 600;font-size: 20px;margin-bottom: 7px;"> {{ point.name }}</div>
@@ -546,15 +557,21 @@
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import { loadStripe } from "@stripe/stripe-js";
+import { StripeElementCard } from "vue-stripe-elements-plus";
 
 
 export default {
   name: 'Checkout',
-  components: { VueGoogleAutocomplete },
+  components: { 
+    VueGoogleAutocomplete,
+    StripeElementCard
+  },
   data() {
     return {
-      fullscreen: this.$route.params.fullscreen,
       lineItems: this.$store.getters.getLineItems,
+      shippingProducts: this.$store.getters.getShippingProducts,
+      fullscreen: this.$route.params.fullscreen,
       user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -563,11 +580,15 @@ export default {
       carriers: [],
       promotion: null,
       subTotal: null,
-      shippingPrice: null,
-      shippingMethodId: null,
-      shippingName: null,
-      shippingCarrier: null,
       total: null,
+      identifier: null,
+      shippingPrice: null,
+      shippingCarrierId: null,
+      shippingCarrierName: null,
+      shippingServiceId: null,
+      shippingServiceName: null,
+      shippingServiceCode: null,
+      currency: null,
       shippingAddress: false,
       tabMap: true,
       tabList: false,
@@ -596,11 +617,14 @@ export default {
       center: null,
       showAutocomplete: false,
       paymentType: null,
-      shippingProducts: this.$store.getters.getShippingProducts,
       locationMarkers: [],
       loadingShipping: true,
       loadingPayment: false,
       loadingAddress: false,
+      stripe: null,
+      stripePublicKey: "pk_test_aIJETJxn5e12xD24xXy0ovEg",
+      stripeCardOptions: {},
+      cardError: null,
       mapOptions: {
         zoomControl: true,
         mapTypeControl: false,
@@ -625,7 +649,6 @@ export default {
     window.StatusBar.backgroundColorByHexString("#ffffff");
     console.log(this.lineItems);
 
-  
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
         if (lineItem.variant) {
@@ -674,6 +697,13 @@ export default {
     //   });
     // }
   },
+  async mounted() {
+    // this.stripe = await loadStripe(this.stripePublicKey);
+
+    // Configurez Apple Pay
+    // console.log(this.stripe);
+    // this.setupApplePay();
+  },
 	computed: {
 		isServicePoints() {
 			return this.shippingMethod == "service_point" ? 'fill: #18cea0' : '';
@@ -683,6 +713,59 @@ export default {
 		}
 	},
   methods: {
+    async handleCardChange(event) {
+      this.cardError = event.error ? event.error.message : "";
+    },
+    async testPayment() {
+      const { token, error } = await this.stripe.createToken(this.$refs.stripeCard.stripeElement);
+
+      if (error) {
+        this.cardError = error.message;
+      } else {
+        // Envoie le token au serveur pour créer le paiement
+        // Remplacez cette fonction par un appel API à votre back-end
+        this.processPayment(token);
+      }
+    },
+    async setupApplePay() {
+      if (this.stripe && (await this.stripe.applePayAvailable())) {
+        const paymentRequest = this.stripe.paymentRequest({
+          country: "US",
+          currency: "usd",
+          total: {
+            label: "Total",
+            amount: 1000, // Montant en cents
+          },
+          requestPayerName: true,
+          requestPayerEmail: true,
+        });
+
+        const applePayButton = this.stripe.createApplePayButton({
+          style: {
+            height: "40px",
+            width: "100%",
+          },
+        });
+
+        paymentRequest.on("token", async (event) => {
+          // Envoie le token au serveur pour créer le paiement
+          // Remplacez cette fonction par un appel API à votre back-end
+          this.processPayment(event.token);
+
+          event.complete("success");
+        });
+
+        paymentRequest.canMakePayment().then((result) => {
+          if (result) {
+            applePayButton.mount("#apple-pay-button");
+          }
+        });
+      }
+    },
+    processPayment(token) {
+      // Implémentez la logique pour envoyer le token à votre serveur et créer le paiement
+      console.log("Token créé:", token);
+    },
     showShippingAddress() {
     	if (document.getElementsByClassName('pac-container').length) {
 	    	document.getElementsByClassName('pac-container')[0].remove();
@@ -833,10 +916,14 @@ export default {
       		if (this.shippingPrice) {
 	      		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
       		}
+          this.currency = method.currency;
+          this.identifier = method.identifier;
       		this.shippingPrice = method.price;
-      		this.shippingMethodId = method.service_id;
-      		this.shippingName = method.service_name;
-      		this.shippingCarrier = method.carrier_id;
+          this.shippingCarrierId = method.carrier_id;
+          this.shippingCarrierName = method.carrier_name;
+      		this.shippingServiceId = method.service_id;
+      		this.shippingServiceName = method.service_name;
+          this.shippingServiceCode = method.service_code;
 		      this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
       	}
       });
@@ -877,10 +964,10 @@ export default {
       }
     },
     payment() {
-      if (this.shippingMethodId && this.shippingName && this.shippingCarrier && this.shippingPrice) {
+      if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
         // window.SpinnerDialog.show();
         this.loadingPayment = true;
-  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "shippingName": this.shippingName, "shippingMethodId": this.shippingMethodId, "shippingCarrier": this.shippingCarrier, "shippingPrice": this.shippingPrice, "serviceLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null }, { Authorization: "Bearer " + this.token }, (response) => {
+  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
           this.lineItems = [];
           this.$store.commit('setLineItems', this.lineItems);
           this.$root.$children[0].updateLineItems();
@@ -901,15 +988,19 @@ export default {
     changeToAddress() {
     	this.shippingMethod = "domicile";
       this.pointSelected = null;
-      this.shippingMethodId = this.shippingProducts.domicile[0].service_id;
-      this.shippingName = this.shippingProducts.domicile[0].service_name;
 
   		if (this.shippingPrice) {
     		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
   		}
 
+      this.currency = this.shippingProducts.domicile[0].currency;
+      this.identifier = this.shippingProducts.domicile[0].identifier;
       this.shippingPrice = this.shippingProducts.domicile[0].price;
-  		this.shippingCarrier = this.shippingProducts.domicile[0].carrier_id;
+      this.shippingCarrierId = this.shippingProducts.domicile[0].carrier_id;
+      this.shippingCarrierName = this.shippingProducts.domicile[0].carrier_name;
+      this.shippingServiceId = this.shippingProducts.domicile[0].service_id;
+      this.shippingServiceName = this.shippingProducts.domicile[0].service_name;
+      this.shippingServiceCode = this.shippingProducts.domicile[0].service_code;
       this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
     },
     updateMapSelected(position, index) {

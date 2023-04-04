@@ -161,28 +161,23 @@ export default {
     getShippingPrice() {
       if (this.user.shippingAddresses.length) {
         this.loading = true;
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems }, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(JSON.parse(response.data));
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", {"lineItems": this.lineItems}, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setShippingProducts', JSON.parse(response.data));
-          this.loading = false;
-        
-          if (this.fullscreen) {
-            this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
-          } else {
-            this.$emit('showCheckout', this.lineItems);
-          }
+          this.goCheckout();
         }, (response) => {
-          this.loading = false;
-          console.log(response.error);
+          this.goCheckout();
         });
       } else {
-        if (this.fullscreen) {
-          this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
-        } else {
-          this.$emit('showCheckout', this.lineItems);
-        }
+        this.goCheckout();
       }
     },
+    goCheckout() {
+      if (this.fullscreen) {
+        this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
+      } else {
+        this.$emit('showCheckout', this.lineItems);
+      }
+    }
   }
 };
 

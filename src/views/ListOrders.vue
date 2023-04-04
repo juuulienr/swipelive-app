@@ -248,7 +248,7 @@
             <span v-else>-</span>
           </div>
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
-            <img :src="require(`@/assets/img/truck.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Transporteur : {{ order.shippingCarrier }} <br> 
+            <img :src="require(`@/assets/img/truck.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Transporteur : {{ order.shippingServiceName }} <br> 
             <img :src="require(`@/assets/img/map-marker.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Numéro de suivi : 
             <span v-if="order.trackingNumber" @click="openUrl(order.trackingUrl)" style="color: #007bff; text-decoration: underline;">{{ order.trackingNumber }}</span>
             <span v-else>-</span>
@@ -284,7 +284,7 @@
                   <span class="css-fz3k0c"></span>
                 </div>
                 <div class="css-hg5jyh">
-                  <h6 class="css-yemnbq" style="font-weight: 500; font-size: 15px;">Pris en charge par <span style="text-transform: capitalize;">{{ order.shippingCarrier }}</span></h6>
+                  <h6 class="css-yemnbq" style="font-weight: 500; font-size: 15px;">Pris en charge par <span style="text-transform: capitalize;">{{ order.shippingServiceName }}</span></h6>
                 </div>
               </li>
               <li v-if="filteredStatus('')" class="css-1rcbby2">
@@ -366,6 +366,7 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
+      cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/',
       defaultOptions: {animationData: animationData},
       popupConfirmation: false,
       popupOrder: false, 
@@ -464,7 +465,7 @@ export default {
       this.$router.push({ name: 'Account' });
     }, 
     showLabel() {
-      var url = this.baseUrl + /uploads/ + this.order.pdf;
+      var url = this.cloudinary + this.order.pdf;
       window.SafariViewController.isAvailable((available) => {
         if (available) {
           window.SafariViewController.show({ url: url }, (result) => {
@@ -513,6 +514,7 @@ export default {
     closeOrder() {
       this.popupConfirmation = false;
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/closed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.order = JSON.parse(response.data);
         this.hideOrder();
       }, (response) => {
         console.log(response.error);
@@ -532,11 +534,12 @@ export default {
       } 
     },
     cancelOrder() {
-      // window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      //   this.hideOrder();
-      // }, (response) => {
-      //   console.log(response.error);
-      // });
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        this.order = JSON.parse(response.data);
+        this.hideOrder();
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     actionSheet() {
       // afficher annuler la commande que si commande n'est pas envoyé
