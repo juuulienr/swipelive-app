@@ -255,7 +255,19 @@
           </div>
           <hr v-if="type == 'sale' && order.shippingStatus == 'ready-to-send'">
           <div class="css-18mhetb">
-            <ul class="css-1oa1nt">
+            <ul v-if="order.orderStatuses.length" class="css-1oa1nt">
+              <li v-for="status in order.orderStatuses" class="css-1rcbby2">
+                <div class="css-11tgw8h">
+                  <span class="css-1f06y3u"></span>
+                  <span class="css-fz3k0c" style="background-color: #18cea0;"></span>
+                </div>
+                <div class="css-hg5jyh">
+                  <h6 class="css-yemnbq">{{ status.description }}</h6>
+                  <span class="css-6f545k">{{ status.date }}</span>
+                </div>
+              </li>
+            </ul>
+            <ul v-else class="css-1oa1nt">
               <li class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u"></span>
@@ -266,19 +278,7 @@
                   <span class="css-6f545k">{{ order.createdAt | formatDate }}</span>
                 </div>
               </li>
-              <li v-for="status in order.orderStatuses" class="css-1rcbby2" v-show="status.status != 'no-label' && status.status != 'announcing' && status.status != 'ready-to-send' && status.status != 'announced' && status.status != 'cancelling-upstream'">
-                <div class="css-11tgw8h">
-                  <span class="css-1f06y3u"></span>
-                  <span v-if="status.status != 'delivered' && status.status != 'cancelled'" class="css-fz3k0c" style="background-color: #18cea0;"></span>
-                </div>
-                <div class="css-hg5jyh">
-                  <h6 v-if="status.status == 'delivered'" class="css-yemnbq" style="font-weight: 500; font-size: 15px;">Livré</h6>
-                  <h6 v-else-if="status.status == 'cancelled'" class="css-yemnbq" style="font-weight: 500; font-size: 15px;">Annulé</h6>
-                  <h6 v-else class="css-yemnbq">{{ status.message }}</h6>
-                  <span class="css-6f545k">{{ status.updateAt }}</span>
-                </div>
-              </li>
-              <li v-if="filteredStatus('')" class="css-1rcbby2">
+              <li class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
                   <span class="css-fz3k0c"></span>
@@ -287,7 +287,7 @@
                   <h6 class="css-yemnbq" style="font-weight: 500; font-size: 15px;">Pris en charge par <span style="text-transform: capitalize;">{{ order.shippingServiceName }}</span></h6>
                 </div>
               </li>
-              <li v-if="filteredStatus('')" class="css-1rcbby2">
+              <li class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
                   <span class="css-fz3k0c"></span>
@@ -296,7 +296,7 @@
                   <h6 class="css-yemnbq" style="font-weight: 500; font-size: 15px;">En cours de livraison</h6>
                 </div>
               </li>
-              <li v-if="filteredStatus('') && order.servicePointId" class="css-1rcbby2">
+              <li v-if="order.dropoffName" class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
                   <span class="css-fz3k0c"></span>
@@ -305,7 +305,7 @@
                   <h6 class="css-yemnbq" style="font-weight: 500; font-size: 15px;">Disponible au point relais</h6>
                 </div>
               </li>
-              <li v-if="filteredStatus('delivered')" class="css-1rcbby2">
+              <li class="css-1rcbby2">
                 <div class="css-11tgw8h">
                   <span class="css-1f06y3u" style="background: rgba(145,158,171,.24);"></span>
                 </div>
@@ -487,16 +487,6 @@ export default {
       }, (response) => {
         console.log(response.error);
       });
-    },
-    filteredStatus(status) {
-      var isEqual = true;
-      this.order.orderStatuses.filter((orderStatus) => { 
-        console.log(status == orderStatus.status);
-        if (status == orderStatus.status || "cancelling-upstream" == orderStatus.status || "cancelled" == orderStatus.status) {
-          isEqual = false;
-        }
-      });
-      return isEqual;
     },
     openUrl(url) {
       window.SafariViewController.isAvailable((available) => {

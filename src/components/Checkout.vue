@@ -588,6 +588,7 @@ export default {
       shippingServiceId: null,
       shippingServiceName: null,
       shippingServiceCode: null,
+      expectedDelivery: null,
       currency: null,
       shippingAddress: false,
       tabMap: true,
@@ -924,6 +925,7 @@ export default {
       		this.shippingServiceId = method.service_id;
       		this.shippingServiceName = method.service_name;
           this.shippingServiceCode = method.service_code;
+          this.expectedDelivery = method.expectedDelivery;
 		      this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
       	}
       });
@@ -967,7 +969,7 @@ export default {
       if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
         // window.SpinnerDialog.show();
         this.loadingPayment = true;
-  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
+  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
           this.lineItems = [];
           this.$store.commit('setLineItems', this.lineItems);
           this.$root.$children[0].updateLineItems();
@@ -1001,6 +1003,7 @@ export default {
       this.shippingServiceId = this.shippingProducts.domicile[0].service_id;
       this.shippingServiceName = this.shippingProducts.domicile[0].service_name;
       this.shippingServiceCode = this.shippingProducts.domicile[0].service_code;
+      this.expectedDelivery = this.shippingProducts.domicile[0].expectedDelivery;
       this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
     },
     updateMapSelected(position, index) {
