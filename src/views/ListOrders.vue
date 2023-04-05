@@ -152,11 +152,18 @@
         </div>
       </div>
       <div>
-        <div v-if="type == 'sale' && order.shippingStatus == 'ready-to-send'" style="margin-top: 10px;">
+        <div v-if="type == 'sale'" style="margin-top: 10px;">
           <div v-if="order.pdf && order.trackingNumber" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
               <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
             </svg> Imprimer le bon de livraison
+          </div>
+          <div v-else-if="loadingPdf" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+            <span>
+              <svg viewBox="25 25 50 50" class="loading">
+                <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+              </svg>
+            </span>
           </div>
           <div v-else @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
@@ -244,16 +251,18 @@
         <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2a80;font-weight: 600;font-size: 17px;">
             <img :src="require(`@/assets/img/location.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison prévu : 
-            <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery }}</span>
+            <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery | formatDate }}</span>
             <span v-else>-</span>
           </div>
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
             <img :src="require(`@/assets/img/truck.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Transporteur : {{ order.shippingServiceName }} <br> 
             <img :src="require(`@/assets/img/map-marker.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Numéro de suivi : 
-            <span v-if="order.trackingNumber" @click="openUrl(order.trackingUrl)" style="color: #007bff; text-decoration: underline;">{{ order.trackingNumber }}</span>
+            <span v-if="order.trackingNumber" style="color: #007bff; text-decoration: underline;">{{ order.trackingNumber }}</span>
             <span v-else>-</span>
           </div>
-          <hr v-if="type == 'sale' && order.shippingStatus == 'ready-to-send'">
+
+          <hr v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'">
+          
           <div class="css-18mhetb">
             <ul v-if="order.orderStatuses.length" class="css-1oa1nt">
               <li v-for="status in order.orderStatuses" class="css-1rcbby2">
@@ -380,6 +389,7 @@ export default {
       show2: false,
       show3: false,
       show4: false,
+      loadingPdf: false,
       order: null,
       type: null,
       remaining: null,
@@ -482,10 +492,13 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      this.loadingPdf = true;
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.order = JSON.parse(response.data);
+        this.loadingPdf = false;
       }, (response) => {
         console.log(response.error);
+        this.loadingPdf = false;
       });
     },
     openUrl(url) {
@@ -503,7 +516,7 @@ export default {
     },
     closeOrder() {
       this.popupConfirmation = false;
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/closed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.order.id + "/closed", {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.order = JSON.parse(response.data);
         this.hideOrder();
       }, (response) => {
@@ -524,7 +537,7 @@ export default {
       } 
     },
     cancelOrder() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/order/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.order = JSON.parse(response.data);
         this.hideOrder();
       }, (response) => {
@@ -533,14 +546,24 @@ export default {
     },
     actionSheet() {
       // afficher annuler la commande que si commande n'est pas envoyé
-      var options = {
-        buttonLabels: ['Signaler un problème'],
-        addCancelButtonWithLabel: 'Retour',
-        addDestructiveButtonWithLabel : 'Annuler la commande',
-        destructiveButtonLast: true,
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
-      };
+      if (this.order.shippingStatus == 'ready-to-send') {
+        var options = {
+          buttonLabels: ['Signaler un problème'],
+          addCancelButtonWithLabel: 'Retour',
+          addDestructiveButtonWithLabel : 'Annuler la commande',
+          destructiveButtonLast: true,
+          androidEnableCancelButton : true,
+          winphoneEnableCancelButton : true
+        };
+      } else {
+        var options = {
+          buttonLabels: ['Signaler un problème'],
+          addCancelButtonWithLabel: 'Retour',
+          destructiveButtonLast: true,
+          androidEnableCancelButton : true,
+          winphoneEnableCancelButton : true
+        };
+      }
 
       window.plugins.actionsheet.show(options, (index) => {
         console.log(index);
