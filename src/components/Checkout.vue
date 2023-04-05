@@ -219,18 +219,16 @@
       </div>
     </div>
 
-    <stripe-element-card
-    ref="stripeCard"
-    :stripe-key="stripePublicKey"
-    :options="stripeCardOptions"
-    @change="handleCardChange"
-    ></stripe-element-card>
-
-    <button @click="testPayment()">Test Stripe</button>
-
-    <div id="apple-pay-button"></div>
-
-
+    <div class="card-payment">
+      <label>Card Number</label>
+      <div id="card-number"></div>
+      <label>Card Expiry</label>
+      <div id="card-expiry"></div>
+      <label>Card CVC</label>
+      <div id="card-cvc"></div>
+      <div id="card-error"></div>
+      <button id="custom-button" @click="createToken">Generate Token</button>
+    </div>
 
 
     <div @click="payment()" class="div-payment">
@@ -552,20 +550,28 @@
 	padding: 7px 3px !important;
 }
  
+#custom-button {
+  height: 30px;
+  outline: 1px solid grey;
+  background-color: green;
+  padding: 5px;
+  color: white;
+}
+
+#card-error {
+  color: red;
+}
 </style>
 
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import { loadStripe } from "@stripe/stripe-js";
-import { StripeElementCard } from "vue-stripe-elements-plus";
 
 
 export default {
   name: 'Checkout',
   components: { 
     VueGoogleAutocomplete,
-    StripeElementCard
   },
   data() {
     return {
@@ -622,10 +628,10 @@ export default {
       loadingShipping: true,
       loadingPayment: false,
       loadingAddress: false,
-      stripe: null,
-      stripePublicKey: "pk_test_aIJETJxn5e12xD24xXy0ovEg",
-      stripeCardOptions: {},
-      cardError: null,
+      token: null,
+      cardNumber: null,
+      cardExpiry: null,
+      cardCvc: null,
       mapOptions: {
         zoomControl: true,
         mapTypeControl: false,
@@ -698,12 +704,34 @@ export default {
     //   });
     // }
   },
-  async mounted() {
-    // this.stripe = await loadStripe(this.stripePublicKey);
+  mounted() {    
+    const style = {
+      base: {
+        color: 'black',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '14px',
+        '::placeholder': {
+          color: '#aab7c4',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    };
+    this.cardNumber = this.stripeElements.create('cardNumber', { style });
+    this.cardNumber.mount('#card-number');
+    this.cardExpiry = this.stripeElements.create('cardExpiry', { style });
+    this.cardExpiry.mount('#card-expiry');
+    this.cardCvc = this.stripeElements.create('cardCvc', { style });
+    this.cardCvc.mount('#card-cvc');
 
-    // Configurez Apple Pay
-    // console.log(this.stripe);
-    // this.setupApplePay();
+  },
+  beforeDestroy () {
+    this.cardNumber.destroy();
+    this.cardExpiry.destroy();
+    this.cardCvc.destroy();
   },
 	computed: {
 		isServicePoints() {
@@ -711,61 +739,22 @@ export default {
 		},
 		isDomicile() {
 			return this.shippingMethod == "domicile" ? 'fill: #18cea0' : '';
-		}
+		},
+    stripeElements () {
+      return this.$stripe.elements();
+    },
 	},
-  methods: {
-    async handleCardChange(event) {
-      this.cardError = event.error ? event.error.message : "";
-    },
-    async testPayment() {
-      const { token, error } = await this.stripe.createToken(this.$refs.stripeCard.stripeElement);
-
+  methods: {    
+    async createToken () {
+      const { token, error } = await this.$stripe.createToken(this.cardNumber);
       if (error) {
-        this.cardError = error.message;
-      } else {
-        // Envoie le token au serveur pour créer le paiement
-        // Remplacez cette fonction par un appel API à votre back-end
-        this.processPayment(token);
+        // handle error here
+        document.getElementById('card-error').innerHTML = error.message;
+        return;
       }
-    },
-    async setupApplePay() {
-      if (this.stripe && (await this.stripe.applePayAvailable())) {
-        const paymentRequest = this.stripe.paymentRequest({
-          country: "US",
-          currency: "usd",
-          total: {
-            label: "Total",
-            amount: 1000, // Montant en cents
-          },
-          requestPayerName: true,
-          requestPayerEmail: true,
-        });
-
-        const applePayButton = this.stripe.createApplePayButton({
-          style: {
-            height: "40px",
-            width: "100%",
-          },
-        });
-
-        paymentRequest.on("token", async (event) => {
-          // Envoie le token au serveur pour créer le paiement
-          // Remplacez cette fonction par un appel API à votre back-end
-          this.processPayment(event.token);
-
-          event.complete("success");
-        });
-
-        paymentRequest.canMakePayment().then((result) => {
-          if (result) {
-            applePayButton.mount("#apple-pay-button");
-          }
-        });
-      }
-    },
-    processPayment(token) {
-      // Implémentez la logique pour envoyer le token à votre serveur et créer le paiement
-      console.log("Token créé:", token);
+      console.log(token);
+      // handle the token
+      // send it to your server
     },
     showShippingAddress() {
     	if (document.getElementsByClassName('pac-container').length) {

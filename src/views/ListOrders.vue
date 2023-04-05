@@ -251,7 +251,7 @@
         <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2a80;font-weight: 600;font-size: 17px;">
             <img :src="require(`@/assets/img/location.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison prévu : 
-            <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery | formatDate }}</span>
+            <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery | formatDate2 }}</span>
             <span v-else>-</span>
           </div>
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
@@ -411,6 +411,10 @@ export default {
     formatDate(datetime) {
       const date = new Date(datetime);
       return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+    },
+    formatDate2(datetime) {
+      const date = new Date(datetime);
+      return date.toLocaleDateString(navigator.language);
     }
   },
   computed: {

@@ -9,7 +9,7 @@ import * as VueGoogleMaps from "vue2-google-maps";
 import * as Sentry from "@sentry/vue";
 import { BrowserTracing } from "@sentry/tracing";
 import store from "./store/store.js";
-
+import { StripePlugin } from '@vue-stripe/vue-stripe';
 
 
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
@@ -42,6 +42,18 @@ Vue.use(VueGoogleMaps, {
 	}
 });
 
+const options = {
+  testMode: true, // Boolean. To override the insecure host warning
+  pk: "pk_test_aIJETJxn5e12xD24xXy0ovEg", //pk_live_KGjyLVjmMB3WnzLBitoNtsKC
+  stripeAccount: "acct_19LfwSJYa9kb8x3Z",
+};
+
+
+
+  // apiVersion: process.env.API_VERSION,
+  // locale: process.env.LOCALE,
+
+Vue.use(StripePlugin, options);
 
 const init = () => {
   new Vue({

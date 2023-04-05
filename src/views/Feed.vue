@@ -497,6 +497,9 @@
 .feed iframe {
   height: 100vh !important;
 }
+.checkout__element iframe {
+  height: 20px !important;
+}
 </style>
 
 <style scoped src="../assets/css/feed.css"></style>
