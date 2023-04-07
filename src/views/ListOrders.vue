@@ -35,7 +35,7 @@
 
         <div class="top-author">
         	<div v-if="show1">
-            <div v-if="sales && sales.length > 0" class="top-author--container">
+            <div v-if="filteredSales.length" class="top-author--container">
           		<div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
           			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
@@ -65,7 +65,25 @@
           </div>
           
           <div v-if="show2">
-            <div>
+            <div v-if="filteredSales.length" class="top-author--container">
+              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <div>
+                  <div><span>#{{ order.number }}</span></div>
+                  <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                </div>
+                <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
+              </div>
+            </div>
+            <div v-else-if="loadingOrders">
+              <div class="loader2">
+                <span></span>
+              </div>
+            </div>
+            <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
@@ -76,7 +94,25 @@
             </div>
           </div>
           <div v-if="show3">
-            <div>
+            <div v-if="filteredSales.length" class="top-author--container">
+              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <div>
+                  <div><span>#{{ order.number }}</span></div>
+                  <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                </div>
+                <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
+              </div>
+            </div>
+            <div v-else-if="loadingOrders">
+              <div class="loader2">
+                <span></span>
+              </div>
+            </div>
+            <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
@@ -87,7 +123,25 @@
             </div>
           </div>
           <div v-if="show4">
-            <div>
+            <div v-if="filteredSales.length" class="top-author--container">
+              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <div>
+                  <div><span>#{{ order.number }}</span></div>
+                  <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                </div>
+                <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
+              </div>
+            </div>
+            <div v-else-if="loadingOrders">
+              <div class="loader2">
+                <span></span>
+              </div>
+            </div>
+            <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
                   <Lottie :options="defaultOptions" :width="200"/>
@@ -385,6 +439,7 @@ export default {
       sales: [],
       purchases: [],
       searchTerm: "",
+      shippingStatus: "ready-to-send",
       show1: true,
       show2: false,
       show3: false,
@@ -419,10 +474,16 @@ export default {
   },
   computed: {
     filteredSales() {
-      return this.sales.filter(sale => {
-        const search = this.searchTerm.toLowerCase();
-        return (sale.buyer.firstname.toLowerCase().includes(search) || sale.buyer.lastname.toLowerCase().includes(search) || sale.number.toString().toLowerCase().includes(search));
-      });
+      if (this.searchTerm) {
+        return this.sales.filter(sale => {
+          const search = this.searchTerm.toLowerCase();
+          return (sale.buyer.firstname.toLowerCase().includes(search) || sale.buyer.lastname.toLowerCase().includes(search) || sale.number.toString().toLowerCase().includes(search));
+        });
+      } else {
+        return this.sales.filter(sale => {
+          return (sale.shippingStatus == this.shippingStatus);
+        });
+      }
     },
   },
   methods: {
@@ -584,6 +645,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      this.shippingStatus = "ready-to-send";
       this.show1 = true;
       this.show2 = false;
       this.show3 = false;
@@ -593,6 +655,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      this.shippingStatus = "open";
       this.show1 = false;
       this.show2 = true;
       this.show3 = false;
@@ -602,6 +665,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      this.shippingStatus = "litige";
       this.show1 = false;
       this.show2 = false;
       this.show3 = true;
@@ -611,6 +675,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      this.shippingStatus = "cancelled";
       this.show1 = false;
       this.show2 = false;
       this.show3 = false;
