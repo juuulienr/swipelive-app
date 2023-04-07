@@ -421,7 +421,14 @@
     <div v-if="popupProduct" class="product-popup-btn">
       <div v-if="product.quantity > 0" class="groups">
         <div @click="addToCart()" class="btn-swipe btn-addtoCart">Ajouter</div>
-        <div @click="goCheckout()" class="btn-swipe btn-checkout">Acheter</div>
+        <div @click="goCheckout()" class="btn-swipe btn-checkout">
+          <span v-if="loadingShipping">
+            <svg viewBox="25 25 50 50" class="loading">
+              <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+            </svg>
+          </span>
+          <span v-else>Acheter</span>
+        </div>
       </div>
       <div v-else class="groups">
         <div class="btn-swipe btn-checkout" style="color: rgb(170, 170, 170); background: #eff1f6; width: 100%">Épuisé</div>
@@ -569,6 +576,7 @@ export default {
       writeInput: '0px',
       content: "",
       loadingShop: true,
+      loadingShipping: false,
       popupProduct: false,
       popupCart: false,
       popupShop: false,
@@ -892,16 +900,34 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      this.loadingShipping = true;
       await this.addToCart();
-      this.popupCheckout = true;
+      this.getShippingPrice();
       this.myPlayer.muted = true;
+    },
+    getShippingPrice() {
+      if (this.user.shippingAddresses.length) {
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", {"lineItems": this.lineItems}, { Authorization: "Bearer " + this.token }, (response) => {
+          this.$store.commit('setShippingProducts', JSON.parse(response.data));
+          this.popupCheckout = true;
+          this.loadingShipping = false;
+        }, (response) => {
+          this.popupCheckout = true;
+          this.loadingShipping = false;
+        });
+      } else {
+        this.popupCheckout = true;
+        this.loadingShipping = false;
+      }
     },
     addToCart() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.popupCheckout = false;
-      this.popupProduct = false;
+      if (!this.loadingShipping) {
+        this.popupProduct = false;
+      }
       this.popupCart = false;
       this.popupShop = false;
 
