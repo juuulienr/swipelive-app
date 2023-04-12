@@ -126,6 +126,18 @@
         </div>
       </div>
 
+      <form id="payment-form">
+        <div id="payment-element">
+          <!-- Elements will create form elements here -->
+        </div>
+        <div id="payment-request-button">
+          <!-- A Stripe Element will be inserted here. -->
+        </div>
+        <button id="submit" @click="payment()">Submit</button>
+        <div id="error-message">
+          <!-- Display error message to your customers here -->
+        </div>
+      </form>
 
 
 			<!-- shipping method -->
@@ -202,10 +214,13 @@
           <div class="top-author--container">
             <div class="top-author--item">
               <div>
-                <span v-if="paymentType">{{ paymentType }}</span>
-                <span v-else>Ajouter un mode de paiement</span>
+                <span v-if="paymentType == 'credit-card'">Carte bancaire</span>
+                <span v-else-if="paymentType == 'apple-pay'">Apple Pay</span>
+                <span v-else-if="paymentType == 'google-pay'">Google Pay</span>
+                <span v-else>Selectionner un mode de paiement</span>
                 <div><span></span></div>
               </div>
+              {{ cardObject }}
               <div style="margin-right: 5px;">
                 <span style="float: right;">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
@@ -219,19 +234,11 @@
       </div>
     </div>
 
-    <div class="card-payment">
-      <label>Card Number</label>
-      <div id="card-number"></div>
-      <label>Card Expiry</label>
-      <div id="card-expiry"></div>
-      <label>Card CVC</label>
-      <div id="card-cvc"></div>
-      <div id="card-error"></div>
-      <button id="custom-button" @click="createToken">Generate Token</button>
-    </div>
 
 
-    <div @click="payment()" class="div-payment">
+
+    <div class="div-payment">
+      <p style="text-align: center; font-size: 13px; font-weight: 400;">Ce paiement est crypté pour votre sécurité</p>
       <div class="btn-swipe" style="text-align: center;">
         <span v-if="loadingPayment">
           <svg viewBox="25 25 50 50" class="loading">
@@ -315,17 +322,36 @@
 
 
     <!-- payment method -->
-    <div v-if="popupPayment" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
+    <div v-if="popupPaymentMethod" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
       <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
-        <div @click="hidePopupPayment()" class="checkout__close-btn">
+        <div @click="hidePopupPaymentMethod()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
-        <div class="checkout__title">Mode de paiement</div>
+        <div class="checkout__title">Modes de paiement</div>
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
-        <div @click="savePayment('Apple Pay')" class="card panel-item card-payment">
+        <div @click="showPopupCreditCard('credit-card')" class="card panel-item card-payment" style="">
+          <div class="card-body parcelshop-card-body">
+            <div>
+              <div class="top-author--item">
+                <div>
+                  <span>Carte bancaire</span>
+                  <div><span></span></div>
+                </div>
+                <div style="margin-right: 5px;">
+                  <span style="float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
+                      <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div @click="savePayment('apple-pay')" class="card panel-item card-payment">
           <div class="card-body parcelshop-card-body">
             <div>
 	            <div class="top-author--item">
@@ -344,45 +370,60 @@
             </div>
           </div>
         </div>
-        <div @click="savePayment('Carte bancaire')" class="card panel-item card-payment" style="">
+        <div @click="savePayment('google-pay')" class="card panel-item card-payment">
           <div class="card-body parcelshop-card-body">
             <div>
-	            <div class="top-author--item">
-	              <div>
-	                <span>Carte bancaire</span>
-	                <div><span></span></div>
-	              </div>
-	              <div style="margin-right: 5px;">
+              <div class="top-author--item">
+                <div>
+                  <span>Google Pay</span>
+                  <div><span></span></div>
+                </div>
+                <div style="margin-right: 5px;">
                   <span style="float: right;">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
                       <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
                     </svg>
                   </span>
                 </div>
-	            </div>
-            </div>
-          </div>
-        </div>
-        <div @click="savePayment('Paypal')" class="card panel-item card-payment">
-          <div class="card-body parcelshop-card-body">
-            <div>
-	            <div class="top-author--item">
-	              <div>
-	                <span>Paypal</span>
-	                <div><span></span></div>
-	              </div>
-	              <div style="margin-right: 5px;">
-                  <span style="float: right;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;">
-                      <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
-                    </svg>
-                  </span>
-                </div>
-	            </div>
+              </div>
             </div>
           </div>
         </div>
     	</div>
+    </div>
+
+
+    <!-- add credit card -->
+    <div v-if="popupCreditCard" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
+      <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
+        <div @click="hidePopupCreditCard()" class="checkout__close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+          </svg>
+        </div>
+        <div class="checkout__title">Carte de crédit</div>
+      </div>
+      <div class="checkout__body" style="overflow: scroll; padding: 18px 0px;">
+        <div class="card-payment">
+          <label>Card Number</label>
+          <div id="card-number"></div>
+          <label>Card Expiry</label>
+          <div id="card-expiry"></div>
+          <label>Card CVC</label>
+          <div id="card-cvc"></div>
+          <div id="card-error"></div>
+          <button id="custom-button" @click="addCreditCard()">Utiliser cette carte</button>
+
+          <div @click="addCreditCard()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); margin: 0 auto; background: #ff2a80">
+            <span v-if="loadingAddress">
+              <svg viewBox="25 25 50 50" class="loading">
+                <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+              </svg>
+            </span>
+            <span v-else>Utiliser cette carte</span>
+          </div>
+        </div>
+      </div>
     </div>
 
 
@@ -581,6 +622,7 @@ export default {
       user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
+      stripe_pk: window.localStorage.getItem("stripe_pk"),
       token: window.localStorage.getItem("token"),
       sendcloud_pk: "3826686f2dbc418380898cc254fc0d28",
       carriers: [],
@@ -599,7 +641,8 @@ export default {
       shippingAddress: false,
       tabMap: true,
       tabList: false,
-      popupPayment: false,
+      popupCreditCard: false,
+      popupPaymentMethod: false,
       popupShippingAddress: false,
       popupRelay: false,
       popupRelayInfo: false,
@@ -624,11 +667,13 @@ export default {
       center: null,
       showAutocomplete: false,
       paymentType: null,
+      stripe: null,
+      elements: null,
       locationMarkers: [],
       loadingShipping: true,
       loadingPayment: false,
       loadingAddress: false,
-      token: null,
+      newCard: null,
       cardNumber: null,
       cardExpiry: null,
       cardCvc: null,
@@ -691,8 +736,10 @@ export default {
       console.log(this.shippingProducts);
       if (this.shippingProducts.length == 0) {
         this.getShippingPrice();
+        this.getClientSecret();
       } else {
         this.loadingShipping = false;
+        this.getClientSecret();
       }
     }
 
@@ -704,29 +751,7 @@ export default {
     //   });
     // }
   },
-  mounted() {    
-    const style = {
-      base: {
-        color: 'black',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '14px',
-        '::placeholder': {
-          color: '#aab7c4',
-        },
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a',
-      },
-    };
-    this.cardNumber = this.stripeElements.create('cardNumber', { style });
-    this.cardNumber.mount('#card-number');
-    this.cardExpiry = this.stripeElements.create('cardExpiry', { style });
-    this.cardExpiry.mount('#card-expiry');
-    this.cardCvc = this.stripeElements.create('cardCvc', { style });
-    this.cardCvc.mount('#card-cvc');
-
+  mounted() {
   },
   beforeDestroy () {
     this.cardNumber.destroy();
@@ -739,22 +764,158 @@ export default {
 		},
 		isDomicile() {
 			return this.shippingMethod == "domicile" ? 'fill: #18cea0' : '';
-		},
-    stripeElements () {
-      return this.$stripe.elements();
     },
 	},
   methods: {    
-    async createToken () {
-      const { token, error } = await this.$stripe.createToken(this.cardNumber);
-      if (error) {
-        // handle error here
-        document.getElementById('card-error').innerHTML = error.message;
-        return;
-      }
-      console.log(token);
+    async getClientSecret() {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/payment/intent", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        console.log(JSON.parse(response.data));
+        var result = JSON.parse(response.data);
+
+        this.stripe = Stripe(this.stripe_pk);
+        const options = { clientSecret:result.clientSecret };
+        this.elements = this.stripe.elements(options);
+
+        const paymentElement = this.elements.create('payment', {
+          layout: {
+            type: 'accordion',
+            defaultCollapsed: false,
+            radios: true,
+            spacedAccordionItems: false
+          }
+        });
+        paymentElement.mount('#payment-element');
+
+        // const paymentRequest = this.stripe.paymentRequest({
+        //   country: 'FR',
+        //   currency: 'eur',
+        //   total: {
+        //     label: 'Demo total',
+        //     amount: 1000,
+        //   },
+        //   requestPayerName: true,
+        //   requestPayerEmail: true,
+        // });
+
+        // this.elements = this.stripe.elements();
+        // const prButton = this.elements.create('paymentRequestButton', {
+        //   paymentRequest,
+        // });
+
+
+        // (async () => {
+        //   // Check the availability of the Payment Request API first.
+        //   const result = await paymentRequest.canMakePayment();
+        //   console.log(result);
+        //   if (result) {
+        //     prButton.mount('#payment-request-button');
+        //   } else {
+        //     document.getElementById('payment-request-button').style.display = 'none';
+        //   }
+        // })();
+
+        // paymentRequest.on('paymentmethod', async (ev) => {
+        //   const {paymentIntent, error: confirmError} = await stripe.confirmCardPayment(
+        //     clientSecret,
+        //     {payment_method: ev.paymentMethod.id},
+        //     {handleActions: false}
+        //   );
+
+        //   if (confirmError) {
+        //     // Report to the browser that the payment failed, prompting it to
+        //     // re-show the payment interface, or show an error message and close
+        //     // the payment interface.
+        //     ev.complete('fail');
+        //   } else {
+        //     // Report to the browser that the confirmation was successful, prompting
+        //     // it to close the browser payment method collection interface.
+        //     ev.complete('success');
+        //     // Check if the PaymentIntent requires any actions and if so let Stripe.js
+        //     // handle the flow. If using an API version older than "2019-02-11"
+        //     // instead check for: `paymentIntent.status === "requires_source_action"`.
+        //     if (paymentIntent.status === "requires_action") {
+        //       // Let Stripe.js handle the rest of the payment flow.
+        //       const {error} = await stripe.confirmCardPayment(clientSecret);
+        //       if (error) {
+        //         // The payment failed -- ask your customer for a new payment method.
+        //       } else {
+        //         // The payment has succeeded.
+        //         window.plugins.toast.show("success", 'long', 'top');
+        //       }
+        //     } else {
+        //       // The payment has succeeded.
+        //     }
+        //   }
+        // });
+
+
+      }, (response) => {
+        console.log(response.error);
+        window.plugins.toast.show(response.error, 'long', 'top');
+      });
+    },
+    async addCreditCard() {
+      // const { token, error } = await this.$this.stripe.createToken(this.cardNumber);
+      // if (error) {
+      //   // handle error here
+      //   document.getElementById('card-error').innerHTML = error.message;
+      //   return;
+      // }
+
+      // console.log(token);
+      // console.log(token.card);
+      // console.log(token.id);
+      // console.log(token.type);
+      // console.log(token.object);
+      // console.log(token.card.last4);
+      // console.log(token.card.country);
+      // console.log(token.card.brand);
+      // console.log(token.card.funding);
+      // console.log(token.card.exp_month);
+      // console.log(token.card.exp_year);
+
+      // this.popupCreditCard = false;
+      // this.newCard = token;
+
+
       // handle the token
       // send it to your server
+    },
+    showPopupCreditCard() {
+      this.popupCreditCard = true;
+      this.popupPaymentMethod = false;
+
+      const style = {
+        base: {
+          color: 'black',
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSmoothing: 'antialiased',
+          fontSize: '14px',
+          '::placeholder': {
+            color: '#aab7c4',
+          },
+        },
+        invalid: {
+          color: '#fa755a',
+          iconColor: '#fa755a',
+        },
+      };
+
+      this.$nextTick(() => {
+        this.cardNumber = this.$this.stripe.elements().create('cardNumber', { style });
+        this.cardNumber.mount('#card-number');
+        this.cardExpiry = this.$this.stripe.elements().create('cardExpiry', { style });
+        this.cardExpiry.mount('#card-expiry');
+        this.cardCvc = this.$this.stripe.elements().create('cardCvc', { style });
+        this.cardCvc.mount('#card-cvc');
+      });
+    },
+    hidePopupCreditCard() {
+      this.popupCreditCard = false;
+      this.popupPaymentMethod = true;
+      this.cardNumber.destroy();
+      this.cardExpiry.destroy();
+      this.cardCvc.destroy();
     },
     showShippingAddress() {
     	if (document.getElementsByClassName('pac-container').length) {
@@ -930,14 +1091,14 @@ export default {
       this.popupRelayInfo = false;
     },
     showPopupPayment() {
-    	this.popupPayment = true;
+    	this.popupPaymentMethod = true;
     },
-    hidePopupPayment() {
-    	this.popupPayment = false;
+    hidePopupPaymentMethod() {
+    	this.popupPaymentMethod = false;
     },
     savePayment(paymentType) {
     	this.paymentType = paymentType;
-    	this.popupPayment = false;
+    	this.popupPaymentMethod = false;
     },
     showMap() {
       this.tabMap = true;
@@ -955,26 +1116,51 @@ export default {
       }
     },
     payment() {
-      if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
-        // window.SpinnerDialog.show();
-        this.loadingPayment = true;
-  	    window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.lineItems = [];
-          this.$store.commit('setLineItems', this.lineItems);
-          this.$root.$children[0].updateLineItems();
-          this.loadingPayment = false;
+      const form = document.getElementById('payment-form');
 
-          if (this.fullscreen) {
-            this.$router.push({ name: 'Home' });
-          } else {
-            this.$emit('paymentSuccess', JSON.parse(response.data));
-          }
-  	    }, (response) => {
-  	      console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top');
-          this.loadingPayment = false;
-  	    });
-      }
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        var elements = this.elements;
+        const {error, paymentIntent} = await this.stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: 'https://swipelive.fr',
+          },
+          redirect: "if_required"
+        });
+
+        if (error) {
+          const messageContainer = document.querySelector('#error-message');
+          messageContainer.textContent = error.message;
+        } else {
+          console.log(paymentIntent);
+          window.plugins.toast.show(paymentIntent.status, 'long', 'top');
+        }
+      });
+
+
+
+      // if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
+      //   // window.SpinnerDialog.show();
+      //   this.loadingPayment = true;
+  	  //   window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
+      //     this.lineItems = [];
+      //     this.$store.commit('setLineItems', this.lineItems);
+      //     this.$root.$children[0].updateLineItems();
+      //     this.loadingPayment = false;
+
+      //     if (this.fullscreen) {
+      //       this.$router.push({ name: 'Home' });
+      //     } else {
+      //       this.$emit('paymentSuccess', JSON.parse(response.data));
+      //     }
+  	  //   }, (response) => {
+  	  //     console.log(response.error);
+      //     window.plugins.toast.show(response.error, 'long', 'top');
+      //     this.loadingPayment = false;
+  	  //   });
+      // }
     },
     changeToAddress() {
     	this.shippingMethod = "domicile";

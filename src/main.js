@@ -9,13 +9,13 @@ import * as VueGoogleMaps from "vue2-google-maps";
 import * as Sentry from "@sentry/vue";
 import { BrowserTracing } from "@sentry/tracing";
 import store from "./store/store.js";
-import { StripePlugin } from '@vue-stripe/vue-stripe';
 
 
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   Vue.config.productionTip = true;
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
+  window.localStorage.setItem("stripe_pk", "pk_live_KGjyLVjmMB3WnzLBitoNtsKC");
 
   Sentry.init({
     Vue,
@@ -31,6 +31,7 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
 } else {
   Vue.config.productionTip = false;
   window.localStorage.setItem("baseUrl", "http://127.0.0.1:8000");
+  window.localStorage.setItem("stripe_pk", "pk_test_aIJETJxn5e12xD24xXy0ovEg");
 }
 
 Vue.use(VueObserveVisibility);
@@ -42,18 +43,14 @@ Vue.use(VueGoogleMaps, {
 	}
 });
 
-const options = {
-  testMode: true, // Boolean. To override the insecure host warning
-  pk: "pk_test_aIJETJxn5e12xD24xXy0ovEg", //pk_live_KGjyLVjmMB3WnzLBitoNtsKC
-  stripeAccount: "acct_19LfwSJYa9kb8x3Z",
-};
+// const options = {
+//   testMode: true, 
+//   pk: "pk_test_aIJETJxn5e12xD24xXy0ovEg", //pk_live_KGjyLVjmMB3WnzLBitoNtsKC
+//   stripeAccount: "acct_18aqigFHj2RGJTgv",
+// };
 
 
-
-  // apiVersion: process.env.API_VERSION,
-  // locale: process.env.LOCALE,
-
-Vue.use(StripePlugin, options);
+// Vue.use(StripePlugin, options);
 
 const init = () => {
   new Vue({

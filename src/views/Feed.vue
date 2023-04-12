@@ -909,13 +909,16 @@ export default {
       if (this.user.shippingAddresses.length) {
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", {"lineItems": this.lineItems}, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setShippingProducts', JSON.parse(response.data));
+          this.popupProduct = false;
           this.popupCheckout = true;
           this.loadingShipping = false;
         }, (response) => {
+          this.popupProduct = false;
           this.popupCheckout = true;
           this.loadingShipping = false;
         });
       } else {
+        this.popupProduct = false;
         this.popupCheckout = true;
         this.loadingShipping = false;
       }
