@@ -42,6 +42,8 @@ WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
 
 4) Ajouter dans Podfile + Pod update dans platforms/ios 
 
+pod 'Stripe', '~> 22.8.1'
+
 post_install do |installer|
  installer.pods_project.targets.each do |target|
   target.build_configurations.each do |config|

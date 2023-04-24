@@ -907,6 +907,7 @@ export default {
     },
     getShippingPrice() {
       if (this.user.shippingAddresses.length) {
+        this.$store.commit('setShippingProducts', []);
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", {"lineItems": this.lineItems}, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setShippingProducts', JSON.parse(response.data));
           this.popupProduct = false;

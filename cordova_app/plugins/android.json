@@ -133,6 +133,9 @@
     },
     "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-stripeui": {
+      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {

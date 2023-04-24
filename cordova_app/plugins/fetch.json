@@ -323,5 +323,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-stripeui": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/gecsbernat/cordova-plugin-stripeui.git"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

@@ -70,8 +70,17 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-keyboard": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-media": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-native-spinner": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-nativepagetransitions": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-network-information": {
@@ -83,10 +92,16 @@
     "cordova-plugin-safariviewcontroller": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-sign-in-with-apple": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-stripeui": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-taptic-engine": {
@@ -104,18 +119,6 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-wheel-selector-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-nativepagetransitions": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-native-spinner": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-sign-in-with-apple": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },

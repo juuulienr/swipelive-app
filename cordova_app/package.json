@@ -82,7 +82,8 @@
       "cordova-plugin-nativepagetransitions": {},
       "cordova-plugin-native-spinner": {},
       "cordova-plugin-sign-in-with-apple": {},
-      "cordova-plugin-keyboard": {}
+      "cordova-plugin-keyboard": {},
+      "cordova-plugin-stripeui": {}
     },
     "platforms": [
       "android",
@@ -120,6 +121,7 @@
     "cordova-plugin-sign-in-with-apple": "^0.1.2",
     "cordova-plugin-splashscreen": "^6.0.2",
     "cordova-plugin-statusbar": "github:breautek/cordova-plugin-statusbar#430e7df32c0937d46e3a596b37ecbd50a42cb9c3",
+    "cordova-plugin-stripeui": "github:gecsbernat/cordova-plugin-stripeui",
     "cordova-plugin-taptic-engine": "^2.2.0",
     "cordova-plugin-x-socialsharing": "^6.0.3",
     "cordova-plugin-x-toast": "^2.7.2",
