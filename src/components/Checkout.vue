@@ -168,7 +168,7 @@
               <span style="text-transform: capitalize;">Domicile</span>
             </div>
             <div style="margin-right: 5px;">
-			        <div v-if="!loadingShipping && shippingProducts && shippingProducts.domicile" class="filter--choice">
+			        <div v-if="!loadingShipping && shippingProducts && shippingProducts.domicile.length" class="filter--choice">
 			        	<div>
 			        		<div class="gender--choice">
 			        			<label>
@@ -795,11 +795,16 @@ export default {
         this.loadingPayment = true;
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(JSON.parse(response.data));
-          var paymentConfig = JSON.parse(response.data);
+          var response = JSON.parse(response.data);
+          console.log(response);
           var billingConfig = { "billingEmail": "", "billingName": "", "billingPhone": "", "billingCity": "", "billingCountry": "", "billingLine1": "", "billingLine2": "", "billingPostalCode": "", "billingState": "" };
+          console.log(response.order);
+          console.log(JSON.parse(response.order));
 
-          if (window.StripeUIPlugin) {
-            window.StripeUIPlugin.presentPaymentSheet(paymentConfig, billingConfig, (result) => {
+          console.log(window.StripeUIPlugin);
+
+          if (window.cordova.platformId !== "browser") {
+            window.StripeUIPlugin.presentPaymentSheet(response.paymentConfig, billingConfig, (result) => {
               console.log(result);
               this.loadingPayment = false;
 
@@ -809,7 +814,7 @@ export default {
                 this.$store.commit('setLineItems', this.lineItems);
                 this.$root.$children[0].updateLineItems();
 
-                // if (this.fullscreen) {
+                if (this.fullscreen) {
                   if (window.TapticEngine) {
                     TapticEngine.impact({ style: 'medium' });
                   }
@@ -822,9 +827,9 @@ export default {
                   });
 
                   this.$router.push({ name: 'Home' });
-                // } else {
-                  // this.$emit('paymentSuccess', JSON.parse(response.data));
-                // }
+                } else {
+                  this.$emit('paymentSuccess', response.order);
+                }
               } else if (result.code === "1") {
                 // PAYMENT_CANCELED
                 window.plugins.toast.show(result.message, 'long', 'top');
@@ -839,7 +844,12 @@ export default {
             this.lineItems = [];
             this.$store.commit('setLineItems', this.lineItems);
             this.$root.$children[0].updateLineItems();
-            this.$router.push({ name: 'Home' });
+
+            if (this.fullscreen) {
+              this.$router.push({ name: 'Home' });
+            } else {
+              this.$emit('paymentSuccess', response.order);
+            }
           }
         }, (response) => {
           console.log(response.error);
@@ -856,7 +866,7 @@ export default {
     		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
   		}
 
-      if (this.shippingProducts.domicile) {
+      if (this.shippingProducts.domicile.length) {
         this.currency = this.shippingProducts.domicile[0].currency;
         this.identifier = this.shippingProducts.domicile[0].identifier;
         this.shippingPrice = this.shippingProducts.domicile[0].price;
