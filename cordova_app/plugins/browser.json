@@ -104,16 +104,13 @@
     "cordova-plugin-nativepagetransitions": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-native-spinner": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-sign-in-with-apple": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-stripeui": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-sign-in-with-apple": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

@@ -300,26 +300,10 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-native-spinner": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-native-spinner@^1.1.4"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-sign-in-with-apple": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-sign-in-with-apple"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-keyboard": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-keyboard"
+      "id": "cordova-plugin-keyboard@^1.2.0"
     },
     "is_top_level": true,
     "variables": {}
@@ -328,6 +312,14 @@
     "source": {
       "type": "registry",
       "id": "https://github.com/gecsbernat/cordova-plugin-stripeui.git"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-sign-in-with-apple": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-sign-in-with-apple"
     },
     "is_top_level": true,
     "variables": {}

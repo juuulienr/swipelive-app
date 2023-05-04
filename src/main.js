@@ -15,7 +15,8 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
   Pusher.logToConsole = true;
   Vue.config.productionTip = true;
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
-  window.localStorage.setItem("stripe_pk", "pk_live_KGjyLVjmMB3WnzLBitoNtsKC");
+  window.localStorage.setItem("stripe_pk", "pk_test_aIJETJxn5e12xD24xXy0ovEg");
+  // window.localStorage.setItem("stripe_pk", "pk_live_KGjyLVjmMB3WnzLBitoNtsKC");
 
   Sentry.init({
     Vue,
@@ -43,14 +44,6 @@ Vue.use(VueGoogleMaps, {
 	}
 });
 
-// const options = {
-//   testMode: true, 
-//   pk: "pk_test_aIJETJxn5e12xD24xXy0ovEg", //pk_live_KGjyLVjmMB3WnzLBitoNtsKC
-//   stripeAccount: "acct_18aqigFHj2RGJTgv",
-// };
-
-
-// Vue.use(StripePlugin, options);
 
 const init = () => {
   new Vue({

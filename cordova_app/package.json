@@ -8,8 +8,7 @@
   "author": "Swipe Live",
   "license": "Apache-2.0",
   "dependencies": {
-    "cordova-plugin-facebook-connect": "3.2.0",
-    "cordova-plugin-native-spinner": "^1.1.4"
+    "cordova-plugin-facebook-connect": "3.2.0"
   },
   "cordova": {
     "plugins": {
@@ -80,10 +79,9 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-enable-cleartext-traffic": {},
       "cordova-plugin-nativepagetransitions": {},
-      "cordova-plugin-native-spinner": {},
-      "cordova-plugin-sign-in-with-apple": {},
       "cordova-plugin-keyboard": {},
-      "cordova-plugin-stripeui": {}
+      "cordova-plugin-stripeui": {},
+      "cordova-plugin-sign-in-with-apple": {}
     },
     "platforms": [
       "android",
@@ -95,7 +93,7 @@
     "cordova": "^11.0.0",
     "cordova-android": "^10.1.2",
     "cordova-browser": "^6.0.0",
-    "cordova-ios": "^6.2.0",
+    "cordova-ios": "^6.3.0",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-advanced-http": "^3.1.0",

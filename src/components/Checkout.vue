@@ -791,72 +791,62 @@ export default {
       }
     },
     payment() {
-      this.loadingPayment = true;
-       window.cordova.plugin.http.get(this.baseUrl + "/user/api/payment", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        var paymentConfig = JSON.parse(response.data);
-        var billingConfig = { "billingEmail": "", "billingName": "", "billingPhone": "", "billingCity": "", "billingCountry": "", "billingLine1": "", "billingLine2": "", "billingPostalCode": "", "billingState": "" };
+      if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
+        this.loadingPayment = true;
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(JSON.parse(response.data));
+          var paymentConfig = JSON.parse(response.data);
+          var billingConfig = { "billingEmail": "", "billingName": "", "billingPhone": "", "billingCity": "", "billingCountry": "", "billingLine1": "", "billingLine2": "", "billingPostalCode": "", "billingState": "" };
 
-        if (window.StripeUIPlugin) {
-          window.StripeUIPlugin.presentPaymentSheet(paymentConfig, billingConfig, (response) => {
-            console.log(JSON.parse(response));
-            var result = JSON.parse(response);
-            this.loadingPayment = false;
-            console.log(result.code);
-            if (result.code === "0") {
-              // PAYMENT_COMPLETED
-              this.lineItems = [];
-              this.$store.commit('setLineItems', this.lineItems);
-              this.$root.$children[0].updateLineItems();
+          if (window.StripeUIPlugin) {
+            window.StripeUIPlugin.presentPaymentSheet(paymentConfig, billingConfig, (result) => {
+              console.log(result);
+              this.loadingPayment = false;
 
-              // if (this.fullscreen) {
-                // setTimeout(() => {
-                  // this.$router.push({ name: 'Home' });
-                // }, 1000);
-              // } else {
-                // this.$emit('paymentSuccess', JSON.parse(response.data));
-              // }
-            } else if (result.code === "1") {
-              // PAYMENT_CANCELED
-              window.plugins.toast.show(result.message, 'long', 'top');
-            } else if (result.code === "2") {
-              // PAYMENT_FAILED
-              window.plugins.toast.show(result.message, 'long', 'top');
-            }
-          }, (error) => {
-            console.log(error);
-          });
-        } else {
-          this.lineItems = [];
-          this.$store.commit('setLineItems', this.lineItems);
-          this.$root.$children[0].updateLineItems();
-          this.$router.push({ name: 'Home' });
-        }
-      }, (response) => {
-        console.log(response.error);
-        window.plugins.toast.show(response.error, 'long', 'top');
-        this.loadingPayment = false;
-      });
-      // if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
-      //   // window.SpinnerDialog.show();
-      //   this.loadingPayment = true;
-  	  //   window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment/success", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
-      //     this.lineItems = [];
-      //     this.$store.commit('setLineItems', this.lineItems);
-      //     this.$root.$children[0].updateLineItems();
-      //     this.loadingPayment = false;
+              if (result.code === "0") {
+                // PAYMENT_COMPLETED
+                this.lineItems = [];
+                this.$store.commit('setLineItems', this.lineItems);
+                this.$root.$children[0].updateLineItems();
 
-      //     if (this.fullscreen) {
-      //       this.$router.push({ name: 'Home' });
-      //     } else {
-      //       this.$emit('paymentSuccess', JSON.parse(response.data));
-      //     }
-  	  //   }, (response) => {
-  	  //     console.log(response.error);
-      //     window.plugins.toast.show(response.error, 'long', 'top');
-      //     this.loadingPayment = false;
-  	  //   });
-      // }
+                // if (this.fullscreen) {
+                  if (window.TapticEngine) {
+                    TapticEngine.impact({ style: 'medium' });
+                  }
+                  window.plugins.nativepagetransitions.slide({
+                    direction: 'left',
+                    duration: 300,
+                    iosdelay: 0,
+                    androiddelay: 0,
+                    winphonedelay: 0,
+                  });
+
+                  this.$router.push({ name: 'Home' });
+                // } else {
+                  // this.$emit('paymentSuccess', JSON.parse(response.data));
+                // }
+              } else if (result.code === "1") {
+                // PAYMENT_CANCELED
+                window.plugins.toast.show(result.message, 'long', 'top');
+              } else if (result.code === "2") {
+                // PAYMENT_FAILED
+                window.plugins.toast.show(result.message, 'long', 'top');
+              }
+            }, (error) => {
+              console.log(error);
+            });
+          } else {
+            this.lineItems = [];
+            this.$store.commit('setLineItems', this.lineItems);
+            this.$root.$children[0].updateLineItems();
+            this.$router.push({ name: 'Home' });
+          }
+        }, (response) => {
+          console.log(response.error);
+          window.plugins.toast.show(response.error, 'long', 'top');
+          this.loadingPayment = false;
+        });
+      }
     },
     changeToAddress() {
     	this.shippingMethod = "domicile";
@@ -866,15 +856,18 @@ export default {
     		this.total = (parseFloat(this.total) - parseFloat(this.shippingPrice)).toFixed(2);
   		}
 
-      this.currency = this.shippingProducts.domicile[0].currency;
-      this.identifier = this.shippingProducts.domicile[0].identifier;
-      this.shippingPrice = this.shippingProducts.domicile[0].price;
-      this.shippingCarrierId = this.shippingProducts.domicile[0].carrier_id;
-      this.shippingCarrierName = this.shippingProducts.domicile[0].carrier_name;
-      this.shippingServiceId = this.shippingProducts.domicile[0].service_id;
-      this.shippingServiceName = this.shippingProducts.domicile[0].service_name;
-      this.shippingServiceCode = this.shippingProducts.domicile[0].service_code;
-      this.expectedDelivery = this.shippingProducts.domicile[0].expectedDelivery;
+      if (this.shippingProducts.domicile) {
+        this.currency = this.shippingProducts.domicile[0].currency;
+        this.identifier = this.shippingProducts.domicile[0].identifier;
+        this.shippingPrice = this.shippingProducts.domicile[0].price;
+        this.shippingCarrierId = this.shippingProducts.domicile[0].carrier_id;
+        this.shippingCarrierName = this.shippingProducts.domicile[0].carrier_name;
+        this.shippingServiceId = this.shippingProducts.domicile[0].service_id;
+        this.shippingServiceName = this.shippingProducts.domicile[0].service_name;
+        this.shippingServiceCode = this.shippingProducts.domicile[0].service_code;
+        this.expectedDelivery = this.shippingProducts.domicile[0].expectedDelivery;
+      }
+
       this.total = (parseFloat(this.total) + parseFloat(this.shippingPrice)).toFixed(2).toString();
     },
     updateMapSelected(position, index) {
