@@ -79,7 +79,6 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-enable-cleartext-traffic": {},
       "cordova-plugin-nativepagetransitions": {},
-      "cordova-plugin-keyboard": {},
       "cordova-plugin-stripeui": {},
       "cordova-plugin-sign-in-with-apple": {}
     },
@@ -110,7 +109,6 @@
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-firebasex": "^14.0.0",
     "cordova-plugin-inappbrowser": "^5.0.0",
-    "cordova-plugin-keyboard": "^1.2.0",
     "cordova-plugin-media": "^5.0.3",
     "cordova-plugin-nativepagetransitions": "^0.6.6",
     "cordova-plugin-network-information": "^2.0.2",

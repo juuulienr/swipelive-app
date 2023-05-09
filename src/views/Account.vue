@@ -300,9 +300,6 @@ export default {
       this.$store.commit('resetState');
       this.$router.push({ name: 'Welcome' });
     },
-    goBack() {
-      this.$router.push({ name: 'Feed' });
-    },
     about() {
       this.addTapticAndSlide();
       this.$router.push({ name: 'About' });

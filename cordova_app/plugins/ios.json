@@ -70,9 +70,6 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-keyboard": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-media": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
       "PACKAGE_NAME": "com.swipelive.app"

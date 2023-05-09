@@ -90,7 +90,6 @@
         
         <preference name="deployment-target" value="14.0"/>
         <preference name="UseSwiftLanguageVersion" value="5" />
-        <preference name="KeyboardShrinksView" value="true"/>
         <preference name="SwiftVersion" value="5"/>
     </platform>
 

@@ -63,14 +63,14 @@
       </div>
     </div>
     <div class="chat--foot" :style="{ 'bottom': writeInput }">    
-      <button id="btnPicture" @click="uploadPicture()" style="margin: 0px 5px; padding: 5px;">
+      <button @click="uploadPicture()" style="margin: 0px 5px; padding: 5px;">
         <img :src="require(`@/assets/img/plus-square.svg`)" style="height: 34px; width: 34px;"/>
       </button>
       <div class="divInput">
-        <input v-on-clickaway="away" type="text" v-model="inputMessage" @click="showKeyboard()" @input="onInput" placeholder="Écrivez ici...">
+        <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
       </div>
-      <button id="btnSend" @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
-        <img id="imgSend" :src="require(`@/assets/img/send.svg`)" style="height: 36px; width: 36px;"/>
+      <button @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
+        <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; width: 36px;"/>
       </button>
     </div>
   </div>
@@ -96,7 +96,7 @@ export default {
       writing: false,
       imageWidth: '0px',
       chatHeight: 'calc(100vh - 55px)',
-      writeInput: '0px',
+      writeInput: "0px",
       newMessage: []
     }
   },
@@ -105,18 +105,6 @@ export default {
       this.chatHeight = 'calc(100vh - 95px)';
       this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
     }
-
-    window.addEventListener('keyboardHeightWillChange', (event) => {
-      console.log(event.keyboardHeight);
-      if (event.keyboardHeight > 0) {
-        var height = event.keyboardHeight.toString() + "px";
-        setTimeout(() => {
-          this.writeInput = height.toString();
-        }, 200);
-      } else {
-        this.writeInput = "calc(env(safe-area-inset-bottom) + 0px)";
-      }
-    });
   },
   mounted() {
     this.scrollToBottom();
@@ -175,20 +163,6 @@ export default {
       var date2 = new Date(Date.now() - 5 * 60 * 1000);
 
       return date > date2;
-    },
-    away(event) {
-      window.Keyboard.hide();
-      // window.Keyboard.hideFormAccessoryBar(false);
-      // window.Keyboard.shrinkView(true);
-
-      if (event.target.id == "btnSend" || event.target.id == "imgSend") {
-        this.sendMessage();
-      }
-    },
-    showKeyboard() {
-      // window.Keyboard.hideFormAccessoryBar(true);
-      // window.Keyboard.shrinkView(false);
-      window.Keyboard.show();
     },
     async sendMessage() {
       if (this.inputMessage && this.inputMessage !== '') {

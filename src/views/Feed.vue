@@ -694,18 +694,10 @@ export default {
   mounted() {
     document.addEventListener("pause", this.pause);
     document.addEventListener("resume", this.resume);
-    window.addEventListener('keyboardHeightWillChange', (event) => {
-      console.log(event.keyboardHeight);
-      var height = event.keyboardHeight.toString() + "px";
-      setTimeout(() => {
-        this.writeInput = height.toString();
-      }, 200);
-    });
   },
   beforeDestroy() {
     document.removeEventListener('pause', this.pause);
     document.removeEventListener('resume', this.resume);
-    window.removeEventListener('keyboardHeightWillChange');
   },
   computed: {
     updateCart() {
@@ -1056,15 +1048,9 @@ export default {
       this.$router.push({ name: 'Account' });
     },
     openPopup() {
-      window.Keyboard.hideFormAccessoryBar(true);
-      window.Keyboard.shrinkView(false);
-      window.Keyboard.show();
       this.popup = true;
     },
     away(event) {
-      window.Keyboard.hide();
-      window.Keyboard.hideFormAccessoryBar(false);
-      window.Keyboard.shrinkView(true);
       if (event.target.id == "btnSend" || event.target.id == "imgSend") {
         if (this.content && this.content.length > 0) {
           this.send();
@@ -1239,14 +1225,6 @@ export default {
     },
     async goHome() {
       await this.stopLive();
-      // const options = {
-      //   direction: 'right',
-      //   duration: 300,
-      //   iosdelay: 0,
-      //   androiddelay: 0,
-      //   winphonedelay: 0,
-      // };
-      // window.plugins.nativepagetransitions.slide(options);
       this.$router.push({ name: 'Home' });
     },
     stopLive() {
