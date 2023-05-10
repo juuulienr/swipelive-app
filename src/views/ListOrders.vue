@@ -612,10 +612,23 @@ export default {
       this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, businessName: vendor.businessName } });
     },
     cancelOrder() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.order = JSON.parse(response.data);
-        this.hideOrder();
+      var orderId = this.order.id;
+      this.sales.map((sale, index) => {
+        if (sale.id == orderId) {
+          this.sales[index].shippingStatus = "cancelled";
+        }
+      });
+
+      this.purchases.map((purchase, index) => {
+        if (purchase.id == orderId) {
+          this.purchases[index].shippingStatus = "cancelled";
+        }
+      });
+
+      this.hideOrder();
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + orderId + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
       }, (response) => {
+        window.plugins.toast.show(response.error, 'long', 'top');
         console.log(response.error);
       });
     },

@@ -105,10 +105,11 @@ export default {
       this.chatHeight = 'calc(100vh - 95px)';
       this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
     }
+    console.log("created");
+    this.seenDiscussion();
   },
   mounted() {
     this.scrollToBottom();
-    this.seenDiscussion();
   },
   filters: {
     formatDateDiff(date) {
@@ -190,7 +191,7 @@ export default {
     },
     seenDiscussion() {
       if (this.discussion.id) {
-        if (this.user.id == this.discussion.user) {
+        if (this.user.id == this.discussion.user.id) {
           var unseen = this.discussion.unseen;
         } else {
           var unseen = this.discussion.unseenVendor;

@@ -178,6 +178,11 @@ body.dark-mode {
   }
 }
 
+.action-sheet-container {
+  z-index: 1000000001;
+  position: absolute;
+}
+
 .ball {
   background-color: #e2e8ef;
   width: 40%;
