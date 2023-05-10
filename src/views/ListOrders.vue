@@ -45,7 +45,7 @@
           				<span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
           			</div>
-                <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
+                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
           		</div>
             </div>
             <div v-else-if="loadingOrders">
@@ -75,7 +75,7 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
+                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -104,7 +104,7 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
+                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -133,7 +133,7 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal | formatPrice }}€</span>
+                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -280,8 +280,8 @@
                 <h6 class="css-yemnbq" style="color: black; font-size: 14px;">{{ order.subTotal | formatPrice }}€</h6>
               </div>
               <div v-if="order.promotionAmount" class="css-9jay18">
-                <p class="css-11r9ii4" style="font-weight: 400; color: #18cea0;">Code promo</p>
-                <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 400">-{{ order.promotionAmount | formatPrice }}€</h6>
+                <p class="css-11r9ii4" style="font-weight: 400; color: #999;">Code promo</p>
+                <h6 class="css-yemnbq" style="color: #999; font-weight: 400">-{{ order.promotionAmount | formatPrice }}€</h6>
               </div>
               <div v-if="type == 'sale'" class="css-9jay18">
                 <p class="css-11r9ii4" style="font-weight: 400; color: #999;">Commission SwipeLive</p>
@@ -293,10 +293,10 @@
               </div>
               <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px; border-style: dashed;"/>
               <div class="css-9jay18">
-                <h6 v-if="type == 'sale'" class="css-k9tjo5" style="color: rgb(34, 154, 22); font-weight: 600; margin-bottom: 0px; font-size: 14px;">Revenu net</h6>
+                <h6 v-if="type == 'sale'" class="css-k9tjo5" style="color: #18cea0; font-weight: 600; margin-bottom: 0px; font-size: 14px;">Revenu net</h6>
                 <h6 v-else class="css-k9tjo5" style="color: black; font-weight: 600; margin-bottom: 0px; font-size: 14px;">Total</h6>
                 <div class="css-s2uf1z" style="margin-bottom: 0px;">
-                  <h6 v-if="type == 'sale'" class="css-kdhaao" style="font-weight: 600; color: rgb(34, 154, 22); font-size: 14px;">{{ remaining | formatPrice }}€</h6>
+                  <h6 v-if="type == 'sale'" class="css-kdhaao" style="font-weight: 600; color: #18cea0; font-size: 14px;">{{ remaining | formatPrice }}€</h6>
                   <h6 v-else class="css-kdhaao" style="font-weight: 600; color: black; font-size: 14px;">{{ order.total | formatPrice }}€</h6>
                 </div>
               </div>
@@ -522,9 +522,13 @@ export default {
       }
       this.popupOrder = true;
       this.order = order;
-      this.remaining = parseFloat(this.order.subTotal) - parseFloat(this.order.fees);
-      this.remaining = this.remaining.toFixed(2);
       this.type = type;
+
+      if (this.order.promotionAmount) {
+        this.remaining = (parseFloat(this.order.subTotal) - parseFloat(this.order.promotionAmount) - parseFloat(this.order.fees)).toFixed(2);
+      } else {
+        this.remaining = (parseFloat(this.order.subTotal) - parseFloat(this.order.fees)).toFixed(2);
+      }
     },
     hideOrder() {
       this.popupOrder = false;
