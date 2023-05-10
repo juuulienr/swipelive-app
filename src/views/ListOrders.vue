@@ -235,7 +235,7 @@
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                 <div><span>{{ order.createdAt | formatDate }}</span></div>
               </div>
-              <div @click="goToMessage(order.buyer, 'sale')" style="width: 28px; height: 28px;">
+              <div @click="sendMessageToBuyer(order.buyer)" style="width: 28px; height: 28px;">
                 <img :src="require(`@/assets/img/comment-dots.svg`)"/>
               </div>
             </div>
@@ -246,7 +246,7 @@
                 <span>{{ order.vendor.businessName }}</span>
                 <div><span>{{ order.createdAt | formatDate }}</span></div>
               </div>
-              <div @click="goToMessage(order.vendor.user, 'purchase')" style="width: 28px; height: 28px;">
+              <div @click="sendMessageToVendor(order.vendor)" style="width: 28px; height: 28px;">
                 <img :src="require(`@/assets/img/comment-dots.svg`)"/>
               </div>
             </div>
@@ -278,6 +278,10 @@
                 <p v-if="type == 'sale'" class="css-11r9ii4" style="color: black; font-weight: 600; font-size: 14px;">Revenu brut</p>
                 <p v-else class="css-11r9ii4" style="color: black; font-weight: 600; font-size: 14px;">Sous-total</p>
                 <h6 class="css-yemnbq" style="color: black; font-size: 14px;">{{ order.subTotal | formatPrice }}€</h6>
+              </div>
+              <div v-if="order.promotionAmount" class="css-9jay18">
+                <p class="css-11r9ii4" style="font-weight: 400; color: #18cea0;">Code promo</p>
+                <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 400">-{{ order.promotionAmount | formatPrice }}€</h6>
               </div>
               <div v-if="type == 'sale'" class="css-9jay18">
                 <p class="css-11r9ii4" style="font-weight: 400; color: #999;">Commission SwipeLive</p>
@@ -399,8 +403,8 @@
             <div style="font-weight: 400; margin-bottom: 30px; font-size: 14px; padding: 0px 10px;">
               Si ta commande correspond à la description, clique sur le bouton "Tout est correct" ou cette commande sera cloturé automatiquement dans 48 heures.
             </div>
-            <div @click="closeOrder()" class="btn-swipe"style="color: white;text-align: center;background: rgb(255, 39, 115);padding: 12px 24px;border: 1px solid rgb(255, 39, 115);border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 10px;height: 48px;justify-content: center;">Tout est correct</div>
-            <div @click="goToMessage()" class="btn-swipe" style="color: rgb(82, 92, 102);text-align: center;width: 100%;background: white;padding: 10px 24px;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 5px;height: 44px;margin-bottom: 18px;justify-content: center;">Signaler un problème
+            <div @click="closeOrder()" class="btn-swipe"style="color: white; text-align: center; background: rgb(255, 39, 115); padding: 12px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 10px;height: 48px;justify-content: center;">Tout est correct</div>
+            <div class="btn-swipe" style="color: rgb(82, 92, 102);text-align: center;width: 100%;background: white;padding: 10px 24px;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 5px;height: 44px;margin-bottom: 18px;justify-content: center;">Signaler un problème
             </div>
           </div>
         </div>
@@ -591,15 +595,17 @@ export default {
     showPopupConfirmation() {
       this.popupConfirmation = true;
     },
-    goToMessage(user, type) {
+    sendMessageToBuyer(buyer) {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      if (type == "purchase") {
-        this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
-      } else {
-        this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, firstname: user.firstname, lastname: user.lastname, businessName: null } });
-      } 
+      this.$router.push({ name: 'ListMessages', params: { userId: buyer.id, picture: buyer.picture, firstname: buyer.firstname, lastname: buyer.lastname, businessName: null } });
+    },
+    sendMessageToVendor(vendor) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, businessName: vendor.businessName } });
     },
     cancelOrder() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.order.id + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {

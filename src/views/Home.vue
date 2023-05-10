@@ -376,7 +376,10 @@ export default {
       this.popupProduct = false;
       this.product = null;
     },
-    favoris() { 
+    favoris() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
@@ -389,6 +392,9 @@ export default {
       this.variant = variant;
     },
     addToCart() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupProduct = false;
 
       if (typeof this.product.vendor == "object") {

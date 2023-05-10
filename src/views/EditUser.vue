@@ -174,7 +174,7 @@ export default {
   methods: {
     async submit() {
       if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'light' });
+        TapticEngine.impact({ style: 'medium' });
       }
       event.preventDefault();
       this.errorPhone = false;

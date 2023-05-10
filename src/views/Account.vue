@@ -359,6 +359,7 @@ export default {
       }
     },
     goToVendorRegistration() {
+      this.addTapticAndSlide();
       this.$router.push({ name: 'VendorRegistration' });
     },
     addTapticAndSlide() {

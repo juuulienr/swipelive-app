@@ -558,9 +558,15 @@ export default {
       }
     }, 
     submitStep3() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.$router.push({ name: 'Account' });
     }, 
     async submit() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       window.cordova.plugin.http.setDataSerializer('json');
       var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
 
@@ -672,6 +678,9 @@ export default {
       }
     },
     goStep1(businessType) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.businessType = businessType;
       this.type = false;
       this.step1 = true;

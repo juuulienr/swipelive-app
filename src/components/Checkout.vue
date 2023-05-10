@@ -36,10 +36,9 @@
               <p class="css-11r9ii4">Sous-total</p>
               <h6 class="css-yemnbq">{{ subTotal | formatPrice }}€</h6>
             </div>
-            <div v-if="promotion" class="css-9jay18">
+            <div v-if="promotion && promotionAmount" class="css-9jay18">
               <p class="css-11r9ii4" style="color: #18cea0; font-weight: 500;">{{ promotion.title }}</p>
-              <h6 v-if="promotion.type == 'percent'" class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-{{promotion.value}}%</h6>
-              <h6 v-else class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-{{promotion.value}}€</h6>
+              <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-{{ promotionAmount | formatPrice }}€</h6>
             </div>
             <div class="css-9jay18">
               <p class="css-11r9ii4">Livraison</p>
@@ -474,6 +473,7 @@ export default {
       sendcloud_pk: "3826686f2dbc418380898cc254fc0d28",
       carriers: [],
       promotion: null,
+      promotionAmount: null,
       subTotal: null,
       total: null,
       identifier: null,
@@ -550,6 +550,25 @@ export default {
 
       this.subTotal = this.subTotal.toFixed(2);
       this.total = this.subTotal;
+
+      if (this.lineItems[0].vendor) {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.lineItems[0].product.id + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          this.promotion = JSON.parse(response.data);
+          console.log(this.promotion);
+
+          if (this.promotion) {
+            if (this.promotion.type == "percent") {
+              this.promotionAmount = this.subTotal * (this.promotion.value / 100);
+            } else {
+              this.promotionAmount = this.promotion.value;
+            }
+            
+            this.total = (parseFloat(this.subTotal) - parseFloat(this.promotionAmount)).toFixed(2);
+          }
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
     }
 
     this.name = this.user.firstname + ' ' + this.user.lastname;
@@ -577,14 +596,6 @@ export default {
       } else {
         this.loadingShipping = false;
       }
-    }
-
-    if (this.lineItems.length > 0 && this.lineItems[0].vendor) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.lineItems[0].product.id + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.promotion = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
     }
   },
 	computed: {
@@ -791,22 +802,23 @@ export default {
       }
     },
     payment() {
+      // check si montant inférieur à 5 ou 10€ ?
       if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
         this.loadingPayment = true;
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment", { "lineItems": this.lineItems, "identifier": this.identifier, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(JSON.parse(response.data));
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment", { "lineItems": this.lineItems, "identifier": this.identifier, "promotionId": this.promotion ? this.promotion.id : null, "promotionAmount": this.promotionAmount, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
           var response = JSON.parse(response.data);
-          console.log(response);
           var billingConfig = { "billingEmail": "", "billingName": "", "billingPhone": "", "billingCity": "", "billingCountry": "", "billingLine1": "", "billingLine2": "", "billingPostalCode": "", "billingState": "" };
-          console.log(response.order);
+          console.log(response);
           console.log(JSON.parse(response.order));
-
-          console.log(window.StripeUIPlugin);
 
           if (window.cordova.platformId !== "browser") {
             window.StripeUIPlugin.presentPaymentSheet(response.paymentConfig, billingConfig, (result) => {
               console.log(result);
               this.loadingPayment = false;
+
+              if (window.cordova.platformId === "android") {
+                var result = JSON.parse(result);
+              }
 
               if (result.code === "0") {
                 // PAYMENT_COMPLETED
@@ -828,7 +840,7 @@ export default {
 
                   this.$router.push({ name: 'Home' });
                 } else {
-                  this.$emit('paymentSuccess', response.order);
+                  this.$emit('paymentSuccess', JSON.parse(response.order));
                 }
               } else if (result.code === "1") {
                 // PAYMENT_CANCELED
@@ -836,6 +848,8 @@ export default {
               } else if (result.code === "2") {
                 // PAYMENT_FAILED
                 window.plugins.toast.show(result.message, 'long', 'top');
+              } else {
+                window.plugins.toast.show("Une erreur est survenue !", 'long', 'top');
               }
             }, (error) => {
               console.log(error);

@@ -156,12 +156,26 @@ export default {
   },
   methods: {
     showInfos() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupInfos = true;
     },
     hideInfos() {
       this.popupInfos = false;
     },
     goBack() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      const options = {
+        direction: 'right',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      };
+      window.plugins.nativepagetransitions.slide(options);
       this.$router.back();
     },
   }

@@ -179,6 +179,9 @@ export default {
       this.variant = variant;
     },
     addToCart() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
       this.popupProduct = false;
 
       if (typeof this.product.vendor == "object") {

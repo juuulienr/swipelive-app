@@ -1378,6 +1378,7 @@ export default {
     },
     paymentSuccessChild(order) {
       console.log(order);
+      console.log(order.id);
       this.popupCart = false;
       this.popupProduct = false;
       this.popupShop = false;
