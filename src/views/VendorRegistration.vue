@@ -363,6 +363,7 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      stripe_pk: window.localStorage.getItem("stripe_pk"),
       user: this.$store.getters.getUser,
       type: true,
       step1: false,
@@ -378,6 +379,8 @@ export default {
       zip: null,
       city: null,
       picture: null,
+      tokenAccount: null,
+      tokenPerson: null,
       errorFirstname: false,
       errorLastname: false,
       errorEmail: false,
@@ -567,8 +570,82 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+
+      const stripe = Stripe(this.stripe_pk);
+
+      if (this.businessType == 'company') {
+        const accountResult = await stripe.createToken('account', {
+          business_type: 'company',
+          company: {
+            name: this.company,
+            tax_id: this.siren,
+            address: {
+              line1: this.address,
+              city: this.city,
+              postal_code: this.zip,
+            },
+            owners_provided: true,
+            directors_provided: true,
+            executives_provided: true,
+          },
+          tos_shown_and_accepted: true,
+        });
+
+        const personResult = await stripe.createToken('person', {
+          person: {
+            first_name: this.user.firstname,
+            last_name: this.user.lastname,
+            email: this.user.email,
+            dob: {
+              day: this.user.day,
+              month: this.user.month,
+              year: this.user.year
+            },
+            address: {
+              line1: this.address,
+              city: this.city,
+              postal_code: this.zip
+            },
+            relationship: {
+              representative: true,
+              owner: true,
+            }
+          },
+        });
+
+        if (accountResult.token && personResult.token) {
+          this.tokenAccount = accountResult.token.id;
+          this.tokenPerson = personResult.token.id;
+        }
+      } else if (this.businessType == 'individual') {
+        const accountResult = await stripe.createToken('account', {
+          business_type: 'individual',
+          individual: {
+            first_name: this.user.firstname,
+            last_name: this.user.lastname,
+            email: this.user.email,
+            dob: {
+              day: this.user.day,
+              month: this.user.month,
+              year: this.user.year
+            },
+            address: {
+              line1: this.address,
+              city: this.city,
+              postal_code: this.zip,
+            },
+          },
+          tos_shown_and_accepted: true,
+        });
+
+        if (accountResult.token) {
+          this.tokenAccount = accountResult.token.id;
+        }
+      }
+
+
       window.cordova.plugin.http.setDataSerializer('json');
-      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort };
+      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort, "tokenAccount": this.tokenAccount, "tokenPerson": this.tokenPerson };
 
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(response);
@@ -737,7 +814,7 @@ export default {
         title: "",
         items:[
          [data.numbers]
-         ],
+        ],
         positiveButtonText: "Choisir",
         negativeButtonText: "Annuler"
       };

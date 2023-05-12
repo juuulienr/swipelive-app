@@ -844,12 +844,11 @@ export default {
                 }
               } else if (result.code === "1") {
                 // PAYMENT_CANCELED
-                window.plugins.toast.show(result.message, 'long', 'top');
               } else if (result.code === "2") {
                 // PAYMENT_FAILED
                 window.plugins.toast.show(result.message, 'long', 'top');
               } else {
-                window.plugins.toast.show("Une erreur est survenue !", 'long', 'top');
+                window.plugins.toast.show(result.message, 'long', 'top');
               }
             }, (error) => {
               console.log(error);

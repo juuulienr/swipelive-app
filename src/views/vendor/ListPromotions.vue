@@ -86,7 +86,7 @@
           <div class="form--input--item">
             <fieldset>
               <legend>Titre de la promotion</legend>
-              <input type="text" v-model="promotion.title" placeholder="Ex: PROMO10" style="text-transform: uppercase;">
+              <input type="text" v-model="promotion.title" placeholder="Ex: PROMO20" style="text-transform: uppercase;">
             </fieldset>
           </div>
           
@@ -94,7 +94,7 @@
             <div class="form--input--item" :class="{'form--input--item--error': promotion.type == 'percent' && promotion.value > 99 }">
               <fieldset>
                 <legend>Valeur de la remise</legend>
-                <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 30">
+                <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 20">
               </fieldset>
             </div>
             <div class="form--input--item">

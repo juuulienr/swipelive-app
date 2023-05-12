@@ -230,6 +230,7 @@ export default {
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      stripe_pk: window.localStorage.getItem("stripe_pk"),
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
       loadingOrders: true,
@@ -433,7 +434,120 @@ export default {
     },
     addAmount() {
       this.withdrawAmount = this.user.vendor.available;
-    }
+    },
+    async verifFront() {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true
+      }
+      
+      var image = navigator.camera.getPicture((imageUri) => {
+        console.log(imageUri);
+        return imageUri;
+      }, (error) => {
+        console.log("Impossible de récupérer le document : " + error);
+      }, options);
+
+      const stripe = Stripe(this.stripe_pk);
+      const data = new FormData();
+
+      // data.append('file', document.querySelector('#id-file').files[0]);
+      data.append('file', image);
+      data.append('purpose', 'identity_document');
+      const header = "Bearer " + this.stripe_pk;
+      const fileResult = await fetch('https://uploads.stripe.com/v1/files', {
+        method: 'POST',
+        headers: {'Authorization': header },
+        body: data,
+      });
+      const fileData = await fileResult.json();
+      console.log(fileData);
+
+      if (fileData) {
+        const result = await stripe.createToken('person', {
+          person: {
+            verification: {
+              document: {
+                front: fileData.id,
+              },
+            },
+          },
+        });
+
+        console.log(result);
+
+        if (result && result.token.id) {
+          window.cordova.plugin.http.setDataSerializer('json');
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/verification/document/front", { "person_token": result.token.id }, { Authorization: "Bearer " + this.token }, (response) => {
+            console.log(JSON.parse(response.data));
+            window.plugins.toast.show('Le document recto a été envoyé !', 'long', 'top');
+          }, (response) => {
+            console.log(response.error);
+          });
+        }
+      }
+    },
+    async verifBack() {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true
+      }
+      
+      var image = navigator.camera.getPicture((imageUri) => {
+        console.log(imageUri);
+        return imageUri;
+      }, (error) => {
+        console.log("Impossible de récupérer le document : " + error);
+      }, options);
+
+      const stripe = Stripe(this.stripe_pk);
+      const data = new FormData();
+
+      // data.append('file', document.querySelector('#id-file').files[0]);
+      data.append('file', image);
+      data.append('purpose', 'identity_document');
+      const header = "Bearer " + this.stripe_pk;
+      const fileResult = await fetch('https://uploads.stripe.com/v1/files', {
+        method: 'POST',
+        headers: {'Authorization': header },
+        body: data,
+      });
+      const fileData = await fileResult.json();
+      console.log(fileData);
+
+
+      const result = await stripe.createToken('person', {
+        person: {
+          verification: {
+            document: {
+              back: fileData.id,
+            },
+          },
+        },
+      });
+
+      console.log(result);
+
+      if (result && result.token.id) {
+        window.cordova.plugin.http.setDataSerializer('json');
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/verification/document/back", { "person_token": result.token.id }, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(JSON.parse(response.data));
+          window.plugins.toast.show('Le document verso a été envoyé !', 'long', 'top');
+        }, (response) => {
+          console.log(response.error);
+        });
+      }
+    },
   }
 };
 
