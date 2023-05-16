@@ -1,6 +1,6 @@
 <template>
   <div ref="feed" id="feed" class="feed">
-    <div v-if="data.length" v-for="(feed, index) in data" class="feed-scroll">
+    <div v-if="data.length > 0" v-for="(feed, index) in data" class="feed-scroll">
       <div v-if="feed.value">
 
         <!-- background bottom -->
@@ -396,6 +396,9 @@
         <!-- visible -->
         <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
       </div>
+    </div>
+    <div v-else>
+     <img :src="require(`@/assets/img/loading-feed.png`)" style="width: 100%; height: 100vh; object-fit: cover;">
     </div>
 
     <!-- input comment -->

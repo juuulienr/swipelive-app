@@ -138,16 +138,10 @@
                 <input v-model="iban" type="text" maxlength="27" placeholder="FRXX XXXX XXXX XXXXX XXXX XXXX XXX"/>
               </fieldset>
             </div>
-            <div v-if="individual" class="form--input--item" :class="{'form--input--item--error': errorBank && !firstname }">
+            <div v-if="individual" class="form--input--item" :class="{'form--input--item--error': errorBank && !holderName }">
               <fieldset>
-                <legend>Prénom</legend>
-                <input v-model="firstname" type="text"/>
-              </fieldset>
-            </div>
-            <div v-if="individual" class="form--input--item" :class="{'form--input--item--error': errorBank && !lastname }">
-              <fieldset>
-                <legend>Nom</legend>
-                <input v-model="lastname" type="text"/>
+                <legend>Prénom et nom</legend>
+                <input v-model="holderName" type="text"/>
               </fieldset>
             </div>
             <div v-if="company" class="form--input--item" :class="{'form--input--item--error': errorBank && !businessName }">
@@ -156,7 +150,23 @@
                 <input v-model="businessName" type="text"/>
               </fieldset>
             </div>
-            <div @click="saveBankAccount()" class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600;">Enregistrer</div>
+            <div @click="saveBankAccount()" class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600;">
+              <span v-if="loadingBank">
+                <svg viewBox="25 25 50 50" class="loading">
+                  <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+                </svg>
+              </span>
+              <span v-else>Enregistrer</span>
+            </div>
+
+            <div @click="submitStep2()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
+              <span v-if="loading">
+                <svg viewBox="25 25 50 50" class="loading">
+                  <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+                </svg>
+              </span>
+              <span v-else>S'inscrire</span>
+            </div>
           </div>
           <div v-else>
             <div style="margin: 60px auto 0px;">
@@ -236,9 +246,8 @@ export default {
       loadingOrders: true,
       popupWithdraw: false,
       popupHistory: false,
-      iban: null,
-      firstname: null,
-      lastname: null,
+      iban: "FR2930002010688880000058459",
+      holderName: null,
       businessName: null,
       individual: true,
       company: false,
@@ -246,6 +255,7 @@ export default {
       history: null,
       withdraw: true,
       withdrawAmount: null,
+      loadingBank: false,
       bank: false,
       sales: [],
     }
@@ -350,29 +360,32 @@ export default {
       this.$nextTick(() => this.$refs.withdrawAmount.focus());
     },
     saveBankAccount() {
+      this.loadingBank = true;
       this.errorBank = false;
       if (this.iban && this.iban.length == 27) {
-        if ((this.company && this.businessName) || (this.individual && this.firstname && this.lastname)) {
-          this.withdraw = true;
-          this.bank = false;
-
+        if ((this.company && this.businessName) || (this.individual && this.holderName)) {
           if (this.company && this.businessName) {
-            this.firstname = null;
-            this.lastname = null;
+            this.holderName = null;
           } else {
             this.businessName = null;
           }
 
           const last4 = this.iban.substr(this.iban.length - 4);
           const countryCode = this.iban.substr(0, 2);
-          const number = this.iban.substr(2);
+          var number = this.iban.substr(2);
+          number = number.replace(/\s/g, '');
 
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/bank/add", { "number": number, "last4": last4, "countryCode": countryCode, "firstname": this.firstname, "lastname": this.lastname, "businessName": this.businessName }, { Authorization: "Bearer " + this.token }, (response) => {
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/bank/add", { "number": number, "last4": last4, "countryCode": countryCode, "holderName": this.holderName, "businessName": this.businessName }, { Authorization: "Bearer " + this.token }, (response) => {
             this.$store.commit('setUser', JSON.parse(response.data));
             this.user = this.$store.getters.getUser;
+            this.loadingBank = false;
             this.popupBankAccount = false;
+            this.withdraw = true;
+            this.bank = false;
           }, (response) => {
             console.log(response.error);
+            this.loadingBank = false;
+
           });
         } else {
           this.errorBank = true;
@@ -393,7 +406,7 @@ export default {
       this.popupHistory = true;
     },
     saveWithdraw() {
-      if (this.withdrawAmount) {
+      if (this.withdrawAmount && user.vendor.bankAccounts.length > 0) {
         this.withdraw = false;
         this.bank = false;
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/withdraw", { "withdrawAmount": this.withdrawAmount.replace(",",".") }, { Authorization: "Bearer " + this.token }, (response) => {
@@ -401,6 +414,7 @@ export default {
           this.user = this.$store.getters.getUser;
           this.withdrawAmount = null;
         }, (response) => {
+          this.loadingBank = false;
           console.log(response.error);
         });
       }

@@ -25,7 +25,7 @@
               </div>
             </div>
             <div v-else style="border-radius: 10px; width: calc(50vw - 25px); margin: 0 auto;">
-              <img :src="require(`@/assets/img/waiting-video.png`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #eeeeee;">
+              <img :src="require(`@/assets/img/waiting-clip.jpg`)" style="border-radius: 10px; width: 100%; height: 300px; object-fit: cover; background: #eeeeee;">
               <p style="top: 150px; color: white; text-align: center; left: 30Px; position: absolute; text-align: center; font-size: 15px; margin-bottom: 0px;">Replay en création</p>
             </div>
           </div>
