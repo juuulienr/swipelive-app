@@ -4,31 +4,22 @@ import App from './App.vue';
 import Pusher from 'pusher-js';
 import Vue2TouchEvents from 'vue2-touch-events';
 import router from './router/index';
+import Bugsnag from '@bugsnag/js';
+import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue-observe-visibility';
 import * as VueGoogleMaps from "vue2-google-maps";
-import * as Sentry from "@sentry/vue";
-import { BrowserTracing } from "@sentry/tracing";
 import store from "./store/store.js";
 
 
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   Vue.config.productionTip = true;
+  Bugsnag.start({ apiKey: 'b6f579675362830a12146a96a851e17a', plugins: [new BugsnagPluginVue()]});
+  Vue.use(Bugsnag.getPlugin('vue'));
+
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
   window.localStorage.setItem("stripe_pk", "pk_test_aIJETJxn5e12xD24xXy0ovEg");
   // window.localStorage.setItem("stripe_pk", "pk_live_KGjyLVjmMB3WnzLBitoNtsKC");
-
-  Sentry.init({
-    Vue,
-    dsn: "https://a5c845548724498ab2df9bd84636ae30@o4504616296972288.ingest.sentry.io/4504616299200512",
-    integrations: [
-      new BrowserTracing({
-        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracePropagationTargets: ["swipelive.fr", /^\//],
-      }),
-    ],
-    tracesSampleRate: 1.0,
-  });
 } else {
   Vue.config.productionTip = false;
   window.localStorage.setItem("baseUrl", "http://127.0.0.1:8000");

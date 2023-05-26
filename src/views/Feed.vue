@@ -519,7 +519,6 @@
 import Lottie from 'vue-lottie';
 import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
-import * as Sentry from "@sentry/vue";
 
 import Checkout from '../components/Checkout';
 import Product from '../components/Product';

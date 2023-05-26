@@ -633,7 +633,6 @@ export default {
           this.errorPhone = true;
         } else {
           this.phone = this.phone.replace(/\s/g, '');
-          console.log(this.phone);
         }
       }
 

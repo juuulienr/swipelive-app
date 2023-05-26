@@ -519,6 +519,7 @@ export default {
           winphoneEnableCancelButton : true
         };
         window.plugins.actionsheet.show(options, (index) => { 
+          console.log(index);
           if (index == 1) {
             this.openFilePicker();
           } else if (index == 2) {

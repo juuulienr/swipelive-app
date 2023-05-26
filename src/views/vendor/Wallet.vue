@@ -28,7 +28,6 @@
         </div>
 
         <hr style="width: 100%;margin: 15px 0px;">
-
         <div v-if="orderedMonthData.length > 0" class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
           <div v-for="(data, index) in orderedMonthData" @click="showHistory(data)" class="current--balance--two" style="padding: 5px 0px;">
@@ -61,13 +60,11 @@
           </div>
         </div>
 
-
         <hr v-if="user.vendor.withdraws.length > 0" style="width: 100%;margin: 15px 0px;">
-
         <div v-if="user.vendor.withdraws.length > 0" class="current--balance" style="border-radius: 11px; margin: 15px 5px 25px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Retrait</div>
           <div v-for="withdraw in user.vendor.withdraws" class="current--balance--two" style="padding: 5px 0px;">
-            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Transfert<br> 
+            <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Virement bancaire<br> 
               <div style="font-size: 12px;color: #999;">FR*****{{withdraw.last4}} - {{ withdraw.createdAt | formatDate }}</div>
             </div>
             <div style="padding-top: 10px;margin-bottom: 0px; color: red; font-weight: 500">-{{ withdraw.amount | formatPrice }}€</div>
@@ -97,8 +94,19 @@
                 <input v-model="withdrawAmount" @input="limitDecimals" ref="withdrawAmount" type="text" placeholder="0€" inputmode="decimal" style="font-weight: 600; text-align: center; font-size: 45px; width: calc(100vw - 45px); margin-top: 50px; color: black;"/>
               </fieldset>
             </div>
-            <div v-if="checkAvailability" @click="saveWithdraw()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">Envoyer</div>
-            <div v-else class="btn-swipe" style="color: rgb(170, 170, 170); background: rgb(239, 241, 246); text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">Envoyer</div>
+            <div v-if="checkAvailability" @click="saveWithdraw()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">
+              <span>Envoyer</span>
+            </div>
+            <div v-else-if="loadingWithdraw" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">
+              <span>
+                <svg viewBox="25 25 50 50" class="loading">
+                  <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
+                </svg>
+              </span>
+            </div>
+            <div v-else class="btn-swipe" style="color: rgb(170, 170, 170); background: rgb(239, 241, 246); text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">
+              <span>Envoyer</span>
+            </div>
 
             <div @click="showBank()" class="current--balance" style="padding: 15px; border-radius: 11px; margin: 40px 10px 10px; box-shadow: 0 0 5px rgb(0 0 0 / 20%);">
               <div class="current--balance--two" style="padding: 5px 0px;">
@@ -158,15 +166,6 @@
               </span>
               <span v-else>Enregistrer</span>
             </div>
-
-            <div @click="submitStep2()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
-              <span v-if="loading">
-                <svg viewBox="25 25 50 50" class="loading">
-                  <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
-                </svg>
-              </span>
-              <span v-else>S'inscrire</span>
-            </div>
           </div>
           <div v-else>
             <div style="margin: 60px auto 0px;">
@@ -201,7 +200,8 @@
               <h3 style="font-weight: 600;margin-bottom: 0px;font-size: 50px;">{{ history.remaining | formatPrice }}€</h3>
             </div>
             <div class="current--balance--two" style="margin-top: 10px;">
-              <p style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commandes</p>
+              <p v-if="history.orders.length > 1" style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commandes</p>
+              <p v-else style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commande</p>
               <p style="margin-bottom: 0px;color: black;font-weight: 600;font-size: 14px;">{{ history.subTotal | formatPrice }}€</p>
             </div>
             <div class="current--balance--two" style="margin-top: 10px;">
@@ -246,7 +246,7 @@ export default {
       loadingOrders: true,
       popupWithdraw: false,
       popupHistory: false,
-      iban: "FR2930002010688880000058459",
+      iban: "FR1420041010050500013M02606",
       holderName: null,
       businessName: null,
       individual: true,
@@ -256,6 +256,7 @@ export default {
       withdraw: true,
       withdrawAmount: null,
       loadingBank: false,
+      loadingWithdraw: false,
       bank: false,
       sales: [],
     }
@@ -384,14 +385,16 @@ export default {
             this.bank = false;
           }, (response) => {
             console.log(response.error);
+            window.plugins.toast.show(response.error, 'long', 'top');
             this.loadingBank = false;
-
           });
         } else {
           this.errorBank = true;
+          this.loadingBank = false;
         }
       } else {
         this.errorBank = true;
+        this.loadingBank = false;
       }
     },
     showBank() {
@@ -406,16 +409,16 @@ export default {
       this.popupHistory = true;
     },
     saveWithdraw() {
-      if (this.withdrawAmount && user.vendor.bankAccounts.length > 0) {
-        this.withdraw = false;
-        this.bank = false;
+      if (this.withdrawAmount && this.user.vendor.bankAccounts.length > 0) {
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/withdraw", { "withdrawAmount": this.withdrawAmount.replace(",",".") }, { Authorization: "Bearer " + this.token }, (response) => {
           this.$store.commit('setUser', JSON.parse(response.data));
-          this.user = this.$store.getters.getUser;
+          this.user = JSON.parse(response.data);
           this.withdrawAmount = null;
+          this.withdraw = false;
+          this.bank = false;
         }, (response) => {
-          this.loadingBank = false;
           console.log(response.error);
+          window.plugins.toast.show(response.error, 'long', 'top');
         });
       }
     },

@@ -75,7 +75,10 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                {{ order.status }}
+                {{ order.status != 'cancelled' }}
+                <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span v-else class="css-4ioo3c" style="color: #999; background-color: #f1f1f1;">0,00€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -104,7 +107,8 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span v-else class="css-4ioo3c" style="color: #999; background-color: #f1f1f1;">0,00€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -308,14 +312,14 @@
 
         <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2a80;font-weight: 600;font-size: 17px;">
-            <img :src="require(`@/assets/img/location.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison prévu : 
-            <span v-if="order.expectedDelivery && order.status == 'open'">{{ order.expectedDelivery | formatDate2 }}</span>
+            <img :src="require(`@/assets/img/location.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison estimée : 
+            <span v-if="order.expectedDelivery">{{ order.expectedDelivery | formatDate2 }}</span>
             <span v-else>-</span>
           </div>
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
             <img :src="require(`@/assets/img/truck.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Transporteur : {{ order.shippingServiceName }} <br> 
-            <img :src="require(`@/assets/img/map-marker.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Numéro de suivi : 
-            <span v-if="order.trackingNumber" style="color: #007bff; text-decoration: underline;">{{ order.trackingNumber }}</span>
+            <img v-if="order.trackingNumber" :src="require(`@/assets/img/map-marker.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Numéro de suivi : 
+            <span v-if="order.trackingNumber" @click="showTrackingWebsite()" style="color: #007bff; text-decoration: underline;">{{ order.trackingNumber }}</span>
             <span v-else>-</span>
           </div>
 
@@ -574,6 +578,17 @@ export default {
         this.loadingPdf = false;
       });
     },
+    showTrackingWebsite() {
+      if (this.order.trackingNumber) {
+        if (this.order.shippingCarrierId === "32b1463a-a275-46d3-b9fd-ee17a1e8ab33") {
+          var url = "Numéro dehttp://www.colissimo.fr/portail_colissimo/suivre.do?colispart=" + this.order.trackingNumber;
+          this.openUrl(url);
+        } else if (this.order.shippingCarrierId === "b139ac1f-bbb9-4235-b87e-aedcb3c32132") {
+          var url = "http://www.mondialrelay.com/public/permanent/tracking.aspx?ens=MRUPELAM74&exp=" + this.order.trackingNumber + "83514155&language=FR";
+          this.openUrl(url);
+        }
+      }
+    },
     openUrl(url) {
       window.SafariViewController.isAvailable((available) => {
         if (available) {
@@ -627,6 +642,7 @@ export default {
 
       this.hideOrder();
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + orderId + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        window.plugins.toast.show("La commande a été annulée", 'long', 'top');
       }, (response) => {
         window.plugins.toast.show(response.error, 'long', 'top');
         console.log(response.error);
@@ -643,26 +659,32 @@ export default {
           androidEnableCancelButton : true,
           winphoneEnableCancelButton : true
         };
+
+        window.plugins.actionsheet.show(options, (index) => {
+          if (index == 1) {
+            window.plugins.toast.show("La commande a été signalé !", 'long', 'top');
+          } else if (index == 2) {
+            this.cancelOrder();
+          }
+        }, (error) => {
+          console.log(error);
+        });
       } else {
         var options = {
           buttonLabels: ['Signaler un problème'],
           addCancelButtonWithLabel: 'Retour',
-          destructiveButtonLast: true,
           androidEnableCancelButton : true,
           winphoneEnableCancelButton : true
         };
+        
+        window.plugins.actionsheet.show(options, (index) => {
+          if (index == 1) {
+            window.plugins.toast.show("La commande a été signalé !", 'long', 'top');
+          }
+        }, (error) => {
+          console.log(error);
+        });
       }
-
-      window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
-          window.plugins.toast.show("La commande a été signalé !", 'long', 'top');
-        } else if (index == 2) {
-          this.cancelOrder();
-        }
-      }, (error) => {
-        console.log(error);
-      });
     },
     showNumber1() {
       if (window.TapticEngine) {

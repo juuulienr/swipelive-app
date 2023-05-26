@@ -234,7 +234,6 @@
 import AuthAPI from "../utils/auth.js";
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/forgot-password.json';
-import * as Sentry from "@sentry/vue";
   
 export default {
   name: 'Welcome',
@@ -553,7 +552,7 @@ export default {
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.loading) {
         this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "email": this.email, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
+        var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
