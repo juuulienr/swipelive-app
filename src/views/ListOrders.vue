@@ -75,10 +75,7 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                {{ order.status }}
-                {{ order.status != 'cancelled' }}
-                <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
-                <span v-else class="css-4ioo3c" style="color: #999; background-color: #f1f1f1;">0,00€</span>
+                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -107,8 +104,7 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
-                <span v-else class="css-4ioo3c" style="color: #999; background-color: #f1f1f1;">0,00€</span>
+                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -137,7 +133,8 @@
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span v-else class="css-4ioo3c" style="color: #999; background-color: #f1f1f1;">0,00€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">

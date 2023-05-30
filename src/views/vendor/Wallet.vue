@@ -27,6 +27,9 @@
           </div>
         </div>
 
+        <button @click="uploadFront()">Verif front document (jpg, pdf, png) et 16Mb max</button>
+        <button @click="uploadBack()">Verif back document (jpg, pdf, png) et 16Mb max</button>
+
         <hr style="width: 100%;margin: 15px 0px;">
         <div v-if="orderedMonthData.length > 0" class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
@@ -36,7 +39,7 @@
               <div v-if="data.orders.length > 1" style="font-size: 12px;color: #999;">{{ data.orders.length }} commandes</div>
               <div v-else style="font-size: 12px;color: #999;">{{ data.orders.length }} commande</div>
             </div>
-            <div style="padding-top: 10px;margin-bottom: 0px;"> {{ data.subTotal | formatPrice }}€
+            <div style="padding-top: 10px;margin-bottom: 0px;"> {{ data.total | formatPrice }}€
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
@@ -202,7 +205,7 @@
             <div class="current--balance--two" style="margin-top: 10px;">
               <p v-if="history.orders.length > 1" style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commandes</p>
               <p v-else style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commande</p>
-              <p style="margin-bottom: 0px;color: black;font-weight: 600;font-size: 14px;">{{ history.subTotal | formatPrice }}€</p>
+              <p style="margin-bottom: 0px;color: black;font-weight: 600;font-size: 14px;">{{ history.total | formatPrice }}€</p>
             </div>
             <div class="current--balance--two" style="margin-top: 10px;">
               <p style="margin-bottom: 0px; color: rgb(153, 153, 153); font-weight: 400; font-size: 14px;">Commission Swipe Live</p>
@@ -289,7 +292,7 @@ export default {
           if (!monthData[month]) {
             monthData[month] = {
               month: month,
-              subTotal: "0.00",
+              total: "0.00",
               fees: "0.00",
               remaining: "0.00",
               orders: []
@@ -297,11 +300,11 @@ export default {
           }
 
           monthData[month].orders.push(order);
-          monthData[month].subTotal = parseFloat(monthData[month].subTotal) + parseFloat(order.subTotal);
-          monthData[month].subTotal.toFixed(2);
+          monthData[month].total = parseFloat(monthData[month].total) + parseFloat(order.total) - parseFloat(order.shippingPrice);
+          monthData[month].total.toFixed(2);
           monthData[month].fees = parseFloat(monthData[month].fees) + parseFloat(order.fees);
           monthData[month].fees.toFixed(2);
-          monthData[month].remaining = parseFloat(monthData[month].subTotal) - parseFloat(monthData[month].fees);
+          monthData[month].remaining = parseFloat(monthData[month].total) - parseFloat(monthData[month].fees);
           monthData[month].remaining.toFixed(2);
         });
 
@@ -452,7 +455,23 @@ export default {
     addAmount() {
       this.withdrawAmount = this.user.vendor.available;
     },
-    async verifFront() {
+    base64ToBlob(base64, mimeType='') {
+      // Split into two parts: the data and the mime type
+      var parts = base64.split(';base64,');
+      // Decode the base64 string
+      var decodedData = window.atob(parts[1]);
+
+      // Create an array of bytes (from byte numbers)
+      var bytes = new Array(decodedData.length);
+      for (var i = 0; i < decodedData.length; i++) {
+        bytes[i] = decodedData.charCodeAt(i);
+      }
+
+      // Convert into a blob
+      var blob = new Blob([new Uint8Array(bytes)], { type: mimeType });
+      return blob;
+    },
+    uploadFront() {
       var options = {
         quality: 100,
         destinationType: Camera.DestinationType.FILE_URI,
@@ -463,29 +482,52 @@ export default {
         correctOrientation: true
       }
       
-      var image = navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        return imageUri;
+      navigator.camera.getPicture((front_document) => {
+        var base64String = "data:image/jpeg;base64," + front_document;
+        console.log(base64String);
+        this.verifFront(base64String);
       }, (error) => {
         console.log("Impossible de récupérer le document : " + error);
       }, options);
-
+    },
+    uploadBack() {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true
+      }
+      
+      navigator.camera.getPicture((back_document) => {
+        var base64String = "data:image/jpeg;base64," + back_document;
+        console.log(base64String);
+        this.verifBack(base64String);
+      }, (error) => {
+        console.log("Impossible de récupérer le document : " + error);
+      }, options);
+    },
+    async verifFront(base64String) {
       const stripe = Stripe(this.stripe_pk);
       const data = new FormData();
 
-      // data.append('file', document.querySelector('#id-file').files[0]);
-      data.append('file', image);
+      var mimeType = "image/jpeg";
+      var blob = this.base64ToBlob(base64String, mimeType);
+
+      data.append('file', blob, 'front_document.jpg');
       data.append('purpose', 'identity_document');
       const header = "Bearer " + this.stripe_pk;
-      const fileResult = await fetch('https://uploads.stripe.com/v1/files', {
+      const response = await fetch('https://uploads.stripe.com/v1/files', {
         method: 'POST',
-        headers: {'Authorization': header },
-        body: data,
+        headers: { 'Authorization': header },
+        body: data
       });
-      const fileData = await fileResult.json();
+      const fileData = await response.json();
       console.log(fileData);
 
-      if (fileData) {
+      if (fileData && fileData.id) {
         const result = await stripe.createToken('person', {
           person: {
             verification: {
@@ -496,8 +538,6 @@ export default {
           },
         });
 
-        console.log(result);
-
         if (result && result.token.id) {
           window.cordova.plugin.http.setDataSerializer('json');
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/verification/document/front", { "person_token": result.token.id }, { Authorization: "Bearer " + this.token }, (response) => {
@@ -505,64 +545,50 @@ export default {
             window.plugins.toast.show('Le document recto a été envoyé !', 'long', 'top');
           }, (response) => {
             console.log(response.error);
+            window.plugins.toast.show(response.error, 'long', 'top');
           });
         }
       }
     },
     async verifBack() {
-      var options = {
-        quality: 100,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        allowEdit: false,
-        correctOrientation: true
-      }
-      
-      var image = navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        return imageUri;
-      }, (error) => {
-        console.log("Impossible de récupérer le document : " + error);
-      }, options);
-
       const stripe = Stripe(this.stripe_pk);
       const data = new FormData();
 
-      // data.append('file', document.querySelector('#id-file').files[0]);
-      data.append('file', image);
+      var mimeType = "image/jpeg";
+      var blob = this.base64ToBlob(base64String, mimeType);
+
+      data.append('file', blob, 'front_document.jpg');
       data.append('purpose', 'identity_document');
       const header = "Bearer " + this.stripe_pk;
-      const fileResult = await fetch('https://uploads.stripe.com/v1/files', {
+      const response = await fetch('https://uploads.stripe.com/v1/files', {
         method: 'POST',
-        headers: {'Authorization': header },
-        body: data,
+        headers: { 'Authorization': header },
+        body: data
       });
-      const fileData = await fileResult.json();
+      const fileData = await response.json();
       console.log(fileData);
 
-
-      const result = await stripe.createToken('person', {
-        person: {
-          verification: {
-            document: {
-              back: fileData.id,
+      if (fileData && fileData.id) {
+        const result = await stripe.createToken('person', {
+          person: {
+            verification: {
+              document: {
+                back: fileData.id,
+              },
             },
           },
-        },
-      });
-
-      console.log(result);
-
-      if (result && result.token.id) {
-        window.cordova.plugin.http.setDataSerializer('json');
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/verification/document/back", { "person_token": result.token.id }, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(JSON.parse(response.data));
-          window.plugins.toast.show('Le document verso a été envoyé !', 'long', 'top');
-        }, (response) => {
-          console.log(response.error);
         });
+
+        if (result && result.token.id) {
+          window.cordova.plugin.http.setDataSerializer('json');
+          window.cordova.plugin.http.post(this.baseUrl + "/user/api/verification/document/back", { "person_token": result.token.id }, { Authorization: "Bearer " + this.token }, (response) => {
+            console.log(JSON.parse(response.data));
+            window.plugins.toast.show('Le document recto a été envoyé !', 'long', 'top');
+          }, (response) => {
+            console.log(response.error);
+            window.plugins.toast.show(response.error, 'long', 'top');
+          });
+        }
       }
     },
   }
