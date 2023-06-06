@@ -43,7 +43,7 @@
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
-          <div class="channel-item-wrapper-2gBWB">
+          <div @click="google()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <img :src="require(`@/assets/img/google.png`)" style="width: 24px; height: 24px;"/>
             </div>
@@ -414,23 +414,40 @@ export default {
         console.log(loginError);
       });
     },
-    // google() {
+    google() {
       // ajouter google
-    // },
+      window.cordova.plugins.GoogleSignInPlugin.signIn(function (authData) {
+        console.log(authData);
+        console.log(status);
+        console.log(message);
+        console.log(message.id);
+        console.log(message.display_name);
+        console.log(message.photo_url);
+        console.log(message.id_token);
+      },
+      function (error) {
+        console.error(error);
+      });
+    },
     apple() {
       // ajouter apple
       window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] }, function(result){
-        var data = JSON.stringify(result);
-        console.log(data);
-        console.log(data.identityToken);
-        var id_token = data.identityToken;
-        
-        // id_token = base64_decode($id_token);
-        // console.log(id_token);
-        // id_token = json_decode($id_token);
-        // console.log(id_token);
-        // id_token = (array)($id_token);
-        // console.log(id_token);
+        console.log(result);
+        var identityToken = result.identityToken;
+        var authorizationCode = result.authorizationCode;
+        var user = result.user;
+        var email = result.email;
+        var state = result.state;
+        var fullName = result.fullName;
+        console.log(identityToken);
+        console.log(fullName.familyName);
+        console.log(fullName.givenName);
+
+        const parts = identityToken.split('.');
+        const payload = parts[1];
+        const decoded = atob(payload);
+        const parsed = JSON.parse(decoded);
+        console.log(parsed.email);
       }, function(err){
         console.error(err);
         console.log(JSON.stringify(err));

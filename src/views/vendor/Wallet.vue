@@ -27,9 +27,9 @@
           </div>
         </div>
 
-        <button @click="uploadFront()">Verif front document (jpg, pdf, png) et 16Mb max</button>
+<!--         <button @click="uploadFront()">Verif front document (jpg, pdf, png) et 16Mb max</button>
         <button @click="uploadBack()">Verif back document (jpg, pdf, png) et 16Mb max</button>
-
+ -->
         <hr style="width: 100%;margin: 15px 0px;">
         <div v-if="orderedMonthData.length > 0" class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>

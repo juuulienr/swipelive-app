@@ -516,6 +516,7 @@
 
 <script>
 
+import fcm from '../utils/fcm.js';
 import Lottie from 'vue-lottie';
 import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
@@ -637,6 +638,10 @@ export default {
     if (window.cordova.plugin && window.cordova.plugin.http) {
       this.http = window.cordova.plugin.http;
       this.http.setDataSerializer('json');
+    }
+
+    if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+      fcm.onDeviceReady();
     }
 
     if (this.user.length == 0) {
@@ -891,13 +896,19 @@ export default {
       this.variant = null;
     },
     async goCheckout() {
+      if (this.data[this.visible].type == "live") {
+        this.myPlayer.muted = true;
+      } else {
+        this.myPlayer.pause();
+      }
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+
       this.loadingShipping = true;
       await this.addToCart();
       this.getShippingPrice();
-      this.myPlayer.muted = true;
     },
     getShippingPrice() {
       if (this.user.shippingAddresses.length) {
@@ -1376,7 +1387,16 @@ export default {
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCheckout = true;
-      this.myPlayer.muted = true;
+
+      if (this.data[this.visible].type == "live") {
+        this.myPlayer.muted = true;
+      } else {
+        this.myPlayer.pause();
+      }
+
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
     },
     paymentSuccessChild(order) {
       console.log(order);
@@ -1385,16 +1405,17 @@ export default {
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCheckout = false;
-      this.myPlayer.muted = false;
       this.lineItems = [];
 
       if (this.data[this.visible].type == "live") {
+        this.myPlayer.muted = false;
         this.http.get(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/orders/" + order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(response);
         }, (response) => { 
           console.log(response.error); 
         });
       } else {
+        this.myPlayer.play();
         setTimeout(() => {
           this.purchase = true;
           setTimeout(() => {
@@ -1411,7 +1432,12 @@ export default {
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCheckout = false;
-      this.myPlayer.muted = false;
+      
+      if (this.data[this.visible].type == "live") {
+        this.myPlayer.muted = false;
+      } else {
+        this.myPlayer.play();
+      }
 
       window.StatusBar.styleLightContent();
       window.StatusBar.overlaysWebView(true);
@@ -1421,7 +1447,6 @@ export default {
         TapticEngine.impact({ style: 'medium' });
       }
       this.showAnimation();
-      console.log(this.totalLikes);
       this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;
 
       if (this.data[this.visible].type == "live") {

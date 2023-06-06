@@ -5,7 +5,7 @@ function onDeviceReady() {
   FirebasePlugin = window.FirebasePlugin;
   console.log("deviceready");
 
-    //Register handlers
+  //Register handlers
   FirebasePlugin.onMessageReceived(function() {
     console.log("onMessageReceived");
     clearBadgeNumber();
@@ -33,7 +33,6 @@ var initIos = function() {
 };
 
 var initAndroid = function() {
-
   // Define custom  channel - all keys are except 'id' are optional.
   var customChannel = {
     id: "swipelive_app",
@@ -66,18 +65,16 @@ var initAndroid = function() {
 var checkNotificationPermission = function(requested) {
   FirebasePlugin.hasPermission(function(hasPermission) {
     if (hasPermission) {
-          // Granted
+      // get token and subscribe
       console.log("Remote notifications permission granted");
-
-          // get token and subscribe
       getToken();
       subscribe();
     } else if (!requested) {
-          // Request permission
+      // Request permission
       console.log("Requesting remote notifications permission");
       FirebasePlugin.grantPermission(checkNotificationPermission.bind(this, true));
     } else {
-          // Denied
+      // Denied
       console.log("Notifications won't be shown as permission is denied");
     }
   });

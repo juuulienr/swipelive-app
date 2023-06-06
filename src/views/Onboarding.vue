@@ -69,6 +69,7 @@
 
 <script>
 
+import fcm from '../utils/fcm.js';
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/swipe-up.json';
 
@@ -92,12 +93,16 @@ export default {
     window.StatusBar.backgroundColorByHexString("#ffffff");
   },
   methods: {
-    allowNotif() {
+    async allowNotif() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.notif = false;
-      this.step1 = true;
+
+      if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+        fcm.onDeviceReady();
+        this.notif = false;
+        this.step1 = true;
+      }
     },
     goFeed() {
       if (window.TapticEngine) {

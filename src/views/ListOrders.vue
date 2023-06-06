@@ -12,14 +12,14 @@
 
     <div class="checkout__body">
       <div v-if="isOrder">
-        <div v-if="user.vendor">
+  <!--       <div v-if="user.vendor">
           <div class="chat--left--head--input">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
             <input ref="search" type="text" v-model="searchTerm" placeholder="Rechercher" style="height: 1.75em"/>
           </div>
-        </div>
+        </div> -->
 
         <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px; display: flex; flex-wrap: nowrap; overflow-x: auto; width: auto; padding: 15px 0;">
           <div class="images_filter" style="width: calc(100vw - 30px)">
@@ -208,7 +208,7 @@
       </div>
       <div>
         <div v-if="type == 'sale'" style="margin-top: 10px;">
-          <div v-if="order.pdf && order.trackingNumber" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+          <div v-if="order.pdf && order.trackingNumber && order.shippingStatus == 'open'" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
               <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
             </svg> Imprimer le bon de livraison
@@ -220,7 +220,7 @@
               </svg>
             </span>
           </div>
-          <div v-else @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+          <div v-else-if="order.shippingStatus == 'ready-to-send'" @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
               <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
             </svg> Générer le bon de livraison
@@ -308,7 +308,7 @@
         <hr v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'">
 
         <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
-          <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2a80;font-weight: 600;font-size: 17px;">
+          <div v-if="type == 'sale' && order.shippingStatus == 'open'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2a80;font-weight: 600;font-size: 17px;">
             <img :src="require(`@/assets/img/location.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison estimée : 
             <span v-if="order.expectedDelivery">{{ order.expectedDelivery | formatDate2 }}</span>
             <span v-else>-</span>

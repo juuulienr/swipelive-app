@@ -42,7 +42,7 @@
             </div>
             <div class="css-9jay18">
               <p class="css-11r9ii4">Livraison</p>
-              <h6 v-if="shippingPrice" class="css-yemnbq">+{{ shippingPrice | formatPrice }}€</h6>
+              <h6 v-if="shippingPrice" class="css-yemnbq">{{ shippingPrice | formatPrice }}€</h6>
               <h6 v-else class="css-yemnbq">-</h6>
             </div>
             <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px;"/>
