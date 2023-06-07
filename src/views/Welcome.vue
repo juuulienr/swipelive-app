@@ -415,39 +415,73 @@ export default {
       });
     },
     google() {
-      // ajouter google
-      window.cordova.plugins.GoogleSignInPlugin.signIn(function (authData) {
-        console.log(authData);
-        console.log(status);
-        console.log(message);
-        console.log(message.id);
-        console.log(message.display_name);
-        console.log(message.photo_url);
-        console.log(message.id_token);
-      },
-      function (error) {
-        console.error(error);
-      });
+      if (window.cordova.platformId === "android") {
+        var clientId = "996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q.apps.googleusercontent.com";
+      } else if (window.cordova.platformId === "ios") {
+        var clientId = "996587333677-44pt72jp5sqvb4lfuuh0gfl03842eau5.apps.googleusercontent.com";
+      }
+
+      if (clientId) {
+        window.FirebasePlugin.authenticateUserWithGoogle(clientId, async (result) => {
+          console.log(result);
+
+          var idToken = result.idToken;
+          var parts = idToken.split('.');
+          var payload = parts[1];
+          var decoded = atob(payload);
+          var result = JSON.parse(decoded);
+          console.log(result);
+
+          this.loading = true;
+          this.email = result.email;
+          this.password = Math.random().toString(36).slice(-15);
+
+          window.cordova.plugin.http.setDataSerializer('json');
+          var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+          var httpParams = { "email": this.email, "password": this.password, "firstname": result.given_name, "lastname": result.family_name, "picture": result.picture, "googleId": result.sub };
+
+          await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/google", httpParams, httpHeader, (response) => {
+            this.authenticate(response.data);
+          }, (response) => {
+            this.loading = false;
+            console.log(response.error);
+          });
+        }, function(error) {
+          console.error("Failed to authenticate with Google: " + error);
+        });
+      }
     },
-    apple() {
+    async apple() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+
       // ajouter apple
-      window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] }, function(result){
+      window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] }, async (result) => {
         console.log(result);
         var identityToken = result.identityToken;
-        var authorizationCode = result.authorizationCode;
-        var user = result.user;
-        var email = result.email;
-        var state = result.state;
         var fullName = result.fullName;
-        console.log(identityToken);
-        console.log(fullName.familyName);
-        console.log(fullName.givenName);
+        var user = result.user;
+        var parts = identityToken.split('.');
+        var payload = parts[1];
+        var decoded = atob(payload);
+        var result = JSON.parse(decoded);
+        console.log(result);
 
-        const parts = identityToken.split('.');
-        const payload = parts[1];
-        const decoded = atob(payload);
-        const parsed = JSON.parse(decoded);
-        console.log(parsed.email);
+        this.loading = true;
+        this.email = result.email;
+        this.password = Math.random().toString(36).slice(-15);
+
+        window.cordova.plugin.http.setDataSerializer('json');
+        var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+        var httpParams = { "email": this.email, "password": this.password, "firstname": fullName.givenName, "lastname": fullName.familyName, "appleId": result.user };
+
+        await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/apple", httpParams, httpHeader, (response) => {
+          this.authenticate(response.data);
+        }, (response) => {
+          this.loading = false;
+          console.log(response.error);
+        });
       }, function(err){
         console.error(err);
         console.log(JSON.stringify(err));

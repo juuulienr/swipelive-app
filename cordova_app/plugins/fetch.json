@@ -315,5 +315,24 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-google-signin": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/russmedia-digital/cordova-plugin-google-signin"
+    },
+    "is_top_level": true,
+    "variables": {
+      "REVERSED_CLIENT_ID": "com.googleusercontent.apps.996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3",
+      "CLIENT_ID": "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com"
+    }
+  },
+  "cordova-plugin-googleplus": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-googleplus@8.5.2"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
