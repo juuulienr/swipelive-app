@@ -7,7 +7,7 @@
         <video v-else ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
-    <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" @click="open()" class="btn-open" :style="{'bottom': safeareaBottom }">
+    <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" @click="test()" class="btn-open" :style="{'bottom': safeareaBottom }">
       Accéder
     </div>
 
@@ -53,8 +53,48 @@
 
         <p style="text-align: center;margin: 10px 30px 15px;font-weight: 400;color: #a7a8a9;">Avez-vous déjà un compte ?</p>
         <p @click="userLogin()" style="text-align: center;color: #ff2a80;">SE CONNECTER</p>
+
+
+        <button @click="test()">TESTTTTTTTTT</button>
       </div>
     </div>
+
+    <!-- test popup -->
+    <div class="pane">
+      <!-- contenu du pane -->
+      <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
+        <div class="checkout__close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+            <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+          </svg>
+        </div>
+        <div class="checkout__title">Règle du jeu</div>
+      </div>
+      <div class="checkout__body info-wheel" style="overflow: scroll; padding: 15px 20px 50px;">
+        <div class="container" style="text-align: center;">
+          <h4 style="margin-top: 0px; margin-bottom: 50px;">Et si acheter devient un jeu ?</h4>
+        </div>
+        
+        <h4>Swipe Roulette</h4>
+
+        <p>La Swipe Roulette est un jeu qui selectionne au hasard une commande réalisée dans l'application. Cette commande sera remboursée à l'utilisateur.</p>
+
+        <h4>Principes et modalités du jeu 🎉</h4>
+
+        <p>Tous les 500 commandes faites sur Swipe Live, la roulette tourne et rembourse une commande directement sur la carte bancaire utilisée lors de l'achat.</p>
+        <p>- Les gagnants recevrons une notification directement sur l'application Swipe Live.</p>
+
+        <h4>Quelles commandes peuvent être tirées au sort ? 🛍</h4>
+
+        <p>Toutes les commandes effectués sur l'application Swipe Live sont éligibles. <br> Il n'y a aucune limite sur le nombre de fois qu'un utilisateur peut gagner. <br> Swipe Live se réserve toutefois le droit de procéder à toute vérification utile à l'application des règles du jeu, notamment afin de disqualifier les participants ayant procédé à une manoeuvre frauduleuse ou abusive.</p>
+
+        <h4>Limite de remboursement 💳</h4>
+
+        <p>Lorsqu'une commande est tirée au sort, alors son montant total est remboursé par Swipe Live dans la limite de 50€. <br> Ex: Si un utilisateur dépense par exemple 100€ et que sa commande est tiré au sort, il gagnera 50€.</p>
+      </div>
+
+    </div>
+
 
 
     <!-- login popup -->
@@ -234,7 +274,8 @@
 import AuthAPI from "../utils/auth.js";
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/forgot-password.json';
-  
+import { CupertinoPane } from 'cupertino-pane';
+
 export default {
   name: 'Welcome',
   components: {
@@ -336,6 +377,36 @@ export default {
     this.$refs.welcomeVideo.removeEventListener('loadeddata', this.onVideoLoaded);
   },
   methods: {
+    test() {
+      let pane = new CupertinoPane('.pane',{ 
+        initialBreak: 'top', 
+        events: {
+          onDrag: function() {
+            console.log('Drag event')
+          },
+          onDidPresent: function() {
+            console.log('Pane is presented');
+          },
+          onWillDismiss: function() {
+            console.log('Pane will be dismissed');
+          },            
+          onDragEnd: () => {
+                // Récupérer la hauteur de la fenêtre
+            let windowHeight = window.innerHeight;
+
+                // Récupérer la position courante du panneau
+            let panePosition = pane.getPosition();
+
+                // Si la position du panneau est inférieure à 50% de la hauteur de la fenêtre
+            if (panePosition > windowHeight * 0.5) {
+                    // Fermer le panneau
+              pane.destroy({animate: true});
+            }
+          }
+        }
+      });
+      pane.present({animate: true})
+    },
     onVideoLoaded() {
       navigator.splashscreen.hide();
     },
