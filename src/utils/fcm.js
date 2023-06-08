@@ -6,8 +6,13 @@ function onDeviceReady() {
   console.log("deviceready");
 
   //Register handlers
-  FirebasePlugin.onMessageReceived(function() {
+  FirebasePlugin.onMessageReceived(function(message) {
     console.log("onMessageReceived");
+    console.log(message);
+
+    // var route = message.data.route;
+    // router.push({ name: route });
+
     clearBadgeNumber();
     clearNotifications();
   });
