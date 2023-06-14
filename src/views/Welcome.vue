@@ -7,7 +7,7 @@
         <video v-else ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
-    <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" @click="test()" class="btn-open" :style="{'bottom': safeareaBottom }">
+    <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" @click="open()" class="btn-open" :style="{'bottom': safeareaBottom }">
       Accéder
     </div>
 
@@ -53,15 +53,13 @@
 
         <p style="text-align: center;margin: 10px 30px 15px;font-weight: 400;color: #a7a8a9;">Avez-vous déjà un compte ?</p>
         <p @click="userLogin()" style="text-align: center;color: #ff2a80;">SE CONNECTER</p>
-
-
-        <button @click="test()">TESTTTTTTTTT</button>
       </div>
     </div>
 
+
+
     <!-- test popup -->
     <div class="pane">
-      <!-- contenu du pane -->
       <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
         <div class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -142,7 +140,7 @@
         </div>
 
         <div class="social-container-NE2xk">
-          <div class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
+          <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img :src="require(`@/assets/img/apple.png`)" style="width: 24px; height: 24px;"/>
             </div>
@@ -154,7 +152,7 @@
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
-          <div class="channel-item-wrapper-2gBWB">
+          <div @click="google()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <img :src="require(`@/assets/img/google.png`)" style="width: 24px; height: 24px;"/>
             </div>
@@ -269,6 +267,12 @@
 <style scoped src="../assets/css/welcome.css"></style>
 
 
+<style>
+  .cupertino-pane-wrapper .pane {
+    box-shadow: none !important;
+  }
+</style>
+
 <script>
 
 import AuthAPI from "../utils/auth.js";
@@ -377,32 +381,29 @@ export default {
     this.$refs.welcomeVideo.removeEventListener('loadeddata', this.onVideoLoaded);
   },
   methods: {
-    test() {
+    cupertinoPane() {
       let pane = new CupertinoPane('.pane',{ 
         initialBreak: 'top', 
-        events: {
-          onDrag: function() {
-            console.log('Drag event')
+        breaks: {
+          middle: {
+            enabled: false
           },
-          onDidPresent: function() {
-            console.log('Pane is presented');
-          },
-          onWillDismiss: function() {
-            console.log('Pane will be dismissed');
-          },            
-          onDragEnd: () => {
-                // Récupérer la hauteur de la fenêtre
-            let windowHeight = window.innerHeight;
-
-                // Récupérer la position courante du panneau
-            let panePosition = pane.getPosition();
-
-                // Si la position du panneau est inférieure à 50% de la hauteur de la fenêtre
-            if (panePosition > windowHeight * 0.5) {
-                    // Fermer le panneau
-              pane.destroy({animate: true});
-            }
+          bottom: {
+            enabled: false
           }
+        },
+        backdrop: true, 
+        fastSwipeClose: true, 
+        bottomClose: true, 
+        events: {       
+          onDragEnd: (data) => {
+            console.log(data);
+            // let windowHeight = window.innerHeight;
+            // // let panePosition = pane.getPosition();
+            // if (panePosition > windowHeight * 0.5) {
+            //   pane.destroy({animate: true});
+            // }
+          },
         }
       });
       pane.present({animate: true})
@@ -457,6 +458,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+
       window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
         console.log(response);
         this.loading = true;
@@ -486,10 +488,15 @@ export default {
       });
     },
     google() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+
       if (window.cordova.platformId === "android") {
         var clientId = "996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q.apps.googleusercontent.com";
+        // var clientId = "996587333677-93niun9524cn6ddis0js9cb0rtal6mtk.apps.googleusercontent.com";
       } else if (window.cordova.platformId === "ios") {
-        var clientId = "996587333677-44pt72jp5sqvb4lfuuh0gfl03842eau5.apps.googleusercontent.com";
+        var clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
       }
 
       if (clientId) {
@@ -522,7 +529,7 @@ export default {
         });
       }
     },
-    async apple() {
+    apple() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -542,6 +549,9 @@ export default {
         this.loading = true;
         this.email = result.email;
         this.password = Math.random().toString(36).slice(-15);
+
+        console.log(fullName.givenName);
+        console.log(fullName.familyName);
 
         window.cordova.plugin.http.setDataSerializer('json');
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
@@ -703,7 +713,13 @@ export default {
         if (newUser == true) {
           this.$router.push({ name: 'Onboarding' });
         } else {
-          this.$router.push({ name: 'Feed' });
+          window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + result.token }, (response) => {
+            console.log(JSON.parse(response.data));
+            this.$store.commit('setUser', JSON.parse(response.data));
+            this.$router.push({ name: 'Feed' });
+          }, (error) => {
+            console.log(error);
+          });
         }
       }, (response) => {
         this.loading = false;
