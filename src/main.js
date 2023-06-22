@@ -52,7 +52,7 @@ document.addEventListener("deviceready", () => {
  
 
 
-// status of app
+// status
 document.addEventListener("pause", () => {
   // console.log("User is out of the app");
 });
@@ -65,6 +65,7 @@ document.addEventListener("backbutton", () => {
   // console.log("User click on the back button");
 });
 
+
 // network
 document.addEventListener("offline", () => {
   window.plugins.toast.show("Pas de connexion Internet", 'long', 'top');
@@ -76,19 +77,18 @@ document.addEventListener("offline", () => {
 
 
 // battery
+window.addEventListener("batterycritical", (event) => {
+  window.plugins.toast.show("Niveau de batterie critique : " + event.level + "%", 'long', 'top');
+}, false);
+
 // window.addEventListener("batterystatus", (event) => {
   // window.plugins.toast.show("Level: " + event.level + " isPlugged: " + event.isPlugged, 'long', 'top');
 // }, false);
 
 
-window.addEventListener("batterycritical", (event) => {
-  window.plugins.toast.show("Niveau de batterie critique : " + event.level + "%", 'long', 'top');
-}, false);
-
-
 // error
 window.addEventListener("cordovacallbackerror", function (event) {
-  console.log(event);
+  console.log("Cordova callback error : " + event);
 });
 
 

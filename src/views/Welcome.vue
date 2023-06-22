@@ -487,7 +487,7 @@ export default {
         console.log(loginError);
       });
     },
-    google() {
+    async google() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -513,12 +513,14 @@ export default {
           this.loading = true;
           this.email = result.email;
           this.password = Math.random().toString(36).slice(-15);
+          console.log(this.password);
 
           window.cordova.plugin.http.setDataSerializer('json');
           var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
           var httpParams = { "email": this.email, "password": this.password, "firstname": result.given_name, "lastname": result.family_name, "picture": result.picture, "googleId": result.sub };
 
           await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/google", httpParams, httpHeader, (response) => {
+            console.log(response);
             this.authenticate(response.data);
           }, (response) => {
             this.loading = false;
@@ -529,7 +531,7 @@ export default {
         });
       }
     },
-    apple() {
+    async apple() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -539,25 +541,22 @@ export default {
         console.log(result);
         var identityToken = result.identityToken;
         var fullName = result.fullName;
-        var user = result.user;
+        var appleId = result.user;
         var parts = identityToken.split('.');
         var payload = parts[1];
         var decoded = atob(payload);
         var result = JSON.parse(decoded);
-        console.log(result);
 
         this.loading = true;
         this.email = result.email;
         this.password = Math.random().toString(36).slice(-15);
 
-        console.log(fullName.givenName);
-        console.log(fullName.familyName);
-
         window.cordova.plugin.http.setDataSerializer('json');
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-        var httpParams = { "email": this.email, "password": this.password, "firstname": fullName.givenName, "lastname": fullName.familyName, "appleId": result.user };
+        var httpParams = { "email": this.email, "password": this.password, "firstname": fullName.givenName ? fullName.givenName : null, "lastname": fullName.familyName ? fullName.familyName : null, "appleId": appleId };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/apple", httpParams, httpHeader, (response) => {
+          console.log(response);
           this.authenticate(response.data);
         }, (response) => {
           this.loading = false;
@@ -705,6 +704,9 @@ export default {
     async authenticate(newUser) {
       var httpParams = { "username": this.email, "password": this.password };
       var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+
+      console.log(this.password);
+      console.log(this.email);
 
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
         var result = JSON.parse(response.data);

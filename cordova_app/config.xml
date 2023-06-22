@@ -20,26 +20,16 @@
         <feature name="SocialSharing">
             <param name="android-package" value="nl.xservices.plugins.SocialSharing"/>
         </feature>
-        <preference name="android-compileSdkVersion" value="30"/>
-        <preference name="android-targetSdkVersion" value="30"/>
-        <preference name="android-minSdkVersion" value="22"/>
-        <preference name="GradlePluginKotlinEnabled" value="true"/>
-        <preference name="AndroidXEnabled" value="true"/>
+        <preference name="android-compileSdkVersion" value="33"/>
+        <preference name="android-targetSdkVersion" value="33"/>
+        <preference name="android-minSdkVersion" value="24"/>
         <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
         <preference name="AndroidInsecureFileModeEnabled" value="true" />
+        <preference name="GradlePluginKotlinEnabled" value="true"/>
+        <preference name="AndroidXEnabled" value="true"/>
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/screen.png" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#ff2a80" />
 
-        <splash density="port-ldpi" src="res/screen/android/screen-ldpi-portrait.png"/>
-        <splash density="port-mdpi" src="res/screen/android/screen-mdpi-portrait.png"/>
-        <splash density="port-hdpi" src="res/screen/android/screen-hdpi-portrait.png"/>
-        <splash density="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.png"/>
-        <splash density="port-xxhdpi" src="res/screen/android/screen-xxhdpi-portrait.png"/>
-        <splash density="port-xxxhdpi" src="res/screen/android/screen-xxxhdpi-portrait.png"/>
-        <splash density="land-ldpi" src="res/screen/android/screen-ldpi-landscape.png"/>
-        <splash density="land-mdpi" src="res/screen/android/screen-mdpi-landscape.png"/>
-        <splash density="land-hdpi" src="res/screen/android/screen-hdpi-landscape.png"/>
-        <splash density="land-xhdpi" src="res/screen/android/screen-xhdpi-landscape.png"/>
-        <splash density="land-xxhdpi" src="res/screen/android/screen-xxhdpi-landscape.png"/>
-        <splash density="land-xxxhdpi" src="res/screen/android/screen-xxxhdpi-landscape.png"/>
         <icon density="ldpi" src="res/icon/android/ldpi.png"/>
         <icon density="mdpi" src="res/icon/android/mdpi.png"/>
         <icon density="hdpi" src="res/icon/android/hdpi.png"/>
@@ -102,5 +92,4 @@
     <preference name="StatusBarBackgroundColor" value="#ffffff"/>
     <preference name="StatusBarStyle" value="lightcontent"/>
     <preference name="InAppBrowserStatusBarStyle" value="lightcontent"/>
-    <preference name="AutoHideSplashScreen" value="false"/>
 </widget>

@@ -3,10 +3,11 @@ package by.chemerisuk.cordova.support;
 import android.util.Pair;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaArgs;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.LOG;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,24 +16,43 @@ import java.util.Map;
 
 
 public class ReflectiveCordovaPlugin extends CordovaPlugin {
-    private static String TAG = "ReflectiveCordovaPlugin";
-    private Map<String, Pair<Method, ExecutionThread>> pairs;
+    private static final String TAG = "ReflectiveCordovaPlugin";
+    private Map<String, Pair<Method, ExecutionThread>> commandFactories;
 
-    public enum ExecutionThread {
-        MAIN, UI, WORKER
+    public final void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        commandFactories = new HashMap<>();
+        for (Method method : getClass().getDeclaredMethods()) {
+            CordovaMethod cordovaMethod = method.getAnnotation(CordovaMethod.class);
+            if (cordovaMethod == null) continue;
+
+            String methodAction = cordovaMethod.action();
+            if (methodAction.isEmpty()) {
+                methodAction = method.getName();
+            }
+            boolean paramTypesValid = false;
+            Class<?>[] paramTypes = method.getParameterTypes();
+            if (paramTypes.length == 1) {
+                paramTypesValid = CallbackContext.class.equals(paramTypes[0]);
+            } else if (paramTypes.length == 2) {
+                paramTypesValid = CordovaArgs.class.equals(paramTypes[0]) &&
+                        CallbackContext.class.equals(paramTypes[1]);
+            }
+            if (!paramTypesValid) {
+                throw new RuntimeException("Cordova method " +
+                        methodAction + " does not have valid parameters");
+            }
+            commandFactories.put(methodAction, new Pair<>(method, cordovaMethod.value()));
+            // suppress Java language access checks to improve performance of future calls
+            method.setAccessible(true);
+        }
     }
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
-        if (pairs == null) {
-            pairs = createCommandFactories();
-        }
-
-        Pair<Method, ExecutionThread> pair = pairs.get(action);
+    public final boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) {
+        Pair<Method, ExecutionThread> pair = commandFactories.get(action);
         if (pair != null) {
-            Object[] methodArgs = getMethodArgs(args, callbackContext);
             // always create a new command to avoid concurrency conflicts
-            Runnable command = createCommand(pair.first, methodArgs, callbackContext);
+            Runnable command = createCommand(pair.first, args, callbackContext);
             ExecutionThread executionThread = pair.second;
             if (executionThread == ExecutionThread.WORKER) {
                 cordova.getThreadPool().execute(command);
@@ -41,19 +61,21 @@ public class ReflectiveCordovaPlugin extends CordovaPlugin {
             } else {
                 command.run();
             }
-
             return true;
         }
-
         return false;
     }
 
-    private Runnable createCommand(final Method method, final Object[] methodArgs, final CallbackContext callbackContext) {
+    private Runnable createCommand(final Method method, final CordovaArgs args, final CallbackContext callbackContext) {
         return new Runnable() {
             @Override
             public void run() {
                 try {
-                    method.invoke(ReflectiveCordovaPlugin.this, methodArgs);
+                    if (CordovaArgs.class.isAssignableFrom(method.getParameterTypes()[0])) {
+                        method.invoke(ReflectiveCordovaPlugin.this, args, callbackContext);
+                    } else {
+                        method.invoke(ReflectiveCordovaPlugin.this, callbackContext);
+                    }
                 } catch (Throwable e) {
                     if (e instanceof InvocationTargetException) {
                         e = ((InvocationTargetException)e).getTargetException();
@@ -63,40 +85,5 @@ public class ReflectiveCordovaPlugin extends CordovaPlugin {
                 }
             }
         };
-    }
-
-    private Map<String, Pair<Method, ExecutionThread>> createCommandFactories() {
-        Map<String, Pair<Method, ExecutionThread>> result = new HashMap<String, Pair<Method, ExecutionThread>>();
-        for (Method method : getClass().getDeclaredMethods()) {
-            CordovaMethod cordovaMethod = method.getAnnotation(CordovaMethod.class);
-            if (cordovaMethod != null) {
-                String methodAction = cordovaMethod.action();
-                if (methodAction.isEmpty()) {
-                    methodAction = method.getName();
-                }
-                result.put(methodAction, new Pair<Method, ExecutionThread>(method, cordovaMethod.value()));
-                // suppress Java language access checks
-                // to improve performance of future calls
-                method.setAccessible(true);
-            }
-        }
-
-        return result;
-    }
-
-    private static Object[] getMethodArgs(JSONArray args, CallbackContext callbackContext) {
-        int len = args.length();
-        Object[] methodArgs = new Object[len + 1];
-        for (int i = 0; i < len; ++i) {
-            Object argValue = args.opt(i);
-            if (JSONObject.NULL.equals(argValue)) {
-                argValue = null;
-            }
-            methodArgs[i] = argValue;
-        }
-        // CallbackContext is always the last one
-        methodArgs[len] = callbackContext;
-
-        return methodArgs;
     }
 }

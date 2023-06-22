@@ -55,12 +55,16 @@ end
 
 
 
-II) Pour ANDROID (9.1.0)
+II) Pour ANDROID 
 
 
 1) Ajouter propriétés dans gradle.properties 
 android.useAndroidX=true
 android.enableJetifier=true
+
+
+2) AndroidManifest.xml 
+Ajouter dans les balises <activity android:exported="true"> et <receiver android:exported="true">
 
 
 

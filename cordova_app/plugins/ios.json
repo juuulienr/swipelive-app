@@ -13,19 +13,7 @@
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-advanced-http": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-android-permissions": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-androidx-adapter": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-app-review": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-app-version": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-bambuser": {
@@ -37,9 +25,6 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-device": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-dialogs": {
@@ -61,23 +46,10 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-firebasex": {
-      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
-      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
-      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-media": {
-      "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-nativepagetransitions": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-network-information": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-networkinterface": {
@@ -101,25 +73,57 @@
     "cordova-plugin-taptic-engine": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-x-socialsharing": {
-      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
-      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+    "cordova-plugin-x-toast": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-x-toast": {
+    "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-wheel-selector-plugin": {
+    "cordova-plugin-app-review": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-advanced-http": {
+      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-media": {
+      "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_FCM_AUTOINIT_ENABLED": "true",
+      "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
+      "IOS_FCM_ENABLED": "true",
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "es6-promise-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
     }

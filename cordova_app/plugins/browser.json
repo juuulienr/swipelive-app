@@ -13,19 +13,7 @@
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-advanced-http": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-android-permissions": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-androidx-adapter": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-app-review": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-app-version": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-bambuser": {
@@ -35,9 +23,6 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-device": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-dialogs": {
@@ -59,22 +44,10 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-firebasex": {
-      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
-      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
-      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-media": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-nativepagetransitions": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-network-information": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-networkinterface": {
@@ -98,23 +71,52 @@
     "cordova-plugin-taptic-engine": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-x-socialsharing": {
+    "cordova-plugin-x-toast": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-x-toast": {
+    "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-wheel-selector-plugin": {
+    "cordova-plugin-app-review": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-advanced-http": {
+      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-media": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_FCM_AUTOINIT_ENABLED": "true",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "es6-promise-plugin": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }

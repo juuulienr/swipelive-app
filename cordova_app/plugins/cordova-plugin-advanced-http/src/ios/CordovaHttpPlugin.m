@@ -4,31 +4,31 @@
 #import "BinaryResponseSerializer.h"
 #import "TextResponseSerializer.h"
 #import "TextRequestSerializer.h"
-#import "AFHTTPSessionManager.h"
+#import "SM_AFHTTPSessionManager.h"
 #import "SDNetworkActivityIndicator.h"
 
 @interface CordovaHttpPlugin()
 
 - (void)addRequest:(NSNumber*)reqId forTask:(NSURLSessionDataTask*)task;
 - (void)removeRequest:(NSNumber*)reqId;
-- (void)setRequestHeaders:(NSDictionary*)headers forManager:(AFHTTPSessionManager*)manager;
+- (void)setRequestHeaders:(NSDictionary*)headers forManager:(SM_AFHTTPSessionManager*)manager;
 - (void)handleSuccess:(NSMutableDictionary*)dictionary withResponse:(NSHTTPURLResponse*)response andData:(id)data;
 - (void)handleError:(NSMutableDictionary*)dictionary withResponse:(NSHTTPURLResponse*)response error:(NSError*)error;
 - (NSNumber*)getStatusCode:(NSError*) error;
 - (NSMutableDictionary*)copyHeaderFields:(NSDictionary*)headerFields;
-- (void)setTimeout:(NSTimeInterval)timeout forManager:(AFHTTPSessionManager*)manager;
-- (void)setRedirect:(bool)redirect forManager:(AFHTTPSessionManager*)manager;
+- (void)setTimeout:(NSTimeInterval)timeout forManager:(SM_AFHTTPSessionManager*)manager;
+- (void)setRedirect:(bool)redirect forManager:(SM_AFHTTPSessionManager*)manager;
 
 @end
 
 @implementation CordovaHttpPlugin {
-    AFSecurityPolicy *securityPolicy;
+    SM_AFSecurityPolicy *securityPolicy;
     NSURLCredential *x509Credential;
     NSMutableDictionary *reqDict;
 }
 
 - (void)pluginInitialize {
-    securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
     reqDict = [NSMutableDictionary dictionary];
 }
 
@@ -40,19 +40,19 @@
     [reqDict removeObjectForKey:reqId];
 }
 
-- (void)setRequestSerializer:(NSString*)serializerName forManager:(AFHTTPSessionManager*)manager {
+- (void)setRequestSerializer:(NSString*)serializerName forManager:(SM_AFHTTPSessionManager*)manager {
     if ([serializerName isEqualToString:@"json"]) {
-        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        manager.requestSerializer = [SM_AFJSONRequestSerializer serializer];
     } else if ([serializerName isEqualToString:@"utf8"]) {
         manager.requestSerializer = [TextRequestSerializer serializer];
     } else if ([serializerName isEqualToString:@"raw"]) {
         manager.requestSerializer = [BinaryRequestSerializer serializer];
     } else {
-        manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        manager.requestSerializer = [SM_AFHTTPRequestSerializer serializer];
     }
 }
 
-- (void)setupAuthChallengeBlock:(AFHTTPSessionManager*)manager {
+- (void)setupAuthChallengeBlock:(SM_AFHTTPSessionManager*)manager {
     [manager setSessionDidReceiveAuthenticationChallengeBlock:^NSURLSessionAuthChallengeDisposition(
         NSURLSession * _Nonnull session,
         NSURLAuthenticationChallenge * _Nonnull challenge,
@@ -79,13 +79,13 @@
     }];
 }
 
-- (void)setRequestHeaders:(NSDictionary*)headers forManager:(AFHTTPSessionManager*)manager {
+- (void)setRequestHeaders:(NSDictionary*)headers forManager:(SM_AFHTTPSessionManager*)manager {
     [headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [manager.requestSerializer setValue:obj forHTTPHeaderField:key];
     }];
 }
 
-- (void)setRedirect:(bool)followRedirect forManager:(AFHTTPSessionManager*)manager {
+- (void)setRedirect:(bool)followRedirect forManager:(SM_AFHTTPSessionManager*)manager {
     [manager setTaskWillPerformHTTPRedirectionBlock:^NSURLRequest * _Nonnull(NSURLSession * _Nonnull session,
         NSURLSessionTask * _Nonnull task, NSURLResponse * _Nonnull response, NSURLRequest * _Nonnull request) {
 
@@ -97,11 +97,11 @@
     }];
 }
 
-- (void)setTimeout:(NSTimeInterval)timeout forManager:(AFHTTPSessionManager*)manager {
+- (void)setTimeout:(NSTimeInterval)timeout forManager:(SM_AFHTTPSessionManager*)manager {
     [manager.requestSerializer setTimeoutInterval:timeout];
 }
 
-- (void)setResponseSerializer:(NSString*)responseType forManager:(AFHTTPSessionManager*)manager {
+- (void)setResponseSerializer:(NSString*)responseType forManager:(SM_AFHTTPSessionManager*)manager {
     if ([responseType isEqualToString: @"text"] || [responseType isEqualToString: @"json"]) {
         manager.responseSerializer = [TextResponseSerializer serializer];
     } else {
@@ -133,8 +133,8 @@
         [dictionary setObject:[self copyHeaderFields:response.allHeaderFields] forKey:@"headers"];
         if(!aborted){
             [dictionary setObject:[NSNumber numberWithInt:(int)response.statusCode] forKey:@"status"];
-            if (error.userInfo[AFNetworkingOperationFailingURLResponseBodyErrorKey]) {
-                [dictionary setObject:error.userInfo[AFNetworkingOperationFailingURLResponseBodyErrorKey] forKey:@"error"];
+            if (error.userInfo[SM_AFNetworkingOperationFailingURLResponseBodyErrorKey]) {
+                [dictionary setObject:error.userInfo[SM_AFNetworkingOperationFailingURLResponseBodyErrorKey] forKey:@"error"];
             }
         }
     } else if(!aborted) {
@@ -193,19 +193,20 @@
 }
 
 - (void)executeRequestWithoutData:(CDVInvokedUrlCommand*)command withMethod:(NSString*) method {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    SM_AFHTTPSessionManager *manager = [SM_AFHTTPSessionManager manager];
 
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *headers = [command.arguments objectAtIndex:1];
-    NSTimeInterval timeoutInSeconds = [[command.arguments objectAtIndex:2] doubleValue];
-    bool followRedirect = [[command.arguments objectAtIndex:3] boolValue];
-    NSString *responseType = [command.arguments objectAtIndex:4];
-    NSNumber *reqId = [command.arguments objectAtIndex:5];
+    NSTimeInterval connectTimeout = [[command.arguments objectAtIndex:2] doubleValue];
+    NSTimeInterval readTimeout = [[command.arguments objectAtIndex:3] doubleValue];
+    bool followRedirect = [[command.arguments objectAtIndex:4] boolValue];
+    NSString *responseType = [command.arguments objectAtIndex:5];
+    NSNumber *reqId = [command.arguments objectAtIndex:6];
 
     [self setRequestSerializer: @"default" forManager: manager];
     [self setupAuthChallengeBlock: manager];
     [self setRequestHeaders: headers forManager: manager];
-    [self setTimeout:timeoutInSeconds forManager:manager];
+    [self setTimeout:readTimeout forManager:manager];
     [self setRedirect:followRedirect forManager:manager];
     [self setResponseSerializer:responseType forManager:manager];
 
@@ -228,6 +229,7 @@
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             [[SDNetworkActivityIndicator sharedActivityIndicator] stopActivity];
+            [manager invalidateSessionCancelingTasks:YES];
         };
 
         void (^onFailure)(NSURLSessionTask *, NSError *) = ^(NSURLSessionTask *task, NSError *error) {
@@ -239,6 +241,7 @@
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             [[SDNetworkActivityIndicator sharedActivityIndicator] stopActivity];
+            [manager invalidateSessionCancelingTasks:YES];
         };
 
         NSURLSessionDataTask *task = [manager downloadTaskWithHTTPMethod:method URLString:url parameters:nil progress:nil success:onSuccess failure:onFailure];
@@ -251,21 +254,22 @@
 }
 
 - (void)executeRequestWithData:(CDVInvokedUrlCommand*)command withMethod:(NSString*)method {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    SM_AFHTTPSessionManager *manager = [SM_AFHTTPSessionManager manager];
 
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *data = [command.arguments objectAtIndex:1];
     NSString *serializerName = [command.arguments objectAtIndex:2];
     NSDictionary *headers = [command.arguments objectAtIndex:3];
-    NSTimeInterval timeoutInSeconds = [[command.arguments objectAtIndex:4] doubleValue];
-    bool followRedirect = [[command.arguments objectAtIndex:5] boolValue];
-    NSString *responseType = [command.arguments objectAtIndex:6];
-    NSNumber *reqId = [command.arguments objectAtIndex:7];
+    NSTimeInterval connectTimeout = [[command.arguments objectAtIndex:4] doubleValue];
+    NSTimeInterval readTimeout = [[command.arguments objectAtIndex:5] doubleValue];
+    bool followRedirect = [[command.arguments objectAtIndex:6] boolValue];
+    NSString *responseType = [command.arguments objectAtIndex:7];
+    NSNumber *reqId = [command.arguments objectAtIndex:8];
 
     [self setRequestSerializer: serializerName forManager: manager];
     [self setupAuthChallengeBlock: manager];
     [self setRequestHeaders: headers forManager: manager];
-    [self setTimeout:timeoutInSeconds forManager:manager];
+    [self setTimeout:readTimeout forManager:manager];
     [self setRedirect:followRedirect forManager:manager];
     [self setResponseSerializer:responseType forManager:manager];
 
@@ -316,6 +320,7 @@
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             [[SDNetworkActivityIndicator sharedActivityIndicator] stopActivity];
+            [manager invalidateSessionCancelingTasks:YES];
         };
 
         void (^onFailure)(NSURLSessionTask *, NSError *) = ^(NSURLSessionTask *task, NSError *error) {
@@ -327,6 +332,7 @@
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             [[SDNetworkActivityIndicator sharedActivityIndicator] stopActivity];
+            [manager invalidateSessionCancelingTasks:YES];
         };
 
         NSURLSessionDataTask *task;
@@ -347,15 +353,15 @@
     NSString *certMode = [command.arguments objectAtIndex:0];
 
     if ([certMode isEqualToString: @"default"] || [certMode isEqualToString: @"legacy"]) {
-        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         securityPolicy.allowInvalidCertificates = NO;
         securityPolicy.validatesDomainName = YES;
     } else if ([certMode isEqualToString: @"nocheck"]) {
-        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         securityPolicy.allowInvalidCertificates = YES;
         securityPolicy.validatesDomainName = NO;
     } else if ([certMode isEqualToString: @"pinned"]) {
-        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
         securityPolicy.allowInvalidCertificates = NO;
         securityPolicy.validatesDomainName = YES;
     }
@@ -398,8 +404,18 @@
         } else {
             CFDictionaryRef identityDict = CFArrayGetValueAtIndex(items, 0);
             SecIdentityRef identity = (SecIdentityRef)CFDictionaryGetValue(identityDict, kSecImportItemIdentity);
+            SecTrustRef trust = (SecTrustRef)CFDictionaryGetValue(identityDict, kSecImportItemTrust);
 
-            self->x509Credential = [NSURLCredential credentialWithIdentity:identity certificates: nil persistence:NSURLCredentialPersistenceForSession];
+            int count = (int)SecTrustGetCertificateCount(trust);
+            NSMutableArray* trustCertificates = nil;
+            if (count > 1) {
+                trustCertificates = [NSMutableArray arrayWithCapacity:SecTrustGetCertificateCount(trust)];
+                for (int i=1;i<count; ++i) {
+                    [trustCertificates addObject:(id)SecTrustGetCertificateAtIndex(trust, i)];
+                }
+            }
+
+            self->x509Credential = [NSURLCredential credentialWithIdentity:identity certificates: trustCertificates persistence:NSURLCredentialPersistenceForSession];
             CFRelease(items);
 
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -438,20 +454,20 @@
 }
 
 - (void)uploadFiles:(CDVInvokedUrlCommand*)command {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    SM_AFHTTPSessionManager *manager = [SM_AFHTTPSessionManager manager];
 
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *headers = [command.arguments objectAtIndex:1];
     NSArray *filePaths = [command.arguments objectAtIndex: 2];
     NSArray *names = [command.arguments objectAtIndex: 3];
-    NSTimeInterval timeoutInSeconds = [[command.arguments objectAtIndex:4] doubleValue];
-    bool followRedirect = [[command.arguments objectAtIndex:5] boolValue];
-    NSString *responseType = [command.arguments objectAtIndex:6];
-    NSNumber *reqId = [command.arguments objectAtIndex:7];
+    NSTimeInterval connectTimeout = [[command.arguments objectAtIndex:4] doubleValue];
+    NSTimeInterval readTimeout = [[command.arguments objectAtIndex:5] doubleValue];
+    bool followRedirect = [[command.arguments objectAtIndex:6] boolValue];
+    NSString *responseType = [command.arguments objectAtIndex:7];
+    NSNumber *reqId = [command.arguments objectAtIndex:8];
 
     [self setRequestHeaders: headers forManager: manager];
-    [self setupAuthChallengeBlock: manager];
-    [self setTimeout:timeoutInSeconds forManager:manager];
+    [self setTimeout:readTimeout forManager:manager];
     [self setRedirect:followRedirect forManager:manager];
     [self setResponseSerializer:responseType forManager:manager];
 
@@ -506,19 +522,20 @@
 }
 
 - (void)downloadFile:(CDVInvokedUrlCommand*)command {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    SM_AFHTTPSessionManager *manager = [SM_AFHTTPSessionManager manager];
+    manager.responseSerializer = [SM_AFHTTPResponseSerializer serializer];
 
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *headers = [command.arguments objectAtIndex:1];
     NSString *filePath = [command.arguments objectAtIndex: 2];
-    NSTimeInterval timeoutInSeconds = [[command.arguments objectAtIndex:3] doubleValue];
-    bool followRedirect = [[command.arguments objectAtIndex:4] boolValue];
-    NSNumber *reqId = [command.arguments objectAtIndex:5];
+    NSTimeInterval connectTimeout = [[command.arguments objectAtIndex:3] doubleValue];
+    NSTimeInterval readTimeout = [[command.arguments objectAtIndex:4] doubleValue];
+    bool followRedirect = [[command.arguments objectAtIndex:5] boolValue];
+    NSNumber *reqId = [command.arguments objectAtIndex:6];
 
     [self setRequestHeaders: headers forManager: manager];
     [self setupAuthChallengeBlock: manager];
-    [self setTimeout:timeoutInSeconds forManager:manager];
+    [self setTimeout:readTimeout forManager:manager];
     [self setRedirect:followRedirect forManager:manager];
 
     if ([filePath hasPrefix:@"file://"]) {

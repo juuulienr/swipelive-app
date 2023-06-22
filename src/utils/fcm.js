@@ -3,13 +3,10 @@ var FirebasePlugin;
 // Init
 function onDeviceReady() {
   FirebasePlugin = window.FirebasePlugin;
-  console.log("deviceready");
 
   //Register handlers
   FirebasePlugin.onMessageReceived(function(message) {
-    console.log("onMessageReceived");
     console.log(message);
-
     // var route = message.data.route;
     // router.push({ name: route });
 
@@ -19,8 +16,7 @@ function onDeviceReady() {
 
   clearBadgeNumber();
   clearNotifications();
-
-  checkNotificationPermission(false); // Check permission then get token
+  checkNotificationPermission(false);
 
   if (window.cordova.platformId === "android") {
     initAndroid();
@@ -31,39 +27,23 @@ function onDeviceReady() {
 
 var initIos = function() {
   FirebasePlugin.onApnsTokenReceived(function(token) {
-    console.log("APNS token received: " + token)
+    console.log("APNS token received: " + token);
   }, function(error) {
     console.log("Failed to receive APNS token", error);
   });
 };
 
 var initAndroid = function() {
-  // Define custom  channel - all keys are except 'id' are optional.
   var customChannel = {
     id: "swipelive_app",
     name: "Swipe Live App"
   };
 
-  FirebasePlugin.createChannel(customChannel,
-    function() {
-      console.log("Created custom channel: "+customChannel.id);
-
-      FirebasePlugin.listChannels(
-        function(channels) {
-          if (typeof channels == "undefined") return;
-          for(var i=0;i<channels.length;i++) {
-            console.log("Channel id=" + channels[i].id + "; name=" + channels[i].name);
-          }
-        },
-        function(error) {
-          console.log('List channels error: ' + error);
-        }
-        );
-    },
-    function(error) {
-      console.log("Create channel error", error);
-    }
-    );
+  FirebasePlugin.createChannel(customChannel, function() {
+    console.log("Created custom channel: " + customChannel.id);
+  }, function(error) {
+    console.log("Create channel error", error);
+  });
 };
 
 // Notifications
@@ -95,8 +75,8 @@ var getToken = function() {
       window.cordova.plugin.http.setDataSerializer('json');
       window.cordova.plugin.http.post(baseUrl + "/user/api/push/add", { "pushToken": pushToken }, { Authorization: "Bearer " + token }, function(response) {
         console.log(response);
-      }, function(response) {
-        console.log(response);
+      }, function(error) {
+        console.log(error);
       });
     }
   }, function(error) {
