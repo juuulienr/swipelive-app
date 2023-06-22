@@ -79,14 +79,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-androidx-adapter": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-androidx-adapter"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-x-toast": {
     "source": {
       "type": "registry",
@@ -190,14 +182,6 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-taptic-engine"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-splashscreen": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-splashscreen@6.0.2"
     },
     "is_top_level": true,
     "variables": {}

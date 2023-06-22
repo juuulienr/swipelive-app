@@ -13,9 +13,6 @@
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-androidx-adapter": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-bambuser": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
@@ -57,9 +54,6 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-sign-in-with-apple": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-statusbar": {

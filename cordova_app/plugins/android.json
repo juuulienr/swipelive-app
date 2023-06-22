@@ -13,9 +13,6 @@
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-androidx-adapter": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-bambuser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },

@@ -16,7 +16,6 @@
       "cordova-plugin-networkinterface": {},
       "cordova-plugin-safariviewcontroller": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-androidx-adapter": {},
       "cordova-plugin-x-toast": {},
       "cordova-plugin-battery-status": {},
       "cordova-plugin-bambuser": {
@@ -36,7 +35,6 @@
         "ANDROIDX_CORE_VERSION": "1.6.+"
       },
       "cordova-plugin-taptic-engine": {},
-      "cordova-plugin-splashscreen": {},
       "cordova-plugin-enable-cleartext-traffic": {},
       "cordova-plugin-nativepagetransitions": {},
       "cordova-plugin-stripeui": {},
@@ -102,7 +100,6 @@
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-android-permissions": "^1.1.5",
-    "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-app-review": "^3.1.0",
     "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-bambuser": "^0.9.13",
@@ -120,7 +117,6 @@
     "cordova-plugin-networkinterface": "^2.0.0",
     "cordova-plugin-safariviewcontroller": "^2.0.0",
     "cordova-plugin-sign-in-with-apple": "^0.1.2",
-    "cordova-plugin-splashscreen": "^6.0.2",
     "cordova-plugin-statusbar": "github:breautek/cordova-plugin-statusbar#430e7df32c0937d46e3a596b37ecbd50a42cb9c3",
     "cordova-plugin-stripeui": "github:gecsbernat/cordova-plugin-stripeui",
     "cordova-plugin-taptic-engine": "^2.2.0",

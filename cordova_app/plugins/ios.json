@@ -13,9 +13,6 @@
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-androidx-adapter": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-bambuser": {
       "BAMBUSER_CAMERA_USAGE_DESCRIPTION": "Access camera to stream live",
       "BAMBUSER_MIC_USAGE_DESCRIPTION": "Access microphone to stream live",
@@ -59,9 +56,6 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-sign-in-with-apple": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-statusbar": {
