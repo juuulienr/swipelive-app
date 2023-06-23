@@ -823,7 +823,11 @@ export default {
 
           this.myPlayer.addEventListener('canplay', () => {
             this.loading[index].value = false;
-            navigator.splashscreen.hide();
+
+            if (navigator.splashscreen) {
+              navigator.splashscreen.hide();
+            }
+      
             if (window.cordova.platformId == "browser") {
               this.myPlayer.muted = true;
             }
@@ -1332,11 +1336,9 @@ export default {
     },
     pause() {
       console.log("User is out of feed");
-      navigator.splashscreen.show();
     },
     resume() {
       console.log("User is using the feed");
-      navigator.splashscreen.hide();
     },
     follow(id) {
       if (window.TapticEngine) {

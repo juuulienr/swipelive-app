@@ -409,7 +409,9 @@ export default {
       pane.present({animate: true})
     },
     onVideoLoaded() {
-      navigator.splashscreen.hide();
+      if (navigator.splashscreen) {
+        navigator.splashscreen.hide();
+      }
     },
     async login() {
       if (window.TapticEngine) {
