@@ -178,9 +178,6 @@ export default {
       this.$router.push({ name: 'AddEditProduct', params: { productId: product.id } });
     },
     goBack() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
       const options = {
         direction: 'right',
         duration: 300,

@@ -29,7 +29,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.name == "Home" || this.$route.name == "ListMessages" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
+    if (this.$route.name == "Home" || this.$route.name == "Search" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
       this.showNavbar = true;
     } else {
       this.showNavbar = false;
@@ -47,7 +47,7 @@ export default {
   },
   updated() {
     this.lineItems = this.$store.getters.getLineItems;
-    if (this.$route.name == "Home" || this.$route.name == "ListMessages" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
+    if (this.$route.name == "Home" || this.$route.name == "Search" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
       this.showNavbar = true;
     } else {
       this.showNavbar = false;

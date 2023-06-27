@@ -7,6 +7,7 @@ import VendorRegistration from '@/views/VendorRegistration'
 
 import Feed from '@/views/Feed'
 import Home from '@/views/Home'
+import Search from '@/views/Search'
 import About from '@/views/About'
 import SwipeWheel from '@/views/SwipeWheel'
 import Favoris from '@/views/Favoris'
@@ -54,6 +55,10 @@ export default new Router({
       path: '/home',
       name: 'Home',
       component: Home
+    }, {
+      path: '/search',
+      name: 'Search',
+      component: Search
     }, {
       path: '/cart/:fullscreen?',
       name: 'Cart',

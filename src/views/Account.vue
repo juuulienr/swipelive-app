@@ -87,6 +87,17 @@
       </div>
       <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
+          <div @click="listMessages()" style="width: 100%">
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/message.svg`)"/>
+            </span>
+            <span class="title">Messagerie</span>
+            <span style="float: right;">
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
+            </span>
+          </div>
+        </div>
+        <div class="account-band">
           <div @click="listOrders(false)" style="width: 100%">
             <span class="left-side">
               <img class="img1":src="require(`@/assets/img/purchases.svg`)"/>
@@ -159,6 +170,17 @@
 
 
       <div v-if="!user.vendor" class="account-box">
+        <div class="account-band">
+          <div @click="listMessages()" style="width: 100%">
+            <span class="left-side">
+              <img class="img1":src="require(`@/assets/img/message.svg`)"/>
+            </span>
+            <span class="title">Messagerie</span>
+            <span style="float: right;">
+              <img class="img2" :src="require(`@/assets/img/chevron-right.svg`)"/>
+            </span>
+          </div>
+        </div>
         <div class="account-band">
           <div @click="listOrders(false)" style="width: 100%">
             <span class="left-side">
@@ -315,6 +337,10 @@ export default {
     listFollowing() {
       this.addTapticAndSlide();
       this.$router.push({ name: 'ListFollowing' });
+    },
+    listMessages() {
+      this.addTapticAndSlide();
+      this.$router.push({ name: 'ListMessages' });
     },
     listPartners() {
       this.addTapticAndSlide();

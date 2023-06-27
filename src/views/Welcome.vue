@@ -479,6 +479,7 @@ export default {
             }, (response) => {
               this.loading = false;
               console.log(response.error);
+              window.plugins.toast.show(error, 'long', 'top');
             });
           }, (error) => {
             this.loading = false;
@@ -527,9 +528,11 @@ export default {
           }, (response) => {
             this.loading = false;
             console.log(response.error);
+            window.plugins.toast.show(response.error, 'long', 'top');
           });
         }, function(error) {
           console.error("Failed to authenticate with Google: " + error);
+          window.plugins.toast.show(error, 'long', 'top');
         });
       }
     },
@@ -563,10 +566,11 @@ export default {
         }, (response) => {
           this.loading = false;
           console.log(response.error);
+          window.plugins.toast.show(response.error, 'long', 'top');
         });
-      }, function(err){
-        console.error(err);
-        console.log(JSON.stringify(err));
+      }, function(error){
+        console.log(error);
+        window.plugins.toast.show(error, 'long', 'top');
       });
     },
     resetPassword() {

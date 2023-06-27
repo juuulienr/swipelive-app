@@ -23,16 +23,10 @@
       </div>
     </div>
 
-    <div class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="following.length && following.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
     	<h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Abonnements</h2>
     	<div class="list_persone" style="display:flex; padding: 0px; padding-left: 5px;">
-    		<div @click="addFollowing()" style="padding: 0px 5px;">
-  				<div class="personne">
-  					<img class="user" :src="require(`@/assets/img/add-follow.png`)">
-  					<h5 class="name" style="margin-top: 7px;">Rechercher</h5>
-  				</div>
-    		</div>
-        <div v-if="following.length && following.length > 0" v-for="(user, index) in following" style="padding: 0px 5px;">
+        <div v-for="(user, index) in following" style="padding: 0px 5px;">
           <div @click="goToProfile(user)">
             <div class="personne">
               <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
@@ -254,9 +248,6 @@ export default {
       this.popupSearch = true;
       this.$nextTick(() => this.$refs.search.focus());
     },
-    addFollowing() {
-      this.popupSearch = true;
-    },
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
@@ -356,6 +347,13 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      });
       this.$store.commit('setProfile', user);
       this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
