@@ -109,54 +109,6 @@
 
 
 
-    <!-- search -->
-    <div v-if="popupSearch" style="position: absolute; background: white; padding: 10px 15px 15px; width: 100%; z-index: 110; text-align: center; top: 0px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <svg @click="hideSearch()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 20px;height: 20px; fill: rgb(153, 153, 153);">
-          <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
-        </svg>
-        <div style="width: 100%; margin-right: 12px; margin-left: 12px;">
-          <div class="chat--left--head--input">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
-              <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
-            </svg>
-            <input @click="search()" ref="search" v-on:keyup="changed" v-model="searchValue" type="text" placeholder="Rechercher"/>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-if="popupSearch" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: calc(100vh - 60px); animation: none">
-    	<div class="list_persone" style="margin-top: 15px; padding: 0px 10px;">
-    		<div class="suggested">
-    			<div v-if="results.length" style="display: grid; grid-template-columns: repeat(3,1fr)!important; gap: 25px 15px;">
-            <div v-for="(result, index) in results">
-              <div class="personne">
-                <div @click="goToProfile(result)">
-                  <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto; background: #eeeeee;"/>
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto; background: #eeeeee;"/>
-                  <h5 class="name">{{ result.vendor.businessName }}
-                    <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
-                  </h5>
-                  <p v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
-                  <p v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
-                </div>
-                <div v-if="searchFollowing.length && !searchFollowing[index].value" @click="follow(result.id, index)" style="position: absolute; right: 8px; top: 50px; width: 30px; height: 30px; ">
-                  <img :src="require(`@/assets/img/plus-circle.svg`)" style="border: 1px solid white; background: white; border-radius: 100px;"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-else-if="loadingSearch">
-            <div class="loader2">
-              <span></span>
-            </div>
-          </div>
-          <div v-else style="margin: 50px 0px;">
-            Aucun résultat
-          </div>
-    		</div>
-    	</div>
-    </div>
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
@@ -200,12 +152,9 @@ export default {
       following: this.$store.getters.getFollowing,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
-      popupSearch: false,
       popupProduct: false,
-      searchValue: "",
       product: null,
       variant: null,
-      loadingSearch: false
     }
   },
   created() {
@@ -218,12 +167,12 @@ export default {
         console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
-        this.changed();
+        this.loadFollowing();
       }, (error) => {
         console.log(error);
       }); 
     } else {
-      this.changed();
+      this.loadFollowing();
     }
 
     if (this.$store.getters.getClipsTrending.length == 0) {
@@ -237,16 +186,10 @@ export default {
     if (this.$store.getters.getClipsLatest.length == 0) {
       this.loadClipsLatest();
     }
-
-    this.loadFollowing();
   },
   methods: {
     goAccount() {
       this.$router.push({ name: 'Account' });
-    },
-    search() {
-      this.popupSearch = true;
-      this.$nextTick(() => this.$refs.search.focus());
     },
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
@@ -280,65 +223,6 @@ export default {
         console.log(JSON.parse(response.data));
         this.following = JSON.parse(response.data);
         this.$store.commit('setFollowing', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    hideSearch() {
-      this.popupSearch = false;
-      this.searchValue = "";
-    }, 
-    changed() {
-      if (this.searchValue.length > 0) {
-        this.loadingSearch = true;
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.results = JSON.parse(response.data);
-          this.updateSearchFollowing();
-          this.loadingSearch = false;
-        }, (response) => {
-          console.log(response.error);
-        });
-      } else {
-        this.loadingSearch = true;
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.results = JSON.parse(response.data);
-          this.updateSearchFollowing();
-          this.loadingSearch = false;
-        }, (response) => {
-          console.log(response.error);
-        });
-      }
-    },
-    updateSearchFollowing() {
-      this.searchFollowing = [];
-      this.results.map((result, index) => {
-        var isFollower = false;
-
-        if (result.followers.length && this.user.following.length) {
-          result.followers.map((follower, index) => {
-            this.user.following.map((following, index) => {
-              if (follower.id == following.id) {
-                isFollower = true;
-              }
-            });
-          });
-        }
-        
-        this.searchFollowing.push({ "value": isFollower });
-      });
-    },
-    follow(id, index) {
-      if (this.searchFollowing[index].value) {
-        this.searchFollowing[index].value = false;
-      } else {
-        this.searchFollowing[index].value = true;
-      }
-
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.changed();
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
-        this.loadFollowing();
       }, (response) => {
         console.log(response.error);
       });

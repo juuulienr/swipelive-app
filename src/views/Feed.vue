@@ -699,12 +699,32 @@ export default {
     }
   },
   mounted() {
-    document.addEventListener("pause", this.pause);
-    document.addEventListener("resume", this.resume);
+  //   let startY;  // Position de départ du toucher
+
+  // // Quand le toucher commence
+  // document.addEventListener('touchstart', function(e) {
+  //   console.log('event + 1');
+  //   e.preventDefault();
+  //   startY = e.touches[0].clientY;
+  // }, { passive: false });
+
+  // // Quand le toucher se déplace
+  // document.addEventListener('touchmove', function(e) {
+  //   console.log('event + 2');
+  //   e.preventDefault();
+  // }, { passive: false });
+
+  // // Quand le toucher se termine
+  // document.addEventListener('touchend', function(e) {
+  //   console.log(e);
+  //   e.preventDefault();
+  //   let deltaY = e.changedTouches[0].clientY - startY;
+  //   document.getElementById("feed").scroll(0, -deltaY * 1.5);  // Changez le 1.5 pour ajuster la vitesse de défilement
+  // }, { passive: false });
   },
   beforeDestroy() {
-    document.removeEventListener('pause', this.pause);
-    document.removeEventListener('resume', this.resume);
+    // document.removeEventListener('pause', this.pause);
+    // document.removeEventListener('resume', this.resume);
   },
   computed: {
     updateCart() {
@@ -1333,12 +1353,6 @@ export default {
           }, 1000);
         }
       });
-    },
-    pause() {
-      console.log("User is out of feed");
-    },
-    resume() {
-      console.log("User is using the feed");
     },
     follow(id) {
       if (window.TapticEngine) {
