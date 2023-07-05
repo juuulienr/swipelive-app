@@ -1077,12 +1077,19 @@ export default {
       user.vendor = profile;
       delete user.vendor.clips;
 
+      window.StatusBar.overlaysWebView(false);  
+      window.StatusBar.styleDefault();
+      window.StatusBar.backgroundColorByHexString("#ffffff");
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      });
+
       this.$store.commit('setProfile', user);
       this.$router.push({ name: 'Profile', params: { id: user.id } });
-    },
-    async goToAccount() {
-      await this.stopLive();
-      this.$router.push({ name: 'Account' });
     },
     openPopup() {
       this.popup = true;
@@ -1257,11 +1264,34 @@ export default {
           }
         });
       } else {
+        window.StatusBar.overlaysWebView(false);  
+        window.StatusBar.styleDefault();
+        window.StatusBar.backgroundColorByHexString("#ffffff");
+        window.plugins.nativepagetransitions.slide({
+          direction: 'left',
+          duration: 300,
+          iosdelay: 0,
+          androiddelay: 0,
+          winphonedelay: 0,
+        });
+
         this.$router.push({ name: 'Account' });
       }
     },
     async goHome() {
       await this.stopLive();
+      
+      window.StatusBar.overlaysWebView(false);  
+      window.StatusBar.styleDefault();
+      window.StatusBar.backgroundColorByHexString("#ffffff");
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 300,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+      });
+
       this.$router.push({ name: 'Home' });
     },
     stopLive() {
