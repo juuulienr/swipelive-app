@@ -617,7 +617,7 @@ export default {
     }
   },
   created() {
-    window.StatusBar.styleDefault();
+    window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
 
     if (!this.token) {
@@ -699,8 +699,10 @@ export default {
     }
   },
   mounted() {
-    window.StatusBar.styleLightContent();
-    window.StatusBar.overlaysWebView(true);
+    window.addEventListener('keyboardHeightWillChange', this.keyboardHeightWillChangeHandler);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keyboardHeightWillChange', this.keyboardHeightWillChangeHandler);
   },
   computed: {
     updateCart() {
@@ -736,6 +738,14 @@ export default {
     }
   },
   methods: {
+    keyboardHeightWillChangeHandler(event) {
+      console.log("feed height");
+      console.log(event.keyboardHeight);
+      var height = event.keyboardHeight.toString() + "px";
+      setTimeout(() => {
+        this.writeInput = height.toString();
+      }, 200);
+    },
     handleAnimation(anim) {
       this.anim = anim;
     },
@@ -1068,9 +1078,15 @@ export default {
       this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: false } });
     },
     openPopup() {
+      window.Keyboard.hideFormAccessoryBar(true);
+      window.Keyboard.shrinkView(false);
+      window.Keyboard.show();
       this.popup = true;
     },
     away(event) {
+      window.Keyboard.hideFormAccessoryBar(false);
+      window.Keyboard.shrinkView(true);
+      window.Keyboard.hide();
       if (event.target.id == "btnSend" || event.target.id == "imgSend") {
         if (this.content && this.content.length > 0) {
           this.send();

@@ -75,6 +75,31 @@ document.addEventListener("offline", () => {
 // });
 
 
+// window.addEventListener('keyboardDidShow', function () {
+//     // Describe your logic which will be run each time keyboard is shown.
+//   window.StatusBar.hide();
+//   window.StatusBar.show();
+// });
+
+// window.addEventListener('keyboardDidHide', function () {
+//     // Describe your logic which will be run each time keyboard is closed.
+//   window.StatusBar.hide();
+//   window.StatusBar.show();
+// });
+
+// window.addEventListener('keyboardWillShow', function () {
+//     // Describe your logic which will be run each time when keyboard is about to be shown.
+//   window.StatusBar.hide();
+//   window.StatusBar.show();
+// });
+
+// window.addEventListener('keyboardWillHide', function () {
+//     // Describe your logic which will be run each time when keyboard is about to be closed.
+//   window.StatusBar.hide();
+//   window.StatusBar.show();
+// });
+
+
 // battery
 window.addEventListener("batterycritical", (event) => {
   window.plugins.toast.show("Niveau de batterie critique : " + event.level + "%", 'long', 'top');

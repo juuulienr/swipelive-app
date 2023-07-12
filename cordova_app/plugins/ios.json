@@ -115,6 +115,9 @@
       "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
       "IOS_FCM_ENABLED": "true",
       "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-keyboard": {
+      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {

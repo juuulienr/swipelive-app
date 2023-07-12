@@ -131,6 +131,9 @@
       "ANDROID_FIREBASE_PERF_GRADLE_PLUGIN_VERSION": "1.4.2",
       "ANDROID_GRPC_OKHTTP": "1.46.0",
       "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-keyboard": {
+      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {

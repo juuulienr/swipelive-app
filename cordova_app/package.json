@@ -83,7 +83,8 @@
         "ANDROID_GRPC_OKHTTP": "1.46.0",
         "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
         "IOS_FCM_ENABLED": "true"
-      }
+      },
+      "cordova-plugin-keyboard": {}
     },
     "platforms": [
       "browser",
@@ -111,6 +112,7 @@
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-firebasex": "^16.1.0",
     "cordova-plugin-inappbrowser": "^5.0.0",
+    "cordova-plugin-keyboard": "^1.2.0",
     "cordova-plugin-media": "^6.1.0",
     "cordova-plugin-nativepagetransitions": "^0.6.6",
     "cordova-plugin-network-information": "^3.0.0",
