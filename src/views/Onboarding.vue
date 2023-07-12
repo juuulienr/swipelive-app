@@ -108,6 +108,16 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 400,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+        slowdownfactor: 1,
+      });
+
       this.$router.push({ name: 'Feed' });
     }
   }  

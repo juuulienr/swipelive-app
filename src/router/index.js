@@ -68,7 +68,7 @@ export default new Router({
       name: 'Checkout',
       component: Checkout
     }, {
-      path: '/profile/:id',
+      path: '/profile/:id/:overlaysWebView?',
       name: 'Profile',
       component: Profile
     }, {

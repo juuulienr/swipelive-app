@@ -394,10 +394,11 @@ export default {
       }
       window.plugins.nativepagetransitions.slide({
         direction: 'left',
-        duration: 300,
+        duration: 400,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
+        slowdownfactor: 1,
       });
     },
     openUrl(url) {

@@ -18,12 +18,11 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
   Vue.use(Bugsnag.getPlugin('vue'));
 
   window.localStorage.setItem("baseUrl", "https://swipelive.fr");
-  window.localStorage.setItem("stripe_pk", "pk_test_aIJETJxn5e12xD24xXy0ovEg");
-  // window.localStorage.setItem("stripe_pk", "pk_live_KGjyLVjmMB3WnzLBitoNtsKC");
+  window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 } else {
   Vue.config.productionTip = false;
   window.localStorage.setItem("baseUrl", "http://127.0.0.1:8000");
-  window.localStorage.setItem("stripe_pk", "pk_test_aIJETJxn5e12xD24xXy0ovEg");
+  window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 }
 
 Vue.use(VueObserveVisibility);

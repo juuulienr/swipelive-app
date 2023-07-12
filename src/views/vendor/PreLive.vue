@@ -230,6 +230,16 @@ export default {
         var httpParams = { "views": 0, "status": 0, "liveProducts": liveProducts };
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/prelive", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
           this.live = JSON.parse(response.data);
+
+          window.plugins.nativepagetransitions.slide({
+            direction: 'left',
+            duration: 400,
+            iosdelay: 0,
+            androiddelay: 0,
+            winphonedelay: 0,
+            slowdownfactor: 1,
+          });
+
           this.$router.push({ name: 'Live', params: { id: this.live.id } });
         }, (response) => {
           console.log(response.error);
@@ -295,14 +305,14 @@ export default {
     },
     goBack() {
       if (this.step1 || this.rules) {
-        const options = {
+        window.plugins.nativepagetransitions.slide({
           direction: 'right',
-          duration: 300,
+          duration: 400,
           iosdelay: 0,
           androiddelay: 0,
           winphonedelay: 0,
-        };
-        window.plugins.nativepagetransitions.slide(options);
+          slowdownfactor: 1,
+        });
         this.$router.push({ name: 'Account' });
       } else {
         this.step2 = false;

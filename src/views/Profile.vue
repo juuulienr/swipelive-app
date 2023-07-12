@@ -1,11 +1,11 @@
 <template>
   <main class="my_profile1" style="padding: 0px;">
     <div class="checkout__header" style="padding: 5px 15px 15px 12px;">
-      <div @click="goBack()" class="checkout__close-btn" style="top: 47px;">
+      <div @click="goBack()" class="checkout__close-btn" style="top: 7px;">
         <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
       </div>
       <div class="checkout__title"></div>
-      <div @click="actionSheet()" class="checkout__right-btn" style="top: 45px;">
+      <div @click="actionSheet()" class="checkout__right-btn" style="top: 5px;">
         <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
       </div>
       <div v-if="profile && profile.vendor" @click="goToMessage(profile)" style="width: 28px; height: 28px; position: absolute; top: 160px; right: 15px;">
@@ -147,6 +147,7 @@ export default {
       lineItems: this.$store.getters.getLineItems,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      overlaysWebView: this.$route.params.overlaysWebView,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
@@ -171,9 +172,10 @@ export default {
     }
   },
   created() {
+    window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
-    window.StatusBar.overlaysWebView(true);
-    
+    window.StatusBar.backgroundColorByHexString("#ffffff");
+
     this.getFollowers();
     
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
@@ -267,6 +269,15 @@ export default {
       });
     },
     goBack() {
+      window.plugins.nativepagetransitions.slide({
+        direction: 'right',
+        duration: 400,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+        slowdownfactor: 1,
+      });
+
       this.$router.back();
     },
     goToMessage(user) {
@@ -276,21 +287,26 @@ export default {
       this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
     },
     goToFeed(index) {
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 400,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+        slowdownfactor: 1,
+      });
+
       this.$router.push({ name: 'Feed', params: { type: 'profile', index: index, profileId: this.profile.id } });
     },
     showProduct(product) {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      window.StatusBar.overlaysWebView(false);  
-      window.StatusBar.styleDefault();
-      window.StatusBar.backgroundColorByHexString("#ffffff");
+
       this.product = product;
       this.popupProduct = true;
     },
     hideProduct() {
-      window.StatusBar.styleDefault();
-      window.StatusBar.overlaysWebView(true);
       this.popupProduct = false;
       this.product = null;
     },

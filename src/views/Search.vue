@@ -162,13 +162,14 @@ export default {
       }
       window.plugins.nativepagetransitions.slide({
         direction: 'left',
-        duration: 300,
+        duration: 400,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
+        slowdownfactor: 1,
       });
       this.$store.commit('setProfile', user);
-      this.$router.push({ name: 'Profile', params: { id: user.id } });
+      this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: true } });
     },
   }
 };

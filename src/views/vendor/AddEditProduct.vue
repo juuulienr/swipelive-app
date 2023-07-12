@@ -788,14 +788,14 @@ export default {
       this.valuesOption2.splice(index, 1);
     },
     goBack() {
-      const options = {
+      window.plugins.nativepagetransitions.slide({
         direction: 'right',
-        duration: 300,
+        duration: 400,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
-      };
-      window.plugins.nativepagetransitions.slide(options);
+        slowdownfactor: 1,
+      });
       this.$router.push({ name: 'Shop' });
     },
     generate() {

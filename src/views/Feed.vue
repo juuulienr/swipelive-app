@@ -617,7 +617,7 @@ export default {
     }
   },
   created() {
-    window.StatusBar.styleLightContent();
+    window.StatusBar.styleDefault();
     window.StatusBar.overlaysWebView(true);
 
     if (!this.token) {
@@ -699,32 +699,8 @@ export default {
     }
   },
   mounted() {
-  //   let startY;  // Position de départ du toucher
-
-  // // Quand le toucher commence
-  // document.addEventListener('touchstart', function(e) {
-  //   console.log('event + 1');
-  //   e.preventDefault();
-  //   startY = e.touches[0].clientY;
-  // }, { passive: false });
-
-  // // Quand le toucher se déplace
-  // document.addEventListener('touchmove', function(e) {
-  //   console.log('event + 2');
-  //   e.preventDefault();
-  // }, { passive: false });
-
-  // // Quand le toucher se termine
-  // document.addEventListener('touchend', function(e) {
-  //   console.log(e);
-  //   e.preventDefault();
-  //   let deltaY = e.changedTouches[0].clientY - startY;
-  //   document.getElementById("feed").scroll(0, -deltaY * 1.5);  // Changez le 1.5 pour ajuster la vitesse de défilement
-  // }, { passive: false });
-  },
-  beforeDestroy() {
-    // document.removeEventListener('pause', this.pause);
-    // document.removeEventListener('resume', this.resume);
+    window.StatusBar.styleLightContent();
+    window.StatusBar.overlaysWebView(true);
   },
   computed: {
     updateCart() {
@@ -1082,14 +1058,14 @@ export default {
       window.StatusBar.backgroundColorByHexString("#ffffff");
       window.plugins.nativepagetransitions.slide({
         direction: 'left',
-        duration: 300,
+        duration: 400,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
+        slowdownfactor: 1,
       });
-
       this.$store.commit('setProfile', user);
-      this.$router.push({ name: 'Profile', params: { id: user.id } });
+      this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: false } });
     },
     openPopup() {
       this.popup = true;
@@ -1269,10 +1245,11 @@ export default {
         window.StatusBar.backgroundColorByHexString("#ffffff");
         window.plugins.nativepagetransitions.slide({
           direction: 'left',
-          duration: 300,
+          duration: 400,
           iosdelay: 0,
           androiddelay: 0,
           winphonedelay: 0,
+          slowdownfactor: 1,
         });
 
         this.$router.push({ name: 'Account' });
@@ -1286,10 +1263,11 @@ export default {
       window.StatusBar.backgroundColorByHexString("#ffffff");
       window.plugins.nativepagetransitions.slide({
         direction: 'left',
-        duration: 300,
+        duration: 400,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
+        slowdownfactor: 1,
       });
 
       this.$router.push({ name: 'Home' });

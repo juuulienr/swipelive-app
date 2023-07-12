@@ -1433,7 +1433,7 @@ export default {
             this.password = Math.random().toString(36).slice(-15);
 
             window.cordova.plugin.http.setDataSerializer('json');
-            var httpParams = { "email": this.email, "password": this.password, "firstname": result.first_name, "lastname": result.last_name, "picture": result.picture.data.url, "facebookId": response.authResponse.userID };
+            var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": result.first_name, "lastname": result.last_name, "picture": result.picture.data.url, "facebookId": response.authResponse.userID, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
             var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
             await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/facebook", httpParams, httpHeader, (response) => {
@@ -1482,7 +1482,8 @@ export default {
 
           window.cordova.plugin.http.setDataSerializer('json');
           var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-          var httpParams = { "email": this.email, "password": this.password, "firstname": result.given_name, "lastname": result.family_name, "picture": result.picture, "googleId": result.sub };
+          var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": result.given_name, "lastname": result.family_name, "picture": result.picture, "googleId": result.sub, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
+
 
           await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/google", httpParams, httpHeader, (response) => {
             console.log(response);
@@ -1520,7 +1521,7 @@ export default {
 
         window.cordova.plugin.http.setDataSerializer('json');
         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-        var httpParams = { "email": this.email, "password": this.password, "firstname": fullName.givenName ? fullName.givenName : null, "lastname": fullName.familyName ? fullName.familyName : null, "appleId": appleId };
+        var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": fullName.givenName ? fullName.givenName : null, "lastname": fullName.familyName ? fullName.familyName : null, "appleId": appleId, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/apple", httpParams, httpHeader, (response) => {
           console.log(response);

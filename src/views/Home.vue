@@ -42,20 +42,18 @@
     <div v-if="clipsTrending && clipsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
-        <div v-for="(clip, index) in clipsTrending" style="padding: 0px 5px;">
-          <router-link :to="{ name: 'Feed', params: { type: 'trending', index: index }}">
-            <div class="personne">
-              <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
-                <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
-                  <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
-                  {{ clip.vendor.businessName }}
-                </div>
+        <div v-for="(clip, index) in clipsTrending" @click="showTrendingClip(index)" style="padding: 0px 5px;">
+          <div class="personne">
+            <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
+              <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
+                <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
+                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
+                {{ clip.vendor.businessName }}
               </div>
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
             </div>
-          </router-link>
+            <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;">
+            <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -89,20 +87,18 @@
     <div v-if="clipsLatest && clipsLatest.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Nouveautés ⭐️</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
-        <div v-for="(clip, index) in clipsLatest" style="padding: 0px 5px;">
-          <router-link :to="{ name: 'Feed', params: { type: 'latest', index: index }}">
-            <div class="personne">
-              <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
-                <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
-                  <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
-                  {{ clip.vendor.businessName }}
-                </div>
+        <div v-for="(clip, index) in clipsLatest" @click="showLatestClip(index)" style="padding: 0px 5px;">
+          <div class="personne">
+            <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
+              <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
+                <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
+                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
+                {{ clip.vendor.businessName }}
               </div>
-              <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;">
-              <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
             </div>
-          </router-link>
+            <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;">
+            <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -188,9 +184,6 @@ export default {
     }
   },
   methods: {
-    goAccount() {
-      this.$router.push({ name: 'Account' });
-    },
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
@@ -233,13 +226,14 @@ export default {
       }
       window.plugins.nativepagetransitions.slide({
         direction: 'left',
-        duration: 300,
+        duration: 400,
         iosdelay: 0,
         androiddelay: 0,
         winphonedelay: 0,
+        slowdownfactor: 1,
       });
       this.$store.commit('setProfile', user);
-      this.$router.push({ name: 'Profile', params: { id: user.id } });
+      this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: true } });
     },
     goToCategory(category) {
       if (window.TapticEngine) {
@@ -253,6 +247,37 @@ export default {
       }
       this.product = product;
       this.popupProduct = true;
+    },
+    showLatestClip(index) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 400,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+        slowdownfactor: 1,
+      });
+
+      this.$router.push({ name: 'Feed', params: { type: 'latest', index: index } });
+    },
+    showTrendingClip(index) {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 400,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+        slowdownfactor: 1,
+      });
+
+      this.$router.push({ name: 'Feed', params: { type: 'trending', index: index } });
     },
     hideProduct() {
       this.popupProduct = false;

@@ -468,9 +468,7 @@ export default {
       user: this.$store.getters.getUser,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
-      stripe_pk: window.localStorage.getItem("stripe_pk"),
       token: window.localStorage.getItem("token"),
-      sendcloud_pk: "3826686f2dbc418380898cc254fc0d28",
       carriers: [],
       promotion: null,
       promotionAmount: null,
@@ -831,10 +829,11 @@ export default {
                   }
                   window.plugins.nativepagetransitions.slide({
                     direction: 'left',
-                    duration: 300,
+                    duration: 400,
                     iosdelay: 0,
                     androiddelay: 0,
                     winphonedelay: 0,
+                    slowdownfactor: 1,
                   });
 
                   this.$router.push({ name: 'Home' });
