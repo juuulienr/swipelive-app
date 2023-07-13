@@ -13,6 +13,19 @@
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-advanced-http": {
+      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-review": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-bambuser": {
       "BAMBUSER_CAMERA_USAGE_DESCRIPTION": "Access camera to stream live",
       "BAMBUSER_MIC_USAGE_DESCRIPTION": "Access microphone to stream live",
@@ -22,6 +35,9 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-device": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-dialogs": {
@@ -43,10 +59,29 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-firebasex": {
+      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+      "FIREBASE_FCM_AUTOINIT_ENABLED": "true",
+      "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
+      "IOS_FCM_ENABLED": "true",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-media": {
+      "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-nativepagetransitions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-network-information": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-networkinterface": {
@@ -58,28 +93,10 @@
     "cordova-plugin-sign-in-with-apple": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-stripeui": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-taptic-engine": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-x-toast": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-wheel-selector-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-support-android-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-app-review": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-app-version": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-x-socialsharing": {
@@ -87,33 +104,16 @@
       "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-network-information": {
+    "cordova-plugin-x-toast": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-device": {
+    "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-android-permissions": {
+    "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-advanced-http": {
-      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-media": {
-      "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-firebasex": {
-      "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
-      "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
-      "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
-      "FIREBASE_FCM_AUTOINIT_ENABLED": "true",
-      "IOS_USE_PRECOMPILED_FIRESTORE_POD": "false",
-      "IOS_FCM_ENABLED": "true",
+    "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-keyboard": {

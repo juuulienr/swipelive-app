@@ -57,9 +57,6 @@
     "cordova-plugin-sign-in-with-apple": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-stripeui": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -130,6 +127,9 @@
       "ANDROID_GSON_VERSION": "2.9.0",
       "ANDROID_FIREBASE_PERF_GRADLE_PLUGIN_VERSION": "1.4.2",
       "ANDROID_GRPC_OKHTTP": "1.46.0",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-keyboard": {

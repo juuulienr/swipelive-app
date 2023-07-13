@@ -105,7 +105,6 @@ export default {
       this.chatHeight = 'calc(100vh - 95px)';
       this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
     }
-    console.log("created");
     this.seenDiscussion();
   },
   mounted() {

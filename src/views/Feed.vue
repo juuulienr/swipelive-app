@@ -1080,7 +1080,6 @@ export default {
     openPopup() {
       window.Keyboard.hideFormAccessoryBar(true);
       window.Keyboard.shrinkView(false);
-      window.Keyboard.show();
       this.popup = true;
     },
     away(event) {

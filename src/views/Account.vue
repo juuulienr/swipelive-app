@@ -1,5 +1,5 @@
 <template>
-  <main class="my_profile1" style="padding: 0px 15px 15px;">
+  <main class="my_profile1" style="padding: 0px 15px">
     <div class="checkout__header">
       <div class="checkout__title">Mon compte</div>
     </div>

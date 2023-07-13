@@ -1,5 +1,5 @@
 <template>
-  <main class="products" style="padding: 0px 15px 15px;">
+  <main class="products" style="padding: 0px 15px">
     <div class="checkout__header">
       <div @click="goBack()" class="checkout__close-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">

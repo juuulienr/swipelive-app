@@ -146,14 +146,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-statusbar": {
-    "source": {
-      "type": "registry",
-      "id": "https://github.com/breautek/cordova-plugin-statusbar#430e7df32c0937d46e3a596b37ecbd50a42cb9c3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-wheel-selector-plugin": {
     "source": {
       "type": "registry",
@@ -319,10 +311,18 @@
     "is_top_level": true,
     "variables": {}
   },
+  "cordova-plugin-statusbar": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-statusbar@3.0.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
   "cordova-plugin-keyboard": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-keyboard"
+      "id": "https://github.com/juuulienr/cordova-plugin-keyboard.git"
     },
     "is_top_level": true,
     "variables": {}

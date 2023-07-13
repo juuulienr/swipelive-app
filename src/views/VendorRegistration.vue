@@ -1,5 +1,5 @@
 <template>
-  <main style="padding: 0px 15px 15px;">
+  <main style="padding: 0px 15px">
     <div v-if="!step3" class="checkout__header">
       <div @click="goBack()" class="checkout__close-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">

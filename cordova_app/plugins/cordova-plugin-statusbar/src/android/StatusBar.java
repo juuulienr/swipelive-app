@@ -39,8 +39,6 @@ import java.util.Arrays;
 public class StatusBar extends CordovaPlugin {
     private static final String TAG = "StatusBar";
 
-    private boolean _isVisible = true;
-
     /**
      * Sets the context of the Command. This can then be used to do things like
      * get file paths associated with the Activity.
@@ -53,31 +51,28 @@ public class StatusBar extends CordovaPlugin {
         LOG.v(TAG, "StatusBar: initialization");
         super.initialize(cordova, webView);
 
-        StatusBar statusbar = this;
-
         this.cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //https://github.com/apache/cordova-plugin-statusbar/issues/110
-                //This corrects keyboard behaviour when overlaysWebView is true
-                StatusBarViewHelper.assist(cordova.getActivity(), statusbar);
-                
                 // Clear flag FLAG_FORCE_NOT_FULLSCREEN which is set initially
                 // by the Cordova.
                 Window window = cordova.getActivity().getWindow();
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
+                // Read 'StatusBarOverlaysWebView' from config.xml, default is true.
+                setStatusBarTransparent(preferences.getBoolean("StatusBarOverlaysWebView", true));
+
                 // Read 'StatusBarBackgroundColor' from config.xml, default is #000000.
                 setStatusBarBackgroundColor(preferences.getString("StatusBarBackgroundColor", "#000000"));
 
                 // Read 'StatusBarStyle' from config.xml, default is 'lightcontent'.
-                setStatusBarStyle(preferences.getString("StatusBarStyle", "lightcontent"));
+                String styleSetting = preferences.getString("StatusBarStyle", "lightcontent");
+                if (styleSetting.equalsIgnoreCase("blacktranslucent") || styleSetting.equalsIgnoreCase("blackopaque")) {
+                    LOG.w(TAG, styleSetting +" is deprecated and will be removed in next major release, use lightcontent");
+                }
+                setStatusBarStyle(styleSetting);
             }
         });
-    }
-
-    public boolean isVisible() {
-        return _isVisible;
     }
 
     /**
@@ -117,8 +112,6 @@ public class StatusBar extends CordovaPlugin {
                     // CB-11197 We still need to update LayoutParams to force status bar
                     // to be hidden when entering e.g. text fields
                     window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-                    _isVisible = true;
                 }
             });
             return true;
@@ -141,8 +134,6 @@ public class StatusBar extends CordovaPlugin {
                     // CB-11197 We still need to update LayoutParams to force status bar
                     // to be hidden when entering e.g. text fields
                     window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-                    _isVisible = false;
                 }
             });
             return true;
