@@ -13,6 +13,21 @@
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-advanced-http": {
+      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
+      "ANDROIDX_WEBKIT_VERSION": "1.4.0",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-review": {
+      "ANDROID_PLAY_REVIEW_VERSION": "2.0.+",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-bambuser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -21,6 +36,9 @@
     },
     "cordova-plugin-camera": {
       "ANDROIDX_CORE_VERSION": "1.6.+",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-device": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-dialogs": {
@@ -42,65 +60,8 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-nativepagetransitions": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-networkinterface": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-safariviewcontroller": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-sign-in-with-apple": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-stripeui": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-taptic-engine": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-x-toast": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-wheel-selector-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-support-android-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-app-review": {
-      "ANDROID_PLAY_REVIEW_VERSION": "2.0.+",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-app-version": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-x-socialsharing": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-network-information": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-android-permissions": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-advanced-http": {
-      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
-      "ANDROIDX_WEBKIT_VERSION": "1.4.0",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-file": {
       "ANDROIDX_WEBKIT_VERSION": "1.4.0",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-media": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-firebasex": {
@@ -129,10 +90,49 @@
       "ANDROID_GRPC_OKHTTP": "1.46.0",
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-statusbar": {
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-keyboard": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-media": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-nativepagetransitions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-networkinterface": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-safariviewcontroller": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-sign-in-with-apple": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-stripeui": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-taptic-engine": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-x-toast": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },

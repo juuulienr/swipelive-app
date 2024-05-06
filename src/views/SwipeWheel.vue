@@ -71,9 +71,9 @@
 
 
     <!-- popup infos -->
-    <div v-if="popupInfos" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: 100%">  
+    <div class="pane">
       <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
-        <div @click="hideInfos()" class="checkout__close-btn">
+        <div @click="close()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
@@ -82,9 +82,6 @@
       </div>
       <div class="checkout__body info-wheel" style="overflow: scroll; padding: 15px 20px 50px;">
         <div class="container" style="text-align: center;">
-          <div style="margin: 0px auto 20px;">
-            <Lottie :options="defaultOptions" :width="200"/>
-          </div>
           <h4 style="margin-top: 0px; margin-bottom: 50px;">Et si acheter devient un jeu ?</h4>
         </div>
         
@@ -96,6 +93,14 @@
 
         <p>Tous les 500 commandes faites sur Swipe Live, la roulette tourne et rembourse une commande directement sur la carte bancaire utilisée lors de l'achat.</p>
         <p>- Les gagnants recevrons une notification directement sur l'application Swipe Live.</p>
+
+        <h4>Quelles commandes peuvent être tirées au sort ? 🛍</h4>
+
+        <p>Toutes les commandes effectués sur l'application Swipe Live sont éligibles. <br> Il n'y a aucune limite sur le nombre de fois qu'un utilisateur peut gagner. <br> Swipe Live se réserve toutefois le droit de procéder à toute vérification utile à l'application des règles du jeu, notamment afin de disqualifier les participants ayant procédé à une manoeuvre frauduleuse ou abusive.</p>
+
+        <h4>Limite de remboursement 💳</h4>
+
+        <p>Lorsqu'une commande est tirée au sort, alors son montant total est remboursé par Swipe Live dans la limite de 50€. <br> Ex: Si un utilisateur dépense par exemple 100€ et que sa commande est tiré au sort, il gagnera 50€.</p>
 
         <h4>Quelles commandes peuvent être tirées au sort ? 🛍</h4>
 
@@ -121,12 +126,17 @@
   font-size: 18px;
   margin-bottom: 15px;
 }
+
+.pane {
+  display: none;
+}
 </style>
 
 <script>
 
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/gift.json';
+import { CupertinoPane } from 'cupertino-pane';
 
 export default {
   name: 'SwipeWheel',
@@ -140,7 +150,6 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       winners: [],
-      popupInfos: false
     }
   },
   filters: {
@@ -159,10 +168,34 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.popupInfos = true;
+      let pane = new CupertinoPane('.pane', { 
+        initialBreak: 'top', 
+        breaks: {
+          middle: {
+            enabled: false
+          },
+          bottom: {
+            enabled: false
+          }
+        },
+        backdrop: true, 
+        fastSwipeClose: true, 
+        bottomClose: true, 
+        events: {       
+          onDragEnd: (data) => {
+            console.log(data);
+            // let windowHeight = window.innerHeight;
+            // // let panePosition = pane.getPosition();
+            // if (panePosition > windowHeight * 0.5) {
+            //   pane.destroy({animate: true});
+            // }
+          },
+        }
+      });
+      pane.present({animate: true});
     },
-    hideInfos() {
-      this.popupInfos = false;
+    close() {
+      pane.destroy({animate: true});
     },
     goBack() {
       if (window.TapticEngine) {

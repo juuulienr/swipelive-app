@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port=8200",
-    "build": "vue-cli-service build && cd cordova_app && cordova build",
-    "ios": "vue-cli-service build && cd cordova_app && cordova run ios",
-    "ios-device": "vue-cli-service build && cd cordova_app && cordova run ios --device",
-    "browser": "vue-cli-service build && cd cordova_app && cordova run browser --port=8200",
-    "android-build": "vue-cli-service build && cd cordova_app && cordova build android --release",
-    "android-device": "vue-cli-service build && cd cordova_app && cordova run android --device",
-    "android": "vue-cli-service build && cd cordova_app && cordova run android",
+    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port=8200",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova build",
+    "ios": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run ios",
+    "ios-device": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run ios --device",
+    "browser": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run browser --port=8200",
+    "android-build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova build android --release",
+    "android-device": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run android --device",
+    "android": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run android",
     "dev": "cd cordova_app && watch 'cordova run browser --port=8200' ../src"
   },
   "dependencies": {

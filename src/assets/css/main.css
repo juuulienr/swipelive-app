@@ -178,6 +178,10 @@ body.dark-mode {
   }
 }
 
+.cupertino-pane-wrapper .pane {
+  box-shadow: none !important; 
+}
+
 .action-sheet-container {
   z-index: 1000000001;
   position: absolute;
