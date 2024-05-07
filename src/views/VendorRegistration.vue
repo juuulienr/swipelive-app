@@ -57,10 +57,10 @@
         </div>
 
         <div style="margin-top: 20px; text-align: center; margin: 15px 15px 0px;">
-          <div style="font-size: 16px;color: rgb(255, 42, 128);font-size: 17px;">Pas d'abonnement, Pas de contrat...</div>
+          <div style="font-size: 16px;color: rgb(255, 42, 128);font-size: 17px;">Pas d'abonnement, Pas de contrat...</div><br>
           <div style="font-size: 15px;">Une petite commission de 8% sur chaque vente</div>
           <div style="font-weight: 400; text-align: left; font-size: 13px; color: #525c66;">
-            5% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> + 3% de frais bancaire classique.
+            5% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> 3% de frais bancaire classique.
           </div> 
         </div>
       </div>
