@@ -252,8 +252,8 @@
               </div>
             </div>
             <div v-if="feed.value.vendor.user.id != user.id" style="margin-top: 4px;">
-              <div v-if="following[index].value == false" @click="follow(feed.value.vendor.user.id)" class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">Suivre</div>
-              <div v-else class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px; background-image: linear-gradient(200deg, #ff7359 0%, #ff2a80 100%);">
+              <div v-if="following[index].value == false" @click="follow(feed.value.vendor.user.id)" class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">Suivre</div>
+              <div v-else class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">
                  <img :src="require(`@/assets/img/check-white.svg`)" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
               </div>
             </div>
@@ -1410,7 +1410,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
+      window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
     },
     selectVariantChild(variant) {
       console.log(variant);

@@ -377,7 +377,7 @@ svg {
   align-items: center;
   padding: 10px; 
   border-radius: 13px; 
-  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  border: 1px solid #ddd !important;
 }
 .top-author--item > img {
   display: flex;
@@ -1782,7 +1782,7 @@ svg {
   align-items: center;
   padding: 10px; 
   border-radius: 13px; 
-  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  border: 1px solid #ddd !important;
 }
 .top-author--item > img {
   display: flex;

@@ -322,7 +322,7 @@
 	    		</div>
 		    </div>
 		    <div v-if="tabList">
-          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="border-radius: 10px;margin: 15px 5px;border: none;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;">
+          <div v-if="points" v-for="(point, index) in points" class="card panel-item" style="border-radius: 10px;margin: 15px 5px; border: 1px solid #ddd!important;">
             <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
               <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
                 <img v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
@@ -550,7 +550,7 @@ export default {
       this.total = this.subTotal;
 
       if (this.lineItems[0].vendor) {
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.lineItems[0].product.id + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/active/" + this.lineItems[0].product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
           this.promotion = JSON.parse(response.data);
           console.log(this.promotion);
 

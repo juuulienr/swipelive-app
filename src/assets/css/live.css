@@ -55,7 +55,7 @@
   border-radius: 11px;
   transition: bottom .2s linear;
   z-index: 20;
-  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  border: 1px solid #ddd !important;
   width: calc(100vw - 40px);
   height: 120px;
 }
@@ -544,7 +544,7 @@
   align-items: center;
   padding: 10px; 
   border-radius: 13px; 
-  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  border: 1px solid #ddd !important;
 }
 .top-author--item > img {
   display: flex;
@@ -1257,7 +1257,7 @@ span.filter--choice > input:checked ~ .svg--point {
   text-align: center;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
+  border: 1px solid #ddd!important;
 }
 
 .performance-h4 {

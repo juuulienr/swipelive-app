@@ -227,7 +227,7 @@
           </div>
         </div>
 
-        <div class="css-13dslnb" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 5px; padding: 10px; border-radius: 15px; margin-bottom: 20px;">
+        <div class="css-13dslnb" style="border: 1px solid #ddd !important; margin: 5px; padding: 10px; border-radius: 15px; margin-bottom: 20px;">
           <div class="top-author--container">
             <div v-if="type == 'sale'" class="top-author--item" style="padding: 0px; box-shadow: none;">
               <img v-if="order.buyer.picture" :src="cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
@@ -389,7 +389,7 @@
 
 
     <!-- confirmation order popup -->
-    <div v-if="popupConfirmation" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 62%; width: 100vw; box-shadow: 0 0 5px rgb(0 0 0 / 20%); padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div v-if="popupConfirmation" class="store-products-item__login-popup store-products-item__login-popup--active" style="overflow-y: scroll; height: 100%; top: 62%; width: 100vw; border: 1px solid #ddd !important; padding: 0px 15px 15px; left: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px;">
       <div style="display: flex;">
         <div id="scroll-indicator" style="height: 5px;width: 60px;background: rgba(0,0,0,0.2);border-radius: 4.5px;margin: 15px auto;">
         </div>

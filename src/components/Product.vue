@@ -167,7 +167,7 @@ export default {
     this.loadOptions();
 
     if (this.product.id) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/" + this.product.id + "/active", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/active/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.promotion = JSON.parse(response.data);
       }, (response) => {
         console.log(response.error);

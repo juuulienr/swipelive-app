@@ -1526,7 +1526,7 @@ img.zoom {
 }
 
 .promo-popup .promo-container {
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
+  border: 1px solid #ddd!important;
   margin: 5px;
   padding: 8px 0px;
   margin-top: 10px;

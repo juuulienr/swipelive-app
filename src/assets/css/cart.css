@@ -289,7 +289,7 @@
 .checkout__row {
 	display: flex;
 	justify-content: space-between;
-  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  border: 1px solid #ddd !important;
   padding: 10px !important;
   margin: 15px 5px;
   border-radius: 10px;

@@ -20,8 +20,8 @@
               </div>
               <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
               <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
-                <img v-if="clip.product.uploads.length" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #eeeeee;">
-                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;box-shadow: 0 0 5px rgb(0 0 0 / 20%); border: 2px solid white; background: #eeeeee;">
+                <img v-if="clip.product.uploads.length" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;border: 1px solid #ddd !important; background: #eeeeee;">
+                <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;border: 1px solid #ddd !important; background: #eeeeee;">
               </div>
             </div>
             <div v-else style="border-radius: 10px; width: calc(50vw - 25px); margin: 0 auto;">
@@ -101,7 +101,7 @@ export default {
 
       window.plugins.actionsheet.show(options, (index) => {
         if (index == 1) {
-    			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.fr');
+    			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
         } else if (index == 2) {
           this.clips.splice(clipIndex, 1);
 			    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/" + id + "/delete", {}, { Authorization: "Bearer " + this.token }, (response) => {

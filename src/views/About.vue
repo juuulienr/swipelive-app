@@ -21,7 +21,7 @@
             </span>
           </li>
           <li>
-            <div @click="openUrl('https://swipelive.fr/mentions-legales')" style="width: 100%">
+            <div @click="openUrl('https://swipelive.app/mentions-legales')" style="width: 100%">
               <span style="line-height: 25px;font-weight: 400;">
                 Mentions légales
               </span>
@@ -33,7 +33,7 @@
             </div>
           </li>
           <li>
-            <div @click="openUrl('https://swipelive.fr/politique-de-confidentialite')" style="width: 100%">
+            <div @click="openUrl('https://swipelive.app/politique-de-confidentialite')" style="width: 100%">
               <span style="line-height: 25px;font-weight: 400;">
                 Politique de Confidentialité
               </span>

@@ -12,7 +12,7 @@
 
     <div class="checkout__body">
       <div v-if="user.vendor">
-        <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
+        <div class="profile--follow" style="border: 1px solid #ddd !important; margin: 15px 5px 25px; padding: 12px 0px;">
           <div style="border-right: 1px solid #eff1f6;">
             <h4 v-if="followers.length">{{ followers.length }}</h4>
             <h4 v-else>0</h4>

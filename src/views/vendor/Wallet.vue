@@ -111,7 +111,7 @@
               <span>Envoyer</span>
             </div>
 
-            <div @click="showBank()" class="current--balance" style="padding: 15px; border-radius: 11px; margin: 40px 10px 10px; box-shadow: 0 0 5px rgb(0 0 0 / 20%);">
+            <div @click="showBank()" class="current--balance" style="padding: 15px; border-radius: 11px; margin: 40px 10px 10px; border: 1px solid #ddd !important; ">
               <div class="current--balance--two" style="padding: 5px 0px;">
                 <div style="margin-bottom: 0px;display: flex;font-size: 15px;font-weight: 400;">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 15px; width: 32px; height: 32px; margin-top: 3px;">

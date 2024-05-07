@@ -10,7 +10,7 @@
     </div>
 
     <div class="checkout__body">
-      <div class="profile--follow" style="box-shadow: 0 0 5px rgb(0 0 0 / 20%); margin: 15px 5px 25px; padding: 12px 0px;">
+      <div class="profile--follow" style="border: 1px solid #ddd !important;  margin: 15px 5px 25px; padding: 12px 0px;">
         <div style="border-right: 1px solid #eff1f6;">
           <h4>{{ numberOfProductsInStock }}</h4>
           <p>En stock</p>

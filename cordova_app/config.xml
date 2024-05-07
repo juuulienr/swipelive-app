@@ -2,7 +2,7 @@
 <widget version="1.0.0" android-versionCode="10000" android-versionName="1.0.0" defaultlocale="fr" id="com.swipelive.app" ios-CFBundleVersion="8" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Swipe Live</name>
     <description>Application Swipe Live</description>
-    <author email="contact@swipelive.fr" href="https://swipelive.fr">Swipe Live</author>
+    <author email="contact@swipelive.app" href="https://swipelive.app">Swipe Live</author>
     <content src="index.html"/>
     <access origin="*"/>
     <allow-navigation href="*"/>
