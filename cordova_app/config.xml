@@ -28,7 +28,7 @@
         <preference name="GradlePluginKotlinEnabled" value="true"/>
         <preference name="AndroidXEnabled" value="true"/>
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/screen.png" />
-        <preference name="AndroidWindowSplashScreenBackground" value="#ff2a80" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#ff2f80" />
 
         <icon density="ldpi" src="res/icon/android/ldpi.png"/>
         <icon density="mdpi" src="res/icon/android/mdpi.png"/>

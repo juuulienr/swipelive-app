@@ -3,8 +3,8 @@
 }
 
 .my_profile1 .info_profile .btn-follow .btn {
-  background: #ff2a80;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
+  background: #ff2f80;
+  border: 1px solid rgb(221, 221, 221) !important;
   padding: 10px 42px;
   font-weight: bold;
   margin: 10px 0px;

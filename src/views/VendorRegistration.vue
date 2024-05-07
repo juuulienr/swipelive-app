@@ -58,10 +58,9 @@
 
         <div style="margin-top: 20px; text-align: center; margin: 15px 15px 0px;">
           <div style="font-size: 16px;color: rgb(255, 42, 128);font-size: 17px;">Pas d'abonnement, Pas de contrat...</div>
-          <div style="font-size: 15px;">Une petite commission de 9% sur chaque vente</div>
-          <div style="color: rgb(255, 42, 128);font-size: 17px;margin-top: 7px;">Vous gagnez, Nous gagnons ! </div>
+          <div style="font-size: 15px;">Une petite commission de 8% sur chaque vente</div>
           <div style="font-weight: 400; text-align: left; font-size: 13px; color: #525c66;">
-            6% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> + 3% de frais bancaire classique.
+            5% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> + 3% de frais bancaire classique.
           </div> 
         </div>
       </div>
@@ -127,14 +126,12 @@
         </div>
         <div v-if="errorYear" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -15px;">Vous devez avoir plus de 18 ans</div>
 
-
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
             <legend>Email</legend>
             <input type="text" v-model="user.email" style="text-transform: lowercase;">
           </fieldset>
         </div>
-
 
         <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
           <fieldset>
@@ -144,7 +141,6 @@
         </div>
         <div v-if="errorPhone && user.phone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
         <div v-else-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le téléphone est obligatoire</div>
-
 
         <div @click="submitStep1()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
       </div>

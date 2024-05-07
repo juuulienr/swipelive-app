@@ -326,7 +326,7 @@
   box-shadow: 0 0 9px -2px rgb(0 0 0 / 50%);
 }
 .video-page__influencer-badge-end .video-page__influencer-username {
-  color: #ff2a80; 
+  color: #ff2f80; 
   font-weight: 600; 
   font-size: 14px;
 }
@@ -882,7 +882,7 @@
 
 
 .btn-start {
-  background: #ff2a80;
+  background: #ff2f80;
   position: absolute;
   bottom: 100px;
   left: calc(50vw - 64px);
@@ -1291,7 +1291,7 @@ span.filter--choice > input:checked ~ .svg--point {
   overflow-y: scroll; 
   height: 65%; 
   width: 100vw; 
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  border: 1px solid rgb(221, 221, 221) !important; 
   padding: 0px 15px 15px; 
   left: 0px;
 }
@@ -1320,7 +1320,7 @@ span.filter--choice > input:checked ~ .svg--point {
   text-align: center; 
   padding: 30px 20px; 
   border-radius: 16px; 
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
+  border: 1px solid rgb(221, 221, 221) !important;
   border: 1px solid rgb(221, 221, 221) !important;
 }
 
@@ -1344,7 +1344,7 @@ span.filter--choice > input:checked ~ .svg--point {
 
 .multistream-card .unavailable {
   font-size: 13px; 
-  color: #ff2a80; 
+  color: #ff2f80; 
   font-weight: 400; 
   margin-top: 10px;
 }
@@ -1374,7 +1374,7 @@ span.filter--choice > input:checked ~ .svg--point {
   overflow-y: scroll; 
   height: 95%; 
   width: 100vw; 
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  border: 1px solid rgb(221, 221, 221) !important; 
   padding: 0px 15px 15px; 
   left: 0px;
 }
@@ -1457,7 +1457,7 @@ span.filter--choice > input:checked ~ .svg--point {
   overflow-y: scroll; 
   height: 75%; 
   width: 100vw; 
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  border: 1px solid rgb(221, 221, 221) !important; 
   padding: 0px 15px 15px; 
   left: 0px;
 }
@@ -1496,7 +1496,7 @@ span.filter--choice > input:checked ~ .svg--point {
   overflow-y: scroll; 
   height: 50%; 
   width: 100vw; 
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  border: 1px solid rgb(221, 221, 221) !important; 
   padding: 0px 10px 15px; 
   left: 0px;
 }
@@ -1533,7 +1533,7 @@ span.filter--choice > input:checked ~ .svg--point {
   overflow-y: scroll; 
   height: 50%; 
   width: 100vw; 
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  border: 1px solid rgb(221, 221, 221) !important; 
   padding: 0px 10px 15px; 
   left: 0px;
 }

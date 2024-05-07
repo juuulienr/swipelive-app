@@ -127,7 +127,7 @@
                   <div>
                     Compte bancaire<br>
                     <div v-if="user.vendor.bankAccounts.length > 0" style="color: rgb(153, 153, 153);">{{ user.vendor.bankAccounts[0].country }}*****{{ user.vendor.bankAccounts[0].last4 }}</div>
-                    <div v-else style="color: #ff2a80; font-weight: 600">Ajouter un compte</div>
+                    <div v-else style="color: #ff2f80; font-weight: 600">Ajouter un compte</div>
                   </div>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30;width: 18px;height: 18px;margin-left: 3px;margin-top: 11px;">
@@ -139,8 +139,8 @@
           <div v-else-if="bank">
             <div class="images_filter" style="padding-bottom: 10px;">
               <ul>
-                <li @click="showIndividual()" v-bind:class="{active: individual}" :style="[individual ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Particulier</li>
-                <li @click="showCompany()" v-bind:class="{active: company}" :style="[company ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Entreprise</li>
+                <li @click="showIndividual()" v-bind:class="{active: individual}" :style="[individual ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Particulier</li>
+                <li @click="showCompany()" v-bind:class="{active: company}" :style="[company ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Entreprise</li>
               </ul>
             </div>
             <div class="form--input--item" :class="{'form--input--item--error': errorBank && !iban }" style="margin-top: 15px;">
@@ -196,7 +196,7 @@
           <div class="checkout__title">Revenu du mois</div>
         </div>
         <div style="padding: 5px;">
-          <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: 30px;color: #ff2a80; text-transform: capitalize;">{{ formatMonth(history.month) }}</div>
+          <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: 30px;color: #ff2f80; text-transform: capitalize;">{{ formatMonth(history.month) }}</div>
           <div class="current--balance" style="margin: 15px 0px;">
             <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: -10px;color: #272c30;">Revenu Net</div>
             <div>

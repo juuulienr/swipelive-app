@@ -179,7 +179,7 @@
 }
 
 ._jgit7bg svg {
-  fill: #ff2a80 !important;
+  fill: #ff2f80 !important;
 }
 
 ._1bntpbx {
@@ -214,7 +214,7 @@
 }
 
 .bgh3vnd {
-  background-color: #ff2a80;
+  background-color: #ff2f80;
   border-radius: 50%;
   display: inline-block;
   height: 10px;
@@ -227,7 +227,7 @@
 
 .skodxk4 {
   font-size: 10px;
-  background-color: #ff2a80;
+  background-color: #ff2f80;
   border-radius: 50%;
   height: 16px;
   width: 16px;

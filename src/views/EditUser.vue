@@ -13,7 +13,7 @@
       <div>
         <div class="general--profile" style="padding-top: 10px; padding-bottom: 30px;">
           <div>
-            <span @click="uploadSheet()" style="border: 2px solid #ff2a80;">
+            <span @click="uploadSheet()" style="border: 2px solid #ff2f80;">
               <span>
                 <svg v-if="loadingImg" viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
                   <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>

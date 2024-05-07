@@ -319,7 +319,7 @@ img {
   flex-direction: row;
   padding: 7px;
   border-radius: 10px;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
+  border: 1px solid rgb(221, 221, 221) !important;
   align-items: center;
 }
 .product--item img {

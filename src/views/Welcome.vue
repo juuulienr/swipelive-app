@@ -18,7 +18,7 @@
         <p style="text-align: center;margin: 0px 30px;font-weight: 400;margin-bottom: 30px;">Créez un compte pour commencer à acheter, vendre et profiter de plein de réductions en live !</p>
 
         <div class="social-container-NE2xk" style="padding: 0px;">
-          <div @click="userRegistration()" class="channel-item-wrapper-2gBWB" style="background: #ff2a80; border: none; margin-bottom: 0px;">
+          <div @click="userRegistration()" class="channel-item-wrapper-2gBWB" style="background: #ff2f80; border: none; margin-bottom: 0px;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img :src="require(`@/assets/img/mail.png`)" style="width: 24px; height: 24px; margin-bottom: 7px;"/>
             </div>
@@ -52,7 +52,7 @@
         </div>
 
         <p style="text-align: center;margin: 10px 30px 15px;font-weight: 400;color: #a7a8a9;">Avez-vous déjà un compte ?</p>
-        <p @click="userLogin()" style="text-align: center;color: #ff2a80;">SE CONNECTER</p>
+        <p @click="userLogin()" style="text-align: center;color: #ff2f80;">SE CONNECTER</p>
       </div>
     </div>
 

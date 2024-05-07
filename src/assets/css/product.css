@@ -87,8 +87,8 @@ header img {
 .variants .option.active {
   font-weight: 600;
   color: #fff;
-  background: #ff2a80;
-  border: 1px solid #ff2a80;
+  background: #ff2f80;
+  border: 1px solid #ff2f80;
 }
 
 .variants .option.unavailable {

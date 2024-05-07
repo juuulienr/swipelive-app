@@ -58,7 +58,7 @@
   width: calc(100vw - 30px); 
   line-height: 1.41176; 
   letter-spacing: -0.025em;
-  background: #ff2a80;
+  background: #ff2f80;
   padding: 16px 48px;
   font-weight: 500;
   border-radius: 10px;

@@ -29,8 +29,8 @@
         <div v-for="(user, index) in following" style="padding: 0px 5px;">
           <div @click="goToProfile(user)">
             <div class="personne">
-              <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
-              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="border: 2px solid #ff2a80; padding: 3px; background: #eeeeee;">
+              <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="border: 2px solid #ff2f80; padding: 3px; background: #eeeeee;">
+              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="border: 2px solid #ff2f80; padding: 3px; background: #eeeeee;">
               <h5 class="name" style="margin-top: 7px;">{{ user.vendor.businessName }}</h5>
             </div>
           </div>

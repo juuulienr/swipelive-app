@@ -12,7 +12,7 @@
           <img :src="require(`@/assets/img/cog.svg`)" style="width: 32px; padding: 3px; height: 32px; border: 1px solid rgb(221, 221, 221) !important; margin-left: -35px; margin-top: 58px; background: white;"/>
           <div style="margin: 0 0 0 8px">
             <span v-if="user.vendor" style="font-size: 16px; font-weight: 500; margin-left: 4px;">{{ user.vendor.businessName }}
-              <svg v-if="user.vendor.businessType == 'company'" viewBox="0 0 24 24" aria-label="Compte certifié" role="img" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px;height: 19px;margin-bottom: 3px;fill: #ff2a80; margin-left: 5px;"><g><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path></g></svg>
+              <svg v-if="user.vendor.businessType == 'company'" viewBox="0 0 24 24" aria-label="Compte certifié" role="img" class="r-13v1u17 r-4qtqp9 r-yyyyoo r-1xvli5t r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr" style="width: 19px;height: 19px;margin-bottom: 3px;fill: #ff2f80; margin-left: 5px;"><g><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"></path></g></svg>
             </span>
             <span v-else style="font-size: 16px; font-weight: 500; margin-left: 4px;">{{ user.firstname }} {{ user.lastname }}</span>
             <div style="margin-left: 4px;">
@@ -26,7 +26,7 @@
 
       <p v-if="user.vendor" class="desc" style="margin: 20px 30px; text-align: center;">{{ user.vendor.summary }}</p>
 
-      <div v-if="!user.vendor" @click="goToVendorRegistration()" class="top-author--container" style="padding: 16px;align-items: center; margin: 10px;border: 1px solid #ff2a80 !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px; gap: 10px;">
+      <div v-if="!user.vendor" @click="goToVendorRegistration()" class="top-author--container" style="padding: 16px;align-items: center; margin: 10px;border: 1px solid #ff2f80 !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px; gap: 10px;">
         <div class="top-author--item">
           <div style="margin: 0px 0px 0px 8px;">
             <span style="font-size: 16px;font-weight: 500;font-size: 18px !important;line-height: 22px !important;margin: 0px 0px 8px !important;padding: 0px !important;">Vendez vos articles sur Swipe Live</span>
@@ -39,7 +39,7 @@
       </div>
 
 
-      <div v-if="user.vendor" style="background: #ff2a80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
+      <div v-if="user.vendor" style="background: #ff2f80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
         <div @click="goToPrelive()" class="account-band" style="justify-content: center; padding: 14px 24px;">
           <span style="font-size: 16px; color: #fff;">
             <img style="width: 29px; height: 29px; margin-right: 10px;" class="img1":src="require(`@/assets/img/video.svg`)"/>

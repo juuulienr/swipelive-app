@@ -35,7 +35,7 @@
  -->
         <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px;">La promotion activé sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
 
-        <div v-for="(promo, index) in user.vendor.promotions" style="border: 1px solid #ff2a80; margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
+        <div v-for="(promo, index) in user.vendor.promotions" style="border: 1px solid #ff2f80; margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
           <div class="profile--follow">
             <div style="width: 40%; margin-top: 5px;">
               <img :src="require(`@/assets/img/discount.svg`)" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
@@ -52,10 +52,10 @@
             <hr style="margin: 0px;border-width: 0 2px 0 0;border-style: dashed;border-color: rgba(145,158,171,.24); width: 1px;">
             <div>
               <svg @click="deletePromo(promo, index)" style="width: 24Px; height: 24px; right: 8px; position: absolute;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path fill="#999999" d="M13.4,12l4.3-4.3c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L12,10.6L7.7,6.3c-0.4-0.4-1-0.4-1.4,0c-0.4,0.4-0.4,1,0,1.4l4.3,4.3l-4.3,4.3C6.1,16.5,6,16.7,6,17c0,0.6,0.4,1,1,1c0.3,0,0.5-0.1,0.7-0.3l4.3-4.3l4.3,4.3c0.2,0.2,0.4,0.3,0.7,0.3s0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L13.4,12z"/></svg>
-              <h4 v-if="promo.type == 'percent'" style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: #ff2a80;">-{{promo.value}}%</h4>
-              <h4 v-else style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: #ff2a80;">-{{promo.value}}€</h4>
+              <h4 v-if="promo.type == 'percent'" style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: #ff2f80;">-{{promo.value}}%</h4>
+              <h4 v-else style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: #ff2f80;">-{{promo.value}}€</h4>
               <p>Valable sur toute la boutique </p>
-              <h4 style="font-size: 15px; margin: 10px auto; color: #ff2a80; border: 1px solid #ff2a80; padding: 3px 15px; border-radius: 10px;text-transform: uppercase;">{{ promo.title }}</h4>
+              <h4 style="font-size: 15px; margin: 10px auto; color: #ff2f80; border: 1px solid #ff2f80; padding: 3px 15px; border-radius: 10px;text-transform: uppercase;">{{ promo.title }}</h4>
             </div>
           </div>
         </div>

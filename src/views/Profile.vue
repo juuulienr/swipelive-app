@@ -35,8 +35,8 @@
         <p class="desc" style="margin: 20px 30px; text-align: center;">{{ profile.vendor.summary }}</p>
         <div class="images_filter" style="padding: 10px; background-color: white; z-index: 1000000;">
           <ul>
-            <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>
-            <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2a80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Boutique</li>
+            <li @click="showLive()" v-bind:class="{active: live}"  :style="[live ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Vidéos</li>
+            <li @click="showShop()" v-bind:class="{active: shop}"  :style="[shop ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Boutique</li>
           </ul>
         </div>
 

@@ -104,7 +104,7 @@ li {
   vertical-align: top;
 }
 .btn-swipe {
-  background: #ff2a80;
+  background: #ff2f80;
   padding: 15px 48px;
   font-weight: 500;
   border-radius: 10px;
@@ -219,7 +219,7 @@ body.dark-mode {
 
 .loader {
   border: 3px solid rgba(255,55,176,.3);
-  border-top-color: #ff2a80;
+  border-top-color: #ff2f80;
   border-radius: 50%;
   width: 3em;
   height: 3em;
@@ -1126,7 +1126,7 @@ select {
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
   padding: 3px;
-  background: #ff2a80;
+  background: #ff2f80;
   color: #fff;
   font-weight: bold;
 }
@@ -1345,10 +1345,10 @@ select {
 }
 
 .form--input--item--active fieldset {
-  border: solid 2px #ff2a80;
+  border: solid 2px #ff2f80;
 }
 .form--input--item--active fieldset legend {
-  color: #ff2a80;
+  color: #ff2f80;
 }
 
 .form--input--item--error fieldset {
@@ -1529,7 +1529,7 @@ svg.loading circle {
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   overflow: hidden;
   position: relative;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
+  border: 1px solid rgb(221, 221, 221) !important;
   border-radius: 11px;
   z-index: 0;
 }
@@ -1614,7 +1614,7 @@ svg.loading circle {
   height: 18px;
   width: 18px;
   border-radius: 100%;
-  background-color: #ff2a80;
+  background-color: #ff2f80;
   color: rgb(255, 255, 255);
   font-size: 13px;
   display: flex;

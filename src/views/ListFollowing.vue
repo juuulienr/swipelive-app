@@ -28,8 +28,8 @@
 
         <div class="images_filter" style="margin: 15px 0px;">
           <ul>
-            <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Abonnés </li>
-            <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2a80'} : {'color': '#525c66'}]">Suivis </li>
+            <li @click="showFollowers()" v-bind:class="{active: tabFollowers}"  :style="[tabFollowers ? {'color': '#ff2f80'} : {'color': '#525c66'}]">Abonnés </li>
+            <li @click="showFollowing()" v-bind:class="{active: tabFollowing}"  :style="[tabFollowing ? {'color': '#ff2f80'} : {'color': '#525c66'}]">Suivis </li>
           </ul>
         </div>
 
@@ -77,7 +77,7 @@
                   <span v-else>{{user.followers.length }} abonné</span>
                 </div>
               </div>
-              <div @click="unfollow(user, index)" class="btn-follow" style="color: #ff2a80; border: 1px solid #ff2a80; background: white;">Se désabonner</div>
+              <div @click="unfollow(user, index)" class="btn-follow" style="color: #ff2f80; border: 1px solid #ff2f80; background: white;">Se désabonner</div>
             </div>
           </div>
           <div v-else-if="loadingFollowing">

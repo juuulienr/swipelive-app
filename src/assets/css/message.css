@@ -475,7 +475,7 @@ h4 {
 	min-height: 55px;
 	justify-content: initial;
 	padding: 0 15px;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px; 
+  border: 1px solid rgb(221, 221, 221) !important; 
   display: flex; 
   align-items: center;
   position: fixed;
@@ -783,7 +783,7 @@ h4 {
   padding-right: 10px;
   font-size: 14px;
   border-radius: 30px;
-  border: 2px solid #ff2a80; 
+  border: 2px solid #ff2f80; 
   background: white;
 }
 .chat--foot--btn {

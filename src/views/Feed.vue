@@ -404,7 +404,7 @@
     <!-- input comment -->
     <div v-if="popup" class="css-1dko8fk" :style="{'bottom': writeInput }" style="height: 55px; border-radius: 0px;">
       <div class="css-miqn2j">
-        <input v-focus v-on-clickaway="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2a80; background: white"/>
+        <input v-focus v-on-clickaway="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2f80; background: white"/>
       </div>
       <button id="btnSend" class="css-il3d4y" style="padding: 0px;">
         <img id="imgSend" :src="require(`@/assets/img/send.svg`)" style="height: 36px; height: 36px;"/>

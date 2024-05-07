@@ -16,7 +16,7 @@
 }
 
 .slick-dots li.slick-active button:before {
-	color: #ff2a80 !important;
+	color: #ff2f80 !important;
 }
 
 .slick-list {
@@ -96,7 +96,7 @@
   border-radius: 11px;
   transition: bottom .2s linear;
   z-index: 20;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
+  border: 1px solid rgb(221, 221, 221) !important;
   width: calc(100vw - 40px);
   height: 120px;
 }
