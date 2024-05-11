@@ -16,7 +16,7 @@
             <span @click="uploadSheet()" style="border: 2px solid #ff2f80;">
               <span>
                 <svg v-if="loadingImg" viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
-                  <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+                  <circle cx="50" cy="50" r="20" style="stroke: #ff2f80;"></circle>
                 </svg>
                 <span v-else>
                   <img v-if="user.picture" :src="cloudinary256x256 + user.picture">
@@ -339,6 +339,8 @@ export default {
         window.cordova.plugin.http.setDataSerializer('json');
         if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
           window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+            console.log(response.data);
+            console.log(JSON.parse(response.data));
             var result = JSON.parse(response.data);
             this.user.picture = result.picture;
             this.loadingImg = false;

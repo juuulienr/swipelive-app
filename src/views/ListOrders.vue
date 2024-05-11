@@ -210,7 +210,7 @@
 
         <div class="css-13dslnb" style="border: 1px solid #ddd !important; margin: 5px; padding: 10px; border-radius: 15px; margin-bottom: 20px;">
           <div class="top-author--container">
-            <div v-if="type == 'sale'" class="top-author--item" style="padding: 0px;">
+            <div v-if="type == 'sale'" class="top-author--item" style="padding: 0px; border: none !important;">
               <img v-if="order.buyer.picture" :src="cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
@@ -221,7 +221,7 @@
                 <img :src="require(`@/assets/img/comment-dots.svg`)"/>
               </div>
             </div>
-            <div v-else class="top-author--item" style="padding: 0px;">
+            <div v-else class="top-author--item" style="padding: 0px; border: none !important;">
               <img v-if="order.vendor.user.picture" :src="cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
@@ -262,8 +262,8 @@
                 <h6 class="css-yemnbq" style="color: black; font-size: 14px;">{{ order.subTotal | formatPrice }}€</h6>
               </div>
               <div v-if="order.promotionAmount" class="css-9jay18">
-                <p class="css-11r9ii4" style="font-weight: 400; color: #999;">Code promo</p>
-                <h6 class="css-yemnbq" style="color: #999; font-weight: 400">-{{ order.promotionAmount | formatPrice }}€</h6>
+                <p class="css-11r9ii4" style="font-weight: 400; color: #18cea0;">Code promo</p>
+                <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 400">-{{ order.promotionAmount | formatPrice }}€</h6>
               </div>
               <div v-if="type == 'sale'" class="css-9jay18">
                 <p class="css-11r9ii4" style="font-weight: 400; color: #999;">Commission SwipeLive</p>
@@ -286,19 +286,19 @@
           </div>
 
           <div v-if="type == 'sale'" style="margin-top: 10px;">
-            <div v-if="order.pdf && order.trackingNumber && order.shippingStatus == 'open'" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+            <div v-if="order.pdf && order.trackingNumber && order.shippingStatus == 'open'" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
                 <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
               </svg> Imprimer le bon de livraison
             </div>
-            <div v-else-if="loadingPdf" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+            <div v-else-if="loadingPdf" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
               <span>
                 <svg viewBox="25 25 50 50" class="loading">
                   <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
                 </svg>
               </span>
             </div>
-            <div v-else-if="order.shippingStatus == 'ready-to-send'" @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: rgb(255, 39, 115); margin-left: 12px; padding: 13px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+            <div v-else-if="order.shippingStatus == 'ready-to-send'" @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
                 <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
               </svg> Générer le bon de livraison
@@ -406,7 +406,7 @@
             <div style="font-weight: 400; margin-bottom: 30px; font-size: 14px; padding: 0px 10px;">
               Si ta commande correspond à la description, clique sur le bouton "Tout est correct" ou cette commande sera cloturé automatiquement dans 48 heures.
             </div>
-            <div @click="closeOrder()" class="btn-swipe"style="color: white; text-align: center; background: rgb(255, 39, 115); padding: 12px 24px; border: 1px solid rgb(255, 39, 115); border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 10px;height: 48px;justify-content: center;">Tout est correct</div>
+            <div @click="closeOrder()" class="btn-swipe"style="color: white; text-align: center; background: #ff2f80; padding: 12px 24px; border: 1px solid #ff2f80; border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 10px;height: 48px;justify-content: center;">Tout est correct</div>
             <div class="btn-swipe" style="color: rgb(82, 92, 102);text-align: center;width: 100%;background: white;padding: 10px 24px;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 5px;height: 44px;margin-bottom: 18px;justify-content: center;">Signaler un problème
             </div>
           </div>

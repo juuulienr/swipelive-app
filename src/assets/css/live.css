@@ -1220,7 +1220,7 @@ span.filter--choice > input:checked ~ .svg--point {
   height: 24px;
   width: 24px;
   border-radius: 100%;
-  background-color: rgb(255, 39, 115);
+  background-color: #ff2f80;
   color: rgb(255, 255, 255);
   font-size: 13px;
   display: flex;

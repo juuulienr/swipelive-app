@@ -102,6 +102,9 @@ export default {
         fcm.onDeviceReady();
         this.notif = false;
         this.step1 = true;
+      } else {
+        this.notif = false;
+        this.step1 = true;
       }
     },
     goFeed() {

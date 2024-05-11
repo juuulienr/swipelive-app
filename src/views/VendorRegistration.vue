@@ -16,10 +16,10 @@
       <div v-if="type" class="step1">
         <div style="font-weight: 500; margin-bottom: 20px; text-align: center; font-size: 16px;">Quel vendeur êtes-vous ?</div>
         <div style="display: flex; justify-content: space-evenly;">
-          <div @click="goStep1('company')" style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid rgb(255, 42, 128); align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border-radius: 50% !important;">
-            <div style="font-size: 15px; color: rgb(255, 42, 128); margin-top: 35px; font-weight: 500;">Professionnel</div>
+          <div @click="goStep1('company')" style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid #ff2f80; align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border-radius: 50% !important;">
+            <div style="font-size: 15px; color: #ff2f80; margin-top: 35px; font-weight: 500;">Professionnel</div>
           </div>
-          <div @click="goStep1('individual')" style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid rgb(255, 42, 128); align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border: 2px solid #272c30 !important; border-radius: 100% !important;">
+          <div @click="goStep1('individual')" style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid #ff2f80; align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border: 2px solid #272c30 !important; border-radius: 100% !important;">
             <div style="font-size: 15px; color: rgb(82, 92, 102); margin-top: 35px; font-weight: 500;">Particulier</div>
           </div>
         </div>
@@ -57,7 +57,7 @@
         </div>
 
         <div style="margin-top: 20px; text-align: center; margin: 15px 15px 0px;">
-          <div style="font-size: 16px;color: rgb(255, 42, 128);font-size: 17px;">Pas d'abonnement, Pas de contrat...</div><br>
+          <div style="font-size: 16px;color: #ff2f80;font-size: 17px;">Pas d'abonnement, Pas de contrat...</div><br>
           <div style="font-size: 15px;">Une petite commission de 8% sur chaque vente</div>
           <div style="font-weight: 400; text-align: left; font-size: 13px; color: #525c66;">
             5% de frais de service qui nous permettent de payer les salaires de notre équipe et de garder les lumières allumées <br> 3% de frais bancaire classique.
@@ -72,7 +72,7 @@
           <span :style="[errorPicture ? {'border': '1px dashed #ff0000'} : {'border': '1px dashed rgba(145,158,171,.32)'}]">
             <span v-if="loadingImg">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
-                <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+                <circle cx="50" cy="50" r="20" style="stroke: #ff2f80;"></circle>
               </svg>
             </span>
             <span v-else-if="user.picture" @click="uploadSheet()">

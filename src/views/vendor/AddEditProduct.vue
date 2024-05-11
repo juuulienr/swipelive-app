@@ -43,7 +43,7 @@
           <span style="margin: 0 auto;">
             <span style="top: calc(50% - 13px); left: calc(50% - 13px);">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
-                <circle cx="50" cy="50" r="20" style="stroke: rgb(255, 39, 115);"></circle>
+                <circle cx="50" cy="50" r="20" style="stroke: #ff2f80;"></circle>
               </svg>
             </span>
           </span>
