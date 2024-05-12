@@ -240,12 +240,7 @@
                 {{ feed.value.vendor.businessName }}
               </div>
               <div style="text-align: left; font-size: 12px; margin-top: -3px; display: flex;">
-                <div>
-                  <img :src="require(`@/assets/img/users.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
-                </div>
-                <div style="padding: 0px 5px;">{{ followers[index].value }}</div>
-                <div>|</div>
-                <div style="padding: 0px 5px;">
+                <div style="padding-right: 5px;">
                   <img :src="require(`@/assets/img/heart-red.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
                 <div>{{ totalLikes[index].value | formatLikes }}</div>
