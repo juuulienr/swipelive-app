@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div v-if="following.length && following.length > 0" class="favourite" style="padding-top: 20px; margin-bottom: 20px;">
+<!--     <div v-if="following.length && following.length > 0" class="favourite" style="padding-top: 20px; margin-bottom: 20px;">
     	<h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Abonnements</h2>
     	<div class="list_persone" style="display:flex; padding: 0px; padding-left: 5px;">
         <div v-for="(user, index) in following" style="padding: 0px 5px;">
@@ -37,6 +37,12 @@
         </div>
     	</div>
     </div>
+ -->
+
+    <h1>Video Chat</h1>
+    <div id="local-video" style=" width: 300px;
+            height: auto;
+            background-color: black;"></div>
 
 
     <div v-if="clipsTrending && clipsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
@@ -151,6 +157,14 @@ export default {
       popupProduct: false,
       product: null,
       variant: null,
+      client: null,
+      localTracks: {
+        videoTrack: null,
+        audioTrack: null
+      },
+      agoraAppId: '0c6b099813dc4470a5b91979edb55af0', // Replace with your Agora app ID
+      agoraChannel: 'test', // Channel name
+      agoraToken: "007eJxTYOA/WX75QM3jnEXNWZrN7w4vUjz1+JblycWLC0Xb7wZOOGekwGCQbJZkYGlpYWickmxiYm6QaJpkaWhpbpmakmRqmphmcPKYS1pDICODNkscMyMDBIL4LAwlqcUlDAwA+W8hAg==" // Token for authentication, use null if token is not enabled in your project settings
     }
   },
   created() {
@@ -183,7 +197,43 @@ export default {
       this.loadClipsLatest();
     }
   },
-  methods: {
+   mounted() {
+    this.initializeAgora();
+  },
+  beforeDestroy() {
+    this.leaveChannel();
+  },
+  methods: {  
+    async initializeAgora() {
+      this.client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
+      await this.joinChannel();
+    },
+    async joinChannel() {
+      try {
+        await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, null);
+        this.localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
+        this.localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        await this.client.publish(Object.values(this.localTracks));
+        this.localTracks.videoTrack.play('local-video');
+        console.log("User has joined channel and published streams successfully");
+      } catch (err) {
+        console.error("Failed to join channel and publish streams", err);
+      }
+    },
+    async leaveChannel() {
+      if (this.localTracks.videoTrack || this.localTracks.audioTrack) {
+        this.localTracks.videoTrack && await this.localTracks.videoTrack.stop();
+        this.localTracks.videoTrack && await this.localTracks.videoTrack.close();
+        this.localTracks.audioTrack && await this.localTracks.audioTrack.stop();
+        this.localTracks.audioTrack && await this.localTracks.audioTrack.close();
+      }
+      try {
+        await this.client.leave();
+        console.log("Client has left the channel successfully");
+      } catch (err) {
+        console.error("Failed to leave the channel", err);
+      }
+    },
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
