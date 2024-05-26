@@ -41,7 +41,7 @@
 
     <h1>Video Chat</h1>
     <div id="local-video" style=" width: 300px;
-            height: auto;
+            height: 500px;
             background-color: black;"></div>
 
 
@@ -164,7 +164,7 @@ export default {
       },
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0', // Replace with your Agora app ID
       agoraChannel: 'test', // Channel name
-      agoraToken: "007eJxTYOA/WX75QM3jnEXNWZrN7w4vUjz1+JblycWLC0Xb7wZOOGekwGCQbJZkYGlpYWickmxiYm6QaJpkaWhpbpmakmRqmphmcPKYS1pDICODNkscMyMDBIL4LAwlqcUlDAwA+W8hAg==" // Token for authentication, use null if token is not enabled in your project settings
+      agoraToken: null // Token for authentication, use null if token is not enabled in your project settings
     }
   },
   created() {
@@ -206,10 +206,21 @@ export default {
   methods: {  
     async initializeAgora() {
       this.client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
-      await this.joinChannel();
+      await this.getAgoraToken();
+    },
+    async getAgoraToken() {
+      window.cordova.plugin.http.get(this.baseUrl + "/agora/token", {}, {}, (response) => {
+        console.log(JSON.parse(response.data));
+        var result = JSON.parse(response.data);
+        this.agoraToken = result.token;
+        this.joinChannel();
+      }, (response) => {
+        console.log(response.error);
+      });
     },
     async joinChannel() {
       try {
+        console.log(this.agoraToken);
         await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, null);
         this.localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
         this.localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();

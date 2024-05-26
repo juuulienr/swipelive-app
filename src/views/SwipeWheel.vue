@@ -136,7 +136,6 @@
 
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/gift.json';
-import { CupertinoPane } from 'cupertino-pane';
 
 export default {
   name: 'SwipeWheel',
@@ -168,34 +167,6 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      let pane = new CupertinoPane('.pane', { 
-        initialBreak: 'top', 
-        breaks: {
-          middle: {
-            enabled: false
-          },
-          bottom: {
-            enabled: false
-          }
-        },
-        backdrop: true, 
-        fastSwipeClose: true, 
-        bottomClose: true, 
-        events: {       
-          onDragEnd: (data) => {
-            console.log(data);
-            // let windowHeight = window.innerHeight;
-            // // let panePosition = pane.getPosition();
-            // if (panePosition > windowHeight * 0.5) {
-            //   pane.destroy({animate: true});
-            // }
-          },
-        }
-      });
-      pane.present({animate: true});
-    },
-    close() {
-      pane.destroy({animate: true});
     },
     goBack() {
       if (window.TapticEngine) {

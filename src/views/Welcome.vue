@@ -231,7 +231,6 @@
 import AuthAPI from "../utils/auth.js";
 import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/forgot-password.json';
-import { CupertinoPane } from 'cupertino-pane';
 
 export default {
   name: 'Welcome',
@@ -334,33 +333,6 @@ export default {
     this.$refs.welcomeVideo.removeEventListener('loadeddata', this.onVideoLoaded);
   },
   methods: {
-    cupertinoPane() {
-      let pane = new CupertinoPane('.pane',{ 
-        initialBreak: 'top', 
-        breaks: {
-          middle: {
-            enabled: false
-          },
-          bottom: {
-            enabled: false
-          }
-        },
-        backdrop: true, 
-        fastSwipeClose: true, 
-        bottomClose: true, 
-        events: {       
-          onDragEnd: (data) => {
-            console.log(data);
-            // let windowHeight = window.innerHeight;
-            // // let panePosition = pane.getPosition();
-            // if (panePosition > windowHeight * 0.5) {
-            //   pane.destroy({animate: true});
-            // }
-          },
-        }
-      });
-      pane.present({animate: true})
-    },
     onVideoLoaded() {
       if (navigator.splashscreen) {
         navigator.splashscreen.hide();
