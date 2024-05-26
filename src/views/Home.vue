@@ -203,7 +203,7 @@ export default {
   beforeDestroy() {
     this.leaveChannel();
   },
-  methods: {  
+  methods: {
     async initializeAgora() {
       this.client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
       await this.getAgoraToken();

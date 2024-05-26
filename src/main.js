@@ -9,11 +9,8 @@ import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue-observe-visibility';
 import store from "./store/store.js";
 
-// import Framework7 from 'framework7/framework7-lite.esm.bundle.js';
-// import Framework7Vue from 'framework7-vue';
-// import 'framework7/css/framework7.bundle.css';
 
-
+// Initialize Bugsnag
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   Vue.config.productionTip = true;
@@ -28,20 +25,17 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 }
 
-// Vue.use(Framework7Vue, Framework7);
+// Initialize Vue plugins
 Vue.use(VueObserveVisibility);
 Vue.use(Vue2TouchEvents);
-
 
 const init = () => {
   new Vue({
     store,
     router,
-    render: h => h(App),
+    render: h => h(App)
   }).$mount('#app')
 };
-    
-
 
 
 // Wait for the deviceready event to start the render
