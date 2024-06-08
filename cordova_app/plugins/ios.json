@@ -118,6 +118,9 @@
     },
     "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova.plugins.diagnostic": {
+      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {

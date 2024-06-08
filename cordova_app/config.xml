@@ -53,6 +53,12 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
             <string>L'accès à la galerie est nécessaire pour ajouter des photos</string>
         </edit-config>
+        <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Nous avons besoin d'accéder à votre caméra pour diffuser des vidéos en direct</string>
+        </config-file>
+        <config-file parent="NSMicrophoneUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Nous avons besoin d'accéder à votre microphone pour diffuser des vidéos en direct</string>
+        </config-file>
         <edit-config file="*-Info.plist" mode="merge" target="ITSAppUsesNonExemptEncryption">
             <false />
         </edit-config>
@@ -69,6 +75,17 @@
         <feature name="SocialSharing">
             <param name="ios-package" value="SocialSharing"/>
         </feature>
+        <privacy-manifest>
+          <key>NSPrivacyTracking</key>
+          <true/>
+          <key>NSPrivacyCollectedDataTypes</key>
+          <array/>
+          <key>NSPrivacyAccessedAPITypes</key>
+          <array/>
+          <key>NSPrivacyTrackingDomains</key>
+          <array/>
+        </privacy-manifest>
+
         
         <splash src="res/screen/ios/Default@2x~universal~anyany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comany.png"/>

@@ -10,13 +10,11 @@ import VueObserveVisibility from 'vue-observe-visibility';
 import store from "./store/store.js";
 
 
-// Initialize Bugsnag
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   Vue.config.productionTip = true;
   Bugsnag.start({ apiKey: 'b6f579675362830a12146a96a851e17a', plugins: [new BugsnagPluginVue()]});
   Vue.use(Bugsnag.getPlugin('vue'));
-
   window.localStorage.setItem("baseUrl", "https://swipelive.app");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 } else {
@@ -64,9 +62,9 @@ document.addEventListener("offline", () => {
   window.plugins.toast.show("Pas de connexion Internet", 'long', 'top');
 });
 
-// document.addEventListener("online", () => {
-  // window.plugins.toast.show("Vous êtes de nouveau connecté à internet", 'long', 'top');
-// });
+document.addEventListener("online", () => {
+  window.plugins.toast.show("Vous êtes de nouveau connecté à internet", 'long', 'top');
+});
 
 
 // window.addEventListener('keyboardDidShow', function () {
@@ -100,7 +98,7 @@ window.addEventListener("batterycritical", (event) => {
 }, false);
 
 // window.addEventListener("batterystatus", (event) => {
-  // window.plugins.toast.show("Level: " + event.level + " isPlugged: " + event.isPlugged, 'long', 'top');
+//   window.plugins.toast.show("Level: " + event.level + " isPlugged: " + event.isPlugged, 'long', 'top');
 // }, false);
 
 

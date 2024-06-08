@@ -1,6 +1,6 @@
 <template>
   <div class="livestream" style="background: black;">
-    <div v-if="browser" id="player" style="height: 100vh; overflow: hidden;"></div>
+    <div id="player" style="height: 100vh; overflow: hidden;"></div>
 
     <div v-if="prelive" class="prelive">
       <!-- filter top/bottom -->
@@ -262,7 +262,7 @@
       </div>
 
 
-      <div :style="{'bottom': safeareaBottom }" @click="start()" style="left: calc(50vw - 75px); position: absolute; z-index: 20;">
+      <div :style="{'bottom': safeareaBottom }" @click="startCountdown()" style="left: calc(50vw - 75px); position: absolute; z-index: 20;">
         <div style="margin: 0px auto;">
           <Lottie :options="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
         </div>
@@ -277,178 +277,6 @@
       <!-- top/bottom filter -->
       <div class="filter-bottom"></div>
 
-      <!-- heart animation -->
-      <div class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
-        <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
-          <div class="_g19 KeyframeAnimation-js_6">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 11px;">
-          <div class="_g19 KeyframeAnimation-js_8">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 9px;">
-          <div class="_g19 KeyframeAnimation-js_9">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 13px;">
-          <div class="_g19 KeyframeAnimation-js_10">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">    
-          <div class="_g19 KeyframeAnimation-js_11"> 
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 15px;">
-          <div class="_g19 KeyframeAnimation-js_12">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
-          <div class="_g19 KeyframeAnimation-js_13">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_14">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_15">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_16">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_17">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_18">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_19">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_20">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_21">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_22">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_23">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_24">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_25">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_26">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_27">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_28">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_29">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-        <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
-          <div class="_g19 KeyframeAnimation-js_30">
-            <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      
 
       <!-- live badge -->
       <div :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 q1gqmpn5 jbu8tgem l44iypv3 badge-live">
@@ -546,7 +374,7 @@
 
 
       <!-- send comment -->
-      <div @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="background: rgba(0, 0, 0, 0.25); left: 15Px; right: 180px;">
+      <div @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="background: rgba(0, 0, 0, 0.25); left: 15px; right: 120px;">
         <div class="video-page__influencer-username-holder">
           <div class="video-page__influencer-username" style="color: white; font-size: 15px; font-weight: 600;"> Commenter...</div>
         </div>
@@ -568,13 +396,6 @@
            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 38px;height: 40px;padding: 10px 0px;fill: white;">
             <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
             </svg>
-          </span>
-        </div>
-
-        <!-- likes -->
-        <div @click="addAnimation()" class="video-page__influencer-username-holder">
-          <span class="video-page__influencer-video-count">
-            <img :src="require(`@/assets/img/heart-feed.svg`)" style="width: 40px; height: 40px; padding: 8px; margin: 0px 4px;" />
           </span>
         </div>
       </div>
@@ -670,7 +491,7 @@
     </div>
 
 
-    <div v-if="performance" class="store-products-item__login-popup store-products-item__login-popup--active performance" style="overflow-y: scroll; height: 100%; width: 100vw; padding: 0px 15px 15px; left: 0px; background: white; border-radius: none;">
+    <div v-if="performance" class="store-products-item__login-popup store-products-item__login-popup--active performance" style="overflow-y: scroll; height: 100%; width: 100vw; padding: 0px 15px 15px; left: 0px; background: white; border-radius: 0px !important;">
       <div class="checkout__header">
         <div class="checkout__title">Performance</div>
       </div>
@@ -765,7 +586,6 @@ export default {
       orders: [],
       spectators: [],
       pusher: null,
-      broadcaster: null,
       http: null,
       viewers: 0,
       display: 1,
@@ -825,31 +645,17 @@ export default {
         'value': null,
         'isActive': true
       },
-      anim1: false,
-      anim2: false,
-      anim3: false,
-      anim4: false,
-      anim5: false,
-      anim6: false,
-      anim7: false,
-      anim8: false,
-      anim9: false,
-      anim10: false,
-      anim11: false,
-      anim12: false,
-      anim13: false,
-      anim14: false,
-      anim15: false,
-      anim16: false,
-      anim17: false,
-      anim18: false,
-      anim19: false,
-      anim20: false,
-      anim21: false,
-      anim22: false,
-      anim23: false,
-      anim24: false,
-      num: 0,
+      client: null,
+      localTracks: {
+        videoTrack: null,
+        audioTrack: null
+      },
+      agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
+      agoraChannel: "test",
+      agoraToken: null,
+      uid: 123456,
+      userId: null,
+      facingMode: null,
     }
   },
   filters: {
@@ -901,12 +707,14 @@ export default {
       this.safeareaBottom2 = '82px';
       this.safeareaBottom3 = '210px';
     }
-
-    this.initiateBroadcast();
+  },
+  mounted() {
+    this.initializeAgora();
   },
   beforeDestroy() {
     document.getElementsByTagName('body')[0].classList.remove("dark-mode");
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
+    this.leaveChannel();
   },
   directives: {
     focus: {
@@ -916,10 +724,219 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      if (this.broadcaster) {
-        this.broadcaster.hideViewfinder();
+    async initializeAgora() {
+      AgoraRTC.enableLogUpload();
+      AgoraRTC.setLogLevel(0);
+      this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
+      await this.getAgoraToken();
+    },
+    async getAgoraToken() {
+      try {
+        window.cordova.plugin.http.get(this.baseUrl + "/agora/token", {}, {}, (response) => {
+          var result = JSON.parse(response.data);
+          this.agoraToken = result.token;
+          this.joinChannel();
+        }, (response) => {
+          console.log(response.error);
+        });
+      } catch (error) {
+        console.error("Error getting Agora token:", error);
       }
+    },
+    async joinChannel() {
+      try {    
+        this.facingMode = "user";
+        this.userId = await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
+        console.log(this.userId);
+
+        await this.client.setClientRole('host');
+
+        const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({}, { facingMode: this.facingMode });
+        this.localTracks.audioTrack = microphoneTrack;
+        this.localTracks.videoTrack = cameraTrack;
+
+        await this.client.publish(Object.values(this.localTracks));
+        this.localTracks.videoTrack.play('player');
+        
+        console.log("User has joined channel and published streams successfully");
+      } catch (err) {
+        console.error("Failed to join channel and publish streams", err);
+      }
+    },
+    async leaveChannel() {
+      if (this.localTracks.videoTrack) {
+        await this.localTracks.videoTrack.stop();
+        await this.localTracks.videoTrack.close();
+      }
+      
+      if (this.localTracks.audioTrack) {
+        await this.localTracks.audioTrack.stop();
+        await this.localTracks.audioTrack.close();
+      }
+      
+      try {
+        await this.client.leave();
+        console.log("Client has left the channel successfully");
+      } catch (err) {
+        console.error("Failed to leave the channel", err);
+      }
+    },
+    async switchCamera() {
+      try {
+        this.facingMode = this.facingMode === "user" ? "environment" : "user";
+        const newVideoTrack = await AgoraRTC.createCameraVideoTrack({ facingMode: this.facingMode });
+
+        await this.localTracks.videoTrack.stop();
+        await this.localTracks.videoTrack.close();
+        
+        if (!this.prelive) {
+          // await this.client.unpublish(this.localTracks.videoTrack);
+          this.localTracks.videoTrack = newVideoTrack;
+          // await this.client.publish(this.localTracks.videoTrack);
+          // await this.client.publish(Object.values(this.localTracks));
+        } else {
+          this.localTracks.videoTrack = newVideoTrack;
+        }
+
+        this.localTracks.videoTrack.play('player');
+      } catch (error) {
+        console.error('Error switching camera:', error);
+      }
+    },
+    async startCountdown() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+
+      this.prelive = false;
+      this.counter = true;
+
+      this.interval = setInterval(async () => {
+        if (this.countdown === 1) {
+          this.counter = false;
+          this.ready = true;
+          clearInterval(this.interval);
+
+          await this.startLive();
+        }
+        this.countdown -= 1;
+      }, 700);
+    },
+    async startLive() {
+      try {
+        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test", "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.live = JSON.parse(response.data);
+          this.liveProducts = this.live.liveProducts;
+          this.available = this.checkQuantity();
+          this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
+          var channel = this.pusher.subscribe(this.live.channel);
+
+          channel.bind(this.live.event, (data) => {
+            console.log(data);
+
+            if ('comment' in data) {
+              if (data.comment.user.firstname != this.user.firstname && data.comment.user.lastname != this.user.lastname) {
+                this.comments.push(data.comment);
+                this.scrollToElement();
+              }
+            }
+
+            if ('viewers' in data) {
+              if (data.viewers.count > this.viewers) {
+                this.countViews += 1;
+              }
+              this.viewers = data.viewers.count;
+
+              if (data.viewers.type == "add") {
+                this.spectators.push(data.viewers.user);
+              } else {
+                var filtersList = this.spectators.filter(element => element.id !== data.viewers.user.id);
+                this.spectators = filtersList;
+              }
+            }
+
+            if ('order' in data) {
+              this.countOrders += 1;
+              this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
+              this.amount = this.amount.toFixed(2);
+              data.order.createdAt = new Date();
+              this.orders.unshift(data.order);
+              this.available = data.order.available;
+            }
+          });
+
+
+          if (this.isShowPages) {
+            this.pages = this.pages.filter(page => page.selected);
+          }
+
+          if (this.isShowGroups) {
+            this.groups = this.groups.filter(group => group.selected);
+          }
+
+          console.log(this.pages);
+          console.log(this.groups);
+
+          // stream on facebook
+          if (this.fbToken) {
+            this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
+              var result = JSON.parse(response.data);
+              this.fbStreamId = result.fbStreamId; 
+              console.log(this.fbStreamId);
+
+              var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=ten_per_second&fields=from{name,id},message';
+              var source = new EventSource(url);
+              console.log(source);
+
+              source.onmessage = function(event) {
+                console.log(event);
+              };
+              source.onerror = function(error) {
+                console.log('error', error);
+              };
+              source.open = function(open) {
+                console.log(open);
+              };
+            }, (response) => {
+              console.log(response.error);
+            });
+          }
+        }, (response) => {
+          console.log(response.error);
+        });
+      } catch (error) {
+        console.error('Failed to start broadcast', error);
+      }
+    },   
+    async stop() {
+      window.StatusBar.overlaysWebView(false);
+      window.StatusBar.styleDefault();
+      window.StatusBar.backgroundColorByHexString("#ffffff");
+      
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+
+      this.ready = false;
+      this.performance = true;
+
+      this.pusher.unsubscribe(this.live.channel);
+
+      if (this.browser) {
+        this.video = null;
+        if (document.getElementById('player')) {
+          document.getElementById('player').remove();
+        }
+      }
+
+      this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
+        this.$store.commit('setUser', JSON.parse(response.data));
+        this.user = JSON.parse(response.data);
+      }, (response) => {
+        console.log(response.error);
+      });
+    },
+    goBack() {
       if (this.performance) {
         this.$router.push({ name: 'Account' });
       } else {
@@ -937,7 +954,6 @@ export default {
         this.display = this.display + 1;
         this.liveProducts.shift();
         this.available = this.checkQuantity();
-        
         this.http.put(this.baseUrl + "/user/api/live/" + this.id + "/update/display", { "display": this.display }, { Authorization: "Bearer " + this.token }, (response) => {
         }, (response) => {
           console.log(response.error);
@@ -986,89 +1002,6 @@ export default {
         console.log(response.error); 
       });
     },
-    async initiateBroadcast() {
-      if (window.bambuser && window.bambuser.broadcaster && (window.cordova.platformId === "ios" || window.cordova.platformId === "android")) {
-        try {
-          if (window.cordova && window.cordova.platformId === "ios") {
-            await window.bambuser.broadcaster.setApplicationId("Eqza0IhJO8JKQTs37D0VKQ");
-          } else {
-            await window.bambuser.broadcaster.setApplicationId("7a1Fm1qdrF4bYhnTfZosPA");
-          }
-          await window.bambuser.broadcaster.switchCamera();
-          this.showBroadcast();
-        } catch (e) {
-          this.showBroadcast();
-        }
-      } else {
-        this.showBroadcast();
-      }
-    },
-    async showBroadcast() {
-      if (window.bambuser && window.bambuser.broadcaster && (window.cordova.platformId === "ios" || window.cordova.platformId === "android")) {
-        this.broadcaster = window.bambuser.broadcaster;
-
-        try {
-          await this.broadcaster.setTitle("Live" + this.id);
-          await this.broadcaster.setAuthor(this.user.vendor.businessName);
-          await this.broadcaster.showViewfinderBehindWebView();
-
-          setTimeout(() => {
-            document.getElementsByTagName('body')[0].classList.remove("dark-mode");
-            document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-          }, 500);
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
-        setTimeout(() => {
-          var ressourceUri = "https://cdn.bambuser.net/broadcasts/20057381-f1d8-6fc1-1aa6-6fc9a896afc0?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1671610447&da_static=1&da_ttl=0&da_signature=f19839f85cb0bcf6376f8816b899ee4c79728afd8087a23ddeb5307c0d4e345d";
-          this.video = window.BambuserPlayer.create(document.getElementById('player'), ressourceUri);
-          this.video.scaleMode = "aspectFill";
-          this.video.play();
-        }, 200);
-      }
-    },
-    async start() {
-      if (this.broadcaster) {
-        try {
-          if (window.TapticEngine) {
-            TapticEngine.impact({ style: 'medium' });
-          }
-          await this.broadcaster.startBroadcast();
-          this.listenForError();
-          this.listenForBroadcastId();
-          this.listenForStatusChange();
-          this.prelive = false;
-          this.counter = true;
-
-          this.interval = setInterval(() => {
-            if (this.countdown == 1) {
-              this.counter = false;
-              this.ready = true;
-              clearInterval(this.interval);
-            }
-            this.countdown = this.countdown - 1;
-          }, 700);
-        } catch (e) {
-          console.log('Failed to start broadcast', e);
-        }
-      } else {
-        this.prelive = false;
-        this.counter = false;
-        this.ready = true;
-
-        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test", "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.live = JSON.parse(response.data);
-          this.liveProducts = this.live.liveProducts;
-          this.available = this.checkQuantity();
-
-          this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
-          var channel = this.pusher.subscribe(this.live.channel);
-        }, (response) => {
-          console.log(response.error);
-        });
-      }
-    },
     checkQuantity() {
       var product = this.liveProducts[0].product;
       if (product.quantity === 0) {
@@ -1085,176 +1018,7 @@ export default {
     totalVariantQuantity(variants) {
       return variants.reduce((total, variant) => total + variant.quantity, 0);
     },
-    async stop() {
-      window.StatusBar.overlaysWebView(false);
-      window.StatusBar.styleDefault();
-      window.StatusBar.backgroundColorByHexString("#ffffff");
-      
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-
-      this.ready = false;
-      this.performance = true;
-
-      if (this.broadcaster) {
-        this.broadcaster.hideViewfinder();
-        this.pusher.unsubscribe(this.live.channel);
-
-        try {
-          await this.broadcaster.stopBroadcast();
-        } catch (e) {
-          console.log('Failed to stop broadcast', e);
-        }
-      }
-
-      if (this.browser) {
-        this.video = null;
-        if (document.getElementById('player')) {
-          document.getElementById('player').remove();
-        }
-      }
-
-      this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
-        this.user = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    switchCamera() {
-      if (this.broadcaster) {
-        this.broadcaster.switchCamera();
-      }
-    },
-    listenForError() {
-      if (!this.errListenerId) {
-        this.errListenerId = this.broadcaster.addEventListener('connectionError', status => {
-          console.log("Une erreur est survenue : " + status);
-          window.plugins.toast.show("Une erreur est survenue !", 'long', 'top');
-
-          this.broadcaster.hideViewfinder();
-          this.broadcaster.removeEventListener(this.errListenerId);
-          this.pusher.unsubscribe(this.live.channel);
-          this.ready = false;
-          this.performance = true;
-        });
-      }
-    },
-    listenForBroadcastId() {
-      if (!this.broadcastListenerId) {
-        this.broadcastListenerId = this.broadcaster.addEventListener('broadcastIdAvailable', broadcastId => {
-          console.log("broadcastId : " + broadcastId);
-
-          this.broadcaster.removeEventListener(this.broadcastListenerId);
-          this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : broadcastId }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.live = JSON.parse(response.data);
-            this.liveProducts = this.live.liveProducts;
-            this.available = this.checkQuantity();
-            this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
-            var channel = this.pusher.subscribe(this.live.channel);
-
-            channel.bind(this.live.event, (data) => {
-              console.log(data);
-
-              if ('comment' in data) {
-                if (data.comment.user.firstname != this.user.firstname && data.comment.user.lastname != this.user.lastname) {
-                  this.comments.push(data.comment);
-                  this.scrollToElement();
-                }
-              }
-
-              if ('viewers' in data) {
-                if (data.viewers.count > this.viewers) {
-                  this.countViews += 1;
-                }
-                this.viewers = data.viewers.count;
-
-                if (data.viewers.type == "add") {
-                  this.spectators.push(data.viewers.user);
-                } else {
-                  var filtersList = this.spectators.filter(element => element.id !== data.viewers.user.id);
-                  this.spectators = filtersList;
-                }
-              }
-
-              if ('likes' in data) {
-                this.countLikes += 1;
-                if (data.likes != this.user.id) {
-                  this.showAnimation();
-                }
-              }
-
-              if ('order' in data) {
-                this.countOrders += 1;
-                this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
-                this.amount = this.amount.toFixed(2);
-                data.order.createdAt = new Date();
-                this.orders.unshift(data.order);
-                this.available = data.order.available;
-              }
-            });
-          }, (response) => {
-            console.log(response.error);
-          });
-
-          if (this.isShowPages) {
-            this.pages = this.pages.filter(page => page.selected);
-          }
-
-          if (this.isShowGroups) {
-            this.groups = this.groups.filter(group => group.selected);
-          }
-
-          console.log(this.pages);
-          console.log(this.groups);
-
-          // stream on facebook
-          if (this.fbToken) {
-            this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
-              var result = JSON.parse(response.data);
-              this.fbStreamId = result.fbStreamId; 
-              console.log(this.fbStreamId);
-
-              var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=ten_per_second&fields=from{name,id},message';
-              var source = new EventSource(url);
-              console.log(source);
-
-              source.onmessage = function(event) {
-                console.log(event);
-              };
-              source.onerror = function(error) {
-                console.log('error', error);
-              };
-              source.open = function(open) {
-                console.log(open);
-              };
-            }, (response) => {
-              console.log(response.error);
-            });
-          }
-        }, (response) => {
-          console.log(response.error);
-        });
-      }
-    },
-    listenForStatusChange() {
-      if (!this.statusListenerId) {
-        this.statusListenerId = this.broadcaster.addEventListener('connectionStatusChange', status => {
-          console.log("status change : " + status);
-
-          if (status == "reconnecting") {
-            window.plugins.toast.show('Tentative de reconnexion ...', 'long', 'top');
-          }
-
-          if (status == "finishing") {
-            this.broadcaster.hideViewfinder();
-            this.broadcaster.removeEventListener(this.statusListenerId);
-            this.pusher.unsubscribe(this.live.channel);
-          }
-        });
-      }
-    },
+ 
     showFacebook() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -1438,18 +1202,6 @@ export default {
     handleAnimation: function (anim) {
       this.anim = anim;
     },
-    addAnimation() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      this.showAnimation();
-
-      this.http.put(this.baseUrl + "/user/api/live/" + this.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-      }, (response) => { 
-        console.log(response.error); 
-      });
-    },
     checkProfile() {
       if(this.isProfileChecked == true) {
        this.isProfileChecked = false;
@@ -1479,206 +1231,7 @@ export default {
         // this.showGroupsPage = false;
         // this.showGroups();
       }
-    },
-    showAnimation() {
-      if (this.num == 0 && !this.anim1) {
-        this.anim1 = true;
-
-        setTimeout(() => {
-          this.anim1 = false;
-        }, 2500);
-      }
-
-      if (this.num == 1 && !this.anim2) {
-        this.anim2 = true;
-
-        setTimeout(() => {
-          this.anim2 = false;
-        }, 2500);
-      }
-
-      if (this.num == 2 && !this.anim3) {
-        this.anim3 = true;
-
-        setTimeout(() => {
-          this.anim3 = false;
-        }, 2500);
-      }
-
-      if (this.num == 3 && !this.anim4) {
-        this.anim4 = true;
-
-        setTimeout(() => {
-          this.anim4 = false;
-        }, 2500);
-      }
-      
-      if (this.num == 4 && !this.anim5) {
-        this.anim5 = true;
-
-        setTimeout(() => {
-          this.anim5 = false;
-        }, 2500);
-      }
-
-      if (this.num == 5 && !this.anim6) {
-        this.anim6 = true;
-
-        setTimeout(() => {
-          this.anim6 = false;
-        }, 2500);
-      }
-
-      if (this.num == 6 && !this.anim7) {
-        this.anim7 = true;
-
-        setTimeout(() => {
-          this.anim7 = false;
-        }, 2500);
-      }
-
-      if (this.num == 7 && !this.anim8) {
-        this.anim8 = true;
-
-        setTimeout(() => {
-          this.anim8 = false;
-        }, 2500);
-      }
-
-      if (this.num == 8 && !this.anim9) {
-        this.anim9 = true;
-
-        setTimeout(() => {
-          this.anim9 = false;
-        }, 2500);
-      }
-
-      if (this.num == 9 && !this.anim10) {
-        this.anim10 = true;
-
-        setTimeout(() => {
-          this.anim10 = false;
-        }, 2500);
-      }
-
-      if (this.num == 10 && !this.anim11) {
-        this.anim11 = true;
-
-        setTimeout(() => {
-          this.anim11 = false;
-        }, 2500);
-      }
-
-      if (this.num == 11 && !this.anim12) {
-        this.anim12 = true;
-
-        setTimeout(() => {
-          this.anim12 = false;
-        }, 2500);
-      }
-
-      if (this.num == 12 && !this.anim13) {
-        this.anim13 = true;
-
-        setTimeout(() => {
-          this.anim13 = false;
-        }, 2500);
-      }
-
-      if (this.num == 13 && !this.anim14) {
-        this.anim14 = true;
-
-        setTimeout(() => {
-          this.anim14 = false;
-        }, 2500);
-      }
-
-      if (this.num == 14 && !this.anim15) {
-        this.anim15 = true;
-
-        setTimeout(() => {
-          this.anim15 = false;
-        }, 2500);
-      }
-
-      if (this.num == 15 && !this.anim16) {
-        this.anim16 = true;
-
-        setTimeout(() => {
-          this.anim16 = false;
-        }, 2500);
-      }
-
-      if (this.num == 16 && !this.anim17) {
-        this.anim17 = true;
-
-        setTimeout(() => {
-          this.anim17 = false;
-        }, 2500);
-      }
-
-      if (this.num == 17 && !this.anim18) {
-        this.anim18 = true;
-
-        setTimeout(() => {
-          this.anim18 = false;
-        }, 2500);
-      }
-
-      if (this.num == 18 && !this.anim19) {
-        this.anim19 = true;
-
-        setTimeout(() => {
-          this.anim19 = false;
-        }, 2500);
-      }
-
-      if (this.num == 19 && !this.anim20) {
-        this.anim20 = true;
-
-        setTimeout(() => {
-          this.anim20 = false;
-        }, 2500);
-      }
-
-      if (this.num == 20 && !this.anim21) {
-        this.anim21 = true;
-
-        setTimeout(() => {
-          this.anim21 = false;
-        }, 2500);
-      }
-
-      if (this.num == 21 && !this.anim22) {
-        this.anim22 = true;
-
-        setTimeout(() => {
-          this.anim22 = false;
-        }, 2500);
-      }
-
-      if (this.num == 22 && !this.anim23) {
-        this.anim23 = true;
-
-        setTimeout(() => {
-          this.anim23 = false;
-        }, 2500);
-      }
-
-      if (this.num == 23 && !this.anim24) {
-        this.anim24 = true;
-
-        setTimeout(() => {
-          this.anim24 = false;
-        }, 2500);
-      }
-
-      if (this.num == 23) {
-        this.num = 0;
-      } else {
-        this.num = this.num + 1;
-      }
-    },
+    }
   }
 };
 

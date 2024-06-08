@@ -71,9 +71,9 @@
 
 
     <!-- popup infos -->
-    <div class="pane">
+    <div v-if="popupInfos" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; overflow: scroll;">
       <div class="checkout__header" style="padding: 5px 15px 15px; z-index: 10000000; background: white; width: 100%;">
-        <div @click="close()" class="checkout__close-btn">
+        <div @click="hideInfos()" class="checkout__close-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
@@ -149,6 +149,7 @@ export default {
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       winners: [],
+      popupInfos: false,
     }
   },
   filters: {
@@ -157,7 +158,7 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
-  created() {    
+  created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
@@ -167,6 +168,11 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+
+      this.popupInfos = true;
+    },
+    hideInfos() {
+      this.popupInfos = false;
     },
     goBack() {
       if (window.TapticEngine) {

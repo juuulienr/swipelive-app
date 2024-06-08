@@ -69,7 +69,7 @@
       <!-- step1 -->
       <div v-if="step1" class="step1">
         <div class="general--profile">
-          <span :style="[errorPicture ? {'border': '1px dashed #ff0000'} : {'border': '1px dashed rgba(145,158,171,.32)'}]">
+          <span style="border: 1px dashed rgba(145,158,171,.32)">
             <span v-if="loadingImg">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
                 <circle cx="50" cy="50" r="20" style="stroke: #ff2f80;"></circle>
@@ -88,7 +88,6 @@
             </div>
           </span>
         </div>
-        <div v-if="errorPicture" style="text-align: center; font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 30px; margin-top: -35px;">Une image ou un logo est obligatoire</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
@@ -393,7 +392,6 @@ export default {
       errorSummary: false,
       errorCountry: false,
       errorPhone: false,
-      errorPicture: false,
       errorRegistration: null,
       showAutocomplete: false,
       loadingImg: false,
@@ -414,7 +412,6 @@ export default {
       this.errorMonth = false;
       this.errorYear = false;
       this.errorPhone = false;
-      this.errorPicture = false;
 
       if (!this.user.email) {
         this.errorEmail = true;
@@ -441,10 +438,6 @@ export default {
           this.user.phone = this.user.phone.replace(/\s/g, '');
           console.log(this.user.phone);
         }
-      }
-
-      if (!this.user.picture) {
-        this.errorPicture = true;
       }
 
       if (!this.user.day) {
@@ -486,7 +479,7 @@ export default {
         }
       }
 
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorPhone && !this.errorPicture) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorYear && !this.errorMonth && !this.errorDay && !this.errorPhone) {
         this.step1 = false;
         this.step2 = true;
       }
@@ -721,7 +714,6 @@ export default {
     uploadImage(options) {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
-        this.errorPicture = false;
         this.loadingImg = true;
 
         window.cordova.plugin.http.setDataSerializer('json');

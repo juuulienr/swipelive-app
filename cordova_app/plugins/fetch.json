@@ -322,7 +322,23 @@
   "cordova-plugin-keyboard": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/juuulienr/cordova-plugin-keyboard.git"
+      "id": "cordova-plugin-keyboard"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-media-capture": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-media-capture@^5.0.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova.plugins.diagnostic": {
+    "source": {
+      "type": "registry",
+      "id": "cordova.plugins.diagnostic"
     },
     "is_top_level": true,
     "variables": {}

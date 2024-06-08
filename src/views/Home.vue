@@ -23,27 +23,6 @@
       </div>
     </div>
 
-<!--     <div v-if="following.length && following.length > 0" class="favourite" style="padding-top: 20px; margin-bottom: 20px;">
-    	<h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Abonnements</h2>
-    	<div class="list_persone" style="display:flex; padding: 0px; padding-left: 5px;">
-        <div v-for="(user, index) in following" style="padding: 0px 5px;">
-          <div @click="goToProfile(user)">
-            <div class="personne">
-              <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="border: 2px solid #ff2f80; padding: 3px; background: #eeeeee;">
-              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="border: 2px solid #ff2f80; padding: 3px; background: #eeeeee;">
-              <h5 class="name" style="margin-top: 7px;">{{ user.vendor.businessName }}</h5>
-            </div>
-          </div>
-        </div>
-    	</div>
-    </div>
- -->
-
-    <h1>Video Chat</h1>
-    <div id="local-video" style=" width: 300px;
-            height: 500px;
-            background-color: black;"></div>
-
 
     <div v-if="clipsTrending && clipsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
@@ -151,20 +130,11 @@ export default {
       clipsLatest: this.$store.getters.getClipsLatest,
       productsTrending: this.$store.getters.getProductsTrending,
       results: this.$store.getters.getSuggestions,
-      following: this.$store.getters.getFollowing,
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
       popupProduct: false,
       product: null,
       variant: null,
-      client: null,
-      localTracks: {
-        videoTrack: null,
-        audioTrack: null
-      },
-      agoraAppId: '0c6b099813dc4470a5b91979edb55af0', // Replace with your Agora app ID
-      agoraChannel: 'test', // Channel name
-      agoraToken: null // Token for authentication, use null if token is not enabled in your project settings
     }
   },
   created() {
@@ -177,12 +147,9 @@ export default {
         console.log(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
         this.$store.commit('setUser', JSON.parse(response.data));
-        this.loadFollowing();
       }, (error) => {
         console.log(error);
       }); 
-    } else {
-      this.loadFollowing();
     }
 
     if (this.$store.getters.getClipsTrending.length == 0) {
@@ -197,54 +164,7 @@ export default {
       this.loadClipsLatest();
     }
   },
-   mounted() {
-    this.initializeAgora();
-  },
-  beforeDestroy() {
-    this.leaveChannel();
-  },
   methods: {
-    async initializeAgora() {
-      this.client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
-      await this.getAgoraToken();
-    },
-    async getAgoraToken() {
-      window.cordova.plugin.http.get(this.baseUrl + "/agora/token", {}, {}, (response) => {
-        console.log(JSON.parse(response.data));
-        var result = JSON.parse(response.data);
-        this.agoraToken = result.token;
-        this.joinChannel();
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    async joinChannel() {
-      try {
-        console.log(this.agoraToken);
-        await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, null);
-        this.localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
-        this.localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        await this.client.publish(Object.values(this.localTracks));
-        this.localTracks.videoTrack.play('local-video');
-        console.log("User has joined channel and published streams successfully");
-      } catch (err) {
-        console.error("Failed to join channel and publish streams", err);
-      }
-    },
-    async leaveChannel() {
-      if (this.localTracks.videoTrack || this.localTracks.audioTrack) {
-        this.localTracks.videoTrack && await this.localTracks.videoTrack.stop();
-        this.localTracks.videoTrack && await this.localTracks.videoTrack.close();
-        this.localTracks.audioTrack && await this.localTracks.audioTrack.stop();
-        this.localTracks.audioTrack && await this.localTracks.audioTrack.close();
-      }
-      try {
-        await this.client.leave();
-        console.log("Client has left the channel successfully");
-      } catch (err) {
-        console.error("Failed to leave the channel", err);
-      }
-    },
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
@@ -268,15 +188,6 @@ export default {
         console.log(JSON.parse(response.data));
         this.productsTrending = JSON.parse(response.data);
         this.$store.commit('setProductsTrending', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    loadFollowing() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.following = JSON.parse(response.data);
-        this.$store.commit('setFollowing', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
