@@ -747,7 +747,7 @@ export default {
       try {    
         this.facingMode = "user";
         this.userId = await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
-        console.log(this.userId);
+        console.log(this.client);
 
         await this.client.setClientRole('host');
 
@@ -756,11 +756,26 @@ export default {
         this.localTracks.videoTrack = cameraTrack;
 
         await this.client.publish(Object.values(this.localTracks));
-        this.localTracks.videoTrack.play('player');
+        this.localTracks.videoTrack.play('player', { mirror : false });
         
         console.log("User has joined channel and published streams successfully");
       } catch (err) {
         console.error("Failed to join channel and publish streams", err);
+      }
+    },
+    async switchCamera() {
+      try {
+        this.facingMode = this.facingMode === "user" ? "environment" : "user";
+        const newVideoTrack = await AgoraRTC.createCameraVideoTrack({ facingMode: this.facingMode });
+
+        await this.localTracks.videoTrack.stop();
+        await this.localTracks.videoTrack.close();
+        
+        this.localTracks.videoTrack = newVideoTrack;
+        // this.localTracks.videoTrack.play('player');
+        this.localTracks.videoTrack.play('player', { mirror : false });
+      } catch (error) {
+        console.error('Error switching camera:', error);
       }
     },
     async leaveChannel() {
@@ -779,28 +794,6 @@ export default {
         console.log("Client has left the channel successfully");
       } catch (err) {
         console.error("Failed to leave the channel", err);
-      }
-    },
-    async switchCamera() {
-      try {
-        this.facingMode = this.facingMode === "user" ? "environment" : "user";
-        const newVideoTrack = await AgoraRTC.createCameraVideoTrack({ facingMode: this.facingMode });
-
-        await this.localTracks.videoTrack.stop();
-        await this.localTracks.videoTrack.close();
-        
-        if (!this.prelive) {
-          // await this.client.unpublish(this.localTracks.videoTrack);
-          this.localTracks.videoTrack = newVideoTrack;
-          // await this.client.publish(this.localTracks.videoTrack);
-          // await this.client.publish(Object.values(this.localTracks));
-        } else {
-          this.localTracks.videoTrack = newVideoTrack;
-        }
-
-        this.localTracks.videoTrack.play('player');
-      } catch (error) {
-        console.error('Error switching camera:', error);
       }
     },
     async startCountdown() {

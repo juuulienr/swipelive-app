@@ -1,9 +1,0 @@
-repositories {
-  flatDir {
-      dirs 'src/main/libbambuser'
-   }
-}
-
-dependencies {
-  compile(name:'libbambuser-0.9.21', ext:'aar')
-}

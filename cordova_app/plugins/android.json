@@ -28,9 +28,6 @@
     "cordova-plugin-app-version": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-bambuser": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "com.swipelive.app"
     },

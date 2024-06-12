@@ -26,11 +26,6 @@
     "cordova-plugin-app-version": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-bambuser": {
-      "BAMBUSER_CAMERA_USAGE_DESCRIPTION": "Access camera to stream live",
-      "BAMBUSER_MIC_USAGE_DESCRIPTION": "Access microphone to stream live",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "com.swipelive.app"
     },

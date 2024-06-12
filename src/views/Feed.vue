@@ -818,38 +818,38 @@ export default {
 
 
           // Listen to player events
-          this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-          this.myPlayer.scaleMode = "aspectFill";
-          this.myPlayer.play();
+          // this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
+          // this.myPlayer.scaleMode = "aspectFill";
+          // this.myPlayer.play();
 
-          this.myPlayer.addEventListener('canplay', () => {
-            this.loading[index].value = false;
+          // this.myPlayer.addEventListener('canplay', () => {
+          //   this.loading[index].value = false;
 
-            if (navigator.splashscreen) {
-              navigator.splashscreen.hide();
-            }
+          //   if (navigator.splashscreen) {
+          //     navigator.splashscreen.hide();
+          //   }
       
-            if (window.cordova.platformId == "browser") {
-              this.myPlayer.muted = true;
-            }
-          });
+          //   if (window.cordova.platformId == "browser") {
+          //     this.myPlayer.muted = true;
+          //   }
+          // });
 
-          this.myPlayer.addEventListener('ended', () => {
-            if (this.data[index].type == "live") {
-              this.finished[index].value = true;
-            } else {
-              if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
-                var el = document.getElementById('feed');
-                if (el) {
-                  el.scrollTop += window.innerHeight;
-                }
-              }
-            }
-          });
+          // this.myPlayer.addEventListener('ended', () => {
+          //   if (this.data[index].type == "live") {
+          //     this.finished[index].value = true;
+          //   } else {
+          //     if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
+          //       var el = document.getElementById('feed');
+          //       if (el) {
+          //         el.scrollTop += window.innerHeight;
+          //       }
+          //     }
+          //   }
+          // });
 
-          this.myPlayer.addEventListener('error', (error) => {
-            console.log("error player", error);
-          });
+          // this.myPlayer.addEventListener('error', (error) => {
+          //   console.log("error player", error);
+          // });
         }, 500);
       }
     },

@@ -26,9 +26,6 @@
     "cordova-plugin-app-version": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-bambuser": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },

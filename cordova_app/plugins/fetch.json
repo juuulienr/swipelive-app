@@ -111,14 +111,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-bambuser": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-bambuser"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-actionsheet": {
     "source": {
       "type": "registry",
