@@ -609,6 +609,15 @@ export default {
       anim23: false,
       anim24: false,
       num: 0,
+      client: null,
+      localTracks: {
+        videoTrack: null,
+        audioTrack: null
+      },
+      agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
+      agoraChannel: null,
+      agoraToken: null,
+      uid: 0,
     }
   },
   created() {
@@ -733,6 +742,56 @@ export default {
     }
   },
   methods: {
+    async initializeAgora(id, index) {
+      console.log("client initialized");
+      this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
+      this.agoraChannel = "Live" + id;
+      this.uid = this.user.id;
+      await this.getAgoraToken(id, index);
+    },
+    async getAgoraToken(id, index) {
+      try {
+        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/" + id, {}, {}, (response) => {
+          var result = JSON.parse(response.data);
+          this.agoraToken = result.token;
+          this.joinChannel(index);
+        }, (response) => {
+          console.log(response.error);
+        });
+      } catch (error) {
+        console.error("Error getting Agora token:", error);
+      }
+    },
+    async joinChannel(index) {
+      try {
+        console.log("Joined channel successfully");
+        await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
+        await this.client.setClientRole('audience');
+
+        this.client.on("user-published", async (user, mediaType) => {
+          await this.client.subscribe(user, mediaType);
+          console.log("Subscribed to user", user);
+          console.log(index);
+
+          if (mediaType === 'video') {
+            const remoteVideoTrack = user.videoTrack;
+            this.remoteTracks[user.uid] = remoteVideoTrack;
+            remoteVideoTrack.play('player'+index);
+            this.loading[index].value = false;
+          }
+
+          if (mediaType === 'audio') {
+            const remoteAudioTrack = user.audioTrack;
+            this.remoteTracks[user.uid] = remoteAudioTrack;
+            remoteAudioTrack.play();
+          }
+        });
+
+        console.log("User has joined channel and published streams successfully");
+      } catch (err) {
+        console.error("Failed to join channel and publish streams", err);
+      }
+    },
     keyboardHeightWillChangeHandler(event) {
       console.log("feed height");
       console.log(event.keyboardHeight);
@@ -809,7 +868,13 @@ export default {
       }
     },
     launchPlayer(value, index) {
-      console.log(value.resourceUri);
+      console.log(value, index);
+      if (this.data[index].type == "live") {
+        console.log(value);
+
+        this.initializeAgora(value.id, index);
+      }
+
       console.log(typeof value.resourceUri === 'string');
       if (value.resourceUri && typeof value.resourceUri === 'string') {
         setTimeout(() => {
@@ -901,11 +966,11 @@ export default {
       this.variant = null;
     },
     async goCheckout() {
-      if (this.data[this.visible].type == "live") {
-        this.myPlayer.muted = true;
-      } else {
-        this.myPlayer.pause();
-      }
+      // if (this.data[this.visible].type == "live") {
+      //   this.myPlayer.muted = true;
+      // } else {
+      //   this.myPlayer.pause();
+      // }
 
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -1422,11 +1487,11 @@ export default {
       this.popupShop = false;
       this.popupCheckout = true;
 
-      if (this.data[this.visible].type == "live") {
-        this.myPlayer.muted = true;
-      } else {
-        this.myPlayer.pause();
-      }
+      // if (this.data[this.visible].type == "live") {
+      //   this.myPlayer.muted = true;
+      // } else {
+      //   this.myPlayer.pause();
+      // }
 
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -1442,14 +1507,14 @@ export default {
       this.lineItems = [];
 
       if (this.data[this.visible].type == "live") {
-        this.myPlayer.muted = false;
+        // this.myPlayer.muted = false;
         this.http.get(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/orders/" + order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
           console.log(response);
         }, (response) => { 
           console.log(response.error); 
         });
       } else {
-        this.myPlayer.play();
+        // this.myPlayer.play();
         setTimeout(() => {
           this.purchase = true;
           setTimeout(() => {
@@ -1467,11 +1532,11 @@ export default {
       this.popupShop = false;
       this.popupCheckout = false;
       
-      if (this.data[this.visible].type == "live") {
-        this.myPlayer.muted = false;
-      } else {
-        this.myPlayer.play();
-      }
+      // if (this.data[this.visible].type == "live") {
+      //   this.myPlayer.muted = false;
+      // } else {
+      //   this.myPlayer.play();
+      // }
 
       window.StatusBar.styleLightContent();
       window.StatusBar.overlaysWebView(true);

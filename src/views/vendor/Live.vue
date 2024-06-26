@@ -651,11 +651,12 @@ export default {
         audioTrack: null
       },
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
-      agoraChannel: "test",
+      agoraChannel: null,
       agoraToken: null,
-      uid: 123456,
+      uid: 0,
       userId: null,
       facingMode: null,
+      mirrorMode: true,
     }
   },
   filters: {
@@ -728,11 +729,18 @@ export default {
       AgoraRTC.enableLogUpload();
       AgoraRTC.setLogLevel(0);
       this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
+      this.agoraChannel = "Live" + this.id;
+      this.uid = this.user.vendor.id;
       await this.getAgoraToken();
+
+      // Ajouter les gestionnaires d'événements
+      this.client.on("user-unpublished", this.handleUserUnpublished);
+      this.client.on("user-left", this.handleUserLeft);
+      this.client.on("user-offline", this.handleUserOffline);
     },
     async getAgoraToken() {
       try {
-        window.cordova.plugin.http.get(this.baseUrl + "/agora/token", {}, {}, (response) => {
+        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/" + this.id, {}, {}, (response) => {
           var result = JSON.parse(response.data);
           this.agoraToken = result.token;
           this.joinChannel();
@@ -744,19 +752,21 @@ export default {
       }
     },
     async joinChannel() {
-      try {    
+      try {
         this.facingMode = "user";
         this.userId = await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
-        console.log(this.client);
+        console.log(this.userId);
 
         await this.client.setClientRole('host');
+        console.log(this.client);
 
         const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({}, { facingMode: this.facingMode });
         this.localTracks.audioTrack = microphoneTrack;
         this.localTracks.videoTrack = cameraTrack;
 
         await this.client.publish(Object.values(this.localTracks));
-        this.localTracks.videoTrack.play('player', { mirror : false });
+        this.localTracks.videoTrack.play('player', { mirror : this.mirrorMode });
+        console.log(this.client);
         
         console.log("User has joined channel and published streams successfully");
       } catch (err) {
@@ -766,17 +776,41 @@ export default {
     async switchCamera() {
       try {
         this.facingMode = this.facingMode === "user" ? "environment" : "user";
+        this.mirrorMode = this.facingMode === "user" ? true : false;
         const newVideoTrack = await AgoraRTC.createCameraVideoTrack({ facingMode: this.facingMode });
 
         await this.localTracks.videoTrack.stop();
         await this.localTracks.videoTrack.close();
         
         this.localTracks.videoTrack = newVideoTrack;
-        // this.localTracks.videoTrack.play('player');
-        this.localTracks.videoTrack.play('player', { mirror : false });
+        this.localTracks.videoTrack.play('player', { mirror : this.mirrorMode });
       } catch (error) {
         console.error('Error switching camera:', error);
       }
+    },
+    handleUserUnpublished(user) {
+      console.log("User unpublished:", user);
+      console.log("Informer le serveur de la fin du live", user);
+
+      if (user.uid === this.uid) {
+        if (this.localTracks.videoTrack) {
+          this.localTracks.videoTrack.stop();
+          this.localTracks.videoTrack.close();
+        }
+        if (this.localTracks.audioTrack) {
+          this.localTracks.audioTrack.stop();
+          this.localTracks.audioTrack.close();
+        }
+      }
+      // Ajouter toute autre logique que vous souhaitez exécuter lorsqu'un utilisateur arrête de publier
+    },
+    handleUserLeft(user) {
+      console.log("User left:", user);
+      // this.checkLiveStatus();
+    },
+    handleUserOffline(user) {
+      console.log("User offline:", user);
+      // this.checkLiveStatus();
     },
     async leaveChannel() {
       if (this.localTracks.videoTrack) {
@@ -817,7 +851,7 @@ export default {
     },
     async startLive() {
       try {
-        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "broadcastId" : "test", "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
+        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
           this.live = JSON.parse(response.data);
           this.liveProducts = this.live.liveProducts;
           this.available = this.checkQuantity();
@@ -867,12 +901,10 @@ export default {
             this.groups = this.groups.filter(group => group.selected);
           }
 
-          console.log(this.pages);
-          console.log(this.groups);
 
           // stream on facebook
           if (this.fbToken) {
-            this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "broadcastId" : broadcastId, "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
               var result = JSON.parse(response.data);
               this.fbStreamId = result.fbStreamId; 
               console.log(this.fbStreamId);
