@@ -737,6 +737,10 @@ export default {
       this.client.on("user-unpublished", this.handleUserUnpublished);
       this.client.on("user-left", this.handleUserLeft);
       this.client.on("user-offline", this.handleUserOffline);
+      this.client.on("user-published", async (user, mediaType) => {
+        console.log("Subscribed to user", user);
+        console.log("Subscribed to mediaType", mediaType);
+      });
     },
     async getAgoraToken() {
       try {
@@ -754,6 +758,7 @@ export default {
     async joinChannel() {
       try {
         this.facingMode = "user";
+        
         this.userId = await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
         console.log(this.userId);
 
@@ -767,6 +772,7 @@ export default {
         await this.client.publish(Object.values(this.localTracks));
         this.localTracks.videoTrack.play('player', { mirror : this.mirrorMode });
         console.log(this.client);
+
         
         console.log("User has joined channel and published streams successfully");
       } catch (err) {

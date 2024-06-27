@@ -386,7 +386,10 @@
         </div>
 
         <!-- video -->
-        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}"></div>
+        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="
+  width: 640px;
+  height: 480px;
+  background-color: #000;"></div>
         
         <!-- visible -->
         <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
@@ -746,12 +749,30 @@ export default {
       console.log("client initialized");
       this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
       this.agoraChannel = "Live" + id;
-      this.uid = this.user.id;
       await this.getAgoraToken(id, index);
+      
+      this.client.on("user-published", async (user, mediaType) => {
+        console.log(mediaType);
+        console.log(user);
+        await this.client.subscribe(user, mediaType);
+        console.log("Subscribed to user", user);
+        console.log(index);
+
+        if (mediaType === 'video') {
+          const remoteVideoTrack = user.videoTrack;
+          // this.remoteTracks = remoteVideoTrack;
+          remoteVideoTrack.play('player'+index);
+        }
+
+        if (mediaType === 'audio') {
+          const remoteAudioTrack = user.audioTrack;
+          remoteAudioTrack.play();
+        }
+      });
     },
     async getAgoraToken(id, index) {
       try {
-        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/" + id, {}, {}, (response) => {
+        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/audience/" + id, {}, {}, (response) => {
           var result = JSON.parse(response.data);
           this.agoraToken = result.token;
           this.joinChannel(index);
@@ -764,33 +785,31 @@ export default {
     },
     async joinChannel(index) {
       try {
+
         console.log("Joined channel successfully");
-        await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
+        await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, null);
         await this.client.setClientRole('audience');
+        this.loading[index].value = false;
 
-        this.client.on("user-published", async (user, mediaType) => {
-          await this.client.subscribe(user, mediaType);
-          console.log("Subscribed to user", user);
-          console.log(index);
-
-          if (mediaType === 'video') {
-            const remoteVideoTrack = user.videoTrack;
-            this.remoteTracks[user.uid] = remoteVideoTrack;
-            remoteVideoTrack.play('player'+index);
-            this.loading[index].value = false;
-          }
-
-          if (mediaType === 'audio') {
-            const remoteAudioTrack = user.audioTrack;
-            this.remoteTracks[user.uid] = remoteAudioTrack;
-            remoteAudioTrack.play();
-          }
-        });
-
-        console.log("User has joined channel and published streams successfully");
+        // Écouter les événements pour les utilisateurs dépubliés
+        this.client.on("user-unpublished", this.handleUserUnpublished);
+        this.client.on("user-left", this.handleUserLeft);
+        this.client.on("user-offline", this.handleUserOffline);
       } catch (err) {
         console.error("Failed to join channel and publish streams", err);
       }
+    },
+    handleUserUnpublished(user) {
+      console.log("User unpublished:", user);
+      // remoteVideoTrack.stop();
+    },
+    handleUserLeft(user) {
+      console.log("User left:", user);
+      this.handleUserUnpublished(user);
+    },
+    handleUserOffline(user) {
+      console.log("User offline:", user);
+      this.handleUserUnpublished(user);
     },
     keyboardHeightWillChangeHandler(event) {
       console.log("feed height");
