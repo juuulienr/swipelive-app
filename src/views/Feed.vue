@@ -386,10 +386,7 @@
         </div>
 
         <!-- video -->
-        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="
-  width: 640px;
-  height: 480px;
-  background-color: #000;"></div>
+        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100vw; height: 100vh;"></div>
         
         <!-- visible -->
         <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
@@ -750,7 +747,7 @@ export default {
       this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
       this.agoraChannel = "Live" + id;
       await this.getAgoraToken(id, index);
-      
+
       this.client.on("user-published", async (user, mediaType) => {
         console.log(mediaType);
         console.log(user);

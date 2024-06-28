@@ -45,6 +45,9 @@
     </div>
 
 
+    <button @click="initialize">Initialize Agora</button>
+
+
 
     <div v-if="productsTrending && productsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Top Produits 🛍</h2>
@@ -137,6 +140,8 @@ export default {
       popupProduct: false,
       product: null,
       variant: null,
+      facingMode: 'user', // ou 'environment' selon votre besoin
+      isCordovaReady: false
     }
   },
   created() {
@@ -166,7 +171,93 @@ export default {
       this.loadClipsLatest();
     }
   },
-  methods: {
+  mounted() {
+    if (window.cordova) {
+      document.addEventListener('deviceready', this.onDeviceReady, false);
+    } else {
+      // Pour le web
+      this.isCordovaReady = true;
+    }
+  },
+  methods: {    async checkPermissions() {
+      if (!this.isCordovaReady && !window.cordova) {
+        console.error('Cordova is not ready or not available');
+        return false;
+      }
+      return new Promise((resolve, reject) => {
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.AgoraPermissions) {
+          window.cordova.plugins.AgoraPermissions.checkPermissions((status) => {
+            console.log('Permissions status: ', status);
+            if (status.camera && status.microphone) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          }, (error) => {
+            console.error('Permission check failed: ', error);
+            reject(error);
+          });
+        } else {
+          console.error('AgoraPermissions plugin not found');
+          reject('AgoraPermissions plugin not found');
+        }
+      });
+    },
+    async requestPermissions() {
+      if (!this.isCordovaReady && !window.cordova) {
+        console.error('Cordova is not ready or not available');
+        return false;
+      }
+      return new Promise((resolve, reject) => {
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.AgoraPermissions) {
+          window.cordova.plugins.AgoraPermissions.requestPermissions((status) => {
+            console.log('Permissions granted: ', status);
+            if (status.camera && status.microphone) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          }, (error) => {
+            console.error('Permission request failed: ', error);
+            reject(error);
+          });
+        } else {
+          console.error('AgoraPermissions plugin not found');
+          reject('AgoraPermissions plugin not found');
+        }
+      });
+    },
+    async initializeAgora() {
+      try {
+        const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({}, { facingMode: this.facingMode });
+        console.log('Agora SDK initialized');
+        // Votre code pour utiliser les tracks audio et vidéo ici
+      } catch (error) {
+        console.error('Failed to create microphone and camera tracks: ', error);
+      }
+    },
+    async setup() {
+      try {
+        let permissionsGranted = await this.checkPermissions();
+        if (!permissionsGranted) {
+          permissionsGranted = await this.requestPermissions();
+        }
+
+        if (permissionsGranted) {
+          await this.initializeAgora();
+        } else {
+          console.error('Permissions not granted');
+        }
+      } catch (error) {
+        console.error('Error during setup: ', error);
+      }
+    },
+    initialize() {
+      this.setup();
+    },
+    onDeviceReady() {
+      this.isCordovaReady = true;
+    },
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));

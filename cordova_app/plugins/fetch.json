@@ -334,5 +334,21 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-agora-video-permission": {
+    "source": {
+      "type": "local",
+      "path": "/Users/julien/Programmation/Swipe Live/swipelive-app/cordova_app/node_modules/cordova-plugin-agora-video-permission"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-agora-permissions": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/juuulienr/cordova-plugin-agora-permissions.git"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

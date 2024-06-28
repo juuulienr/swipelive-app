@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-agora-permissions" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>AgoraPermissions</name>
+    <description>Cordova Plugin to handle permissions for Agora SDK</description>
+    <license>MIT</license>
+    <keywords>cordova, permissions, agora, video</keywords>
+    <js-module src="www/AgoraPermissions.js" name="AgoraPermissions">
+        <clobbers target="cordova.plugins.AgoraPermissions"/>
+    </js-module>
+    <platform name="android">
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.RECORD_AUDIO" />
+        </config-file>
+        <source-file src="src/android/AgoraPermissions.java" target-dir="src/com/example/plugin"/>
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AgoraPermissions">
+                <param name="android-package" value="com.example.plugin.AgoraPermissions"/>
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="ios">
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>We need camera access to use Agora video</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
+            <string>We need microphone access to use Agora audio</string>
+        </config-file>
+        <source-file src="src/ios/AgoraPermissions.m" />
+        <config-file target="config.xml" parent="/*">
+            <feature name="AgoraPermissions">
+                <param name="ios-package" value="AgoraPermissions"/>
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="browser">
+        <js-module src="src/browser/AgoraPermissions.js" name="AgoraPermissions">
+            <clobbers target="cordova.plugins.AgoraPermissions"/>
+            <runs/>
+        </js-module>
+    </platform>
+</plugin>
