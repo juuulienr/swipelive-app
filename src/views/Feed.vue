@@ -610,14 +610,10 @@ export default {
       anim24: false,
       num: 0,
       client: null,
-      localTracks: {
-        videoTrack: null,
-        audioTrack: null
-      },
+      remoteTracks: {},
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
       agoraChannel: null,
       agoraToken: null,
-      uid: 0,
     }
   },
   created() {
@@ -707,6 +703,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('keyboardHeightWillChange', this.keyboardHeightWillChangeHandler);
+    this.leaveChannel();
   },
   computed: {
     updateCart() {
@@ -757,12 +754,19 @@ export default {
 
         if (mediaType === 'video') {
           const remoteVideoTrack = user.videoTrack;
-          // this.remoteTracks = remoteVideoTrack;
-          remoteVideoTrack.play('player'+index);
+          this.remoteTracks[user.uid] = {
+            ...this.remoteTracks[user.uid],
+            videoTrack: remoteVideoTrack
+          };
+          remoteVideoTrack.play('player' + index);
         }
 
         if (mediaType === 'audio') {
           const remoteAudioTrack = user.audioTrack;
+          this.remoteTracks[user.uid] = {
+            ...this.remoteTracks[user.uid],
+            audioTrack: remoteAudioTrack
+          };
           remoteAudioTrack.play();
         }
       });
@@ -782,7 +786,6 @@ export default {
     },
     async joinChannel(index) {
       try {
-
         console.log("Joined channel successfully");
         await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, null);
         await this.client.setClientRole('audience');
@@ -796,9 +799,34 @@ export default {
         console.error("Failed to join channel and publish streams", err);
       }
     },
+    async leaveChannel() {
+      if (this.client) {
+        for (let uid in this.remoteTracks) {
+          const { videoTrack, audioTrack } = this.remoteTracks[uid];
+          if (videoTrack) {
+            videoTrack.stop();
+            videoTrack.close();
+          }
+          if (audioTrack) {
+            audioTrack.stop();
+            audioTrack.close();
+          }
+          delete this.remoteTracks[uid];
+        }
+        try {
+          await this.client.leave();
+          console.log("Left the channel successfully");
+        } catch (err) {
+          console.error("Failed to leave the channel", err);
+        }
+      }
+    },    
     handleUserUnpublished(user) {
       console.log("User unpublished:", user);
-      // remoteVideoTrack.stop();
+      if (this.remoteTracks[user.uid]) {
+        this.remoteTracks[user.uid].stop();
+        delete this.remoteTracks[user.uid];
+      }
     },
     handleUserLeft(user) {
       console.log("User left:", user);

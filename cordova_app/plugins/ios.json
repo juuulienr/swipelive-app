@@ -17,6 +17,9 @@
       "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-agora-permissions": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-android-permissions": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -115,12 +118,6 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova.plugins.diagnostic": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-agora-video-permission": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-agora-permissions": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },
