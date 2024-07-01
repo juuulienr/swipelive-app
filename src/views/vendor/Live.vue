@@ -726,21 +726,50 @@ export default {
   },
   methods: {
     async initializeAgora() {
-      AgoraRTC.enableLogUpload();
-      AgoraRTC.setLogLevel(0);
-      this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
-      this.agoraChannel = "Live" + this.id;
-      this.uid = this.user.vendor.id;
-      await this.getAgoraToken();
+      // AgoraRTC.enableLogUpload();
+      // AgoraRTC.setLogLevel(0);
+      // this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
+      // this.agoraChannel = "Live" + this.id;
+      // this.uid = this.user.vendor.id;
+      // await this.getAgoraToken();
 
-      // Ajouter les gestionnaires d'événements
-      this.client.on("user-unpublished", this.handleUserUnpublished);
-      this.client.on("user-left", this.handleUserLeft);
-      this.client.on("user-offline", this.handleUserOffline);
-      this.client.on("user-published", async (user, mediaType) => {
-        console.log("Subscribed to user", user);
-        console.log("Subscribed to mediaType", mediaType);
+      // // Ajouter les gestionnaires d'événements
+      // this.client.on("user-unpublished", this.handleUserUnpublished);
+      // this.client.on("user-left", this.handleUserLeft);
+      // this.client.on("user-offline", this.handleUserOffline);
+      // this.client.on("user-published", async (user, mediaType) => {
+      //   console.log("Subscribed to user", user);
+      //   console.log("Subscribed to mediaType", mediaType);
+      // });
+
+      window.cordova.plugins.Agora.initialize(this.agoraAppId, function(response) {
+          console.log('Agora initialized successfully');
+          console.log(response);
+
+        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/" + this.id, {}, {}, (response) => {
+          var result = JSON.parse(response.data);
+          this.agoraToken = result.token;
+          window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, function(response) {
+              console.log('Joined channel successfully');
+              console.log(response);
+              
+              window.cordova.plugins.Agora.createMicrophoneAndCameraTracks({}, function(response) {
+                  console.log('Microphone and camera tracks created successfully');
+                  console.log(response);
+              }, function(error) {
+                  console.error('Failed to create microphone and camera tracks', error);
+              });
+              
+          }, function(error) {
+              console.error('Failed to join channel', error);
+          });
+        }, (response) => {
+          console.log(response.error);
+        });
+      }, function(error) {
+          console.error('Agora initialization failed', error);
       });
+
     },
     async getAgoraToken() {
       try {
@@ -951,7 +980,9 @@ export default {
       this.ready = false;
       this.performance = true;
 
-      this.pusher.unsubscribe(this.live.channel);
+      if (this.pusher) {
+        this.pusher.unsubscribe(this.live.channel);
+      }
 
       if (this.browser) {
         this.video = null;
@@ -959,6 +990,8 @@ export default {
           document.getElementById('player').remove();
         }
       }
+
+      this.leaveChannel();
 
       this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));

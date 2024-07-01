@@ -7,41 +7,25 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-actionsheet": {
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-add-swift-support": {
+    "cordova-plugin-networkinterface": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-advanced-http": {
-      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
+    "cordova-plugin-safariviewcontroller": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-agora-permissions": {
+    "cordova-plugin-file": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-android-permissions": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-app-review": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-app-version": {
+    "cordova-plugin-x-toast": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-dialogs": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-enable-cleartext-traffic": {
+    "cordova-plugin-actionsheet": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-facebook-connect": {
@@ -57,7 +41,56 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-file": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-wheel-selector-plugin": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-taptic-engine": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-enable-cleartext-traffic": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-nativepagetransitions": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-stripeui": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-sign-in-with-apple": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-app-review": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-advanced-http": {
+      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-media": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-firebasex": {
@@ -65,54 +98,24 @@
       "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
       "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
       "FIREBASE_FCM_AUTOINIT_ENABLED": "true",
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-keyboard": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-media": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-nativepagetransitions": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-network-information": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-networkinterface": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-safariviewcontroller": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-sign-in-with-apple": {
+      "FIREBASE_ANALYTICS_WITHOUT_ADS": "false",
+      "GOOGLE_ANALYTICS_ADID_COLLECTION_ENABLED": "true",
+      "GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE": "true",
+      "GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE": "true",
+      "GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA": "true",
+      "GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS": "true",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-stripeui": {
+    "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-taptic-engine": {
+    "cordova-plugin-device": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-x-socialsharing": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-x-toast": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-support-android-plugin": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-wheel-selector-plugin": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova.plugins.diagnostic": {
+    "cordova-plugin-agora": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

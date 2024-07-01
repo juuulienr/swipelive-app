@@ -1,0 +1,36 @@
+{
+  "name": "cordova-plugin-agora",
+  "version": "1.0.0",
+  "description": "Cordova Plugin for Agora SDK",
+  "main": "www/agora.js",
+  "keywords": [
+    "cordova",
+    "agora",
+    "video",
+    "audio"
+  ],
+  "license": "MIT",
+  "engines": {
+    "cordovaDependencies": {
+      "cordova-android": ">=7.0.0",
+      "cordova-ios": ">=4.5.0"
+    }
+  },
+  "author": {
+    "name": "SWIPE LIVE",
+    "email": "contact@swipelive.app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juuulienr/cordova-plugin-agora.git"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "cordova": {
+    "id": "cordova-plugin-agora",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  }
+}

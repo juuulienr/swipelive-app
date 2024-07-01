@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-agora" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>Cordova Agora Plugin</name>
+    <description>Cordova Plugin for Agora SDK</description>
+    <license>MIT</license>
+    <keywords>cordova, agora, video, audio</keywords>
+    <js-module src="www/agora.js" name="Agora">
+        <clobbers target="cordova.plugins.Agora"/>
+    </js-module>
+    <platform name="android">
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.RECORD_AUDIO" />
+            <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
+        <source-file src="src/android/AgoraPlugin.java" target-dir="src/com/example/plugin"/>
+    </platform>
+    <platform name="ios">
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>We need camera access to use Agora video</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
+            <string>We need microphone access to use Agora audio</string>
+        </config-file>
+        <source-file src="src/ios/AgoraPlugin.m" />
+    </platform>
+</plugin>

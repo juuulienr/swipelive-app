@@ -9,7 +9,11 @@ networkinterface.getCarrierIPAddress = function( success, fail ) {
     cordova.exec( success, fail, "networkinterface", "getCarrierIPAddress", [] );
 };
 
-networkinterface.getHttpProxyInformation = function(url, success, fail ) {
+networkinterface.getIPAddress = function( success, fail ) {
+    cordova.exec( success, networkinterface.getCarrierIPAddress.bind( null, success, fail ), "networkinterface", "getWiFiIPAddress", [] );
+};
+
+networkinterface.getHttpProxyInformation = function( url, success, fail ) {
     cordova.exec( success, fail, "networkinterface", "getHttpProxyInformation", [url] );
 };
 
