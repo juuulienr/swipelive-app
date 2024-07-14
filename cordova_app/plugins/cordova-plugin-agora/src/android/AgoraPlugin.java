@@ -36,9 +36,6 @@ public class AgoraPlugin extends CordovaPlugin {
             case "createMicrophoneAndCameraTracks":
                 createMicrophoneAndCameraTracks(args.getJSONObject(0), callbackContext);
                 return true;
-            case "getDevices":
-                getDevices(callbackContext);
-                return true;
             default:
                 return false;
         }
@@ -94,13 +91,5 @@ public class AgoraPlugin extends CordovaPlugin {
         } else {
             callbackContext.error("Agora not initialized");
         }
-    }
-
-    private void getDevices(CallbackContext callbackContext) {
-        // Example: List available audio devices
-        JSONArray devices = new JSONArray();
-        devices.put("Audio Device 1");
-        devices.put("Audio Device 2");
-        callbackContext.success(devices);
     }
 }

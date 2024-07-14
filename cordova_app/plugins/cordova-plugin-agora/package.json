@@ -1,15 +1,15 @@
 {
   "name": "cordova-plugin-agora",
   "version": "1.0.0",
-  "description": "Cordova Plugin for Agora SDK",
-  "main": "www/agora.js",
+  "description": "Cordova Plugin for Agora",
+  "main": "www/Agora.js",
   "keywords": [
     "cordova",
     "agora",
+    "live",
     "video",
     "audio"
   ],
-  "license": "MIT",
   "engines": {
     "cordovaDependencies": {
       "cordova-android": ">=7.0.0",

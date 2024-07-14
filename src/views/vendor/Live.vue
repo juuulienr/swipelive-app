@@ -1,6 +1,10 @@
 <template>
   <div class="livestream" style="background: black;">
-    <div id="player" style="height: 100vh; overflow: hidden;"></div>
+    <div id="player"></div> 
+    <div class="overlay-elements">
+      <!-- Vos éléments HTML de superposition -->
+      <p>Overlay Element</p>
+    </div>
 
     <div v-if="prelive" class="prelive">
       <!-- filter top/bottom -->
@@ -715,7 +719,7 @@ export default {
   beforeDestroy() {
     document.getElementsByTagName('body')[0].classList.remove("dark-mode");
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
-    this.leaveChannel();
+    // this.leaveChannel();
   },
   directives: {
     focus: {
@@ -726,88 +730,111 @@ export default {
   },
   methods: {
     async initializeAgora() {
-      // AgoraRTC.enableLogUpload();
-      // AgoraRTC.setLogLevel(0);
-      // this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
-      // this.agoraChannel = "Live" + this.id;
-      // this.uid = this.user.vendor.id;
-      // await this.getAgoraToken();
+      console.log("initializeAgora");
 
-      // // Ajouter les gestionnaires d'événements
-      // this.client.on("user-unpublished", this.handleUserUnpublished);
-      // this.client.on("user-left", this.handleUserLeft);
-      // this.client.on("user-offline", this.handleUserOffline);
-      // this.client.on("user-published", async (user, mediaType) => {
-      //   console.log("Subscribed to user", user);
-      //   console.log("Subscribed to mediaType", mediaType);
-      // });
-
-      window.cordova.plugins.Agora.initialize(this.agoraAppId, function(response) {
-          console.log('Agora initialized successfully');
-          console.log(response);
+      window.cordova.plugins.Agora.initialize(this.agoraAppId, (response) => {
+        console.log('Agora initialized successfully');
+        console.log(response);
 
         window.cordova.plugin.http.get(this.baseUrl + "/agora/token/" + this.id, {}, {}, (response) => {
           var result = JSON.parse(response.data);
           this.agoraToken = result.token;
-          window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, function(response) {
-              console.log('Joined channel successfully');
+          this.agoraChannel = "Live" + this.id;
+          this.uid = this.user.vendor.id;
+
+          console.log('Token:', this.agoraToken);
+          console.log('Channel:', this.agoraChannel);
+          console.log('UID:', this.uid);
+
+          window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, (response) => {
+            console.log('Joined channel successfully');
+            console.log(response);
+
+            var options = {
+              width: 640,
+              height: 480,
+              frameRate: 15,
+              bitrate: 1000,
+              orientationMode: 0, // AgoraVideoOutputOrientationMode
+              mirrorMode: 0       // AgoraVideoMirrorMode
+            };
+
+            window.cordova.plugins.Agora.createMicrophoneAndCameraTracks(options, (response) => {
+              console.log('Microphone and camera tracks created successfully');
               console.log(response);
-              
-              window.cordova.plugins.Agora.createMicrophoneAndCameraTracks({}, function(response) {
-                  console.log('Microphone and camera tracks created successfully');
-                  console.log(response);
-              }, function(error) {
-                  console.error('Failed to create microphone and camera tracks', error);
-              });
-              
+
+              this.addLocalVideoStream();
+
+            }, function(error) {
+              console.error('Failed to create microphone and camera tracks', error);
+            });
+
           }, function(error) {
-              console.error('Failed to join channel', error);
+            console.error('Failed to join channel', error);
           });
         }, (response) => {
           console.log(response.error);
         });
       }, function(error) {
-          console.error('Agora initialization failed', error);
+        console.error('Agora initialization failed', error);
       });
-
     },
-    async getAgoraToken() {
-      try {
-        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/" + this.id, {}, {}, (response) => {
-          var result = JSON.parse(response.data);
-          this.agoraToken = result.token;
-          this.joinChannel();
-        }, (response) => {
-          console.log(response.error);
+    addLocalVideoStream() {
+      const videoElement = document.createElement('div'); // Utilisation d'un div pour contenir la vidéo
+      videoElement.id = 'local-video';
+      videoElement.style.width = '100%';
+      videoElement.style.height = '100%';
+      videoElement.style.position = 'relative'; // S'assurer que la vidéo ne masque pas d'autres éléments
+
+      document.getElementById('player').appendChild(videoElement);
+
+      window.cordova.plugins.Agora.sharedRtcEngine((rtcEngine) => {
+        console.log('rtcEngine is available');
+        console.log(rtcEngine);
+        
+        const options = {
+          uid: this.uid,
+          elementId: 'local-video', // Passer l'identifiant unique
+          renderMode: 1, // AgoraVideoRenderModeHidden
+          mirrorMode: 0  // AgoraVideoMirrorModeAuto
+        };
+
+        window.cordova.plugins.Agora.setupLocalVideo(options, (response) => {
+          console.log('Local video setup successfully');
+          console.log(response);
+        }, (error) => {
+          console.error('Failed to setup local video', error);
         });
-      } catch (error) {
-        console.error("Error getting Agora token:", error);
-      }
+      }, (error) => {
+        console.error('rtcEngine is not available', error);
+      });
     },
-    async joinChannel() {
-      try {
-        this.facingMode = "user";
+
+
+    // async joinChannel() {
+    //   try {
+    //     this.facingMode = "user";
         
-        this.userId = await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
-        console.log(this.userId);
+    //     this.userId = await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
+    //     console.log(this.userId);
 
-        await this.client.setClientRole('host');
-        console.log(this.client);
+    //     await this.client.setClientRole('host');
+    //     console.log(this.client);
 
-        const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({}, { facingMode: this.facingMode });
-        this.localTracks.audioTrack = microphoneTrack;
-        this.localTracks.videoTrack = cameraTrack;
+    //     const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({}, { facingMode: this.facingMode });
+    //     this.localTracks.audioTrack = microphoneTrack;
+    //     this.localTracks.videoTrack = cameraTrack;
 
-        await this.client.publish(Object.values(this.localTracks));
-        this.localTracks.videoTrack.play('player', { mirror : this.mirrorMode });
-        console.log(this.client);
+    //     await this.client.publish(Object.values(this.localTracks));
+    //     this.localTracks.videoTrack.play('player', { mirror : this.mirrorMode });
+    //     console.log(this.client);
 
         
-        console.log("User has joined channel and published streams successfully");
-      } catch (err) {
-        console.error("Failed to join channel and publish streams", err);
-      }
-    },
+    //     console.log("User has joined channel and published streams successfully");
+    //   } catch (err) {
+    //     console.error("Failed to join channel and publish streams", err);
+    //   }
+    // },
     async switchCamera() {
       try {
         this.facingMode = this.facingMode === "user" ? "environment" : "user";
@@ -823,48 +850,48 @@ export default {
         console.error('Error switching camera:', error);
       }
     },
-    handleUserUnpublished(user) {
-      console.log("User unpublished:", user);
-      console.log("Informer le serveur de la fin du live", user);
+    // handleUserUnpublished(user) {
+    //   console.log("User unpublished:", user);
+    //   console.log("Informer le serveur de la fin du live", user);
 
-      if (user.uid === this.uid) {
-        if (this.localTracks.videoTrack) {
-          this.localTracks.videoTrack.stop();
-          this.localTracks.videoTrack.close();
-        }
-        if (this.localTracks.audioTrack) {
-          this.localTracks.audioTrack.stop();
-          this.localTracks.audioTrack.close();
-        }
-      }
-      // Ajouter toute autre logique que vous souhaitez exécuter lorsqu'un utilisateur arrête de publier
-    },
-    handleUserLeft(user) {
-      console.log("User left:", user);
-      // this.checkLiveStatus();
-    },
-    handleUserOffline(user) {
-      console.log("User offline:", user);
-      // this.checkLiveStatus();
-    },
-    async leaveChannel() {
-      if (this.localTracks.videoTrack) {
-        await this.localTracks.videoTrack.stop();
-        await this.localTracks.videoTrack.close();
-      }
+    //   if (user.uid === this.uid) {
+    //     if (this.localTracks.videoTrack) {
+    //       this.localTracks.videoTrack.stop();
+    //       this.localTracks.videoTrack.close();
+    //     }
+    //     if (this.localTracks.audioTrack) {
+    //       this.localTracks.audioTrack.stop();
+    //       this.localTracks.audioTrack.close();
+    //     }
+    //   }
+    //   // Ajouter toute autre logique que vous souhaitez exécuter lorsqu'un utilisateur arrête de publier
+    // },
+    // handleUserLeft(user) {
+    //   console.log("User left:", user);
+    //   // this.checkLiveStatus();
+    // },
+    // handleUserOffline(user) {
+    //   console.log("User offline:", user);
+    //   // this.checkLiveStatus();
+    // },
+    // async leaveChannel() {
+    //   if (this.localTracks.videoTrack) {
+    //     await this.localTracks.videoTrack.stop();
+    //     await this.localTracks.videoTrack.close();
+    //   }
       
-      if (this.localTracks.audioTrack) {
-        await this.localTracks.audioTrack.stop();
-        await this.localTracks.audioTrack.close();
-      }
+    //   if (this.localTracks.audioTrack) {
+    //     await this.localTracks.audioTrack.stop();
+    //     await this.localTracks.audioTrack.close();
+    //   }
       
-      try {
-        await this.client.leave();
-        console.log("Client has left the channel successfully");
-      } catch (err) {
-        console.error("Failed to leave the channel", err);
-      }
-    },
+    //   try {
+    //     await this.client.leave();
+    //     console.log("Client has left the channel successfully");
+    //   } catch (err) {
+    //     console.error("Failed to leave the channel", err);
+    //   }
+    // },
     async startCountdown() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -991,7 +1018,7 @@ export default {
         }
       }
 
-      this.leaveChannel();
+      // this.leaveChannel();
 
       this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));

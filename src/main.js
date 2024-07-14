@@ -44,17 +44,17 @@ document.addEventListener("deviceready", () => {
 
 
 // status
-document.addEventListener("pause", () => {
-  // console.log("User is out of the app");
-});
+// document.addEventListener("pause", () => {
+//   // console.log("User is out of the app");
+// });
  
-document.addEventListener("resume", () => {
-  // console.log("User is using the app");
-});
+// document.addEventListener("resume", () => {
+//   // console.log("User is using the app");
+// });
  
-document.addEventListener("backbutton", () => {
-  // console.log("User click on the back button");
-});
+// document.addEventListener("backbutton", () => {
+//   // console.log("User click on the back button");
+// });
 
 
 // network
@@ -62,9 +62,9 @@ document.addEventListener("offline", () => {
   window.plugins.toast.show("Pas de connexion Internet", 'long', 'top');
 });
 
-document.addEventListener("online", () => {
-  window.plugins.toast.show("Vous êtes de nouveau connecté à internet", 'long', 'top');
-});
+// document.addEventListener("online", () => {
+//   window.plugins.toast.show("Vous êtes de nouveau connecté à internet", 'long', 'top');
+// });
 
 
 // window.addEventListener('keyboardDidShow', function () {

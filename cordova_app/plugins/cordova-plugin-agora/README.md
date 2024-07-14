@@ -13,5 +13,6 @@ This is a Cordova plugin for integrating the Agora SDK to enable real-time video
 
 To install the plugin, run the following command:
 
-cordova plugin add https://github.com/juuulienr/cordova-plugin-agora.git
+cordova plugin rm cordova-plugin-agora
 
+cordova plugin add https://github.com/juuulienr/cordova-plugin-agora.git

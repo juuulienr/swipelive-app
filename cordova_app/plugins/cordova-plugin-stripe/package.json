@@ -1,0 +1,33 @@
+{
+  "name": "cordova-plugin-stripe",
+  "version": "1.0.0",
+  "description": "Cordova plugin for Stripe",
+  "main": "www/StripeUIPlugin.js",
+  "keywords": [
+    "cordova",
+    "stripe",
+    "cordova-android",
+    "cordova-plugin",
+    "cordova-ios",
+    "stripe-checkout",
+    "stripe-payment",
+    "stripe-sdk"
+  ],
+  "engines": {
+    "cordova": ">=9.0.0"
+  },
+  "author": {
+    "name": "SWIPE LIVE",
+    "email": "contact@swipelive.app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juuulienr/cordova-plugin-stripe.git"
+  },
+  "platforms": [
+    "android",
+    "ios"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}

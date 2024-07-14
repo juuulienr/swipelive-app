@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-stripeui" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
-  <name>StripeUI Plugin</name>
-  <repo>https://github.com/gecsbernat/cordova-plugin-stripeui</repo>
+<plugin id="cordova-plugin-stripe" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>Cordova Stripe Plugin</name>
+  <description>Cordova Plugin for Stripe</description>
+  <keywords>cordova, stripe, checkout, payment</keywords>
   <js-module name="StripeUIPlugin" src="www/StripeUIPlugin.js">
     <clobbers target="StripeUIPlugin"/>
   </js-module>
@@ -36,7 +37,7 @@
         <source url="https://cdn.cocoapods.org/"/>
       </config>
       <pods use-frameworks="true">
-        <pod name="Stripe" spec="~> 21.8.1"/>
+        <pod name="Stripe" spec="22.8.4"/>
       </pods>
     </podspec>
   </platform>
