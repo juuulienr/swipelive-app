@@ -98,9 +98,9 @@
       "cordova-plugin-agora": {}
     },
     "platforms": [
-      "android",
       "browser",
-      "ios"
+      "ios",
+      "android"
     ]
   },
   "devDependencies": {

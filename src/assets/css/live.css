@@ -1572,39 +1572,6 @@ span.filter--choice > input:checked ~ .svg--point {
   text-align: center;
 }
 
-
-.livestream {
-  background: black;
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-#player {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-#local-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1; /* Assurez-vous que l'élément vidéo est au-dessus d'autres éléments */
-}
-
-.overlay-elements {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2; /* Assurez-vous que les éléments de superposition sont au-dessus de l'élément vidéo */
-  color: white;
-}
-
 input::placeholder {
   color: #bdc3c7;
 }

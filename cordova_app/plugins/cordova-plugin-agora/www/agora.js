@@ -52,6 +52,26 @@ var Agora = {
   },
   setupLocalVideo: function(options, success, error) {
     exec(success, error, 'AgoraPlugin', 'setupLocalVideo', [options]);
+  },
+  stopLocalVideo: function(success, error) {
+    console.log('Agora stopLocalVideo called');
+    exec(function(response) {
+      console.log('Agora stopLocalVideo success:', response);
+      success(response);
+    }, function(err) {
+      console.error('Agora stopLocalVideo error:', err);
+      error(err);
+    }, 'AgoraPlugin', 'stopLocalVideo', []);
+  },
+  switchCamera: function(success, error) {
+    console.log('Agora switchCamera called');
+    exec(function(response) {
+      console.log('Agora switchCamera success:', response);
+      success(response);
+    }, function(err) {
+      console.error('Agora switchCamera error:', err);
+      error(err);
+    }, 'AgoraPlugin', 'switchCamera', []);
   }
 };
 

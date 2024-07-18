@@ -1,9 +1,7 @@
-<template>
-  <div class="livestream" style="background: black;">
-    <div id="player"></div> 
-    <div class="overlay-elements">
-      <!-- Vos éléments HTML de superposition -->
-      <p>Overlay Element</p>
+<template>  
+  <div class="livestream">
+    <div id="player" style="position: relative; width: 100%; height: 100vh; overflow: hidden;">
+      <div id="local-video" style="width: 100%; height: 100%; position: absolute; z-index: 1;"></div>
     </div>
 
     <div v-if="prelive" class="prelive">
@@ -315,7 +313,7 @@
             </svg>
           </span>
         </div>
-        <div @click="stop()" class="video-page__influencer-username-holder">
+        <div @click="stopLive()" class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count" style="margin-left: 5px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 8px; fill: white;">
               <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/>
@@ -555,6 +553,23 @@
 
 <style scoped src="../../assets/css/live.css"></style>
 
+<style scoped>
+.livestream {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+#local-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+
+</style>
+
 <script>
 import Pusher from 'pusher-js';
 import Lottie from 'vue-lottie';
@@ -717,9 +732,9 @@ export default {
     this.initializeAgora();
   },
   beforeDestroy() {
-    document.getElementsByTagName('body')[0].classList.remove("dark-mode");
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
-    // this.leaveChannel();
+    document.getElementsByTagName('body')[0].classList.remove("dark-mode");
+    this.stopLocalVideo();
   },
   directives: {
     focus: {
@@ -732,166 +747,94 @@ export default {
     async initializeAgora() {
       console.log("initializeAgora");
 
+      // Obtenir le token et le canal
+      const response = await fetch(this.baseUrl + "/agora/token/" + this.id);
+      const result = await response.json();
+      this.agoraToken = result.token;
+      this.agoraChannel = "Live" + this.id;
+      this.uid = this.user.vendor.id;
+
+      console.log('Token:', this.agoraToken);
+      console.log('Channel:', this.agoraChannel);
+      console.log('UID:', this.uid);
+
       window.cordova.plugins.Agora.initialize(this.agoraAppId, (response) => {
         console.log('Agora initialized successfully');
         console.log(response);
 
-        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/" + this.id, {}, {}, (response) => {
-          var result = JSON.parse(response.data);
-          this.agoraToken = result.token;
-          this.agoraChannel = "Live" + this.id;
-          this.uid = this.user.vendor.id;
+        window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, (response) => {
+          console.log('Joined channel successfully');
+          console.log(response);
 
-          console.log('Token:', this.agoraToken);
-          console.log('Channel:', this.agoraChannel);
-          console.log('UID:', this.uid);
+          var options = {
+            width: 640,
+            height: 480,
+            frameRate: 15,
+            bitrate: 1000,
+            orientationMode: 0, // AgoraVideoOutputOrientationMode
+            mirrorMode: 0       // AgoraVideoMirrorMode
+          };
 
-          window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, (response) => {
-            console.log('Joined channel successfully');
+          window.cordova.plugins.Agora.createMicrophoneAndCameraTracks(options, (response) => {
+            console.log('Microphone and camera tracks created successfully');
             console.log(response);
 
-            var options = {
-              width: 640,
-              height: 480,
-              frameRate: 15,
-              bitrate: 1000,
-              orientationMode: 0, // AgoraVideoOutputOrientationMode
-              mirrorMode: 0       // AgoraVideoMirrorMode
-            };
-
-            window.cordova.plugins.Agora.createMicrophoneAndCameraTracks(options, (response) => {
-              console.log('Microphone and camera tracks created successfully');
-              console.log(response);
-
-              this.addLocalVideoStream();
-
-            }, function(error) {
-              console.error('Failed to create microphone and camera tracks', error);
-            });
+            this.addLocalVideoStream();
 
           }, function(error) {
-            console.error('Failed to join channel', error);
+            console.error('Failed to create microphone and camera tracks', error);
           });
-        }, (response) => {
-          console.log(response.error);
+
+        }, function(error) {
+          console.error('Failed to join channel', error);
         });
       }, function(error) {
         console.error('Agora initialization failed', error);
       });
     },
     addLocalVideoStream() {
-      const videoElement = document.createElement('div'); // Utilisation d'un div pour contenir la vidéo
-      videoElement.id = 'local-video';
-      videoElement.style.width = '100%';
-      videoElement.style.height = '100%';
-      videoElement.style.position = 'relative'; // S'assurer que la vidéo ne masque pas d'autres éléments
+      const elementId = 'local-video';
+      const videoElement = document.getElementById(elementId);
 
-      document.getElementById('player').appendChild(videoElement);
+      if (videoElement) {
+        const rect = videoElement.getBoundingClientRect();
 
-      window.cordova.plugins.Agora.sharedRtcEngine((rtcEngine) => {
-        console.log('rtcEngine is available');
-        console.log(rtcEngine);
-        
         const options = {
           uid: this.uid,
-          elementId: 'local-video', // Passer l'identifiant unique
-          renderMode: 1, // AgoraVideoRenderModeHidden
-          mirrorMode: 0  // AgoraVideoMirrorModeAuto
+          left: rect.left,
+          top: rect.top,
+          width: rect.width,
+          height: rect.height
         };
 
         window.cordova.plugins.Agora.setupLocalVideo(options, (response) => {
           console.log('Local video setup successfully');
           console.log(response);
+          document.getElementsByTagName('body')[0].classList.remove("dark-mode");
+          document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
         }, (error) => {
           console.error('Failed to setup local video', error);
         });
-      }, (error) => {
-        console.error('rtcEngine is not available', error);
-      });
-    },
-
-
-    // async joinChannel() {
-    //   try {
-    //     this.facingMode = "user";
-        
-    //     this.userId = await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.uid);
-    //     console.log(this.userId);
-
-    //     await this.client.setClientRole('host');
-    //     console.log(this.client);
-
-    //     const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({}, { facingMode: this.facingMode });
-    //     this.localTracks.audioTrack = microphoneTrack;
-    //     this.localTracks.videoTrack = cameraTrack;
-
-    //     await this.client.publish(Object.values(this.localTracks));
-    //     this.localTracks.videoTrack.play('player', { mirror : this.mirrorMode });
-    //     console.log(this.client);
-
-        
-    //     console.log("User has joined channel and published streams successfully");
-    //   } catch (err) {
-    //     console.error("Failed to join channel and publish streams", err);
-    //   }
-    // },
-    async switchCamera() {
-      try {
-        this.facingMode = this.facingMode === "user" ? "environment" : "user";
-        this.mirrorMode = this.facingMode === "user" ? true : false;
-        const newVideoTrack = await AgoraRTC.createCameraVideoTrack({ facingMode: this.facingMode });
-
-        await this.localTracks.videoTrack.stop();
-        await this.localTracks.videoTrack.close();
-        
-        this.localTracks.videoTrack = newVideoTrack;
-        this.localTracks.videoTrack.play('player', { mirror : this.mirrorMode });
-      } catch (error) {
-        console.error('Error switching camera:', error);
+      } else {
+        console.error('Video element not found');
       }
     },
-    // handleUserUnpublished(user) {
-    //   console.log("User unpublished:", user);
-    //   console.log("Informer le serveur de la fin du live", user);
-
-    //   if (user.uid === this.uid) {
-    //     if (this.localTracks.videoTrack) {
-    //       this.localTracks.videoTrack.stop();
-    //       this.localTracks.videoTrack.close();
-    //     }
-    //     if (this.localTracks.audioTrack) {
-    //       this.localTracks.audioTrack.stop();
-    //       this.localTracks.audioTrack.close();
-    //     }
-    //   }
-    //   // Ajouter toute autre logique que vous souhaitez exécuter lorsqu'un utilisateur arrête de publier
-    // },
-    // handleUserLeft(user) {
-    //   console.log("User left:", user);
-    //   // this.checkLiveStatus();
-    // },
-    // handleUserOffline(user) {
-    //   console.log("User offline:", user);
-    //   // this.checkLiveStatus();
-    // },
-    // async leaveChannel() {
-    //   if (this.localTracks.videoTrack) {
-    //     await this.localTracks.videoTrack.stop();
-    //     await this.localTracks.videoTrack.close();
-    //   }
-      
-    //   if (this.localTracks.audioTrack) {
-    //     await this.localTracks.audioTrack.stop();
-    //     await this.localTracks.audioTrack.close();
-    //   }
-      
-    //   try {
-    //     await this.client.leave();
-    //     console.log("Client has left the channel successfully");
-    //   } catch (err) {
-    //     console.error("Failed to leave the channel", err);
-    //   }
-    // },
+    switchCamera() {
+      window.cordova.plugins.Agora.switchCamera((response) => {
+        console.log('Camera switched successfully');
+        console.log(response);
+      }, (error) => {
+        console.error('Failed to switch camera', error);
+      });
+    },
+    async stopLocalVideo() {
+      window.cordova.plugins.Agora.stopLocalVideo((response) => {
+        console.log('Local video stopped successfully');
+        console.log(response);
+      }, (error) => {
+        console.error('Failed to stop local video', error);
+      });
+    },
     async startCountdown() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -995,7 +938,7 @@ export default {
         console.error('Failed to start broadcast', error);
       }
     },   
-    async stop() {
+    async stopLive() {
       window.StatusBar.overlaysWebView(false);
       window.StatusBar.styleDefault();
       window.StatusBar.backgroundColorByHexString("#ffffff");
@@ -1018,7 +961,7 @@ export default {
         }
       }
 
-      // this.leaveChannel();
+      this.stopLocalVideo();
 
       this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));

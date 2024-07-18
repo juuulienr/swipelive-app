@@ -3,6 +3,8 @@
 
 @interface AgoraPlugin : CDVPlugin <AgoraRtcEngineDelegate> {
     AgoraRtcEngineKit *rtcEngine;
+    UIView *videoView;
+    UIColor *originalBackgroundColor;
 }
 + (AgoraRtcEngineKit *)sharedRtcEngine;
 - (void)initialize:(CDVInvokedUrlCommand*)command;
@@ -10,7 +12,9 @@
 - (void)leaveChannel:(CDVInvokedUrlCommand*)command;
 - (void)createMicrophoneAndCameraTracks:(CDVInvokedUrlCommand*)command;
 - (void)getSharedRtcEngine:(CDVInvokedUrlCommand*)command;
-- (void)setupLocalVideo:(CDVInvokedUrlCommand*)command; // Ajout de la méthode pour configurer la vidéo locale
+- (void)setupLocalVideo:(CDVInvokedUrlCommand*)command;
+- (void)stopLocalVideo:(CDVInvokedUrlCommand*)command;
+- (void)switchCamera:(CDVInvokedUrlCommand*)command; // Ajout de la méthode pour changer la caméra
 @end
 
 @implementation AgoraPlugin
@@ -24,6 +28,12 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
 - (void)initialize:(CDVInvokedUrlCommand*)command {
     NSLog(@"Agora initialize called");
     NSString* appId = [command.arguments objectAtIndex:0];
+    if (![appId isKindOfClass:[NSString class]] || appId.length == 0) {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid App ID"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        return;
+    }
+    
     sharedRtcEngine = [AgoraRtcEngineKit sharedEngineWithAppId:appId delegate:self];
     if (sharedRtcEngine) {
         NSLog(@"rtcEngine initialized");
@@ -48,14 +58,24 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
 
     NSString* token = [command.arguments objectAtIndex:0];
     NSString* channelName = [command.arguments objectAtIndex:1];
-    NSUInteger uid = [[command.arguments objectAtIndex:2] unsignedIntegerValue];
-
-    if (!token || !channelName) {
-        NSLog(@"Token or channel name is null");
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Token or channel name is null"];
+    NSNumber* uidNumber = [command.arguments objectAtIndex:2];
+    
+    if ([token isKindOfClass:[NSNull class]]) {
+        token = nil;
+    }
+    if (![channelName isKindOfClass:[NSString class]] || channelName.length == 0) {
+        NSLog(@"Invalid channel name");
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid channel name"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         return;
     }
+    if (![uidNumber isKindOfClass:[NSNumber class]]) {
+        NSLog(@"Invalid UID");
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid UID"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        return;
+    }
+    NSUInteger uid = [uidNumber unsignedIntegerValue];
 
     NSLog(@"Joining channel with token: %@, channelName: %@, uid: %lu", token, channelName, (unsigned long)uid);
 
@@ -117,10 +137,25 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
     if (sharedRtcEngine) {
         NSDictionary* options = [command.arguments objectAtIndex:0];
         NSInteger uid = [options[@"uid"] integerValue];
+        CGFloat left = [options[@"left"] floatValue];
+        CGFloat top = [options[@"top"] floatValue];
+        CGFloat width = [options[@"width"] floatValue];
+        CGFloat height = [options[@"height"] floatValue];
 
-        // Trouver la vue spécifique pour la vidéo
-        NSString* elementId = options[@"elementId"];
-        UIView* videoView = [self.viewController.view viewWithTag:[elementId integerValue]];
+        // Ajout des logs pour le débogage
+        NSLog(@"setupLocalVideo called with uid: %ld, left: %f, top: %f, width: %f, height: %f", (long)uid, left, top, width, height);
+
+        // Configure the UIView for the video
+        CGRect videoFrame = CGRectMake(left, top, width, height);
+        videoView = [[UIView alloc] initWithFrame:videoFrame];
+        videoView.tag = 1234; // Tag to identify the video view
+        videoView.backgroundColor = [UIColor clearColor]; // Ensure background is clear
+
+        // Add the video view behind the WebView
+        [self.webView setOpaque:NO];
+        originalBackgroundColor = self.webView.backgroundColor;
+        self.webView.backgroundColor = [UIColor clearColor];
+        [self.webView.superview insertSubview:videoView belowSubview:self.webView];
 
         AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
         videoCanvas.uid = uid;
@@ -130,14 +165,54 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
 
         [sharedRtcEngine setupLocalVideo:videoCanvas];
 
+        NSLog(@"Local video setup completed for uid: %ld", (long)uid);
+
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Local video setup completed"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } else {
+        NSLog(@"Agora not initialized");
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora not initialized"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }
 }
 
+- (void)stopLocalVideo:(CDVInvokedUrlCommand*)command {
+    if (sharedRtcEngine) {
+        [sharedRtcEngine stopPreview];
+        [sharedRtcEngine disableVideo];
+        
+        [sharedRtcEngine leaveChannel:^(AgoraChannelStats * _Nonnull stat) {
+            if (videoView) {
+                [videoView removeFromSuperview];
+                videoView = nil;
+            }
+            
+            [self.webView setOpaque:YES];
+            self.webView.backgroundColor = originalBackgroundColor;
 
+            NSLog(@"Local video stopped and left channel");
+
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Local video stopped and left channel"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }];
+    } else {
+        NSLog(@"Agora not initialized");
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora not initialized"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }
+}
+
+- (void)switchCamera:(CDVInvokedUrlCommand*)command {
+    if (sharedRtcEngine) {
+        [sharedRtcEngine switchCamera];
+        NSLog(@"Camera switched");
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Camera switched"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } else {
+        NSLog(@"Agora not initialized");
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora not initialized"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }
+}
 
 @end
