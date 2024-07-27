@@ -54,8 +54,11 @@ end
 
 
 1) Ajouter propriétés dans gradle.properties 
+org.gradle.jvmargs=-Xmx2048m
 android.useAndroidX=true
 android.enableJetifier=true
+kotlin.code.style=official
+org.gradle.java.home=/Users/julien/Library/Java/JavaVirtualMachines/corretto-17.0.7/Contents/Home
 
 
 2) AndroidManifest.xml 

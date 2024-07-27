@@ -50,9 +50,6 @@
     "cordova-plugin-dialogs": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-taptic-engine": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
@@ -113,6 +110,9 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-stripe": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-camera": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-agora": {

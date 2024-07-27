@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-camera",
-  "version": "7.0.0",
+  "version": "6.0.0",
   "description": "Cordova Camera Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
@@ -8,7 +8,9 @@
     "platforms": [
       "android",
       "ios",
-      "browser"
+      "browser",
+      "windows",
+      "osx"
     ]
   },
   "repository": "github:apache/cordova-plugin-camera",
@@ -19,7 +21,9 @@
     "ecosystem:cordova",
     "cordova-android",
     "cordova-ios",
-    "cordova-browser"
+    "cordova-browser",
+    "cordova-windows",
+    "cordova-osx"
   ],
   "scripts": {
     "test": "npm run lint",
@@ -52,16 +56,11 @@
         "cordova": ">=9.0.0"
       },
       "7.0.0": {
-        "cordova-android": ">=12.0.0",
-        "cordova-ios": ">=5.1.0",
-        "cordova": ">=9.0.0"
-      },
-      "8.0.0": {
         "cordova": ">100"
       }
     }
   },
   "devDependencies": {
-    "@cordova/eslint-config": "^5.0.0"
+    "@cordova/eslint-config": "^3.0.0"
   }
 }

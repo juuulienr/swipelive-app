@@ -151,6 +151,7 @@ export default {
       loadingProducts: true,
       loading: false,
       dragging: false,
+      agoraToken: null,
       products: [],
       selected: [],
       checked: [],
@@ -229,22 +230,28 @@ export default {
         var httpParams = { "views": 0, "status": 0, "liveProducts": liveProducts };
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/prelive", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
           this.live = JSON.parse(response.data);
-
-          window.plugins.nativepagetransitions.slide({
-            direction: 'left',
-            duration: 400,
-            iosdelay: 0,
-            androiddelay: 0,
-            winphonedelay: 0,
-            slowdownfactor: 1,
-          });
-
-          this.$router.push({ name: 'Live', params: { id: this.live.id } });
+          this.goToLive();
         }, (response) => {
           console.log(response.error);
           this.loading = false;
         });
       }
+    },
+    async goToLive() {
+      const response = await fetch(this.baseUrl + "/agora/token/" + this.live.id);
+      const result = await response.json();
+      this.agoraToken = result.token;
+
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 400,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+        slowdownfactor: 1,
+      });
+
+      this.$router.push({ name: 'Live', params: { id: this.live.id, token: this.agoraToken } });
     },
     totalVariantQuantity(variants) {
       return variants.reduce((total, variant) => total + variant.quantity, 0);

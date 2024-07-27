@@ -100,7 +100,7 @@ export default new Router({
       name: 'PreLive',
       component: PreLive
     }, {
-      path: '/vendor/live/:id',
+      path: '/vendor/live/:id/:token',
       name: 'Live',
       component: Live
     }, {

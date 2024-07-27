@@ -13,8 +13,9 @@
 - (void)createMicrophoneAndCameraTracks:(CDVInvokedUrlCommand*)command;
 - (void)getSharedRtcEngine:(CDVInvokedUrlCommand*)command;
 - (void)setupLocalVideo:(CDVInvokedUrlCommand*)command;
+- (void)startPreview:(CDVInvokedUrlCommand*)command;
 - (void)stopLocalVideo:(CDVInvokedUrlCommand*)command;
-- (void)switchCamera:(CDVInvokedUrlCommand*)command; // Ajout de la méthode pour changer la caméra
+- (void)switchCamera:(CDVInvokedUrlCommand*)command;
 @end
 
 @implementation AgoraPlugin
@@ -97,21 +98,19 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
     if (sharedRtcEngine) {
         NSDictionary* options = [command.arguments objectAtIndex:0];
 
-        NSInteger width = options[@"width"] ? [options[@"width"] intValue] : 640;
-        NSInteger height = options[@"height"] ? [options[@"height"] intValue] : 480;
-        AgoraVideoFrameRate frameRate = options[@"frameRate"] ? [options[@"frameRate"] intValue] : AgoraVideoFrameRateFps15;
+        AgoraVideoFrameRate frameRate = options[@"frameRate"] ? [options[@"frameRate"] intValue] : AgoraVideoFrameRateFps30;
         NSInteger bitrate = options[@"bitrate"] ? [options[@"bitrate"] intValue] : AgoraVideoBitrateStandard;
         AgoraVideoOutputOrientationMode orientationMode = options[@"orientationMode"] ? [options[@"orientationMode"] intValue] : AgoraVideoOutputOrientationModeAdaptative;
         AgoraVideoMirrorMode mirrorMode = options[@"mirrorMode"] ? [options[@"mirrorMode"] intValue] : AgoraVideoMirrorModeAuto;
 
-        AgoraVideoEncoderConfiguration *config = [[AgoraVideoEncoderConfiguration alloc] initWithWidth:width
-                                                                                                height:height
+        AgoraVideoEncoderConfiguration *config = [[AgoraVideoEncoderConfiguration alloc] initWithWidth:AgoraVideoDimension1920x1080.width
+                                                                                                height:AgoraVideoDimension1920x1080.height
                                                                                              frameRate:frameRate
                                                                                                bitrate:bitrate
                                                                                        orientationMode:orientationMode
                                                                                             mirrorMode:mirrorMode];
-        [sharedRtcEngine setVideoEncoderConfiguration:config];
 
+        [sharedRtcEngine setVideoEncoderConfiguration:config];
         [sharedRtcEngine enableVideo];
         [sharedRtcEngine startPreview];
 
@@ -176,27 +175,28 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
     }
 }
 
+- (void)startPreview:(CDVInvokedUrlCommand*)command {
+    if (sharedRtcEngine) {
+        [sharedRtcEngine startPreview];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Preview started"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } else {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora not initialized"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }
+}
+
 - (void)stopLocalVideo:(CDVInvokedUrlCommand*)command {
     if (sharedRtcEngine) {
         [sharedRtcEngine stopPreview];
         [sharedRtcEngine disableVideo];
-        
-        [sharedRtcEngine leaveChannel:^(AgoraChannelStats * _Nonnull stat) {
-            if (videoView) {
-                [videoView removeFromSuperview];
-                videoView = nil;
-            }
-            
-            [self.webView setOpaque:YES];
-            self.webView.backgroundColor = originalBackgroundColor;
-
-            NSLog(@"Local video stopped and left channel");
-
-            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Local video stopped and left channel"];
-            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-        }];
+        if (videoView) {
+            [videoView removeFromSuperview];
+            videoView = nil;
+        }
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Local video stopped"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } else {
-        NSLog(@"Agora not initialized");
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora not initialized"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }
@@ -205,11 +205,9 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
 - (void)switchCamera:(CDVInvokedUrlCommand*)command {
     if (sharedRtcEngine) {
         [sharedRtcEngine switchCamera];
-        NSLog(@"Camera switched");
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Camera switched"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } else {
-        NSLog(@"Agora not initialized");
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora not initialized"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }

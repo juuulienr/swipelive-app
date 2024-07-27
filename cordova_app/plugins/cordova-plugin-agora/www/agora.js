@@ -72,6 +72,16 @@ var Agora = {
       console.error('Agora switchCamera error:', err);
       error(err);
     }, 'AgoraPlugin', 'switchCamera', []);
+  },
+  startPreview: function(success, error) {
+    console.log('Agora startPreview called');
+    exec(function(response) {
+      console.log('Agora startPreview success:', response);
+      success(response);
+    }, function(err) {
+      console.error('Agora startPreview error:', err);
+      error(err);
+    }, 'AgoraPlugin', 'startPreview', []);
   }
 };
 

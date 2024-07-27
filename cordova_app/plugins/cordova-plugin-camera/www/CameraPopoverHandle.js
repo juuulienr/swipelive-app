@@ -23,7 +23,7 @@
  * @ignore in favour of iOS' one
  * A handle to an image picker popover.
  */
-const CameraPopoverHandle = function () {
+var CameraPopoverHandle = function () {
     this.setPosition = function (popoverOptions) {
         console.log('CameraPopoverHandle.setPosition is only supported on iOS.');
     };

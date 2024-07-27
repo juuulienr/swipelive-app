@@ -1,5 +1,5 @@
 <template>  
-  <div class="livestream">
+  <div :class="['livestream', { 'loading': loading }]">
     <div id="player" style="position: relative; width: 100%; height: 100vh; overflow: hidden;">
       <div id="local-video" style="width: 100%; height: 100%; position: absolute; z-index: 1;"></div>
     </div>
@@ -278,6 +278,179 @@
     <div v-if="ready" class="ready">
       <!-- top/bottom filter -->
       <div class="filter-bottom"></div>
+
+      <!-- heart animation -->
+      <div class="n7fi1qx3 ni8dbmo4 stjgntxs hzruof5a pmk7jnqg kr520xx4 etr7akla bt9ki6u7 bipmatt0" style="z-index: 100000000">
+        <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
+          <div class="_g19 KeyframeAnimation-js_6">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 11px;">
+          <div class="_g19 KeyframeAnimation-js_8">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 9px;">
+          <div class="_g19 KeyframeAnimation-js_9">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 13px;">
+          <div class="_g19 KeyframeAnimation-js_10">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">    
+          <div class="_g19 KeyframeAnimation-js_11"> 
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 15px;">
+          <div class="_g19 KeyframeAnimation-js_12">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
+          <div class="_g19 KeyframeAnimation-js_13">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_14">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_15">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_16">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_17">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_18">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_19">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_20">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_21">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_22">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_23">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_24">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_25">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_26">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_27">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_28">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_29">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+        <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
+          <div class="_g19 KeyframeAnimation-js_30">
+            <div class="_g19 KeyframeAnimation-js_7">
+              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      
 
 
       <!-- live badge -->
@@ -560,6 +733,10 @@
   height: 100vh;
 }
 
+.livestream.loading {
+  background: black;
+}
+
 #local-video {
   position: absolute;
   width: 100%;
@@ -589,8 +766,8 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      baseUrl: window.localStorage.getItem("baseUrl"),
       user: this.$store.getters.getUser,
+      baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
@@ -615,9 +792,6 @@ export default {
       performance: false,
       counter: false,
       popup: false,
-      errListenerId: false,
-      broadcastListenerId: false,
-      statusListenerId: false,
       isProfileChecked: false,
       isShowPages: null,
       isShowGroups: null,
@@ -664,18 +838,11 @@ export default {
         'value': null,
         'isActive': true
       },
-      client: null,
-      localTracks: {
-        videoTrack: null,
-        audioTrack: null
-      },
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
+      agoraToken: this.$route.params.token,
       agoraChannel: null,
-      agoraToken: null,
       uid: 0,
-      userId: null,
-      facingMode: null,
-      mirrorMode: true,
+      loading: true 
     }
   },
   filters: {
@@ -701,7 +868,8 @@ export default {
   created() {
     window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
-    document.getElementsByTagName('body')[0].classList.add("dark-mode");
+    document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
+    // document.getElementsByTagName('body')[0].classList.add("dark-mode");
 
     if (window.cordova.plugin && window.cordova.plugin.http) {
       this.http = window.cordova.plugin.http;
@@ -733,7 +901,7 @@ export default {
   },
   beforeDestroy() {
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
-    document.getElementsByTagName('body')[0].classList.remove("dark-mode");
+    // document.getElementsByTagName('body')[0].classList.remove("dark-mode");
     this.stopLocalVideo();
   },
   directives: {
@@ -743,14 +911,10 @@ export default {
       }
     }
   },
-  methods: {
+  methods: {    
     async initializeAgora() {
       console.log("initializeAgora");
-
-      // Obtenir le token et le canal
-      const response = await fetch(this.baseUrl + "/agora/token/" + this.id);
-      const result = await response.json();
-      this.agoraToken = result.token;
+      
       this.agoraChannel = "Live" + this.id;
       this.uid = this.user.vendor.id;
 
@@ -762,32 +926,24 @@ export default {
         console.log('Agora initialized successfully');
         console.log(response);
 
-        window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, (response) => {
-          console.log('Joined channel successfully');
+        var options = {
+          frameRate: 30,
+          bitrate: 2000,
+          orientationMode: 0,
+          mirrorMode: 0 
+        };
+
+        window.cordova.plugins.Agora.createMicrophoneAndCameraTracks(options, (response) => {
+          console.log('Microphone and camera tracks created successfully');
           console.log(response);
 
-          var options = {
-            width: 640,
-            height: 480,
-            frameRate: 15,
-            bitrate: 1000,
-            orientationMode: 0, // AgoraVideoOutputOrientationMode
-            mirrorMode: 0       // AgoraVideoMirrorMode
-          };
-
-          window.cordova.plugins.Agora.createMicrophoneAndCameraTracks(options, (response) => {
-            console.log('Microphone and camera tracks created successfully');
-            console.log(response);
-
-            this.addLocalVideoStream();
-
-          }, function(error) {
-            console.error('Failed to create microphone and camera tracks', error);
-          });
+          this.addLocalVideoStream();
+          this.startPreview();
 
         }, function(error) {
-          console.error('Failed to join channel', error);
+          console.error('Failed to create microphone and camera tracks', error);
         });
+
       }, function(error) {
         console.error('Agora initialization failed', error);
       });
@@ -810,8 +966,6 @@ export default {
         window.cordova.plugins.Agora.setupLocalVideo(options, (response) => {
           console.log('Local video setup successfully');
           console.log(response);
-          document.getElementsByTagName('body')[0].classList.remove("dark-mode");
-          document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
         }, (error) => {
           console.error('Failed to setup local video', error);
         });
@@ -819,20 +973,29 @@ export default {
         console.error('Video element not found');
       }
     },
+    startPreview() {
+      window.cordova.plugins.Agora.startPreview((response) => {
+        console.log('Preview started successfully');
+        console.log(response);
+        this.loading = false;
+      }, (error) => {
+        console.error('Failed to start preview', error);
+      });
+    },
+    stopLocalVideo() {
+      window.cordova.plugins.Agora.stopLocalVideo((response) => {
+        console.log('Local video stopped successfully');
+        console.log(response);
+      }, (error) => {
+        console.error('Failed to stop local video', error);
+      });
+    },
     switchCamera() {
       window.cordova.plugins.Agora.switchCamera((response) => {
         console.log('Camera switched successfully');
         console.log(response);
       }, (error) => {
         console.error('Failed to switch camera', error);
-      });
-    },
-    async stopLocalVideo() {
-      window.cordova.plugins.Agora.stopLocalVideo((response) => {
-        console.log('Local video stopped successfully');
-        console.log(response);
-      }, (error) => {
-        console.error('Failed to stop local video', error);
       });
     },
     async startCountdown() {
@@ -855,88 +1018,104 @@ export default {
       }, 700);
     },
     async startLive() {
-      try {
-        this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.live = JSON.parse(response.data);
-          this.liveProducts = this.live.liveProducts;
-          this.available = this.checkQuantity();
-          this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
-          var channel = this.pusher.subscribe(this.live.channel);
+      window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, (response) => {
+        console.log('Joined channel successfully');
+        console.log(response);
 
-          channel.bind(this.live.event, (data) => {
-            console.log(data);
+        try {
+          this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
+            this.live = JSON.parse(response.data);
+            this.liveProducts = this.live.liveProducts;
+            this.available = this.checkQuantity();
+            this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
+            var channel = this.pusher.subscribe(this.live.channel);
 
-            if ('comment' in data) {
-              if (data.comment.user.firstname != this.user.firstname && data.comment.user.lastname != this.user.lastname) {
-                this.comments.push(data.comment);
-                this.scrollToElement();
+            channel.bind(this.live.event, (data) => {
+              console.log(data);
+
+              if ('comment' in data) {
+                if (data.comment.user.firstname != this.user.firstname && data.comment.user.lastname != this.user.lastname) {
+                  this.comments.push(data.comment);
+                  this.scrollToElement();
+                }
               }
-            }
 
-            if ('viewers' in data) {
-              if (data.viewers.count > this.viewers) {
-                this.countViews += 1;
+              if ('viewers' in data) {
+                if (data.viewers.count > this.viewers) {
+                  this.countViews += 1;
+                }
+                this.viewers = data.viewers.count;
+
+                if (data.viewers.type == "add") {
+                  this.spectators.push(data.viewers.user);
+                } else {
+                  var filtersList = this.spectators.filter(element => element.id !== data.viewers.user.id);
+                  this.spectators = filtersList;
+                }
               }
-              this.viewers = data.viewers.count;
 
-              if (data.viewers.type == "add") {
-                this.spectators.push(data.viewers.user);
-              } else {
-                var filtersList = this.spectators.filter(element => element.id !== data.viewers.user.id);
-                this.spectators = filtersList;
+              if ('likes' in data) {
+                this.countLikes += 1;
+                if (data.likes != this.user.id) {
+                  this.showAnimation();
+                }
               }
-            }
 
-            if ('order' in data) {
-              this.countOrders += 1;
-              this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
-              this.amount = this.amount.toFixed(2);
-              data.order.createdAt = new Date();
-              this.orders.unshift(data.order);
-              this.available = data.order.available;
-            }
-          });
-
-
-          if (this.isShowPages) {
-            this.pages = this.pages.filter(page => page.selected);
-          }
-
-          if (this.isShowGroups) {
-            this.groups = this.groups.filter(group => group.selected);
-          }
-
-
-          // stream on facebook
-          if (this.fbToken) {
-            this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
-              var result = JSON.parse(response.data);
-              this.fbStreamId = result.fbStreamId; 
-              console.log(this.fbStreamId);
-
-              var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=ten_per_second&fields=from{name,id},message';
-              var source = new EventSource(url);
-              console.log(source);
-
-              source.onmessage = function(event) {
-                console.log(event);
-              };
-              source.onerror = function(error) {
-                console.log('error', error);
-              };
-              source.open = function(open) {
-                console.log(open);
-              };
-            }, (response) => {
-              console.log(response.error);
+              if ('order' in data) {
+                this.countOrders += 1;
+                this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
+                this.amount = this.amount.toFixed(2);
+                data.order.createdAt = new Date();
+                this.orders.unshift(data.order);
+                this.available = data.order.available;
+              }
             });
-          }
-        }, (response) => {
-          console.log(response.error);
-        });
-      } catch (error) {
-        console.error('Failed to start broadcast', error);
-      }
+
+
+            if (this.isShowPages) {
+              this.pages = this.pages.filter(page => page.selected);
+            }
+
+            if (this.isShowGroups) {
+              this.groups = this.groups.filter(group => group.selected);
+            }
+
+
+            // stream on facebook
+            if (this.fbToken) {
+              this.http.put(this.baseUrl + "/user/api/live/update/stream/" + this.id, { "fbIdentifier" : this.fbIdentifier, "fbToken": this.fbToken, "fbPageIdentifier" : this.fbPageIdentifier, "fbTokenPage": this.fbTokenPage, "showGroupsPage": this.showGroupsPage, "pages": this.pages, "groups": this.groups }, { Authorization: "Bearer " + this.token }, (response) => {
+                var result = JSON.parse(response.data);
+                this.fbStreamId = result.fbStreamId; 
+                console.log(this.fbStreamId);
+
+                var url = 'https://streaming-graph.facebook.com/' + this.fbStreamId + '/live_comments?access_token=' + this.fbToken + '&comment_rate=ten_per_second&fields=from{name,id},message';
+                var source = new EventSource(url);
+                console.log(source);
+
+                source.onmessage = function(event) {
+                  console.log(event);
+                };
+                source.onerror = function(error) {
+                  console.log('error', error);
+                };
+                source.open = function(open) {
+                  console.log(open);
+                };
+              }, (response) => {
+                console.log(response.error);
+              });
+            }
+          }, (response) => {
+            console.log(response.error);
+          });
+        } catch (error) {
+          console.error('Failed to start broadcast', error);
+        }
+
+
+      }, (error) => {
+        console.error('Failed to join channel', error);
+      });
     },   
     async stopLive() {
       window.StatusBar.overlaysWebView(false);
@@ -1265,7 +1444,206 @@ export default {
         // this.showGroupsPage = false;
         // this.showGroups();
       }
-    }
+    }, 
+    showAnimation() {
+      if (this.num == 0 && !this.anim1) {
+        this.anim1 = true;
+
+        setTimeout(() => {
+          this.anim1 = false;
+        }, 2500);
+      }
+
+      if (this.num == 1 && !this.anim2) {
+        this.anim2 = true;
+
+        setTimeout(() => {
+          this.anim2 = false;
+        }, 2500);
+      }
+
+      if (this.num == 2 && !this.anim3) {
+        this.anim3 = true;
+
+        setTimeout(() => {
+          this.anim3 = false;
+        }, 2500);
+      }
+
+      if (this.num == 3 && !this.anim4) {
+        this.anim4 = true;
+
+        setTimeout(() => {
+          this.anim4 = false;
+        }, 2500);
+      }
+      
+      if (this.num == 4 && !this.anim5) {
+        this.anim5 = true;
+
+        setTimeout(() => {
+          this.anim5 = false;
+        }, 2500);
+      }
+
+      if (this.num == 5 && !this.anim6) {
+        this.anim6 = true;
+
+        setTimeout(() => {
+          this.anim6 = false;
+        }, 2500);
+      }
+
+      if (this.num == 6 && !this.anim7) {
+        this.anim7 = true;
+
+        setTimeout(() => {
+          this.anim7 = false;
+        }, 2500);
+      }
+
+      if (this.num == 7 && !this.anim8) {
+        this.anim8 = true;
+
+        setTimeout(() => {
+          this.anim8 = false;
+        }, 2500);
+      }
+
+      if (this.num == 8 && !this.anim9) {
+        this.anim9 = true;
+
+        setTimeout(() => {
+          this.anim9 = false;
+        }, 2500);
+      }
+
+      if (this.num == 9 && !this.anim10) {
+        this.anim10 = true;
+
+        setTimeout(() => {
+          this.anim10 = false;
+        }, 2500);
+      }
+
+      if (this.num == 10 && !this.anim11) {
+        this.anim11 = true;
+
+        setTimeout(() => {
+          this.anim11 = false;
+        }, 2500);
+      }
+
+      if (this.num == 11 && !this.anim12) {
+        this.anim12 = true;
+
+        setTimeout(() => {
+          this.anim12 = false;
+        }, 2500);
+      }
+
+      if (this.num == 12 && !this.anim13) {
+        this.anim13 = true;
+
+        setTimeout(() => {
+          this.anim13 = false;
+        }, 2500);
+      }
+
+      if (this.num == 13 && !this.anim14) {
+        this.anim14 = true;
+
+        setTimeout(() => {
+          this.anim14 = false;
+        }, 2500);
+      }
+
+      if (this.num == 14 && !this.anim15) {
+        this.anim15 = true;
+
+        setTimeout(() => {
+          this.anim15 = false;
+        }, 2500);
+      }
+
+      if (this.num == 15 && !this.anim16) {
+        this.anim16 = true;
+
+        setTimeout(() => {
+          this.anim16 = false;
+        }, 2500);
+      }
+
+      if (this.num == 16 && !this.anim17) {
+        this.anim17 = true;
+
+        setTimeout(() => {
+          this.anim17 = false;
+        }, 2500);
+      }
+
+      if (this.num == 17 && !this.anim18) {
+        this.anim18 = true;
+
+        setTimeout(() => {
+          this.anim18 = false;
+        }, 2500);
+      }
+
+      if (this.num == 18 && !this.anim19) {
+        this.anim19 = true;
+
+        setTimeout(() => {
+          this.anim19 = false;
+        }, 2500);
+      }
+
+      if (this.num == 19 && !this.anim20) {
+        this.anim20 = true;
+
+        setTimeout(() => {
+          this.anim20 = false;
+        }, 2500);
+      }
+
+      if (this.num == 20 && !this.anim21) {
+        this.anim21 = true;
+
+        setTimeout(() => {
+          this.anim21 = false;
+        }, 2500);
+      }
+
+      if (this.num == 21 && !this.anim22) {
+        this.anim22 = true;
+
+        setTimeout(() => {
+          this.anim22 = false;
+        }, 2500);
+      }
+
+      if (this.num == 22 && !this.anim23) {
+        this.anim23 = true;
+
+        setTimeout(() => {
+          this.anim23 = false;
+        }, 2500);
+      }
+
+      if (this.num == 23 && !this.anim24) {
+        this.anim24 = true;
+
+        setTimeout(() => {
+          this.anim24 = false;
+        }, 2500);
+      }
+
+      if (this.num == 23) {
+        this.num = 0;
+      } else {
+        this.num = this.num + 1;
+      }
+    },
   }
 };
 

@@ -29,9 +29,6 @@
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-device": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -118,6 +115,9 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-wheel-selector-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-camera": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-agora": {

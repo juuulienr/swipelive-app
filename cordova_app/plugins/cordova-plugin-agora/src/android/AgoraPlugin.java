@@ -1,19 +1,25 @@
 package com.example.plugin;
 
+import android.view.SurfaceView;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.video.VideoCanvas;
-import io.agora.rtc.video.VideoEncoderConfiguration;
-import io.agora.rtc.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.video.VideoCanvas;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
+import io.agora.rtc2.IRtcEngineEventHandler;
 
 public class AgoraPlugin extends CordovaPlugin {
     private RtcEngine rtcEngine;
+    private SurfaceView localView;
+    private FrameLayout container;
     private final IRtcEngineEventHandler rtcEventHandler = new IRtcEngineEventHandler() {
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
@@ -35,6 +41,18 @@ public class AgoraPlugin extends CordovaPlugin {
                 return true;
             case "createMicrophoneAndCameraTracks":
                 createMicrophoneAndCameraTracks(args.getJSONObject(0), callbackContext);
+                return true;
+            case "setupLocalVideo":
+                setupLocalVideo(args.getJSONObject(0), callbackContext);
+                return true;
+            case "stopLocalVideo":
+                stopLocalVideo(callbackContext);
+                return true;
+            case "switchCamera":
+                switchCamera(callbackContext);
+                return true;
+            case "startPreview":
+                startPreview(callbackContext);
                 return true;
             default:
                 return false;
@@ -70,7 +88,6 @@ public class AgoraPlugin extends CordovaPlugin {
 
     private void createMicrophoneAndCameraTracks(JSONObject options, CallbackContext callbackContext) {
         if (rtcEngine != null) {
-            // Set up video configuration
             VideoEncoderConfiguration.VideoDimensions dimensions = new VideoEncoderConfiguration.VideoDimensions(
                     options.optInt("width", 640),
                     options.optInt("height", 480)
@@ -80,14 +97,69 @@ public class AgoraPlugin extends CordovaPlugin {
                     VideoEncoderConfiguration.STANDARD_BITRATE,
                     VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_ADAPTIVE);
             rtcEngine.setVideoEncoderConfiguration(configuration);
-
-            // Enable video
             rtcEngine.enableVideo();
-
-            // Start local preview
             rtcEngine.startPreview();
-
             callbackContext.success("Microphone and camera tracks created");
+        } else {
+            callbackContext.error("Agora not initialized");
+        }
+    }
+
+    private void setupLocalVideo(JSONObject options, CallbackContext callbackContext) {
+        if (rtcEngine != null) {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (localView == null) {
+                        localView = RtcEngine.CreateRendererView(cordova.getActivity().getApplicationContext());
+                        localView.setZOrderMediaOverlay(true);
+                        container = (FrameLayout) webView.getView().getParent();
+                        RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT);
+                        container.addView(localView, 0, previewLayoutParams);
+                    }
+                    rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, 0));
+                    callbackContext.success("Local video setup completed");
+                }
+            });
+        } else {
+            callbackContext.error("Agora not initialized");
+        }
+    }
+
+    private void stopLocalVideo(CallbackContext callbackContext) {
+        if (rtcEngine != null) {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    rtcEngine.stopPreview();
+                    rtcEngine.disableVideo();
+                    if (localView != null) {
+                        container.removeView(localView);
+                        localView = null;
+                    }
+                    callbackContext.success("Local video stopped");
+                }
+            });
+        } else {
+            callbackContext.error("Agora not initialized");
+        }
+    }
+
+    private void switchCamera(CallbackContext callbackContext) {
+        if (rtcEngine != null) {
+            rtcEngine.switchCamera();
+            callbackContext.success("Camera switched");
+        } else {
+            callbackContext.error("Agora not initialized");
+        }
+    }
+
+    private void startPreview(CallbackContext callbackContext) {
+        if (rtcEngine != null) {
+            rtcEngine.startPreview();
+            callbackContext.success("Preview started");
         } else {
             callbackContext.error("Agora not initialized");
         }

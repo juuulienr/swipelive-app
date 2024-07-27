@@ -18,6 +18,7 @@
       <uses-permission android:name="android.permission.INTERNET" />
     </config-file>
     <source-file src="src/android/AgoraPlugin.java" target-dir="src/com/example/plugin"/>
+    <framework src="io.agora.rtc:full-sdk:4.3.2" />
   </platform>
   <platform name="ios">
     <config-file target="config.xml" parent="/*">
@@ -37,7 +38,7 @@
         <source url="https://cdn.cocoapods.org/"/>
       </config>
       <pods use-frameworks="true">
-        <pod name="AgoraRtcEngine_iOS" spec="4.0.1"/>
+        <pod name="AgoraRtcEngine_iOS" spec="4.3.2"/>
         <pod name="AgoraRtcEngine_iOS/RtcBasic"/>
       </pods>
     </podspec>
