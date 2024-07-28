@@ -113,11 +113,12 @@ public class AgoraPlugin extends CordovaPlugin {
                     if (localView == null) {
                         localView = RtcEngine.CreateRendererView(cordova.getActivity().getApplicationContext());
                         localView.setZOrderMediaOverlay(true);
-                        container = (FrameLayout) webView.getView().getParent();
+                        webView.getView().setBackgroundColor(android.R.color.transparent);
+                        ViewGroup parentView = (ViewGroup) webView.getView().getParent();
                         RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.MATCH_PARENT);
-                        container.addView(localView, 0, previewLayoutParams);
+                        parentView.addView(localView, 0, previewLayoutParams);
                     }
                     rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, 0));
                     callbackContext.success("Local video setup completed");
@@ -136,7 +137,8 @@ public class AgoraPlugin extends CordovaPlugin {
                     rtcEngine.stopPreview();
                     rtcEngine.disableVideo();
                     if (localView != null) {
-                        container.removeView(localView);
+                        ViewGroup parentView = (ViewGroup) webView.getView().getParent();
+                        parentView.removeView(localView);
                         localView = null;
                     }
                     callbackContext.success("Local video stopped");
