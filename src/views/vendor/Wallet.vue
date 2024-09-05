@@ -22,8 +22,8 @@
             <p style="margin-bottom: 0px;color: #999; font-weight: 400; font-size: 14px;">{{ user.vendor.pending | formatPrice }}€</p>
           </div>
           <div class="current--balance--btn" style="margin-top: 10px; margin-bottom: 5px;">
-            <div v-if="user.vendor.available > 0" @click="showWithdraw()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">Transférer</div>
-            <div v-else class="btn-swipe" style="color: rgb(170, 170, 170); background: rgb(239, 241, 246); text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">Transférer</div>
+            <div v-if="user.vendor.available > 0" @click="showWithdraw()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">ENCAISSER</div>
+            <div v-else class="btn-swipe" style="color: rgb(170, 170, 170); background: rgb(239, 241, 246); text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">ENCAISSER</div>
           </div>
         </div>
 
@@ -85,7 +85,7 @@
             </svg>
           </div>
           <div v-if="withdraw" class="checkout__title">Retrait</div>
-          <div v-else-if="bank" class="checkout__title">Ajouter un compte</div>
+          <div v-else-if="bank" class="checkout__title">Ajouter un compte bancaire</div>
           <div v-else class="checkout__title">Félicitation</div>
         </div>
         <div class="checkout__body" style="overflow: scroll; padding: 15px 0px;">
@@ -137,27 +137,15 @@
             </div>
           </div>
           <div v-else-if="bank">
-            <div class="images_filter" style="padding-bottom: 10px;">
-              <ul>
-                <li @click="showIndividual()" v-bind:class="{active: individual}" :style="[individual ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Particulier</li>
-                <li @click="showCompany()" v-bind:class="{active: company}" :style="[company ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Entreprise</li>
-              </ul>
-            </div>
             <div class="form--input--item" :class="{'form--input--item--error': errorBank && !iban }" style="margin-top: 15px;">
               <fieldset>
                 <legend>IBAN</legend>
                 <input v-model="iban" type="text" maxlength="27" placeholder="FRXX XXXX XXXX XXXXX XXXX XXXX XXX"/>
               </fieldset>
             </div>
-            <div v-if="individual" class="form--input--item" :class="{'form--input--item--error': errorBank && !holderName }">
+            <div class="form--input--item" :class="{'form--input--item--error': errorBank && !businessName }">
               <fieldset>
-                <legend>Prénom et nom</legend>
-                <input v-model="holderName" type="text"/>
-              </fieldset>
-            </div>
-            <div v-if="company" class="form--input--item" :class="{'form--input--item--error': errorBank && !businessName }">
-              <fieldset>
-                <legend>Nom de l'entreprise</legend>
+                <legend>Nom du titulaire du compte</legend>
                 <input v-model="businessName" type="text"/>
               </fieldset>
             </div>
@@ -252,8 +240,6 @@ export default {
       iban: "FR1420041010050500013M02606",
       holderName: null,
       businessName: null,
-      individual: true,
-      company: false,
       errorBank: false,
       history: null,
       withdraw: true,
@@ -342,14 +328,6 @@ export default {
         console.log(response.error);
       });
     },
-    showIndividual() {
-      this.individual = true;
-      this.company = false;
-    }, 
-    showCompany() {
-      this.individual = false;
-      this.company = true;
-    },
     hideWithdraw() {
       this.popupWithdraw = false;
       this.withdraw = true;
@@ -367,34 +345,23 @@ export default {
       this.loadingBank = true;
       this.errorBank = false;
       if (this.iban && this.iban.length == 27) {
-        if ((this.company && this.businessName) || (this.individual && this.holderName)) {
-          if (this.company && this.businessName) {
-            this.holderName = null;
-          } else {
-            this.businessName = null;
-          }
+        const last4 = this.iban.substr(this.iban.length - 4);
+        const countryCode = this.iban.substr(0, 2);
+        var number = this.iban.substr(2);
+        number = number.replace(/\s/g, '');
 
-          const last4 = this.iban.substr(this.iban.length - 4);
-          const countryCode = this.iban.substr(0, 2);
-          var number = this.iban.substr(2);
-          number = number.replace(/\s/g, '');
-
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/bank/add", { "number": number, "last4": last4, "countryCode": countryCode, "holderName": this.holderName, "businessName": this.businessName }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.$store.commit('setUser', JSON.parse(response.data));
-            this.user = this.$store.getters.getUser;
-            this.loadingBank = false;
-            this.popupBankAccount = false;
-            this.withdraw = true;
-            this.bank = false;
-          }, (response) => {
-            console.log(response.error);
-            window.plugins.toast.show(response.error, 'long', 'top');
-            this.loadingBank = false;
-          });
-        } else {
-          this.errorBank = true;
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/bank/add", { "number": number, "last4": last4, "countryCode": countryCode, "businessName": this.businessName }, { Authorization: "Bearer " + this.token }, (response) => {
+          this.$store.commit('setUser', JSON.parse(response.data));
+          this.user = this.$store.getters.getUser;
           this.loadingBank = false;
-        }
+          this.popupBankAccount = false;
+          this.withdraw = true;
+          this.bank = false;
+        }, (response) => {
+          console.log(response.error);
+          window.plugins.toast.show(response.error, 'long', 'top');
+          this.loadingBank = false;
+        });
       } else {
         this.errorBank = true;
         this.loadingBank = false;
@@ -456,18 +423,14 @@ export default {
       this.withdrawAmount = this.user.vendor.available;
     },
     base64ToBlob(base64, mimeType='') {
-      // Split into two parts: the data and the mime type
       var parts = base64.split(';base64,');
-      // Decode the base64 string
       var decodedData = window.atob(parts[1]);
 
-      // Create an array of bytes (from byte numbers)
       var bytes = new Array(decodedData.length);
       for (var i = 0; i < decodedData.length; i++) {
         bytes[i] = decodedData.charCodeAt(i);
       }
 
-      // Convert into a blob
       var blob = new Blob([new Uint8Array(bytes)], { type: mimeType });
       return blob;
     },

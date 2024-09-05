@@ -92,9 +92,6 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-keyboard": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-media": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -139,6 +136,9 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-agora": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },

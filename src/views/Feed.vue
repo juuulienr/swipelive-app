@@ -699,10 +699,10 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('keyboardHeightWillChange', this.keyboardHeightWillChangeHandler);
+    window.addEventListener('keyboardWillShow', this.keyboardWillShow);
   },
   beforeDestroy() {
-    window.removeEventListener('keyboardHeightWillChange', this.keyboardHeightWillChangeHandler);
+    window.removeEventListener('keyboardWillShow', this.keyboardWillShow);
     this.leaveChannel();
   },
   computed: {
@@ -836,7 +836,7 @@ export default {
       console.log("User offline:", user);
       this.handleUserUnpublished(user);
     },
-    keyboardHeightWillChangeHandler(event) {
+    keyboardWillShow(event) {
       console.log("feed height");
       console.log(event.keyboardHeight);
       var height = event.keyboardHeight.toString() + "px";
@@ -1182,13 +1182,9 @@ export default {
       this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: false } });
     },
     openPopup() {
-      window.Keyboard.hideFormAccessoryBar(true);
-      window.Keyboard.shrinkView(false);
       this.popup = true;
     },
     away(event) {
-      window.Keyboard.hideFormAccessoryBar(false);
-      window.Keyboard.shrinkView(true);
       window.Keyboard.hide();
       if (event.target.id == "btnSend" || event.target.id == "imgSend") {
         if (this.content && this.content.length > 0) {

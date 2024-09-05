@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<plugin id="cordova-plugin-keyboard" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>Cordova Plugin Keyboard</name>
+  <description>Cordova Plugin for Keyboard</description>
+  <keywords>cordova, keyboard</keywords>
+  <engines>
+   <engine name="cordova" version=">=3.2.0"/>
+ </engines>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-keyboard" version="1.2.0">
-    <name>Keyboard</name>
-    <description>Cordova Keyboard Plugin</description>
-    <license>Apache 2.0</license>
-    <keywords>cordova,keyboard</keywords>
+ <platform name="ios">
+  <js-module src="www/ios/keyboard.js" name="keyboard">
+   <clobbers target="window.Keyboard"/>
+ </js-module>
 
-    <engines>
-	<engine name="cordova" version=">=3.2.0" />
-    </engines>
+ <config-file target="config.xml" parent="/*">
+  <feature name="CDVIonicKeyboard">
+    <param name="ios-package" value="CDVIonicKeyboard" onload="true"/>
+  </feature>
+</config-file>
 
-    <js-module src="www/keyboard.js" name="keyboard">
-    	<clobbers target="window.Keyboard" />
-    </js-module>
+<header-file src="src/ios/CDVIonicKeyboard.h"/>
+<source-file src="src/ios/CDVIonicKeyboard.m"/>
+</platform>
 
-    <!-- ios -->
-    <platform name="ios">
-        <config-file target="config.xml" parent="/*">
-            <feature name="Keyboard">
-                <param name="ios-package" value="CDVKeyboard" onload="true" />
-            </feature>
-        </config-file>
+<platform name="android">
+  <js-module src="www/android/keyboard.js" name="keyboard">
+    <clobbers target="window.Keyboard"/>
+  </js-module>
+  <config-file target="config.xml" parent="/*">
+    <feature name="CDVIonicKeyboard">
+      <param name="android-package" value="io.ionic.keyboard.CDVIonicKeyboard" onload="true"/>
+    </feature>
+  </config-file>
 
-        <header-file src="src/ios/CDVKeyboard.h" />
-        <source-file src="src/ios/CDVKeyboard.m" />
-    </platform>
-
-    <!-- android -->
-    <platform name="android">
-        <config-file target="config.xml" parent="/*">
-            <feature name="Keyboard">
-                <param name="android-package" value="org.apache.cordova.labs.keyboard.Keyboard" onload="true" />
-            </feature>
-        </config-file>
-
-        <source-file src="src/android/Keyboard.java" target-dir="src/org/apache/cordova/labs/keyboard" />
-    </platform>
+  <source-file src="src/android/CDVIonicKeyboard.java" target-dir="src/io/ionic/keyboard"/>
+</platform>
 
 </plugin>

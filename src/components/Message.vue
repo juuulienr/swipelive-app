@@ -63,13 +63,13 @@
       </div>
     </div>
     <div class="chat--foot" :style="{ 'bottom': writeInput }">    
-      <button @click="uploadPicture()" style="margin: 0px 5px; padding: 5px;">
+      <button id="btnPicture" @click="uploadPicture()" style="margin: 0px 5px; padding: 5px;">
         <img :src="require(`@/assets/img/plus-square.svg`)" style="height: 34px; width: 34px;"/>
       </button>
       <div class="divInput">
-        <input type="text" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
+        <input type="text" v-on-clickaway="away" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
       </div>
-      <button @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
+      <button id="btnSend" @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
         <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; width: 36px;"/>
       </button>
     </div>
@@ -108,7 +108,11 @@ export default {
     this.seenDiscussion();
   },
   mounted() {
+    window.addEventListener('keyboardWillShow', this.keyboardWillShow);
     this.scrollToBottom();
+  },
+  beforeDestroy() {
+    window.removeEventListener('keyboardWillShow', this.keyboardWillShow);
   },
   filters: {
     formatDateDiff(date) {
@@ -167,6 +171,7 @@ export default {
     async sendMessage() {
       if (this.inputMessage && this.inputMessage !== '') {
         this.writing = false;
+        this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
         var preview = this.inputMessage;
         var httpParams = { "fromUser": this.user.id, "picture": null, "text": preview, "createdAt": new Date() };
         this.discussion.messages.push(httpParams);
@@ -286,6 +291,19 @@ export default {
     hideDiscussion() {
       this.stopWriting();
       this.$emit('hideDiscussion');
+    },
+    keyboardWillShow(event) {
+      console.log("feed height");
+      console.log(event.keyboardHeight);
+      var height = event.keyboardHeight.toString() + "px";
+      setTimeout(() => {
+        this.writeInput = height.toString();
+      }, 200);
+    },
+    away(event) {
+      if (event.target.id !== "btnSend" && event.target.id !== "btnPicture") {
+        this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
+      }
     },
     stopWriting() {
       if (this.writing) {

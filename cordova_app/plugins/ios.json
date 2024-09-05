@@ -17,6 +17,9 @@
       "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
       "PACKAGE_NAME": "com.swipelive.app"
     },
+    "cordova-plugin-agora": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
     "cordova-plugin-android-permissions": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -27,6 +30,9 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-battery-status": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-camera": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-device": {
@@ -72,9 +78,6 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-keyboard": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-media": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
       "PACKAGE_NAME": "com.swipelive.app"
@@ -117,10 +120,7 @@
     "cordova-wheel-selector-plugin": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-agora": {
+    "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },

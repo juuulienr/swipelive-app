@@ -475,7 +475,7 @@ h4 {
 	min-height: 55px;
 	justify-content: initial;
 	padding: 0 15px;
-  border: 1px solid rgb(221, 221, 221) !important; 
+  border-bottom: 1px solid rgb(221, 221, 221) !important; 
   display: flex; 
   align-items: center;
   position: fixed;
@@ -748,7 +748,7 @@ h4 {
   bottom: calc(env(safe-area-inset-bottom) + 0px);
   z-index: 1000000;
   width: 100%; 
-  padding-top: 10px;
+  padding: 10px 0px;
 
 }
 .chat--foot > div {

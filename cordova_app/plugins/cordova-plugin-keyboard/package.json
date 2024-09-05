@@ -1,34 +1,32 @@
 {
   "name": "cordova-plugin-keyboard",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "Cordova Keyboard Plugin",
-  "cordova": {
-    "id": "cordova-plugin-keyboard",
-    "platforms": [
-      "ios"
-    ]
+  "scripts": {
+    "release": "standard-version -a",
+    "pre-release": "standard-version -a -p --skip.changelog=true --skip.tag=true"
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "sync-cordova-xml2 package.json plugin.xml --output=plugin.xml && git add plugin.xml"
+    }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cjpearson/cordova-plugin-keyboard.git"
+    "url": "https://github.com/juuulienr/cordova-plugin-keyboard.git"
   },
   "keywords": [
     "cordova",
     "keyboard",
-    "ecosystem:cordova",
     "cordova-ios",
     "cordova-android"
   ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=3.2.0"
-    }
-  ],
-  "author": "Apache Software Foundation",
-  "license": "Apache 2.0",
-  "bugs": {
-    "url": "https://github.com/cjpearson/cordova-plugin-keyboard/issues"
+  "author": {
+    "name": "SWIPE LIVE",
+    "email": "contact@swipelive.app"
   },
-  "homepage": "https://github.com/cjpearson/cordova-plugin-keyboard#readme"
+  "devDependencies": {
+    "standard-version": "^7.0.0",
+    "sync-cordova-xml2": "0.0.3"
+  }
 }
