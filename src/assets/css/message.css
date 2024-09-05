@@ -482,7 +482,7 @@ h4 {
   z-index: 100000000;
   width: 100%;
   background-color: white;
-  top: calc(env(safe-area-inset-top));
+  top: 0px;
 }
 .chat--head svg {
   width: 20px;

@@ -901,8 +901,8 @@ export default {
   },
   beforeDestroy() {
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
-    // document.getElementsByTagName('body')[0].classList.remove("dark-mode");
     this.stopLocalVideo();
+    this.leaveChannel();
   },
   directives: {
     focus: {
@@ -990,6 +990,14 @@ export default {
         console.error('Failed to stop local video', error);
       });
     },
+    leaveChannel() {
+      window.cordova.plugins.Agora.leaveChannel((response) => {
+        console.log('Left the channel successfully');
+        console.log(response);
+      }, (error) => {
+        console.error('Failed to leave the channel', error);
+      });
+    },
     switchCamera() {
       window.cordova.plugins.Agora.switchCamera((response) => {
         console.log('Camera switched successfully');
@@ -1018,6 +1026,7 @@ export default {
       }, 700);
     },
     async startLive() {
+      console.log("start live");
       window.cordova.plugins.Agora.joinChannel(this.agoraToken, this.agoraChannel, this.uid, (response) => {
         console.log('Joined channel successfully');
         console.log(response);
@@ -1141,6 +1150,7 @@ export default {
       }
 
       this.stopLocalVideo();
+      this.leaveChannel();
 
       this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
         this.$store.commit('setUser', JSON.parse(response.data));
