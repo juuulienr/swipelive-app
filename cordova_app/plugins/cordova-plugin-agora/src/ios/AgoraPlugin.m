@@ -60,7 +60,7 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
     NSString* token = [command.arguments objectAtIndex:0];
     NSString* channelName = [command.arguments objectAtIndex:1];
     NSNumber* uidNumber = [command.arguments objectAtIndex:2];
-    
+
     if ([token isKindOfClass:[NSNull class]]) {
         token = nil;
     }
@@ -80,12 +80,32 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
 
     NSLog(@"Joining channel with token: %@, channelName: %@, uid: %lu", token, channelName, (unsigned long)uid);
 
+    // Définir le rôle explicitement comme Broadcaster (hôte)
+    [sharedRtcEngine setClientRole:AgoraClientRoleBroadcaster];
+
     [sharedRtcEngine joinChannelByToken:token channelId:channelName info:nil uid:uid joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed) {
         NSLog(@"Join channel success");
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Joined channel"];
+
+        // Publier la vidéo et l'audio automatiquement (car on est hôte)
+        int ret = [sharedRtcEngine muteLocalAudioStream:NO];
+        if (ret == 0) {
+            NSLog(@"Audio unmuted successfully");
+        } else {
+            NSLog(@"Failed to unmute audio");
+        }
+
+        ret = [sharedRtcEngine muteLocalVideoStream:NO];
+        if (ret == 0) {
+            NSLog(@"Video unmuted successfully");
+        } else {
+            NSLog(@"Failed to unmute video");
+        }
+
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Joined channel as host"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
+
 
 - (void)leaveChannel:(CDVInvokedUrlCommand*)command {
     [sharedRtcEngine leaveChannel:^(AgoraChannelStats * _Nonnull stat) {

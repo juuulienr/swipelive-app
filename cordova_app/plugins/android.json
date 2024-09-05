@@ -135,10 +135,10 @@
       "ANDROIDX_CORE_VERSION": "1.6.+",
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-agora": {
+    "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-keyboard": {
+    "cordova-plugin-agora": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },

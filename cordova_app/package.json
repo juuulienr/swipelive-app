@@ -94,8 +94,8 @@
       "cordova-plugin-camera": {
         "ANDROIDX_CORE_VERSION": "1.6.+"
       },
-      "cordova-plugin-agora": {},
-      "cordova-plugin-keyboard": {}
+      "cordova-plugin-keyboard": {},
+      "cordova-plugin-agora": {}
     },
     "platforms": [
       "browser",

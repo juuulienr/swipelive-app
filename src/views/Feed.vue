@@ -744,32 +744,6 @@ export default {
       this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
       this.agoraChannel = "Live" + id;
       await this.getAgoraToken(id, index);
-
-      this.client.on("user-published", async (user, mediaType) => {
-        console.log(mediaType);
-        console.log(user);
-        await this.client.subscribe(user, mediaType);
-        console.log("Subscribed to user", user);
-        console.log(index);
-
-        if (mediaType === 'video') {
-          const remoteVideoTrack = user.videoTrack;
-          this.remoteTracks[user.uid] = {
-            ...this.remoteTracks[user.uid],
-            videoTrack: remoteVideoTrack
-          };
-          remoteVideoTrack.play('player' + index);
-        }
-
-        if (mediaType === 'audio') {
-          const remoteAudioTrack = user.audioTrack;
-          this.remoteTracks[user.uid] = {
-            ...this.remoteTracks[user.uid],
-            audioTrack: remoteAudioTrack
-          };
-          remoteAudioTrack.play();
-        }
-      });
     },
     async getAgoraToken(id, index) {
       try {
@@ -786,17 +760,89 @@ export default {
     },
     async joinChannel(index) {
       try {
-        console.log("Joined channel successfully");
+        console.log("Joining channel...");
+
+        console.log(index);
+
+        // Écouter les événements avant de rejoindre le canal
+        this.client.on("user-unpublished", this.handleUserUnpublished);
+        this.client.on("user-left", this.handleUserLeft);
+        this.client.on("user-offline", this.handleUserOffline);
+        this.client.on("user-published", async (user, mediaType) => {
+          console.log("New user published", user);
+
+          // S'abonner à l'utilisateur qui vient de publier un flux
+          await this.client.subscribe(user, mediaType);
+          console.log("Subscribed to new user", user);
+
+          if (mediaType === 'video') {
+            const remoteVideoTrack = user.videoTrack;
+            this.remoteTracks[user.uid] = {
+              ...this.remoteTracks[user.uid],
+              videoTrack: remoteVideoTrack
+            };
+
+            const videoElement = this.$refs['player' + index];
+            console.log(videoElement);
+
+            if (videoElement) {
+              console.log('Video element exists:', videoElement[0]);
+              remoteVideoTrack.play(videoElement[0]); // Utilise l'élément DOM directement
+            } else {
+              console.log('Video element not found');
+            }
+          }
+
+          if (mediaType === 'audio') {
+            const remoteAudioTrack = user.audioTrack;
+            this.remoteTracks[user.uid] = {
+              ...this.remoteTracks[user.uid],
+              audioTrack: remoteAudioTrack
+            };
+            remoteAudioTrack.play();
+          }
+        });
+
+        // Rejoindre le canal
         await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, null);
         await this.client.setClientRole('audience');
         this.loading[index].value = false;
 
-        // Écouter les événements pour les utilisateurs dépubliés
-        this.client.on("user-unpublished", this.handleUserUnpublished);
-        this.client.on("user-left", this.handleUserLeft);
-        this.client.on("user-offline", this.handleUserOffline);
+        console.log("Successfully joined channel");
+
+        // Vérifier si des utilisateurs sont déjà dans le canal et ont publié des flux
+        const remoteUsers = this.client.remoteUsers;
+
+        console.log("remote users");
+        console.log(remoteUsers);
+        if (remoteUsers.length > 0) {
+          console.log("Existing remote users found:", remoteUsers);
+          for (let user of remoteUsers) {
+            if (user.videoTrack) {
+              console.log("Subscribing to existing user's video");
+              
+              // S'abonner au flux vidéo
+              await this.client.subscribe(user, 'video');
+              
+              // Vérifier si l'élément DOM existe avant de jouer la vidéo
+              const videoElement = this.$refs['player' + index];
+              if (videoElement) {
+                console.log('Playing video on element:', videoElement[0]);
+                user.videoTrack.play(videoElement[0]);  // Utiliser la référence Vue pour jouer la vidéo
+              } else {
+                console.log('Video element not found');
+              }
+            }
+
+            if (user.audioTrack) {
+              console.log("Subscribing to existing user's audio");
+              await this.client.subscribe(user, 'audio');
+              user.audioTrack.play();  // Audio peut être joué sans élément DOM
+            }
+          }
+        }
       } catch (err) {
-        console.error("Failed to join channel and publish streams", err);
+        console.error("Failed to join channel and subscribe to streams", err);
       }
     },
     async leaveChannel() {

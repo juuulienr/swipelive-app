@@ -112,10 +112,10 @@
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-agora": {
+    "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-keyboard": {
+    "cordova-plugin-agora": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

@@ -283,18 +283,18 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-agora": {
-    "source": {
-      "type": "registry",
-      "id": "https://github.com/juuulienr/cordova-plugin-agora.git"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-keyboard": {
     "source": {
       "type": "registry",
       "id": "https://github.com/juuulienr/cordova-plugin-keyboard.git"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-agora": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/juuulienr/cordova-plugin-agora.git"
     },
     "is_top_level": true,
     "variables": {}
