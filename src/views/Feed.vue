@@ -761,7 +761,6 @@ export default {
     async joinChannel(index) {
       try {
         console.log("Joining channel...");
-
         console.log(index);
 
         // Écouter les événements avant de rejoindre le canal
@@ -769,9 +768,6 @@ export default {
 
         this.client.on("user-left", (user) => {
           console.log("User left:", user.uid);
-
-          console.log("vendeur id");
-          console.log(this.data[index].value.vendor.id);
 
           // Vérifier si c'est l'hôte qui a quitté
           if (user.uid === this.data[index].value.vendor.id) {
@@ -846,14 +842,12 @@ export default {
             if (user.videoTrack) {
               console.log("Subscribing to existing user's video");
               
-              // S'abonner au flux vidéo
               await this.client.subscribe(user, 'video');
-              
-              // Vérifier si l'élément DOM existe avant de jouer la vidéo
               const videoElement = this.$refs['player' + index];
+              
               if (videoElement) {
                 console.log('Playing video on element:', videoElement[0]);
-                user.videoTrack.play(videoElement[0]);  // Utiliser la référence Vue pour jouer la vidéo
+                user.videoTrack.play(videoElement[0]);
               } else {
                 console.log('Video element not found');
               }
@@ -862,7 +856,7 @@ export default {
             if (user.audioTrack) {
               console.log("Subscribing to existing user's audio");
               await this.client.subscribe(user, 'audio');
-              user.audioTrack.play();  // Audio peut être joué sans élément DOM
+              user.audioTrack.play();
             }
           }
         }
