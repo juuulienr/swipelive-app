@@ -766,7 +766,32 @@ export default {
 
         // Écouter les événements avant de rejoindre le canal
         this.client.on("user-unpublished", this.handleUserUnpublished);
-        this.client.on("user-left", this.handleUserLeft);
+
+        this.client.on("user-left", (user) => {
+          console.log("User left:", user.uid);
+
+          console.log("vendeur id");
+          console.log(this.data[index].value.vendor.id);
+
+          // Vérifier si c'est l'hôte qui a quitté
+          if (user.uid === this.data[index].value.vendor.id) {
+             console.log("The host has left the channel");
+
+             if (this.data[index].type == "live") {
+              this.finished[index].value = true;
+            } else {
+              if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
+                var el = document.getElementById('feed');
+                if (el) {
+                  el.scrollTop += window.innerHeight;
+                }
+              }
+            }
+          } else {
+            console.log("A spectator has left the channel");
+          }
+        });
+
         this.client.on("user-offline", this.handleUserOffline);
         this.client.on("user-published", async (user, mediaType) => {
           console.log("New user published", user);
@@ -874,10 +899,6 @@ export default {
         delete this.remoteTracks[user.uid];
       }
     },
-    handleUserLeft(user) {
-      console.log("User left:", user);
-      this.handleUserUnpublished(user);
-    },
     handleUserOffline(user) {
       console.log("User offline:", user);
       this.handleUserUnpublished(user);
@@ -961,51 +982,7 @@ export default {
       console.log(value, index);
       if (this.data[index].type == "live") {
         console.log(value);
-
         this.initializeAgora(value.id, index);
-      }
-
-      console.log(typeof value.resourceUri === 'string');
-      if (value.resourceUri && typeof value.resourceUri === 'string') {
-        setTimeout(() => {
-          console.log(document.getElementById('player'+index));
-          console.log(value);
-
-
-          // Listen to player events
-          // this.myPlayer = window.BambuserPlayer.create(document.getElementById('player'+index), value.resourceUri);
-          // this.myPlayer.scaleMode = "aspectFill";
-          // this.myPlayer.play();
-
-          // this.myPlayer.addEventListener('canplay', () => {
-          //   this.loading[index].value = false;
-
-          //   if (navigator.splashscreen) {
-          //     navigator.splashscreen.hide();
-          //   }
-      
-          //   if (window.cordova.platformId == "browser") {
-          //     this.myPlayer.muted = true;
-          //   }
-          // });
-
-          // this.myPlayer.addEventListener('ended', () => {
-          //   if (this.data[index].type == "live") {
-          //     this.finished[index].value = true;
-          //   } else {
-          //     if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
-          //       var el = document.getElementById('feed');
-          //       if (el) {
-          //         el.scrollTop += window.innerHeight;
-          //       }
-          //     }
-          //   }
-          // });
-
-          // this.myPlayer.addEventListener('error', (error) => {
-          //   console.log("error player", error);
-          // });
-        }, 500);
       }
     },
     loadClipsTrending() {
