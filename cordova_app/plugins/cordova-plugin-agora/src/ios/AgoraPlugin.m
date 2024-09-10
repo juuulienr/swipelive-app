@@ -28,24 +28,27 @@ static AgoraRtcEngineKit *sharedRtcEngine = nil;
 
 - (void)initialize:(CDVInvokedUrlCommand*)command {
     NSLog(@"Agora initialize called");
-    NSString* appId = [command.arguments objectAtIndex:0];
+    NSString *appId = [command.arguments objectAtIndex:0];
     if (![appId isKindOfClass:[NSString class]] || appId.length == 0) {
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid App ID"];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid App ID"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         return;
     }
-    
+
+    // Initialize the Agora engine
     sharedRtcEngine = [AgoraRtcEngineKit sharedEngineWithAppId:appId delegate:self];
+
     if (sharedRtcEngine) {
         NSLog(@"rtcEngine initialized");
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Agora initialized"];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Agora initialized"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } else {
         NSLog(@"rtcEngine initialization failed");
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora initialization failed"];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Agora initialization failed"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }
 }
+
 
 - (void)joinChannel:(CDVInvokedUrlCommand*)command {
     NSLog(@"joinChannel called");

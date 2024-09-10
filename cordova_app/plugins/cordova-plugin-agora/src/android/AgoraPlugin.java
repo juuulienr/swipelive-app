@@ -60,13 +60,14 @@ public class AgoraPlugin extends CordovaPlugin {
     }
 
     private void initialize(String appId, CallbackContext callbackContext) {
-        try {
-            rtcEngine = RtcEngine.create(cordova.getActivity().getApplicationContext(), appId, rtcEventHandler);
-            callbackContext.success("Agora initialized");
-        } catch (Exception e) {
-            callbackContext.error("Agora initialization failed: " + e.getMessage());
-        }
+      try {
+        rtcEngine = RtcEngine.create(cordova.getActivity().getApplicationContext(), appId, rtcEventHandler);
+        callbackContext.success("Agora initialized");
+      } catch (Exception e) {
+        callbackContext.error("Agora initialization failed: " + e.getMessage());
+      }
     }
+
 
     private void joinChannel(String token, String channelName, int uid, CallbackContext callbackContext) {
         if (rtcEngine != null) {
