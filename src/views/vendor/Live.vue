@@ -1033,6 +1033,7 @@ export default {
 
         try {
           this.http.put(this.baseUrl + "/user/api/live/update/" + this.id, { "fbIdentifier": this.fbIdentifier, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
+            console.log(JSON.parse(response.data));
             this.live = JSON.parse(response.data);
             this.liveProducts = this.live.liveProducts;
             this.available = this.checkQuantity();
