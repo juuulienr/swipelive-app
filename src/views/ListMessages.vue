@@ -36,7 +36,7 @@
               </div>
               <div class="chat--left--message--detail">
                 <div class="chat--left--message--top">
-                  <h6 v-if="discussion.user.id == user.id">{{ discussion.vendor.vendor.businessName }}</h6>
+                  <h6 v-if="discussion.user.id == user.id">{{ discussion.vendor.vendor.pseudo }}</h6>
                   <h6 v-else>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</h6>
                   <span v-if="discussion.user.id == user.id && discussion.unseen" class="not--read"></span>
                   <span v-if="discussion.vendor.id == user.id && discussion.unseenVendor" class="not--read"></span>
@@ -88,7 +88,7 @@ export default {
       discussionId: this.$route.params.discussionId,
       userId: this.$route.params.userId,
       picture: this.$route.params.picture,
-      businessName: this.$route.params.businessName,
+      pseudo: this.$route.params.pseudo,
       firstname: this.$route.params.firstname,
       lastname: this.$route.params.lastname,
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -174,7 +174,7 @@ export default {
         const search = this.searchTerm.toLowerCase();
 
         if (discussion.user.id == this.user.id) {
-          return discussion.vendor.vendor.businessName.toLowerCase().includes(search);
+          return discussion.vendor.vendor.pseudo.toLowerCase().includes(search);
         } else {
           return (discussion.user.firstname.toLowerCase().includes(search) || discussion.user.lastname.toLowerCase().includes(search));
         }
@@ -197,8 +197,8 @@ export default {
         }
 
         if (this.userId && !this.selectedDiscussion) {
-          if (this.businessName) {
-            this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "businessName": this.businessName }}, "messages": [] };
+          if (this.pseudo) {
+            this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "pseudo": this.pseudo }}, "messages": [] };
           } else {
             this.selectedDiscussion = { "id": null, "user": { "id": this.userId, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture }, "vendor": {"id": this.user.id }, "messages": [] };
           }

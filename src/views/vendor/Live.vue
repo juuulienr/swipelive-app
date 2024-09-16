@@ -506,7 +506,7 @@
           <div class="video-page__influencer-badge">
             <div class="video-page__influencer-username-holder">
               <div class="video-page__influencer-username" style="line-height: 18px;"> 
-                <div v-if="comment.user.vendor" class="username">{{ comment.user.vendor.businessName }}</div>
+                <div v-if="comment.user.vendor" class="username">{{ comment.user.vendor.pseudo }}</div>
                 <div v-else class="username">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
                 <div class="content">{{ comment.content }}</div>
               </div>
@@ -608,7 +608,7 @@
               <span class="order-counter">{{ order.nbProducts }}</span>
               <div>
                 <div><span>#{{ order.number }}</span></div>
-                <span v-if="order.buyer.vendor">{{ order.buyer.vendor.businessName }}</span>
+                <span v-if="order.buyer.vendor">{{ order.buyer.vendor.pseudo }}</span>
                 <span v-else>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                 <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
               </div>
@@ -644,7 +644,7 @@
               <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
-                <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
+                <span v-if="user.vendor">{{ user.vendor.pseudo }}</span>
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
               <div @click="bannedViewer(user.id, index)">
@@ -678,7 +678,7 @@
               <Lottie :options="defaultOptions4" :width="200"/>
             </div>
           </div>
-          <div class="performance-title">Bravo {{ user.vendor.businessName }} !</div>
+          <div class="performance-title">Bravo {{ user.vendor.pseudo }} !</div>
           <p class="performance-p">Voici quelques statistiques du live.</p>
           <div class="performance-bloc" style="margin-top: 30px;">
             <div class="performance-card">
@@ -869,7 +869,6 @@ export default {
     window.StatusBar.styleLightContent();
     window.StatusBar.overlaysWebView(true);
     document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-    // document.getElementsByTagName('body')[0].classList.add("dark-mode");
 
     if (window.cordova.plugin && window.cordova.plugin.http) {
       this.http = window.cordova.plugin.http;
@@ -916,7 +915,7 @@ export default {
       console.log("initializeAgora");
       
       this.agoraChannel = "Live" + this.id;
-      this.uid = this.user.vendor.id;
+      this.uid = this.user.id;
 
       console.log('Token:', this.agoraToken);
       console.log('Channel:', this.agoraChannel);
@@ -1198,7 +1197,7 @@ export default {
       this.popup = false;
       var content = this.content;
       this.content = "";
-      this.comments.push({ "content": content, "user": { "vendor": { "businessName": this.user.vendor.businessName }, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
+      this.comments.push({ "content": content, "user": { "vendor": { "pseudo": this.user.vendor.pseudo }, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
       this.scrollToElement();
 
       this.http.post(this.baseUrl + "/user/api/live/" + this.id + "/comment/add", { "content": content }, { Authorization: "Bearer " + this.token }, (response) => {

@@ -164,7 +164,7 @@
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
-                  <span>{{ order.vendor.businessName }}</span>
+                  <span>{{ order.vendor.pseudo }}</span>
                   <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
                 </div>
                 <span class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
@@ -225,7 +225,7 @@
               <img v-if="order.vendor.user.picture" :src="cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
-                <span>{{ order.vendor.businessName }}</span>
+                <span>{{ order.vendor.pseudo }}</span>
                 <div><span>{{ order.createdAt | formatDate }}</span></div>
               </div>
               <div @click="sendMessageToVendor(order.vendor)" style="width: 28px; height: 28px;">
@@ -617,13 +617,13 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.$router.push({ name: 'ListMessages', params: { userId: buyer.id, picture: buyer.picture, firstname: buyer.firstname, lastname: buyer.lastname, businessName: null } });
+      this.$router.push({ name: 'ListMessages', params: { userId: buyer.id, picture: buyer.picture, firstname: buyer.firstname, lastname: buyer.lastname, pseudo: null } });
     },
     sendMessageToVendor(vendor) {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, businessName: vendor.businessName } });
+      this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, pseudo: vendor.pseudo } });
     },
     cancelOrder() {
       var orderId = this.order.id;

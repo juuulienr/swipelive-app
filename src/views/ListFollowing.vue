@@ -39,7 +39,7 @@
               <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
-                <span v-if="user.vendor">{{ user.vendor.businessName }}</span>
+                <span v-if="user.vendor">{{ user.vendor.pseudo }}</span>
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
               <div @click="actionSheet(user, index)">
@@ -71,7 +71,7 @@
               <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
-                <span>{{ user.vendor.businessName }}</span>
+                <span>{{ user.vendor.pseudo }}</span>
                 <div>
                   <span v-if="user.followers.length > 1">{{user.followers.length }} abonnés</span>
                   <span v-else>{{user.followers.length }} abonné</span>
@@ -103,7 +103,7 @@
               <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
-                <span>{{ user.vendor.businessName }}</span>
+                <span>{{ user.vendor.pseudo }}</span>
                 <div>
                   <span v-if="user.followers.length > 1">{{user.followers.length }} abonnés</span>
                   <span v-else>{{user.followers.length }} abonné</span>

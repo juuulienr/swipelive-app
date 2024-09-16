@@ -10,7 +10,7 @@
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
         </div>
         <div class="chat--head--profil--name">
-          <p>{{ discussion.vendor.vendor.businessName }}</p>
+          <p>{{ discussion.vendor.vendor.pseudo }}</p>
           <div v-if="isUserOnline(discussion)" class="chat--head--status">En ligne</div>
           <div v-else-if="discussion.vendor.securityUsers" class="chat--head--status">{{ discussion.vendor.securityUsers[0].connectedAt | formatDateDiff }}</div>
         </div>

@@ -37,7 +37,7 @@
               </svg>
             </div>
           </div>
-          <div class="video-page__influencer-username6" style="font-weight: 600">{{ feed.value.vendor.businessName }}</div>
+          <div class="video-page__influencer-username6" style="font-weight: 600">{{ feed.value.vendor.pseudo }}</div>
         </div>
         <div v-if="finished[index].value" class="finished-swipe">
           <Lottie :options="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
@@ -237,7 +237,7 @@
             </div>
             <div @click="goToProfile(feed.value.vendor)" class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
               <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">
-                {{ feed.value.vendor.businessName }}
+                {{ feed.value.vendor.pseudo }}
               </div>
               <div style="text-align: left; font-size: 12px; margin-top: -3px; display: flex;">
                 <div style="padding-right: 5px;">
@@ -278,7 +278,7 @@
             <div class="video-page__influencer-badge">
               <div class="video-page__influencer-username-holder">
                 <div class="video-page__influencer-username"> 
-                  <div v-if="comment.user.vendor" class="video-page__influencer-title">{{ comment.user.vendor.businessName }}</div>
+                  <div v-if="comment.user.vendor" class="video-page__influencer-title">{{ comment.user.vendor.pseudo }}</div>
                   <div v-else class="video-page__influencer-title">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
                   <div class="video-page__influencer-content">{{ comment.content }}</div>
                 </div>
@@ -438,7 +438,7 @@
     <div v-if="popupFollow" class="store-products-item__login-popup store-products-item__login-popup--active follow-popup">
       <img v-if="data[visible].value.vendor.user.picture" :src="cloudinary256x256 + data[visible].value.vendor.user.picture">
       <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
-      <div style="margin-bottom: 5px; font-size: 16Px;">{{ data[visible].value.vendor.businessName }}</div>
+      <div style="margin-bottom: 5px; font-size: 16Px;">{{ data[visible].value.vendor.pseudo }}</div>
       <p class="follow-text">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
       <div @click="follow(data[visible].value.vendor.user.id)" class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
     </div>
@@ -747,7 +747,7 @@ export default {
     },
     async getAgoraToken(id, index) {
       try {
-        window.cordova.plugin.http.get(this.baseUrl + "/agora/token/audience/" + id, {}, {}, (response) => {
+        window.cordova.plugin.http.get(this.baseUrl + "/user/api/agora/token/audience/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
           var result = JSON.parse(response.data);
           this.agoraToken = result.token;
           this.joinChannel(index);
@@ -947,7 +947,7 @@ export default {
           this.visible = index;
 
           var value = this.data[index].value;
-          this.videos[index].value = value.resourceUri;
+          this.videos[index].value = value.resourceId;
           this.comments[index].value = value.comments;
 
           if (this.data[index].type == "live") {
@@ -1219,8 +1219,8 @@ export default {
       var content = this.content;
       this.content = "";
 
-      if (this.user.vendor && this.user.vendor.businessName) {
-        var vendor = { "businessName": this.user.vendor.businessName };
+      if (this.user.vendor && this.user.vendor.pseudo) {
+        var vendor = { "pseudo": this.user.vendor.pseudo };
       } else {
         var vendor = null;
       }
@@ -1305,7 +1305,7 @@ export default {
 
             if (this.anchor) {
               if (this.anchor == index) {
-                this.videos.push({ "value": value.resourceUri });
+                this.videos.push({ "value": value.resourceId });
                 this.comments.push({ "value": value.comments });
 
                 if (index > 0) {
@@ -1342,7 +1342,7 @@ export default {
                 this.comments.push({ "value": [] });
               }
             } else if (index == 0) {
-              this.videos.push({ "value": value.resourceUri });
+              this.videos.push({ "value": value.resourceId });
               this.comments.push({ "value": value.comments });
 
               // si c'est un live
@@ -1455,7 +1455,7 @@ export default {
           this.finished.splice(this.visible, 1);
 
           var value = this.data[this.visible].value;
-          this.videos[this.visible].value = value.resourceUri;
+          this.videos[this.visible].value = value.resourceId;
           this.comments[this.visible].value = value.comments;
 
           if (this.data[this.visible].type == "live") {

@@ -128,7 +128,7 @@ export default new Router({
       name: 'ListOrders',
       component: ListOrders
     }, {
-      path: '/discussions/:discussionId?/:userId?/:picture?/:businessName?/:firstname?/:lastname?',
+      path: '/discussions/:discussionId?/:userId?/:picture?/:pseudo?/:firstname?/:lastname?',
       name: 'ListMessages',
       component: ListMessages
     }, {

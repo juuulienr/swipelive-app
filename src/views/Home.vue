@@ -33,7 +33,7 @@
               <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
                 <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
                 <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
-                {{ clip.vendor.businessName }}
+                {{ clip.vendor.pseudo }}
               </div>
             </div>
             <div style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"></div>
@@ -78,7 +78,7 @@
               <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
                 <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
                 <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
-                {{ clip.vendor.businessName }}
+                {{ clip.vendor.pseudo }}
               </div>
             </div>
             <div style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"></div>

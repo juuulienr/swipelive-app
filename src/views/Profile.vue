@@ -23,7 +23,7 @@
           <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
         </div>
         <div style="margin-top: 7px;">
-          <span style="font-size: 20px; font-weight: 500;">{{ profile.vendor.businessName }}
+          <span style="font-size: 20px; font-weight: 500;">{{ profile.vendor.pseudo }}
             <img v-if="profile.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 19px; height: 19px; margin-bottom: 4px;"/>
           </span>
           <div>
@@ -284,7 +284,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, businessName: user.vendor.businessName } });
+      this.$router.push({ name: 'ListMessages', params: { userId: user.id, picture: user.picture, pseudo: user.vendor.pseudo } });
     },
     goToFeed(index) {
       window.plugins.nativepagetransitions.slide({

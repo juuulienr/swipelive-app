@@ -59,10 +59,10 @@
 
 
         <h2 v-if="user.vendor" style="font-weight: 500; font-size: 17px; margin-left: 10px; margin-bottom: 30px; margin-top: 55px;">Informations vendeur</h2>
-        <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
+        <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorPseudo }">
           <fieldset>
             <legend>Pseudo (visible par les clients)</legend>
-            <input type="text" v-model="user.vendor.businessName">
+            <input type="text" v-model="user.vendor.pseudo">
           </fieldset>
         </div>
 
@@ -153,7 +153,7 @@ export default {
       errorFirstname: false,
       errorLastname: false,
       errorSummary: false,
-      errorBusinessName: false,
+      errorPseudo: false,
       errorBusinessType: false,
       errorAddress: false,
       errorCompany: false,
@@ -182,7 +182,7 @@ export default {
       this.errorFirstname = false;
       this.errorLastname = false;
       this.errorSummary = false;
-      this.errorBusinessName = false;
+      this.errorPseudo = false;
       this.errorAddress = false;
       this.errorCompany = false;
       this.errorSiren = false;
@@ -230,8 +230,8 @@ export default {
           this.errorCity = true;
         }
 
-        if (!this.user.vendor.businessName) {
-          this.errorBusinessName = true;
+        if (!this.user.vendor.pseudo) {
+          this.errorPseudo = true;
         }
 
         if (this.user.vendor.businessType == "company") {
@@ -260,11 +260,11 @@ export default {
         }
       }
 
-      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorBusinessName && !this.errorCountry && !this.errorPhone) {
+      if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorPseudo && !this.errorCountry && !this.errorPhone) {
         this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
         if (this.user.vendor) {
-          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "businessName": this.user.vendor.businessName, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
+          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "pseudo": this.user.vendor.pseudo, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
         } else {
           var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "businessType" : null };
         }

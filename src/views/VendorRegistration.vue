@@ -193,10 +193,10 @@
           </fieldset>
         </div>
 
-        <div class="form--input--item" :class="{'form--input--item--error': errorBusinessName }">
+        <div class="form--input--item" :class="{'form--input--item--error': errorPseudo }">
           <fieldset>
             <legend>Pseudo (visible par les clients)</legend>
-            <input type="text" v-model="businessName" maxlength="30" style="text-transform: capitalize;">
+            <input type="text" v-model="pseudo" maxlength="30" style="text-transform: capitalize;">
           </fieldset>
         </div>
 
@@ -223,7 +223,7 @@
       <div v-if="step3" class="step3">
         <img :src="require(`@/assets/img/welcome-vendor.jpg`)" style="width: calc(100vw - 30px); border-radius: 10px;">
 
-        <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 24px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue {{ businessName }} 👋 <br> dans votre espace vendeur !</h5>
+        <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 24px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue {{ pseudo }} 👋 <br> dans votre espace vendeur !</h5>
         <br />
         <div style="font-weight: 400; font-size: 15px; margin-top: 10px; padding: 0px 10px; text-align: justify; line-height: 27px;">Vous pouvez dès à présent créer votre communauté et exploiter la vidéo en direct pour offrir des expériences d'achat fun et unique avec des taux de conversion 10 fois supérieurs à ceux des sites de commerce électronique traditionnels.</div>
 
@@ -367,7 +367,7 @@ export default {
       email: null,
       businessType: null,
       summary: null,
-      businessName: null,
+      pseudo: null,
       company: null,
       siren: null,
       address: null,
@@ -383,7 +383,7 @@ export default {
       errorMonth: false,
       errorYear: false,
       errorBusinessType: false,
-      errorBusinessName: false,
+      errorPseudo: false,
       errorCompany: false,
       errorSiren: false,
       errorAddress: false,
@@ -486,7 +486,7 @@ export default {
     }, 
     submitStep2() {
       this.errorSummary = false;
-      this.errorBusinessName = false;
+      this.errorPseudo = false;
       this.errorCompany = false;
       this.errorAddress = false;
       this.errorCompany = false;
@@ -499,8 +499,8 @@ export default {
         this.errorSummary = true;
       }
 
-      if (!this.businessName) {
-        this.errorBusinessName = true;
+      if (!this.pseudo) {
+        this.errorPseudo = true;
       }
 
       if (!this.address) {
@@ -544,7 +544,7 @@ export default {
           this.errorCountry = true;
       }
 
-      if (!this.errorSummary && !this.errorBusinessName && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorCountry) {
+      if (!this.errorSummary && !this.errorPseudo && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorCountry) {
         this.loading = true;
         this.submit();
       }
@@ -643,7 +643,7 @@ export default {
       }
 
       window.cordova.plugin.http.setDataSerializer('json');
-      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "businessName": this.businessName, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort, "tokenAccount": this.tokenAccount, "tokenPerson": this.tokenPerson };
+      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "pseudo": this.pseudo, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort, "tokenAccount": this.tokenAccount, "tokenPerson": this.tokenPerson };
 
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(response);
