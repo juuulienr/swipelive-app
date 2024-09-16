@@ -95,7 +95,8 @@
       "cordova-plugin-camera": {
         "ANDROIDX_CORE_VERSION": "1.6.+"
       },
-      "cordova-plugin-agora": {}
+      "cordova-plugin-agora": {},
+      "cordova-plugin-insomnia": {}
     },
     "platforms": [
       "browser",
@@ -123,6 +124,7 @@
     "cordova-plugin-file": "^8.1.0",
     "cordova-plugin-firebasex": "^16.5.0",
     "cordova-plugin-inappbrowser": "^6.0.0",
+    "cordova-plugin-insomnia": "^4.3.0",
     "cordova-plugin-keyboard": "github:juuulienr/cordova-plugin-keyboard",
     "cordova-plugin-media": "^7.0.0",
     "cordova-plugin-nativepagetransitions": "^0.6.6",

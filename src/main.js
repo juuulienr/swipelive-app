@@ -38,6 +38,8 @@ const init = () => {
 
 // Wait for the deviceready event to start the render
 document.addEventListener("deviceready", () => {
+  window.plugins.insomnia.keepAwake();
+  console.log("keepAwake");
   init();
 });
  

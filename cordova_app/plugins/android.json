@@ -140,6 +140,9 @@
     },
     "cordova-plugin-agora": {
       "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-insomnia": {
+      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {

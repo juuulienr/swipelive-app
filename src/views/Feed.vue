@@ -4,12 +4,12 @@
       <div v-if="feed.value">
 
         <!-- background bottom -->
-        <div v-if="!loading[index].value" class="filter-bottom"></div>
+        <div v-if="!loading[index].value && !finished[index].value" class="filter-bottom"></div>
         
 
         <!-- loader -->
         <div v-if="loading[index].value || finished[index].value" class="filter-blur"></div>
-        <img v-if="loading[index].value && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
+        <img v-if="(loading[index].value || finished[index].value) && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
         <img v-else-if="loading[index].value" :src="require(`@/assets/img/anonyme.jpg`)" class="filter-img">
 
 
@@ -740,6 +740,7 @@ export default {
   },
   methods: {
     async initializeAgora(id, index) {
+      console.log(id);
       console.log("client initialized");
       this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
       this.agoraChannel = "Live" + id;
@@ -748,6 +749,7 @@ export default {
     async getAgoraToken(id, index) {
       try {
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/agora/token/audience/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(JSON.parse(response.data));
           var result = JSON.parse(response.data);
           this.agoraToken = result.token;
           this.joinChannel(index);
@@ -770,7 +772,7 @@ export default {
           console.log("User left:", user.uid);
 
           // Vérifier si c'est l'hôte qui a quitté
-          if (user.uid === this.data[index].value.vendor.id) {
+          if (user.uid === this.data[index].value.vendor.user.id) {
              console.log("The host has left the channel");
 
              if (this.data[index].type == "live") {
@@ -825,7 +827,7 @@ export default {
         });
 
         // Rejoindre le canal
-        await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, null);
+        await this.client.join(this.agoraAppId, this.agoraChannel, this.agoraToken, this.user.id);
         await this.client.setClientRole('audience');
         this.loading[index].value = false;
 
