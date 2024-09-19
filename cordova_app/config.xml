@@ -95,6 +95,7 @@
                 </dict>
             </array>
         </privacy-manifest>
+        <resource-file src="res/raw/notif.wav" target="Resources/notif.wav" />
         <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
         <splash src="res/screen/ios/Default@2x~universal~comany.png" />
         <splash src="res/screen/ios/Default@2x~universal~comcom.png" />
@@ -102,7 +103,7 @@
         <splash src="res/screen/ios/Default@3x~universal~anycom.png" />
         <splash src="res/screen/ios/Default@3x~universal~comany.png" />
         <icon height="1024" src="res/icon/ios/icon-1024.png" width="1024" />
-        <preference name="deployment-target" value="14.0" />
+        <preference name="deployment-target" value="15.0" />
         <preference name="UseSwiftLanguageVersion" value="5" />
         <preference name="SwiftVersion" value="5" />
     </platform>

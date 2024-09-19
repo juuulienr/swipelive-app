@@ -1,17 +1,34 @@
 var FirebasePlugin;
+import router from './../router';  // Importer le routeur Vue.js
 
 // Init
 function onDeviceReady() {
   FirebasePlugin = window.FirebasePlugin;
 
-  //Register handlers
-  FirebasePlugin.onMessageReceived(function(message) {
-    console.log(message);
-    // var route = message.data.route;
-    // router.push({ name: route });
+  // Activer la réception des notifications
+  FirebasePlugin.onMessageReceived(function(data) {
+    console.log("Notification reçue:", data);
 
-    clearBadgeNumber();
-    clearNotifications();
+    // Si la notification est cliquée (app en arrière-plan ou fermée)
+    if (data.tap) {
+      clearBadgeNumber();
+      clearNotifications();
+
+      console.log(data.route);
+
+      if (data.route) {
+        const resolvedRoute = router.resolve({ name: data.route });
+
+        // Vérifie si la route existe et est accessible
+        if (resolvedRoute.route.name) {
+          router.push({ name: data.route });
+        } else {
+          console.error(`Route "${data.route}" n'existe pas.`);
+        }
+      }
+    }
+  }, function(error) {
+    console.error("Erreur de réception de la notification:", error);
   });
 
   clearBadgeNumber();

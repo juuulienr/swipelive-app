@@ -765,8 +765,53 @@ export default {
         console.log("Joining channel...");
         console.log(index);
 
-        // Écouter les événements avant de rejoindre le canal
-        this.client.on("user-unpublished", this.handleUserUnpublished);
+        // Lorsque l'hôte arrête de publier un flux
+        this.client.on("user-unpublished", (user, mediaType) => {
+          console.log(`L'utilisateur ${user.uid} a arrêté de publier ${mediaType}`);
+
+          if (mediaType === 'video') {
+          // Gestion spécifique à l'arrêt de la vidéo
+            console.log('video');
+          }
+          if (mediaType === 'audio') {
+          // Gestion spécifique à l'arrêt de l'audio
+            console.log('audio');
+          }
+
+          this.handleUserUnpublished(user);
+        });
+
+        // Lorsque l'utilisateur devient hors ligne (quitte le canal ou déconnexion)
+        this.client.on("user-offline", (user, reason) => {
+          console.log(`Utilisateur ${user.uid} est hors ligne. Raison: ${reason}`);
+          this.handleUserOffline(user, index);
+        });
+
+        // Suivre les changements d'état de la connexion
+        this.client.on("connection-state-changed", (curState, prevState, reason) => {
+          console.log(`État de la connexion changé de ${prevState} à ${curState}. Raison: ${reason}`);
+          if (curState === "DISCONNECTED") {
+            console.error("La connexion a été perdue");
+            // Affiche un message d'erreur et tente de reconnecter
+          }
+        });
+
+        // En cas de perte de connexion
+        this.client.on("connection-lost", () => {
+          console.error("Connexion perdue avec le canal");
+          // Peut-être essayer une reconnexion ou afficher une notification
+        });
+
+        // Gestion des erreurs générales
+        this.client.on("error", (err) => {
+          console.error("Erreur RTC: ", err);
+        });
+
+
+        // Optionnel: Suivi de l'état vidéo du vendeur
+        this.client.on("remote-video-state-changed", (uid, state, reason) => {
+          console.log(`État de la vidéo de l'utilisateur ${uid} a changé. État: ${state}, Raison: ${reason}`);
+        });
 
         this.client.on("user-left", (user) => {
           console.log("User left:", user.uid);
@@ -790,7 +835,6 @@ export default {
           }
         });
 
-        this.client.on("user-offline", this.handleUserOffline);
         this.client.on("user-published", async (user, mediaType) => {
           console.log("New user published", user);
 
@@ -880,6 +924,7 @@ export default {
           }
           delete this.remoteTracks[uid];
         }
+
         try {
           await this.client.leave();
           console.log("Left the channel successfully");
@@ -888,16 +933,26 @@ export default {
         }
       }
     },    
+    handleUserOffline(user, index) {
+      console.log("User left:", user.uid);
+
+      // Si l'hôte quitte le canal
+      if (user.uid === this.data[index].value.vendor.user.id) {
+        console.log("L'hôte a quitté le canal");
+
+        if (this.data[index].type == "live") {
+          this.finished[index].value = true;
+        } else {
+          this.scrollToNextProduct();
+        }
+      }
+    },
     handleUserUnpublished(user) {
       console.log("User unpublished:", user);
       if (this.remoteTracks[user.uid]) {
         this.remoteTracks[user.uid].stop();
         delete this.remoteTracks[user.uid];
       }
-    },
-    handleUserOffline(user) {
-      console.log("User offline:", user);
-      this.handleUserUnpublished(user);
     },
     keyboardWillShow(event) {
       console.log("feed height");
