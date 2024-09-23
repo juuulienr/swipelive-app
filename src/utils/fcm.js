@@ -7,16 +7,26 @@ function onDeviceReady() {
 
   FirebasePlugin.onMessageReceived(function(data) {
     console.log("Notification reçue:", data);
-    clearBadgeNumber();
-    clearNotifications();
 
     if (data.tap) {
+        console.log(data.tap);
+      clearNotifications();
+      clearBadgeNumber();
+
       if (data.route) {
+        console.log(data.route);
         const resolvedRoute = router.resolve({ name: data.route });
+        console.log(resolvedRoute);
 
         // Vérifie si la route existe et est accessible
         if (resolvedRoute.route.name) {
-          router.push({ name: data.route });
+          if (data.userId) {
+            router.push({ name: data.route, params: { userId: data.userId } });
+          } else if (data.isOrder && data.orderId) {
+            router.push({ name: data.route, params: { isOrder: data.isOrder, orderId: data.orderId } });
+          } else {
+            router.push({ name: data.route });
+          }
         } else {
           console.error(`Route "${data.route}" n'existe pas.`);
         }
@@ -26,8 +36,8 @@ function onDeviceReady() {
     console.error("Erreur de réception de la notification:", error);
   });
 
-  clearBadgeNumber();
   clearNotifications();
+  clearBadgeNumber();
   checkNotificationPermission(false);
 
   if (window.cordova.platformId === "android") {
@@ -35,12 +45,6 @@ function onDeviceReady() {
   } else if (window.cordova.platformId === "ios") {
     initIos();
   }
-
-  // Nettoyage des badges et notifications au lancement de l'application
-  document.addEventListener("resume", function() {
-    clearBadgeNumber();
-    clearNotifications();
-  });
 }
 
 var initIos = function() {
@@ -125,6 +129,7 @@ function clearNotifications() {
     console.log("Failed to clear notifications", error);
   });
 }
+
 
 export default {
   onDeviceReady,

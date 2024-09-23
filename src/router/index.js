@@ -124,7 +124,7 @@ export default new Router({
       name: 'EditUser',
       component: EditUser
     }, {
-      path: '/vendor/orders/:isOrder',
+      path: '/vendor/orders/:isOrder/:orderId?',
       name: 'ListOrders',
       component: ListOrders
     }, {
