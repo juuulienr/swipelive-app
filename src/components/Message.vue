@@ -186,6 +186,7 @@ export default {
         }
 
         await window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+          console.log(JSON.parse(response.data));
           this.discussions = JSON.parse(response.data);
           this.$emit('updateDiscussions', this.discussions);
         }, (response) => {

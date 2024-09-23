@@ -1,21 +1,16 @@
 var FirebasePlugin;
-import router from './../router';  // Importer le routeur Vue.js
+import router from './../router';
 
 // Init
 function onDeviceReady() {
   FirebasePlugin = window.FirebasePlugin;
 
-  // Activer la réception des notifications
   FirebasePlugin.onMessageReceived(function(data) {
     console.log("Notification reçue:", data);
+    clearBadgeNumber();
+    clearNotifications();
 
-    // Si la notification est cliquée (app en arrière-plan ou fermée)
     if (data.tap) {
-      clearBadgeNumber();
-      clearNotifications();
-
-      console.log(data.route);
-
       if (data.route) {
         const resolvedRoute = router.resolve({ name: data.route });
 
@@ -40,6 +35,12 @@ function onDeviceReady() {
   } else if (window.cordova.platformId === "ios") {
     initIos();
   }
+
+  // Nettoyage des badges et notifications au lancement de l'application
+  document.addEventListener("resume", function() {
+    clearBadgeNumber();
+    clearNotifications();
+  });
 }
 
 var initIos = function() {
@@ -124,7 +125,6 @@ function clearNotifications() {
     console.log("Failed to clear notifications", error);
   });
 }
-
 
 export default {
   onDeviceReady,
