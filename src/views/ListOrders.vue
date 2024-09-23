@@ -432,8 +432,8 @@ export default {
   data() {
     return {
       isOrder: this.$route.params.isOrder,
+      orderId: this.$route.params.orderId,
       user: this.$store.getters.getUser,
-      orderId: this.$store.getters.getOrderId,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
@@ -508,9 +508,14 @@ export default {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
         this.sales = JSON.parse(response.data);
         this.loadingOrders = false;
+        console.log(this.sales);
+        console.log(this.orderId);
 
         if (this.orderId && this.sales.length > 0) {
           this.sales.map((order, index) => {
+            console.log(order);
+            console.log(order.id);
+            console.log(this.orderId);
             if (this.orderId == order.id) {
               this.showOrder(order, 'sale');
             }

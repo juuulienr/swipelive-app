@@ -23,7 +23,7 @@ function onDeviceReady() {
           if (data.userId) {
             router.push({ name: data.route, params: { userId: data.userId } });
           } else if (data.isOrder && data.orderId) {
-            router.push({ name: data.route, params: { isOrder: data.isOrder, orderId: data.orderId } });
+            router.push({ name: data.route, params: { isOrder: Number(data.isOrder), orderId: Number(data.orderId) } });
           } else {
             router.push({ name: data.route });
           }
