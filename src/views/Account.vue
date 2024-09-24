@@ -26,23 +26,14 @@
 
       <p v-if="user.vendor" class="desc" style="margin: 20px 30px; text-align: center;">{{ user.vendor.summary }}</p>
 
-      <div v-if="!user.vendor" @click="goToVendorRegistration()" class="top-author--container" style="padding: 16px;align-items: center; margin: 10px;border: 1px solid #ff2f80 !important;border-radius: 12px !important; margin-bottom: 30px; margin-top: 20px; gap: 10px;">
-        <div class="top-author--item">
-          <div style="margin: 0px 0px 0px 8px;">
-            <span style="font-size: 16px;font-weight: 500;font-size: 18px !important;line-height: 22px !important;margin: 0px 0px 8px !important;padding: 0px !important;">Vendez vos articles sur Swipe Live</span>
-            <div style="margin-top: 5px;">
-              <span style=" font-size: 13px !important; line-height: 18px !important; font-weight: 400 !important; margin: 0px !important; padding: 0px !important;">Commencez à vendre et gagnez de l'argent en toute simplicité.</span>
-            </div>
-          </div>
-          <img :src="require(`@/assets/img/become-seller.png`)" class="user" style="height: 100%;width: 120px;border-radius: 0px;">
-        </div>
+      <div @click="goToVendorRegistration()">
+        <img v-if="!user.vendor" :src="require(`@/assets/img/govendor.webp`)" style="width: calc(100vw - 30px); margin: 10px 0px 25px;"/>
       </div>
-
-
+      
       <div v-if="user.vendor" style="background: #ff2f80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
         <div @click="goToPrelive()" class="account-band" style="justify-content: center; padding: 14px 24px;">
           <span style="font-size: 16px; color: #fff;">
-            <img style="width: 29px; height: 29px; margin-right: 10px;" class="img1":src="require(`@/assets/img/video.svg`)"/>
+            <img style="width: 29px; height: 29px; margin-right: 10px;" class="img1" :src="require(`@/assets/img/video.svg`)"/>
           </span>
           <span style="font-weight: 600; color: #fff">Lancer un direct</span>
           <span style="float: right;">

@@ -109,9 +109,10 @@
         <preference name="deployment-target" value="15.0"/>
         <preference name="UseSwiftLanguageVersion" value="5"/>
         <preference name="SwiftVersion" value="5"/>
-        <preference name="SplashScreenDelay" value="3000" />
-        <preference name="AutoHideSplashScreen" value="true" />
+        <preference name="FadeSplashScreen" value="true" />
         <preference name="FadeSplashScreenDuration" value="500" />
+        <preference name="ShowSplashScreenSpinner" value="false" />
+        <preference name="SplashScreenDelay" value="2000" />
         <preference name="ShowSplashScreenSpinner" value="false" />
     </platform>
 
