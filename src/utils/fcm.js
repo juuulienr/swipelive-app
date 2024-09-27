@@ -20,8 +20,8 @@ function onDeviceReady() {
 
         // Vérifie si la route existe et est accessible
         if (resolvedRoute.route.name) {
-          if (data.userId) {
-            router.push({ name: data.route, params: { userId: data.userId } });
+          if (data.discussionId) {
+            router.push({ name: data.route, params: { discussionId: data.discussionId } });
           } else if (data.isOrder && data.orderId) {
             router.push({ name: data.route, params: { isOrder: Number(data.isOrder), orderId: Number(data.orderId) } });
           } else {

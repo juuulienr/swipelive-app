@@ -18,11 +18,10 @@
         <feature name="SocialSharing">
             <param name="android-package" value="nl.xservices.plugins.SocialSharing"/>
         </feature>
-        <resource-file src="res/raw/notif.wav" target="app/src/main/res/raw/notif.wav"/>
+        <resource-file src="res/raw/sales.wav" target="app/src/main/res/raw/sales.wav"/>
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/screen.png"/>
         <preference name="AndroidWindowSplashScreenDuration" value="2000"/>
         <preference name="AndroidWindowSplashScreenBackground" value="#ff5901"/>
-
         <preference name="android-compileSdkVersion" value="35"/>
         <preference name="android-targetSdkVersion" value="35"/>
         <preference name="android-minSdkVersion" value="28"/>
@@ -98,7 +97,7 @@
                 </dict>
             </array>
         </privacy-manifest>
-        <resource-file src="res/raw/notif.wav" target="notif.wav"/>
+        <resource-file src="res/raw/sales.wav" target="sales.wav"/>
         <splash src="res/screen/ios/Default@2x~universal~anyany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comcom.png"/>

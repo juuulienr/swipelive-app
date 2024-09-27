@@ -196,6 +196,14 @@ export default {
           });
         }
 
+        if (this.discussionId && this.discussions.length > 0) {
+          this.discussions.map((discussion, index) => {
+            if (this.discussionId == discussion.id) {
+              this.selectedDiscussion = discussion;
+            }
+          });
+        }
+
         if (this.userId && !this.selectedDiscussion) {
           if (this.pseudo) {
             this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "pseudo": this.pseudo }}, "messages": [] };

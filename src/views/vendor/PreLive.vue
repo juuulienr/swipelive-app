@@ -238,7 +238,7 @@ export default {
       }
     },
     async goToLive() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/agora/token/" + this.live.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(this.baseUrl + "/user/api/agora/token/host/" + this.live.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
         var result = JSON.parse(response.data);
         this.agoraToken = result.token;
 
