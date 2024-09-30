@@ -127,10 +127,10 @@ export default {
       user: this.$store.getters.getUser,
       lineItems: this.$store.getters.getLineItems,
       categories: this.$store.getters.getCategories,
-      clipsTrending: this.$store.getters.getClipsTrending,
-      clipsLatest: this.$store.getters.getClipsLatest,
-      productsTrending: this.$store.getters.getProductsTrending,
       results: this.$store.getters.getSuggestions,
+      clipsTrending: [],
+      clipsLatest: [],
+      productsTrending: [],
       searchFollowing: [],
       popupProduct: false,
       product: null,
@@ -152,24 +152,15 @@ export default {
       }); 
     }
 
-    if (this.$store.getters.getClipsTrending.length == 0) {
-      this.loadClipsTrending();
-    }
-
-    if (this.$store.getters.getProductsTrending.length == 0) {
-      this.loadProductsTrending();
-    }
-
-    if (this.$store.getters.getClipsLatest.length == 0) {
-      this.loadClipsLatest();
-    }
+    this.loadClipsTrending();
+    this.loadProductsTrending();
+    this.loadClipsLatest();
   },
   methods: {
     loadClipsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.clipsTrending = JSON.parse(response.data);
-        this.$store.commit('setClipsTrending', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -178,7 +169,6 @@ export default {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.clipsLatest = JSON.parse(response.data);
-        this.$store.commit('setClipsLatest', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -187,7 +177,6 @@ export default {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
         this.productsTrending = JSON.parse(response.data);
-        this.$store.commit('setProductsTrending', JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

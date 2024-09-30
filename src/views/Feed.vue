@@ -386,21 +386,12 @@
         </div>
 
         <!-- video -->
-        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100vw; height: 100vh;">
-          <div v-if="feed.type !== 'live'" class="video-container">
-  <!--           <video
-            :id="'video-' + index"
-            class="video-js vjs-big-play-centered"
-            controls
+        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100%; height: 100vh;">
+          <video v-if="feed.type !== 'live'"
+            :ref="'videoPlayer' + index"
+            class="video-js vjs-default-skin"
             preload="auto"
-            :data-setup="{}"
-            ></video> -->
-      <video
-        :ref="'videoPlayer' + index"
-        class="video-js vjs-default-skin"
-        preload="auto"
-      ></video>
-          </div>
+          ></video>
         </div>
 
         
@@ -534,6 +525,7 @@ import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
+// import Player from 'xgplayer'
 
 import Checkout from '../components/Checkout';
 import Product from '../components/Product';
@@ -1007,6 +999,8 @@ export default {
 
           if (this.data[this.visible].type == "live") {
             this.stopLive();
+          } else {
+            this.destroyPlayer(this.visible);
           }
 
           var iframes = document.getElementsByTagName("iframe");
@@ -1061,10 +1055,20 @@ export default {
           console.log('Video element exists:', videoElement);
           console.log(this.videos[index].value);
           var videoSrc = this.$amazonS3 + this.videos[index].value;
+
+          // const player = new Player({
+          //   id: videoElement,
+          //   url: videoSrc, // ou un flux HLS
+          //   autoplay: true,
+          //   fluid: true // Pour rendre le lecteur adaptatif
+          // });
+
           const player = videojs(videoElement, {
             controls: false,
             autoplay: true,
+            playsinline: true,
             preload: 'auto',
+            fluid: true,
             sources: [
               {
                 src: videoSrc,

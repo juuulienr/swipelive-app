@@ -1636,6 +1636,16 @@ img.zoom {
   background-color: black;
 }
 
+.video-js {
+  width: 100% !important;
+  height: 100vh !important;
+  object-fit: cover !important;
+}
+
+
+.video-js .vjs-tech {
+  object-fit: cover !important;
+}
 
 video::-webkit-media-controls-panel {
 	display: none!important;
