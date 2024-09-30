@@ -26,7 +26,7 @@
       <div v-if="products.length" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in sortedProducts" @click="editProduct(product)" class="product--item">
-            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style=" background: #eeeeee">
+            <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style=" background: #eeeeee">
             <img v-else :src="require(`@/assets/img/no-preview.png`)">
             <div class="details">
               <div class="title">{{ product.title }}</div>
@@ -74,7 +74,6 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       user: this.$store.getters.getUser,
       products: [],

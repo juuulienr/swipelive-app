@@ -49,7 +49,7 @@
         <div v-if="products.length" class="items">
           <div class="lasted--product" style="margin-top: 12px; padding-bottom: 140px;">
             <div v-for="(product, index) in products" :key="product.id" class="product--item">
-              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="background: #eeeeee;">
+              <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="background: #eeeeee;">
               <img v-else :src="require(`@/assets/img/no-preview.png`)" style="background: #eeeeee;">
               <div class="details">
                 <div class="title">{{ product.title }}</div>
@@ -99,7 +99,7 @@
               </div>
               <div class="col-3 col-img">
                 <div class="img_item">
-                  <img v-if="element.product.uploads.length" :src="cloudinary256x256 + element.product.uploads[0].filename" style="background: #eeeeee;">
+                  <img v-if="element.product.uploads.length" :src="$cloudinary256x256 + element.product.uploads[0].filename" style="background: #eeeeee;">
                   <img v-else :src="require(`@/assets/img/no-preview.png`)" style="background: #eeeeee;">
                 </div>
               </div>
@@ -143,7 +143,6 @@ export default {
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       rules: this.$store.getters.getRules,
       step1: this.$store.getters.getRules ? false : true,
       step2: false,

@@ -7,7 +7,7 @@
       <div class="checkout__body" :style="[fullscreen ? {'height': '68vh'} : {'height': '38vh'}]" style="overflow-y: scroll;  padding: 0 10px 15px;">
         <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">
           <div class="checkout__product-info">
-            <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px;">
+            <img v-if="lineItem.product.uploads" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px;">
             <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image" style="border-radius: 10px;">
             <div>
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
@@ -93,7 +93,6 @@ export default {
       lineItems: this.$store.getters.getLineItems,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       loading: false,
       subTotal: null

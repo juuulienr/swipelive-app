@@ -19,7 +19,7 @@
                   <circle cx="50" cy="50" r="20" style="stroke: #ff2f80;"></circle>
                 </svg>
                 <span v-else>
-                  <img v-if="user.picture" :src="cloudinary256x256 + user.picture">
+                  <img v-if="user.picture" :src="$cloudinary256x256 + user.picture">
                   <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
                 </span>
               </span>
@@ -146,7 +146,6 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       showAutocomplete: false,
       errorPhone: false,
       errorEmail: false,

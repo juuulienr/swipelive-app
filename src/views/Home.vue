@@ -31,13 +31,13 @@
           <div class="personne">
             <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
               <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
-                <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
+                <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="$cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
                 <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
                 {{ clip.vendor.pseudo }}
               </div>
             </div>
-            <div style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"></div>
-            <!-- <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"> -->
+            <img v-if="clip.preview" :src="$amazonS3 + clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;">
+            <div v-else style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"></div>
             <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
           </div>
         </div>
@@ -51,7 +51,7 @@
         <div v-for="product in productsTrending" @click="showProduct(product)" style="padding: 0px 5px;">
           <div class="personne">
             <div>
-              <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 150px; height: 150px; border-radius: 10px; background: #eeeeee;">
+              <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 150px; height: 150px; border-radius: 10px; background: #eeeeee;">
               <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 150px; height: 150px; border-radius: 10px; background: #eeeeee;">
             </div>
             <div class="shop--item--details" style="width: 150px; padding: 0px; margin-top: 6px; padding-left: 5px;">
@@ -76,13 +76,13 @@
           <div class="personne">
             <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
               <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
-                <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
+                <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="$cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
                 <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
                 {{ clip.vendor.pseudo }}
               </div>
             </div>
-            <div style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"></div>
-            <!-- <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"> -->
+            <img v-if="clip.preview" :src="$amazonS3 + clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;">
+            <div v-else style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"></div>
             <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
           </div>
         </div>
@@ -131,7 +131,6 @@ export default {
       clipsLatest: this.$store.getters.getClipsLatest,
       productsTrending: this.$store.getters.getProductsTrending,
       results: this.$store.getters.getSuggestions,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
       popupProduct: false,
       product: null,

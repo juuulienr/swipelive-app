@@ -140,7 +140,7 @@
               </svg>
             </span>
             <span v-else-if="picture" @click="uploadSheet()">
-              <img :src="cloudinary256x256 + picture" style="object-fit: cover; width: 142px; height: 142px;">
+              <img :src="$cloudinary256x256 + picture" style="object-fit: cover; width: 142px; height: 142px;">
             </span>
             <div v-else @click="uploadSheet()">
               <svg xmlns="http://www.w3.org/2000/svg" class="MuiBox-root css-v73erd iconify iconify--ic" viewBox="0 0 24 24">
@@ -241,7 +241,6 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       defaultOptions: {animationData: animationData},
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       popup: false,
       popupPassword: false,
       popupUserRegistration: false,

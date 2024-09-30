@@ -37,7 +37,7 @@
         	<div v-if="show1">
             <div v-if="filteredSales.length" class="top-author--container">
           		<div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-          			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+          			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
           			<div>
@@ -67,7 +67,7 @@
           <div v-if="show2">
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
@@ -96,7 +96,7 @@
           <div v-if="show3">
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
@@ -125,7 +125,7 @@
           <div v-if="show4">
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
@@ -159,7 +159,7 @@
           <div>
             <div v-if="purchases && purchases.length > 0" class="top-author--container">
               <div v-for="order in purchases" @click="showOrder(order, 'purchase')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
                 <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
@@ -211,7 +211,7 @@
         <div class="css-13dslnb" style="border: 1px solid #ddd !important; margin: 5px; padding: 10px; border-radius: 15px; margin-bottom: 20px;">
           <div class="top-author--container">
             <div v-if="type == 'sale'" class="top-author--item" style="padding: 0px; border: none !important;">
-              <img v-if="order.buyer.picture" :src="cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
+              <img v-if="order.buyer.picture" :src="$cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
@@ -222,7 +222,7 @@
               </div>
             </div>
             <div v-else class="top-author--item" style="padding: 0px; border: none !important;">
-              <img v-if="order.vendor.user.picture" :src="cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
+              <img v-if="order.vendor.user.picture" :src="$cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.vendor.pseudo }}</span>
@@ -238,7 +238,7 @@
           <div v-for="lineItem in order.lineItems" class="checkout__row checkout__product-info-row" style="display: initial; position: relative; padding: 0px;">
             <div class="checkout__product-info" style="padding: 7px 0px;">
               <div style="display: flex; padding-right: 0px; align-items: center;">
-                <img v-if="lineItem.product && lineItem.product.uploads.length" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
+                <img v-if="lineItem.product && lineItem.product.uploads.length" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
                 <span class="counter-badge" style="top: 3px;left: 54px;">{{ lineItem.quantity }}</span>
                 <div style="margin-left: 15px;">
@@ -436,7 +436,6 @@ export default {
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/',
       defaultOptions: {animationData: animationData},
       popupConfirmation: false,

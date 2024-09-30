@@ -7,7 +7,7 @@
     <div class="checkout__body" style="padding-bottom: 95px; padding-top: 15px;">
       <div v-if="user" class="top-author--container" style="padding: 0px; align-items: center;">
         <div @click="goEditProfile()" class="top-author--item">
-          <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
+          <img v-if="user.picture" :src="$cloudinary256x256 + user.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
           <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
           <img :src="require(`@/assets/img/cog.svg`)" style="width: 32px; padding: 3px; height: 32px; border: 1px solid rgb(221, 221, 221) !important; margin-left: -35px; margin-top: 58px; background: white;"/>
           <div style="margin: 0 0 0 8px">
@@ -290,7 +290,6 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
     }
   },
   created() {

@@ -76,7 +76,7 @@
               </svg>
             </span>
             <span v-else-if="user.picture" @click="uploadSheet()">
-              <img :src="cloudinary256x256 + user.picture" style="object-fit: cover; width: 142px; height: 142px;">
+              <img :src="$cloudinary256x256 + user.picture" style="object-fit: cover; width: 142px; height: 142px;">
             </span>
             <div v-else @click="uploadSheet()">
               <svg xmlns="http://www.w3.org/2000/svg" class="MuiBox-root css-v73erd iconify iconify--ic" viewBox="0 0 24 24">
@@ -355,7 +355,6 @@ export default {
   components: { VueGoogleAutocomplete },
   data() {
     return {
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       stripe_pk: window.localStorage.getItem("stripe_pk"),

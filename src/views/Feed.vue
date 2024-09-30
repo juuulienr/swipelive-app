@@ -9,7 +9,7 @@
 
         <!-- loader -->
         <div v-if="loading[index].value || finished[index].value" class="filter-blur"></div>
-        <img v-if="(loading[index].value || finished[index].value) && feed.value.vendor && feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
+        <img v-if="(loading[index].value || finished[index].value) && feed.value.vendor && feed.value.vendor.user.picture" :src="$cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
         <img v-else-if="loading[index].value" :src="require(`@/assets/img/anonyme.jpg`)" class="filter-img">
 
 
@@ -27,7 +27,7 @@
           <h4>Le LIVE est terminé</h4>
           <div class="video-page__influencer-badge6">
             <div class="video-page__influencer-img">
-              <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture"/>
+              <img v-if="feed.value.vendor.user.picture" :src="$cloudinary256x256 + feed.value.vendor.user.picture"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)"/>
             </div>
             <!-- <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" class="follow">
@@ -48,7 +48,7 @@
         <!-- purchase -->
         <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
           <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
-            <img v-if="user.picture" :src="cloudinary256x256 + user.picture" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
+            <img v-if="user.picture" :src="$cloudinary256x256 + user.picture" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
             <div class="bounce-in" style="text-shadow: rgba(0,0,0,.5) 0 0 2px; font-weight: 600; font-size: 20px; color: white;">Merci {{ user.firstname }} !</div>
           </div>
@@ -232,7 +232,7 @@
         <div v-if="feed.value.vendor && !finished[index].value" :style="{'top': safeareaTop }" style="z-index: 15; position: absolute; padding: 0px; background: rgba(0, 0, 0, 0.25); padding: 4px 3px 0px 4px; width: 234px; border-radius: 30px; left: calc(50vw - 117px);" class="checkout__header">
           <div style="display: flex;">
             <div @click="goToProfile(feed.value.vendor)">
-              <img v-if="feed.value.vendor.user.picture" :src="cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+              <img v-if="feed.value.vendor.user.picture" :src="$cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
             </div>
             <div @click="goToProfile(feed.value.vendor)" class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
@@ -272,7 +272,7 @@
         <div v-if="comments[index].value.length && !finished[index].value" class="scrollToMe" ref="scrollToMe" :style="[comments[index].value.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
           <div v-for="comment in comments[index].value" style="display: flex;">
             <div style="padding-right: 6px;">
-              <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture" class="video-page__influencer-img">
+              <img v-if="comment.user.picture" :src="$cloudinary256x256 + comment.user.picture" class="video-page__influencer-img">
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="video-page__influencer-img">
             </div>
             <div class="video-page__influencer-badge">
@@ -293,7 +293,7 @@
         <div v-if="feed.type == 'live' && feed.value.liveProducts.length > 0 && !finished[index].value" @click="showProduct(feed.value.liveProducts[display - 1].product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
-              <img v-if="feed.value.liveProducts[display - 1].product.uploads.length" :src="cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
+              <img v-if="feed.value.liveProducts[display - 1].product.uploads.length" :src="$cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
               <img v-else :src="require(`@/assets/img/no-preview.png`)">
             </div>
             <div class="video-page__info">
@@ -318,7 +318,7 @@
         <div v-if="feed.type == 'clip' && feed.value.product && !finished[index].value" @click="showProduct(feed.value.product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
           <div class="video-page__product-top">
             <div class="video-page__image">
-              <img v-if="feed.value.product.uploads.length" :src="cloudinary256x256 + feed.value.product.uploads[0].filename">
+              <img v-if="feed.value.product.uploads.length" :src="$cloudinary256x256 + feed.value.product.uploads[0].filename">
               <img v-else :src="require(`@/assets/img/no-preview.png`)">
             </div>
             <div class="video-page__info">
@@ -386,7 +386,23 @@
         </div>
 
         <!-- video -->
-        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100vw; height: 100vh;"></div>
+        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100vw; height: 100vh;">
+          <div v-if="feed.type !== 'live'" class="video-container">
+  <!--           <video
+            :id="'video-' + index"
+            class="video-js vjs-big-play-centered"
+            controls
+            preload="auto"
+            :data-setup="{}"
+            ></video> -->
+      <video
+        :ref="'videoPlayer' + index"
+        class="video-js vjs-default-skin"
+        preload="auto"
+      ></video>
+          </div>
+        </div>
+
         
         <!-- visible -->
         <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
@@ -436,7 +452,7 @@
 
     <!-- follow popup -->
     <div v-if="popupFollow" class="store-products-item__login-popup store-products-item__login-popup--active follow-popup">
-      <img v-if="data[visible].value.vendor.user.picture" :src="cloudinary256x256 + data[visible].value.vendor.user.picture">
+      <img v-if="data[visible].value.vendor.user.picture" :src="$cloudinary256x256 + data[visible].value.vendor.user.picture">
       <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
       <div style="margin-bottom: 5px; font-size: 16Px;">{{ data[visible].value.vendor.pseudo }}</div>
       <p class="follow-text">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
@@ -474,7 +490,7 @@
       <div v-if="shop.length" class="checkout__body items">
         <div class="lasted--product">
           <div v-for="product in shop" @click="showProduct(product)" class="product--item">
-            <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
+            <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
             <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 90px; height: 90px;">
             <div class="details">
               <div class="title">{{ product.title }}</div>
@@ -505,6 +521,7 @@
 .checkout__element iframe {
   height: 20px !important;
 }
+
 </style>
 
 <style scoped src="../assets/css/feed.css"></style>
@@ -515,6 +532,8 @@ import fcm from '../utils/fcm.js';
 import Lottie from 'vue-lottie';
 import Pusher from 'pusher-js';
 import { mixin as clickaway } from 'vue-clickaway';
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
 
 import Checkout from '../components/Checkout';
 import Product from '../components/Product';
@@ -542,10 +561,10 @@ export default {
       token: window.localStorage.getItem("token"),
       banned: window.localStorage.getItem("banned") ? JSON.parse(window.localStorage.getItem("banned")) : [],
       pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
       lineItems: this.$store.getters.getLineItems,
+      players: [], 
       data: [],
       videos: [],
       animationSpeed: 1,
@@ -704,6 +723,10 @@ export default {
   beforeDestroy() {
     window.removeEventListener('keyboardWillShow', this.keyboardWillShow);
     this.leaveChannel();
+
+    this.players.forEach((player, index) => {
+      this.destroyPlayer(index);
+    });
   },
   computed: {
     updateCart() {
@@ -1004,7 +1027,7 @@ export default {
           this.visible = index;
 
           var value = this.data[index].value;
-          this.videos[index].value = value.resourceId;
+          this.videos[index].value = value.fileList;
           this.comments[index].value = value.comments;
 
           if (this.data[index].type == "live") {
@@ -1029,11 +1052,46 @@ export default {
         }
       }
     },
+    initializePlayer(index) {
+      this.$nextTick(() => {
+        const videoElement = this.$refs[`videoPlayer${index}`][0]; // Vue utilise un tableau pour les références multiples
+        console.log(videoElement);
+
+        if (videoElement) {
+          console.log('Video element exists:', videoElement);
+          console.log(this.videos[index].value);
+          var videoSrc = this.$amazonS3 + this.videos[index].value;
+          const player = videojs(videoElement, {
+            controls: false,
+            autoplay: true,
+            preload: 'auto',
+            sources: [
+              {
+                src: videoSrc,
+                type: 'application/x-mpegURL' // For HLS (.m3u8)
+              }
+            ]
+          });
+          this.players[index] = player;
+          this.loading[index].value = false;
+        } else {
+          console.log('Video element not found');
+        }
+      });
+    },
+    destroyPlayer(index) {
+      if (this.players[index]) {
+        this.players[index].dispose();
+        this.players.splice(index, 1);
+      }
+    },
     launchPlayer(value, index) {
       console.log(value, index);
       if (this.data[index].type == "live") {
         console.log(value);
         this.initializeAgora(value.id, index);
+      } else {
+        this.initializePlayer(index);
       }
     },
     loadClipsTrending() {
@@ -1299,9 +1357,6 @@ export default {
         }
       }, 200);
     },
-    onVideoLoaded(e) {
-      this.loading[index].value = false;
-    },
     refresh(result) {
       this.popup = false;
       this.popupProduct = false;
@@ -1362,7 +1417,7 @@ export default {
 
             if (this.anchor) {
               if (this.anchor == index) {
-                this.videos.push({ "value": value.resourceId });
+                this.videos.push({ "value": value.fileList });
                 this.comments.push({ "value": value.comments });
 
                 if (index > 0) {
@@ -1399,7 +1454,8 @@ export default {
                 this.comments.push({ "value": [] });
               }
             } else if (index == 0) {
-              this.videos.push({ "value": value.resourceId });
+              this.videos.push({ "value": value.fileList });
+                console.log(this.videos);
               this.comments.push({ "value": value.comments });
 
               // si c'est un live
@@ -1512,7 +1568,7 @@ export default {
           this.finished.splice(this.visible, 1);
 
           var value = this.data[this.visible].value;
-          this.videos[this.visible].value = value.resourceId;
+          this.videos[this.visible].value = value.fileList;
           this.comments[this.visible].value = value.comments;
 
           if (this.data[this.visible].type == "live") {

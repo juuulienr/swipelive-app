@@ -30,7 +30,7 @@
         <div v-for="(upload, index) in product.uploads" :key="upload.id">
           <span>
             <span>
-              <img :src="cloudinary256x256 + upload.filename">
+              <img :src="$cloudinary256x256 + upload.filename">
             </span>
           </span>
           <button @click="deleteImage(index, upload.id)">
@@ -128,7 +128,7 @@
           <div v-if="product.variants.length" class="items">
             <div class="lasted--product">
               <div v-for="(variant, index) in product.variants" class="product--item" style="align-items: center;">
-                <img @click="editVariant(index)" v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
+                <img @click="editVariant(index)" v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
                 <div @click="editVariant(index)" class="details">
                   <div class="title">{{ variant.title }}</div>
                   <div v-if="variant.quantity" class="price stock-available">{{ variant.quantity }} en stock</div>
@@ -325,7 +325,6 @@ export default {
   data() {
     return {
       productId: this.$route.params.productId,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),

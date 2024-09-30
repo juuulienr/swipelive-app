@@ -6,7 +6,7 @@
       </svg>
       <div v-if="discussion.user.id == user.id" class="chat--head--profil">
         <div class="chat--head--profil--img">
-          <img v-if="discussion.vendor.picture" :src="cloudinary256x256 + discussion.vendor.picture">
+          <img v-if="discussion.vendor.picture" :src="$cloudinary256x256 + discussion.vendor.picture">
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
         </div>
         <div class="chat--head--profil--name">
@@ -17,7 +17,7 @@
       </div>
       <div v-else class="chat--head--profil">
         <div class="chat--head--profil--img">
-          <img v-if="discussion.user.picture" :src="cloudinary256x256 + discussion.user.picture">
+          <img v-if="discussion.user.picture" :src="$cloudinary256x256 + discussion.user.picture">
           <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
         </div>
         <div class="chat--head--profil--name">
@@ -43,7 +43,7 @@
                     <img :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
                   </div>
                   <div v-else-if="message.picture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
-                    <img :src="cloudinary + message.picture" style="border-radius: 18px;" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
+                    <img :src="$cloudinary + message.picture" style="border-radius: 18px;" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
                   </div>
                   <div v-else-if="message.writing" class="chat--message--item--text">
                     <div class="_4b0g">
@@ -90,8 +90,6 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
-      cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/h_720/',
       inputMessage: '',
       writing: false,
       imageWidth: '0px',

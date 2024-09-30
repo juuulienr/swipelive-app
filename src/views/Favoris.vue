@@ -14,7 +14,7 @@
         <div v-for="(heart, index) in favoris" class="shop--box">
           <div>
             <div>
-              <img v-if="heart.product.uploads.length" @click="showProduct(heart.product)" :src="cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
+              <img v-if="heart.product.uploads.length" @click="showProduct(heart.product)" :src="$cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
               <img v-else @click="showProduct(heart.product)" :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
               <img @click="removeFavoris(heart.product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
             </div>
@@ -176,7 +176,6 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       user: this.$store.getters.getUser,
       lineItems: this.$store.getters.getLineItems,
       categories: this.$store.getters.getCategories,

@@ -36,7 +36,7 @@
         <div v-if="tabFollowers" class="top-author">
           <div v-if="followers.length" class="top-author--container">
             <div v-for="(user, index) in followers" class="top-author--item">
-              <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
+              <img v-if="user.picture" class="user" :src="$cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
                 <span v-if="user.vendor">{{ user.vendor.pseudo }}</span>
@@ -68,7 +68,7 @@
         <div v-if="tabFollowing" class="top-author">
           <div v-if="following.length" class="top-author--container">
             <div v-for="(user, index) in following" class="top-author--item">
-              <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
+              <img v-if="user.picture"class="user" :src="$cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
                 <span>{{ user.vendor.pseudo }}</span>
@@ -100,7 +100,7 @@
         <div class="top-author" style="margin-top: 15px;">
           <div v-if="following.length" class="top-author--container">
             <div v-for="(user, index) in following" class="top-author--item">
-              <img v-if="user.picture"class="user" :src="cloudinary256x256 + user.picture">
+              <img v-if="user.picture"class="user" :src="$cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
                 <span>{{ user.vendor.pseudo }}</span>
@@ -151,7 +151,6 @@ export default {
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       followers: [],
       following: [],

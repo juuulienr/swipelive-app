@@ -27,6 +27,10 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
 Vue.use(VueObserveVisibility);
 Vue.use(Vue2TouchEvents);
 
+Vue.prototype.$cloudinary = 'https://res.cloudinary.com/dxlsenc2r/image/upload/';
+Vue.prototype.$cloudinary256x256 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/';
+Vue.prototype.$amazonS3 = 'https://swipe-live-app-storage-eu-west-3.s3.eu-west-3.amazonaws.com/';
+
 const init = () => {
   new Vue({
     store,

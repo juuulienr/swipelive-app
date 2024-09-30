@@ -18,7 +18,7 @@
           <div v-for="(result, index) in results">
             <div class="personne">
               <div @click="goToProfile(result)">
-                <img v-if="result.picture" :src="cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto; background: #eeeeee;"/>
+                <img v-if="result.picture" :src="$cloudinary256x256 + result.picture" class="user" style="margin-bottom: 8px; pointer-events: auto; background: #eeeeee;"/>
                 <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin-bottom: 8px; pointer-events: auto; background: #eeeeee;"/>
                 <h5 class="name">{{ result.vendor.pseudo }}
                   <img v-if="result.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 16px; margin-bottom: 3px; height: 16px"/>
@@ -58,7 +58,6 @@ export default {
       user: this.$store.getters.getUser,
       results: this.$store.getters.getSuggestions,
       following: this.$store.getters.getFollowing,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       searchFollowing: [],
       searchValue: "",
       loadingSearch: false

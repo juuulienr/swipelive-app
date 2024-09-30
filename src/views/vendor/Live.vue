@@ -196,7 +196,7 @@
                 <div class="video-page__influencer-username2">Profil</div>
               </div>
               <div class="top-author--item" style="box-shadow: none; padding: 0px;">
-                <img v-if="user.picture" :src="cloudinary256x256 + user.picture"/>
+                <img v-if="user.picture" :src="$cloudinary256x256 + user.picture"/>
                 <img v-else :src="require(`@/assets/img/anonyme.jpg`)"/>
                 <div><span>{{ user.firstname }} {{ user.lastname }}</span></div>
                 <span class="filter--choice">
@@ -500,7 +500,7 @@
       <div v-if="comments.length" class="scrollToMe" ref="scrollToMe" :style="[ comments.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
         <div v-for="comment in comments" style="display: flex;">
           <div class="video-page__influencer-img" style="padding-right: 6px;">
-            <img v-if="comment.user.picture" :src="cloudinary256x256 + comment.user.picture">
+            <img v-if="comment.user.picture" :src="$cloudinary256x256 + comment.user.picture">
             <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
           </div>
           <div class="video-page__influencer-badge">
@@ -520,7 +520,7 @@
       <div v-if="liveProducts.length" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
         <div class="video-page__product-top">
           <div class="video-page__image">
-            <img v-if="liveProducts[0].product.uploads.length" :src="cloudinary256x256 + liveProducts[0].product.uploads[0].filename">
+            <img v-if="liveProducts[0].product.uploads.length" :src="$cloudinary256x256 + liveProducts[0].product.uploads[0].filename">
             <img v-else :src="require(`@/assets/img/no-preview.png`)">
           </div>
           <div class="video-page__info">
@@ -603,7 +603,7 @@
         <div class="top-author" style="margin-top: 15px;">
           <div v-if="orders && orders.length > 0" class="top-author--container" style="margin-bottom: 40px;">
             <div v-for="order in orders" class="top-author--item" style="position: relative">
-              <img v-if="order.upload" :src="cloudinary256x256 + order.upload"/>
+              <img v-if="order.upload" :src="$cloudinary256x256 + order.upload"/>
               <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
               <span class="order-counter">{{ order.nbProducts }}</span>
               <div>
@@ -641,7 +641,7 @@
         <div class="top-author" style="margin-top: 15px;">
           <div v-if="spectators && spectators.length > 0" class="top-author--container" style="gap: 0px; margin-bottom: 40px;">
             <div v-for="(user, index) in spectators" class="top-author--item" style="box-shadow: none;">
-              <img v-if="user.picture" class="user" :src="cloudinary256x256 + user.picture">
+              <img v-if="user.picture" class="user" :src="$cloudinary256x256 + user.picture">
               <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
               <div>
                 <span v-if="user.vendor">{{ user.vendor.pseudo }}</span>
@@ -769,7 +769,6 @@ export default {
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
       defaultOptions3: {animationData: animationData3},

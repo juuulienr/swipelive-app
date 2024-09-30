@@ -14,7 +14,7 @@
       <div v-if="lineItems && lineItems.length" class="css-13dslnb">
         <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row">
           <div class="checkout__product-info">
-            <img v-if="lineItem.product.uploads" :src="cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image"/>
+            <img v-if="lineItem.product.uploads" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image"/>
             <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image"/>
             <span class="counter-badge">{{ lineItem.quantity }}</span>
             <div style="padding-right: 30px;">   
@@ -466,7 +466,6 @@ export default {
       shippingProducts: this.$store.getters.getShippingProducts,
       fullscreen: this.$route.params.fullscreen,
       user: this.$store.getters.getUser,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       carriers: [],

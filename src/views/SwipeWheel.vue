@@ -146,7 +146,6 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       user: this.$store.getters.getUser,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       winners: [],
       popupInfos: false,

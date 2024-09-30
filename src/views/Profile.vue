@@ -16,7 +16,7 @@
     <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px; height: 190px;">
     <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -95px;">
       <div>
-        <img v-if="profile.picture" :src="cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
+        <img v-if="profile.picture" :src="$cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <div v-if="profile.followers && following != null" @click="updateFollow()" style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
           <img v-if="!following" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
@@ -45,10 +45,11 @@
             <div v-if="clips.length" class="row">
               <div v-for="(clip, index) in clips" v-if="clip.status == 'available'" class="col-6 col-img">
                 <div @click="goToFeed(index)">
-                  <img :src="clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;">
+                  <img v-if="clip.preview" :src="$amazonS3 + clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;">
+                  <div v-else style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;"></div>
                   <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
                   <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
-                    <img v-if="clip.product.uploads.length" :src="cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;border: 1px solid #ddd !important; background: #eeeeee;">
+                    <img v-if="clip.product.uploads.length" :src="$cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;border: 1px solid #ddd !important; background: #eeeeee;">
                     <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;border: 1px solid #ddd !important;  background: #eeeeee;">
                   </div>
                 </div>
@@ -73,7 +74,7 @@
             <div v-if="products.length" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
               <div v-for="product in products" @click="showProduct(product)" class="shop--box">
                 <div>
-                  <img v-if="product.uploads.length" :src="cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee;">
+                  <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee;">
                   <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">
                 </div>
                 <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
@@ -148,7 +149,6 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       overlaysWebView: this.$route.params.overlaysWebView,
-      cloudinary256x256: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/',
       defaultOptions: {animationData: animationData},
       defaultOptions2: {animationData: animationData2},
       clips: [],

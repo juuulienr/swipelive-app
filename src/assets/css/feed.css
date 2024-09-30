@@ -1630,6 +1630,13 @@ img.zoom {
   margin-top: 3px;
 }
 
+.video-container {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+}
+
+
 video::-webkit-media-controls-panel {
 	display: none!important;
 	-webkit-appearance: none;
