@@ -693,17 +693,17 @@ export default {
       });
     }
 
-    if (this.$store.getters.getClipsTrending.length == 0) {
-      this.loadClipsTrending();
-    }
+    // if (this.$store.getters.getClipsTrending.length == 0) {
+    //   this.loadClipsTrending();
+    // }
 
-    if (this.$store.getters.getClipsLatest.length == 0) {
-      this.loadClipsLatest();
-    }
+    // if (this.$store.getters.getClipsLatest.length == 0) {
+    //   this.loadClipsLatest();
+    // }
 
-    if (this.$store.getters.getProductsTrending.length == 0) {
-      this.loadProductsTrending();
-    }
+    // if (this.$store.getters.getProductsTrending.length == 0) {
+    //   this.loadProductsTrending();
+    // }
 
     if (this.$store.getters.getFollowing.length == 0) {
       this.loadFollowing();
@@ -1098,30 +1098,30 @@ export default {
         this.initializePlayer(index);
       }
     },
-    loadClipsTrending() {
-      this.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.$store.commit('setClipsTrending', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    loadClipsLatest() {
-      this.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.$store.commit('setClipsLatest', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    loadProductsTrending() {
-      this.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.$store.commit('setProductsTrending', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
+    // loadClipsTrending() {
+    //   this.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    //     console.log(JSON.parse(response.data));
+    //     this.$store.commit('setClipsTrending', JSON.parse(response.data));
+    //   }, (response) => {
+    //     console.log(response.error);
+    //   });
+    // },
+    // loadClipsLatest() {
+    //   this.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    //     console.log(JSON.parse(response.data));
+    //     this.$store.commit('setClipsLatest', JSON.parse(response.data));
+    //   }, (response) => {
+    //     console.log(response.error);
+    //   });
+    // },
+    // loadProductsTrending() {
+    //   this.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    //     console.log(JSON.parse(response.data));
+    //     this.$store.commit('setProductsTrending', JSON.parse(response.data));
+    //   }, (response) => {
+    //     console.log(response.error);
+    //   });
+    // },
     loadFollowing() {
       this.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));

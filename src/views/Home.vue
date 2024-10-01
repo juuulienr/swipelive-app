@@ -24,7 +24,7 @@
     </div>
 
 
-    <div v-if="clipsTrending && clipsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
+    <div v-if="clipsTrending && clipsTrending.length > 0" class="favourite" style="padding-top: 20px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Tendances 🔥</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
         <div v-for="(clip, index) in clipsTrending" @click="showTrendingClip(index)" style="padding: 0px 5px;">
@@ -154,7 +154,7 @@ export default {
 
     this.loadClipsTrending();
     this.loadProductsTrending();
-    this.loadClipsLatest();
+    // this.loadClipsLatest();
   },
   methods: {
     loadClipsTrending() {
@@ -165,14 +165,14 @@ export default {
         console.log(response.error);
       });
     },
-    loadClipsLatest() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.clipsLatest = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
+    // loadClipsLatest() {
+    //   window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
+    //     console.log(JSON.parse(response.data));
+    //     this.clipsLatest = JSON.parse(response.data);
+    //   }, (response) => {
+    //     console.log(response.error);
+    //   });
+    // },
     loadProductsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
