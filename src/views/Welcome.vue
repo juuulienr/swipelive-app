@@ -402,8 +402,8 @@ export default {
               this.authenticate(response.data);
             }, (response) => {
               this.loading = false;
-              console.log(response.error);
-              window.plugins.toast.show(error, 'long', 'top');
+              console.log(JSON.parse(response.error));
+              window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
             });
           }, (error) => {
             this.loading = false;
@@ -425,7 +425,7 @@ export default {
       } else if (window.cordova.platformId === "ios") {
         var clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
       }
-
+      
       if (clientId) {
         window.FirebasePlugin.authenticateUserWithGoogle(clientId, async (result) => {
           console.log(result);
@@ -452,8 +452,8 @@ export default {
             this.authenticate(response.data);
           }, (response) => {
             this.loading = false;
-            console.log(response.error);
-            window.plugins.toast.show(response.error, 'long', 'top');
+            console.log(JSON.parse(response.error));
+            window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
           });
         }, function(error) {
           console.error("Failed to authenticate with Google: " + error);
@@ -490,8 +490,8 @@ export default {
           this.authenticate(response.data);
         }, (response) => {
           this.loading = false;
-          console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top');
+          console.log(JSON.parse(response.error));
+          window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
         });
       }, function(error){
         console.log(error);
@@ -623,8 +623,8 @@ export default {
           this.authenticate(true);
         }, (response) => {
           this.loading = false;
-          console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top');
+          console.log(JSON.parse(response.error));
+          window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
         });
       }
     },
@@ -656,8 +656,8 @@ export default {
         }
       }, (response) => {
         this.loading = false;
-        console.log(response.error);
-        window.plugins.toast.show(response.error, 'long', 'top');
+        console.log(JSON.parse(response.error));
+        window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
       });
     },
     handleAnimation: function (anim) {
@@ -727,7 +727,8 @@ export default {
             this.picture = JSON.parse(response.data);
             this.loadingImg = false;
           }, function(response) {
-            console.log(response.error);
+            console.log(JSON.parse(response));
+            window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
           });
         } else {
           var imgData = "data:image/jpeg;base64," + imageUri;
@@ -736,7 +737,8 @@ export default {
             this.picture = JSON.parse(response.data);
             this.loadingImg = false;
           }, function(response) {
-            console.log(response.error);
+            console.log(JSON.parse(response.error));
+            window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
           });
         }
       }, (error) => {
