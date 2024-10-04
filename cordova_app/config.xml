@@ -18,6 +18,19 @@
         <feature name="SocialSharing">
             <param name="android-package" value="nl.xservices.plugins.SocialSharing"/>
         </feature>
+        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
+          <application android:usesCleartextTraffic="true" />
+        </edit-config>
+        <config-file parent="CFBundleURLTypes" target="*-Info.plist">
+          <array>
+            <dict>
+              <key>CFBundleURLSchemes</key>
+              <array>
+                <string>com.googleusercontent.apps.996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q</string>
+              </array>
+            </dict>
+          </array>
+        </config-file>
         <resource-file src="res/raw/sales.wav" target="app/src/main/res/raw/sales.wav"/>
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/screen.png"/>
         <preference name="AndroidWindowSplashScreenDuration" value="2000"/>

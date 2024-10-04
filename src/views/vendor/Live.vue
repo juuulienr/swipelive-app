@@ -939,11 +939,11 @@ export default {
           this.startPreview();
 
         }, function(error) {
-          console.error('Failed to create microphone and camera tracks', error);
+          console.log('Failed to create microphone and camera tracks', error);
         });
 
       }, function(error) {
-        console.error('Agora initialization failed', error);
+        console.log('Agora initialization failed', error);
       });
     },
     addLocalVideoStream() {
@@ -965,10 +965,10 @@ export default {
           console.log('Local video setup successfully');
           console.log(response);
         }, (error) => {
-          console.error('Failed to setup local video', error);
+          console.log('Failed to setup local video', error);
         });
       } else {
-        console.error('Video element not found');
+        console.log('Video element not found');
       }
     },
     startPreview() {
@@ -977,7 +977,7 @@ export default {
         console.log(response);
         this.loading = false;
       }, (error) => {
-        console.error('Failed to start preview', error);
+        console.log('Failed to start preview', error);
       });
     },
     stopLocalVideo() {
@@ -985,7 +985,7 @@ export default {
         console.log('Local video stopped successfully');
         console.log(response);
       }, (error) => {
-        console.error('Failed to stop local video', error);
+        console.log('Failed to stop local video', error);
       });
     },
     leaveChannel() {
@@ -993,7 +993,7 @@ export default {
         console.log('Left the channel successfully');
         console.log(response);
       }, (error) => {
-        console.error('Failed to leave the channel', error);
+        console.log('Failed to leave the channel', error);
       });
     },
     switchCamera() {
@@ -1001,7 +1001,7 @@ export default {
         console.log('Camera switched successfully');
         console.log(response);
       }, (error) => {
-        console.error('Failed to switch camera', error);
+        console.log('Failed to switch camera', error);
       });
     },
     async startCountdown() {
@@ -1117,12 +1117,12 @@ export default {
             console.log(response.error);
           });
         } catch (error) {
-          console.error('Failed to start broadcast', error);
+          console.log('Failed to start broadcast', error);
         }
 
 
       }, (error) => {
-        console.error('Failed to join channel', error);
+        console.log('Failed to join channel', error);
       });
     },   
     async stopLive() {
@@ -1273,7 +1273,7 @@ export default {
           this.pages.push(page);
         });
       }, (error) => {
-        console.error("Failed to retrieve pages : ", error);
+        console.log("Failed to retrieve pages : ", error);
       });
     },
     showGroups() {
@@ -1298,7 +1298,7 @@ export default {
           }
         }
       }, (error) => {
-        console.error("Failed to retrieve groups : ", error);
+        console.log("Failed to retrieve groups : ", error);
       });
     },
     async getAllData(after, showGroupsPage) {
@@ -1326,7 +1326,7 @@ export default {
           }
         }
       }, (error) => {
-        console.error("Failed: ", error);
+        console.log("Failed: ", error);
       });
     },
     showViewers() {

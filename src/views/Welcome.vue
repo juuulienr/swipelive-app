@@ -300,7 +300,7 @@ export default {
       this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       this.locale = Intl.DateTimeFormat().resolvedOptions().locale;
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
 
     if (navigator.connection && navigator.connection.type) {
@@ -407,7 +407,7 @@ export default {
             });
           }, (error) => {
             this.loading = false;
-            console.error("Failed: ", error);
+            console.log("Failed: ", error);
           }
         );
       }, (loginError) => {
@@ -419,9 +419,10 @@ export default {
         TapticEngine.impact({ style: 'medium' });
       }
 
+      console.log(window.cordova.platformId);
+
       if (window.cordova.platformId === "android") {
         var clientId = "996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q.apps.googleusercontent.com";
-        // var clientId = "996587333677-93niun9524cn6ddis0js9cb0rtal6mtk.apps.googleusercontent.com";
       } else if (window.cordova.platformId === "ios") {
         var clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
       }
@@ -456,7 +457,7 @@ export default {
             window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
           });
         }, function(error) {
-          console.error("Failed to authenticate with Google: " + error);
+          console.log("Failed to authenticate with Google: " + error);
           window.plugins.toast.show(error, 'long', 'top');
         });
       }

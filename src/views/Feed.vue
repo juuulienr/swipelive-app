@@ -772,7 +772,7 @@ export default {
           console.log(response.error);
         });
       } catch (error) {
-        console.error("Error getting Agora token:", error);
+        console.log("Error getting Agora token:", error);
       }
     },
     async joinChannel(index) {
@@ -806,20 +806,20 @@ export default {
         this.client.on("connection-state-changed", (curState, prevState, reason) => {
           console.log(`État de la connexion changé de ${prevState} à ${curState}. Raison: ${reason}`);
           if (curState === "DISCONNECTED") {
-            console.error("La connexion a été perdue");
+            console.log("La connexion a été perdue");
             // Affiche un message d'erreur et tente de reconnecter
           }
         });
 
         // En cas de perte de connexion
         this.client.on("connection-lost", () => {
-          console.error("Connexion perdue avec le canal");
+          console.log("Connexion perdue avec le canal");
           // Peut-être essayer une reconnexion ou afficher une notification
         });
 
         // Gestion des erreurs générales
         this.client.on("error", (err) => {
-          console.error("Erreur RTC: ", err);
+          console.log("Erreur RTC: ", err);
         });
 
 
@@ -922,7 +922,7 @@ export default {
           }
         }
       } catch (err) {
-        console.error("Failed to join channel and subscribe to streams", err);
+        console.log("Failed to join channel and subscribe to streams", err);
       }
     },
     async leaveChannel() {
@@ -944,7 +944,7 @@ export default {
           await this.client.leave();
           console.log("Left the channel successfully");
         } catch (err) {
-          console.error("Failed to leave the channel", err);
+          console.log("Failed to leave the channel", err);
         }
       }
     },    
