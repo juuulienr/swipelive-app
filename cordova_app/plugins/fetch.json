@@ -55,25 +55,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-facebook-connect": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-facebook-connect@3.2.0"
-    },
-    "is_top_level": true,
-    "variables": {
-      "APP_ID": "936988141017522",
-      "APP_NAME": "SWIPE LIVE",
-      "FACEBOOK_URL_SCHEME_SUFFIX": " ",
-      "OTHER_APP_SCHEMES": " ",
-      "FACEBOOK_AUTO_LOG_APP_EVENTS": "true",
-      "FACEBOOK_HYBRID_APP_EVENTS": "false",
-      "FACEBOOK_ADVERTISER_ID_COLLECTION": "true",
-      "FACEBOOK_ANDROID_SDK_VERSION": "11.3.0",
-      "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
-      "FACEBOOK_BROWSER_SDK_VERSION": "v11.0"
-    }
-  },
   "cordova-plugin-add-swift-support": {
     "source": {
       "type": "registry",
@@ -249,7 +230,9 @@
       "id": "cordova-plugin-camera@7.0.0"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "ANDROIDX_CORE_VERSION": "1.6.+"
+    }
   },
   "cordova-plugin-agora": {
     "source": {
@@ -274,5 +257,17 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-fbsdk": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-fbsdk"
+    },
+    "is_top_level": true,
+    "variables": {
+      "APP_ID": "936988141017522",
+      "APP_NAME": "SWIPE LIVE",
+      "CLIENT_TOKEN": "fae44754104510584e04cdf0e8c617b7"
+    }
   }
 }

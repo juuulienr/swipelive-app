@@ -425,7 +425,7 @@ export default {
       } else if (window.cordova.platformId === "ios") {
         var clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
       }
-      
+
       if (clientId) {
         window.FirebasePlugin.authenticateUserWithGoogle(clientId, async (result) => {
           console.log(result);
@@ -646,13 +646,13 @@ export default {
         if (newUser == true) {
           this.$router.push({ name: 'Onboarding' });
         } else {
-          window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + result.token }, (response) => {
-            console.log(JSON.parse(response.data));
-            this.$store.commit('setUser', JSON.parse(response.data));
-            this.$router.push({ name: 'Feed' });
-          }, (error) => {
-            console.log(error);
-          });
+          this.$router.push({ name: 'Feed' });
+          // window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + result.token }, (response) => {
+          //   console.log(JSON.parse(response.data));
+          //   this.$store.commit('setUser', JSON.parse(response.data));
+          // }, (error) => {
+            // console.log(error);
+          // });
         }
       }, (response) => {
         this.loading = false;

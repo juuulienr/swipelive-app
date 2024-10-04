@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "996587333677-93niun9524cn6ddis0js9cb0rtal6mtk.apps.googleusercontent.com",
+          "client_id": "996587333677-vdrk29dfr1mfd6hikgf4lll2p0e92rhb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -42,8 +42,7 @@
               "client_id": "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.swipelive.app",
-                "app_store_id": "1608924962"
+                "bundle_id": "com.swipelive.app"
               }
             }
           ]
