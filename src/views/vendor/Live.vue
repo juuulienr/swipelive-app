@@ -1268,6 +1268,7 @@ export default {
       var url = this.fbIdentifier + "/accounts?fields=name,access_token,picture.type(large)&access_token=" + this.fbToken;
 
       window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "public_profile", "publish_video"], async (result) => {
+        console.log(result);
         result.data.map((page, index) => {
           page.selected = false;
           this.pages.push(page);

@@ -8,12 +8,14 @@ import Bugsnag from '@bugsnag/js';
 import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue-observe-visibility';
 import store from "./store/store.js";
+import BugsnagPerformance from '@bugsnag/browser-performance'
 
 
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   Vue.config.productionTip = true;
   Bugsnag.start({ apiKey: 'b6f579675362830a12146a96a851e17a', plugins: [new BugsnagPluginVue()]});
+  BugsnagPerformance.start({ apiKey: 'b6f579675362830a12146a96a851e17a' })
   Vue.use(Bugsnag.getPlugin('vue'));
   window.localStorage.setItem("baseUrl", "https://swipelive.app");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");

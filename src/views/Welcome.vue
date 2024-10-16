@@ -441,7 +441,6 @@ export default {
           this.loading = true;
           this.email = result.email;
           this.password = Math.random().toString(36).slice(-15);
-          console.log(this.password);
 
           window.cordova.plugin.http.setDataSerializer('json');
           var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
@@ -637,9 +636,6 @@ export default {
       var httpParams = { "username": this.email, "password": this.password };
       var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
-      console.log(this.password);
-      console.log(this.email);
-
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
         var result = JSON.parse(response.data);
         window.localStorage.setItem("token", result.token);
@@ -648,12 +644,6 @@ export default {
           this.$router.push({ name: 'Onboarding' });
         } else {
           this.$router.push({ name: 'Feed' });
-          // window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + result.token }, (response) => {
-          //   console.log(JSON.parse(response.data));
-          //   this.$store.commit('setUser', JSON.parse(response.data));
-          // }, (error) => {
-            // console.log(error);
-          // });
         }
       }, (response) => {
         this.loading = false;

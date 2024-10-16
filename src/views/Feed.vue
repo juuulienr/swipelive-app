@@ -13,6 +13,17 @@
         <img v-else-if="loading[index].value" :src="require(`@/assets/img/anonyme.jpg`)" class="filter-img">
 
 
+        <!-- video -->
+        <div v-if="videos[index].value && !finished[index].value && feed.type == 'live'" :ref="'live' + index" :id="'live' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}"></div>
+        <div v-if="videos[index].value && !finished[index].value && feed.type !== 'live'" :ref="'player' + index" :id="'player' + index" class="swipe-player" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100%; height: 100vh;">
+          <video :ref="'videoPlayer' + index" class="video-js vjs-default-skin" preload="auto"></video>
+        </div>
+
+        
+        <!-- visible -->
+        <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
+
+
         <!-- viewers -->
         <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
           <Lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
@@ -384,19 +395,6 @@
             </span>
           </div>
         </div>
-
-        <!-- video -->
-        <div v-if="videos[index].value && !finished[index].value" :ref="'player' + index" :id="'player' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100%; height: 100vh;">
-          <video v-if="feed.type !== 'live'"
-            :ref="'videoPlayer' + index"
-            class="video-js vjs-default-skin"
-            preload="auto"
-          ></video>
-        </div>
-
-        
-        <!-- visible -->
-        <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
       </div>
     </div>
     <div v-else>
@@ -864,15 +862,16 @@ export default {
               videoTrack: remoteVideoTrack
             };
 
-            const videoElement = this.$refs['player' + index];
-            console.log(videoElement);
-
-            if (videoElement) {
-              console.log('Video element exists:', videoElement[0]);
-              remoteVideoTrack.play(videoElement[0]); // Utilise l'élément DOM directement
-            } else {
-              console.log('Video element not found');
-            }
+            this.$nextTick(() => {
+              const videoElement = this.$refs['live' + index];
+              console.log(videoElement);
+              
+              if (videoElement && videoElement[0]) {
+                remoteVideoTrack.play(videoElement[0]);
+              } else {
+                console.log('Video element not found');
+              }
+            });
           }
 
           if (mediaType === 'audio') {
@@ -904,7 +903,8 @@ export default {
               console.log("Subscribing to existing user's video");
               
               await this.client.subscribe(user, 'video');
-              const videoElement = this.$refs['player' + index];
+              const videoElement = this.$refs['live' + index];
+              console.log(videoElement);
               
               if (videoElement) {
                 console.log('Playing video on element:', videoElement[0]);
@@ -965,8 +965,15 @@ export default {
     handleUserUnpublished(user) {
       console.log("User unpublished:", user);
       if (this.remoteTracks[user.uid]) {
-        this.remoteTracks[user.uid].stop();
+        if (this.remoteTracks[user.uid].videoTrack) {
+          this.remoteTracks[user.uid].videoTrack.stop();
+        }
+        if (this.remoteTracks[user.uid].audioTrack) {
+          this.remoteTracks[user.uid].audioTrack.stop();
+        }
         delete this.remoteTracks[user.uid];
+      } else {
+        console.log('Le flux pour cet utilisateur n\'existe pas.');
       }
     },
     keyboardWillShow(event) {
