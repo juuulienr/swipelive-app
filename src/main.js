@@ -7,15 +7,14 @@ import router from './router/index';
 import Bugsnag from '@bugsnag/js';
 import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue-observe-visibility';
+import * as VueGoogleMaps from "vue2-google-maps";
 import store from "./store/store.js";
-import BugsnagPerformance from '@bugsnag/browser-performance'
 
 
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   Vue.config.productionTip = true;
   Bugsnag.start({ apiKey: 'b6f579675362830a12146a96a851e17a', plugins: [new BugsnagPluginVue()]});
-  BugsnagPerformance.start({ apiKey: 'b6f579675362830a12146a96a851e17a' })
   Vue.use(Bugsnag.getPlugin('vue'));
   window.localStorage.setItem("baseUrl", "https://swipelive.app");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
@@ -28,6 +27,12 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
 // Initialize Vue plugins
 Vue.use(VueObserveVisibility);
 Vue.use(Vue2TouchEvents);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w",
+    libraries: "places"
+  }
+});
 
 Vue.prototype.$cloudinary = 'https://res.cloudinary.com/dxlsenc2r/image/upload/';
 Vue.prototype.$cloudinary256x256 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/';

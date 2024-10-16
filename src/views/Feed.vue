@@ -14,7 +14,7 @@
 
 
         <!-- video -->
-        <div v-if="videos[index].value && !finished[index].value && feed.type == 'live'" :ref="'live' + index" :id="'live' + index" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}"></div>
+        <div v-if="!finished[index].value && feed.type == 'live'" :ref="'live' + index" :id="'live' + index" class="swipe-livestream" style="width: 100%; height: 100vh;"></div>
         <div v-if="videos[index].value && !finished[index].value && feed.type !== 'live'" :ref="'player' + index" :id="'player' + index" class="swipe-player" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100%; height: 100vh;">
           <video :ref="'videoPlayer' + index" class="video-js vjs-default-skin" preload="auto"></video>
         </div>
@@ -797,7 +797,16 @@ export default {
         // Lorsque l'utilisateur devient hors ligne (quitte le canal ou déconnexion)
         this.client.on("user-offline", (user, reason) => {
           console.log(`Utilisateur ${user.uid} est hors ligne. Raison: ${reason}`);
-          this.handleUserOffline(user, index);
+
+          if (user.uid === this.data[index].value.vendor.user.id) {
+           if (this.data[index].type == "live") {
+              this.finished[index].value = true;
+              this.leaveChannel();
+            }
+          } else {
+            console.log("A spectator has left the channel");
+          }
+
         });
 
         // Suivre les changements d'état de la connexion
@@ -835,14 +844,15 @@ export default {
 
              if (this.data[index].type == "live") {
               this.finished[index].value = true;
-            } else {
-              if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
-                var el = document.getElementById('feed');
-                if (el) {
-                  el.scrollTop += window.innerHeight;
-                }
-              }
+              this.leaveChannel();
             }
+            // } else {
+              // if (!this.popupShop && !this.popupCart && !this.popupProduct && !this.popupCheckout) {
+              //   var el = document.getElementById('feed');
+              //   if (el) {
+              //     el.scrollTop += window.innerHeight;
+              //   }
+              // }
           } else {
             console.log("A spectator has left the channel");
           }
@@ -945,20 +955,6 @@ export default {
           console.log("Left the channel successfully");
         } catch (err) {
           console.log("Failed to leave the channel", err);
-        }
-      }
-    },    
-    handleUserOffline(user, index) {
-      console.log("User left:", user.uid);
-
-      // Si l'hôte quitte le canal
-      if (user.uid === this.data[index].value.vendor.user.id) {
-        console.log("L'hôte a quitté le canal");
-
-        if (this.data[index].type == "live") {
-          this.finished[index].value = true;
-        } else {
-          this.scrollToNextProduct();
         }
       }
     },
@@ -1531,6 +1527,7 @@ export default {
     stopLive() {
       if (this.data[this.visible].type == "live") {
         this.pusher.unsubscribe(this.data[this.visible].value.channel);
+        this.leaveChannel();
 
         this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {
         }, (response) => { 

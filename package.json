@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@bugsnag/browser-performance": "^2.10.0",
     "@bugsnag/js": "^7.20.2",
     "@bugsnag/plugin-vue": "^7.19.0",
     "es6-promise": "^4.2.8",
@@ -29,6 +28,7 @@
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^3.5.2",
     "vue-slick-carousel": "^1.0.6",
+    "vue2-google-maps": "^0.10.7",
     "vue2-touch-events": "^3.2.2",
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",

@@ -719,13 +719,17 @@ export default {
 
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/dropoff-locations", { "service_point": this.shippingProducts.service_point }, { Authorization: "Bearer " + this.token }, (response) => {
           this.points = JSON.parse(response.data);
+          console.log(this.points);
+
           this.points.map((point, index) => {
             var marker = {
               lat: parseFloat(point.latitude),
               lng: parseFloat(point.longitude)
             };
 
+            console.log(marker);
             this.locationMarkers.push({ position: marker });
+            console.log(this.locationMarkers);
 
             if (!this.mapSelected) {
               this.mapSelected = point;
