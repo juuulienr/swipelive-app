@@ -23,7 +23,7 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
   window.localStorage.setItem("baseUrl", "https://127.0.0.1:8000");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 }
-
+ 
 // Initialize Vue plugins
 Vue.use(VueObserveVisibility);
 Vue.use(Vue2TouchEvents);
