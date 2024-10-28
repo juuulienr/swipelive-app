@@ -1,12 +1,9 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
-Vue.use(Vuex);
-
-// Create a new store instance.
-export default new Vuex.Store({
-  state: {
+// Crée une nouvelle instance de store
+export default createStore({
+  state: () => ({
     user: [],
     lineItems: [],
     categories: [],
@@ -19,11 +16,9 @@ export default new Vuex.Store({
     suggestions: [],
     following: [],
     rules: true,
-  },
-  mutations: { 
-    // synchronous, for change use commit
+  }),
+  mutations: {
     resetState(state) {
-      console.log(state);
       state.user = [];
       state.lineItems = [];
       state.categories = [];
@@ -74,47 +69,22 @@ export default new Vuex.Store({
       state.rules = data;
     },
   },
-  actions: { 
-    // asynchronous, for change use dispatch
-  }, 
-  modules: {},
-  plugins: [createPersistedState()],
+  actions: {
+    // asynchrone, pour des changements via dispatch
+  },
   getters: {
-    getUser(state) {
-      return state.user;
-    },
-    getLineItems(state) {
-      return state.lineItems;
-    },
-    getCategories(state) {
-      return state.categories;
-    },
-    getShippingProducts(state) {
-      return state.shippingProducts;
-    },
-    getClipsTrending(state) {
-      return state.clipsTrending;
-    },
-    getClipsLatest(state) {
-      return state.clipsLatest;
-    },
-    getProductsTrending(state) {
-      return state.productsTrending;
-    },
-    getProfile(state) {
-      return state.profile;
-    },
-    getProduct(state) {
-      return state.product;
-    },
-    getSuggestions(state) {
-      return state.suggestions;
-    },
-    getFollowing(state) {
-      return state.following;
-    },
-    getRules(state) {
-      return state.rules;
-    },
-  }
+    getUser: (state) => state.user,
+    getLineItems: (state) => state.lineItems,
+    getCategories: (state) => state.categories,
+    getShippingProducts: (state) => state.shippingProducts,
+    getClipsTrending: (state) => state.clipsTrending,
+    getClipsLatest: (state) => state.clipsLatest,
+    getProductsTrending: (state) => state.productsTrending,
+    getProfile: (state) => state.profile,
+    getProduct: (state) => state.product,
+    getSuggestions: (state) => state.suggestions,
+    getFollowing: (state) => state.following,
+    getRules: (state) => state.rules,
+  },
+  plugins: [createPersistedState()],
 });

@@ -62,7 +62,7 @@
     <div v-else>
       <div class="container" style="margin: 120px auto 0px; text-align: center;">
         <div style="margin: 0px auto;">
-          <Lottie :options="defaultOptions" :width="200"/>
+          <Vue3Lottie :animationData="defaultOptions" :width="200"/>
         </div>
         <h5 style="font-weight: 500; font-size: 20px;text-align: center; margin-bottom: 8px; margin-top: 30px;">Swipe Roulette</h5>
         <div style="font-weight: 400;font-size: 15px;text-align: center;">La Swipe Roulette sera bientôt disponible 😉</div>
@@ -134,14 +134,10 @@
 
 <script>
 
-import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/gift.json';
 
 export default {
   name: 'SwipeWheel',
-  components: {
-    Lottie
-  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),

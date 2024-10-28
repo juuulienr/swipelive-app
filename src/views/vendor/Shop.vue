@@ -47,7 +47,7 @@
       <div v-else>
         <div class="container" style="margin: 120px auto 0px; text-align: center;">
           <div style="margin: 0px auto;">
-            <Lottie :options="defaultOptions" style="width:100%"/>
+            <Vue3Lottie :animationData="defaultOptions" style="width:100%"/>
           </div>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun article</h5>
@@ -61,15 +61,11 @@
 <style scoped src="../../assets/css/shop.css"></style>
 
 <script>
-import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/lottie/no-product.json';
 
 
 export default {
   name: 'Shop',
-  components: {
-    Lottie
-  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),

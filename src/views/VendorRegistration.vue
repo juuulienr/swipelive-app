@@ -167,7 +167,21 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>
-            <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder=""></vue-google-autocomplete>
+            <VueGoogleAutocomplete
+              ref="autocomplete"
+              id="map"
+              :api-key="yourGoogleMapsAPIKey"
+              :options="{ componentRestrictions: { country: ['fr', 'be', 'lu'] } }"
+              @place_changed="getAddressData"
+              @change="updateAddressData"
+              @error="handleError"
+              @inputChange="inputChangeAddressInput"
+              @focus="focusAddressInput"
+              @blur="blurAddressInput"
+              type="text"
+              v-model="address"
+              placeholder=""
+            />
           </fieldset>
         </div>
 
@@ -348,7 +362,7 @@
 
 <script>
 
-import VueGoogleAutocomplete from "vue-google-autocomplete";
+import VueGoogleAutocomplete from "vue3-google-autocomplete";
 
 export default {
   name: 'VendorRegistration',

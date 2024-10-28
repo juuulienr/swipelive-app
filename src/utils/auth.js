@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // Importation nommée
 
 /**
  * Permet de savoir si on est authentifié ou pas
@@ -17,7 +17,6 @@ function isAuthenticated() {
   }
   return false;
 }
-
 
 export default {
   isAuthenticated

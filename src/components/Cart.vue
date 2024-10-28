@@ -77,7 +77,7 @@
 
 
 <script>
-import Lottie from 'vue-lottie';
+import Lottie from 'vue3-lottie';
 import * as animationData from '../assets/lottie/order.json';
 
 

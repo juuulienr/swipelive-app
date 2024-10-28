@@ -131,12 +131,12 @@
 
 <script>
 
-import draggable from 'vuedraggable';
+import { VueDraggableNext } from 'vue-draggable-next';
 
 export default {
   name: 'PreLive',
   components: {
-    draggable
+    draggable: VueDraggableNext,
   },
   data() {
     return {

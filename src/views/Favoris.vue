@@ -38,7 +38,7 @@
     <div v-else class="checkout__body items">
       <div class="container" style="margin: 120px auto 0px; text-align: center;">
         <div style="margin: 0px auto;">
-          <Lottie :options="defaultOptions" :width="200"/>
+          <Vue3Lottie :animationData="defaultOptions" :width="200"/>
         </div>
       </div>
       <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun favoris</h5>
@@ -162,14 +162,12 @@
 <script>
 
 import Product from '../components/Product';
-import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/favoris.json';
 
 
 export default {
   name: 'Favoris',
   components: {
-    Lottie,
     Product,
   },
   data() {

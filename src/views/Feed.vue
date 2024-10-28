@@ -26,7 +26,7 @@
 
         <!-- viewers -->
         <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
-          <Lottie :options="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
+          <Vue3Lottie :animationData="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
           <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
           </span>
@@ -51,7 +51,7 @@
           <div class="video-page__influencer-username6" style="font-weight: 600">{{ feed.value.vendor.pseudo }}</div>
         </div>
         <div v-if="finished[index].value" class="finished-swipe">
-          <Lottie :options="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
+          <Vue3Lottie :animationData="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
           <h4>Swipe vers le haut pour passer au prochain</h4>
         </div>
 
@@ -404,7 +404,7 @@
     <!-- input comment -->
     <div v-if="popup" class="css-1dko8fk" :style="{'bottom': writeInput }" style="height: 55px; border-radius: 0px;">
       <div class="css-miqn2j">
-        <input v-focus v-on-clickaway="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2f80; background: white"/>
+        <input v-focus v-click-away="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2f80; background: white"/>
       </div>
       <button id="btnSend" class="css-il3d4y" style="padding: 0px;">
         <img id="imgSend" :src="require(`@/assets/img/send.svg`)" style="height: 36px; height: 36px;"/>
@@ -518,9 +518,7 @@
 <script>
 
 import fcm from '../utils/fcm.js';
-import Lottie from 'vue-lottie';
 import Pusher from 'pusher-js';
-import { mixin as clickaway } from 'vue-clickaway';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 // import Player from 'xgplayer'
@@ -538,9 +536,7 @@ export default {
     Product,
     Cart,
     Checkout,
-    Lottie
   },
-  mixins: [ clickaway ],
   data() {
     return {
       anchor: this.$route.params.index,
@@ -1052,11 +1048,8 @@ export default {
     initializePlayer(index) {
       this.$nextTick(() => {
         const videoElement = this.$refs[`videoPlayer${index}`][0]; // Vue utilise un tableau pour les références multiples
-        console.log(videoElement);
 
         if (videoElement) {
-          console.log('Video element exists:', videoElement);
-          console.log(this.videos[index].value);
           var videoSrc = this.$amazonS3 + this.videos[index].value;
 
           // const player = new Player({
@@ -1194,7 +1187,6 @@ export default {
       this.popupShop = false;
 
       console.log(this.product);
-      console.log(this.product.vendor);
       console.log(this.lineItems);
 
       if (typeof this.product.vendor == "object") {
@@ -1299,12 +1291,12 @@ export default {
       }
       await this.stopLive();
 
-      var user = vendor.user;
-      var profile = vendor;
+      // var user = vendor.user;
+      // var profile = vendor;
 
-      delete profile.user;
-      user.vendor = profile;
-      delete user.vendor.clips;
+      // delete profile.user;
+      // user.vendor = profile;
+      // delete user.vendor.clips;
 
       window.StatusBar.overlaysWebView(false);  
       window.StatusBar.styleDefault();
@@ -1317,8 +1309,8 @@ export default {
         winphonedelay: 0,
         slowdownfactor: 1,
       });
-      this.$store.commit('setProfile', user);
-      this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: false } });
+      // this.$store.commit('setProfile', user);
+      this.$router.push({ name: 'Profile', params: { id: vendor.user.id, overlaysWebView: false } });
     },
     openPopup() {
       this.popup = true;
@@ -1401,7 +1393,6 @@ export default {
           }
 
           if (showElement) {
-            console.log(value);
             this.data.push({ "type": type, "value": value });
             var followers = value.vendor.user.followers;
             var isFollower = false;
@@ -1462,7 +1453,6 @@ export default {
               }
             } else if (index == 0) {
               this.videos.push({ "value": value.fileList });
-                console.log(this.videos);
               this.comments.push({ "value": value.comments });
 
               // si c'est un live

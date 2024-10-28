@@ -228,15 +228,22 @@
         </div>
         <div v-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
 
-
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
-            <legend>Adresse</legend>	
-            <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu', 'ch']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address" placeholder="">
-          	</vue-google-autocomplete>
+            <legend>Adresse</legend>  
+            <VueGoogleAutocomplete
+              ref="autocomplete"
+              id="map"
+              :api-key="yourGoogleMapsAPIKey"
+              :options="{ componentRestrictions: { country: ['fr', 'be', 'lu', 'ch'] } }"
+              @place_changed="getAddressData"
+              v-model="address"
+              type="text"
+              placeholder=""
+            />
           </fieldset>
         </div>
-        
+
         <div class="form--input" style="grid-template-columns: 140px 1fr;">
           <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
             <fieldset>
@@ -452,7 +459,7 @@
 
 <script>
 
-import VueGoogleAutocomplete from "vue-google-autocomplete";
+import VueGoogleAutocomplete from "vue3-google-autocomplete";
 
 
 export default {

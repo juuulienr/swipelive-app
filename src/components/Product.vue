@@ -1,11 +1,11 @@
 <template>
   <div v-if="product" class="product">
     <div v-if="product.uploads.length > 0" style="width: 100%;">
-      <VueSlickCarousel v-bind="settings">
+      <!-- <VueSlickCarousel v-bind="settings"> -->
         <div class="vue-slick" v-for="upload in product.uploads" v-bind:key="upload.id">
           <img :src="cloudinary750x750 + upload.filename">
         </div>
-      </VueSlickCarousel>
+      <!-- </VueSlickCarousel> -->
     </div>
     <div v-else style="width: 100vw;">
       <div class="vue-slick">
@@ -114,17 +114,17 @@
 
 <script>
 
-import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+// import VueSlickCarousel from 'vue-slick-carousel'
+// import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+// import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 
 
 export default {
   name: 'Product',
   props: ['product'],
-  components: {
-    VueSlickCarousel,
-  },
+  // components: {
+    // VueSlickCarousel,
+  // },
   data() {
     return {
       id: this.$route.params.id,

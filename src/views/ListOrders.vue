@@ -56,7 +56,7 @@
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Lottie :options="defaultOptions" :width="200"/>
+                  <Vue3Lottie :animationData="defaultOptions" :width="200"/>
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande</h5>
@@ -86,7 +86,7 @@
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Lottie :options="defaultOptions" :width="200"/>
+                  <Vue3Lottie :animationData="defaultOptions" :width="200"/>
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande en cours</h5>
@@ -115,7 +115,7 @@
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Lottie :options="defaultOptions" :width="200"/>
+                  <Vue3Lottie :animationData="defaultOptions" :width="200"/>
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun litige</h5>
@@ -145,7 +145,7 @@
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Lottie :options="defaultOptions" :width="200"/>
+                  <Vue3Lottie :animationData="defaultOptions" :width="200"/>
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande terminée</h5>
@@ -178,7 +178,7 @@
             <div v-else>
               <div class="container" style="margin: 180px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Lottie :options="defaultOptions" :width="200"/>
+                  <Vue3Lottie :animationData="defaultOptions" :width="200"/>
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun achat</h5>
@@ -421,14 +421,10 @@
 
 <script>
 
-import Lottie from 'vue-lottie';
 import * as animationData from '../assets/lottie/order.json';
 
 export default {
   name: 'ListOrders',
-  components: {
-    Lottie
-  },
   data() {
     return {
       isOrder: this.$route.params.isOrder,

@@ -43,7 +43,7 @@
         <div class="images_sec" style="padding: 0px 10px;">
           <div v-if="live" class="images" style="margin-bottom: 30px;">
             <div v-if="clips.length" class="row">
-              <div v-for="(clip, index) in clips" v-if="clip.status == 'available'" class="col-6 col-img">
+              <div v-for="(clip, index) in clips" v-if="clip && clip.status == 'available'" class="col-6 col-img">
                 <div @click="goToFeed(index)">
                   <img v-if="clip.preview" :src="$amazonS3 + clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;">
                   <div v-else style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;"></div>
@@ -63,7 +63,7 @@
             <div v-else class="row">
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Lottie :options="defaultOptions" :width="200"/>
+                  <Vue3Lottie :animationData="defaultOptions" :width="200"/>
                 </div>
                 <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun clips</h5>
               </div>
@@ -95,7 +95,7 @@
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Lottie :options="defaultOptions2" style="width:100%"/>
+                  <Vue3Lottie :animationData="defaultOptions2" style="width:100%"/>
                 </div>
                 <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun produit</h5>
               </div>
@@ -129,7 +129,6 @@
 <script>
   
 import Product from '../components/Product';
-import Lottie from 'vue-lottie';
 import * as animationData2 from '../assets/lottie/no-product.json';
 import * as animationData from '../assets/lottie/replay.json';
 
@@ -138,13 +137,12 @@ export default {
   name: 'Profile',
   components: {
     Product,
-    Lottie
   },
   data() {
     return {
       id: this.$route.params.id,
       user: this.$store.getters.getUser,
-      profile: this.$store.getters.getProfile,
+      profile: null,
       lineItems: this.$store.getters.getLineItems,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
@@ -187,10 +185,8 @@ export default {
     });
 
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/clips", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      var result = JSON.parse(response.data);
-      result.map((element) => {
-        this.clips.push(JSON.parse(element.value));
-      });
+      console.log(JSON.parse(response.data));
+      this.clips = JSON.parse(response.data);
       this.loadingClips = false;
     }, (response) => {
       console.log(response.error);

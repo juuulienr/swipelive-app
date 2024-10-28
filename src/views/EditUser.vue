@@ -91,10 +91,19 @@
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>  
-            <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="user.vendor.address">
-            </vue-google-autocomplete>
+            <VueGoogleAutocomplete
+              ref="autocomplete"
+              id="map"
+              :api-key="yourGoogleMapsAPIKey"
+              :options="{ componentRestrictions: { country: ['fr', 'be', 'lu'] } }"
+              @place_changed="getAddressData"
+              v-model="user.vendor.address"
+              type="text"
+              placeholder=""
+            />
           </fieldset>
         </div>
+
 
         <div v-if="user.vendor" class="form--input" style="grid-template-columns: minmax(30%, 1fr) minmax(65%, 1fr)">
           <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
@@ -136,7 +145,7 @@
 
 <script>
 
-import VueGoogleAutocomplete from "vue-google-autocomplete";
+import VueGoogleAutocomplete from "vue3-google-autocomplete";
 
 export default {
   name: 'EditUser',

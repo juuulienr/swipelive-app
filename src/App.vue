@@ -11,7 +11,6 @@
 @import './assets/css/main.css';
 </style>
 
-
 <script>
 import NavBar from "@/components/NavBar";
 
@@ -26,14 +25,17 @@ export default {
       user: this.$store.getters.getUser,
       pingInterval: null,
       showNavbar: false
+    };
+  },
+  watch: {
+    $route(to) {
+      // Mettre à jour showNavbar en fonction de la route actuelle
+      this.showNavbar = ["Home", "Search", "Account", "Category", "Cart"].includes(to.name);
     }
   },
   created() {
-    if (this.$route.name == "Home" || this.$route.name == "Search" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
-      this.showNavbar = true;
-    } else {
-      this.showNavbar = false;
-    }
+    // Initialisation de showNavbar
+    this.showNavbar = ["Home", "Search", "Account", "Category", "Cart"].includes(this.$route.name);
     this.updateLineItems();
     this.loadCategories();
   },
@@ -43,16 +45,7 @@ export default {
       this.user = this.$store.getters.getUser;
       this.token = window.localStorage.getItem("token");
       this.ping();
-    }, 240000); //4 min
-  },
-  updated() {
-    this.lineItems = this.$store.getters.getLineItems;
-    if (this.$route.name == "Home" || this.$route.name == "Search" || this.$route.name == "Account" || this.$route.name == "Category" || this.$route.name == "Cart") {
-      this.showNavbar = true;
-    } else {
-      this.showNavbar = false;
-    }
-    this.loadCategories();
+    }, 240000); // 4 min
   },
   beforeDestroy() {
     clearInterval(this.pingInterval);
@@ -71,15 +64,15 @@ export default {
       this.lineItems = this.$store.getters.getLineItems;
     },
     loadCategories() {
-      if (this.$store.getters.getCategories.length == 0) {
-        window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+      if (this.$store.getters.getCategories.length === 0) {
+        window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type': 'application/json; charset=UTF-8' }, (response) => {
           this.$store.commit('setCategories', JSON.parse(response.data));
           console.log(response);
         }, (response) => {
           console.log(response.error);
         });
       }
-    },
+    }
   }
 };
 </script>

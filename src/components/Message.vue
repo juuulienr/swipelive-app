@@ -67,7 +67,7 @@
         <img :src="require(`@/assets/img/plus-square.svg`)" style="height: 34px; width: 34px;"/>
       </button>
       <div class="divInput">
-        <input type="text" v-on-clickaway="away" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
+        <input type="text" v-click-away="away" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
       </div>
       <button id="btnSend" @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
         <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; width: 36px;"/>
@@ -79,12 +79,10 @@
 <style scoped src="../assets/css/message.css"></style>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   name: 'Message',
   props: ['discussion'],
-  mixins: [ clickaway ],
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),

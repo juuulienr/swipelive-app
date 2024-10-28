@@ -131,7 +131,7 @@
           <div v-else>
             <div class="container" style="margin: 40px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
-                <Lottie :options="defaultOptions5" :width="200"/>
+                <Vue3Lottie :animationData="defaultOptions5" :width="200"/>
               </div>
             </div>
             <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune promotion</h5>
@@ -266,7 +266,7 @@
 
       <div :style="{'bottom': safeareaBottom }" @click="startCountdown()" style="left: calc(50vw - 75px); position: absolute; z-index: 20;">
         <div style="margin: 0px auto;">
-          <Lottie :options="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
+          <Vue3Lottie :animationData="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
         </div>
       </div>
     </div>
@@ -549,7 +549,7 @@
 
 
       <!-- send comment -->
-      <div @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="background: rgba(0, 0, 0, 0.25); left: 15px; right: 120px;">
+      <div class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="background: rgba(0, 0, 0, 0.25); left: 15px; right: 120px;">
         <div class="video-page__influencer-username-holder">
           <div class="video-page__influencer-username" style="color: white; font-size: 15px; font-weight: 600;"> Commenter...</div>
         </div>
@@ -576,20 +576,6 @@
       </div>
 
         
-
-      <!-- input comment -->
-	    <div v-if="popup" class="css-1dko8fk" :style="{'bottom': writeInput }" style="height: 55px; border-radius: 0px;">
-	      <div class="css-miqn2j">
-	        <input v-focus v-on-clickaway="away" placeholder="Aa" type="text" class="css-9gu6qp" v-model="content" style="padding: 10px 0px 10px 15px; font-size: 14px; background: rgb(244, 244, 244); border-radius: 30px; font-weight: 400;"/>
-	      </div>
-	      <button id="buttonSend" :class="{'Mui-disabled': content.length == 0 }" class="css-il3d4y">
-	        <svg id="svgSend" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-	          <path id="pathSend" d="M3.4 20.4l17.45-7.48a1 1 0 0 0 0-1.84L3.4 3.6a.993.993 0 0 0-1.39.91L2 9.12c0 .5.37.93.87.99L17 12L2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z" fill="currentColor"></path>
-	        </svg>
-	      </button>
-	    </div>
-
-
 
       <!-- popup orders -->
       <div v-if="popupOrders" class="store-products-item__login-popup store-products-item__login-popup--active popup-orders">
@@ -618,7 +604,7 @@
           <div v-else class="checkout__body">
             <div class="container" style="margin: 0px auto; text-align: center;">
               <div style="margin: 0px auto;">
-                <Lottie :options="defaultOptions3" :width="180"/>
+                <Vue3Lottie :animationData="defaultOptions3" :width="180"/>
               </div>
             </div>
             <h5 class="orders-none">Aucune commande</h5>
@@ -655,7 +641,7 @@
           <div v-else>
             <div class="container" style="margin: 0px auto; text-align: center;">
             <div style="margin: 50px auto 0px;">
-              <Lottie :options="defaultOptions2" :width="220"/>
+              <Vue3Lottie :animationData="defaultOptions2" :width="220"/>
             </div>
             </div>
             <h5 class="viewers-none">Aucun spectateur</h5>
@@ -675,7 +661,7 @@
         <div class="cards-main">
           <div class="container" style="text-align: center;">
             <div style="margin: 0px auto;">
-              <Lottie :options="defaultOptions4" :width="200"/>
+              <Vue3Lottie :animationData="defaultOptions4" :width="200"/>
             </div>
           </div>
           <div class="performance-title">Bravo {{ user.vendor.pseudo }} !</div>
@@ -749,8 +735,6 @@
 
 <script>
 import Pusher from 'pusher-js';
-import Lottie from 'vue-lottie';
-import { mixin as clickaway } from 'vue-clickaway';
 import * as animationData from '../../assets/lottie/golive.json';
 import * as animationData2 from '../../assets/lottie/no-viewer.json';
 import * as animationData3 from '../../assets/lottie/no-order.json';
@@ -759,10 +743,6 @@ import * as animationData5 from '../../assets/lottie/discount.json';
 
 export default {
   name: 'Feed',
-  mixins: [ clickaway ],
-  components: {
-    Lottie
-  },
   data() {
     return {
       id: this.$route.params.id,
@@ -790,7 +770,6 @@ export default {
       ready: false,
       performance: false,
       counter: false,
-      popup: false,
       isProfileChecked: false,
       isShowPages: null,
       isShowGroups: null,
@@ -1165,9 +1144,6 @@ export default {
         this.$router.push({ name: 'PreLive' });
       }
     },
-    openPopup() {
-      this.popup = true;
-    },
     changeProduct() {
       if (this.liveProducts.length > 1) {
         if (window.TapticEngine) {
@@ -1181,28 +1157,6 @@ export default {
           console.log(response.error);
         });
       }
-    },
-    away(event) {
-      if (event.target.id == "buttonSend" || event.target.id == "svgSend" || event.target.id == "pathSend") {
-        if (this.content && this.content.length > 0) {
-          this.send();
-        }
-      } else if (event.target.className !== "css-1dko8fk" && event.target.className !== "css-miqn2j") {
-        this.popup = false;
-        this.content = "";
-      }
-    },
-    send() {
-      this.popup = false;
-      var content = this.content;
-      this.content = "";
-      this.comments.push({ "content": content, "user": { "vendor": { "pseudo": this.user.vendor.pseudo }, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
-      this.scrollToElement();
-
-      this.http.post(this.baseUrl + "/user/api/live/" + this.id + "/comment/add", { "content": content }, { Authorization: "Bearer " + this.token }, (response) => {
-      }, (response) => {
-        console.log(response.error);
-      });
     },
     scrollToElement() {
       var el = this.$refs.scrollToMe;
