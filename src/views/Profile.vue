@@ -63,7 +63,7 @@
             <div v-else class="row">
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Vue3Lottie :animationData="defaultOptions" :width="200"/>
+                  <Vue3Lottie :animationData="LottieJSON" :width="200"/>
                 </div>
                 <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun clips</h5>
               </div>
@@ -95,7 +95,7 @@
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Vue3Lottie :animationData="defaultOptions2" style="width:100%"/>
+                  <Vue3Lottie :animationData="LottieJSON2" style="width:100%"/>
                 </div>
                 <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun produit</h5>
               </div>
@@ -129,8 +129,8 @@
 <script>
   
 import Product from '../components/Product';
-import * as animationData2 from '../assets/lottie/no-product.json';
-import * as animationData from '../assets/lottie/replay.json';
+import LottieJSON from '../assets/lottie/no-product.json';
+import LottieJSON2 from '../assets/lottie/replay.json';
 
 
 export default {
@@ -147,8 +147,8 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       overlaysWebView: this.$route.params.overlaysWebView,
-      defaultOptions: {animationData: animationData},
-      defaultOptions2: {animationData: animationData2},
+      LottieJSON: LottieJSON,
+      LottieJSON2: LottieJSON2,
       clips: [],
       products: [],
       popupProduct: false,

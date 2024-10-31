@@ -131,7 +131,7 @@
           <div v-else>
             <div class="container" style="margin: 40px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
-                <Vue3Lottie :animationData="defaultOptions5" :width="200"/>
+                <Vue3Lottie :animationData="LottieJSON5" :width="200"/>
               </div>
             </div>
             <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune promotion</h5>
@@ -266,7 +266,7 @@
 
       <div :style="{'bottom': safeareaBottom }" @click="startCountdown()" style="left: calc(50vw - 75px); position: absolute; z-index: 20;">
         <div style="margin: 0px auto;">
-          <Vue3Lottie :animationData="defaultOptions" :width="150" v-on:animCreated="handleAnimation"/>
+          <Vue3Lottie :animationData="LottieJSON" :width="150" v-on:animCreated="handleAnimation"/>
         </div>
       </div>
     </div>
@@ -604,7 +604,7 @@
           <div v-else class="checkout__body">
             <div class="container" style="margin: 0px auto; text-align: center;">
               <div style="margin: 0px auto;">
-                <Vue3Lottie :animationData="defaultOptions3" :width="180"/>
+                <Vue3Lottie :animationData="LottieJSON3" :width="180"/>
               </div>
             </div>
             <h5 class="orders-none">Aucune commande</h5>
@@ -641,7 +641,7 @@
           <div v-else>
             <div class="container" style="margin: 0px auto; text-align: center;">
             <div style="margin: 50px auto 0px;">
-              <Vue3Lottie :animationData="defaultOptions2" :width="220"/>
+              <Vue3Lottie :animationData="LottieJSON2" :width="220"/>
             </div>
             </div>
             <h5 class="viewers-none">Aucun spectateur</h5>
@@ -661,7 +661,7 @@
         <div class="cards-main">
           <div class="container" style="text-align: center;">
             <div style="margin: 0px auto;">
-              <Vue3Lottie :animationData="defaultOptions4" :width="200"/>
+              <Vue3Lottie :animationData="LottieJSON4" :width="200"/>
             </div>
           </div>
           <div class="performance-title">Bravo {{ user.vendor.pseudo }} !</div>
@@ -735,11 +735,11 @@
 
 <script>
 import Pusher from 'pusher-js';
-import * as animationData from '../../assets/lottie/golive.json';
-import * as animationData2 from '../../assets/lottie/no-viewer.json';
-import * as animationData3 from '../../assets/lottie/no-order.json';
-import * as animationData4 from '../../assets/lottie/trophy.json';
-import * as animationData5 from '../../assets/lottie/discount.json';
+import LottieJSON from '../../assets/lottie/golive.json';
+import LottieJSON2 from '../../assets/lottie/no-viewer.json';
+import LottieJSON3 from '../../assets/lottie/no-order.json';
+import LottieJSON4 from '../../assets/lottie/trophy.json';
+import LottieJSON5 from '../../assets/lottie/discount.json';
 
 export default {
   name: 'Feed',
@@ -749,11 +749,11 @@ export default {
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      defaultOptions: {animationData: animationData},
-      defaultOptions2: {animationData: animationData2},
-      defaultOptions3: {animationData: animationData3},
-      defaultOptions4: {animationData: animationData4},
-      defaultOptions5: {animationData: animationData5},
+      LottieJSON: LottieJSON,
+      LottieJSON2: LottieJSON2,
+      LottieJSON3: LottieJSON3,
+      LottieJSON4: LottieJSON4,
+      LottieJSON5: LottieJSON5,
       comments: [],
       purchases: [],
       liveProducts: [],

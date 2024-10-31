@@ -33,8 +33,8 @@ app.use(router);
 app.use(store);
 app.use(VueObserveVisibility);
 app.use(Vue3TouchEvents);
-app.use(VueClickAway);
 app.use(Vue3Lottie);
+app.use(VueClickAway);
 app.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w",
@@ -46,6 +46,7 @@ app.use(VueGoogleMaps, {
 app.config.globalProperties.$cloudinary = 'https://res.cloudinary.com/dxlsenc2r/image/upload/';
 app.config.globalProperties.$cloudinary256x256 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/';
 app.config.globalProperties.$amazonS3 = 'https://swipe-live-app-storage-eu-west-3.s3.eu-west-3.amazonaws.com/';
+app.config.globalProperties.$googleAPIKey = 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w';
 
 const init = () => {
   app.mount('#app');

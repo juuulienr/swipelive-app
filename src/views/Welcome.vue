@@ -203,7 +203,7 @@
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 15px;">
         <div style="margin: 0px auto;">
-          <Vue3Lottie :animationData="defaultOptions" :width="200" v-on:animCreated="handleAnimation"/>
+          <Vue3Lottie :animationData="LottieJSON" :width="200" v-on:animCreated="handleAnimation"/>
         </div>
 
         <p v-if="isReset" style="font-size: 13px; color: #525c66; text-align: left; margin-bottom: 30px; font-weight: 400;">Un mail a été envoyé pour réinitialiser votre mot de passe.</p>
@@ -229,14 +229,14 @@
 
 <script>
 import AuthAPI from "../utils/auth.js";
-import * as animationData from '../assets/lottie/forgot-password.json';
+import LottieJSON from '../assets/lottie/forgot-password.json';
 
 export default {
   name: 'Welcome',
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
-      defaultOptions: {animationData: animationData},
+      LottieJSON: LottieJSON,
       popup: false,
       popupPassword: false,
       popupUserRegistration: false,

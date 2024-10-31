@@ -152,6 +152,16 @@ export default {
       }); 
     }
 
+    if (this.$store.getters.getCategories.length === 0) {
+      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type': 'application/json; charset=UTF-8' }, (response) => {
+        this.$store.commit('setCategories', JSON.parse(response.data));
+        this.categories = JSON.parse(response.data);
+        console.log(response);
+      }, (response) => {
+        console.log(response.error);
+      });
+    }
+
     this.loadClipsTrending();
     this.loadProductsTrending();
     // this.loadClipsLatest();

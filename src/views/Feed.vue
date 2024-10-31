@@ -26,7 +26,7 @@
 
         <!-- viewers -->
         <div v-if="feed.type == 'live' && !finished[index].value" :style="{'top': safeareaTop2 }" class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-viewers">
-          <Vue3Lottie :animationData="defaultOptions" :width="15" v-on:animCreated="handleAnimation"/>
+          <Vue3Lottie :animationData="LottieJSON" :width="15"/>
           <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x j5wam9gi lrazzd5p ljqsnud1" style="margin-top: 4px;">
             <span style="padding-left: 5px; font-weight: bold;">{{ viewers }}</span>
           </span>
@@ -51,7 +51,7 @@
           <div class="video-page__influencer-username6" style="font-weight: 600">{{ feed.value.vendor.pseudo }}</div>
         </div>
         <div v-if="finished[index].value" class="finished-swipe">
-          <Vue3Lottie :animationData="defaultOptions2" :width="40" v-on:animCreated="handleAnimation" style="transform: rotate(180deg);"/>
+          <Vue3Lottie :animationData="LottieJSON2" :width="40" style="transform: rotate(180deg);"/>
           <h4>Swipe vers le haut pour passer au prochain</h4>
         </div>
 
@@ -527,8 +527,8 @@ import Checkout from '../components/Checkout';
 import Product from '../components/Product';
 import Cart from '../components/Cart';
 
-import * as animationData from '../assets/lottie/live.json';
-import * as animationData2 from '../assets/lottie/arrow.json';
+import LottieJSON from '../assets/lottie/live.json';
+import LottieJSON2 from '../assets/lottie/arrow.json';
 
 export default {
   name: 'Feed',
@@ -547,8 +547,8 @@ export default {
       token: window.localStorage.getItem("token"),
       banned: window.localStorage.getItem("banned") ? JSON.parse(window.localStorage.getItem("banned")) : [],
       pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
-      defaultOptions: {animationData: animationData},
-      defaultOptions2: {animationData: animationData2},
+      LottieJSON: LottieJSON,
+      LottieJSON2: LottieJSON2,
       lineItems: this.$store.getters.getLineItems,
       players: [], 
       data: [],
@@ -975,9 +975,6 @@ export default {
       setTimeout(() => {
         this.writeInput = height.toString();
       }, 200);
-    },
-    handleAnimation(anim) {
-      this.anim = anim;
     },
     visibilityChanged(isVisible, entry, index) {
       if (isVisible) {

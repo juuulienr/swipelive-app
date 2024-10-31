@@ -55,7 +55,7 @@
           <div>
             <div class="container" style="margin: 50px auto 0px; text-align: center;">
               <div style="margin: 0px auto;">
-                <Vue3Lottie :animationData="defaultOptions2" :width="200"/>
+                <Vue3Lottie :animationData="LottieJSON2" :width="200"/>
               </div>
             </div>
             <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun retrait</h5>
@@ -160,7 +160,7 @@
           </div>
           <div v-else>
             <div style="margin: 60px auto 0px;">
-              <Vue3Lottie :animationData="defaultOptions" v-on:animCreated="handleAnimation" :width="150"/>
+              <Vue3Lottie :animationData="LottieJSON" v-on:animCreated="handleAnimation" :width="150"/>
             </div>
             <p style="margin-bottom: 0px;color: black;font-weight: 500;font-size: 14px;padding: 0px 10px;margin-top: 35px;text-align: center;">
               Votre demande de retrait a bien été prise en compte, <br>
@@ -217,8 +217,8 @@
 
 <script>
 
-import * as animationData from '../../assets/lottie/success.json';
-import * as animationData2 from '../../assets/lottie/wallet.json';
+import LottieJSON from '../../assets/lottie/success.json';
+import LottieJSON2 from '../../assets/lottie/wallet.json';
 
 export default {
   name: 'Wallet',
@@ -228,8 +228,8 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       stripe_pk: window.localStorage.getItem("stripe_pk"),
-      defaultOptions: {animationData: animationData},
-      defaultOptions2: {animationData: animationData2},
+      LottieJSON: LottieJSON,
+      LottieJSON2: LottieJSON2,
       loadingOrders: true,
       popupWithdraw: false,
       popupHistory: false,

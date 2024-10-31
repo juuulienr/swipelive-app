@@ -13,7 +13,7 @@
           <h5 class="title">Glisser vers le haut</h5>
           <div class="subtitle">Pour passer d'un live à un autre</div>
           <div class="container" style="margin-top: 40px;">
-            <Vue3Lottie :animationData="defaultOptions" style="width: 300px"/>
+            <Vue3Lottie :animationData="LottieJSON" style="width: 300px"/>
           </div>
         </div>
         <div @click="goFeed()" class="btn-step">Commencer à regarder</div>
@@ -70,7 +70,7 @@
 <script>
 
 import fcm from '../utils/fcm.js';
-import * as animationData from '../assets/lottie/swipe-up.json';
+import LottieJSON from '../assets/lottie/swipe-up.json';
 
 export default {
   name: 'Onboarding',
@@ -78,7 +78,7 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      defaultOptions: {animationData: animationData},
+      LottieJSON: LottieJSON,
       notif: true,
       step1: false,
     }

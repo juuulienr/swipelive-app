@@ -47,7 +47,7 @@
       <div v-else>
         <div class="container" style="margin: 120px auto 0px; text-align: center;">
           <div style="margin: 0px auto;">
-            <Vue3Lottie :animationData="defaultOptions" style="width:100%"/>
+            <Vue3Lottie :animationData="LottieJSON" style="width:100%"/>
           </div>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun article</h5>
@@ -61,7 +61,7 @@
 <style scoped src="../../assets/css/shop.css"></style>
 
 <script>
-import * as animationData from '../../assets/lottie/no-product.json';
+import LottieJSON from '../../assets/lottie/no-product.json';
 
 
 export default {
@@ -70,7 +70,7 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      defaultOptions: {animationData: animationData},
+      LottieJSON: LottieJSON,
       user: this.$store.getters.getUser,
       products: [],
       loading: true,

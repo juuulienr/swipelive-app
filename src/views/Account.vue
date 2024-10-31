@@ -259,17 +259,6 @@
         </div>
       </div>
 
-
-      <div style="margin-top: 25px;">
-        <div class="box-network">
-          <div @click="openUrl('https://www.facebook.com/swipelive.fr')">
-            <img :src="require(`@/assets/img/facebook-link.svg`)" style="width: 48px; height: 48px; margin-right: 20px;"/>
-          </div>
-          <div @click="openUrl('https://www.instagram.com/swipeliveapp')">
-            <img :src="require(`@/assets/img/instagram-link.svg`)" style="width: 48px; height: 48px;"/>
-          </div>
-        </div>
-      </div>
       <div class="box-network" style="padding: 0px;">      
         <img :src="require(`@/assets/img/logo-text.png`)" style="width: 150px; height: 80px;"/>
       </div>
@@ -379,17 +368,17 @@ export default {
       this.$router.push({ name: 'VendorRegistration' });
     },
     addTapticAndSlide() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
+      // if (window.TapticEngine) {
+      //   TapticEngine.impact({ style: 'medium' });
+      // }
+      // window.plugins.nativepagetransitions.slide({
+      //   direction: 'left',
+      //   duration: 400,
+      //   iosdelay: 0,
+      //   androiddelay: 0,
+      //   winphonedelay: 0,
+      //   slowdownfactor: 1,
+      // });
     },
     openUrl(url) {
       if (window.TapticEngine) {

@@ -168,19 +168,8 @@
           <fieldset>
             <legend>Adresse</legend>
             <VueGoogleAutocomplete
-              ref="autocomplete"
-              id="map"
-              :api-key="yourGoogleMapsAPIKey"
-              :options="{ componentRestrictions: { country: ['fr', 'be', 'lu'] } }"
-              @place_changed="getAddressData"
-              @change="updateAddressData"
-              @error="handleError"
-              @inputChange="inputChangeAddressInput"
-              @focus="focusAddressInput"
-              @blur="blurAddressInput"
-              type="text"
               v-model="address"
-              placeholder=""
+              :api-key="$googleAPIKey"
             />
           </fieldset>
         </div>

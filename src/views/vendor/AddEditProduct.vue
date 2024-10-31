@@ -17,7 +17,7 @@
       <div @click="uploadSheet()" class="drop--file">
         <div class="drop--img">
           <div style="margin: 0px auto;">
-            <Vue3Lottie :animationData="defaultOptions" :width="120"/>
+            <Vue3Lottie :animationData="LottieJSON" :width="120"/>
           </div>
         </div>
         <div class="drop--text">
@@ -313,15 +313,14 @@
 
 <script>
 
-import * as animationData from '../../assets/lottie/upload.json';
-
+import LottieJSON from '../../assets/lottie/upload.json';
 
 export default {
   name: 'AddEditProduct',
   data() {
     return {
       productId: this.$route.params.productId,
-      defaultOptions: {animationData: animationData},
+      LottieJSON: LottieJSON,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
