@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <router-view/>
-    <NavBar ref="navbar" :lineItems="lineItems" v-if="showNavbar"/>
+    <NavBar :lineItems="lineItems" v-if="showNavbar"/>
   </div>
 </template>
-
 
 <style>
 @import './assets/css/bootstrap.css';
@@ -21,22 +20,23 @@ export default {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      lineItems: this.$store.getters.getLineItems,
       user: this.$store.getters.getUser,
       pingInterval: null,
       showNavbar: false
     };
   },
+  computed: {
+    lineItems() {
+      return this.$store.getters.getLineItems;
+    }
+  },
   watch: {
     $route(to) {
-      // Mettre à jour showNavbar en fonction de la route actuelle
       this.showNavbar = ["Home", "Search", "Account", "Category", "Cart"].includes(to.name);
     }
   },
   created() {
-    // Initialisation de showNavbar
     this.showNavbar = ["Home", "Search", "Account", "Category", "Cart"].includes(this.$route.name);
-    this.updateLineItems();
     this.loadCategories();
   },
   mounted() {
@@ -59,9 +59,6 @@ export default {
           console.log(response.error);
         });
       }
-    },
-    updateLineItems() {
-      this.lineItems = this.$store.getters.getLineItems;
     },
     loadCategories() {
       if (this.$store.getters.getCategories.length === 0) {

@@ -26,21 +26,43 @@
         <span v-if="promotion.type == 'percent'" style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promotion.value }}% supplémentaire à la caisse</span> 
         <span v-else style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promotion.value }}€ supplémentaire à la caisse</span> 
       </div>
+
       <div v-if="product.options.length">
         <hr style="margin: 20px 0px;">
-        <div class="technology" style="font-weight: 400;">{{ product.options[0].name }}</div>
-        <div class="variants">
-          <div v-if="option1.available == true" @click="updateVariant(option1.name, option1.available)"  v-for="option1 in available" :key="option1.name" class="option" :class="{'active' : selected == option1.name }">
-            {{ option1.name }}
+        
+        <template v-if="product.options[0]">
+          <div class="technology" style="font-weight: 400;">{{ product.options[0].name }}</div>
+          <div class="variants">
+            <template v-for="option1 in available" :key="option1.name">
+              <div
+                v-if="option1.available"
+                @click="updateVariant(option1.name, option1.available)"
+                class="option"
+                :class="{'active': selected == option1.name}"
+              >
+                {{ option1.name }}
+              </div>
+            </template>
           </div>
-        </div>
-        <div v-if="product.options.length > 1" class="technology" style="margin-top: 15px; font-weight: 400;">{{ product.options[1].name }}</div>
-        <div class="variants">
-          <div v-if="option2.available == true" @click="updateVariant2(option2.name, option2.available)"  v-for="option2 in available2" :key="option2.name" class="option" :class="{'active' : selected2 == option2.name }">
-            {{ option2.name }}
+        </template>
+
+        <template v-if="product.options.length > 1 && product.options[1]">
+          <div class="technology" style="margin-top: 15px; font-weight: 400;">{{ product.options[1].name }}</div>
+          <div class="variants">
+            <template v-for="option2 in available2" :key="option2.name">
+              <div
+                v-if="option2.available"
+                @click="updateVariant2(option2.name, option2.available)"
+                class="option"
+                :class="{'active': selected2 == option2.name}"
+              >
+                {{ option2.name }}
+              </div>
+            </template>
           </div>
-        </div>
+        </template>
       </div>
+
 
       <div style="margin-bottom: 20px;">
         <hr style="margin: 20px 0px;">

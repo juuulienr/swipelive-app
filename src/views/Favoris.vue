@@ -283,7 +283,6 @@ export default {
                 this.lineItems = [];
                 this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
                 this.$store.commit('setLineItems', this.lineItems);
-                this.$root.$children[0].updateLineItems();
               }
             },   
             'Nouveau panier ?', 

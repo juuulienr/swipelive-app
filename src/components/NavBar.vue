@@ -241,42 +241,36 @@
 </style>
 
 <script>
-
 export default {
   name: "NavBar",
-  props: [ "lineItems" ],
-  data: function() {
+  props: ["lineItems"],
+  data() {
     return {
       active_el: 0,
-    }
+    };
   },
   computed: {
     updateCart() {
-      var count = 0;
-      if (this.lineItems.length) {
-        this.lineItems.map(lineItem => {
-          count = count + lineItem.quantity;
-        });
-      }
-      return count;
+      return this.lineItems.reduce((count, item) => count + item.quantity, 0);
     }
   },
-  created() {
-    if (this.$route.name == "Home" || this.$route.name == "Category") {
-      this.active_el = 0;
-    } else if (this.$route.name == "Search") {
-      this.active_el = 1;
-    } else if (this.$route.name == "Cart") {
-      this.active_el = 3;
-    } else {
-      this.active_el = 4;
+  watch: {
+    $route(to) {
+      if (to.name === "Home" || to.name === "Category") {
+        this.active_el = 0;
+      } else if (to.name === "Search") {
+        this.active_el = 1;
+      } else if (to.name === "Cart") {
+        this.active_el = 3;
+      } else {
+        this.active_el = 4;
+      }
     }
   },
   methods: {
     menuActive(el) {
-      this.active_el = el;   
+      this.active_el = el;
     },
-  }  
+  },
 };
-
 </script>

@@ -42,33 +42,54 @@
 
         <div class="images_sec" style="padding: 0px 10px;">
           <div v-if="live" class="images" style="margin-bottom: 30px;">
-            <div v-if="clips.length" class="row">
-              <div v-for="(clip, index) in clips" v-if="clip && clip.status == 'available'" class="col-6 col-img">
-                <div @click="goToFeed(index)">
-                  <img v-if="clip.preview" :src="$amazonS3 + clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;">
-                  <div v-else style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;"></div>
-                  <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
-                  <div class="product--item" style="flex-direction: row;position: absolute;bottom: 15px;z-index: 10000000;left: calc(25vw - 27.5px);">
-                    <img v-if="clip.product.uploads.length" :src="$cloudinary256x256 + clip.product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;border: 1px solid #ddd !important; background: #eeeeee;">
-                    <img v-else :src="require(`@/assets/img/no-preview.png`)" style="line-height: 0;display: block;border-radius: 10px;width: 48px;height: 48px;border: 1px solid #ddd !important;  background: #eeeeee;">
+            <template v-if="clips.length">
+              <div class="row">
+                <template v-for="(clip, index) in clips" :key="index">
+                  <div v-if="clip.status == 'available'" class="col-6 col-img">
+                    <div @click="goToFeed(index)">
+                      <img
+                        v-if="clip.preview"
+                        :src="$amazonS3 + clip.preview"
+                        style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;"
+                      >
+                      <div v-else style="border-radius: 10px; width: 100%; object-fit: cover; background: #eeeeee; height: 300px;"></div>
+                      <div style="background-image: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 300px; position: absolute; z-index: 10; width: calc(100% - 10px); bottom: 5px;"></div>
+                      <div class="product--item" style="flex-direction: row; position: absolute; bottom: 15px; z-index: 10000000; left: calc(25vw - 27.5px);">
+                        <img
+                          v-if="clip.product.uploads.length"
+                          :src="$cloudinary256x256 + clip.product.uploads[0].filename"
+                          style="line-height: 0; display: block; border-radius: 10px; width: 48px; height: 48px; border: 1px solid #ddd !important; background: #eeeeee;"
+                        >
+                        <img
+                          v-else
+                          :src="require(`@/assets/img/no-preview.png`)"
+                          style="line-height: 0; display: block; border-radius: 10px; width: 48px; height: 48px; border: 1px solid #ddd !important; background: #eeeeee;"
+                        >
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </template>
               </div>
-            </div>
-            <div v-else-if="loadingClips">
+            </template>
+
+            <template v-else-if="loadingClips">
               <div class="loader2">
                 <span></span>
               </div>
-            </div>
-            <div v-else class="row">
-              <div class="container" style="margin: 120px auto 0px; text-align: center;">
-                <div style="margin: 0px auto;">
-                  <Vue3Lottie :animationData="LottieJSON" :width="200"/>
+            </template>
+
+            <template v-else>
+              <div class="row">
+                <div class="container" style="margin: 120px auto 0px; text-align: center;">
+                  <div style="margin: 0px auto;">
+                    <Vue3Lottie :options="LottieJSON" :width="200" />
+                  </div>
+                  <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun clips</h5>
                 </div>
-                <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun clips</h5>
               </div>
-            </div>
+            </template>
           </div>
+
 
           <div v-if="shop" class="items" style="padding: 5px;">
             <div v-if="products.length" class="shop--part" style="gap: 20px 10px; margin-bottom: 30px;">
@@ -80,11 +101,8 @@
                 <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
                   <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ product.title }}</div>
                   <div class="shop--item--price">
-                    <div class="price" style="font-size: 13px; margin: 0px; font-weight: 500" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
-                      {{ $formatPrice(product.price) }}€
-                      <span v-if="product.compareAtPrice" class="last-price" style="margin-left: 3px;">
-                        {{ $formatPrice(product.compareAtPrice) }}€
-                      </span>
+                    <div class="price" style="font-size: 13px; margin: 0px; font-weight: 500" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ product.price | formatPrice }}€
+                      <span v-if="product.compareAtPrice" class="last-price" style="margin-left: 3px;">{{ product.compareAtPrice | formatPrice }}€ </span>
                     </div>
                   </div>
                 </div>
@@ -98,7 +116,7 @@
             <div v-else>
               <div class="container" style="margin: 120px auto 0px; text-align: center;">
                 <div style="margin: 0px auto;">
-                  <Vue3Lottie :animationData="LottieJSON2" style="width:100%"/>
+                  <Vue3Lottie :options="LottieJSON2" style="width:100%"/>
                 </div>
                 <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun produit</h5>
               </div>
@@ -132,8 +150,8 @@
 <script>
   
 import Product from '../components/Product';
-import LottieJSON from '../assets/lottie/no-product.json';
-import LottieJSON2 from '../assets/lottie/replay.json';
+import LottieJSON from '../assets/lottie/replay.json';
+import LottieJSON2 from '../assets/lottie/no-product.json';
 
 
 export default {
@@ -166,6 +184,12 @@ export default {
       variant: null,
     }
   },
+  filters: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  },
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
@@ -182,7 +206,6 @@ export default {
     });
 
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/clips", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      console.log(JSON.parse(response.data));
       this.clips = JSON.parse(response.data);
       this.loadingClips = false;
     }, (response) => {
@@ -366,7 +389,6 @@ export default {
                 this.lineItems = [];
                 this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
                 this.$store.commit('setLineItems', this.lineItems);
-                this.$root.$children[0].updateLineItems();
               }
             },   
             'Nouveau panier ?', 
@@ -387,4 +409,3 @@ export default {
 };
 
 </script>
-

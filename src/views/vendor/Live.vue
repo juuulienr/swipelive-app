@@ -218,21 +218,34 @@
                 <div class="video-page__influencer-username2">Pages</div>
                 <div v-if="!isShowPages" @click="showPages()" style="margin-right: 12px; color: #ff2f80;">Activer</div>
               </div>
-              <div v-if="pages.length > 0" v-for="(page, index) in pages" class="top-author--item" style="box-shadow: none; padding: 0px">
-                <img :src="page.picture.data.url"/>
-                <div><span>{{ page.name }}</span></div>
-                <span class="filter--choice">
-                  <label :for="'page-' + page.id" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
-                    <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
-                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': page.selected }">
-                        <input :id="'page-' + page.id" :checked="page.selected" v-model="page.selected" @change="onPageSelectionChanged(page, index)" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox">
-                        <span class="MuiSwitch-thumb css-byglaq"></span>
-                        <span class="MuiTouchRipple-root css-w0pj6f"></span>
-                      </span><span class="MuiSwitch-track css-1ju1kxc"></span>
-                    </span>
-                  </label>
-                </span>
-              </div>
+              <template v-if="pages.length > 0">
+                <div v-for="(page, index) in pages" :key="page.id" class="top-author--item" style="box-shadow: none; padding: 0px">
+                  <img :src="page.picture.data.url" />
+                  <div><span>{{ page.name }}</span></div>
+                  <span class="filter--choice">
+                    <label :for="'page-' + page.id" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
+                      <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
+                        <span
+                          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy"
+                          :class="{'Mui-checked': page.selected }"
+                        >
+                          <input
+                            :id="'page-' + page.id"
+                            :checked="page.selected"
+                            v-model="page.selected"
+                            @change="onPageSelectionChanged(page, index)"
+                            class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                            type="checkbox"
+                          >
+                          <span class="MuiSwitch-thumb css-byglaq"></span>
+                          <span class="MuiTouchRipple-root css-w0pj6f"></span>
+                        </span>
+                        <span class="MuiSwitch-track css-1ju1kxc"></span>
+                      </span>
+                    </label>
+                  </span>
+                </div>
+              </template>
 
               <!-- groups -->
               <hr class="facebook-hr"/>
@@ -240,21 +253,33 @@
                 <div class="video-page__influencer-username2">Groupes</div>
                 <div v-if="!isShowGroups" @click="showGroups()" style="margin-right: 12px; color: #ff2f80;">Activer</div>
               </div>
-              <div v-if="groups.length > 0" v-for="(group, index) in groups" class="top-author--item" style="box-shadow: none; padding: 0px">
-                <img :src="group.picture.data.url"/>
-                <div><span>{{ group.name }}</span></div>
-                <span class="filter--choice">
-                  <label :for="'group-' + group.id" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
-                    <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
-                      <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': group.selected }">
-                        <input :id="'group-' + group.id" v-model="group.selected" :checked="group.selected" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox">
-                        <span class="MuiSwitch-thumb css-byglaq"></span>
-                        <span class="MuiTouchRipple-root css-w0pj6f"></span>
-                      </span><span class="MuiSwitch-track css-1ju1kxc"></span>
-                    </span>
-                  </label>
-                </span>
-              </div>
+              <template v-if="groups.length > 0">
+                <div v-for="(group, index) in groups" :key="group.id" class="top-author--item" style="box-shadow: none; padding: 0px">
+                  <img :src="group.picture.data.url" />
+                  <div><span>{{ group.name }}</span></div>
+                  <span class="filter--choice">
+                    <label :for="'group-' + group.id" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
+                      <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
+                        <span
+                          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy"
+                          :class="{'Mui-checked': group.selected }"
+                        >
+                          <input
+                            :id="'group-' + group.id"
+                            v-model="group.selected"
+                            :checked="group.selected"
+                            class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                            type="checkbox"
+                          >
+                          <span class="MuiSwitch-thumb css-byglaq"></span>
+                          <span class="MuiTouchRipple-root css-w0pj6f"></span>
+                        </span>
+                        <span class="MuiSwitch-track css-1ju1kxc"></span>
+                      </span>
+                    </label>
+                  </span>
+                </div>
+              </template>
             </div>
           </div>
         </div>
