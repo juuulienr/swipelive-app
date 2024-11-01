@@ -147,12 +147,6 @@ export default {
       popupInfos: false,
     }
   },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-  },
   created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();

@@ -472,7 +472,7 @@
       <!-- amount -->
       <div class="bp9cbjyn jk6sbkaj kdgqqoy6 ihh4hy1g qttc61fc rq0escxv pq6dq46d datstx6m jb3vyjys p8fzw8mz qt6c0cv9 pcp91wgn afxn4irw m8weaby5 ee40wjg4 badge-amount" :style="{'top': safeareaTop }">
         <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x e9vueds3 j5wam9gi lrazzd5p ljqsnud1">
-          <span style="font-weight: bold;font-size: 18px;">{{ amount | formatPrice }} €</span>
+          <span style="font-weight: bold; font-size: 18px;">{{ $formatPrice(amount) }} €</span>
         </span>
       </div>
 
@@ -530,8 +530,12 @@
             <div class="video-page__price-row">
               <div class="video-page__price">
                 <div class="video-page__price-line">
-                  <div class="video-page__price" :style="[liveProducts[0].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">{{ liveProducts[0].product.price | formatPrice }}€
-                    <span v-if="liveProducts[0].product.compareAtPrice" class="disc" style="font-size: 13px; text-decoration: line-through; color: #999; padding-left: 3px; font-weight: 500;">{{ liveProducts[0].product.compareAtPrice | formatPrice }}€ <img v-if="user.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/></span>
+                  <div class="video-page__price" :style="[liveProducts[0].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
+                    {{ $formatPrice(liveProducts[0].product.price) }}€
+                    <span v-if="liveProducts[0].product.compareAtPrice" class="disc" style="font-size: 13px; text-decoration: line-through; color: #999; padding-left: 3px; font-weight: 500;">
+                      {{ $formatPrice(liveProducts[0].product.compareAtPrice) }}€ 
+                      <img v-if="user.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
+                    </span>
                   </div>
                   <div class="price stock-available" v-if="available">{{ available }} en stock</div>
                   <div class="price stock-unavailable" v-else-if="available == 0">Épuisé</div>
@@ -596,9 +600,9 @@
                 <div><span>#{{ order.number }}</span></div>
                 <span v-if="order.buyer.vendor">{{ order.buyer.vendor.pseudo }}</span>
                 <span v-else>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
               </div>
-              <span class="css-4ioo3c">{{ order.amount | formatPrice }}€</span>
+              <span class="css-4ioo3c">{{ $formatPrice(order.amount) }}€</span>
             </div>
           </div>
           <div v-else class="checkout__body">
@@ -679,7 +683,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #ff2f80;">
                 <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path>
               </svg>
-              <h4 class="performance-h4">{{ countLikes|formatLikes }}</h4>
+              <h4 class="performance-h4">{{ $formatLikes(countLikes) }}</h4>
               <div v-if="countLikes > 1" class="performance-text">Likes</div>
               <div v-else class="performance-text">Like</div>
             </div>
@@ -697,7 +701,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #73D751;">
                 <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 336c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"></path>
               </svg>
-              <h4 class="performance-h4">{{ amount|formatPrice }}€</h4>
+              <h4 class="performance-h4">{{ $formatPrice(amount) }}€</h4>
               <div class="performance-text">Montant</div>
             </div>
           </div>
@@ -821,26 +825,6 @@ export default {
       agoraChannel: null,
       uid: 0,
       loading: true 
-    }
-  },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    },
-    formatDate(datetime) {
-      console.log(datetime);
-      const date = new Date(datetime);
-      return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
-    },
-    formatLikes(value) {
-      if (value < 1000) {
-        return value;
-      } else if (value < 1000000) {
-        return (value / 1000).toFixed(2) + 'k';
-      } else {
-        return (value / 1000000).toFixed(2) + 'm';
-      }
     }
   },
   created() {

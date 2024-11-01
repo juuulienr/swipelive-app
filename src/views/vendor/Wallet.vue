@@ -15,11 +15,11 @@
           <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 16px; text-align: center; display: block; flex: 1 1 auto; margin-bottom: -10px;color: #272c30;"> Montant disponible
           </div>
           <div>
-            <h3 style="font-weight: 600; margin-bottom: 0px; text-align: center; font-size: 35px;">{{ user.vendor.available | formatPrice }}€</h3>
+            <h3 style="font-weight: 600; margin-bottom: 0px; text-align: center; font-size: 35px;">{{ $formatPrice(user.vendor.available) }}€</h3>
           </div>
           <div class="current--balance--two" style="margin-top: 12px;">
             <p style="margin-bottom: 0px;color: #999; font-weight: 400; font-size: 14px;">Montant en attente</p>
-            <p style="margin-bottom: 0px;color: #999; font-weight: 400; font-size: 14px;">{{ user.vendor.pending | formatPrice }}€</p>
+            <p style="margin-bottom: 0px;color: #999; font-weight: 400; font-size: 14px;">{{ $formatPrice(user.vendor.pending) }}€</p>
           </div>
           <div class="current--balance--btn" style="margin-top: 10px; margin-bottom: 5px;">
             <div v-if="user.vendor.available > 0" @click="showWithdraw()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">ENCAISSER</div>
@@ -27,9 +27,6 @@
           </div>
         </div>
 
-<!--         <button @click="uploadFront()">Verif front document (jpg, pdf, png) et 16Mb max</button>
-        <button @click="uploadBack()">Verif back document (jpg, pdf, png) et 16Mb max</button>
- -->
         <hr style="width: 100%;margin: 15px 0px;">
         <div v-if="orderedMonthData.length > 0" class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
@@ -39,7 +36,7 @@
               <div v-if="data.orders.length > 1" style="font-size: 12px;color: #999;">{{ data.orders.length }} commandes</div>
               <div v-else style="font-size: 12px;color: #999;">{{ data.orders.length }} commande</div>
             </div>
-            <div style="padding-top: 10px;margin-bottom: 0px;"> {{ data.total | formatPrice }}€
+            <div style="padding-top: 10px;margin-bottom: 0px;"> {{ $formatPrice(data.total) }}€
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: #272c30; width: 15px; height: 15px; margin-bottom: 3px; margin-left: 3px;">
                 <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
               </svg>
@@ -68,13 +65,12 @@
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Retrait</div>
           <div v-for="withdraw in user.vendor.withdraws" class="current--balance--two" style="padding: 5px 0px;">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">Virement bancaire<br> 
-              <div style="font-size: 12px;color: #999;">FR*****{{withdraw.last4}} - {{ withdraw.createdAt | formatDate }}</div>
+              <div style="font-size: 12px;color: #999;">FR*****{{ withdraw.last4 }} - {{ $formatDate(withdraw.createdAt) }}</div>
             </div>
-            <div style="padding-top: 10px;margin-bottom: 0px; color: red; font-weight: 500">-{{ withdraw.amount | formatPrice }}€</div>
+            <div style="padding-top: 10px;margin-bottom: 0px; color: red; font-weight: 500">-{{ $formatPrice(withdraw.amount) }}€</div>
           </div>
         </div>
       </div>
-
 
       <!-- withdraw -->
       <div v-if="popupWithdraw" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);">
@@ -90,7 +86,7 @@
         </div>
         <div class="checkout__body" style="overflow: scroll; padding: 15px 0px;">
           <div v-if="withdraw">
-            <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 16px; text-align: center; display: block; flex: 1 1 auto; color: #272c30;"> Montant disponible : <span @click="addAmount()" style="color: #1890ff; text-decoration: underline;">{{ user.vendor.available | formatPrice }}€</span>
+            <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 16px; text-align: center; display: block; flex: 1 1 auto; color: #272c30;"> Montant disponible : <span @click="addAmount()" style="color: #1890ff; text-decoration: underline;">{{ $formatPrice(user.vendor.available) }}€</span>
             </div>
             <div class="form--input--item" style="margin: 0px 0px 60px;">
               <fieldset style="border: none; text-align: center;">
@@ -178,7 +174,7 @@
         <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
           <div @click="hideHistory()" class="checkout__close-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
+              <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625-9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
             </svg>
           </div>
           <div class="checkout__title">Revenu du mois</div>
@@ -188,21 +184,21 @@
           <div class="current--balance" style="margin: 15px 0px;">
             <div class="bloc--title" style="font-weight: 600;line-height: 1.55556;font-size: 17px;display: block;flex: 1 1 auto;margin-bottom: -10px;color: #272c30;">Revenu Net</div>
             <div>
-              <h3 style="font-weight: 600;margin-bottom: 0px;font-size: 50px;">{{ history.remaining | formatPrice }}€</h3>
+              <h3 style="font-weight: 600;margin-bottom: 0px;font-size: 50px;">{{ $formatPrice(history.remaining) }}€</h3>
             </div>
             <div class="current--balance--two" style="margin-top: 10px;">
               <p v-if="history.orders.length > 1" style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commandes</p>
               <p v-else style="margin-bottom: 0px;font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.orders.length }} commande</p>
-              <p style="margin-bottom: 0px;color: black;font-weight: 600;font-size: 14px;">{{ history.total | formatPrice }}€</p>
+              <p style="margin-bottom: 0px;color: black;font-weight: 600;font-size: 14px;">{{ $formatPrice(history.total) }}€</p>
             </div>
             <div class="current--balance--two" style="margin-top: 10px;">
               <p style="margin-bottom: 0px; color: rgb(153, 153, 153); font-weight: 400; font-size: 14px;">Commission Swipe Live</p>
-              <p style="margin-bottom: 0px; color: rgb(153, 153, 153); font-weight: 400; font-size: 14px;">-{{ history.fees | formatPrice }}€</p>
+              <p style="margin-bottom: 0px; color: rgb(153, 153, 153); font-weight: 400; font-size: 14px;">-{{ $formatPrice(history.fees) }}€</p>
             </div>
             <hr style="width: 100%;margin: 15px 0px;">
             <div class="current--balance--two">
               <p style="margin-bottom: 0px;color: rgb(153, 153, 153);font-weight: 400;font-size: 14px;font-weight: 600;color: black;">Revenu net</p>
-              <p style="margin-bottom: 0px;color: rgb(153, 153, 153);font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ history.remaining | formatPrice }}€</p>
+              <p style="margin-bottom: 0px;color: rgb(153, 153, 153);font-weight: 400;font-size: 14px;font-weight: 600;color: black;">{{ $formatPrice(history.remaining) }}€</p>
             </div>
           </div>
         </div>
@@ -210,6 +206,7 @@
     </div>
   </main>
 </template>
+
 
 
 <style scoped src="../../assets/css/wallet.css"></style>
@@ -244,16 +241,6 @@ export default {
       loadingWithdraw: false,
       bank: false,
       sales: [],
-    }
-  },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    },
-    formatDate(datetime) {
-      const date = new Date(datetime);
-      return date.toLocaleDateString(navigator.language);
     }
   },
   created() {

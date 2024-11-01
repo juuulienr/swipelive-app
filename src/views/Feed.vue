@@ -254,7 +254,7 @@
                 <div style="padding-right: 5px;">
                   <img :src="require(`@/assets/img/heart-red.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                 </div>
-                <div>{{ totalLikes[index].value | formatLikes }}</div>
+                <div>{{ $formatLikes(totalLikes[index].value) }}</div>
               </div>
             </div>
             <div v-if="feed.value.vendor.user.id != user.id" style="margin-top: 4px;">
@@ -314,8 +314,10 @@
               <div class="video-page__price-row">
                 <div class="video-page__price">
                   <div class="video-page__price-line">
-                    <div class="video-page__price" :style="[feed.value.liveProducts[display - 1].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.liveProducts[display - 1].product.price| formatPrice }}€ 
-                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">{{ feed.value.liveProducts[display - 1].product.compareAtPrice| formatPrice }}€ 
+                    <div class="video-page__price" :style="[feed.value.liveProducts[display - 1].product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
+                      {{ $formatPrice(feed.value.liveProducts[display - 1].product.price) }}€ 
+                      <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">
+                        {{ $formatPrice(feed.value.liveProducts[display - 1].product.compareAtPrice) }}€ 
                         <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                       </span> 
                     </div>
@@ -339,8 +341,10 @@
               <div class="video-page__price-row">
                 <div class="video-page__price">
                   <div class="video-page__price-line">
-                    <div class="video-page__price" :style="[feed.value.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]"> {{ feed.value.product.price | formatPrice }}€ 
-                      <span v-if="feed.value.product.compareAtPrice" class="disc">{{ feed.value.product.compareAtPrice | formatPrice }}€ 
+                    <div class="video-page__price" :style="[feed.value.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
+                      {{ $formatPrice(feed.value.product.price) }}€ 
+                      <span v-if="feed.value.product.compareAtPrice" class="disc">
+                        {{ $formatPrice(feed.value.product.compareAtPrice) }}€ 
                         <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                       </span> 
                     </div>
@@ -483,8 +487,10 @@
             <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 90px; height: 90px;">
             <div class="details">
               <div class="title">{{ product.title }}</div>
-              <div class="price" style="margin-top: 8px; font-weight: 500" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">{{ product.price | formatPrice }}€ 
-                <span v-if="product.compareAtPrice" class="disc" style="font-size: 12px; text-decoration: line-through; color: #999; padding-left: 5px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€ 
+              <div class="price" style="margin-top: 8px; font-weight: 500" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
+                {{ $formatPrice(product.price) }}€ 
+                <span v-if="product.compareAtPrice" class="disc" style="font-size: 12px; text-decoration: line-through; color: #999; padding-left: 5px; font-weight: 500;">
+                  {{ $formatPrice(product.compareAtPrice) }}€ 
                 </span> 
               </div>
             </div>
@@ -723,21 +729,6 @@ export default {
         });
       }
       return count;
-    }
-  },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    },
-    formatLikes(value) {
-      if (value < 1000) {
-        return value;
-      } else if (value < 1000000) {
-        return (value / 1000).toFixed(2) + 'k';
-      } else {
-        return (value / 1000000).toFixed(2) + 'm';
-      }
     }
   },
   directives: {

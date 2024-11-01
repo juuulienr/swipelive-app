@@ -12,7 +12,7 @@
         <div class="chat--head--profil--name">
           <p>{{ discussion.vendor.vendor.pseudo }}</p>
           <div v-if="isUserOnline(discussion)" class="chat--head--status">En ligne</div>
-          <div v-else-if="discussion.vendor.securityUsers" class="chat--head--status">{{ discussion.vendor.securityUsers[0].connectedAt | formatDateDiff }}</div>
+          <div v-else-if="discussion.vendor.securityUsers" class="chat--head--status">{{ $formatDateDiff(discussion.vendor.securityUsers[0].connectedAt) }}</div>
         </div>
       </div>
       <div v-else class="chat--head--profil">
@@ -23,7 +23,7 @@
         <div class="chat--head--profil--name">
           <p>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</p>
           <div v-if="isUserOnline(discussion)" class="chat--head--status">En ligne</div>
-          <div v-else-if="discussion.vendor.securityUsers" class="chat--head--status">{{ discussion.user.securityUsers[0].connectedAt | formatDateDiff }}</div>
+          <div v-else-if="discussion.user.securityUsers" class="chat--head--status">{{ $formatDateDiff(discussion.user.securityUsers[0].connectedAt) }}</div>
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
         <div class="container--chat--input">
           <div ref="messagesContainer" class="chat--messages" :style="{ 'height': chatHeight }">
             <div v-for="(message, index) in discussion.messages" :key="message.id">
-              <div v-if="shouldDisplayDate(message, index)" class="chat--messages-time">{{ message.createdAt | formatDate }}</div>
+              <div v-if="shouldDisplayDate(message, index)" class="chat--messages-time">{{ $formatDate(message.createdAt) }}</div>
               <div :class="[message.fromUser == user.id ? 'chat--messages--send' : 'chat--messages--receive']">
                 <div class="chat--message--item">
                   <div v-if="message.loading && !message.pictureType" class="chat--message--item--text" style="padding: 0px; background-color: white;">
@@ -109,39 +109,6 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('keyboardWillShow', this.keyboardWillShow);
-  },
-  filters: {
-    formatDateDiff(date) {
-      const diffInMs = new Date() - new Date(date);
-      const diffInMinutes = diffInMs / 1000 / 60;
-      const diffInHours = diffInMinutes / 60;
-
-      if (diffInMinutes < 60) {
-        if (Math.floor(diffInMinutes) > 1) {
-          return `En ligne il y a ${Math.floor(diffInMinutes)} minutes`;
-        } else {
-          return `En ligne il y a 1 minute`;
-        }
-      } else if (diffInHours < 24) {
-        if (Math.floor(diffInHours) > 1) {
-          return `En ligne il y a ${Math.floor(diffInHours)} heures`;
-        } else {
-          return `En ligne il y a 1 heure`;
-        }
-      }
-
-      return "";
-    },
-    formatDate(datetime) {
-      const today = new Date();
-      const date = new Date(datetime);
-
-      if (date.toDateString() === today.toDateString()) {
-        return date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
-      } else {
-        return date.toLocaleDateString(navigator.language, { day: '2-digit', month: '2-digit' });
-      }
-    }
   },
   methods: {
     isUserOnline(discussion) {

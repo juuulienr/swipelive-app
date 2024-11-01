@@ -12,7 +12,7 @@
 
       <!-- order summary -->
       <div v-if="lineItems && lineItems.length" class="css-13dslnb">
-        <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row">
+        <div v-for="(lineItem, index) in lineItems" :key="index" class="checkout__row checkout__product-info-row">
           <div class="checkout__product-info">
             <img v-if="lineItem.product.uploads" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image"/>
             <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image"/>
@@ -25,8 +25,8 @@
             </div>
           </div>
           <div class="product--quantity--detail">
-            <span v-if="lineItem.variant" style="font-size: 14px; font-weight: 400;">{{ lineItem.variant.price * lineItem.quantity | formatPrice }}€</span>
-            <span v-else style="font-size: 14px; font-weight: 400;">{{ lineItem.product.price * lineItem.quantity | formatPrice }}€</span>
+            <span v-if="lineItem.variant" style="font-size: 14px; font-weight: 400;">{{ $formatPrice(lineItem.variant.price * lineItem.quantity) }}€</span>
+            <span v-else style="font-size: 14px; font-weight: 400;">{{ $formatPrice(lineItem.product.price * lineItem.quantity) }}€</span>
           </div>
         </div>
         <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px; border-style: dashed;"/>
@@ -34,28 +34,27 @@
           <div class="css-ikzlcq">
             <div class="css-9jay18">
               <p class="css-11r9ii4">Sous-total</p>
-              <h6 class="css-yemnbq">{{ subTotal | formatPrice }}€</h6>
+              <h6 class="css-yemnbq">{{ $formatPrice(subTotal) }}€</h6>
             </div>
             <div v-if="promotion && promotionAmount" class="css-9jay18">
               <p class="css-11r9ii4" style="color: #18cea0; font-weight: 500;">{{ promotion.title }}</p>
-              <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-{{ promotionAmount | formatPrice }}€</h6>
+              <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 500;">-{{ $formatPrice(promotionAmount) }}€</h6>
             </div>
             <div class="css-9jay18">
               <p class="css-11r9ii4">Livraison</p>
-              <h6 v-if="shippingPrice" class="css-yemnbq">{{ shippingPrice | formatPrice }}€</h6>
+              <h6 v-if="shippingPrice" class="css-yemnbq">{{ $formatPrice(shippingPrice) }}€</h6>
               <h6 v-else class="css-yemnbq">-</h6>
             </div>
             <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 5px;"/>
             <div class="css-9jay18">
               <h6 class="css-k9tjo5">Total</h6>
               <div class="css-s2uf1z">
-                <h6 class="css-kdhaao">{{ total | formatPrice }}€</h6>
+                <h6 class="css-kdhaao">{{ $formatPrice(total) }}€</h6>
               </div>
             </div>
           </div>
         </div>
       </div>
-
 
 
       <!-- domicile -->
@@ -312,7 +311,7 @@
                   <div style="text-transform: uppercase;">{{ mapSelected.address1 }}</div>
                   <div style="text-transform: uppercase;">{{ mapSelected.zip }} {{ mapSelected.city }}</div>
                 </div>
-                <span v-if="shippingProducts && shippingProducts.service_point && service.carrier_id == mapSelected.carrier_id" v-for="service in shippingProducts.service_point" style="color: #000;float: right;margin-right: 5px;margin-top: -50px;font-weight: 400;">{{ service.price | formatPrice }}€</span>
+                <span v-if="shippingProducts && shippingProducts.service_point && service.carrier_id == mapSelected.carrier_id" v-for="service in shippingProducts.service_point" style="color: #000;float: right;margin-right: 5px;margin-top: -50px;font-weight: 400;">{{ $formatPrice(service.price) }}€</span>
               </div>
             </div>
 		    		<div @click="saveRelay(mapSelected)" style="text-align: center;">
@@ -335,7 +334,7 @@
                 <div v-else style="text-transform: lowercase;color: #ff2f80;font-size: 13px;margin-top: 3px;"> {{ point.distance }}m</div>
               </div>
               <span v-if="shippingProducts && shippingProducts.service_point && service.carrier_id == point.carrier_id" v-for="service in shippingProducts.service_point" style="float: right;margin-top: -52px;font-weight: 400;font-size: 14px;">
-                {{ service.price | formatPrice }}€
+                {{ $formatPrice(service.price) }}€
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187);width: 16px;height: 16px;margin-left: 7px;margin-bottom: 3px;">
                   <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z">
                   </path>
@@ -521,12 +520,6 @@ export default {
         disableDefaultUi: false,
         clickableIcons: false
       }
-    }
-  },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   created() {

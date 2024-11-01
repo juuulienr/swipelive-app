@@ -33,8 +33,8 @@
               <div class="price" :class="{ 'stock-unavailable': isProductUnavailable(product), 'stock-available': !isProductUnavailable(product) }">{{ getProductQuantity(product) }}</div>
             </div>
             <div style="margin-right: 10px;">
-              <div v-if="product.variants.length > 0" class="price">{{ lowestVariantPrice(product.variants) | formatPrice }}€</div>
-              <div v-else class="price">{{ product.price | formatPrice }}€</div>
+              <div v-if="product.variants.length > 0" class="price">{{ $formatPrice(lowestVariantPrice(product.variants)) }}€</div>
+              <div v-else class="price">{{ $formatPrice(product.price) }}€</div>
             </div>
           </div>
         </div>
@@ -74,12 +74,6 @@ export default {
       user: this.$store.getters.getUser,
       products: [],
       loading: true,
-    }
-  },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   computed: {

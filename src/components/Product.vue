@@ -1,11 +1,9 @@
 <template>
   <div v-if="product" class="product">
     <div v-if="product.uploads.length > 0" style="width: 100%;">
-      <!-- <VueSlickCarousel v-bind="settings"> -->
-        <div class="vue-slick" v-for="upload in product.uploads" v-bind:key="upload.id">
-          <img :src="cloudinary750x750 + upload.filename">
-        </div>
-      <!-- </VueSlickCarousel> -->
+      <div class="vue-slick" v-for="upload in product.uploads" :key="upload.id">
+        <img :src="cloudinary750x750 + upload.filename">
+      </div>
     </div>
     <div v-else style="width: 100vw;">
       <div class="vue-slick">
@@ -17,10 +15,10 @@
       <div class="row">
         <div class="col-12">
           <div class="title">{{ product.title }}</div>
-          <div v-if="variant && variant.price" class="new-price" style="color: rgb(24, 206, 160);">{{ variant.price | formatPrice }}€</div>
-          <div v-else class="new-price" style="color: rgb(24, 206, 160);">{{ product.price | formatPrice }}€</div>
-          <div v-if="variant && variant.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ variant.compareAtPrice | formatPrice }}€</div>
-          <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ product.compareAtPrice | formatPrice }}€</div>
+          <div v-if="variant && variant.price" class="new-price" style="color: rgb(24, 206, 160);">{{ $formatPrice(variant.price) }}€</div>
+          <div v-else class="new-price" style="color: rgb(24, 206, 160);">{{ $formatPrice(product.price) }}€</div>
+          <div v-if="variant && variant.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ $formatPrice(variant.compareAtPrice) }}€</div>
+          <div v-if="!variant && product.compareAtPrice" class="last-price" style="font-size: 13px; font-weight: 500;">{{ $formatPrice(product.compareAtPrice) }}€</div>
         </div>
       </div>
       <div v-if="promotion" style="margin-top: 10px; margin-bottom: -5px;">
@@ -32,13 +30,13 @@
         <hr style="margin: 20px 0px;">
         <div class="technology" style="font-weight: 400;">{{ product.options[0].name }}</div>
         <div class="variants">
-          <div v-if="option1.available == true" @click="updateVariant(option1.name, option1.available)"  v-for="option1 in available" class="option" :class="{'active' : selected == option1.name }">
+          <div v-if="option1.available == true" @click="updateVariant(option1.name, option1.available)"  v-for="option1 in available" :key="option1.name" class="option" :class="{'active' : selected == option1.name }">
             {{ option1.name }}
           </div>
         </div>
         <div v-if="product.options.length > 1" class="technology" style="margin-top: 15px; font-weight: 400;">{{ product.options[1].name }}</div>
         <div class="variants">
-          <div v-if="option2.available == true" @click="updateVariant2(option2.name, option2.available)"  v-for="option2 in available2" class="option" :class="{'active' : selected2 == option2.name }">
+          <div v-if="option2.available == true" @click="updateVariant2(option2.name, option2.available)"  v-for="option2 in available2" :key="option2.name" class="option" :class="{'active' : selected2 == option2.name }">
             {{ option2.name }}
           </div>
         </div>
@@ -55,76 +53,16 @@
         <br> <br> 
         Dans l'un de ces cas, veuillez contacter la marque via la messagerie pour résoudre le problème. Assurez-vous d'inclure votre numéro de commande, le nom du produit et la raison.
       </div>
-  	</div>
+    </div>
   </div>
 </template>
 
-
 <style scoped src="../assets/css/product.css"></style>
 
-<style>
-
-.slick-dots {
-  bottom: 25px !important;
-}
-
-.slick-dots li, .slick-dots li button {
-  width: 7px!important;
-  z-index: 1000000000 !important;
-}
-
-.slick-dots li button:before {
-  opacity: 0.4 !important; 
-  color: #fff !important;
-  z-index: 1000000000 !important;
-}
-
-.slick-dots li button {
-  color: white !important;
-  border: none !important;
-}
-
-.slick-dots li.slick-active button:before {
-  opacity: 1 !important; 
-}
-
-.slick-dots li button:before {
-  font-size: 10px !important;
-}
-
-.css-4ioo3c {
-  line-height: 0;
-  border-radius: 6px;
-  cursor: default;
-  align-items: center;
-  white-space: nowrap;
-  display: inline-flex;
-  justify-content: center;
-  padding: 20px 20px;
-  color: hsl(161deg 65% 64%);
-  font-size: 14px;
-  background-color: hsl(160deg 60% 96%);
-  font-weight: 700;
-}
-
-.slick-list {
-  overflow-y: -webkit-paged-x !important;
-}
-</style>
-
 <script>
-
-// import VueSlickCarousel from 'vue-slick-carousel'
-// import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-// import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-
-
 export default {
   name: 'Product',
   props: ['product'],
-  // components: {
-    // VueSlickCarousel,
-  // },
   data() {
     return {
       id: this.$route.params.id,
@@ -144,14 +82,7 @@ export default {
       }
     }
   },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    },
-  },
   created() {
-    console.log(this.product);
     if (window.cordova && window.cordova.platformId === "android") {
       this.safeareaBottom = "50px";
     }
@@ -167,10 +98,10 @@ export default {
     this.loadOptions();
 
     if (this.product.id) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/active/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotions/active/${this.product.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.promotion = JSON.parse(response.data);
       }, (response) => {
-        console.log(response.error);
+        console.error(response.error);
       });
     }
   },
@@ -178,7 +109,7 @@ export default {
     updateVariant(option1, available) {
       if (available) {
         if (this.product.options.length == 1) {
-          this.product.variants.map((variant) => {
+          this.product.variants.forEach((variant) => {
             if (variant.option1 == option1) {
               this.variant = variant;
               this.selected = option1;
@@ -187,8 +118,8 @@ export default {
         } else {
           this.available2 = [];
           this.selected2 = "";
-          this.product.options[1].data.map((option2, index) => {
-            var stock = this.product.variants.some((variant) => {
+          this.product.options[1].data.forEach((option2) => {
+            const stock = this.product.variants.some((variant) => {
               if (variant.option1 == option1) {
                 this.selected = option1;
                 if (variant.option2 == option2) {
@@ -204,7 +135,7 @@ export default {
               }
             });
 
-            this.available2.push({ "name" : option2, "available": stock });
+            this.available2.push({ name: option2, available: stock });
           });
         }
         this.$emit('selectVariant', this.variant);
@@ -212,7 +143,7 @@ export default {
     },
     updateVariant2(option2, available) {
       if (available) {
-        this.product.variants.map((variant) => {
+        this.product.variants.forEach((variant) => {
           if (variant.option2 == option2) {
             this.variant = variant;
             this.selected2 = option2;
@@ -224,8 +155,8 @@ export default {
     loadOptions() {
       if (this.product.variants && this.product.variants.length && this.product.options.length) {
         if (this.product.options.length == 1) {
-          this.product.options[0].data.map((name) => {
-            var stock = this.product.variants.some((variant) => {
+          this.product.options[0].data.forEach((name) => {
+            const stock = this.product.variants.some((variant) => {
               if (variant.option1 == name) {
                 if (variant.quantity != 0) {
                   if (!this.selected) {
@@ -239,13 +170,13 @@ export default {
               return false;
             });
 
-            this.available.push({ "name" : name, "available": stock });
+            this.available.push({ name: name, available: stock });
           });
         } else {
-          this.product.options[0].data.map((name, index) => {
-            var stock = false;
-            this.product.options[1].data.map((name2) => {
-              var stock2 = this.product.variants.some((variant) => {
+          this.product.options[0].data.forEach((name, index) => {
+            let stock = false;
+            this.product.options[1].data.forEach((name2) => {
+              const stock2 = this.product.variants.some((variant) => {
                 if (variant.option1 == name && variant.option2 == name2) {
                   if (variant.quantity != 0) {
                     stock = true;
@@ -262,11 +193,11 @@ export default {
               });
 
               if (index == 0) {
-                this.available2.push({ "name" : name2, "available": stock2 });
+                this.available2.push({ name: name2, available: stock2 });
               }
             });
 
-            this.available.push({ "name" : name, "available": stock });
+            this.available.push({ name: name, available: stock });
           });
         }
 
@@ -277,6 +208,4 @@ export default {
     },
   }
 };
-
 </script>
-

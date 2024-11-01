@@ -32,21 +32,20 @@
           </div>
         </div>
 
-
         <div class="top-author">
-        	<div v-if="show1">
+          <div v-if="show1">
             <div v-if="filteredSales.length" class="top-author--container">
-          		<div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-          			<img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
-                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
-          			<div>
-          				<div><span>#{{ order.number }}</span></div>
-          				<span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
-          			</div>
-                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
-          		</div>
+                <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <div>
+                  <div><span>#{{ order.number }}</span></div>
+                  <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
+                </div>
+                <span class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
+              </div>
             </div>
             <div v-else-if="loadingOrders">
               <div class="loader2">
@@ -60,22 +59,22 @@
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande</h5>
-              <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+              <div style="font-weight: 400; font-size: 15px; text-align: center;">Vos commandes apparaîtront ici.</div>
             </div>
           </div>
           
           <div v-if="show2">
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
-                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -90,21 +89,22 @@
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande en cours</h5>
-              <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+              <div style="font-weight: 400; font-size: 15px; text-align: center;">Vos commandes apparaîtront ici.</div>
             </div>
           </div>
+          
           <div v-if="show3">
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
-                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
                 </div>
-                <span class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
               </div>
             </div>
             <div v-else-if="loadingOrders">
@@ -119,21 +119,22 @@
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun litige</h5>
-              <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+              <div style="font-weight: 400; font-size: 15px; text-align: center;">Vos commandes apparaîtront ici.</div>
             </div>
           </div>
+          
           <div v-if="show4">
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
-                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
                 </div>
-                <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ order.subTotal - order.promotionAmount | formatPrice }}€</span>
+                <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
                 <span v-else class="css-4ioo3c" style="color: #999; background-color: #f1f1f1;">0,00€</span>
               </div>
             </div>
@@ -149,25 +150,26 @@
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucune commande terminée</h5>
-              <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos commandes apparaîtront ici.</div>
+              <div style="font-weight: 400; font-size: 15px; text-align: center;">Vos commandes apparaîtront ici.</div>
             </div>
           </div>
         </div>
+
       </div>
       <div v-else>
         <div class="top-author">
           <div>
             <div v-if="purchases && purchases.length > 0" class="top-author--container">
               <div v-for="order in purchases" @click="showOrder(order, 'purchase')" class="top-author--item" style="position: relative">
-                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style=" background: #eeeeee"/>
+                <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
-                <span class="counter-badge" style="top: 4px;left: 62px;">{{ nbProducts(order.lineItems) }}</span>
+                <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.vendor.pseudo }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ order.createdAt | formatDate }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
                 </div>
-                <span class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400;">{{ order.total | formatPrice }}€</span>
+                <span class="css-4ioo3c" style="color: #272c30; background-color: transparent; font-weight: 400;">{{ $formatPrice(order.total) }}€</span>
               </div>
             </div>
             <div v-else-if="loadingPurchases">
@@ -182,7 +184,7 @@
                 </div>
               </div>
               <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 10px;">Aucun achat</h5>
-              <div style="font-weight: 400;font-size: 15px;text-align: center;">Vos achats apparaîtront ici.</div>
+              <div style="font-weight: 400; font-size: 15px; text-align: center;">Vos achats apparaîtront ici.</div>
             </div>
           </div>
         </div>
@@ -207,7 +209,6 @@
         </div>
       </div>
       <div>
-
         <div class="css-13dslnb" style="border: 1px solid #ddd !important; margin: 5px; padding: 10px; border-radius: 15px; margin-bottom: 20px;">
           <div class="top-author--container">
             <div v-if="type == 'sale'" class="top-author--item" style="padding: 0px; border: none !important;">
@@ -215,7 +216,7 @@
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                <div><span>{{ order.createdAt | formatDate }}</span></div>
+                <div><span>{{ $formatDate(order.createdAt) }}</span></div>
               </div>
               <div @click="sendMessageToBuyer(order.buyer)" style="width: 28px; height: 28px;">
                 <img :src="require(`@/assets/img/comment-dots.svg`)"/>
@@ -226,13 +227,14 @@
               <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.vendor.pseudo }}</span>
-                <div><span>{{ order.createdAt | formatDate }}</span></div>
+                <div><span>{{ $formatDate(order.createdAt) }}</span></div>
               </div>
               <div @click="sendMessageToVendor(order.vendor)" style="width: 28px; height: 28px;">
                 <img :src="require(`@/assets/img/comment-dots.svg`)"/>
               </div>
             </div>
           </div>
+
 
           <hr style="margin-top: 5px;">
           <div v-for="lineItem in order.lineItems" class="checkout__row checkout__product-info-row" style="display: initial; position: relative; padding: 0px;">
@@ -247,43 +249,46 @@
                 </div>
               </div>
               <div>
-                <span class="css-4ioo3c" style="color: #272c30;background-color: transparent;font-weight: 400; padding: 5px;">{{ lineItem.total | formatPrice }}€</span>
+                <span class="css-4ioo3c" style="color: #272c30; background-color: transparent; font-weight: 400; padding: 5px;">
+                  {{ $formatPrice(lineItem.total) }}€
+                </span>
               </div>
             </div>
           </div>
 
           <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px;"/>
 
-          <div class=" css-18mhetb">
+          <div class="css-18mhetb">
             <div class="css-ikzlcq" style="gap: 8px;">
               <div class="css-9jay18">
                 <p v-if="type == 'sale'" class="css-11r9ii4" style="color: black; font-weight: 600; font-size: 14px;">Revenu brut</p>
                 <p v-else class="css-11r9ii4" style="color: black; font-weight: 600; font-size: 14px;">Sous-total</p>
-                <h6 class="css-yemnbq" style="color: black; font-size: 14px;">{{ order.subTotal | formatPrice }}€</h6>
+                <h6 class="css-yemnbq" style="color: black; font-size: 14px;">{{ $formatPrice(order.subTotal) }}€</h6>
               </div>
               <div v-if="order.promotionAmount" class="css-9jay18">
                 <p class="css-11r9ii4" style="font-weight: 400; color: #18cea0;">Code promo</p>
-                <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 400">-{{ order.promotionAmount | formatPrice }}€</h6>
+                <h6 class="css-yemnbq" style="color: #18cea0; font-weight: 400">-{{ $formatPrice(order.promotionAmount) }}€</h6>
               </div>
               <div v-if="type == 'sale'" class="css-9jay18">
                 <p class="css-11r9ii4" style="font-weight: 400; color: #999;">Commission SwipeLive</p>
-                <h6 class="css-yemnbq" style="color: #999; font-weight: 400">-{{ order.fees | formatPrice }}€</h6>
+                <h6 class="css-yemnbq" style="color: #999; font-weight: 400">-{{ $formatPrice(order.fees) }}€</h6>
               </div>
               <div v-else class="css-9jay18">
                 <p class="css-11r9ii4" style="font-weight: 400; color: #999;">Livraison</p>
-                <h6 class="css-yemnbq" style="color: #999; font-weight: 400">+{{ order.shippingPrice | formatPrice }}€</h6>
+                <h6 class="css-yemnbq" style="color: #999; font-weight: 400">+{{ $formatPrice(order.shippingPrice) }}€</h6>
               </div>
-              <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px; border-style: dashed;"/>
+              <hr class="css-ss6lby" style="margin-bottom: 5px; margin-top: 5px; border-style: dashed;" />
               <div class="css-9jay18">
                 <h6 v-if="type == 'sale'" class="css-k9tjo5" style="color: #18cea0; font-weight: 600; margin-bottom: 0px; font-size: 14px;">Revenu net</h6>
                 <h6 v-else class="css-k9tjo5" style="color: black; font-weight: 600; margin-bottom: 0px; font-size: 14px;">Total</h6>
                 <div class="css-s2uf1z" style="margin-bottom: 0px;">
-                  <h6 v-if="type == 'sale'" class="css-kdhaao" style="font-weight: 600; color: #18cea0; font-size: 14px;">{{ remaining | formatPrice }}€</h6>
-                  <h6 v-else class="css-kdhaao" style="font-weight: 600; color: black; font-size: 14px;">{{ order.total | formatPrice }}€</h6>
+                  <h6 v-if="type == 'sale'" class="css-kdhaao" style="font-weight: 600; color: #18cea0; font-size: 14px;">{{ $formatPrice(remaining) }}€</h6>
+                  <h6 v-else class="css-kdhaao" style="font-weight: 600; color: black; font-size: 14px;">{{ $formatPrice(order.total) }}€</h6>
                 </div>
               </div>
             </div>
           </div>
+
 
           <div v-if="type == 'sale'" style="margin-top: 10px;">
             <div v-if="order.pdf && order.trackingNumber && order.shippingStatus == 'open'" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
@@ -312,7 +317,7 @@
         <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
           <div v-if="type == 'sale' && order.shippingStatus == 'open'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2f80;font-weight: 600;font-size: 17px;">
             <img :src="require(`@/assets/img/location.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison estimée : 
-            <span v-if="order.expectedDelivery">{{ order.expectedDelivery | formatDate2 }}</span>
+            <span v-if="order.expectedDelivery">{{ $formatDate2(order.expectedDelivery) }}</span>
             <span v-else>-</span>
           </div>
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
@@ -345,7 +350,7 @@
                 </div>
                 <div class="css-hg5jyh">
                   <h6 class="css-yemnbq" style="font-weight: 500; font-size: 15px;">En préparation</h6>
-                  <span class="css-6f545k">{{ order.createdAt | formatDate }}</span>
+                  <span class="css-6f545k">{{ $formatDate(order.createdAt) }}</span>
                 </div>
               </li>
               <li class="css-1rcbby2">
@@ -460,20 +465,6 @@ export default {
 
     this.loadOrders();
     this.loadPurchases();
-  },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    },
-    formatDate(datetime) {
-      const date = new Date(datetime);
-      return date.toLocaleDateString(navigator.language) + " " + date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
-    },
-    formatDate2(datetime) {
-      const date = new Date(datetime);
-      return date.toLocaleDateString(navigator.language);
-    }
   },
   computed: {
     filteredSales() {

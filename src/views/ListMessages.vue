@@ -21,7 +21,7 @@
         </div>
 
         <div v-if="discussions.length" class="chat--left" style="overflow: hidden;">
-          <div v-for="(discussion, index) in filteredDiscussions" class="chat--left--messages">
+          <div v-for="(discussion, index) in filteredDiscussions" :key="index" class="chat--left--messages">
             <div @click="showDiscussion(discussion)" class="chat--left--message message--open">
               <div class="chat--left--head--profil">
                 <span v-if="discussion.user.id == user.id">
@@ -41,7 +41,7 @@
                   <span v-if="discussion.user.id == user.id && discussion.unseen" class="not--read"></span>
                   <span v-if="discussion.vendor.id == user.id && discussion.unseenVendor" class="not--read"></span>
                 </div>
-                <p>{{ discussion.preview | truncate(35) }} · {{ discussion.updatedAt | formatDate }}</p>
+                <p>{{ $truncate(discussion.preview, 35) }} · {{ $formatDate(discussion.updatedAt) }}</p>
               </div>
             </div>
           </div>
@@ -69,9 +69,7 @@
 
 <style scoped src="../assets/css/listmessages.css"></style>
 
-
 <script>
-
 import LottieJSON from '../assets/lottie/message.json';
 import Message from '../components/Message';
 
@@ -107,20 +105,12 @@ export default {
   },
   mounted() {
     this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
-    var channel = this.pusher.subscribe("discussion_channel");
+    const channel = this.pusher.subscribe("discussion_channel");
 
     channel.bind("new_message", (data) => {
-      console.log(data);
-      console.log(data.message.fromUser != this.user.id);
-      console.log(this.selectedDiscussion);
-
       if (data.message.fromUser != this.user.id && this.selectedDiscussion) {
         if (data.discussionId == this.selectedDiscussion.id) {
-          this.selectedDiscussion.messages.map((message, index) => {
-            if (message.writing) {
-              this.selectedDiscussion.messages.splice(index, 1);
-            }
-          });
+          this.selectedDiscussion.messages = this.selectedDiscussion.messages.filter(message => !message.writing);
 
           if (!("stopWriting" in data.message)) {
             this.selectedDiscussion.messages.push(data.message);
@@ -129,40 +119,16 @@ export default {
           }
         }
         
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
+        window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
           this.discussions = JSON.parse(response.data);
         }, (response) => {
-          console.log(response.error);
+          console.error(response.error);
         });
       }
     });
   },
   beforeDestroy() {
     this.pusher.unsubscribe("discussion_channel");
-  },
-  filters: {
-    truncate(text, length) {
-      if (text.length > length) {
-        let truncatedText = text.substring(0, length);
-        const lastSpaceIndex = truncatedText.lastIndexOf(' ');
-        if (lastSpaceIndex !== -1) {
-          truncatedText = truncatedText.substring(0, lastSpaceIndex);
-        }
-        return truncatedText + '...'
-      }
-      return text
-    },
-    formatDate(datetime) {
-      const today = new Date();
-      const date = new Date(datetime);
-
-      if (date.toDateString() === today.toDateString()) {
-        return date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
-      } else {
-        return date.toLocaleDateString(navigator.language, { day: '2-digit', month: '2-digit' });
-      }
-    }
   },
   computed: {
     filteredDiscussions() {
@@ -179,60 +145,41 @@ export default {
   },
   methods: {
     loadDiscussions() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.discussions = JSON.parse(response.data);
         this.loading = false;
 
-        if (this.userId && this.discussions.length > 0) {
-          this.discussions.map((discussion, index) => {
-            if (this.userId == discussion.user.id || this.userId == discussion.vendor.id) {
-              this.selectedDiscussion = discussion;
-            }
-          });
-        }
-
-        if (this.discussionId && this.discussions.length > 0) {
-          this.discussions.map((discussion, index) => {
-            if (this.discussionId == discussion.id) {
-              this.selectedDiscussion = discussion;
-            }
-          });
-        }
+        this.discussions.forEach(discussion => {
+          if (this.userId && (this.userId == discussion.user.id || this.userId == discussion.vendor.id)) {
+            this.selectedDiscussion = discussion;
+          }
+          if (this.discussionId && this.discussionId == discussion.id) {
+            this.selectedDiscussion = discussion;
+          }
+        });
 
         if (this.userId && !this.selectedDiscussion) {
-          if (this.pseudo) {
-            this.selectedDiscussion = { "id": null, "user": { "id": this.user.id }, "vendor": {"id": this.userId, "picture": this.picture, "vendor": { "pseudo": this.pseudo }}, "messages": [] };
-          } else {
-            this.selectedDiscussion = { "id": null, "user": { "id": this.userId, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture }, "vendor": {"id": this.user.id }, "messages": [] };
-          }
+          this.selectedDiscussion = this.pseudo
+            ? { id: null, user: { id: this.user.id }, vendor: { id: this.userId, picture: this.picture, vendor: { pseudo: this.pseudo }}, messages: [] }
+            : { id: null, user: { id: this.userId, firstname: this.firstname, lastname: this.lastname, picture: this.picture }, vendor: { id: this.user.id }, messages: [] };
         }
       }, (response) => {
-        console.log(response.error);
+        console.error(response.error);
       });
     },
     goBack() {
       window.plugins.nativepagetransitions.slide({
         direction: 'right',
         duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
       });
       this.$router.push({ name: 'Account' });
     },
     isUserOnline(discussion) {
-      if (discussion.user.id == this.user.id) {
-        var datetime = discussion.vendor.securityUsers[0].connectedAt;
-      } else {
-        var datetime = discussion.user.securityUsers[0].connectedAt;
-      }
+      const datetime = discussion.user.id == this.user.id
+        ? discussion.vendor.securityUsers[0].connectedAt
+        : discussion.user.securityUsers[0].connectedAt;
 
-      var date = new Date(datetime);
-      var date2 = new Date(Date.now() - 5 * 60 * 1000);
-
-      return date > date2;
+      return new Date(datetime) > new Date(Date.now() - 5 * 60 * 1000);
     },
     showDiscussion(discussion) {
       this.selectedDiscussion = discussion;
@@ -242,9 +189,7 @@ export default {
     },
     updateDiscussionsChild(discussions) {
       this.discussions = discussions;
-    },
+    }
   }
 };
-
 </script>
-

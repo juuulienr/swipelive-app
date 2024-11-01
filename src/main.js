@@ -12,9 +12,9 @@ import VueClickAway from "vue3-click-away";
 import Vue3Lottie from 'vue3-lottie';
 import store from "./store/store.js";
 
+
 const app = createApp(App);
 
-// Configurer Pusher et Bugsnag
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   app.config.productionTip = true;
@@ -28,7 +28,6 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 }
 
-// Initialiser les plugins avec Vue 3
 app.use(router);
 app.use(store);
 app.use(VueObserveVisibility);
@@ -42,11 +41,73 @@ app.use(VueGoogleMaps, {
   }
 });
 
-// Définir des propriétés globales
 app.config.globalProperties.$cloudinary = 'https://res.cloudinary.com/dxlsenc2r/image/upload/';
 app.config.globalProperties.$cloudinary256x256 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/';
 app.config.globalProperties.$amazonS3 = 'https://swipe-live-app-storage-eu-west-3.s3.eu-west-3.amazonaws.com/';
 app.config.globalProperties.$googleAPIKey = 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w';
+
+app.config.globalProperties.$formatDate = (datetime) => {
+  const today = new Date();
+  const date = new Date(datetime);
+
+  return date.toDateString() === today.toDateString()
+    ? date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })
+    : date.toLocaleDateString(navigator.language, { day: '2-digit', month: '2-digit' });
+};
+
+app.config.globalProperties.$formatDate2 = function(datetime) {
+  const date = new Date(datetime);
+  return date.toLocaleDateString(navigator.language);
+};
+
+
+app.config.globalProperties.$truncate = (text, length) => {
+  if (text.length > length) {
+    let truncatedText = text.substring(0, length);
+    const lastSpaceIndex = truncatedText.lastIndexOf(' ');
+    if (lastSpaceIndex !== -1) {
+      truncatedText = truncatedText.substring(0, lastSpaceIndex);
+    }
+    return truncatedText + '...';
+  }
+  return text;
+};
+
+app.config.globalProperties.$formatPrice = (value) => {
+  let val = (value / 1).toFixed(2).replace(".", ",");
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+app.config.globalProperties.$formatDateDiff = (date) => {
+  const diffInMs = new Date() - new Date(date);
+  const diffInMinutes = diffInMs / 1000 / 60;
+  const diffInHours = diffInMinutes / 60;
+
+  if (diffInMinutes < 60) {
+    return Math.floor(diffInMinutes) > 1
+      ? `En ligne il y a ${Math.floor(diffInMinutes)} minutes`
+      : `En ligne il y a 1 minute`;
+  } else if (diffInHours < 24) {
+    return Math.floor(diffInHours) > 1
+      ? `En ligne il y a ${Math.floor(diffInHours)} heures`
+      : `En ligne il y a 1 heure`;
+  }
+
+  return "";
+};
+
+app.config.globalProperties.$formatLikes = (value) => {
+  if (value < 1000) {
+    return value;
+  } else if (value < 1000000) {
+    return (value / 1000).toFixed(2) + 'k';
+  } else {
+    return (value / 1000000).toFixed(2) + 'm';
+  }
+};
+
+
+
 
 const init = () => {
   app.mount('#app');

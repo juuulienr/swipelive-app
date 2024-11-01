@@ -5,7 +5,7 @@
     </div>
     <div v-if="lineItems && lineItems.length" class="checkout">
       <div class="checkout__body" :style="[fullscreen ? {'height': '68vh'} : {'height': '38vh'}]" style="overflow-y: scroll;  padding: 0 10px 15px;">
-        <div v-for="(lineItem, index) in lineItems" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">
+        <div v-for="(lineItem, index) in lineItems" :key="index" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">
           <div class="checkout__product-info">
             <img v-if="lineItem.product.uploads" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px;">
             <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image" style="border-radius: 10px;">
@@ -15,10 +15,10 @@
                 <span style="font-size: 12px;color: rgb(153, 153, 153);font-weight: 400; text-transform: capitalize;">{{ lineItem.variant.title }}</span>
               </div>
               <div>
-                <span v-if="lineItem.variant" style="font-size: 14px;">{{ lineItem.variant.price * lineItem.quantity | formatPrice }}€</span>
-                <span v-else style="font-size: 14px;">{{ lineItem.product.price * lineItem.quantity | formatPrice }}€</span>
-                <span v-if="lineItem.variant && lineItem.variant.compareAtPrice" class="last-price">{{ lineItem.variant.compareAtPrice * lineItem.quantity | formatPrice }}€ </span>
-                <span v-else-if="lineItem.product.compareAtPrice" class="last-price">{{ lineItem.product.compareAtPrice * lineItem.quantity | formatPrice }}€ </span>
+                <span v-if="lineItem.variant" style="font-size: 14px;">{{ $formatPrice(lineItem.variant.price * lineItem.quantity) }}€</span>
+                <span v-else style="font-size: 14px;">{{ $formatPrice(lineItem.product.price * lineItem.quantity) }}€</span>
+                <span v-if="lineItem.variant && lineItem.variant.compareAtPrice" class="last-price">{{ $formatPrice(lineItem.variant.compareAtPrice * lineItem.quantity) }}€ </span>
+                <span v-else-if="lineItem.product.compareAtPrice" class="last-price">{{ $formatPrice(lineItem.product.compareAtPrice * lineItem.quantity) }}€ </span>
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
           <div class="css-9jay18">
             <h6 class="css-k9tjo5">Sous-total</h6>
             <div class="css-s2uf1z">
-              <h6 class="css-kdhaao">{{ subTotal | formatPrice }}€</h6>
+              <h6 class="css-kdhaao">{{ $formatPrice(subTotal) }}€</h6>
             </div>
           </div>
         </div>
@@ -72,14 +72,11 @@
   </div>
 </template>
 
-
 <style scoped src="../assets/css/cart.css"></style>
-
 
 <script>
 import Lottie from 'vue3-lottie';
 import * as animationData from '../assets/lottie/order.json';
-
 
 export default {
   name: 'Cart',
@@ -98,14 +95,7 @@ export default {
       subTotal: null
     }
   },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-  },
   created() {
-    console.log(this.fullscreen);
     this.updateCart();
   },
   methods: {
@@ -132,10 +122,10 @@ export default {
       }
     },
     updateCart() {
-      this.subTotal = null;
+      this.subTotal = 0;
 
       if (this.lineItems.length) {
-        this.lineItems.map(lineItem => {
+        this.lineItems.forEach(lineItem => {
           if (lineItem.variant) {
             this.subTotal += lineItem.variant.price * lineItem.quantity;
           } else {
@@ -143,7 +133,7 @@ export default {
           }
         });
 
-        this.subTotal = this.subTotal.toFixed(2);
+        this.subTotal = parseFloat(this.subTotal.toFixed(2));
       }
 
       if (!this.fullscreen) {
@@ -180,6 +170,4 @@ export default {
     }
   }
 };
-
 </script>
-

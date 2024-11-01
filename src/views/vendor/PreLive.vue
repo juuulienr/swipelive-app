@@ -54,8 +54,8 @@
               <div class="details">
                 <div class="title">{{ product.title }}</div>
                 <div class="price" style="display: inline-block;" :class="{ 'stock-unavailable': isProductUnavailable(product), 'stock-available': !isProductUnavailable(product) }">{{ getProductQuantity(product) }} | 
-                  <span v-if="product.variants.length > 0"> {{ lowestVariantPrice(product.variants) | formatPrice }}€</span>
-                  <span v-else> {{ product.price | formatPrice }}€</span>
+                  <span v-if="product.variants.length > 0"> {{ $formatPrice(lowestVariantPrice(product.variants)) }}€</span>
+                  <span v-else> {{ $formatPrice(product.price) }}€</span>
                 </div>
               </div>
               <div>
@@ -155,12 +155,6 @@ export default {
       selected: [],
       checked: [],
       live: [],
-    }
-  },
-  filters: {
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(".", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   },
   created() {    
