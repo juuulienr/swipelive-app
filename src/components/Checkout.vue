@@ -289,9 +289,29 @@
 		      </ul>
 		    </div>
 		    <div v-if="tabMap">
-    			<gmap-map v-if="points && locationMarkers.length > 0" :zoom="13" :center="center" :options="mapOptions" style="width:100%; height: calc(100vh - 390px); margin-top: 15px;">
-	    			<gmap-marker :key="index" v-for="(m, index) in locationMarkers" :position="m.position" @click="updateMapSelected(m.position,index)"></gmap-marker>
-    			</gmap-map>
+          <GoogleMap 
+            v-if="locationMarkers.length > 0"  
+            api-key="AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w"
+            map-id="5227ff347d2cffb0"
+            :zoom="13"
+            :center="center"
+            zoom-control
+            :map-type-control="false"
+            :scale-control="false"
+            :street-view-control="false"
+            :rotate-control="false"
+            :fullscreen-control="false"
+            :disable-default-ui="false"
+            :clickable-icons="false"
+            style="width:100%; height: calc(100vh - 390px); margin-top: 15px; border-radius: 12px; overflow: hidden;" 
+          >
+           <AdvancedMarker
+              v-for="(marker, index) in locationMarkers"
+              :key="index"
+              :options="{ position: marker.position }"
+              @click="updateMapSelected(marker.position,index)"
+            />
+          </GoogleMap>
           <div v-else>
             <div class="loader2">
               <span></span>
@@ -461,17 +481,21 @@
 #card-error {
   color: red;
 }
+ 
 </style>
 
 <script>
 
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import { GoogleMap, AdvancedMarker } from "vue3-google-map";
 
 
 export default {
   name: 'Checkout',
   components: { 
     VueGoogleAutocomplete,
+    GoogleMap,
+    AdvancedMarker,
   },
   data() {
     return {
@@ -481,6 +505,7 @@ export default {
       user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
+      googleApiKey: 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w',
       carriers: [],
       promotion: null,
       promotionAmount: null,
@@ -716,34 +741,48 @@ export default {
       });
     },
     showRelayPopup() {
-    	if (this.countryShort && !this.loadingShipping && this.shippingProducts && this.shippingProducts.service_point) {
-	      this.popupRelay = true;
-	    	this.shippingMethod = "service_point";
-	      this.tabMap = true;
-	      this.tabList = false;
-	      this.locationMarkers = [];
-	      this.mapSelected = null;
+      if (this.countryShort && !this.loadingShipping && this.shippingProducts && this.shippingProducts.service_point) {
+        this.popupRelay = true;
+        this.shippingMethod = "service_point";
+        this.tabMap = true;
+        this.tabList = false;
+        this.locationMarkers = [];
+        this.mapSelected = null;
 
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/dropoff-locations", { "service_point": this.shippingProducts.service_point }, { Authorization: "Bearer " + this.token }, (response) => {
           this.points = JSON.parse(response.data);
-          console.log(this.points);
+          // console.log(this.points);
 
-          this.points.map((point, index) => {
-            var marker = {
-              lat: parseFloat(point.latitude),
-              lng: parseFloat(point.longitude)
-            };
+          this.points.forEach((point, index) => {
+            const latitude = parseFloat(point.latitude);
+            const longitude = parseFloat(point.longitude);
 
-            console.log(marker);
-            this.locationMarkers.push({ position: marker });
-            console.log(this.locationMarkers);
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+              const marker = {
+                position: { lat: latitude, lng: longitude },
+              };
+              this.locationMarkers.push(marker);
+              console.log("Marqueur ajouté :", marker);
+            } else {
+              console.warn(`Coordonnées non valides pour le point à l'index ${index}`);
+            }
 
             if (!this.mapSelected) {
               this.mapSelected = point;
             }
+
+            // if (!this.center) {
+            //   this.center = marker.position;
+            // }
+
+            if (index === 0) {
+              this.center = { lat: latitude, lng: longitude };
+            }
+
+            console.log(this.center);
           });
         }, (response) => {
-          console.log(response);
+          console.error("Erreur lors de la récupération des points :", response);
         });
       }
     },

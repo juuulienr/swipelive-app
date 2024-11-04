@@ -6,7 +6,6 @@ import router from './router/index';
 import Bugsnag from '@bugsnag/js';
 import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue3-observe-visibility';
-import * as VueGoogleMaps from "vue3-google-map";
 import Vue3TouchEvents from "vue3-touch-events";
 import VueClickAway from "vue3-click-away";
 import Vue3Lottie from 'vue3-lottie';
@@ -35,12 +34,6 @@ app.use(VueObserveVisibility);
 app.use(Vue3TouchEvents);
 app.use(Vue3Lottie);
 app.use(VueClickAway);
-app.use(VueGoogleMaps, {
-  load: {
-    key: "AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w",
-    libraries: "places"
-  }
-});
 
 app.config.globalProperties.$cloudinary = 'https://res.cloudinary.com/dxlsenc2r/image/upload/';
 app.config.globalProperties.$cloudinary256x256 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/';
