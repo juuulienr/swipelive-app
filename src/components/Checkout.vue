@@ -303,16 +303,8 @@
               <div class="card-body parcelshop-card-body">
                 <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
                   <div class="map-badge">Le plus proche</div>
-                  <img
-                    v-if="mapSelected.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'"
-                    :src="require(`@/assets/img/shop2shop.png`)"
-                    style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"
-                  >
-                  <img
-                    v-else
-                    :src="require(`@/assets/img/mondial_relay.png`)"
-                    style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"
-                  >
+                  <img v-if="mapSelected.carrier_id && mapSelected.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
+                  <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
                   {{ mapSelected.name }}
                 </div>
                 <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
@@ -320,18 +312,14 @@
                   <div style="text-transform: uppercase;">{{ mapSelected.zip }} {{ mapSelected.city }}</div>
                 </div>
                 <template v-if="shippingProducts && shippingProducts.service_point">
-                  <span
-                    v-for="service in shippingProducts.service_point"
-                    v-if="service.carrier_id == mapSelected.carrier_id"
-                    :key="service.carrier_id"
-                    style="color: #000; float: right; margin-right: 5px; margin-top: -50px; font-weight: 400;"
-                  >
-                    {{ $formatPrice(service.price) }}€
-                  </span>
+                  <template v-for="service in shippingProducts.service_point" :key="service.carrier_id">
+                    <span v-if="service.carrier_id == mapSelected.carrier_id" style="color: #000; float: right; margin-right: 5px; margin-top: -50px; font-weight: 400;">
+                      {{ $formatPrice(service.price) }}€
+                    </span>
+                  </template>
                 </template>
               </div>
             </div>
-
 		    		<div @click="saveRelay(mapSelected)" style="text-align: center;">
 		    			<div class="btn-swipe">Selectionner</div>
 		    		</div>
@@ -342,52 +330,29 @@
             <div v-for="(point, index) in points" :key="point.id" class="card panel-item" style="border-radius: 10px; margin: 15px 5px; border: 1px solid #ddd!important;">
               <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
                 <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
-                  <img
-                    v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'"
-                    :src="require(`@/assets/img/shop2shop.png`)"
-                    style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"
-                  >
-                  <img
-                    v-else
-                    :src="require(`@/assets/img/mondial_relay.png`)"
-                    style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"
-                  >
+                  <img v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
+                  <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
                   {{ point.name }}
                 </div>
                 <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
                   <div style="text-transform: uppercase;">{{ point.address1 }}</div>
                   <div style="text-transform: uppercase;">{{ point.zip }} {{ point.city }}</div>
-                  <div
-                    v-if="point.distance > 1000"
-                    style="text-transform: lowercase; color: #ff2f80; font-size: 13px; margin-top: 3px;"
-                  >
+                  <div v-if="point.distance > 1000" style="text-transform: lowercase; color: #ff2f80; font-size: 13px; margin-top: 3px;">
                     {{ (point.distance / 1000).toFixed(2).replace('.', ',') }}km
                   </div>
-                  <div
-                    v-else
-                    style="text-transform: lowercase; color: #ff2f80; font-size: 13px; margin-top: 3px;"
-                  >
+                  <div v-else style="text-transform: lowercase; color: #ff2f80; font-size: 13px; margin-top: 3px;">
                     {{ point.distance }}m
                   </div>
                 </div>
                 <template v-if="shippingProducts && shippingProducts.service_point">
-                  <span
-                    v-for="service in shippingProducts.service_point"
-                    v-if="service.carrier_id == point.carrier_id"
-                    :key="service.carrier_id"
-                    style="float: right; margin-top: -52px; font-weight: 400; font-size: 14px;"
-                  >
-                    {{ $formatPrice(service.price) }}€
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 320 512"
-                      style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-left: 7px; margin-bottom: 3px;"
-                    >
-                      <path
-                        d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"
-                      ></path>
-                    </svg>
-                  </span>
+                  <template v-for="service in shippingProducts.service_point" :key="service.carrier_id">
+                    <span v-if="service.carrier_id == point.carrier_id" style="float: right; margin-top: -52px; font-weight: 400; font-size: 14px;">
+                      {{ $formatPrice(service.price) }}€
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="fill: rgb(176, 181, 187); width: 16px; height: 16px; margin-left: 7px; margin-bottom: 3px;">
+                        <path d="M113.3 47.41l183.1 191.1c4.469 4.625 6.688 10.62 6.688 16.59s-2.219 11.97-6.688 16.59l-183.1 191.1c-9.152 9.594-24.34 9.906-33.9 .7187c-9.625-9.125-9.938-24.38-.7187-33.91l168-175.4L78.71 80.6c-9.219-9.5-8.906-24.78 .7187-33.91C88.99 37.5 104.2 37.82 113.3 47.41z"></path>
+                      </svg>
+                    </span>
+                  </template>
                 </template>
               </div>
             </div>
