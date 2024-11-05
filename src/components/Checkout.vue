@@ -229,9 +229,8 @@
 
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
-            <legend>Adresse</legend>  
-            <vue-google-autocomplete ref="address" :country="['fr', 'be', 'lu', 'ch']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="address">
-            </vue-google-autocomplete>
+            <legend>Adresse</legend>
+            <input id="address-input" type="text" v-model="address" placeholder="Saisissez une adresse" @focus="initAutocomplete">
           </fieldset>
         </div>
 
@@ -293,7 +292,7 @@
             v-if="locationMarkers.length > 0"  
             api-key="AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w"
             map-id="5227ff347d2cffb0"
-            :zoom="13"
+            :zoom="14"
             :center="center"
             zoom-control
             :map-type-control="false"
@@ -444,6 +443,14 @@
   z-index: 100000000000;
 }
 
+.pac-container {
+	box-shadow: 0 6px 19px 0 #d9d9d9 !important;
+	border-top: none !important;
+	border-radius: 7px !important;
+	padding: 7px 3px !important;
+  z-index: 1000000000000000;
+}
+
 .hdpi.pac-logo:after {
   background: none !important;
   height: 0px !important;
@@ -463,37 +470,16 @@
   font-size: 14px !important;
 }
 
-.pac-container {
-	box-shadow: 0 6px 19px 0 #d9d9d9 !important;
-	border-top: none !important;
-	border-radius: 7px !important;
-	padding: 7px 3px !important;
-}
- 
-#custom-button {
-  height: 30px;
-  outline: 1px solid grey;
-  background-color: green;
-  padding: 5px;
-  color: white;
-}
-
-#card-error {
-  color: red;
-}
- 
 </style>
 
 <script>
 
-import VueGoogleAutocomplete from "vue-google-autocomplete";
 import { GoogleMap, AdvancedMarker } from "vue3-google-map";
 
 
 export default {
   name: 'Checkout',
   components: { 
-    VueGoogleAutocomplete,
     GoogleMap,
     AdvancedMarker,
   },
@@ -635,6 +621,17 @@ export default {
 			return this.shippingMethod == "domicile" ? 'fill: #18cea0' : '';
     },
 	},
+  watch: {
+    popupShippingAddress(newVal) {
+      if (newVal) {
+        this.loadGoogleMapsScript().then(() => {
+          this.initAutocomplete();
+        }).catch((error) => {
+          console.error("Erreur de chargement de Google Maps : ", error);
+        });
+      }
+    }
+  },
   methods: {
     showShippingAddress() {
     	if (document.getElementsByClassName('pac-container').length) {
@@ -746,44 +743,50 @@ export default {
         this.shippingMethod = "service_point";
         this.tabMap = true;
         this.tabList = false;
-        this.locationMarkers = [];
+        this.locationMarkers = []; // Vide l'array actuel des marqueurs
         this.mapSelected = null;
 
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/dropoff-locations", { "service_point": this.shippingProducts.service_point }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.points = JSON.parse(response.data);
-          // console.log(this.points);
+        window.cordova.plugin.http.post(
+          this.baseUrl + "/user/api/dropoff-locations",
+          { "service_point": this.shippingProducts.service_point },
+          { Authorization: "Bearer " + this.token },
+          (response) => {
+            this.points = JSON.parse(response.data);
 
-          this.points.forEach((point, index) => {
-            const latitude = parseFloat(point.latitude);
-            const longitude = parseFloat(point.longitude);
+            // Création d'un tableau temporaire pour stocker les marqueurs
+            const markersTemp = [];
 
-            if (!isNaN(latitude) && !isNaN(longitude)) {
-              const marker = {
-                position: { lat: latitude, lng: longitude },
-              };
-              this.locationMarkers.push(marker);
-              console.log("Marqueur ajouté :", marker);
-            } else {
-              console.warn(`Coordonnées non valides pour le point à l'index ${index}`);
-            }
+            this.points.forEach((point, index) => {
+              const latitude = parseFloat(point.latitude);
+              const longitude = parseFloat(point.longitude);
 
-            if (!this.mapSelected) {
-              this.mapSelected = point;
-            }
+              if (!isNaN(latitude) && !isNaN(longitude)) {
+                const marker = {
+                  position: { lat: latitude, lng: longitude },
+                };
+                markersTemp.push(marker); // Ajoute le marqueur au tableau temporaire
+              } else {
+                console.warn(`Coordonnées non valides pour le point à l'index ${index}`);
+              }
 
-            // if (!this.center) {
-            //   this.center = marker.position;
-            // }
+              if (!this.mapSelected) {
+                this.mapSelected = point;
+              }
 
-            if (index === 0) {
-              this.center = { lat: latitude, lng: longitude };
-            }
+              if (index === 0) {
+                this.center = { lat: latitude, lng: longitude };
+              }
+            });
 
-            console.log(this.center);
-          });
-        }, (response) => {
-          console.error("Erreur lors de la récupération des points :", response);
-        });
+            // Ajout de tous les marqueurs à `locationMarkers` en une fois
+            this.locationMarkers = markersTemp;
+            console.log("Tous les marqueurs ont été ajoutés :", this.locationMarkers);
+
+          },
+          (response) => {
+            console.error("Erreur lors de la récupération des points :", response);
+          }
+        );
       }
     },
     hideRelay() {
@@ -946,50 +949,60 @@ export default {
       this.mapSelected = this.points[index];
       this.center = marker;
     },
-    handleError(error) {
-    	console.log(error);
+    loadGoogleMapsScript() {
+      return new Promise((resolve, reject) => {
+        if (window.google && window.google.maps) {
+          resolve();
+        } else {
+          const script = document.createElement('script');
+          script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w&libraries=places`;
+          script.async = true;
+          script.defer = true;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        }
+      });
     },
-    updateAddressData(addressData) {
-    	var data = addressData.split(',');
-    	this.$refs.address.update(data[0]);
-    	this.address = data[0];
+    initAutocomplete() {
+      const input = document.getElementById("address-input");
+      this.autocompleteInstance = new google.maps.places.Autocomplete(input, {
+        componentRestrictions: { country: ["fr", "be", "lu", "ch"] },
+        fields: ["formatted_address", "address_components", "geometry"]
+      });
+      this.autocompleteInstance.addListener("place_changed", this.getAddressData);
     },
-    getAddressData(addressData, placeResultData, id) {
-    	console.log(addressData, placeResultData, id);
-    	
-    	if (addressData.street_number) {
-    		var street = addressData.street_number + ' ' + addressData.route;
-    		this.countryShort = placeResultData.address_components[5].short_name;
-    	} else {
-    		var street = addressData.route;
-    		this.countryShort = placeResultData.address_components[4].short_name;
-    	}
+    getAddressData() {
+      const place = this.autocompleteInstance.getPlace();
+      if (!place || !place.address_components) return;
 
-    	this.$refs.address.update(street);
-    	this.address = street;
-    	this.zip = addressData.postal_code;
-    	this.city = addressData.locality;
-    	this.country = addressData.country;
+      const addressData = this.extractAddressComponents(place.address_components);
+      console.log(addressData);
 
-      var marker = {
-        lat: addressData.latitude,
-        lng: addressData.longitude
+      this.address = addressData.street_number + ' ' + addressData.route;
+      this.zip = addressData.postal_code;
+      this.city = addressData.locality;
+      this.country = addressData.country;
+      this.countryShort = addressData.country_short;
+      this.center = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
       };
-      this.center = marker;
     },
-    blurAddressInput() {
-    	this.showAutocomplete = false;
-		  document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
-    },
-    focusAddressInput() {
-    	this.showAutocomplete = true;
-    },
-    inputChangeAddressInput(input) {
-    	if (input.newVal.length > 2 && this.showAutocomplete) {
-	    	document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
-    	} else {
-		    document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
-    	}
+    extractAddressComponents(components) {
+      const addressComponents = {};
+      components.forEach(component => {
+        const types = component.types;
+        if (types.includes("postal_code")) addressComponents.postal_code = component.long_name;
+        if (types.includes("locality")) addressComponents.locality = component.long_name;
+        if (types.includes("country")) {
+          addressComponents.country = component.long_name;
+          addressComponents.country_short = component.short_name;
+        }
+        if (types.includes("street_number")) addressComponents.street_number = component.long_name;
+        if (types.includes("route")) addressComponents.route = component.long_name;
+      });
+      return addressComponents;
     },
     selectCountry() {
     	var data = {

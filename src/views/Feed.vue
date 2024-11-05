@@ -1299,7 +1299,10 @@ export default {
       this.popup = true;
     },
     away(event) {
-      window.Keyboard.hide();
+      if (window.Keyboard && typeof window.Keyboard.hide === 'function') {
+        window.Keyboard.hide();
+      }
+      
       if (event.target.id == "btnSend" || event.target.id == "imgSend") {
         if (this.content && this.content.length > 0) {
           this.send();

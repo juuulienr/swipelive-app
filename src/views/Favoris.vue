@@ -12,25 +12,28 @@
     <div v-if="favoris.length" class="checkout__body items">
       <div class="shop--part" style="margin: 10px 15px 0px; gap: 20px 10px;">
         <div v-for="(heart, index) in favoris" class="shop--box">
-          <div>
-            <div>
-              <img v-if="heart.product.uploads.length" @click="showProduct(heart.product)" :src="$cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
-              <img v-else @click="showProduct(heart.product)" :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
-              <img @click="removeFavoris(heart.product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
-            </div>
-          </div>
-          <div @click="showProduct(heart.product)" class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
-            <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ heart.product.title }}</div>
-            <div class="shop--item--price">
-              <div class="price" style="font-size: 12px; margin: 0px; font-weight: 500;" :style="[heart.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
-                {{ $formatPrice(heart.product.price) }}€
-                <span v-if="heart.product.compareAtPrice" class="last-price" style="margin-left: 3px;">
-                  {{ $formatPrice(heart.product.compareAtPrice) }}€
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div>
+    <div @click="showProduct(heart.product)">
+      <img v-if="heart.product.uploads.length" :src="$cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
+      <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
+      
+      <!-- Icône de cœur avec @click.stop pour éviter la propagation -->
+      <img @click.stop="removeFavoris(heart.product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
+    </div>
+  </div>
+  <div @click="showProduct(heart.product)" class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
+    <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ heart.product.title }}</div>
+    <div class="shop--item--price">
+      <div class="price" style="font-size: 12px; margin: 0px; font-weight: 500;" :style="[heart.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
+        {{ $formatPrice(heart.product.price) }}€
+        <span v-if="heart.product.compareAtPrice" class="last-price" style="margin-left: 3px;">
+          {{ $formatPrice(heart.product.compareAtPrice) }}€
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>   
     <div v-else-if="loading">

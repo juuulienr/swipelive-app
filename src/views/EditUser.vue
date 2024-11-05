@@ -91,7 +91,7 @@
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>  
-            <vue-google-autocomplete ref="address" id="map" :country="['fr', 'be', 'lu']" @placechanged="getAddressData" @change="updateAddressData" @error="handleError" @inputChange="inputChangeAddressInput" @focus="focusAddressInput" @blur="blurAddressInput" type="text" v-model="user.vendor.address"></vue-google-autocomplete>
+            <input id="address-input" type="text" v-model="user.vendor.address" placeholder="Saisissez une adresse" @focus="initAutocomplete">
           </fieldset>
         </div>
 
@@ -136,11 +136,8 @@
 
 <script>
 
-import VueGoogleAutocomplete from "vue-google-autocomplete";
-
 export default {
   name: 'EditUser',
-  components: { VueGoogleAutocomplete },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -169,6 +166,17 @@ export default {
     window.StatusBar.overlaysWebView(false);  
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
+  },  
+  mounted() {
+    if (this.user.vendor) {
+      this.loadGoogleMapsScript()
+      .then(() => {
+        this.initAutocomplete();
+      })
+      .catch((error) => {
+        console.error("Erreur de chargement de Google Maps : ", error);
+      });
+    }
   },
   methods: {
     async submit() {
@@ -370,46 +378,60 @@ export default {
         slowdownfactor: 1,
       });
       this.$router.push({ name: 'Account' });
+    },    
+    loadGoogleMapsScript() {
+      return new Promise((resolve, reject) => {
+        if (window.google && window.google.maps) {
+          resolve();
+        } else {
+          const script = document.createElement('script');
+          script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w&libraries=places`;
+          script.async = true;
+          script.defer = true;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        }
+      });
     },
-    handleError(error) {
-      console.log(error);
-    },
-    updateAddressData(addressData) {
-      var data = addressData.split(',');
-      this.$refs.address.update(data[0]);
-      this.user.vendor.address = data[0];
-    },
-    getAddressData(addressData, placeResultData, id) {
-      console.log(addressData);
-      console.log(placeResultData);
-      
-      if (addressData.street_number) {
-        var street = addressData.street_number + ' ' + addressData.route;
-        this.user.vendor.countryShort = placeResultData.address_components[5].short_name;
-      } else {
-        var street = addressData.route;
-        this.user.vendor.countryShort = placeResultData.address_components[4].short_name;
-      }
+    initAutocomplete() {
+      const input = document.getElementById("address-input");
 
-      this.$refs.address.update(street);
-      this.user.vendor.address = street;
+      if (input) {
+        this.autocompleteInstance = new google.maps.places.Autocomplete(input, {
+          componentRestrictions: { country: ["fr", "be", "lu", "ch"] },
+          fields: ["formatted_address", "address_components", "geometry"]
+        });
+        this.autocompleteInstance.addListener("place_changed", this.getAddressData);
+      }
+    },
+    getAddressData() {
+      const place = this.autocompleteInstance.getPlace();
+      if (!place || !place.address_components) return;
+
+      const addressData = this.extractAddressComponents(place.address_components);
+      console.log(addressData);
+
+      this.user.vendor.address = addressData.street_number + ' ' + addressData.route;
       this.user.vendor.zip = addressData.postal_code;
       this.user.vendor.city = addressData.locality;
       this.user.vendor.country = addressData.country;
+      this.user.vendor.countryShort = addressData.country_short;
     },
-    blurAddressInput() {
-      this.showAutocomplete = false;
-      document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
-    },
-    focusAddressInput() {
-      this.showAutocomplete = true;
-    },
-    inputChangeAddressInput(input) {
-      if (input.newVal.length > 2 && this.showAutocomplete) {
-        document.getElementsByClassName('pac-container')[0].classList.add("display-mode");
-      } else {
-        document.getElementsByClassName('pac-container')[0].classList.remove("display-mode");
-      }
+    extractAddressComponents(components) {
+      const addressComponents = {};
+      components.forEach(component => {
+        const types = component.types;
+        if (types.includes("postal_code")) addressComponents.postal_code = component.long_name;
+        if (types.includes("locality")) addressComponents.locality = component.long_name;
+        if (types.includes("country")) {
+          addressComponents.country = component.long_name;
+          addressComponents.country_short = component.short_name;
+        }
+        if (types.includes("street_number")) addressComponents.street_number = component.long_name;
+        if (types.includes("route")) addressComponents.route = component.long_name;
+      });
+      return addressComponents;
     },
     selectCountry() {
       var data = {

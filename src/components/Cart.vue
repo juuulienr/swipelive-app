@@ -62,7 +62,7 @@
       <div class="checkout__body" style="text-align: center;">
         <div class="container" :style="[fullscreen ? {'margin': '150px auto 0px'} : {'margin': '75px auto 0px'}]" style="text-align: center;">
           <div style="margin: 0px auto;">
-            <Lottie :options="defaultOptions" :width="200"/>
+            <Vue3Lottie :animationData="LottieJSON" :width="200"/>
           </div>
         </div>
         <h5 style="font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 8px; margin-top: 30px;">Votre panier est vide</h5>
@@ -76,7 +76,7 @@
 
 <script>
 import Lottie from 'vue3-lottie';
-import * as animationData from '../assets/lottie/order.json';
+import LottieJSON from '../assets/lottie/order.json';
 
 export default {
   name: 'Cart',
@@ -90,7 +90,7 @@ export default {
       lineItems: this.$store.getters.getLineItems,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      defaultOptions: {animationData: animationData},
+      LottieJSON: LottieJSON,
       loading: false,
       subTotal: null
     }

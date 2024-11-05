@@ -259,7 +259,7 @@
         </div>
       </div>
 
-      <div class="box-network" style="padding: 0px;">      
+      <div class="box-network" style="padding-top: 12px;">      
         <img :src="require(`@/assets/img/logo-text.png`)" style="width: 150px; height: 80px;"/>
       </div>
     </div>
