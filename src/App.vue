@@ -1,8 +1,6 @@
 <template>
-  <div id="app">
-    <router-view/>
-    <NavBar :lineItems="lineItems" v-if="showNavbar"/>
-  </div>
+  <router-view/>
+  <NavBar :lineItems="lineItems" v-if="showNavbar"/>
 </template>
 
 <style>

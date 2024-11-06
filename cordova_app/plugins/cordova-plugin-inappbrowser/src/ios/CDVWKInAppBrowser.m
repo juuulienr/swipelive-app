@@ -661,6 +661,7 @@ BOOL isExiting = FALSE;
     WKUserContentController* userContentController = [[WKUserContentController alloc] init];
     
     WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
+    [configuration setValue:@"TRUE" forKey:@"allowUniversalAccessFromFileURLs"];
     
     NSString *userAgent = configuration.applicationNameForUserAgent;
     if (

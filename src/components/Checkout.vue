@@ -292,7 +292,7 @@
             v-if="locationMarkers.length > 0"  
             api-key="AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w"
             map-id="5227ff347d2cffb0"
-            :zoom="14"
+            :zoom="15"
             :center="center"
             zoom-control
             :map-type-control="false"
@@ -588,6 +588,10 @@ export default {
 
     this.name = this.user.firstname + ' ' + this.user.lastname;
 
+    if (this.user.phone) {
+      this.phone = this.user.phone;
+    }
+
     if (this.user.shippingAddresses.length) {
     	this.name = this.user.shippingAddresses[0].name;
     	this.phone = this.user.shippingAddresses[0].phone;
@@ -746,11 +750,7 @@ export default {
         this.locationMarkers = []; // Vide l'array actuel des marqueurs
         this.mapSelected = null;
 
-        window.cordova.plugin.http.post(
-          this.baseUrl + "/user/api/dropoff-locations",
-          { "service_point": this.shippingProducts.service_point },
-          { Authorization: "Bearer " + this.token },
-          (response) => {
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/dropoff-locations", { "service_point": this.shippingProducts.service_point }, { Authorization: "Bearer " + this.token }, (response) => {
             this.points = JSON.parse(response.data);
 
             // Création d'un tableau temporaire pour stocker les marqueurs

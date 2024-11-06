@@ -403,11 +403,21 @@ export default {
   mounted() {
     this.loadGoogleMapsScript()
     .then(() => {
-      this.initAutocomplete();
+      console.log("Google Maps API chargé");
     })
     .catch((error) => {
       console.error("Erreur de chargement de Google Maps : ", error);
     });
+  },
+  watch: {
+    step2(newVal) {
+      if (newVal) {
+        // Attendre que le DOM soit mis à jour avant d'initialiser l'autocomplete
+        this.$nextTick(() => {
+          this.initAutocomplete();
+        });
+      }
+    },
   },
   methods: {
     submitStep1() {

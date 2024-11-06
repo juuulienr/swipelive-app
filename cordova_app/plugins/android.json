@@ -34,10 +34,6 @@
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-camera": {
-      "ANDROIDX_CORE_VERSION": "1.6.+",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-device": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
@@ -143,6 +139,13 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-wheel-selector-plugin": {
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-camera": {
+      "ANDROIDX_CORE_VERSION": "1.6.+",
+      "PACKAGE_NAME": "com.swipelive.app"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },

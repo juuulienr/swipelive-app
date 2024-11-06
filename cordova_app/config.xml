@@ -120,6 +120,12 @@
                 </dict>
             </array>
         </privacy-manifest>
+        <edit-config target="NSAppTransportSecurity" file="*-Info.plist" mode="merge">
+          <dict>
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+          </dict>
+        </edit-config>
         <resource-file src="res/raw/sales.wav" target="sales.wav"/>
         <splash src="res/screen/ios/Default@2x~universal~anyany.png"/>
         <splash src="res/screen/ios/Default@2x~universal~comany.png"/>
@@ -138,6 +144,8 @@
         <preference name="ShowSplashScreenSpinner" value="false" />
     </platform>
 
+<!--     <preference name="scheme" value="app" />
+    <preference name="hostname" value="localhost" /> -->
     <preference name="KeyboardResize" value="true"/>
     <preference name="KeyboardResizeMode" value="ionic"/>
     <preference name="HideKeyboardFormAccessoryBar" value="true"/>

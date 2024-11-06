@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import { createApp } from 'vue';
 import App from './App.vue';
 import Pusher from 'pusher-js';
@@ -101,8 +100,6 @@ app.config.globalProperties.$formatLikes = (value) => {
 };
 
 
-
-
 const init = () => {
   app.mount('#app');
 };
@@ -111,8 +108,6 @@ const init = () => {
 document.addEventListener("deviceready", () => {
   if (window.plugins && window.plugins.insomnia) {
     window.plugins.insomnia.keepAwake();
-  } else {
-    console.warn("Insomnia plugin is not available");
   }
 
   init();

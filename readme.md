@@ -21,17 +21,14 @@ WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
     [self setStyleForStatusBar:UIStatusBarStyleDefault];
   }
 }
-
 - (void) styleLightContent:(CDVInvokedUrlCommand*)command
 {
   [self setStyleForStatusBar:UIStatusBarStyleLightContent];
 }
-
 - (void) styleBlackTranslucent:(CDVInvokedUrlCommand*)command
 {
   [self setStyleForStatusBar:UIStatusBarStyleDarkContent];
 }
-
 - (void) styleBlackOpaque:(CDVInvokedUrlCommand*)command
 {
   [self setStyleForStatusBar:UIStatusBarStyleDarkContent];

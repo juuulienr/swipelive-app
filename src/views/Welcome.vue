@@ -271,7 +271,6 @@ export default {
     }
   },
   created() {
-    console.log("Composant Welcome monté");
     window.StatusBar.overlaysWebView(true);
     window.StatusBar.styleDefault();
     
