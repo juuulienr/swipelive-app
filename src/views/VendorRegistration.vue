@@ -27,31 +27,31 @@
         <div class="informations" style="margin: 40px auto; width: 100%; border-radius: 10px; color: black; font-weight: 400; font-size: 15px; text-align: left; padding: 0px 15px; line-height: 29px;">
           <div style="font-weight: 500; margin-bottom: 20px; font-size: 16px;">Chaque vendeur bénéficie :</div>
           <div>
-            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            <img src="/img/check.svg" style="width: 27px; height: 27px;"/>
             Boutique intégrée
           </div>
           <div>
-            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            <img src="/img/check.svg" style="width: 27px; height: 27px;"/>
             Lives et replay
           </div>
           <div>
-            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            <img src="/img/check.svg" style="width: 27px; height: 27px;"/>
             Tarifs réduits sur les livraisons
           </div>
           <div>
-            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            <img src="/img/check.svg" style="width: 27px; height: 27px;"/>
             Paiements intégrés et sécurisés
           </div>
           <div>
-            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            <img src="/img/check.svg" style="width: 27px; height: 27px;"/>
             Messagerie instantanée
           </div>
           <div>
-            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            <img src="/img/check.svg" style="width: 27px; height: 27px;"/>
             Notifications en temps réel
           </div>
           <div>
-            <img :src="require(`@/assets/img/check.svg`)" style="width: 27px; height: 27px;"/>
+            <img src="/img/check.svg" style="width: 27px; height: 27px;"/>
             Diffusion sur les réseaux sociaux
           </div>
         </div>
@@ -221,7 +221,7 @@
 
       <!-- step3 -->
       <div v-if="step3" class="step3">
-        <img :src="require(`@/assets/img/welcome-vendor.jpg`)" style="width: calc(100vw - 30px); border-radius: 10px;">
+        <img src="/img/welcome-vendor.jpg" style="width: calc(100vw - 30px); border-radius: 10px;">
 
         <h5 style="font-weight: 600;margin-bottom: 0px;font-size: 24px;text-align: center;margin-top: 30px;line-height: 38px;">Bienvenue {{ pseudo }} 👋 <br> dans votre espace vendeur !</h5>
         <br />

@@ -8,7 +8,7 @@
         <div v-for="(lineItem, index) in lineItems" :key="index" class="checkout__row checkout__product-info-row" style="align-items: center; padding: 7px 0px;">
           <div class="checkout__product-info">
             <img v-if="lineItem.product.uploads" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px;">
-            <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image" style="border-radius: 10px;">
+            <img v-else src="/img/no-preview.png" class="checkout__image" style="border-radius: 10px;">
             <div>
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
               <div v-if="lineItem.variant" class="checkout__attr">

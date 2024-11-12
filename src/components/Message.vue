@@ -7,7 +7,7 @@
       <div v-if="discussion.user.id == user.id" class="chat--head--profil">
         <div class="chat--head--profil--img">
           <img v-if="discussion.vendor.picture" :src="$cloudinary256x256 + discussion.vendor.picture">
-          <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+          <img v-else src="/img/anonyme.jpg">
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.vendor.vendor.pseudo }}</p>
@@ -18,7 +18,7 @@
       <div v-else class="chat--head--profil">
         <div class="chat--head--profil--img">
           <img v-if="discussion.user.picture" :src="$cloudinary256x256 + discussion.user.picture">
-          <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+          <img v-else src="/img/anonyme.jpg">
         </div>
         <div class="chat--head--profil--name">
           <p>{{ discussion.user.firstname }} {{ discussion.user.lastname }}</p>
@@ -64,13 +64,13 @@
     </div>
     <div class="chat--foot" :style="{ 'bottom': writeInput }">    
       <button id="btnPicture" @click="uploadPicture()" style="margin: 0px 5px; padding: 5px;">
-        <img :src="require(`@/assets/img/plus-square.svg`)" style="height: 34px; width: 34px;"/>
+        <img src="/img/plus-square.svg" style="height: 34px; width: 34px;"/>
       </button>
       <div class="divInput">
         <input type="text" v-click-away="away" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
       </div>
       <button id="btnSend" @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
-        <img :src="require(`@/assets/img/send.svg`)" style="height: 36px; width: 36px;"/>
+        <img src="/img/send.svg" style="height: 36px; width: 36px;"/>
       </button>
     </div>
   </div>

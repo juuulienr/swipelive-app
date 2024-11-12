@@ -11,7 +11,7 @@
           <!-- loader -->
           <div v-if="loading[index].value || finished[index].value" class="filter-blur"></div>
           <img v-if="(loading[index].value || finished[index].value) && feed.value.vendor && feed.value.vendor.user.picture" :src="$cloudinary256x256 + feed.value.vendor.user.picture" class="filter-img">
-          <img v-else-if="loading[index].value" :src="require(`@/assets/img/anonyme.jpg`)" class="filter-img">
+          <img v-else-if="loading[index].value" src="/img/anonyme.jpg" class="filter-img">
 
 
           <!-- video -->
@@ -40,7 +40,7 @@
             <div class="video-page__influencer-badge6">
               <div class="video-page__influencer-img">
                 <img v-if="feed.value.vendor.user.picture" :src="$cloudinary256x256 + feed.value.vendor.user.picture"/>
-                <img v-else :src="require(`@/assets/img/anonyme.jpg`)"/>
+                <img v-else src="/img/anonyme.jpg"/>
               </div>
               <!-- <div v-if="following[index].value == false && feed.value.vendor.user.id != user.id" @click="follow(feed.value.vendor.user.id)" class="follow">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 32px; height: 32px; border: 1px solid white; border-radius: 100px;">
@@ -61,7 +61,7 @@
           <div v-if="purchase" style="position: absolute; z-index: 100000000; justify-content: center; text-align: center; margin: 0px auto; align-items: center; height: 100vh; width: 100vw;">
             <div class="video-page__influencer-badge7" style="background: none; left: initial; position: relative; margin: 0px auto; text-align: center; justify-content: center;    height: 100vh; width: 100vw;">
               <img v-if="user.picture" :src="$cloudinary256x256 + user.picture" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
-              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
+              <img v-else src="/img/anonyme.jpg" class="bounce-in" style="border-radius: 50%; width: 85px; height: 85px; object-fit: cover; position: absolute; z-index: 100000000; border: 4px solid white; margin-bottom: 150px;" />
               <div class="bounce-in" style="text-shadow: rgba(0,0,0,.5) 0 0 2px; font-weight: 600; font-size: 20px; color: white;">Merci {{ user.firstname }} !</div>
             </div>
           </div>
@@ -72,168 +72,168 @@
             <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_6">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_8">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_9">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_10">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">    
               <div class="_g19 KeyframeAnimation-js_11"> 
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_12">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_13">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_14">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_15">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_16">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_17">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_18">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_19">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_20">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_21">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_22">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_23">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_24">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_25">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_26">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_27">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_28">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_29">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
             <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 22px;">
               <div class="_g19 KeyframeAnimation-js_30">
                 <div class="_g19 KeyframeAnimation-js_7">
-                  <img :src="require(`@/assets/img/heart-red.svg`)"/>
+                  <img src="/img/heart-red.svg"/>
                 </div>
               </div>
             </div>
@@ -245,7 +245,7 @@
             <div style="display: flex;">
               <div @click="goToProfile(feed.value.vendor)">
                 <img v-if="feed.value.vendor.user.picture" :src="$cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
-                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
+                <img v-else src="/img/anonyme.jpg" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
               </div>
               <div @click="goToProfile(feed.value.vendor)" class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
                 <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">
@@ -253,7 +253,7 @@
                 </div>
                 <div style="text-align: left; font-size: 12px; margin-top: -3px; display: flex;">
                   <div style="padding-right: 5px;">
-                    <img :src="require(`@/assets/img/heart-red.svg`)" style="width: 14px; height: 14px; margin-bottom: 3px;" />
+                    <img src="/img/heart-red.svg" style="width: 14px; height: 14px; margin-bottom: 3px;" />
                   </div>
                   <div>{{ $formatLikes(totalLikes[index].value) }}</div>
                 </div>
@@ -261,7 +261,7 @@
               <div v-if="feed.value.vendor.user.id != user.id" style="margin-top: 4px;">
                 <div v-if="following[index].value == false" @click="follow(feed.value.vendor.user.id)" class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">Suivre</div>
                 <div v-else class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">
-                   <img :src="require(`@/assets/img/check-white.svg`)" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
+                   <img src="/img/check-white.svg" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
                 </div>
               </div>
             </div>
@@ -273,7 +273,7 @@
           <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge3" style="flex-direction: column;">
             <div class="video-page__influencer-username-holder">
               <span class="video-page__influencer-video-count">
-                <img :src="require(`@/assets/img/times.svg`)" style="width: 35px; height: 35px; padding: 5px; fill: white;"/>
+                <img src="/img/times.svg" style="width: 35px; height: 35px; padding: 5px; fill: white;"/>
               </span>
             </div>
           </div>
@@ -285,7 +285,7 @@
             <div v-for="comment in comments[index].value" style="display: flex;">
               <div style="padding-right: 6px;">
                 <img v-if="comment.user.picture" :src="$cloudinary256x256 + comment.user.picture" class="video-page__influencer-img">
-                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="video-page__influencer-img">
+                <img v-else src="/img/anonyme.jpg" class="video-page__influencer-img">
               </div>
               <div class="video-page__influencer-badge">
                 <div class="video-page__influencer-username-holder">
@@ -306,7 +306,7 @@
             <div class="video-page__product-top">
               <div class="video-page__image">
                 <img v-if="feed.value.liveProducts[display - 1].product.uploads.length" :src="$cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
-                <img v-else :src="require(`@/assets/img/no-preview.png`)">
+                <img v-else src="/img/no-preview.png">
               </div>
               <div class="video-page__info">
                 <div>
@@ -319,7 +319,7 @@
                         {{ $formatPrice(feed.value.liveProducts[display - 1].product.price) }}€ 
                         <span v-if="feed.value.liveProducts[display - 1].product.compareAtPrice" class="disc">
                           {{ $formatPrice(feed.value.liveProducts[display - 1].product.compareAtPrice) }}€ 
-                          <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
+                          <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" src="/img/discount.svg" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                         </span> 
                       </div>
                     </div>
@@ -333,7 +333,7 @@
             <div class="video-page__product-top">
               <div class="video-page__image">
                 <img v-if="feed.value.product.uploads.length" :src="$cloudinary256x256 + feed.value.product.uploads[0].filename">
-                <img v-else :src="require(`@/assets/img/no-preview.png`)">
+                <img v-else src="/img/no-preview.png">
               </div>
               <div class="video-page__info">
                 <div>
@@ -346,7 +346,7 @@
                         {{ $formatPrice(feed.value.product.price) }}€ 
                         <span v-if="feed.value.product.compareAtPrice" class="disc">
                           {{ $formatPrice(feed.value.product.compareAtPrice) }}€ 
-                          <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
+                          <img v-if="feed.value.vendor.promotions.length && feed.value.vendor.promotions.find(promo => promo.isActive === true)" src="/img/discount.svg" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                         </span> 
                       </div>
                     </div>
@@ -372,7 +372,7 @@
             <!-- cart -->
             <div @click="showCart()" class="video-page__influencer-username-holder" style="padding-left: 10px;">
               <span class="video-page__influencer-video-count">
-                <img :src="require(`@/assets/img/bag.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
+                <img src="/img/bag.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
               </span>
               <span v-if="updateCart > 0" class="counter-badge" :style="{'bottom': safeareaBottom4 }" style="right: 141px; height: 14px; width: 14px; font-size: 10px; font-weight: 600">
                 {{ updateCart }}
@@ -382,21 +382,21 @@
             <!-- likes -->
             <div @click="addAnimation()" class="video-page__influencer-username-holder">
               <span class="video-page__influencer-video-count">
-                <img :src="require(`@/assets/img/heart-feed.svg`)" style="width: 40px; height: 40px; padding: 8px; margin: 0px 4px;" />
+                <img src="/img/heart-feed.svg" style="width: 40px; height: 40px; padding: 8px; margin: 0px 4px;" />
               </span>
             </div>
 
             <!-- share -->
             <div @click="share()" class="video-page__influencer-username-holder">
               <span class="video-page__influencer-video-count">
-                <img :src="require(`@/assets/img/share.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
+                <img src="/img/share.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
               </span>
             </div>
 
             <!-- shop -->
             <div @click="showShop(feed.value.vendor)" class="video-page__influencer-username-holder" style="padding-right: 10px;">
               <span class="video-page__influencer-video-count">
-                <img :src="require(`@/assets/img/all-products.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 6px;" />
+                <img src="/img/all-products.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 6px;" />
               </span>
             </div>
           </div>
@@ -405,7 +405,7 @@
     </template>
     <template v-else>
       <div>
-        <img :src="require(`@/assets/img/loading-feed.png`)" style="width: 100%; height: 100vh; object-fit: cover;">
+        <img src="/img/loading-feed.png" style="width: 100%; height: 100vh; object-fit: cover;">
       </div>
     </template>
 
@@ -415,7 +415,7 @@
         <input v-focus v-click-away="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2f80; background: white"/>
       </div>
       <button id="btnSend" class="css-il3d4y" style="padding: 0px;">
-        <img id="imgSend" :src="require(`@/assets/img/send.svg`)" style="height: 36px; height: 36px;"/>
+        <img id="imgSend" src="/img/send.svg" style="height: 36px; height: 36px;"/>
       </button>
     </div>
     
@@ -425,8 +425,8 @@
       <div @click="hideProduct()" style="display: flex;">
         <div class="scroll-indicator" style="margin: 15px auto 0px;"></div>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" src="/img/circle-heart-full.svg" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-else @click="favoris(product)" src="/img/circle-heart.svg" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -450,7 +450,7 @@
     <!-- follow popup -->
     <div v-if="popupFollow" class="store-products-item__login-popup store-products-item__login-popup--active follow-popup">
       <img v-if="data[visible].value.vendor.user.picture" :src="$cloudinary256x256 + data[visible].value.vendor.user.picture">
-      <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+      <img v-else src="/img/anonyme.jpg">
       <div style="margin-bottom: 5px; font-size: 16Px;">{{ data[visible].value.vendor.pseudo }}</div>
       <p class="follow-text">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
       <div @click="follow(data[visible].value.vendor.user.id)" class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
@@ -488,7 +488,7 @@
         <div class="lasted--product">
           <div v-for="product in shop" @click="showProduct(product)" class="product--item">
             <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
-            <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 90px; height: 90px;">
+            <img v-else src="/img/no-preview.png" style="width: 90px; height: 90px;">
             <div class="details">
               <div class="title">{{ product.title }}</div>
               <div class="price" style="margin-top: 8px; font-weight: 500" :style="[product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
@@ -499,7 +499,7 @@
               </div>
             </div>
             <div v-if="data[visible].value.vendor.promotions.length && data[visible].value.vendor.promotions.find(promo => promo.isActive === true)" style="margin-right: 10px;">
-              <img :src="require(`@/assets/img/discount.svg`)" style="width: 25px; height: 25px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
+              <img src="/img/discount.svg" style="width: 25px; height: 25px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
             </div>
           </div>
         </div>
@@ -533,12 +533,13 @@ import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 // import Player from 'xgplayer'
 
-import Checkout from '../components/Checkout';
-import Product from '../components/Product';
-import Cart from '../components/Cart';
+import Checkout from '../components/Checkout.vue';
+import Product from '../components/Product.vue';
+import Cart from '../components/Cart.vue';
 
 import LottieJSON from '../assets/lottie/live.json';
 import LottieJSON2 from '../assets/lottie/arrow.json';
+
 
 export default {
   name: 'Feed',

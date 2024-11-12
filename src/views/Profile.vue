@@ -2,29 +2,29 @@
   <main class="my_profile1" style="padding: 0px;">
     <div class="checkout__header" style="padding: 5px 15px 15px 12px;">
       <div @click="goBack()" class="checkout__close-btn" style="top: 7px;">
-        <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
+        <img src="/img/arrow-left.svg" style="width: 28px; height: 28px;"/>
       </div>
       <div class="checkout__title"></div>
       <div @click="actionSheet()" class="checkout__right-btn" style="top: 5px;">
-        <img :src="require(`@/assets/img/ellipsis-h.svg`)" style="width: 28px; height: 28px;"/>
+        <img src="/img/ellipsis-h.svg" style="width: 28px; height: 28px;"/>
       </div>
       <div v-if="profile && profile.vendor" @click="goToMessage(profile)" style="width: 28px; height: 28px; position: absolute; top: 160px; right: 15px;">
-        <img :src="require(`@/assets/img/comment-dots.svg`)"/>
+        <img src="/img/comment-dots.svg"/>
       </div>
     </div>
 
-    <img :src="require(`@/assets/img/bg-profil.png`)" style="width: 100%; margin-top: -27px; height: 190px;">
+    <img src="/img/bg-profil.png" style="width: 100%; margin-top: -27px; height: 190px;">
     <div v-if="profile && profile.vendor" style="padding: 0px; text-align: center; margin-top: -95px;">
       <div>
         <img v-if="profile.picture" :src="$cloudinary256x256 + profile.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
-        <img v-else :src="require(`@/assets/img/anonyme.jpg`)" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
+        <img v-else src="/img/anonyme.jpg" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; height: 100px; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px;">
         <div v-if="profile.followers && following != null" @click="updateFollow()" style="margin-top: -40px; margin-left: 65px;border-radius: 50px;border: 2px solid white;">
-          <img v-if="!following" :src="require(`@/assets/img/plus-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
-          <img v-else :src="require(`@/assets/img/check-circle.svg`)" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
+          <img v-if="!following" src="/img/plus-circle.svg" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
+          <img v-else src="/img/check-circle.svg" style="width: 35px; height: 35px; border: 1px solid white; background: white; border-radius: 100px; pointer-events: auto;"/>
         </div>
         <div style="margin-top: 7px;">
           <span style="font-size: 20px; font-weight: 500;">{{ profile.vendor.pseudo }}
-            <img v-if="profile.vendor.businessType == 'company'" :src="require(`@/assets/img/verified.svg`)" style="width: 19px; height: 19px; margin-bottom: 4px;"/>
+            <img v-if="profile.vendor.businessType == 'company'" src="/img/verified.svg" style="width: 19px; height: 19px; margin-bottom: 4px;"/>
           </span>
           <div>
             <span v-if="profile.followers.length > 1" style="font-weight: 400">{{ followers }} abonnés</span>
@@ -62,7 +62,7 @@
                         >
                         <img
                           v-else
-                          :src="require(`@/assets/img/no-preview.png`)"
+                          src="/img/no-preview.png"
                           style="line-height: 0; display: block; border-radius: 10px; width: 48px; height: 48px; border: 1px solid #ddd !important; background: #eeeeee;"
                         >
                       </div>
@@ -96,7 +96,7 @@
               <div v-for="product in products" @click="showProduct(product)" class="shop--box">
                 <div>
                   <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee;">
-                  <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px;">
+                  <img v-else src="/img/no-preview.png" style="width: 100%; border-radius: 10px;">
                 </div>
                 <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
                   <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ product.title }}</div>
@@ -129,10 +129,10 @@
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
       <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
-        <img :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
+        <img src="/img/close-popup.svg" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" src="/img/circle-heart-full.svg" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-else @click="favoris(product)" src="/img/circle-heart.svg" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -149,7 +149,7 @@
 
 <script>
   
-import Product from '../components/Product';
+import Product from '../components/Product.vue';
 import LottieJSON from '../assets/lottie/replay.json';
 import LottieJSON2 from '../assets/lottie/no-product.json';
 

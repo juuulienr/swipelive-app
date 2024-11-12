@@ -3,25 +3,23 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port=8200",
-    "serve-browser": "vue-cli-service serve --port=8200",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova build",
-    "ios": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run ios --device",
-    "ios-debug": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run ios --device --debug",
-    "browser": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run browser --port=8200",
-    "android-build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova build android --release",
-    "android-device": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run android --device",
-    "android": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build && cd cordova_app && cordova run android",
-    "dev": "cd cordova_app && watch 'cordova run browser --port=8200' ../src"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "ios": "vite build && cd cordova_app && cordova run ios --device",
+    "ios-debug": "vite build && cd cordova_app && cordova run ios --device --debug",
+    "browser": "vite build && cd cordova_app && cordova run browser --port=8200",
+    "android-build": "vite build && cd cordova_app && cordova build android --release",
+    "android-device": "vite build && cd cordova_app && cordova run android --device",
+    "android": "vite build && cd cordova_app && cordova run android"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
     "@bugsnag/js": "^8.1.2",
     "@bugsnag/plugin-vue": "^8.1.1",
-    "es6-promise": "^4.2.8",
     "jwt-decode": "^4.0.0",
     "pusher-js": "^8.4.0-rc2",
     "video.js": "^8.17.4",
+    "vite": "^5.4.11",
     "vue": "^3.5.12",
     "vue-draggable-next": "^2.2.1",
     "vue-router": "^4.4.5",
@@ -34,20 +32,6 @@
     "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
-    "@mdi/font": "^7.4.47",
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
-    "vue-template-compiler": "^2.6.14",
-    "watch": "^1.0.2"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
-  ]
+    "@vitejs/plugin-vue": "^5.1.5"
+  }
 }

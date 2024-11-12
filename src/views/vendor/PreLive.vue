@@ -50,7 +50,7 @@
           <div class="lasted--product" style="margin-top: 12px; padding-bottom: 140px;">
             <div v-for="(product, index) in products" :key="product.id" class="product--item">
               <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="background: #eeeeee;">
-              <img v-else :src="require(`@/assets/img/no-preview.png`)" style="background: #eeeeee;">
+              <img v-else src="/img/no-preview.png" style="background: #eeeeee;">
               <div class="details">
                 <div class="title">{{ product.title }}</div>
                 <div class="price" style="display: inline-block;" :class="{ 'stock-unavailable': isProductUnavailable(product), 'stock-available': !isProductUnavailable(product) }">{{ getProductQuantity(product) }} | 
@@ -100,7 +100,7 @@
               <div class="col-3 col-img">
                 <div class="img_item">
                   <img v-if="element.product.uploads.length" :src="$cloudinary256x256 + element.product.uploads[0].filename" style="background: #eeeeee;">
-                  <img v-else :src="require(`@/assets/img/no-preview.png`)" style="background: #eeeeee;">
+                  <img v-else src="/img/no-preview.png" style="background: #eeeeee;">
                 </div>
               </div>
               <div class="col-6" style="padding-left: 0px; padding-right: 0px;">

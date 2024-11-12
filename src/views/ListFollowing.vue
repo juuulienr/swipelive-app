@@ -37,7 +37,7 @@
           <div v-if="followers.length" class="top-author--container">
             <div v-for="(user, index) in followers" class="top-author--item">
               <img v-if="user.picture" class="user" :src="$cloudinary256x256 + user.picture">
-              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+              <img v-else class="user" src="/img/anonyme.jpg">
               <div>
                 <span v-if="user.vendor">{{ user.vendor.pseudo }}</span>
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
@@ -69,7 +69,7 @@
           <div v-if="following.length" class="top-author--container">
             <div v-for="(user, index) in following" class="top-author--item">
               <img v-if="user.picture"class="user" :src="$cloudinary256x256 + user.picture">
-              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+              <img v-else class="user" src="/img/anonyme.jpg">
               <div>
                 <span>{{ user.vendor.pseudo }}</span>
                 <div>
@@ -101,7 +101,7 @@
           <div v-if="following.length" class="top-author--container">
             <div v-for="(user, index) in following" class="top-author--item">
               <img v-if="user.picture"class="user" :src="$cloudinary256x256 + user.picture">
-              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+              <img v-else class="user" src="/img/anonyme.jpg">
               <div>
                 <span>{{ user.vendor.pseudo }}</span>
                 <div>
@@ -136,7 +136,7 @@
 <style scoped src="../assets/css/listfollowing.css"></style>
 
 <script>
-import Product from '../components/Product';
+import Product from '../components/Product.vue';
 import LottieJSON from '../assets/lottie/followers.json';
 
 

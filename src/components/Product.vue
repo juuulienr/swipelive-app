@@ -7,7 +7,7 @@
     </div>
     <div v-else style="width: 100vw;">
       <div class="vue-slick">
-        <img :src="require(`@/assets/img/no-preview.png`)">
+        <img src="/img/no-preview.png">
       </div>
     </div>
 
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div v-if="promotion" style="margin-top: 10px; margin-bottom: -5px;">
-        <img :src="require(`@/assets/img/discount.svg`)" style="width: 24px;height: 24px;transform: rotate(-30deg);">
+        <img src="/img/discount.svg" style="width: 24px;height: 24px;transform: rotate(-30deg);">
         <span v-if="promotion.type == 'percent'" style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promotion.value }}% supplémentaire à la caisse</span> 
         <span v-else style="margin-left: 4Px; line-height: 17p; font-size: 14Px; color: #f60;">-{{ promotion.value }}€ supplémentaire à la caisse</span> 
       </div>

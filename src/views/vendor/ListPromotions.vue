@@ -38,7 +38,7 @@
         <div v-for="(promo, index) in user.vendor.promotions" style="border: 1px solid #ff2f80; margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
           <div class="profile--follow">
             <div style="width: 40%; margin-top: 5px;">
-              <img :src="require(`@/assets/img/discount.svg`)" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
+              <img src="/img/discount.svg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
               <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                 <span @click="check(promo)" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                   <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': promo.isActive }">

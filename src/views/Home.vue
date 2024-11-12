@@ -9,7 +9,7 @@
                 <button @click="goToCategory(category)" v-for="category in categories" :key="category" class="c1l3w0tx dir dir-ltr">
                   <div class="c8gkmzg dir dir-ltr">
                     <span class="c1m2z0bj c1w8ohg7 dir dir-ltr">
-                      <img v-if="category.picture" class="i1wps9q8 dir dir-ltr" :src="require(`@/assets/img/` + category.picture)" alt="" width="24" height="24" />
+                      <img v-if="category.picture" class="i1wps9q8 dir dir-ltr" :src="`/img/${category.picture}`" alt="" width="24" height="24" />
                       <div class="tamhn2w dir dir-ltr">
                         <span class="t1h65ots dir dir-ltr">{{ category.name }}</span>
                       </div>
@@ -32,7 +32,7 @@
             <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
               <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
                 <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="$cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
-                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
+                <img v-else src="/img/anonyme.jpg" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
                 {{ clip.vendor.pseudo }}
               </div>
             </div>
@@ -52,7 +52,7 @@
           <div class="personne">
             <div>
               <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 150px; height: 150px; border-radius: 10px; background: #eeeeee;">
-              <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 150px; height: 150px; border-radius: 10px; background: #eeeeee;">
+              <img v-else src="/img/no-preview.png" style="width: 150px; height: 150px; border-radius: 10px; background: #eeeeee;">
             </div>
             <div class="shop--item--details" style="width: 150px; padding: 0px; margin-top: 6px; padding-left: 5px;">
               <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ product.title }}</div>
@@ -77,7 +77,7 @@
             <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
               <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
                 <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="$cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
-                <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
+                <img v-else src="/img/anonyme.jpg" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
                 {{ clip.vendor.pseudo }}
               </div>
             </div>
@@ -95,10 +95,10 @@
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
       <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
-        <img :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
+        <img src="/img/close-popup.svg" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
-      <img v-if="user.length !== 0 && user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
-      <img v-else @click="favoris(product)" :src="require(`@/assets/img/circle-heart.svg`)" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
+      <img v-if="user.length !== 0 && user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" src="/img/circle-heart-full.svg" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
+      <img v-else @click="favoris(product)" src="/img/circle-heart.svg" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222);pointer-events: auto;"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
@@ -113,7 +113,7 @@
 <style scoped src="../assets/css/home.css"></style>
 
 <script>
-import Product from '../components/Product';
+import Product from '../components/Product.vue';
 
 export default {
   name: 'Home',

@@ -15,7 +15,7 @@
         <div v-for="(lineItem, index) in lineItems" :key="index" class="checkout__row checkout__product-info-row">
           <div class="checkout__product-info">
             <img v-if="lineItem.product.uploads" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image"/>
-            <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image"/>
+            <img v-else src="/img/no-preview.png" class="checkout__image"/>
             <span class="counter-badge">{{ lineItem.quantity }}</span>
             <div style="padding-right: 30px;">   
               <h5 class="checkout__name" style="margin-bottom: 0px;"> {{ lineItem.product.title }} </h5>
@@ -61,7 +61,7 @@
       <div v-if="shippingAddress && shippingMethod != 'service_point'" class="card panel-item card-address">
         <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
           <div class="card-title">
-            <img :src="require(`@/assets/img/domicile.png`)"/>
+            <img src="/img/domicile.png"/>
             {{ name }}
           </div>
           <div class="card-text">
@@ -85,7 +85,7 @@
         <div class="top-author">
           <div @click="showShippingAddress()" class="top-author--container">
             <div class="top-author--item">
-              <img :src="require(`@/assets/img/domicile.png`)"/>
+              <img src="/img/domicile.png"/>
               <div style="margin-left: 7px;">
                 <span style="font-weight: 500; color: #ff2f80;">Ajouter une adresse de livraison</span>
               </div>
@@ -108,11 +108,11 @@
         <div class="card-body parcelshop-card-body">
           <div class="card-title" style="font-weight: 500; margin-bottom: 3px;">
             <div v-if="pointSelected.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'">
-              <img :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
+              <img src="/img/shop2shop.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"/>
               <span>Shop2Shop</span>
             </div>
             <div v-else>
-              <img :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
+              <img src="/img/mondial_relay.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;"> 
               <span>Mondial Relay</span>
             </div>
           </div>
@@ -134,9 +134,9 @@
         </div>
         <div class="top-author--container" style="">
           <div @click="showRelayPopup()" class="top-author--item">
-            <img v-if="pointSelected && pointSelected.carrier == 'chronopost'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
-            <img v-else-if="pointSelected && pointSelected.carrier" :src="require(`@/assets/img/` + pointSelected.carrier + `.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
-            <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
+            <img v-if="pointSelected && pointSelected.carrier == 'chronopost'" src="/img/shop2shop.png" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
+            <img v-else-if="pointSelected && pointSelected.carrier" :src="`/img/${pointSelected.carrier}.png`" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
+            <img v-else src="/img/mondial_relay.png" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <div>
               <span style="text-transform: capitalize;">Point relais</span>
             </div>
@@ -161,7 +161,7 @@
           </div>
           <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;"/>
           <div @click="changeToAddress()" class="top-author--item">
-            <img :src="require(`@/assets/img/domicile.png`)" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
+            <img src="/img/domicile.png" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <div>
               <span style="text-transform: capitalize;">Domicile</span>
             </div>
@@ -322,8 +322,8 @@
               <div class="card-body parcelshop-card-body">
                 <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
                   <div class="map-badge">Le plus proche</div>
-                  <img v-if="mapSelected.carrier_id && mapSelected.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
-                  <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
+                  <img v-if="mapSelected.carrier_id && mapSelected.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" src="/img/shop2shop.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
+                  <img v-else src="/img/mondial_relay.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
                   {{ mapSelected.name }}
                 </div>
                 <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
@@ -349,8 +349,8 @@
             <div v-for="(point, index) in points" :key="point.id" class="card panel-item" style="border-radius: 10px; margin: 15px 5px; border: 1px solid #ddd!important;">
               <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
                 <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
-                  <img v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" :src="require(`@/assets/img/shop2shop.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
-                  <img v-else :src="require(`@/assets/img/mondial_relay.png`)" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
+                  <img v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" src="/img/shop2shop.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
+                  <img v-else src="/img/mondial_relay.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
                   {{ point.name }}
                 </div>
                 <div class="card-text" style="font-weight: 400; font-size: 14px; line-height: 20px;">
@@ -395,10 +395,10 @@
       	<div class="card panel-item" style="border: none;">
           <div class="card-body parcelshop-card-body" style="padding: 5px;">
             <div v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" class="card-title card-relayinfo">
-              <img :src="require(`@/assets/img/shop2shop.png`)"> Shop2Shop
+              <img src="/img/shop2shop.png"> Shop2Shop
             </div>
             <div v-else-if="point.carrier_id == 'b139ac1f-bbb9-4235-b87e-aedcb3c32132'" class="card-title card-relayinfo">
-              <img :src="require(`@/assets/img/mondial_relay.png`)"> Mondial Relay
+              <img src="/img/mondial_relay.png"> Mondial Relay
             </div>
             <div v-else class="card-title card-relayinfo">
               {{ point.service_name }}

@@ -126,9 +126,6 @@
     },
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.swipelive.app"
     }
   },
   "dependent_plugins": {

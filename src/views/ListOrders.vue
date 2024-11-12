@@ -37,7 +37,7 @@
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
-                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
@@ -67,7 +67,7 @@
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
-                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
@@ -97,7 +97,7 @@
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
-                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
@@ -127,7 +127,7 @@
             <div v-if="filteredSales.length" class="top-author--container">
               <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
-                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
@@ -162,7 +162,7 @@
             <div v-if="purchases && purchases.length > 0" class="top-author--container">
               <div v-for="order in purchases" @click="showOrder(order, 'purchase')" class="top-author--item" style="position: relative">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
-                <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+                <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
                 <div>
                   <div><span>#{{ order.number }}</span></div>
@@ -213,24 +213,24 @@
           <div class="top-author--container">
             <div v-if="type == 'sale'" class="top-author--item" style="padding: 0px; border: none !important;">
               <img v-if="order.buyer.picture" :src="$cloudinary256x256 + order.buyer.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
-              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
+              <img v-else src="/img/anonyme.jpg" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                 <div><span>{{ $formatDate(order.createdAt) }}</span></div>
               </div>
               <div @click="sendMessageToBuyer(order.buyer)" style="width: 28px; height: 28px;">
-                <img :src="require(`@/assets/img/comment-dots.svg`)"/>
+                <img src="/img/comment-dots.svg"/>
               </div>
             </div>
             <div v-else class="top-author--item" style="padding: 0px; border: none !important;">
               <img v-if="order.vendor.user.picture" :src="$cloudinary256x256 + order.vendor.user.picture" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
-              <img v-else :src="require(`@/assets/img/anonyme.jpg`)" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
+              <img v-else src="/img/anonyme.jpg" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.vendor.pseudo }}</span>
                 <div><span>{{ $formatDate(order.createdAt) }}</span></div>
               </div>
               <div @click="sendMessageToVendor(order.vendor)" style="width: 28px; height: 28px;">
-                <img :src="require(`@/assets/img/comment-dots.svg`)"/>
+                <img src="/img/comment-dots.svg"/>
               </div>
             </div>
           </div>
@@ -241,7 +241,7 @@
             <div class="checkout__product-info" style="padding: 7px 0px;">
               <div style="display: flex; padding-right: 0px; align-items: center;">
                 <img v-if="lineItem.product && lineItem.product.uploads.length" :src="$cloudinary256x256 + lineItem.product.uploads[0].filename" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
-                <img v-else :src="require(`@/assets/img/no-preview.png`)" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
+                <img v-else src="/img/no-preview.png" class="checkout__image" style="border-radius: 10px; margin-right: 0px;"/>
                 <span class="counter-badge" style="top: 3px;left: 54px;">{{ lineItem.quantity }}</span>
                 <div style="margin-left: 15px;">
                   <h5 class="checkout__name" style="font-weight: 500; font-size: 14px; margin: 0px;"> {{ lineItem.title }} </h5>
@@ -316,13 +316,13 @@
 
         <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
           <div v-if="type == 'sale' && order.shippingStatus == 'open'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2f80;font-weight: 600;font-size: 17px;">
-            <img :src="require(`@/assets/img/location.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison estimée : 
+            <img src="/img/location.svg" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison estimée : 
             <span v-if="order.expectedDelivery">{{ $formatDate2(order.expectedDelivery) }}</span>
             <span v-else>-</span>
           </div>
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
-            <img :src="require(`@/assets/img/truck.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Transporteur : {{ order.shippingServiceName }} <br> 
-            <img v-if="order.trackingNumber" :src="require(`@/assets/img/map-marker.svg`)" style="width: 20px; height: 20px; margin-right: 4px;"/> Numéro de suivi : 
+            <img src="/img/truck.svg" style="width: 20px; height: 20px; margin-right: 4px;"/> Transporteur : {{ order.shippingServiceName }} <br> 
+            <img v-if="order.trackingNumber" src="/img/map-marker.svg" style="width: 20px; height: 20px; margin-right: 4px;"/> Numéro de suivi : 
             <span v-if="order.trackingNumber" @click="showTrackingWebsite()" style="color: #007bff; text-decoration: underline;">{{ order.trackingNumber }}</span>
             <span v-else>-</span>
           </div>

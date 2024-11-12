@@ -27,7 +27,7 @@
         <div class="lasted--product" style="margin-top: 20px;">
           <div v-for="(product, index) in sortedProducts" @click="editProduct(product)" class="product--item">
             <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style=" background: #eeeeee">
-            <img v-else :src="require(`@/assets/img/no-preview.png`)">
+            <img v-else src="/img/no-preview.png">
             <div class="details">
               <div class="title">{{ product.title }}</div>
               <div class="price" :class="{ 'stock-unavailable': isProductUnavailable(product), 'stock-available': !isProductUnavailable(product) }">{{ getProductQuantity(product) }}</div>

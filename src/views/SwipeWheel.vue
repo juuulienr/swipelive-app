@@ -16,11 +16,11 @@
 
 
     <div v-if="winners && winners.length > 0" class="checkout__body items" style="padding-top: 0px">
-      <img :src="require(`@/assets/img/swipe-wheel.png`)" style="width: 100%; height:300px;">
+      <img src="/img/swipe-wheel.png" style="width: 100%; height:300px;">
       <div style="position: absolute; width: 100%; z-index: 100000; background: white; top: 323px; border-radius: 30px;">
         <div class="top-author--container" style="border-radius: 10px; border: 2px solid #68dfb9; margin: 15px; background: #68dfb924; margin: 20px 15px 0px !important;">
           <div class="top-author--item">
-            <img :src="require(`@/assets/img/anonyme.jpg`)"/>
+            <img src="/img/anonyme.jpg"/>
             <div>
               <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
             </div>
@@ -30,7 +30,7 @@
 
         <div class="top-author--container" style="margin: 0px 15px !important;">
           <div class="top-author--item">
-            <img :src="require(`@/assets/img/anonyme.jpg`)"/>
+            <img src="/img/anonyme.jpg"/>
             <div>
               <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
             </div>
@@ -40,7 +40,7 @@
 
         <div class="top-author--container" style="margin: 0px 15px !important;">
           <div class="top-author--item">
-            <img :src="require(`@/assets/img/anonyme.jpg`)"/>
+            <img src="/img/anonyme.jpg"/>
             <div>
               <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
             </div>
@@ -50,7 +50,7 @@
 
         <div class="top-author--container" style="margin: 0px 15px !important;">
           <div class="top-author--item">
-            <img :src="require(`@/assets/img/anonyme.jpg`)"/>
+            <img src="/img/anonyme.jpg"/>
             <div>
               <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
             </div>

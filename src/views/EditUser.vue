@@ -20,7 +20,7 @@
                 </svg>
                 <span v-else>
                   <img v-if="user.picture" :src="$cloudinary256x256 + user.picture">
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+                  <img v-else src="/img/anonyme.jpg">
                 </span>
               </span>
             </span>

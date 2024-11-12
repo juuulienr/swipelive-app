@@ -141,11 +141,8 @@
         <preference name="FadeSplashScreenDuration" value="500" />
         <preference name="ShowSplashScreenSpinner" value="false" />
         <preference name="SplashScreenDelay" value="2000" />
-        <preference name="ShowSplashScreenSpinner" value="false" />
     </platform>
 
-<!--     <preference name="scheme" value="app" />
-    <preference name="hostname" value="localhost" /> -->
     <preference name="KeyboardResize" value="true"/>
     <preference name="KeyboardResizeMode" value="ionic"/>
     <preference name="HideKeyboardFormAccessoryBar" value="true"/>

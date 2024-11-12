@@ -26,11 +26,11 @@
               <div class="chat--left--head--profil">
                 <span v-if="discussion.user.id == user.id">
                   <img v-if="discussion.vendor.picture" :src="$cloudinary256x256 + discussion.vendor.picture">
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+                  <img v-else src="/img/anonyme.jpg">
                 </span>
                 <span v-else>
                   <img v-if="discussion.user.picture" :src="$cloudinary256x256 + discussion.user.picture">
-                  <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+                  <img v-else src="/img/anonyme.jpg">
                 </span>
                 <span v-if="isUserOnline(discussion)" class="online"></span>
               </div>
@@ -71,7 +71,7 @@
 
 <script>
 import LottieJSON from '../assets/lottie/message.json';
-import Message from '../components/Message';
+import Message from '../components/Message.vue';
 
 export default {
   name: 'ListMessages',

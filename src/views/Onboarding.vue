@@ -2,7 +2,7 @@
   <main style="padding: 0px 15px">
     <div class="checkout__body" style="margin-top: 30px;">
       <div v-if="notif" class="notif onboarding">
-        <img :src="require(`@/assets/img/notif.png`)" style="width: 100%; margin-top: 30px;" />
+        <img src="/img/notif.png" style="width: 100%; margin-top: 30px;" />
         <h5 class="title" style="margin-top: 30px;">Soyez informé !</h5>
         <div class="subtitle">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.</div>
         <div @click="allowNotif()" class="btn-step">Activer les notifications</div>

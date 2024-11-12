@@ -25,7 +25,7 @@
       <div v-if="facebook" @click="showFacebook()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4 badge-facebook">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
-            <img :src="require(`@/assets/img/facebook.svg`)" style="width: 36px; height: 36px;"/>
+            <img src="/img/facebook.svg" style="width: 36px; height: 36px;"/>
           </span>
         </div>
       </div>
@@ -106,7 +106,7 @@
             <div v-for="(promo, index) in user.vendor.promotions" style="border: 1px solid #ff2f80; margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
               <div class="profile--follow">
                 <div style="width: 40%; margin-top: 5px;">
-                  <img :src="require(`@/assets/img/discount.svg`)" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
+                  <img src="/img/discount.svg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span @click="check(promo)" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': promo.isActive }">
@@ -154,24 +154,24 @@
         <div class="items" style="overflow: scroll; padding: 15px 15px 40px;">
           <div class="multistream-div" style="margin-bottom: 15px;">
             <div @click="showFacebook()" class="multistream-card">
-              <img :src="require(`@/assets/img/facebook.svg`)"/>
+              <img src="/img/facebook.svg"/>
               <div class="subtitle">Facebook</div>
               <div class="available" style="">Disponible</div>
             </div>
             <div class="multistream-card">
-              <img :src="require(`@/assets/img/instagram.svg`)"/>
+              <img src="/img/instagram.svg"/>
               <div class="subtitle">Instagram</div>
               <div class="unavailable">A venir</div>
             </div>
           </div>
           <div class="multistream-div">
             <div class="multistream-card">
-              <img :src="require(`@/assets/img/tiktok.svg`)"/>
+              <img src="/img/tiktok.svg"/>
               <div class="subtitle">Tiktok</div>
               <div class="unavailable">A venir</div>
             </div>
             <div class="multistream-card">
-              <img :src="require(`@/assets/img/youtube.svg`)"/>
+              <img src="/img/youtube.svg"/>
               <div class="subtitle">Youtube</div>
               <div class="unavailable">A venir</div>
             </div>
@@ -197,7 +197,7 @@
               </div>
               <div class="top-author--item" style="box-shadow: none; padding: 0px;">
                 <img v-if="user.picture" :src="$cloudinary256x256 + user.picture"/>
-                <img v-else :src="require(`@/assets/img/anonyme.jpg`)"/>
+                <img v-else src="/img/anonyme.jpg"/>
                 <div><span>{{ user.firstname }} {{ user.lastname }}</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
@@ -309,168 +309,168 @@
         <div v-if="anim1" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
           <div class="_g19 KeyframeAnimation-js_6">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim2" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 11px;">
           <div class="_g19 KeyframeAnimation-js_8">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim3" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 9px;">
           <div class="_g19 KeyframeAnimation-js_9">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim4" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 13px;">
           <div class="_g19 KeyframeAnimation-js_10">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim5" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">    
           <div class="_g19 KeyframeAnimation-js_11"> 
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim6" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 15px;">
           <div class="_g19 KeyframeAnimation-js_12">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim7" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 1px;">
           <div class="_g19 KeyframeAnimation-js_13">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim8" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_14">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim9" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_15">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim10" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_16">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim11" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_17">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim12" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_18">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim13" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_19">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim14" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_20">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim15" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_21">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim16" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_22">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim17" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_23">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim18" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_24">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim19" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_25">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim20" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_26">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim21" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_27">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim22" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_28">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim23" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_29">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
         <div v-if="anim24" class="_g19 KeyframeAnimation-js_5" :style="{'bottom': safeareaBottom }" style="right: 10px;">
           <div class="_g19 KeyframeAnimation-js_30">
             <div class="_g19 KeyframeAnimation-js_7">
-              <img :src="require(`@/assets/img/heart-red.svg`)"/>
+              <img src="/img/heart-red.svg"/>
             </div>
           </div>
         </div>
@@ -526,7 +526,7 @@
         <div v-for="comment in comments" style="display: flex;">
           <div class="video-page__influencer-img" style="padding-right: 6px;">
             <img v-if="comment.user.picture" :src="$cloudinary256x256 + comment.user.picture">
-            <img v-else :src="require(`@/assets/img/anonyme.jpg`)">
+            <img v-else src="/img/anonyme.jpg">
           </div>
           <div class="video-page__influencer-badge">
             <div class="video-page__influencer-username-holder">
@@ -546,7 +546,7 @@
         <div class="video-page__product-top">
           <div class="video-page__image">
             <img v-if="liveProducts[0].product.uploads.length" :src="$cloudinary256x256 + liveProducts[0].product.uploads[0].filename">
-            <img v-else :src="require(`@/assets/img/no-preview.png`)">
+            <img v-else src="/img/no-preview.png">
           </div>
           <div class="video-page__info">
             <div>
@@ -559,7 +559,7 @@
                     {{ $formatPrice(liveProducts[0].product.price) }}€
                     <span v-if="liveProducts[0].product.compareAtPrice" class="disc" style="font-size: 13px; text-decoration: line-through; color: #999; padding-left: 3px; font-weight: 500;">
                       {{ $formatPrice(liveProducts[0].product.compareAtPrice) }}€ 
-                      <img v-if="user.vendor.promotions.find(promo => promo.isActive === true)" :src="require(`@/assets/img/discount.svg`)" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
+                      <img v-if="user.vendor.promotions.find(promo => promo.isActive === true)" src="/img/discount.svg" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                     </span>
                   </div>
                   <div class="price stock-available" v-if="available">{{ available }} en stock</div>
@@ -570,7 +570,7 @@
           </div>  
           <div v-if="liveProducts.length > 1" @click="changeProduct()" class="video-page__influencer-username-holder">
             <span class="video-page__influencer-video-count" style="padding: 20px 10px;">
-              <img :src="require(`@/assets/img/next-product.svg`)" style="width: 40px; height: 40px; margin-right: 7px;"/>
+              <img src="/img/next-product.svg" style="width: 40px; height: 40px; margin-right: 7px;"/>
             </span>
           </div>
         </div>
@@ -590,7 +590,7 @@
         <!-- orders -->
         <div @click="showOrders()" class="video-page__influencer-username-holder" style="padding-left: 5px;padding-right: 5px;">
           <span class="video-page__influencer-video-count">
-            <img :src="require(`@/assets/img/bag.svg`)" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
+            <img src="/img/bag.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
           </span>
         </div>
 
@@ -619,7 +619,7 @@
           <div v-if="orders && orders.length > 0" class="top-author--container" style="margin-bottom: 40px;">
             <div v-for="order in orders" class="top-author--item" style="position: relative">
               <img v-if="order.upload" :src="$cloudinary256x256 + order.upload"/>
-              <img v-else :src="require(`@/assets/img/no-preview.png`)"/>
+              <img v-else src="/img/no-preview.png"/>
               <span class="order-counter">{{ order.nbProducts }}</span>
               <div>
                 <div><span>#{{ order.number }}</span></div>
@@ -657,13 +657,13 @@
           <div v-if="spectators && spectators.length > 0" class="top-author--container" style="gap: 0px; margin-bottom: 40px;">
             <div v-for="(user, index) in spectators" class="top-author--item" style="box-shadow: none;">
               <img v-if="user.picture" class="user" :src="$cloudinary256x256 + user.picture">
-              <img v-else class="user" :src="require(`@/assets/img/anonyme.jpg`)">
+              <img v-else class="user" src="/img/anonyme.jpg">
               <div>
                 <span v-if="user.vendor">{{ user.vendor.pseudo }}</span>
                 <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
               </div>
               <div @click="bannedViewer(user.id, index)">
-                <img :src="require(`@/assets/img/ban.svg`)" style="width: 24px !important; height: 24px !important;"/>
+                <img src="/img/ban.svg" style="width: 24px !important; height: 24px !important;"/>
               </div>
             </div>
           </div>

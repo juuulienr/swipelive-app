@@ -15,10 +15,10 @@
           <div>
             <div @click="showProduct(heart.product)">
               <img v-if="heart.product.uploads.length" :src="$cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
-              <img v-else :src="require(`@/assets/img/no-preview.png`)" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
-              
+              <img v-else :src="noPreviewImage" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
+
               <!-- Icône de cœur avec @click.stop pour éviter la propagation -->
-              <img @click.stop="removeFavoris(heart.product)" :src="require(`@/assets/img/circle-heart-full.svg`)" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
+              <img @click.stop="removeFavoris(heart.product)" :src="heartFullImage" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
             </div>
           </div>
           <div @click="showProduct(heart.product)" class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
@@ -54,7 +54,7 @@
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
       <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
-        <img :src="require(`@/assets/img/close-popup.svg`)" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
+        <img :src="closePopupImage" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
@@ -166,8 +166,11 @@
 
 <script>
 
-import Product from '../components/Product';
+import Product from '../components/Product.vue';
 import LottieJSON from '../assets/lottie/favoris.json';
+import noPreviewImage from '@/assets/img/no-preview.png';
+import heartFullImage from '@/assets/img/circle-heart-full.svg';
+import closePopupImage from '@/assets/img/close-popup.svg';
 
 
 export default {

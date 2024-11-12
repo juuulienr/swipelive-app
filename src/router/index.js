@@ -1,33 +1,33 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import Welcome from '@/views/Welcome';
-import Onboarding from '@/views/Onboarding';
-import VendorRegistration from '@/views/VendorRegistration';
+import Welcome from '@/views/Welcome.vue';
+import Onboarding from '@/views/Onboarding.vue';
+import VendorRegistration from '@/views/VendorRegistration.vue';
 
-import Feed from '@/views/Feed';
-import Home from '@/views/Home';
-import Search from '@/views/Search';
-import About from '@/views/About';
-import SwipeWheel from '@/views/SwipeWheel';
-import Favoris from '@/views/Favoris';
-import Profile from '@/views/Profile';
-import Category from '@/views/Category';
-import ListOrders from '@/views/ListOrders';
-import ListMessages from '@/views/ListMessages';
-import ListFollowing from '@/views/ListFollowing';
-import EditUser from '@/views/EditUser';
-import Account from '@/views/Account';
-import Cart from '@/components/Cart';
-import Checkout from '@/components/Checkout';
+import Feed from '@/views/Feed.vue';
+import Home from '@/views/Home.vue';
+import Search from '@/views/Search.vue';
+import About from '@/views/About.vue';
+import SwipeWheel from '@/views/SwipeWheel.vue';
+import Favoris from '@/views/Favoris.vue';
+import Profile from '@/views/Profile.vue';
+import Category from '@/views/Category.vue';
+import ListOrders from '@/views/ListOrders.vue';
+import ListMessages from '@/views/ListMessages.vue';
+import ListFollowing from '@/views/ListFollowing.vue';
+import EditUser from '@/views/EditUser.vue';
+import Account from '@/views/Account.vue';
+import Cart from '@/components/Cart.vue';
+import Checkout from '@/components/Checkout.vue';
 
-import Shop from '@/views/vendor/Shop';
-import AddEditProduct from '@/views/vendor/AddEditProduct';
-import ListPartners from '@/views/vendor/ListPartners';
-import ListPromotions from '@/views/vendor/ListPromotions';
-import ListClips from '@/views/vendor/ListClips';
-import Wallet from '@/views/vendor/Wallet';
-import PreLive from '@/views/vendor/PreLive';
-import Live from '@/views/vendor/Live';
+import Shop from '@/views/vendor/Shop.vue';
+import AddEditProduct from '@/views/vendor/AddEditProduct.vue';
+import ListPartners from '@/views/vendor/ListPartners.vue';
+import ListPromotions from '@/views/vendor/ListPromotions.vue';
+import ListClips from '@/views/vendor/ListClips.vue';
+import Wallet from '@/views/vendor/Wallet.vue';
+import PreLive from '@/views/vendor/PreLive.vue';
+import Live from '@/views/vendor/Live.vue';
 
 const routes = [
   { path: '/', name: 'Welcome', component: Welcome },

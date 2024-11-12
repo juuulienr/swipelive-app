@@ -49,7 +49,7 @@
 
       <div @click="deleteAccount()" style="border: 1px solid rgb(221, 221, 221) !important; margin: 0px; text-align: left; padding-left: 20px; display: flex; align-items: center;  padding: 14px 24px; border-radius: 16px; margin-top: 20px;">
         <span style="font-size: 16px; color: #333;">
-          <img :src="require(`@/assets/img/delete.svg`)" style="width: 24px; height: 24px; margin-right: 16px"/>
+          <img src="/img/delete.svg" style="width: 24px; height: 24px; margin-right: 16px"/>
         </span>
         <span style="font-weight: 400; color: #272c30;">Supprimer mon compte</span>
       </div>

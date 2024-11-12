@@ -3,8 +3,8 @@
     <!-- velcome video -->
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
-        <video v-if="isAndroid" ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay :src="require(`@/assets/video/welcome.mp4`)" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-        <video v-else ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" :src="require(`@/assets/video/welcome.mp4`)" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
+        <video v-if="isAndroid" ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay src="/video/welcome.mp4" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+        <video v-else ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" src="/video/welcome.mp4" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
       </div>
     </div>
     <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" @click="open()" class="btn-open" :style="{'bottom': safeareaBottom }">
@@ -20,7 +20,7 @@
         <div class="social-container-NE2xk" style="padding: 0px;">
           <div @click="userRegistration()" class="channel-item-wrapper-2gBWB" style="background: #ff2f80; border: none; margin-bottom: 0px;">
             <div class="channel-icon-wrapper-2eYxZ">
-              <img :src="require(`@/assets/img/mail.png`)" style="width: 24px; height: 24px; margin-bottom: 7px;"/>
+              <img src="/img/mail.png" style="width: 24px; height: 24px; margin-bottom: 7px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">S'inscrire par email</div>
           </div>
@@ -33,19 +33,19 @@
         <div class="social-container-NE2xk">
           <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
-              <img :src="require(`@/assets/img/apple.png`)" style="width: 24px; height: 24px; margin-bottom: 3px;"/>
+              <img src="/img/apple.png" style="width: 24px; height: 24px; margin-bottom: 3px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Apple</div>
           </div>
           <div @click="facebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
-              <img :src="require(`@/assets/img/facebook.png`)" style="width: 24px; height: 24px;"/>
+              <img src="/img/facebook.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
           <div @click="google()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
-              <img :src="require(`@/assets/img/google.png`)" style="width: 24px; height: 24px;"/>
+              <img src="/img/google.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW">Continuer avec Google</div>
           </div>
@@ -61,7 +61,7 @@
     <div v-if="popupLogin" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
         <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
-           <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
+           <img src="/img/arrow-left.svg" style="width: 28px; height: 28px;"/>
         </div>
       </div>
       <div style="padding: 15px;">
@@ -102,19 +102,19 @@
         <div class="social-container-NE2xk">
           <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
-              <img :src="require(`@/assets/img/apple.png`)" style="width: 24px; height: 24px;"/>
+              <img src="/img/apple.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Apple</div>
           </div>
           <div @click="facebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
-              <img :src="require(`@/assets/img/facebook.png`)" style="width: 24px; height: 24px;"/>
+              <img src="/img/facebook.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
           <div @click="google()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
-              <img :src="require(`@/assets/img/google.png`)" style="width: 24px; height: 24px;"/>
+              <img src="/img/google.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW">Continuer avec Google</div>
           </div>
@@ -127,7 +127,7 @@
     <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
         <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
-           <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
+           <img src="/img/arrow-left.svg" style="width: 28px; height: 28px;"/>
         </div>
         <div class="checkout__title">S'inscrire</div>
       </div>
@@ -197,7 +197,7 @@
     <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
         <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
-           <img :src="require(`@/assets/img/arrow-left.svg`)" style="width: 28px; height: 28px;"/>
+           <img src="/img/arrow-left.svg" style="width: 28px; height: 28px;"/>
         </div>
         <div class="checkout__title">Mot de passe oublié</div>
       </div>
