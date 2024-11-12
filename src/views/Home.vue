@@ -68,30 +68,6 @@
     </div>
 
 
-
-    <div v-if="clipsLatest && clipsLatest.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
-      <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Nouveautés ⭐️</h2>
-      <div class="list_persone" style="display:flex; padding: 0px 5px">
-        <div v-for="(clip, index) in clipsLatest" @click="showLatestClip(index)" style="padding: 0px 5px;">
-          <div class="personne">
-            <div class="checkout__header" style="z-index: 15; width: 160px; position: absolute; padding: 0.5rem 0px 0px;">
-              <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 14px; line-height: 26px; text-transform: capitalize; font-weight: 600;"> 
-                <img v-if="clip.vendor.user && clip.vendor.user.picture" :src="$cloudinary256x256 + clip.vendor.user.picture" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 3px; background: #eeeeee;">
-                <img v-else src="/img/anonyme.jpg" style="width: 32px; height: 32px; border: 2px solid white; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10; margin-right: 3px; background: #eeeeee;">
-                {{ clip.vendor.pseudo }}
-              </div>
-            </div>
-            <img v-if="clip.preview" :src="$amazonS3 + clip.preview" style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;">
-            <div v-else style="border-radius: 10px; width: 100%; object-fit: cover; width: 160px; height: 270px; background: #eeeeee;"></div>
-            <div style="background-image: linear-gradient(0deg, transparent 80%, rgba(0, 0, 0, 0.25)); border-radius: 10px; height: 270px; position: absolute; z-index: 10; width: 160px; top: 0px;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
       <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
@@ -127,9 +103,8 @@ export default {
       user: this.$store.getters.getUser,
       lineItems: this.$store.getters.getLineItems,
       categories: this.$store.getters.getCategories,
-      results: this.$store.getters.getSuggestions,
+      results: [],
       clipsTrending: [],
-      clipsLatest: [],
       productsTrending: [],
       searchFollowing: [],
       popupProduct: false,
@@ -164,7 +139,6 @@ export default {
 
     this.loadClipsTrending();
     this.loadProductsTrending();
-    // this.loadClipsLatest();
   },
   methods: {
     loadClipsTrending() {
@@ -175,14 +149,6 @@ export default {
         console.log(response.error);
       });
     },
-    // loadClipsLatest() {
-    //   window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //     console.log(JSON.parse(response.data));
-    //     this.clipsLatest = JSON.parse(response.data);
-    //   }, (response) => {
-    //     console.log(response.error);
-    //   });
-    // },
     loadProductsTrending() {
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));

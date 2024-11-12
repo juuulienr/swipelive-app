@@ -683,13 +683,6 @@ export default {
       }, (response) => {
         console.log(response.error);
       });
-    } else if (this.type == "latest") {
-      this.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setClipsLatest', JSON.parse(response.data));
-        this.refresh(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
     } else {
       this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
        this.refresh(JSON.parse(response.data));
@@ -697,18 +690,6 @@ export default {
         console.log(response.error);
       });
     }
-
-    // if (this.$store.getters.getClipsTrending.length == 0) {
-    //   this.loadClipsTrending();
-    // }
-
-    // if (this.$store.getters.getClipsLatest.length == 0) {
-    //   this.loadClipsLatest();
-    // }
-
-    // if (this.$store.getters.getProductsTrending.length == 0) {
-    //   this.loadProductsTrending();
-    // }
 
     if (this.$store.getters.getFollowing.length == 0) {
       this.loadFollowing();
@@ -1087,30 +1068,6 @@ export default {
         this.initializePlayer(index);
       }
     },
-    // loadClipsTrending() {
-    //   this.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //     console.log(JSON.parse(response.data));
-    //     this.$store.commit('setClipsTrending', JSON.parse(response.data));
-    //   }, (response) => {
-    //     console.log(response.error);
-    //   });
-    // },
-    // loadClipsLatest() {
-    //   this.http.get(this.baseUrl + "/user/api/clips/latest", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //     console.log(JSON.parse(response.data));
-    //     this.$store.commit('setClipsLatest', JSON.parse(response.data));
-    //   }, (response) => {
-    //     console.log(response.error);
-    //   });
-    // },
-    // loadProductsTrending() {
-    //   this.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-    //     console.log(JSON.parse(response.data));
-    //     this.$store.commit('setProductsTrending', JSON.parse(response.data));
-    //   }, (response) => {
-    //     console.log(response.error);
-    //   });
-    // },
     loadFollowing() {
       this.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));

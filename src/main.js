@@ -5,19 +5,23 @@ import router from './router/index';
 import Bugsnag from '@bugsnag/js';
 import BugsnagPluginVue from '@bugsnag/plugin-vue';
 import VueObserveVisibility from 'vue3-observe-visibility';
-import Vue3TouchEvents from "vue3-touch-events";
-import VueClickAway from "vue3-click-away";
+import Vue3TouchEvents from 'vue3-touch-events';
+import VueClickAway from 'vue3-click-away';
 import Vue3Lottie from 'vue3-lottie';
-import store from "./store/store.js";
-
+import { createPinia } from 'pinia';
 
 const app = createApp(App);
+const pinia = createPinia();
 
+// Configuration de Pusher et Bugsnag
 if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
   Pusher.logToConsole = true;
   app.config.productionTip = true;
-  Bugsnag.start({ apiKey: 'b6f579675362830a12146a96a851e17a', plugins: [new BugsnagPluginVue()] });
-  app.use(Bugsnag.getPlugin('vue')); 
+  Bugsnag.start({
+    apiKey: 'b6f579675362830a12146a96a851e17a',
+    plugins: [new BugsnagPluginVue()],
+  });
+  app.use(Bugsnag.getPlugin('vue'));
   window.localStorage.setItem("baseUrl", "https://swipelive.app");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 } else {
@@ -27,8 +31,9 @@ if (window.location.protocol === 'file:' || window.location.protocol === 'https:
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 }
 
+// Configuration des plugins et propriétés globales
 app.use(router);
-app.use(store);
+app.use(pinia);
 app.use(VueObserveVisibility);
 app.use(Vue3TouchEvents);
 app.use(Vue3Lottie);
@@ -39,20 +44,19 @@ app.config.globalProperties.$cloudinary256x256 = 'https://res.cloudinary.com/dxl
 app.config.globalProperties.$amazonS3 = 'https://swipe-live-app-storage-eu-west-3.s3.eu-west-3.amazonaws.com/';
 app.config.globalProperties.$googleAPIKey = 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w';
 
+// Fonctions utilitaires avec Composition API
 app.config.globalProperties.$formatDate = (datetime) => {
   const today = new Date();
   const date = new Date(datetime);
-
   return date.toDateString() === today.toDateString()
     ? date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })
     : date.toLocaleDateString(navigator.language, { day: '2-digit', month: '2-digit' });
 };
 
-app.config.globalProperties.$formatDate2 = function(datetime) {
+app.config.globalProperties.$formatDate2 = (datetime) => {
   const date = new Date(datetime);
   return date.toLocaleDateString(navigator.language);
 };
-
 
 app.config.globalProperties.$truncate = (text, length) => {
   if (text.length > length) {
@@ -99,31 +103,29 @@ app.config.globalProperties.$formatLikes = (value) => {
   }
 };
 
-
+// Initialisation de l'application
 const init = () => {
   app.mount('#app');
 };
 
-// Événements Cordova
+// Gestion des événements Cordova
 document.addEventListener("deviceready", () => {
   if (window.plugins && window.plugins.insomnia) {
     window.plugins.insomnia.keepAwake();
   }
-
   init();
 });
 
-// Événements de statut réseau et de batterie
+// Gestion des événements de statut réseau et de batterie
 document.addEventListener("offline", () => {
   window.plugins.toast.show("Pas de connexion Internet", 'long', 'top');
 });
 
 window.addEventListener("batterycritical", (event) => {
-  window.plugins.toast.show("Niveau de batterie critique : " + event.level + "%", 'long', 'top');
+  window.plugins.toast.show(`Niveau de batterie critique : ${event.level}%`, 'long', 'top');
 }, false);
 
 // Si Cordova n'est pas détecté, déclenche manuellement l'événement "deviceready"
-const isCordovaApp = (typeof window.cordova !== "undefined");
-if (!isCordovaApp) {
+if (typeof window.cordova === "undefined") {
   document.dispatchEvent(new CustomEvent("deviceready", {}));
 }

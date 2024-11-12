@@ -56,8 +56,8 @@ export default {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       user: this.$store.getters.getUser,
-      results: this.$store.getters.getSuggestions,
       following: this.$store.getters.getFollowing,
+      results: [],
       searchFollowing: [],
       searchValue: "",
       loadingSearch: false
