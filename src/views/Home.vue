@@ -90,6 +90,7 @@
 
 <script>
 import Product from '../components/Product.vue';
+import { useMainStore } from '../stores/useMainStore.js';
 
 export default {
   name: 'Home',
@@ -97,44 +98,60 @@ export default {
     Product,
   },
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
-      lineItems: this.$store.getters.getLineItems,
-      categories: this.$store.getters.getCategories,
+      user: mainStore.getUser,
+      lineItems: mainStore.getLineItems,
+      categories: mainStore.getCategories,
       results: [],
-      clipsTrending: [],
-      productsTrending: [],
+      clipsTrending: mainStore.getClipsTrending,
+      productsTrending: mainStore.getProductsTrending,
       searchFollowing: [],
       popupProduct: false,
       product: null,
       variant: null,
-    }
+    };
   },
   created() {
+    const mainStore = useMainStore();
+
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    if (this.user.length == 0) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
-      }, (error) => {
-        console.log(error);
-      }); 
+    if (this.user.length === 0) {
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/profile`, 
+        {}, 
+        { Authorization: `Bearer ${this.token}` }, 
+        (response) => {
+          const userData = JSON.parse(response.data);
+          this.user = userData;
+          mainStore.setUser(userData);
+        }, 
+        (error) => {
+          console.log(error);
+        }
+      );
     }
 
-    if (this.$store.getters.getCategories.length === 0) {
-      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type': 'application/json; charset=UTF-8' }, (response) => {
-        this.$store.commit('setCategories', JSON.parse(response.data));
-        this.categories = JSON.parse(response.data);
-        console.log(response);
-      }, (response) => {
-        console.log(response.error);
-      });
+    if (this.categories.length === 0) {
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/api/categories`, 
+        {}, 
+        { 'Content-Type': 'application/json; charset=UTF-8' }, 
+        (response) => {
+          const categoriesData = JSON.parse(response.data);
+          mainStore.setCategories(categoriesData);
+          this.categories = categoriesData;
+        }, 
+        (response) => {
+          console.log(response.error);
+        }
+      );
     }
 
     this.loadClipsTrending();
@@ -142,22 +159,42 @@ export default {
   },
   methods: {
     loadClipsTrending() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.clipsTrending = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
+      const mainStore = useMainStore();
+
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/clips/trending`, 
+        {}, 
+        { Authorization: `Bearer ${this.token}` }, 
+        (response) => {
+          const clipsData = JSON.parse(response.data);
+          this.clipsTrending = clipsData;
+          mainStore.setClipsTrending(clipsData);
+        }, 
+        (response) => {
+          console.log(response.error);
+        }
+      );
     },
     loadProductsTrending() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.productsTrending = JSON.parse(response.data);
-      }, (response) => {
-        console.log(response.error);
-      });
+      const mainStore = useMainStore();
+
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/products/trending`, 
+        {}, 
+        { Authorization: `Bearer ${this.token}` }, 
+        (response) => {
+          const productsData = JSON.parse(response.data);
+          this.productsTrending = productsData;
+          mainStore.setProductsTrending(productsData);
+        }, 
+        (response) => {
+          console.log(response.error);
+        }
+      );
     },
     goToProfile(user) {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -169,7 +206,7 @@ export default {
         winphonedelay: 0,
         slowdownfactor: 1,
       });
-      this.$store.commit('setProfile', user);
+      mainStore.setProfile(user);
       this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: true } });
     },
     goToCategory(category) {
@@ -198,7 +235,7 @@ export default {
         slowdownfactor: 1,
       });
 
-      this.$router.push({ name: 'Feed', params: { type: 'latest', index: index } });
+      this.$router.push({ name: 'Feed', params: { type: 'latest', index } });
     },
     showTrendingClip(index) {
       if (window.TapticEngine) {
@@ -214,93 +251,88 @@ export default {
         slowdownfactor: 1,
       });
 
-      this.$router.push({ name: 'Feed', params: { type: 'trending', index: index } });
+      this.$router.push({ name: 'Feed', params: { type: 'trending', index } });
     },
     hideProduct() {
       this.popupProduct = false;
       this.product = null;
     },
     favoris() {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + this.product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/favoris/${this.product.id}`, 
+        {}, 
+        { Authorization: `Bearer ${this.token}` }, 
+        (response) => {
+          const updatedUser = JSON.parse(response.data);
+          this.user = updatedUser;
+          mainStore.setUser(updatedUser);
+        }, 
+        (response) => {
+          console.log(response.error);
+        }
+      );
     },
     selectVariantChild(variant) {
-      console.log(variant);
       this.variant = variant;
     },
     addToCart() {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.popupProduct = false;
 
-      if (typeof this.product.vendor == "object") {
-        var vendor = this.product.vendor.id;
-      } else {
-        var vendor = this.product.vendor;
-      } 
+      const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
 
       if (this.lineItems.length) {
-        var exist = false;
-        var newVendor = false;
+        let exist = false;
+        let newVendor = false;
 
-        this.lineItems.map(lineItem => {
-          if (lineItem.vendor != vendor) {
-            newVendor = true;
-          }
+        this.lineItems.forEach((lineItem) => {
+          if (lineItem.vendor !== vendor) newVendor = true;
         });
 
-        if (newVendor == false) {
-          this.lineItems.map(lineItem => {
-            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
+        if (!newVendor) {
+          this.lineItems.forEach((lineItem) => {
+            if (lineItem.variant && this.variant && lineItem.variant.id === this.variant.id) {
               exist = true;
               lineItem.quantity += 1;
-            } else if (lineItem.product.id == this.product.id) {
-              if (!this.variant) {
-                exist = true;
-                lineItem.quantity += 1;
-              }
+            } else if (lineItem.product.id === this.product.id && !this.variant) {
+              exist = true;
+              lineItem.quantity += 1;
             }
           });
         } else {
           exist = true;
           navigator.notification.confirm(
-            'Ce article va remplacer votre ancien panier',
+            'Cet article va remplacer votre ancien panier',
             (buttonIndex) => {
-              if (window.cordova.platformId == "browser") {
-                var id = 1;
-              } else {
-                var id = 2;
+              const confirmButtonIndex = window.cordova.platformId === "browser" ? 1 : 2;
+              if (buttonIndex === confirmButtonIndex) {
+                this.lineItems = [{ product: this.product, variant: this.variant, quantity: 1, vendor }];
+                mainStore.setLineItems(this.lineItems);
               }
-              if (buttonIndex == id) {
-                this.lineItems = [];
-                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
-                this.$store.commit('setLineItems', this.lineItems);
-              }
-            },   
-            'Nouveau panier ?', 
-            ['Conserver','Nouveau'] 
+            },
+            'Nouveau panier ?',
+            ['Conserver', 'Nouveau']
           );
         }
 
         if (!exist) {
-          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-          this.$store.commit('setLineItems', this.lineItems);
+          this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+          mainStore.setLineItems(this.lineItems);
         }
       } else {
-        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-        this.$store.commit('setLineItems', this.lineItems);
+        this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+        mainStore.setLineItems(this.lineItems);
       }
     },
   }
 };
-
 </script>
-

@@ -48,35 +48,46 @@
 <style scoped src="../assets/css/home.css"></style>
 
 <script>
+import { useMainStore } from '../stores/useMainStore.js';
 
 export default {
   name: 'Search',
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
-      following: this.$store.getters.getFollowing,
+      user: mainStore.getUser,
+      following: mainStore.getFollowing,
       results: [],
       searchFollowing: [],
       searchValue: "",
-      loadingSearch: false
-    }
+      loadingSearch: false,
+    };
   },
   created() {
+    const mainStore = useMainStore();
+
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    if (this.user.length == 0) {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
-        this.changed();
-      }, (error) => {
-        console.log(error);
-      }); 
+    if (this.user.length === 0) {
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/profile`,
+        {},
+        { Authorization: `Bearer ${this.token}` },
+        (response) => {
+          const userData = JSON.parse(response.data);
+          this.user = userData;
+          mainStore.setUser(userData); // Utilisation de l'action Pinia
+          this.changed();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     } else {
       this.changed();
     }
@@ -92,70 +103,97 @@ export default {
       this.popupSearch = true;
     },
     loadFollowing() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.following = JSON.parse(response.data);
-        this.$store.commit('setFollowing', JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+      const mainStore = useMainStore();
+
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/following`,
+        {},
+        { Authorization: `Bearer ${this.token}` },
+        (response) => {
+          const followingData = JSON.parse(response.data);
+          this.following = followingData;
+          mainStore.setFollowing(followingData); // Utilisation de l'action Pinia
+        },
+        (response) => {
+          console.log(response.error);
+        }
+      );
     },
     changed() {
       if (this.searchValue.length > 0) {
         this.loadingSearch = true;
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.results = JSON.parse(response.data);
-          this.updateSearchFollowing();
-          this.loadingSearch = false;
-        }, (response) => {
-          console.log(response.error);
-        });
+        window.cordova.plugin.http.get(
+          `${this.baseUrl}/user/api/user/search`,
+          { search: this.searchValue },
+          { Authorization: `Bearer ${this.token}` },
+          (response) => {
+            this.results = JSON.parse(response.data);
+            this.updateSearchFollowing();
+            this.loadingSearch = false;
+          },
+          (response) => {
+            console.log(response.error);
+          }
+        );
       } else {
         this.loadingSearch = true;
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/user/search", { "search": this.searchValue }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.results = JSON.parse(response.data);
-          this.updateSearchFollowing();
-          this.loadingSearch = false;
-        }, (response) => {
-          console.log(response.error);
-        });
+        window.cordova.plugin.http.get(
+          `${this.baseUrl}/user/api/user/search`,
+          { search: this.searchValue },
+          { Authorization: `Bearer ${this.token}` },
+          (response) => {
+            this.results = JSON.parse(response.data);
+            this.updateSearchFollowing();
+            this.loadingSearch = false;
+          },
+          (response) => {
+            console.log(response.error);
+          }
+        );
       }
     },
     updateSearchFollowing() {
       this.searchFollowing = [];
-      this.results.map((result, index) => {
-        var isFollower = false;
+      this.results.forEach((result) => {
+        let isFollower = false;
 
         if (result.followers.length && this.user.following.length) {
-          result.followers.map((follower, index) => {
-            this.user.following.map((following, index) => {
-              if (follower.id == following.id) {
+          result.followers.forEach((follower) => {
+            this.user.following.forEach((following) => {
+              if (follower.id === following.id) {
                 isFollower = true;
               }
             });
           });
         }
-        
-        this.searchFollowing.push({ "value": isFollower });
+
+        this.searchFollowing.push({ value: isFollower });
       });
     },
     follow(id, index) {
-      if (this.searchFollowing[index].value) {
-        this.searchFollowing[index].value = false;
-      } else {
-        this.searchFollowing[index].value = true;
-      }
+      const mainStore = useMainStore();
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.changed();
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
-        this.loadFollowing();
-      }, (response) => {
-        console.log(response.error);
-      });
+      this.searchFollowing[index].value = !this.searchFollowing[index].value;
+
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/follow/${id}`,
+        {},
+        { Authorization: `Bearer ${this.token}` },
+        (response) => {
+          this.changed();
+          const updatedUser = JSON.parse(response.data);
+          this.user = updatedUser;
+          mainStore.setUser(updatedUser); // Utilisation de l'action Pinia
+          this.loadFollowing();
+        },
+        (response) => {
+          console.log(response.error);
+        }
+      );
     },
     goToProfile(user) {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -167,11 +205,10 @@ export default {
         winphonedelay: 0,
         slowdownfactor: 1,
       });
-      this.$store.commit('setProfile', user);
+
+      mainStore.setProfile(user); // Utilisation de l'action Pinia
       this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: true } });
     },
-  }
+  },
 };
-
 </script>
-

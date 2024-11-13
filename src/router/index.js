@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-
 import Welcome from '@/views/Welcome.vue';
 import Onboarding from '@/views/Onboarding.vue';
 import VendorRegistration from '@/views/VendorRegistration.vue';
@@ -55,7 +54,7 @@ const routes = [
   { path: '/vendor/orders/:isOrder/:orderId?', name: 'ListOrders', component: ListOrders },
   { path: '/discussions/:discussionId?/:userId?/:picture?/:pseudo?/:firstname?/:lastname?', name: 'ListMessages', component: ListMessages },
   { path: '/wallet', name: 'Wallet', component: Wallet },
-  { path: '/about', name: 'About', component: About }
+  { path: '/about', name: 'About', component: About },
 ];
 
 const router = createRouter({
@@ -63,7 +62,7 @@ const router = createRouter({
   routes,
   scrollBehavior() {
     document.getElementById('app').scrollIntoView();
-  }
+  },
 });
 
 export default router;

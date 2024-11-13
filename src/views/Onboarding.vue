@@ -5,7 +5,7 @@
         <img src="/img/notif.png" style="width: 100%; margin-top: 30px;" />
         <h5 class="title" style="margin-top: 30px;">Soyez informé !</h5>
         <div class="subtitle">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.</div>
-        <div @click="allowNotif()" class="btn-step">Activer les notifications</div>
+        <div @click="allowNotif" class="btn-step">Activer les notifications</div>
       </div>
 
       <div v-if="step1" class="step1 onboarding">
@@ -16,15 +16,52 @@
             <Vue3Lottie :animationData="LottieJSON" style="width: 300px"/>
           </div>
         </div>
-        <div @click="goFeed()" class="btn-step">Commencer à regarder</div>
+        <div @click="goFeed" class="btn-step">Commencer à regarder</div>
       </div>
     </div>
   </main>
 </template>
 
-<style scoped>
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import fcm from '../utils/fcm.js';
+import LottieJSON from '../assets/lottie/swipe-up.json';
 
- main .container {
+const router = useRouter();
+const notif = ref(true);
+const step1 = ref(false);
+const LottieData = LottieJSON;
+
+onMounted(() => {
+  window.StatusBar.overlaysWebView(false);
+  window.StatusBar.styleDefault();
+  window.StatusBar.backgroundColorByHexString("#ffffff");
+});
+
+function allowNotif() {
+  if (window.TapticEngine) {
+    TapticEngine.impact({ style: 'medium' });
+  }
+
+  if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+    fcm.onDeviceReady();
+  }
+  notif.value = false;
+  step1.value = true;
+}
+
+function goFeed() {
+  if (window.TapticEngine) {
+    TapticEngine.impact({ style: 'medium' });
+  }
+
+  router.push({ name: 'Feed' });
+}
+</script>
+
+<style scoped>
+main .container {
   margin-top: 10%;
   position: relative;
   display: flex;
@@ -34,7 +71,7 @@
   padding: 0;
   border-radius: 10px;
 }
- 
+
 .onboarding .title {
   font-weight: 600; 
   margin-bottom: 0px; 
@@ -64,61 +101,4 @@
   border-radius: 10px;
   font-size: 15px;
 }
-
 </style>
-
-<script>
-
-import fcm from '../utils/fcm.js';
-import LottieJSON from '../assets/lottie/swipe-up.json';
-
-export default {
-  name: 'Onboarding',
-  data() {
-    return {
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      LottieJSON: LottieJSON,
-      notif: true,
-      step1: false,
-    }
-  },
-  created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-  },
-  methods: {
-    async allowNotif() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-
-      if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-        fcm.onDeviceReady();
-        this.notif = false;
-        this.step1 = true;
-      } else {
-        this.notif = false;
-        this.step1 = true;
-      }
-    },
-    goFeed() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-
-      // window.plugins.nativepagetransitions.slide({
-      //   direction: 'left',
-      //   duration: 400,
-      //   iosdelay: 0,
-      //   androiddelay: 0,
-      //   winphonedelay: 0,
-      //   slowdownfactor: 1,
-      // });
-
-      this.$router.push({ name: 'Feed' });
-    }
-  }  
-};
-</script>

@@ -526,19 +526,18 @@
 <style scoped src="../assets/css/feed.css"></style>
 
 <script>
-
+import { useMainStore } from '../stores/useMainStore';
+import { useRoute } from 'vue-router';
 import fcm from '../utils/fcm.js';
 import Pusher from 'pusher-js';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-// import Player from 'xgplayer'
-
 import Checkout from '../components/Checkout.vue';
 import Product from '../components/Product.vue';
 import Cart from '../components/Cart.vue';
-
 import LottieJSON from '../assets/lottie/live.json';
 import LottieJSON2 from '../assets/lottie/arrow.json';
+
 
 
 export default {
@@ -548,19 +547,25 @@ export default {
     Cart,
     Checkout,
   },
+  setup() {
+    const mainStore = useMainStore();
+    const route = useRoute();
+
+    return {
+      mainStore,
+      anchor: route.params.index,
+      type: route.params.type,
+      profileId: route.params.profileId,
+    };
+  },
   data() {
     return {
-      anchor: this.$route.params.index,
-      type: this.$route.params.type,
-      profileId: this.$route.params.profileId,
-      user: this.$store.getters.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       banned: window.localStorage.getItem("banned") ? JSON.parse(window.localStorage.getItem("banned")) : [],
       pusher: new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' }),
-      LottieJSON: LottieJSON,
-      LottieJSON2: LottieJSON2,
-      lineItems: this.$store.getters.getLineItems,
+      LottieJSON,
+      LottieJSON2,
       players: [], 
       data: [],
       videos: [],
@@ -660,25 +665,24 @@ export default {
       fcm.onDeviceReady();
     }
 
-    if (this.user.length == 0) {
+    if (this.mainStore.user.length === 0) {
       this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
+        this.mainStore.setUser(JSON.parse(response.data));
       }, (error) => {
         console.log(error);
       });
     }
 
-    if (this.type == "profile") {
+    if (this.type === "profile") {
       this.http.get(this.baseUrl + "/api/profile/" + this.profileId + "/clips", {}, null, (response) => {
        this.refresh(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
-    } else if (this.type == "trending") {
+    } else if (this.type === "trending") {
       this.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setClipsTrending', JSON.parse(response.data));
+        this.mainStore.setClipsTrending(JSON.parse(response.data));
         this.refresh(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
@@ -691,7 +695,7 @@ export default {
       });
     }
 
-    if (this.$store.getters.getFollowing.length == 0) {
+    if (this.mainStore.following.length === 0) {
       this.loadFollowing();
     }
   },
@@ -707,11 +711,17 @@ export default {
     });
   },
   computed: {
+    user() {
+      return this.mainStore.getUser;
+    },
+    lineItems() {
+      return this.mainStore.getLineItems;
+    },
     updateCart() {
-      var count = 0;
+      let count = 0;
       if (this.lineItems.length) {
         this.lineItems.map(lineItem => {
-          count = count + lineItem.quantity;
+          count += lineItem.quantity;
         });
       }
       return count;
@@ -1071,7 +1081,7 @@ export default {
     loadFollowing() {
       this.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(JSON.parse(response.data));
-        this.$store.commit('setFollowing', JSON.parse(response.data));
+        this.mainStore.setFollowing(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -1108,9 +1118,9 @@ export default {
     },
     getShippingPrice() {
       if (this.user.shippingAddresses.length) {
-        this.$store.commit('setShippingProducts', []);
+        this.mainStore.setShippingProducts([]);
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", {"lineItems": this.lineItems}, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setShippingProducts', JSON.parse(response.data));
+          this.mainStore.setShippingProducts(JSON.parse(response.data));
           this.popupProduct = false;
           this.popupCheckout = true;
           this.loadingShipping = false;
@@ -1126,9 +1136,6 @@ export default {
       }
     },
     addToCart() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
       this.popupCheckout = false;
       if (!this.loadingShipping) {
         this.popupProduct = false;
@@ -1136,31 +1143,28 @@ export default {
       this.popupCart = false;
       this.popupShop = false;
 
-      console.log(this.product);
-      console.log(this.lineItems);
-
-      if (typeof this.product.vendor == "object") {
+      if (typeof this.product.vendor === "object") {
         var vendor = this.product.vendor.id;
       } else {
         var vendor = this.product.vendor;
       } 
 
       if (this.lineItems.length) {
-        var exist = false;
-        var newVendor = false;
+        let exist = false;
+        let newVendor = false;
 
         this.lineItems.map(lineItem => {
-          if (lineItem.vendor != vendor) {
+          if (lineItem.vendor !== vendor) {
             newVendor = true;
           }
         });
 
-        if (newVendor == false) {
+        if (!newVendor) {
           this.lineItems.map(lineItem => {
-            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
+            if (lineItem.variant && this.variant && lineItem.variant.id === this.variant.id) {
               exist = true;
               lineItem.quantity += 1;
-            } else if (lineItem.product.id == this.product.id) {
+            } else if (lineItem.product.id === this.product.id) {
               if (!this.variant) {
                 exist = true;
                 lineItem.quantity += 1;
@@ -1172,15 +1176,15 @@ export default {
           navigator.notification.confirm(
             'Ce article va remplacer votre ancien panier',
             (buttonIndex) => {
-              if (window.cordova.platformId == "browser") {
+              if (window.cordova.platformId === "browser") {
                 var id = 1;
               } else {
                 var id = 2;
               }
-              if (buttonIndex == id) {
+              if (buttonIndex === id) {
                 this.lineItems = [];
-                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
-                this.$store.commit('setLineItems', this.lineItems);
+                this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+                this.mainStore.setLineItems(this.lineItems);
               }
             },   
             'Nouveau panier ?', 
@@ -1189,12 +1193,12 @@ export default {
         }
 
         if (!exist) {
-          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-          this.$store.commit('setLineItems', this.lineItems);
+          this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+          this.mainStore.setLineItems(this.lineItems);
         }
       } else {
-        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-        this.$store.commit('setLineItems', this.lineItems);
+        this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+        this.mainStore.setLineItems(this.lineItems);
       }
     },
     showCart() {
@@ -1550,30 +1554,23 @@ export default {
       });
     },
     follow(id) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
       this.data.map((element, index) => {
-        if (element.value.vendor.user.id == id) {
+        if (element.value.vendor.user.id === id) {
           this.following[index].value = true;
-          this.followers[index].value = this.followers[index].value + 1;
+          this.followers[index].value += 1;
           this.popupFollow = false;
         }
       });
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+        this.mainStore.setUser(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
     },
     favoris(product) { 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
+        this.mainStore.setUser(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });

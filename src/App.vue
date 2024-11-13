@@ -1,6 +1,6 @@
 <template>
-  <router-view/>
-  <NavBar :lineItems="lineItems" v-if="showNavbar"/>
+  <router-view />
+  <NavBar :lineItems="lineItems" v-if="showNavbar" />
 </template>
 
 <style>
@@ -8,66 +8,83 @@
 @import './assets/css/main.css';
 </style>
 
-<script>
-import NavBar from "@/components/NavBar.vue";
+<script setup>
+import { onMounted, onBeforeUnmount, ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useMainStore } from '@/stores/useMainStore';
+import NavBar from '@/components/NavBar.vue';
 
-export default {
-  name: 'app',
-  components: { NavBar },
-  data() {
-    return {
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
-      pingInterval: null,
-      showNavbar: false
-    };
-  },
-  computed: {
-    lineItems() {
-      return this.$store.getters.getLineItems;
-    }
-  },
-  watch: {
-    $route(to) {
-      this.showNavbar = ["Home", "Search", "Account", "Category", "Cart"].includes(to.name);
-    }
-  },
-  created() {
-    this.showNavbar = ["Home", "Search", "Account", "Category", "Cart"].includes(this.$route.name);
-    this.loadCategories();
-  },
-  mounted() {
-    this.ping();
-    this.pingInterval = setInterval(() => {
-      this.user = this.$store.getters.getUser;
-      this.token = window.localStorage.getItem("token");
-      this.ping();
-    }, 240000); // 4 min
-  },
-  beforeDestroy() {
-    clearInterval(this.pingInterval);
-  },
-  methods: {
-    ping() {
-      if (this.user && this.token) {
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/ping", {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
-        }, (response) => {
-          console.log(response.error);
-        });
-      }
-    },
-    loadCategories() {
-      if (this.$store.getters.getCategories.length === 0) {
-        window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type': 'application/json; charset=UTF-8' }, (response) => {
-          this.$store.commit('setCategories', JSON.parse(response.data));
-          console.log(response);
-        }, (response) => {
-          console.log(response.error);
-        });
-      }
-    }
+// Variables locales
+const baseUrl = window.localStorage.getItem("baseUrl");
+const token = ref(window.localStorage.getItem("token"));
+const showNavbar = ref(false);
+const pingInterval = ref(null);
+
+// Utilisation du store Pinia
+const mainStore = useMainStore();
+const user = computed(() => mainStore.getUser);
+const lineItems = computed(() => mainStore.getLineItems);
+const categories = computed(() => mainStore.getCategories);
+
+// Logique de changement de route
+const route = useRoute();
+watch(
+  () => route.name,
+  (newRouteName) => {
+    showNavbar.value = ["Home", "Search", "Account", "Category", "Cart"].includes(newRouteName);
   }
-};
+);
+
+// Fonction de ping
+function ping() {
+  if (user.value && token.value) {
+    window.cordova.plugin.http.get(
+      `${baseUrl}/user/api/ping`,
+      {},
+      { Authorization: `Bearer ${token.value}` },
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+}
+
+// Chargement des catégories
+function loadCategories() {
+  if (categories.value.length === 0) {
+    window.cordova.plugin.http.get(
+      `${baseUrl}/api/categories`,
+      {},
+      { 'Content-Type': 'application/json; charset=UTF-8' },
+      (response) => {
+        mainStore.setCategories(JSON.parse(response.data));
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+}
+
+// Initialisation des valeurs lors du montage du composant
+onMounted(() => {
+  showNavbar.value = ["Home", "Search", "Account", "Category", "Cart"].includes(route.name);
+  loadCategories();
+
+  // Lancement du ping à intervalles réguliers
+  ping();
+  pingInterval.value = setInterval(() => {
+    token.value = window.localStorage.getItem("token");
+    ping();
+  }, 240000); // 4 min
+});
+
+// Nettoyage avant la destruction du composant
+onBeforeUnmount(() => {
+  clearInterval(pingInterval.value);
+});
 </script>

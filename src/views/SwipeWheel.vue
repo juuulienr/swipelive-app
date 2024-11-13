@@ -115,6 +115,51 @@
 </template>
 
 
+<script setup>
+import { ref, onMounted } from 'vue';
+import LottieJSON from '../assets/lottie/gift.json';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const baseUrl = ref(localStorage.getItem("baseUrl"));
+const winners = ref([]);
+const popupInfos = ref(false);
+const LottieData = LottieJSON;
+
+// Appelle lors de la création pour configurer la barre d'état
+onMounted(() => {
+  window.StatusBar.overlaysWebView(false);
+  window.StatusBar.styleDefault();
+  window.StatusBar.backgroundColorByHexString("#ffffff");
+});
+
+function showInfos() {
+  if (window.TapticEngine) {
+    TapticEngine.impact({ style: 'medium' });
+  }
+  popupInfos.value = true;
+}
+
+function hideInfos() {
+  popupInfos.value = false;
+}
+
+function goBack() {
+  if (window.TapticEngine) {
+    TapticEngine.impact({ style: 'medium' });
+  }
+  window.plugins.nativepagetransitions.slide({
+    direction: 'right',
+    duration: 400,
+    iosdelay: 0,
+    androiddelay: 0,
+    winphonedelay: 0,
+    slowdownfactor: 1,
+  });
+  router.back();
+}
+</script>
+
 <style scoped>
 .info-wheel p {
   font-size: 14px;
@@ -131,54 +176,3 @@
   display: none;
 }
 </style>
-
-<script>
-
-import LottieJSON from '../assets/lottie/gift.json';
-
-export default {
-  name: 'SwipeWheel',
-  data() {
-    return {
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      user: this.$store.getters.getUser,
-      LottieJSON: LottieJSON,
-      winners: [],
-      popupInfos: false,
-    }
-  },
-  created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-  },
-  methods: {
-    showInfos() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-
-      this.popupInfos = true;
-    },
-    hideInfos() {
-      this.popupInfos = false;
-    },
-    goBack() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-      this.$router.back();
-    },
-  }
-};
-
-</script>
-

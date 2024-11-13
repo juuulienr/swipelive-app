@@ -230,9 +230,14 @@
 <script>
 import AuthAPI from "../utils/auth.js";
 import LottieJSON from '../assets/lottie/forgot-password.json';
+import { useMainStore } from '../stores/useMainStore';
 
 export default {
   name: 'Welcome',
+  setup() {
+    const mainStore = useMainStore();
+    return { mainStore };
+  },
   data() {
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -363,7 +368,7 @@ export default {
 
           window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + result.token }, (response) => {
             console.log(JSON.parse(response.data));
-            this.$store.commit('setUser', JSON.parse(response.data));
+            this.mainStore.setUser(JSON.parse(response.data));
             this.$router.push({ name: 'Feed' });
           }, (error) => {
             console.log(error);
@@ -615,7 +620,7 @@ export default {
 
         await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
           console.log(response);
-          this.$store.commit('setUser', JSON.parse(response.data));
+          this.mainStore.setUser(JSON.parse(response.data));
           this.authenticate(true);
         }, (response) => {
           this.loading = false;

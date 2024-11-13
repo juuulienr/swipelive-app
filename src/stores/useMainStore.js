@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { useStorage } from '@vueuse/core'; // Utilise VueUse pour une persistance similaire à vuex-persistedstate
+import { useStorage } from '@vueuse/core';
 
 export const useMainStore = defineStore('main', {
   // `state` correspond aux données du store
   state: () => ({
-    user: useStorage('user', []),
+    user: useStorage('user', []), // Synchronisé avec le stockage local
     lineItems: useStorage('lineItems', []),
     categories: useStorage('categories', []),
     shippingProducts: useStorage('shippingProducts', []),
@@ -33,16 +33,19 @@ export const useMainStore = defineStore('main', {
   // `actions` pour des mutations et requêtes asynchrones
   actions: {
     resetState() {
-      this.user = [];
-      this.lineItems = [];
-      this.categories = [];
-      this.shippingProducts = [];
-      this.productsTrending = [];
-      this.clipsTrending = [];
-      this.profile = [];
-      this.product = [];
-      this.following = [];
-      this.rules = true;
+      // Pour éviter les références partagées, créer une nouvelle instance d'état vide
+      this.$patch({
+        user: [],
+        lineItems: [],
+        categories: [],
+        shippingProducts: [],
+        productsTrending: [],
+        clipsTrending: [],
+        profile: [],
+        product: [],
+        following: [],
+        rules: true,
+      });
     },
     setUser(data) {
       this.user = data;
