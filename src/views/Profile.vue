@@ -148,11 +148,10 @@
 <style scoped src="../assets/css/profile.css"></style>
 
 <script>
-  
+import { useMainStore } from '../stores/useMainStore';
 import Product from '../components/Product.vue';
 import LottieJSON from '../assets/lottie/replay.json';
 import LottieJSON2 from '../assets/lottie/no-product.json';
-
 
 export default {
   name: 'Profile',
@@ -160,11 +159,13 @@ export default {
     Product,
   },
   data() {
+    const mainStore = useMainStore();
+    
     return {
       id: this.$route.params.id,
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       profile: null,
-      lineItems: this.$store.getters.getLineItems,
+      lineItems: mainStore.getLineItems,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       overlaysWebView: this.$route.params.overlaysWebView,
@@ -182,7 +183,7 @@ export default {
       followers: 0,
       product: null,
       variant: null,
-    }
+    };
   },
   filters: {
     formatPrice(value) {
@@ -198,7 +199,6 @@ export default {
     this.getFollowers();
     
     window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-      console.log(JSON.parse(response.data));
       this.profile = JSON.parse(response.data);
       this.loadingProfile = false;
     }, (response) => {
@@ -224,9 +224,9 @@ export default {
       if (this.profile && this.profile.followers) {
         this.following = false;
         this.followers = this.profile.followers.length;
-        this.profile.followers.map((follower, index) => {
-          this.user.following.map((following, index) => {
-            if (follower.id == following.id) {
+        this.profile.followers.map((follower) => {
+          this.user.following.map((following) => {
+            if (follower.id === following.id) {
               this.following = true;
             }
           });
@@ -239,7 +239,7 @@ export default {
       }
       this.shop = true;
       this.live = false;
-    }, 
+    },
     showLive() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -248,36 +248,29 @@ export default {
       this.live = true;
     },
     updateFollow() {
-      if (this.following == true) {
-        this.following = false;
-        this.followers = this.followers - 1;
-      } else {
-        this.following = true;
-        this.followers = this.followers + 1;
-      }
+      const mainStore = useMainStore();
+      this.following = !this.following;
+      this.followers += this.following ? 1 : -1;
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+        mainStore.setUser(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
     },
     actionSheet() {
-      var buttonLabels = [ 'Partager', 'Silencieux', 'Signaler'];
-      var options = {
-        buttonLabels: buttonLabels,
+      const buttonLabels = ['Partager', 'Silencieux', 'Signaler'];
+      const options = {
+        buttonLabels,
         addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
       };
 
       window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
+        if (index === 1) {
           window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
-        } else if (index == 2) {
-          // mettre en silencieux
-        } else if (index == 3) {
+        } else if (index === 3) {
           window.plugins.toast.show("L'utilisateur a été signalé !", 'long', 'top');
         }
       }, (error) => {
@@ -312,7 +305,7 @@ export default {
         slowdownfactor: 1,
       });
 
-      this.$router.push({ name: 'Feed', params: { type: 'profile', index: index, profileId: this.profile.id } });
+      this.$router.push({ name: 'Feed', params: { type: 'profile', index, profileId: this.profile.id } });
     },
     showProduct(product) {
       if (window.TapticEngine) {
@@ -327,85 +320,61 @@ export default {
       this.product = null;
     },
     favoris(product) {
+      const mainStore = useMainStore();
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
+        mainStore.setUser(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
     },
     selectVariantChild(variant) {
-      console.log(variant);
       this.variant = variant;
     },
     addToCart() {
+      const mainStore = useMainStore();
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.popupProduct = false;
 
-      if (typeof this.product.vendor == "object") {
-        var vendor = this.product.vendor.id;
-      } else {
-        var vendor = this.product.vendor;
-      } 
+      const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
+      let exist = false;
+      let newVendor = false;
 
-      if (this.lineItems.length) {
-        var exist = false;
-        var newVendor = false;
+      this.lineItems.forEach((lineItem) => {
+        if (lineItem.vendor !== vendor) {
+          newVendor = true;
+        }
+      });
 
-        this.lineItems.map(lineItem => {
-          if (lineItem.vendor != vendor) {
-            newVendor = true;
+      if (!newVendor) {
+        this.lineItems.forEach((lineItem) => {
+          if (lineItem.variant?.id === this.variant?.id || lineItem.product.id === this.product.id && !this.variant) {
+            exist = true;
+            lineItem.quantity += 1;
           }
         });
-
-        if (newVendor == false) {
-          this.lineItems.map(lineItem => {
-            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
-              exist = true;
-              lineItem.quantity += 1;
-            } else if (lineItem.product.id == this.product.id) {
-              if (!this.variant) {
-                exist = true;
-                lineItem.quantity += 1;
-              }
-            }
-          });
-        } else {
-          exist = true;
-          navigator.notification.confirm(
-            'Ce article va remplacer votre ancien panier',
-            (buttonIndex) => {
-              if (window.cordova.platformId == "browser") {
-                var id = 1;
-              } else {
-                var id = 2;
-              }
-              if (buttonIndex == id) {
-                this.lineItems = [];
-                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
-                this.$store.commit('setLineItems', this.lineItems);
-              }
-            },   
-            'Nouveau panier ?', 
-            ['Conserver','Nouveau'] 
-          );
-        }
-
-        if (!exist) {
-          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-          this.$store.commit('setLineItems', this.lineItems);
-        }
       } else {
-        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-        this.$store.commit('setLineItems', this.lineItems);
+        exist = true;
+        navigator.notification.confirm(
+          'Ce article va remplacer votre ancien panier',
+          (buttonIndex) => {
+            if (buttonIndex === 2 || window.cordova.platformId === "browser") {
+              mainStore.setLineItems([{ product: this.product, variant: this.variant, quantity: 1, vendor }]);
+            }
+          },
+          'Nouveau panier ?', ['Conserver', 'Nouveau']
+        );
       }
-    }
+
+      if (!exist) {
+        this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+        mainStore.setLineItems(this.lineItems);
+      }
+    },
   }
 };
-
 </script>

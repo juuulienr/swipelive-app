@@ -314,16 +314,19 @@
 <script>
 
 import LottieJSON from '../../assets/lottie/upload.json';
+import { useMainStore } from '../../stores/useMainStore.js';
 
 export default {
   name: 'AddEditProduct',
   data() {
+    const mainStore = useMainStore();
+
     return {
       productId: this.$route.params.productId,
       LottieJSON: LottieJSON,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       product: {
         'title': '',
         'description': '',
@@ -339,7 +342,7 @@ export default {
         'variants': [],
         'options': [],
       },
-      categories: this.$store.getters.getCategories,
+      categories: mainStore.getCategories,
       popupVariant: false,
       popupEditVariant: false,
       errorTitle: false,
@@ -387,18 +390,20 @@ export default {
       this.isAndroid = true;
     }
 
-    if (!this.$store.getters.getCategories.length) {
-      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type':  'application/json; charset=UTF-8' }, (response) => {
+    const mainStore = useMainStore();
+    if (!mainStore.categories.length) {
+      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type': 'application/json; charset=UTF-8' }, (response) => {
         this.categories = JSON.parse(response.data);
-        this.$store.commit('setCategories', JSON.parse(response.data));
+        mainStore.setCategories(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
     }
   },
   mounted() {
-    if (this.productId && this.productId == this.$store.getters.getProduct.id) {
-      this.product = this.$store.getters.getProduct;
+    const mainStore = useMainStore();
+    if (this.productId && this.productId == mainStore.product.id) {
+      this.product = mainStore.product;
       if (this.product.options) {
         this.product.options.map((element, index) => { 
           if (element.position == 1) {
@@ -412,12 +417,13 @@ export default {
         });
       }
     } else {
-      this.$store.commit('setProduct', []);
+      mainStore.setProduct([]);
     }
   },
   methods: {
     async submit() {
       window.cordova.plugin.http.setDataSerializer('json');
+      const mainStore = useMainStore();
       this.errorTitle = false;
       this.errorDescription = false;
       this.errorCategory = false;
@@ -478,7 +484,7 @@ export default {
 
         if (this.productId) {
           window.cordova.plugin.http.put(this.baseUrl + "/user/api/product/edit/" + this.productId, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-            this.$store.commit('setUser', JSON.parse(response.data));
+            mainStore.setUser(JSON.parse(response.data));
             window.plugins.toast.show("L'article a bien été modifié !", 'long', 'top');
             this.$router.push({ name: 'Shop' });
           }, (response) => {
@@ -487,7 +493,7 @@ export default {
           });
         } else {
           window.cordova.plugin.http.post(this.baseUrl + "/user/api/product/add", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-            this.$store.commit('setUser', JSON.parse(response.data));
+            mainStore.setUser(JSON.parse(response.data));
             window.plugins.toast.show("L'article a bien été ajouté !", 'long', 'top');
             this.$router.push({ name: 'Shop' });
           }, (response) => {
@@ -585,10 +591,12 @@ export default {
       });
     },
     deleteProduct() {
+      const mainStore = useMainStore();
+
       if (this.productId && !this.loadingDelete) {
         this.loadingDelete = true;
         window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/delete/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setUser', JSON.parse(response.data));
+          mainStore.setUser(JSON.parse(response.data));
           window.plugins.toast.show("L'article a bien été supprimé !", 'long', 'top');
           this.$router.push({ name: 'Shop' });
         }, (response) => {

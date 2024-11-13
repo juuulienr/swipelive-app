@@ -769,13 +769,16 @@ import LottieJSON2 from '../../assets/lottie/no-viewer.json';
 import LottieJSON3 from '../../assets/lottie/no-order.json';
 import LottieJSON4 from '../../assets/lottie/trophy.json';
 import LottieJSON5 from '../../assets/lottie/discount.json';
+import { useMainStore } from '../../stores/useMainStore.js';
 
 export default {
   name: 'Feed',
   data() {
+    const mainStore = useMainStore();
+
     return {
       id: this.$route.params.id,
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       LottieJSON: LottieJSON,
@@ -1117,7 +1120,8 @@ export default {
       window.StatusBar.overlaysWebView(false);
       window.StatusBar.styleDefault();
       window.StatusBar.backgroundColorByHexString("#ffffff");
-      
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -1140,7 +1144,7 @@ export default {
       this.leaveChannel();
 
       this.http.put(this.baseUrl + "/user/api/live/stop/" + this.id, { "fbStreamId": this.fbStreamId, "fbToken": this.fbToken }, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+        mainStore.setUser(JSON.parse(response.data));
         this.user = JSON.parse(response.data);
       }, (response) => {
         console.log(response.error);
@@ -1320,6 +1324,8 @@ export default {
       this.popupMultistream = false;
     },
     savePromo() {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -1337,8 +1343,8 @@ export default {
 
         window.cordova.plugin.http.setDataSerializer('json');
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setUser', JSON.parse(response.data));
-          this.user = this.$store.getters.getUser;
+          mainStore.setUser(JSON.parse(response.data));
+          this.user = mainStore.user;
           this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
         }, (response) => {
           console.log(JSON.parse(response.error));
@@ -1346,14 +1352,18 @@ export default {
       }
     },
     deletePromo(promo, index) {
+      const mainStore = useMainStore();
       this.user.vendor.promotions.splice(index, 1);
+      
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+        mainStore.setUser(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
     },
     check(promo) {
+      const mainStore = useMainStore();
+
       if(promo.isActive) {
         promo.isActive = false;
       } else {
@@ -1364,8 +1374,8 @@ export default {
       }
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/activate/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
-        this.user = this.$store.getters.getUser;
+        mainStore.setUser(JSON.parse(response.data));
+        this.user = mainStore.user;
       }, (response) => {
         console.log(response.error);
       });

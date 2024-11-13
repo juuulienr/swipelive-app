@@ -136,15 +136,20 @@
 <style scoped src="../assets/css/listfollowing.css"></style>
 
 <script>
+import { useMainStore } from '../stores/useMainStore.js';
 import Product from '../components/Product.vue';
 import LottieJSON from '../assets/lottie/followers.json';
 
-
 export default {
   name: 'ListFollowing',
+  components: {
+    Product,
+  },
   data() {
+    const mainStore = useMainStore();
+
     return {
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       LottieJSON: LottieJSON,
@@ -154,7 +159,7 @@ export default {
       loadingFollowing: true,
       tabFollowers: true,
       tabFollowing: false,
-    }
+    };
   },
   created() {
     window.StatusBar.overlaysWebView(false);
@@ -166,7 +171,7 @@ export default {
   },
   methods: {
     loadFollowers() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/followers`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.followers = JSON.parse(response.data);
         this.loadingFollowers = false;
       }, (response) => {
@@ -174,7 +179,7 @@ export default {
       });
     },
     loadFollowing() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/following`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.following = JSON.parse(response.data);
         this.loadingFollowing = false;
       }, (response) => {
@@ -196,12 +201,16 @@ export default {
       this.tabFollowing = true;
     },
     unfollow(follow, index) {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.following.splice(index, 1);
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + follow.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/follow/${follow.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        const updatedUser = JSON.parse(response.data);
+        mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
+        this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
       });
@@ -218,29 +227,32 @@ export default {
       this.$router.push({ name: 'Account' });
     },
     removeFollower(user, index) {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.followers.splice(index, 1);
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/followers/remove/" + user.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/followers/remove/${user.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        const updatedUser = JSON.parse(response.data);
+        mainStore.setUser(updatedUser); 
+        this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
       });
     },
     actionSheet(user, index) {
-      var options = {
+      const options = {
         buttonLabels: [],
         addCancelButtonWithLabel: 'Annuler',
-        addDestructiveButtonWithLabel : 'Supprimer ce follower',
+        addDestructiveButtonWithLabel: 'Supprimer ce follower',
         destructiveButtonLast: true,
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
       };
 
       window.plugins.actionsheet.show(options, (result) => {
-        console.log(result);
-        if (result == 1) {
+        if (result === 1) {
           this.removeFollower(user, index);
         }
       }, (error) => {

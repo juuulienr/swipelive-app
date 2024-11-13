@@ -74,99 +74,106 @@
 
 <style scoped src="../assets/css/cart.css"></style>
 
-<script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useMainStore } from '@/stores/useMainStore';
+
+<script>
 import Lottie from 'vue3-lottie';
 import LottieJSON from '../assets/lottie/order.json';
+import { useMainStore } from '@/stores/useMainStore.js';
 
-// Variables et store
-const fullscreen = ref(useRoute().params.fullscreen);
-const loading = ref(false);
-const subTotal = ref(0);
-const LottieData = LottieJSON;
-
-// Store Pinia
-const mainStore = useMainStore();
-const lineItems = computed(() => mainStore.getLineItems);
-const user = computed(() => mainStore.getUser);
-
-// Méthodes pour manipuler les quantités
-function increaseQuantity(lineItem, index) {
-  if (lineItem.variant) {
-    if (lineItem.variant.quantity > lineItem.quantity) {
-      lineItem.quantity += 1;
-      updateCart();
-    }
-  } else {
-    if (lineItem.product.quantity > lineItem.quantity) {
-      lineItem.quantity += 1;
-      updateCart();
-    }
-  }
-}
-
-function decreaseQuantity(lineItem, index) {
-  if (lineItem.quantity > 1) {
-    lineItem.quantity -= 1;
-    updateCart();
-  } else {
-    lineItems.value.splice(index, 1);
-    updateCart();
-  }
-}
-
-// Calcul et mise à jour du sous-total
-function updateCart() {
-  subTotal.value = 0;
-
-  if (lineItems.value.length) {
-    lineItems.value.forEach(lineItem => {
+export default {
+  name: 'Cart',
+  components: {
+    Lottie
+  },
+  data() {
+    const mainStore = useMainStore();
+    return {
+      fullscreen: this.$route.params.fullscreen,
+      user: mainStore.user,
+      lineItems: mainStore.lineItems,
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      LottieJSON: LottieJSON,
+      loading: false,
+      subTotal: null
+    };
+  },
+  created() {
+    this.updateCart();
+  },
+  methods: {
+    increaseQuantity(lineItem, index) {
       if (lineItem.variant) {
-        subTotal.value += lineItem.variant.price * lineItem.quantity;
+        if (lineItem.variant.quantity > lineItem.quantity) {
+          this.lineItems[index].quantity += 1;
+          this.updateCart();
+        }
       } else {
-        subTotal.value += lineItem.product.price * lineItem.quantity;
+        if (lineItem.product.quantity > lineItem.quantity) {
+          this.lineItems[index].quantity += 1;
+          this.updateCart();
+        }
       }
-    });
+    },
+    decreaseQuantity(lineItem, index) {
+      if (lineItem.quantity > 1) {
+        this.lineItems[index].quantity -= 1;
+        this.updateCart();
+      } else {
+        this.lineItems.splice(index, 1);
+        this.updateCart();
+      }
+    },
+    updateCart() {
+      const mainStore = useMainStore();
+      this.subTotal = 0;
 
-    subTotal.value = parseFloat(subTotal.value.toFixed(2));
+      if (this.lineItems.length) {
+        this.lineItems.forEach(lineItem => {
+          if (lineItem.variant) {
+            this.subTotal += lineItem.variant.price * lineItem.quantity;
+          } else {
+            this.subTotal += lineItem.product.price * lineItem.quantity;
+          }
+        });
+
+        this.subTotal = parseFloat(this.subTotal.toFixed(2));
+      }
+
+      if (!this.fullscreen) {
+        this.$emit('updateCart', this.lineItems);
+      }
+      mainStore.setLineItems(this.lineItems);
+    },
+    showCheckout() {
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+
+      this.getShippingPrice();
+    },
+    getShippingPrice() {
+      const mainStore = useMainStore();
+      if (this.user.shippingAddresses.length) {
+        this.loading = true;
+        mainStore.setShippingProducts([]);
+        window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems }, { Authorization: "Bearer " + this.token }, (response) => {
+          mainStore.setShippingProducts(JSON.parse(response.data));
+          this.goCheckout();
+        }, (response) => {
+          this.goCheckout();
+        });
+      } else {
+        this.goCheckout();
+      }
+    },
+    goCheckout() {
+      if (this.fullscreen) {
+        this.$router.push({ name: 'Checkout', params: { fullscreen: true }});
+      } else {
+        this.$emit('showCheckout', this.lineItems);
+      }
+    }
   }
-}
-
-// Affichage du checkout
-function showCheckout() {
-  if (window.TapticEngine) {
-    TapticEngine.impact({ style: 'medium' });
-  }
-  getShippingPrice();
-}
-
-function getShippingPrice() {
-  if (user.value.shippingAddresses.length) {
-    loading.value = true;
-    mainStore.setShippingProducts([]);
-    window.cordova.plugin.http.post(`${mainStore.baseUrl}/user/api/shipping/price`, { lineItems: lineItems.value }, { Authorization: `Bearer ${mainStore.token}` }, (response) => {
-      mainStore.setShippingProducts(JSON.parse(response.data));
-      goCheckout();
-    }, () => {
-      goCheckout();
-    });
-  } else {
-    goCheckout();
-  }
-}
-
-function goCheckout() {
-  const router = useRouter();
-  if (fullscreen.value) {
-    router.push({ name: 'Checkout', params: { fullscreen: true } });
-  } else {
-    emit('showCheckout', lineItems.value);
-  }
-}
-
-onMounted(() => {
-  updateCart();
-});
+};
 </script>

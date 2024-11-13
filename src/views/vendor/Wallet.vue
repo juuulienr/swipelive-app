@@ -213,15 +213,17 @@
 
 
 <script>
-
+import { useMainStore } from '../../stores/useMainStore.js';
 import LottieJSON from '../../assets/lottie/success.json';
 import LottieJSON2 from '../../assets/lottie/wallet.json';
 
 export default {
   name: 'Wallet',
   data() {
+    const mainStore = useMainStore();
+
     return {
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       stripe_pk: window.localStorage.getItem("stripe_pk"),
@@ -241,7 +243,7 @@ export default {
       loadingWithdraw: false,
       bank: false,
       sales: [],
-    }
+    };
   },
   created() {
     window.StatusBar.overlaysWebView(false);
@@ -254,7 +256,6 @@ export default {
     orderedMonthData() {
       const monthData = {};
 
-      // Iterate over orders and group them by month
       if (this.sales.length) {
         this.sales.forEach((order) => {
           const month = order.createdAt.substr(0, 7);
@@ -269,42 +270,28 @@ export default {
           }
 
           monthData[month].orders.push(order);
-          monthData[month].total = parseFloat(monthData[month].total) + parseFloat(order.total) - parseFloat(order.shippingPrice);
-          monthData[month].total.toFixed(2);
-          monthData[month].fees = parseFloat(monthData[month].fees) + parseFloat(order.fees);
-          monthData[month].fees.toFixed(2);
-          monthData[month].remaining = parseFloat(monthData[month].total) - parseFloat(monthData[month].fees);
-          monthData[month].remaining.toFixed(2);
+          monthData[month].total = (parseFloat(monthData[month].total) + parseFloat(order.total) - parseFloat(order.shippingPrice)).toFixed(2);
+          monthData[month].fees = (parseFloat(monthData[month].fees) + parseFloat(order.fees)).toFixed(2);
+          monthData[month].remaining = (parseFloat(monthData[month].total) - parseFloat(monthData[month].fees)).toFixed(2);
         });
 
-        // Sort monthData in descending order by month
-        const sortedMonthData = Object.values(monthData).sort(
-          (a, b) => b.month.localeCompare(a.month)
-        );
-
-        return sortedMonthData;
+        return Object.values(monthData).sort((a, b) => b.month.localeCompare(a.month));
       } else {
         return monthData;
       }
     },
     checkAvailability() {
       if (this.withdrawAmount && this.user.vendor.available) {
-        var withdrawAmount = parseFloat(this.withdrawAmount.replace(",","."));
-        var available = parseFloat(this.user.vendor.available.replace(",","."));
-        withdrawAmount.toFixed(2);
-        available.toFixed(2);
-        if (available >= withdrawAmount) {
-          return true;
-        } else {
-          return false;
-        }
+        const withdrawAmount = parseFloat(this.withdrawAmount.replace(",", "."));
+        const available = parseFloat(this.user.vendor.available.replace(",", "."));
+        return available >= withdrawAmount;
       }
       return false;
     },
   },
   methods: {
     loadOrders() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/orders`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.sales = JSON.parse(response.data);
         this.loadingOrders = false;
       }, (response) => {
@@ -325,17 +312,18 @@ export default {
       this.$nextTick(() => this.$refs.withdrawAmount.focus());
     },
     saveBankAccount() {
+      const mainStore = useMainStore();
       this.loadingBank = true;
       this.errorBank = false;
-      if (this.iban && this.iban.length == 27) {
-        const last4 = this.iban.substr(this.iban.length - 4);
-        const countryCode = this.iban.substr(0, 2);
-        var number = this.iban.substr(2);
-        number = number.replace(/\s/g, '');
+      if (this.iban && this.iban.length === 27) {
+        const last4 = this.iban.slice(-4);
+        const countryCode = this.iban.slice(0, 2);
+        let number = this.iban.slice(2).replace(/\s/g, '');
 
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/bank/add", { "number": number, "last4": last4, "countryCode": countryCode, "businessName": this.businessName }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setUser', JSON.parse(response.data));
-          this.user = this.$store.getters.getUser;
+        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/bank/add`, { number, last4, countryCode, businessName: this.businessName }, { Authorization: `Bearer ${this.token}` }, (response) => {
+          const updatedUser = JSON.parse(response.data);
+          mainStore.setUser(updatedUser); // Mise à jour du store
+          this.user = updatedUser;
           this.loadingBank = false;
           this.popupBankAccount = false;
           this.withdraw = true;
@@ -362,10 +350,12 @@ export default {
       this.popupHistory = true;
     },
     saveWithdraw() {
+      const mainStore = useMainStore();
       if (this.withdrawAmount && this.user.vendor.bankAccounts.length > 0) {
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/withdraw", { "withdrawAmount": this.withdrawAmount.replace(",",".") }, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setUser', JSON.parse(response.data));
-          this.user = JSON.parse(response.data);
+        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/withdraw`, { withdrawAmount: this.withdrawAmount.replace(",", ".") }, { Authorization: `Bearer ${this.token}` }, (response) => {
+          const updatedUser = JSON.parse(response.data);
+          mainStore.setUser(updatedUser); // Mise à jour du store
+          this.user = updatedUser;
           this.withdrawAmount = null;
           this.withdraw = false;
           this.bank = false;
@@ -387,7 +377,7 @@ export default {
       this.$router.push({ name: 'Account' });
     },
     formatMonth(dateString) {
-      const date = new Date(dateString + '-01');
+      const date = new Date(`${dateString}-01`);
       return date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
     },
     limitDecimals() {
@@ -405,70 +395,47 @@ export default {
     addAmount() {
       this.withdrawAmount = this.user.vendor.available;
     },
-    base64ToBlob(base64, mimeType='') {
-      var parts = base64.split(';base64,');
-      var decodedData = window.atob(parts[1]);
-
-      var bytes = new Array(decodedData.length);
-      for (var i = 0; i < decodedData.length; i++) {
+    base64ToBlob(base64, mimeType = '') {
+      const parts = base64.split(';base64,');
+      const decodedData = window.atob(parts[1]);
+      const bytes = new Uint8Array(decodedData.length);
+      for (let i = 0; i < decodedData.length; i++) {
         bytes[i] = decodedData.charCodeAt(i);
       }
-
-      var blob = new Blob([new Uint8Array(bytes)], { type: mimeType });
-      return blob;
+      return new Blob([bytes], { type: mimeType });
     },
     uploadFront() {
-      var options = {
+      const options = {
         quality: 100,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         encodingType: Camera.EncodingType.JPEG,
         mediaType: Camera.MediaType.PICTURE,
         allowEdit: false,
-        correctOrientation: true
-      }
+        correctOrientation: true,
+      };
       
       navigator.camera.getPicture((front_document) => {
-        var base64String = "data:image/jpeg;base64," + front_document;
+        const base64String = `data:image/jpeg;base64,${front_document}`;
         console.log(base64String);
         this.verifFront(base64String);
       }, (error) => {
-        console.log("Impossible de récupérer le document : " + error);
-      }, options);
-    },
-    uploadBack() {
-      var options = {
-        quality: 100,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        allowEdit: false,
-        correctOrientation: true
-      }
-      
-      navigator.camera.getPicture((back_document) => {
-        var base64String = "data:image/jpeg;base64," + back_document;
-        console.log(base64String);
-        this.verifBack(base64String);
-      }, (error) => {
-        console.log("Impossible de récupérer le document : " + error);
+        console.log(`Impossible de récupérer le document : ${error}`);
       }, options);
     },
     async verifFront(base64String) {
       const stripe = Stripe(this.stripe_pk);
       const data = new FormData();
-
-      var mimeType = "image/jpeg";
-      var blob = this.base64ToBlob(base64String, mimeType);
+      const mimeType = "image/jpeg";
+      const blob = this.base64ToBlob(base64String, mimeType);
 
       data.append('file', blob, 'front_document.jpg');
       data.append('purpose', 'identity_document');
-      const header = "Bearer " + this.stripe_pk;
+      const header = `Bearer ${this.stripe_pk}`;
       const response = await fetch('https://uploads.stripe.com/v1/files', {
         method: 'POST',
         headers: { 'Authorization': header },
-        body: data
+        body: data,
       });
       const fileData = await response.json();
       console.log(fileData);
@@ -486,7 +453,7 @@ export default {
 
         if (result && result.token.id) {
           window.cordova.plugin.http.setDataSerializer('json');
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/verification/document/front", { "person_token": result.token.id }, { Authorization: "Bearer " + this.token }, (response) => {
+          window.cordova.plugin.http.post(`${this.baseUrl}/user/api/verification/document/front`, { person_token: result.token.id }, { Authorization: `Bearer ${this.token}` }, (response) => {
             console.log(JSON.parse(response.data));
             window.plugins.toast.show('Le document recto a été envoyé !', 'long', 'top');
           }, (response) => {

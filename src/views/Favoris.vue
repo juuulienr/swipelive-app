@@ -164,14 +164,15 @@
 
 </style>
 
-<script>
 
+
+<script>
+import { useMainStore } from '../stores/useMainStore';
 import Product from '../components/Product.vue';
 import LottieJSON from '../assets/lottie/favoris.json';
 import noPreviewImage from '@/assets/img/no-preview.png';
 import heartFullImage from '@/assets/img/circle-heart-full.svg';
 import closePopupImage from '@/assets/img/close-popup.svg';
-
 
 export default {
   name: 'Favoris',
@@ -179,19 +180,21 @@ export default {
     Product,
   },
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
-      lineItems: this.$store.getters.getLineItems,
-      categories: this.$store.getters.getCategories,
+      user: mainStore.getUser,
+      lineItems: mainStore.getLineItems,
+      categories: mainStore.getCategories,
       LottieJSON: LottieJSON,
       favoris: [],
       popupProduct: false,
       loading: true,
       product: null,
       variant: null,
-    }
+    };
   },
   created() {    
     window.StatusBar.overlaysWebView(false);
@@ -209,18 +212,15 @@ export default {
         console.log(response.error);
       });
     },
-    removeFavoris(product) { 
+    removeFavoris(product) {
+      const mainStore = useMainStore();
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.favoris.map((favoris, index) => {
-        if (favoris.product.id == product.id) {
-          this.favoris.splice(index, 1);
-        }
-      });
+      this.favoris = this.favoris.filter(favoris => favoris.product.id !== product.id);
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+        mainStore.setUser(JSON.parse(response.data));
       }, (response) => {
         console.log(response.error);
       });
@@ -237,71 +237,48 @@ export default {
       this.product = null;
     },
     selectVariantChild(variant) {
-      console.log(variant);
       this.variant = variant;
     },
     addToCart() {
+      const mainStore = useMainStore();
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.popupProduct = false;
 
-      if (typeof this.product.vendor == "object") {
-        var vendor = this.product.vendor.id;
-      } else {
-        var vendor = this.product.vendor;
-      } 
+      const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
+      let exist = false;
+      let newVendor = false;
 
-      if (this.lineItems.length) {
-        var exist = false;
-        var newVendor = false;
+      this.lineItems.forEach(lineItem => {
+        if (lineItem.vendor !== vendor) {
+          newVendor = true;
+        }
+      });
 
-        this.lineItems.map(lineItem => {
-          if (lineItem.vendor != vendor) {
-            newVendor = true;
+      if (!newVendor) {
+        this.lineItems.forEach(lineItem => {
+          if (lineItem.variant?.id === this.variant?.id || lineItem.product.id === this.product.id && !this.variant) {
+            exist = true;
+            lineItem.quantity += 1;
           }
         });
-
-        if (newVendor == false) {
-          this.lineItems.map(lineItem => {
-            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
-              exist = true;
-              lineItem.quantity += 1;
-            } else if (lineItem.product.id == this.product.id) {
-              if (!this.variant) {
-                exist = true;
-                lineItem.quantity += 1;
-              }
-            }
-          });
-        } else {
-          exist = true;
-          navigator.notification.confirm(
-            'Ce article va remplacer votre ancien panier',
-            (buttonIndex) => {
-              if (window.cordova.platformId == "browser") {
-                var id = 1;
-              } else {
-                var id = 2;
-              }
-              if (buttonIndex == id) {
-                this.lineItems = [];
-                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
-                this.$store.commit('setLineItems', this.lineItems);
-              }
-            },   
-            'Nouveau panier ?', 
-            ['Conserver','Nouveau'] 
-          );
-        }
-
-        if (!exist) {
-          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-          this.$store.commit('setLineItems', this.lineItems);
-        }
       } else {
-        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-        this.$store.commit('setLineItems', this.lineItems);
+        exist = true;
+        navigator.notification.confirm(
+          'Ce article va remplacer votre ancien panier',
+          (buttonIndex) => {
+            if (buttonIndex === 2 || window.cordova.platformId === "browser") {
+              mainStore.setLineItems([{ product: this.product, variant: this.variant, quantity: 1, vendor }]);
+            }
+          },
+          'Nouveau panier ?', ['Conserver', 'Nouveau']
+        );
+      }
+
+      if (!exist) {
+        this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+        mainStore.setLineItems(this.lineItems);
       }
     },
     goBack() {
@@ -320,6 +297,4 @@ export default {
     },
   }
 };
-
 </script>
-

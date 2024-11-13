@@ -135,14 +135,17 @@
 
 
 <script>
+import { useMainStore } from '../stores/useMainStore';
 
 export default {
   name: 'EditUser',
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       showAutocomplete: false,
       errorPhone: false,
       errorEmail: false,
@@ -184,6 +187,10 @@ export default {
         TapticEngine.impact({ style: 'medium' });
       }
       event.preventDefault();
+
+      const mainStore = useMainStore(); // Utilisation de Pinia pour le store principal
+
+      // Initialisation des erreurs
       this.errorPhone = false;
       this.errorEmail = false;
       this.errorFirstname = false;
@@ -196,61 +203,34 @@ export default {
       this.errorZip = false;
       this.errorCity = false;
 
-      if (!this.user.email) {
+      // Validation des champs
+      if (!this.user.email || !this.validEmail(this.user.email)) {
         this.errorEmail = true;
-      } else {
-        if (!this.validEmail(this.user.email)) {
-          this.errorEmail = true;
-        }
       }
-
       if (!this.user.firstname) {
         this.errorFirstname = true;
       }
-
       if (!this.user.lastname) {
         this.errorLastname = true;
       }
-
-      if (this.user.phone) {
-        if (!this.checkPhone(this.user.phone)) {
-          this.errorPhone = true;
-        } else {
-          this.user.phone = this.user.phone.replace(/\s/g, '');
-          console.log(this.user.phone);
-        }
+      if (this.user.phone && !this.checkPhone(this.user.phone)) {
+        this.errorPhone = true;
+      } else if (this.user.phone) {
+        this.user.phone = this.user.phone.replace(/\s/g, '');
       }
 
+      // Validation des champs pour le vendeur
       if (this.user.vendor) {
-        if (!this.user.vendor.summary) {
-          this.errorSummary = true;
-        }
-        if (!this.user.vendor.address) {
-          this.errorAddress = true;
-        }
-
-        if (!this.user.vendor.zip) {
-          this.errorZip = true;
-        }
-
-        if (!this.user.vendor.city) {
-          this.errorCity = true;
+        if (!this.user.vendor.summary) this.errorSummary = true;
+        if (!this.user.vendor.address) this.errorAddress = true;
+        if (!this.user.vendor.zip) this.errorZip = true;
+        if (!this.user.vendor.city) this.errorCity = true;
+        if (!this.user.vendor.pseudo) this.errorPseudo = true;
+        if (this.user.vendor.businessType === "company") {
+          if (!this.user.vendor.company) this.errorCompany = true;
+          if (!this.user.vendor.siren) this.errorSiren = true;
         }
 
-        if (!this.user.vendor.pseudo) {
-          this.errorPseudo = true;
-        }
-
-        if (this.user.vendor.businessType == "company") {
-          if (!this.user.vendor.company) {
-            this.errorCompany = true;
-          }
-
-          if (!this.user.vendor.siren) {
-            this.errorSiren = true;
-          }
-        }
-      
         switch (this.user.vendor.country) {
           case "France":
             this.user.vendor.countryShort = "FR";
@@ -267,24 +247,54 @@ export default {
         }
       }
 
+      // Envoi des données si pas d'erreur
       if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorPseudo && !this.errorCountry && !this.errorPhone) {
         this.loading = true;
         window.cordova.plugin.http.setDataSerializer('json');
+        let httpParams;
         if (this.user.vendor) {
-          var httpParams = { "email": this.user.email, "lastname": this.user.lastname, "firstname": this.user.firstname, "phone": this.user.phone, "company": this.user.vendor.company, "summary": this.user.vendor.summary, "pseudo": this.user.vendor.pseudo, "businessType": this.user.vendor.businessType, "siren": this.user.vendor.siren, "address": this.user.vendor.address, "zip": this.user.vendor.zip, "city": this.user.vendor.city, "country": this.user.vendor.country, "countryCode": this.user.vendor.countryCode };
+          httpParams = {
+            email: this.user.email,
+            lastname: this.user.lastname,
+            firstname: this.user.firstname,
+            phone: this.user.phone,
+            company: this.user.vendor.company,
+            summary: this.user.vendor.summary,
+            pseudo: this.user.vendor.pseudo,
+            businessType: this.user.vendor.businessType,
+            siren: this.user.vendor.siren,
+            address: this.user.vendor.address,
+            zip: this.user.vendor.zip,
+            city: this.user.vendor.city,
+            country: this.user.vendor.country,
+            countryCode: this.user.vendor.countryCode,
+          };
         } else {
-          var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "businessType" : null };
+          httpParams = {
+            firstname: this.user.firstname,
+            lastname: this.user.lastname,
+            email: this.user.email,
+            phone: this.user.phone,
+            businessType: null,
+          };
         }
 
-        await window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/edit", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setUser', JSON.parse(response.data));
-          this.$router.push({ name: 'Account' });
-        }, (response) => {
-          console.log(JSON.parse(response.error));
-          this.loading = false;
-        });
+        await window.cordova.plugin.http.post(
+          `${this.baseUrl}/user/api/profile/edit`,
+          httpParams,
+          { Authorization: `Bearer ${this.token}` },
+          (response) => {
+            mainStore.setUser(JSON.parse(response.data)); // Mise à jour du store Pinia
+            this.$router.push({ name: 'Account' });
+          },
+          (response) => {
+            console.log(JSON.parse(response.error));
+            this.loading = false;
+          }
+        );
       }
-    }, 
+    },
+
     validEmail(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);

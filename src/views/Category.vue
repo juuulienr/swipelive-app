@@ -79,10 +79,9 @@
 <style scoped src="../assets/css/category.css"></style>
 
 <script>
-
+import { useMainStore } from '../stores/useMainStore.js';
 import Product from '../components/Product.vue';
 import LottieJSON from '../assets/lottie/no-product.json';
-
 
 export default {
   name: 'Category',
@@ -90,21 +89,23 @@ export default {
     Product,
   },
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
-      lineItems: this.$store.getters.getLineItems,
-      categories: this.$store.getters.getCategories,
+      user: mainStore.getUser,
+      lineItems: mainStore.getLineItems,
+      categories: mainStore.getCategories,
       LottieJSON: LottieJSON,
-      products: this.$store.getters.getAllProducts,
+      products: mainStore.getProductsTrending,
       id: this.$route.params.id,
       selectedCategory: null,
       popupProduct: false,
       loadingProducts: true,
       product: null,
       variant: null,
-    }
+    };
   },
   computed: {
     filteredProducts() {
@@ -122,7 +123,7 @@ export default {
     this.loadAllProducts();
 
     if (this.id) {
-      this.categories.map((category, index) => {
+      this.categories.forEach((category) => {
         if (category.id == this.id) {
           this.selectedCategory = category; 
         }
@@ -136,8 +137,11 @@ export default {
       this.$router.back();
     },
     loadAllProducts() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products/all", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.products = JSON.parse(response.data);
+      const mainStore = useMainStore();
+
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/products/all`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        const allProducts = JSON.parse(response.data);
+        this.products = allProducts;
         this.loadingProducts = false;
       }, (response) => {
         console.log(response.error);
@@ -161,9 +165,12 @@ export default {
       this.product = null;
     },
     favoris(product) { 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.user = JSON.parse(response.data);
-        this.$store.commit('setUser', JSON.parse(response.data));
+      const mainStore = useMainStore();
+
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/favoris/${product.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        const updatedUser = JSON.parse(response.data);
+        mainStore.setUser(updatedUser); // Mise à jour de l'utilisateur dans le store
+        this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
       });
@@ -173,71 +180,60 @@ export default {
       this.variant = variant;
     },
     addToCart() {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.popupProduct = false;
 
-      if (typeof this.product.vendor == "object") {
-        var vendor = this.product.vendor.id;
-      } else {
-        var vendor = this.product.vendor;
-      } 
+      const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
 
       if (this.lineItems.length) {
-        var exist = false;
-        var newVendor = false;
+        let exist = false;
+        let newVendor = false;
 
-        this.lineItems.map(lineItem => {
-          if (lineItem.vendor != vendor) {
+        this.lineItems.forEach(lineItem => {
+          if (lineItem.vendor !== vendor) {
             newVendor = true;
           }
         });
 
-        if (newVendor == false) {
-          this.lineItems.map(lineItem => {
-            if (lineItem.variant && this.variant && (lineItem.variant.id == this.variant.id)) {
+        if (!newVendor) {
+          this.lineItems.forEach(lineItem => {
+            if (lineItem.variant && this.variant && lineItem.variant.id === this.variant.id) {
               exist = true;
               lineItem.quantity += 1;
-            } else if (lineItem.product.id == this.product.id) {
-              if (!this.variant) {
-                exist = true;
-                lineItem.quantity += 1;
-              }
+            } else if (lineItem.product.id === this.product.id && !this.variant) {
+              exist = true;
+              lineItem.quantity += 1;
             }
           });
         } else {
           exist = true;
           navigator.notification.confirm(
-            'Ce article va remplacer votre ancien panier',
+            'Cet article va remplacer votre ancien panier',
             (buttonIndex) => {
-              if (window.cordova.platformId == "browser") {
-                var id = 1;
-              } else {
-                var id = 2;
+              const confirmButtonIndex = window.cordova.platformId === "browser" ? 1 : 2;
+              if (buttonIndex === confirmButtonIndex) {
+                this.lineItems = [{ product: this.product, variant: this.variant, quantity: 1, vendor }];
+                mainStore.setLineItems(this.lineItems); // Mise à jour du panier dans le store
               }
-              if (buttonIndex == id) {
-                this.lineItems = [];
-                this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor });
-                this.$store.commit('setLineItems', this.lineItems);
-              }
-            },   
-            'Nouveau panier ?', 
-            ['Conserver','Nouveau'] 
+            },
+            'Nouveau panier ?',
+            ['Conserver', 'Nouveau']
           );
         }
 
         if (!exist) {
-          this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-          this.$store.commit('setLineItems', this.lineItems);
+          this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+          mainStore.setLineItems(this.lineItems); // Mise à jour du panier dans le store
         }
       } else {
-        this.lineItems.push({ "product": this.product, "variant": this.variant, "quantity": 1, "vendor": vendor  });
-        this.$store.commit('setLineItems', this.lineItems);
+        this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+        mainStore.setLineItems(this.lineItems); // Mise à jour du panier dans le store
       }
     }
   }
 };
-
 </script>
-

@@ -271,34 +271,47 @@
 
 
 <script>
+import { useMainStore } from '../stores/useMainStore.js';
 
 export default {
   name: 'Account',
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
-    }
+      user: mainStore.getUser,
+    };
   },
   created() {
-    window.StatusBar.overlaysWebView(false);  
+    const mainStore = useMainStore();
+
+    window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
 
-    window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      console.log(JSON.parse(response.data));
-      this.$store.commit('setUser', JSON.parse(response.data));
-      this.user = JSON.parse(response.data);
-    }, (error) => {
-      console.log(error);
-    });
+    window.cordova.plugin.http.get(
+      `${this.baseUrl}/user/api/profile`, 
+      {}, 
+      { Authorization: `Bearer ${this.token}` }, 
+      (response) => {
+        const userData = JSON.parse(response.data);
+        mainStore.setUser(userData); // Utilisation de l'action Pinia pour mettre à jour l'utilisateur
+        this.user = userData;
+      }, 
+      (error) => {
+        console.log(error);
+      }
+    );
   },
   methods: {
     logout() {
+      const mainStore = useMainStore();
+
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('banned');
-      this.$store.commit('resetState');
+      mainStore.resetState(); // Réinitialisation de l'état avec Pinia
       this.$router.push({ name: 'Welcome' });
     },
     about() {
@@ -311,7 +324,7 @@ export default {
     },
     listOrders(isOrder) {
       this.addTapticAndSlide();
-      this.$router.push({ name: 'ListOrders', params: { 'isOrder': isOrder } });
+      this.$router.push({ name: 'ListOrders', params: { isOrder } });
     },
     listFollowing() {
       this.addTapticAndSlide();
@@ -368,17 +381,17 @@ export default {
       this.$router.push({ name: 'VendorRegistration' });
     },
     addTapticAndSlide() {
-      // if (window.TapticEngine) {
-      //   TapticEngine.impact({ style: 'medium' });
-      // }
-      // window.plugins.nativepagetransitions.slide({
-      //   direction: 'left',
-      //   duration: 400,
-      //   iosdelay: 0,
-      //   androiddelay: 0,
-      //   winphonedelay: 0,
-      //   slowdownfactor: 1,
-      // });
+      if (window.TapticEngine) {
+        TapticEngine.impact({ style: 'medium' });
+      }
+      window.plugins.nativepagetransitions.slide({
+        direction: 'left',
+        duration: 400,
+        iosdelay: 0,
+        androiddelay: 0,
+        winphonedelay: 0,
+        slowdownfactor: 1,
+      });
     },
     openUrl(url) {
       if (window.TapticEngine) {
@@ -386,11 +399,11 @@ export default {
       }
       window.SafariViewController.isAvailable((available) => {
         if (available) {
-          window.SafariViewController.show({ url: url }, (result) => {
+          window.SafariViewController.show({ url }, (result) => {
             console.log(result);
           }, (error) => {
             console.log("KO: " + error);
-          })
+          });
         } else {
           window.cordova.InAppBrowser.open(url, '_system', 'location=no');
         }
@@ -398,6 +411,4 @@ export default {
     },
   }
 };
-
 </script>
-

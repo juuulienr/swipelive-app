@@ -475,6 +475,7 @@
 <script>
 
 import { GoogleMap, AdvancedMarker } from "vue3-google-map";
+import { useMainStore } from '../stores/useMainStore.js';
 
 
 export default {
@@ -484,11 +485,13 @@ export default {
     AdvancedMarker,
   },
   data() {
+    const mainStore = useMainStore();
+
     return {
-      lineItems: this.$store.getters.getLineItems,
-      shippingProducts: this.$store.getters.getShippingProducts,
+      lineItems: mainStore.getLineItems,
+      shippingProducts: mainStore.getShippingProducts,
       fullscreen: this.$route.params.fullscreen,
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       googleApiKey: 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w',
@@ -647,6 +650,7 @@ export default {
       this.popupShippingAddress = false;
     },
     saveShippingAddress() {
+      const mainStore = useMainStore();
       this.errorName = false;
       this.errorAddress = false;
       this.errorZip = false;
@@ -716,7 +720,7 @@ export default {
 
         window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
           this.user = JSON.parse(response.data);
-          this.$store.commit('setUser', JSON.parse(response.data));
+          mainStore.setUser(mainStore.user);
           this.getShippingPrice();
           console.log(response);
         }, (response) => {
@@ -852,6 +856,8 @@ export default {
     },
     payment() {
       // check si montant inférieur à 5 ou 10€ ?
+      const mainStore = useMainStore();
+
       if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
         this.loadingPayment = true;
         window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment", { "lineItems": this.lineItems, "identifier": this.identifier, "promotionId": this.promotion ? this.promotion.id : null, "promotionAmount": this.promotionAmount, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
@@ -872,7 +878,7 @@ export default {
               if (result.code === "0") {
                 // PAYMENT_COMPLETED
                 this.lineItems = [];
-                this.$store.commit('setLineItems', this.lineItems);
+                mainStore.setLineItems(this.lineItems);
 
                 if (this.fullscreen) {
                   if (window.TapticEngine) {
@@ -904,7 +910,8 @@ export default {
             });
           } else {
             this.lineItems = [];
-            this.$store.commit('setLineItems', this.lineItems);
+            mainStore.setLineItems(this.lineItems);
+
 
             if (this.fullscreen) {
               this.$router.push({ name: 'Home' });

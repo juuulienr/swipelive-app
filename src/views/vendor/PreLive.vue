@@ -130,7 +130,7 @@
 <style scoped src="../../assets/css/prelive.css"></style>
 
 <script>
-
+import { useMainStore } from '../../stores/useMainStore.js';
 import { VueDraggableNext } from 'vue-draggable-next';
 
 export default {
@@ -139,12 +139,14 @@ export default {
     draggable: VueDraggableNext,
   },
   data() {
+    const mainStore = useMainStore();
+
     return {
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      rules: this.$store.getters.getRules,
-      step1: this.$store.getters.getRules ? false : true,
+      rules: mainStore.getRules,
+      step1: mainStore.getRules ? false : true,
       step2: false,
       isCheckAll: true,
       loadingProducts: true,
@@ -155,7 +157,7 @@ export default {
       selected: [],
       checked: [],
       live: [],
-    }
+    };
   },
   created() {    
     window.StatusBar.overlaysWebView(false);
@@ -166,17 +168,12 @@ export default {
   },
   methods: {
     loadProducts() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-        this.products = JSON.parse(response.data).filter((product, index) => {
-          if (this.getProductQuantity(product) !== "Épuisé") {
-            return true;
-          }
-        });
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/products`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        this.products = JSON.parse(response.data).filter((product) => this.getProductQuantity(product) !== "Épuisé");
 
-        this.products.map((product, index) => {
-          this.selected.push({ 'product': product, 'priority': index + 1 });
-          this.checked.push({ 'selected': true });
+        this.products.forEach((product, index) => {
+          this.selected.push({ product, priority: index + 1 });
+          this.checked.push({ selected: true });
         });
 
         this.loadingProducts = false;
@@ -188,13 +185,13 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
+      const mainStore = useMainStore();
+      mainStore.setRules(false); // Mise à jour du store Pinia
       this.rules = false;
       this.step1 = true;
       this.step2 = false;
-      this.$store.commit('setRules', false);
     },
     goStep2() {
-      console.log(this.selected);
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -214,14 +211,14 @@ export default {
           TapticEngine.impact({ style: 'medium' });
         }
         this.loading = true;
-        var liveProducts = [];
-        this.selected.map((element, index) => { 
-          liveProducts.push({ 'product': element.product.id, 'priority': index + 1 });
-        });
+        const liveProducts = this.selected.map((element, index) => ({
+          product: element.product.id,
+          priority: index + 1
+        }));
 
         window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "views": 0, "status": 0, "liveProducts": liveProducts };
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/prelive", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+        const httpParams = { views: 0, status: 0, liveProducts };
+        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/prelive`, httpParams, { Authorization: `Bearer ${this.token}` }, (response) => {
           this.live = JSON.parse(response.data);
           this.goToLive();
         }, (response) => {
@@ -231,8 +228,8 @@ export default {
       }
     },
     async goToLive() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/agora/token/host/" + this.live.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        var result = JSON.parse(response.data);
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/agora/token/host/${this.live.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        const result = JSON.parse(response.data);
         this.agoraToken = result.token;
 
         window.plugins.nativepagetransitions.slide({
@@ -254,8 +251,7 @@ export default {
       return variants.reduce((total, variant) => total + variant.quantity, 0);
     },
     lowestVariantPrice(variants) {
-      const lowestPrice = Math.min(...variants.map((variant) => variant.price));
-      return lowestPrice;
+      return Math.min(...variants.map((variant) => variant.price));
     },
     getProductQuantity(product) {
       if (product.quantity === 0) {
@@ -263,14 +259,13 @@ export default {
       } else if (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0) {
         return "Épuisé";
       } else if (product.variants.length === 0) {
-        return product.quantity + " en stock";
+        return `${product.quantity} en stock`;
       } else {
-        var quantity = this.totalVariantQuantity(product.variants);
-        return quantity + " en stock";
+        return `${this.totalVariantQuantity(product.variants)} en stock`;
       }
     },
     isProductUnavailable(product) {
-      return (product.quantity === 0) || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
+      return product.quantity === 0 || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
     },
     checkMove(event) {
       console.log(event);
@@ -282,29 +277,22 @@ export default {
       this.isCheckAll = !this.isCheckAll;
       this.selected = [];
       this.checked = [];
+
       if (this.isCheckAll) {
-        this.products.map((product, index) => { 
-          this.selected.push({ 'product': product, 'priority': index + 1 });
-          this.checked.push({ 'selected': true });
+        this.products.forEach((product, index) => {
+          this.selected.push({ product, priority: index + 1 });
+          this.checked.push({ selected: true });
         });
       } else {
-        this.products.map((element, index) => { 
-          this.checked.push({ 'selected': false });
+        this.products.forEach(() => {
+          this.checked.push({ selected: false });
         });
       }
     },
     updateCheckAll(index) {
-      if (this.checked[index].selected) {
-        this.checked[index].selected = false;
-      } else {
-        this.checked[index].selected = true;
-      }
+      this.checked[index].selected = !this.checked[index].selected;
 
-      if (this.selected.length == this.products.length) {
-         this.isCheckAll = true;
-      } else {
-         this.isCheckAll = false;
-      }
+      this.isCheckAll = this.selected.length === this.products.length;
     },
     goBack() {
       if (this.step1 || this.rules) {
@@ -324,6 +312,4 @@ export default {
     },
   }
 };
-
 </script>
-

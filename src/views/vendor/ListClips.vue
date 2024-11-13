@@ -53,19 +53,22 @@
 
 
 <script>
+import { useMainStore } from '../../stores/useMainStore.js';
 import LottieJSON from '../../assets/lottie/replay.json';
 
 export default {
   name: 'ListClips',
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       LottieJSON: LottieJSON,
       clips: [],
       loading: true,
-    }
+    };
   },
   created() {    
     window.StatusBar.overlaysWebView(false);  
@@ -76,8 +79,7 @@ export default {
   },
   methods: {
     loadClips() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/clips`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.clips = JSON.parse(response.data);
         this.loading = false;
       }, (response) => {
@@ -85,25 +87,25 @@ export default {
       });
     },
     actionSheet(id, clipIndex) {
-      var options = {
+      const options = {
         buttonLabels: ['Partager'],
         addCancelButtonWithLabel: 'Annuler',
-        addDestructiveButtonWithLabel : 'Supprimer',
+        addDestructiveButtonWithLabel: 'Supprimer',
         destructiveButtonLast: true,
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
       };
 
       window.plugins.actionsheet.show(options, (index) => {
-        if (index == 1) {
-    			window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
-        } else if (index == 2) {
+        if (index === 1) {
+          window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
+        } else if (index === 2) {
           this.clips.splice(clipIndex, 1);
-			    window.cordova.plugin.http.get(this.baseUrl + "/user/api/clips/" + id + "/delete", {}, { Authorization: "Bearer " + this.token }, (response) => {
+          window.cordova.plugin.http.get(`${this.baseUrl}/user/api/clips/${id}/delete`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
             console.log(response);
-			    }, (response) => {
-			      console.log(response.error);
-			    });
+          }, (response) => {
+            console.log(response.error);
+          });
         }
       }, (error) => {
         console.log(error);
@@ -122,6 +124,4 @@ export default {
     },
   }
 };
-
 </script>
-

@@ -61,20 +61,22 @@
 <style scoped src="../../assets/css/shop.css"></style>
 
 <script>
+import { useMainStore } from '../../stores/useMainStore.js';
 import LottieJSON from '../../assets/lottie/no-product.json';
-
 
 export default {
   name: 'Shop',
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       LottieJSON: LottieJSON,
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       products: [],
       loading: true,
-    }
+    };
   },
   computed: {
     sortedProducts() {
@@ -107,8 +109,7 @@ export default {
   },
   methods: {
     loadProducts() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/products`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.products = JSON.parse(response.data);
         this.loading = false;
       }, (response) => {
@@ -128,14 +129,14 @@ export default {
       } else if (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0) {
         return "Épuisé";
       } else if (product.variants.length === 0) {
-        return product.quantity + " en stock";
+        return `${product.quantity} en stock`;
       } else {
-        var quantity = this.totalVariantQuantity(product.variants);
-        return quantity + " en stock";
+        const quantity = this.totalVariantQuantity(product.variants);
+        return `${quantity} en stock`;
       }
     },
     isProductUnavailable(product) {
-      return (product.quantity === 0) || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
+      return product.quantity === 0 || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
     },
     addProduct() {
       if (window.TapticEngine) {
@@ -152,6 +153,8 @@ export default {
       this.$router.push({ name: 'AddEditProduct' });
     },
     editProduct(product) {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -163,7 +166,7 @@ export default {
         winphonedelay: 0,
         slowdownfactor: 1,
       });
-      this.$store.commit('setProduct', product);
+      mainStore.setProduct(product); // Mise à jour du produit sélectionné dans le store
       this.$router.push({ name: 'AddEditProduct', params: { productId: product.id } });
     },
     goBack() {
@@ -179,6 +182,4 @@ export default {
     },
   }
 };
-
 </script>
-

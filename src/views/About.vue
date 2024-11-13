@@ -69,13 +69,14 @@ li {
 </style>
 
 <script>
+import { useMainStore } from '../stores/useMainStore';
 
 export default {
   name: 'About',
   data() {
     return {
       version: "0",
-    }
+    };
   },
   created() {
     window.StatusBar.overlaysWebView(false);
@@ -96,7 +97,7 @@ export default {
             console.log(result);
           }, (error) => {
             console.log("KO: " + error);
-          })
+          });
         } else {
           window.cordova.InAppBrowser.open(url, '_system', 'location=no');
         }
@@ -117,17 +118,16 @@ export default {
       navigator.notification.confirm('Voulez-vous vraiment supprimer ce compte ?', this.onConfirm, 'Êtes-vous sûr ?', ['Annuler','Supprimer']);
     },
     onConfirm(index) {
-      console.log(index);
       if (index == 2) {
-        // supprimer le compte, vérifier si pas de commande en cours ou argent restant
+        // Utilisation de Pinia pour réinitialiser l'état
+        const mainStore = useMainStore();
+        
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('banned');
-        this.$store.commit('resetState');
+        mainStore.resetState();
         this.$router.push({ name: 'Welcome' });
       }
     }
   }
 };
-
 </script>
-

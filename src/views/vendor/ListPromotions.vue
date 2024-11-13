@@ -120,24 +120,27 @@
 
 
 <script>
+import { useMainStore } from '../../stores/useMainStore.js';
 import LottieJSON from '../../assets/lottie/discount.json';
 
 export default {
   name: 'ListPromotions',
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       LottieJSON: LottieJSON,
       popupPromo: false,
       promotion: {
-        'title': '',
-        'type': '',
-        'value': null,
-        'isActive': true
+        title: '',
+        type: '',
+        value: null,
+        isActive: true,
       },
-    }
+    };
   },
   created() {
     window.StatusBar.overlaysWebView(false);
@@ -158,8 +161,10 @@ export default {
     },
     hidePromo() {
       this.popupPromo = false;
-    }, 
+    },
     savePromo() {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
@@ -167,8 +172,8 @@ export default {
         this.promotion.value = parseFloat(this.promotion.value);
       }
 
-      if (this.promotion.type == 'fixe' || (this.promotion.type == 'percent' && this.promotion.value < 100)) {
-        this.user.vendor.promotions.map((promo, index) => {
+      if (this.promotion.type === 'fixe' || (this.promotion.type === 'percent' && this.promotion.value < 100)) {
+        this.user.vendor.promotions.forEach((promo) => {
           promo.isActive = false;
         });
 
@@ -177,13 +182,12 @@ export default {
         this.user.vendor.promotions.unshift(this.promotion);
         this.popupPromo = false;
 
-          console.log(this.promotion);
         window.cordova.plugin.http.setDataSerializer('json');
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
-          this.$store.commit('setUser', JSON.parse(response.data));
-          this.user = this.$store.getters.getUser;
-          this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
-          console.log(this.promotion);
+        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/promotion/add`, this.promotion, { Authorization: `Bearer ${this.token}` }, (response) => {
+          const updatedUser = JSON.parse(response.data);
+          mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
+          this.user = updatedUser;
+          this.promotion = { title: '', type: '', value: null, isActive: true };
         }, (response) => {
           console.log(JSON.parse(response.error));
           window.plugins.toast.show(JSON.parse(response.error), 'long', 'top');
@@ -191,12 +195,16 @@ export default {
       }
     },
     deletePromo(promo, index) {
+      const mainStore = useMainStore();
+
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.user.vendor.promotions.splice(index, 1);
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotion/delete/${promo.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        const updatedUser = JSON.parse(response.data);
+        mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
+        this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
       });
@@ -208,23 +216,25 @@ export default {
       this.popupPromo = true;
     },
     check(promo) {
-      if(promo.isActive) {
+      const mainStore = useMainStore();
+
+      if (promo.isActive) {
         promo.isActive = false;
       } else {
-        this.user.vendor.promotions.map((promotion, index) => {
+        this.user.vendor.promotions.forEach((promotion) => {
           promotion.isActive = false;
         });
         promo.isActive = true;
       }
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/activate/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.$store.commit('setUser', JSON.parse(response.data));
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotion/activate/${promo.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+        const updatedUser = JSON.parse(response.data);
+        mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
+        this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
       });
     }
   }
 };
-
 </script>
-

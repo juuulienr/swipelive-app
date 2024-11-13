@@ -79,25 +79,28 @@
 <style scoped src="../assets/css/message.css"></style>
 
 <script>
+import { useMainStore } from '../stores/useMainStore.js';
 
 export default {
   name: 'Message',
   props: ['discussion'],
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       inputMessage: '',
       writing: false,
       imageWidth: '0px',
       chatHeight: 'calc(100vh - 55px)',
       writeInput: "0px",
-      newMessage: []
-    }
+      newMessage: [],
+    };
   },
   created() {
-    if (window.cordova && (window.cordova.platformId === "ios")) {
+    if (window.cordova && window.cordova.platformId === "ios") {
       this.chatHeight = 'calc(100vh - 95px)';
       this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
     }
@@ -112,63 +115,56 @@ export default {
   },
   methods: {
     isUserOnline(discussion) {
-      if (discussion.user.id == this.user.id) {
-        if (discussion.vendor.securityUsers) {
-          var datetime = discussion.vendor.securityUsers[0].connectedAt;
-        } else {
-          return false;
-        }
-      } else {
-        if (discussion.user.securityUsers) {
-          var datetime = discussion.user.securityUsers[0].connectedAt;
-        } else {
-          return false;
-        }
-      }
+      const currentUser = discussion.user.id === this.user.id ? discussion.vendor : discussion.user;
+      if (!currentUser.securityUsers) return false;
 
-      var date = new Date(datetime);
-      var date2 = new Date(Date.now() - 5 * 60 * 1000);
+      const lastConnectedAt = new Date(currentUser.securityUsers[0].connectedAt);
+      const cutoffTime = new Date(Date.now() - 5 * 60 * 1000);
 
-      return date > date2;
+      return lastConnectedAt > cutoffTime;
     },
     async sendMessage() {
       if (this.inputMessage && this.inputMessage !== '') {
         this.writing = false;
         this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
-        var preview = this.inputMessage;
-        var httpParams = { "fromUser": this.user.id, "picture": null, "text": preview, "createdAt": new Date() };
-        this.discussion.messages.push(httpParams);
+        const preview = this.inputMessage;
+        const newMessage = { fromUser: this.user.id, picture: null, text: preview, createdAt: new Date() };
+        this.discussion.messages.push(newMessage);
         this.inputMessage = '';
         this.scrollToBottom();
 
+        let url, httpParams;
         if (this.discussion.id) {
-          var url = this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/message";
+          url = `${this.baseUrl}/user/api/discussions/${this.discussion.id}/message`;
+          httpParams = newMessage;
         } else {
-          var url = this.baseUrl + "/user/api/discussions/add";
-          httpParams = { "preview": preview, "unseenVendor": true, "unseen": false, "user": this.discussion.user.id, "vendor": this.discussion.vendor.id, "purchase": null, "messages": this.discussion.messages };
+          url = `${this.baseUrl}/user/api/discussions/add`;
+          httpParams = { 
+            preview,
+            unseenVendor: true,
+            unseen: false,
+            user: this.discussion.user.id,
+            vendor: this.discussion.vendor.id,
+            purchase: null,
+            messages: this.discussion.messages,
+          };
         }
 
-        await window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(JSON.parse(response.data));
-          this.discussions = JSON.parse(response.data);
-          this.$emit('updateDiscussions', this.discussions);
+        await window.cordova.plugin.http.post(url, httpParams, { Authorization: `Bearer ${this.token}` }, (response) => {
+          const updatedDiscussion = JSON.parse(response.data);
+          this.$emit('updateDiscussions', updatedDiscussion);
         }, (response) => {
-          console.log(JSON.parse(response.error));
+          console.log(response.error);
         });
       }
     },
     seenDiscussion() {
       if (this.discussion.id) {
-        if (this.user.id == this.discussion.user.id) {
-          var unseen = this.discussion.unseen;
-        } else {
-          var unseen = this.discussion.unseenVendor;
-        }
-
+        const unseen = this.user.id === this.discussion.user.id ? this.discussion.unseen : this.discussion.unseenVendor;
         if (unseen) {
-          window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/seen", {}, { Authorization: "Bearer " + this.token }, (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
+          window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/seen`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
+            const updatedDiscussion = JSON.parse(response.data);
+            this.$emit('updateDiscussions', updatedDiscussion);
           }, (response) => {
             console.log(response.error);
           });
@@ -186,54 +182,43 @@ export default {
       }, 200);
     },
     getImageSize(message) {
-      var width = this.$refs.image[0].naturalWidth;
-      var height = this.$refs.image[0].naturalHeight;
+      const width = this.$refs.image[0].naturalWidth;
+      const height = this.$refs.image[0].naturalHeight;
 
-      if (width > height) {
-        message.pictureType = "landscape";
-      } else if (width == height) {
-        message.pictureType = "rounded";
-      } else {
-        message.pictureType = "portrait";
-      }
+      if (width > height) message.pictureType = "landscape";
+      else if (width === height) message.pictureType = "rounded";
+      else message.pictureType = "portrait";
     },
     shouldDisplayDate(message, index) {
       if (index === 0) return true;
+
       const previousMessage = this.discussion.messages[index - 1];
+      const timeDifference = new Date(message.createdAt) - new Date(previousMessage.createdAt);
 
-      const messageTime = new Date(message.createdAt);
-      const previousMessageTime = new Date(previousMessage.createdAt);
-      const timeDifference = messageTime - previousMessageTime;
-
-      // check si précédent message existe depuis plus de 20 minutes
       return timeDifference > 20 * 60 * 1000;
     },
     uploadImage(options) {
       navigator.camera.getPicture((imageUri) => {
         console.log(imageUri);
-
         window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          var httpParams = { "fromUser": this.user.id, "picture": imageUri, "pictureType": null, "loading": true, "text": null };
-          this.discussion.messages.push(httpParams);
-          this.scrollToBottomWithTimeout();
 
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
-          }, function(response) {
+        const httpParams = { fromUser: this.user.id, picture: imageUri, pictureType: null, loading: true, text: null };
+        this.discussion.messages.push(httpParams);
+        this.scrollToBottomWithTimeout();
+
+        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+          window.cordova.plugin.http.uploadFile(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`, {}, { Authorization: `Bearer ${this.token}` }, imageUri, 'picture', (response) => {
+            const updatedDiscussion = JSON.parse(response.data);
+            this.$emit('updateDiscussions', updatedDiscussion);
+          }, (response) => {
             console.log(response.error);
           });
         } else {
-          var imgData = "data:image/jpeg;base64," + imageUri;
-          var httpParams = { "fromUser": this.user.id, "picture": imgData, "pictureType": null, "loading": true, "text": null };
-          this.discussion.messages.push(httpParams);
-          this.scrollToBottomWithTimeout();
-
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.discussions = JSON.parse(response.data);
-            this.$emit('updateDiscussions', this.discussions);
-          }, function(response) {
+          const imgData = `data:image/jpeg;base64,${imageUri}`;
+          window.cordova.plugin.http.post(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`, { picture: imgData }, { Authorization: `Bearer ${this.token}` }, (response) => {
+            const updatedDiscussion = JSON.parse(response.data);
+            this.$emit('updateDiscussions', updatedDiscussion);
+          }, (response) => {
             console.log(response.error);
           });
         }
@@ -243,13 +228,8 @@ export default {
     },
     onInput() {
       if (this.discussion.id) {
-        if (this.inputMessage == '') {
-          this.stopWriting();
-        } else {
-          if (!this.writing) {
-            this.startWriting();
-          }
-        }
+        if (this.inputMessage === '') this.stopWriting();
+        else if (!this.writing) this.startWriting();
       }
     },
     hideDiscussion() {
@@ -257,55 +237,45 @@ export default {
       this.$emit('hideDiscussion');
     },
     keyboardWillShow(event) {
-      console.log("feed height");
-      console.log(event.keyboardHeight);
-      var height = event.keyboardHeight.toString() + "px";
+      const height = `${event.keyboardHeight}px`;
       setTimeout(() => {
-        this.writeInput = height.toString();
+        this.writeInput = height;
       }, 200);
     },
     away(event) {
-      if (event.target.id !== "btnSend" && event.target.id !== "btnPicture") {
+      if (!["btnSend", "btnPicture"].includes(event.target.id)) {
         this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
       }
     },
     stopWriting() {
       if (this.writing) {
         this.writing = false;
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing/stop", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        }, (response) => {
+        window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/writing/stop`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {}, (response) => {
           console.log(response.error);
         });
       }
     },
     startWriting() {
       this.writing = true;
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/discussions/" + this.discussion.id + "/writing", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/writing`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {}, (response) => {
         console.log(response.error);
       });
     },
     uploadPicture() {
-      var options = {
+      const options = {
         title: 'Envoyer une photo',
         buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
         addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
       };
       window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
-          this.openFilePicker();
-        } else if (index == 2) {
-          this.openCamera();
-        }
-      }, (error) => {
-        console.log(error);
+        if (index === 1) this.openFilePicker();
+        else if (index === 2) this.openCamera();
       });
     },
     openFilePicker() {
-      var options = {
+      const options = {
         quality: 90,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
@@ -314,13 +284,12 @@ export default {
         targetHeight: 720,
         targetWidth: 10000,
         allowEdit: false,
-        correctOrientation: true
-      }
-
+        correctOrientation: true,
+      };
       this.uploadImage(options);
     },
     openCamera() {
-      var options = {
+      const options = {
         quality: 90,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.CAMERA,
@@ -330,12 +299,9 @@ export default {
         targetWidth: 10000,
         allowEdit: false,
         correctOrientation: true,
-      }
-
+      };
       this.uploadImage(options);
     },
-  }
+  },
 };
-
 </script>
-

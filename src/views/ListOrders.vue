@@ -425,25 +425,26 @@
 <style scoped src="../assets/css/listorders.css"></style>
 
 <script>
-
+import { useMainStore } from '../stores/useMainStore.js';
 import LottieJSON from '../assets/lottie/order.json';
 
 export default {
   name: 'ListOrders',
   data() {
+    const mainStore = useMainStore();
+
     return {
       isOrder: this.$route.params.isOrder,
       orderId: this.$route.params.orderId,
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       cloudinary: 'https://res.cloudinary.com/dxlsenc2r/image/upload/',
       LottieJSON: LottieJSON,
       popupConfirmation: false,
-      popupOrder: false, 
-      loadingPurchases: true, 
-      loadingOrders: true, 
-      popupOrder: false, 
+      popupOrder: false,
+      loadingPurchases: true,
+      loadingOrders: true,
       sales: [],
       purchases: [],
       searchTerm: "",
@@ -456,9 +457,9 @@ export default {
       order: null,
       type: null,
       remaining: null,
-    }
+    };
   },
-  created() {    
+  created() {
     window.StatusBar.overlaysWebView(false);
     window.StatusBar.styleDefault();
     window.StatusBar.backgroundColorByHexString("#ffffff");
@@ -468,40 +469,25 @@ export default {
   },
   computed: {
     filteredSales() {
-      if (this.searchTerm) {
-        return this.sales.filter(sale => {
-          const search = this.searchTerm.toLowerCase();
-          return (sale.buyer.firstname.toLowerCase().includes(search) || sale.buyer.lastname.toLowerCase().includes(search) || sale.number.toString().toLowerCase().includes(search));
-        });
-      } else {
-        return this.sales.filter(sale => {
-          return (sale.shippingStatus == this.shippingStatus);
-        });
-      }
+      const search = this.searchTerm.toLowerCase();
+      return this.sales.filter((sale) => {
+        const matchesSearch = sale.buyer.firstname.toLowerCase().includes(search) || sale.buyer.lastname.toLowerCase().includes(search) || sale.number.toString().includes(search);
+        const matchesStatus = sale.shippingStatus === this.shippingStatus;
+        return this.searchTerm ? matchesSearch : matchesStatus;
+      });
     },
   },
   methods: {
     nbProducts(lineItems) {
-      var count = 0;
-      if (lineItems.length) {
-        lineItems.map(lineItem => {
-          count = count + lineItem.quantity;
-        });
-      }
-      return count;
+      return lineItems.reduce((count, lineItem) => count + lineItem.quantity, 0);
     },
     loadOrders() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/orders`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.sales = JSON.parse(response.data);
         this.loadingOrders = false;
-        console.log(this.sales);
-        console.log(this.orderId);
 
         if (this.orderId && this.sales.length > 0) {
-          this.sales.map((order, index) => {
-            console.log(order);
-            console.log(order.id);
-            console.log(this.orderId);
+          this.sales.forEach((order) => {
             if (this.orderId == order.id) {
               this.showOrder(order, 'sale');
             }
@@ -512,7 +498,7 @@ export default {
       });
     },
     loadPurchases() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/purchases", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/purchases`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.purchases = JSON.parse(response.data);
         this.loadingPurchases = false;
       }, (response) => {
@@ -526,12 +512,7 @@ export default {
       this.popupOrder = true;
       this.order = order;
       this.type = type;
-
-      if (this.order.promotionAmount) {
-        this.remaining = (parseFloat(this.order.subTotal) - parseFloat(this.order.promotionAmount) - parseFloat(this.order.fees)).toFixed(2);
-      } else {
-        this.remaining = (parseFloat(this.order.subTotal) - parseFloat(this.order.fees)).toFixed(2);
-      }
+      this.remaining = (parseFloat(this.order.subTotal) - parseFloat(this.order.promotionAmount || 0) - parseFloat(this.order.fees)).toFixed(2);
     },
     hideOrder() {
       this.popupOrder = false;
@@ -549,27 +530,17 @@ export default {
         slowdownfactor: 1,
       });
       this.$router.push({ name: 'Account' });
-    }, 
+    },
     showLabel() {
-      var url = this.cloudinary + this.order.pdf;
-      window.SafariViewController.isAvailable((available) => {
-        if (available) {
-          window.SafariViewController.show({ url: url }, (result) => {
-            console.log(result);
-          }, (error) => {
-            console.log("KO: " + error);
-          })
-        } else {
-          window.cordova.InAppBrowser.open(url, '_system', 'location=no');
-        }
-      });
+      const url = `${this.cloudinary}${this.order.pdf}`;
+      this.openUrl(url);
     },
     generateLabel() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
       this.loadingPdf = true;
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/shipping/create/" + this.order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/shipping/create/${this.order.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.order = JSON.parse(response.data);
         this.loadingPdf = false;
       }, (response) => {
@@ -578,24 +549,24 @@ export default {
       });
     },
     showTrackingWebsite() {
+      let url;
       if (this.order.trackingNumber) {
         if (this.order.shippingCarrierId === "32b1463a-a275-46d3-b9fd-ee17a1e8ab33") {
-          var url = "Numéro dehttp://www.colissimo.fr/portail_colissimo/suivre.do?colispart=" + this.order.trackingNumber;
-          this.openUrl(url);
+          url = `http://www.colissimo.fr/portail_colissimo/suivre.do?colispart=${this.order.trackingNumber}`;
         } else if (this.order.shippingCarrierId === "b139ac1f-bbb9-4235-b87e-aedcb3c32132") {
-          var url = "http://www.mondialrelay.com/public/permanent/tracking.aspx?ens=MRUPELAM74&exp=" + this.order.trackingNumber + "83514155&language=FR";
-          this.openUrl(url);
+          url = `http://www.mondialrelay.com/public/permanent/tracking.aspx?ens=MRUPELAM74&exp=${this.order.trackingNumber}83514155&language=FR`;
         }
+        this.openUrl(url);
       }
     },
     openUrl(url) {
       window.SafariViewController.isAvailable((available) => {
         if (available) {
-          window.SafariViewController.show({ url: url }, (result) => {
+          window.SafariViewController.show({ url }, (result) => {
             console.log(result);
           }, (error) => {
             console.log("KO: " + error);
-          })
+          });
         } else {
           window.cordova.InAppBrowser.open(url, '_system', 'location=no');
         }
@@ -603,7 +574,7 @@ export default {
     },
     closeOrder() {
       this.popupConfirmation = false;
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + this.order.id + "/closed", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/orders/${this.order.id}/closed`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.order = JSON.parse(response.data);
         this.hideOrder();
       }, (response) => {
@@ -617,7 +588,7 @@ export default {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
       }
-      this.$router.push({ name: 'ListMessages', params: { userId: buyer.id, picture: buyer.picture, firstname: buyer.firstname, lastname: buyer.lastname, pseudo: null } });
+      this.$router.push({ name: 'ListMessages', params: { userId: buyer.id, picture: buyer.picture, firstname: buyer.firstname, lastname: buyer.lastname } });
     },
     sendMessageToVendor(vendor) {
       if (window.TapticEngine) {
@@ -626,64 +597,40 @@ export default {
       this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, pseudo: vendor.pseudo } });
     },
     cancelOrder() {
-      var orderId = this.order.id;
-      this.sales.map((sale, index) => {
-        if (sale.id == orderId) {
-          this.sales[index].shippingStatus = "cancelled";
-        }
-      });
-
-      this.purchases.map((purchase, index) => {
-        if (purchase.id == orderId) {
-          this.purchases[index].shippingStatus = "cancelled";
-        }
-      });
-
+      const orderId = this.order.id;
+      this.sales = this.sales.map((sale) => (sale.id === orderId ? { ...sale, shippingStatus: "cancelled" } : sale));
+      this.purchases = this.purchases.map((purchase) => (purchase.id === orderId ? { ...purchase, shippingStatus: "cancelled" } : purchase));
       this.hideOrder();
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/orders/" + orderId + "/cancel", {}, { Authorization: "Bearer " + this.token }, (response) => {
+      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/orders/${orderId}/cancel`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         window.plugins.toast.show("La commande a été annulée", 'long', 'top');
       }, (response) => {
         window.plugins.toast.show(response.error, 'long', 'top');
-        console.log(response.error);
       });
     },
     actionSheet() {
-      // afficher annuler la commande que si commande n'est pas envoyé
-      if (this.order.shippingStatus == 'ready-to-send') {
-        var options = {
-          buttonLabels: ['Signaler un problème'],
-          addCancelButtonWithLabel: 'Retour',
-          addDestructiveButtonWithLabel : 'Annuler la commande',
-          destructiveButtonLast: true,
-          androidEnableCancelButton : true,
-          winphoneEnableCancelButton : true
-        };
+      const options = this.order.shippingStatus === 'ready-to-send' ? {
+        buttonLabels: ['Signaler un problème'],
+        addCancelButtonWithLabel: 'Retour',
+        addDestructiveButtonWithLabel: 'Annuler la commande',
+        destructiveButtonLast: true,
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
+      } : {
+        buttonLabels: ['Signaler un problème'],
+        addCancelButtonWithLabel: 'Retour',
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
+      };
 
-        window.plugins.actionsheet.show(options, (index) => {
-          if (index == 1) {
-            window.plugins.toast.show("La commande a été signalé !", 'long', 'top');
-          } else if (index == 2) {
-            this.cancelOrder();
-          }
-        }, (error) => {
-          console.log(error);
-        });
-      } else {
-        var options = {
-          buttonLabels: ['Signaler un problème'],
-          addCancelButtonWithLabel: 'Retour',
-          androidEnableCancelButton : true,
-          winphoneEnableCancelButton : true
-        };
-        
-        window.plugins.actionsheet.show(options, (index) => {
-          if (index == 1) {
-            window.plugins.toast.show("La commande a été signalé !", 'long', 'top');
-          }
-        }, (error) => {
-          console.log(error);
-        });
-      }
+      window.plugins.actionsheet.show(options, (index) => {
+        if (index === 1) {
+          window.plugins.toast.show("La commande a été signalée !", 'long', 'top');
+        } else if (index === 2 && this.order.shippingStatus === 'ready-to-send') {
+          this.cancelOrder();
+        }
+      }, (error) => {
+        console.log(error);
+      });
     },
     showNumber1() {
       if (window.TapticEngine) {
@@ -694,7 +641,7 @@ export default {
       this.show2 = false;
       this.show3 = false;
       this.show4 = false;
-    }, 
+    },
     showNumber2() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });
@@ -704,7 +651,7 @@ export default {
       this.show2 = true;
       this.show3 = false;
       this.show4 = false;
-    }, 
+    },
     showNumber3() {
       if (window.TapticEngine) {
         TapticEngine.impact({ style: 'medium' });

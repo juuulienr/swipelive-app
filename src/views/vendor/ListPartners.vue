@@ -25,17 +25,20 @@
 
 
 <script>
+import { useMainStore } from '../../stores/useMainStore.js';
 import LottieJSON from '../../assets/lottie/partner.json';
 
 export default {
   name: 'ListPartners',
   data() {
+    const mainStore = useMainStore();
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       LottieJSON: LottieJSON,
-      user: this.$store.getters.getUser,
-    }
+      user: mainStore.getUser,
+    };
   },
   created() {    
     window.StatusBar.overlaysWebView(false);
@@ -56,6 +59,4 @@ export default {
     },
   }
 };
-
 </script>
-

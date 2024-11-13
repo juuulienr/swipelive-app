@@ -69,7 +69,9 @@
 
 <style scoped src="../assets/css/listmessages.css"></style>
 
+
 <script>
+import { useMainStore } from '../stores/useMainStore.js';
 import LottieJSON from '../assets/lottie/message.json';
 import Message from '../components/Message.vue';
 
@@ -79,6 +81,8 @@ export default {
     Message
   },
   data() {
+    const mainStore = useMainStore();
+
     return {
       discussionId: this.$route.params.discussionId,
       userId: this.$route.params.userId,
@@ -88,13 +92,13 @@ export default {
       lastname: this.$route.params.lastname,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       LottieJSON: LottieJSON,
       discussions: [],
       selectedDiscussion: null,
       loading: true,
       searchTerm: "",
-    }
+    };
   },
   created() {
     window.StatusBar.overlaysWebView(false);
@@ -109,7 +113,7 @@ export default {
 
     channel.bind("new_message", (data) => {
       if (data.message.fromUser != this.user.id && this.selectedDiscussion) {
-        if (data.discussionId == this.selectedDiscussion.id) {
+        if (data.discussionId === this.selectedDiscussion.id) {
           this.selectedDiscussion.messages = this.selectedDiscussion.messages.filter(message => !message.writing);
 
           if (!("stopWriting" in data.message)) {
@@ -135,10 +139,10 @@ export default {
       return this.discussions.filter(discussion => {
         const search = this.searchTerm.toLowerCase();
 
-        if (discussion.user.id == this.user.id) {
+        if (discussion.user.id === this.user.id) {
           return discussion.vendor.vendor.pseudo.toLowerCase().includes(search);
         } else {
-          return (discussion.user.firstname.toLowerCase().includes(search) || discussion.user.lastname.toLowerCase().includes(search));
+          return discussion.user.firstname.toLowerCase().includes(search) || discussion.user.lastname.toLowerCase().includes(search);
         }
       });
     },
@@ -150,10 +154,10 @@ export default {
         this.loading = false;
 
         this.discussions.forEach(discussion => {
-          if (this.userId && (this.userId == discussion.user.id || this.userId == discussion.vendor.id)) {
+          if (this.userId && (this.userId === discussion.user.id || this.userId === discussion.vendor.id)) {
             this.selectedDiscussion = discussion;
           }
-          if (this.discussionId && this.discussionId == discussion.id) {
+          if (this.discussionId && this.discussionId === discussion.id) {
             this.selectedDiscussion = discussion;
           }
         });
@@ -175,7 +179,7 @@ export default {
       this.$router.push({ name: 'Account' });
     },
     isUserOnline(discussion) {
-      const datetime = discussion.user.id == this.user.id
+      const datetime = discussion.user.id === this.user.id
         ? discussion.vendor.securityUsers[0].connectedAt
         : discussion.user.securityUsers[0].connectedAt;
 

@@ -347,16 +347,18 @@
 </style>
 
 <script>
-
+import { useMainStore } from '../stores/useMainStore.js';
 
 export default {
   name: 'VendorRegistration',
   data() {
+    const mainStore = useMainStore();
+    
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       stripe_pk: window.localStorage.getItem("stripe_pk"),
-      user: this.$store.getters.getUser,
+      user: mainStore.getUser,
       type: true,
       step1: false,
       step2: false,
@@ -587,6 +589,7 @@ export default {
       }
 
       const stripe = Stripe(this.stripe_pk);
+      const mainStore = useMainStore();
 
       if (this.businessType == 'company') {
         const accountResult = await stripe.createToken('account', {
@@ -663,7 +666,7 @@ export default {
 
       await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
         console.log(response);
-        this.$store.commit('setUser', JSON.parse(response.data));
+        mainStore.setUser(JSON.parse(response.data));
         this.loading = false;
         this.step1 = false;
         this.step2 = false;
