@@ -41,17 +41,10 @@
       },
       "cordova-plugin-taptic-engine": {}
     },
-    "platforms": [
-      "browser",
-      "android",
-      "ios"
-    ]
+    "platforms": []
   },
   "devDependencies": {
     "cordova": "^12.0.0",
-    "cordova-android": "^13.0.0",
-    "cordova-browser": "^7.0.0",
-    "cordova-ios": "^7.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-agora": "github:juuulienr/cordova-plugin-agora",
