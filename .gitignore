@@ -8,9 +8,11 @@ node_modules
 # Capacitor specific folders
 /android
 /ios
-# Capacitor specific configuration and build folders
-/android/app/build/
-/ios/App/build/
+
+# Cordova specific folders
+/cordova_app/platforms
+/cordova_app/plugins
+/cordova_app/www
 
 # Vite cache
 /.vite
