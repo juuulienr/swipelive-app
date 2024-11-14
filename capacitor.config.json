@@ -1,0 +1,10 @@
+{
+  "appId": "com.swipelive.app",
+  "appName": "Swipe Live",
+  "webDir": "dist",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

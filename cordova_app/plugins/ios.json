@@ -19,25 +19,13 @@
     "cordova-plugin-file": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-x-toast": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-battery-status": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-actionsheet": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-wheel-selector-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-dialogs": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-taptic-engine": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-enable-cleartext-traffic": {
@@ -58,29 +46,12 @@
     "cordova-plugin-app-version": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-x-socialsharing": {
-      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
-      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-network-information": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-android-permissions": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
     "cordova-plugin-advanced-http": {
       "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-media": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-device": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-stripe": {
@@ -90,9 +61,6 @@
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-agora": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    },
-    "cordova-plugin-insomnia": {
       "PACKAGE_NAME": "com.swipelive.app"
     },
     "cordova-plugin-firebasex": {
@@ -124,13 +92,9 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v19.0",
       "PACKAGE_NAME": "com.swipelive.app"
     },
-    "cordova-plugin-camera": {
+    "cordova-plugin-taptic-engine": {
       "PACKAGE_NAME": "com.swipelive.app"
     }
   },
-  "dependent_plugins": {
-    "es6-promise-plugin": {
-      "PACKAGE_NAME": "com.swipelive.app"
-    }
-  }
+  "dependent_plugins": {}
 }

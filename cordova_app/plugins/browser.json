@@ -7,20 +7,11 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-actionsheet": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-add-swift-support": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-advanced-http": {
       "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-agora": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-android-permissions": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-app-review": {
@@ -30,9 +21,6 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-battery-status": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-device": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-dialogs": {
@@ -74,9 +62,6 @@
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-insomnia": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-keyboard": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
@@ -84,9 +69,6 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-nativepagetransitions": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-network-information": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-networkinterface": {
@@ -98,34 +80,15 @@
     "cordova-plugin-sign-in-with-apple": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
     "cordova-plugin-stripe": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-taptic-engine": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-x-socialsharing": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-x-toast": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-wheel-selector-plugin": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    },
-    "cordova-plugin-camera": {
+    "cordova-plugin-taptic-engine": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
-  "dependent_plugins": {
-    "es6-promise-plugin": {
-      "PACKAGE_NAME": "io.cordova.hellocordova"
-    }
-  }
+  "dependent_plugins": {}
 }

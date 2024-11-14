@@ -10,28 +10,38 @@ import VueClickAway from 'vue3-click-away';
 import Vue3Lottie from 'vue3-lottie';
 import { createPinia } from 'pinia';
 
+// Capacitor plugins
+import { App as CapacitorApp } from '@capacitor/app';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Network } from '@capacitor/network';
+import { Haptics } from '@capacitor/haptics';
+import { Capacitor } from '@capacitor/core';
+
 const app = createApp(App);
 const pinia = createPinia();
 
-// Configuration de Pusher et Bugsnag
-if (window.location.protocol === 'file:' || window.location.protocol === 'https:') {
+const platform = Capacitor.getPlatform();
+const isNative = platform === 'ios' || platform === 'android';
+const isProd = window.location.protocol === 'https:' || (isNative && window.location.protocol === 'capacitor:');
+
+if (isProd) {
   Pusher.logToConsole = true;
-  app.config.productionTip = true;
+  
   Bugsnag.start({
     apiKey: 'b6f579675362830a12146a96a851e17a',
     plugins: [new BugsnagPluginVue()],
   });
   app.use(Bugsnag.getPlugin('vue'));
+
   window.localStorage.setItem("baseUrl", "https://swipelive.app");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 } else {
-  app.config.productionTip = false;
   app.config.devtools = true;
+
   window.localStorage.setItem("baseUrl", "https://127.0.0.1:8000");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 }
 
-// Configuration des plugins et propriétés globales
 app.use(router);
 app.use(pinia);
 app.use(VueObserveVisibility);
@@ -44,7 +54,6 @@ app.config.globalProperties.$cloudinary256x256 = 'https://res.cloudinary.com/dxl
 app.config.globalProperties.$amazonS3 = 'https://swipe-live-app-storage-eu-west-3.s3.eu-west-3.amazonaws.com/';
 app.config.globalProperties.$googleAPIKey = 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w';
 
-// Fonctions utilitaires avec Composition API
 app.config.globalProperties.$formatDate = (datetime) => {
   const today = new Date();
   const date = new Date(datetime);
@@ -106,26 +115,24 @@ app.config.globalProperties.$formatLikes = (value) => {
 // Initialisation de l'application
 const init = () => {
   app.mount('#app');
+  if (isNative) {
+    StatusBar.setStyle({ style: Style.Light });
+    Haptics.vibrate();
+  }
 };
 
-// Gestion des événements Cordova
-document.addEventListener("deviceready", () => {
-  if (window.plugins && window.plugins.insomnia) {
-    window.plugins.insomnia.keepAwake();
+// Gestion des événements Capacitor
+CapacitorApp.addListener("appStateChange", (state) => {
+  if (!state.isActive) {
+    console.log("App is in background");
   }
-  init();
 });
 
-// Gestion des événements de statut réseau et de batterie
-document.addEventListener("offline", () => {
-  window.plugins.toast.show("Pas de connexion Internet", 'long', 'top');
+Network.addListener("networkStatusChange", (status) => {
+  if (!status.connected) {
+    console.log("Pas de connexion Internet");
+  }
 });
 
-window.addEventListener("batterycritical", (event) => {
-  window.plugins.toast.show(`Niveau de batterie critique : ${event.level}%`, 'long', 'top');
-}, false);
-
-// Si Cordova n'est pas détecté, déclenche manuellement l'événement "deviceready"
-if (typeof window.cordova === "undefined") {
-  document.dispatchEvent(new CustomEvent("deviceready", {}));
-}
+// Démarre l'application
+init();

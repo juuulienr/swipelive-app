@@ -115,7 +115,7 @@
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorCountry }">
           <fieldset>
             <legend>Pays</legend>
-            <input @click="selectCountry()" type="text" readonly v-model="user.vendor.country">
+            <input type="text" v-model="user.vendor.country">
           </fieldset>
         </div>
 
@@ -443,30 +443,6 @@ export default {
       });
       return addressComponents;
     },
-    selectCountry() {
-      var data = {
-        numbers: [
-          {description: "France"},
-          {description: "Belgique"},
-          {description: "Luxembourg"},
-        ],
-      };
-
-      var config = {
-        title: "",
-        items:[
-          [data.numbers]
-        ],
-        positiveButtonText: "Choisir",
-        negativeButtonText: "Annuler"
-      };
-
-      window.SelectorCordovaPlugin.showSelector(config, (result) => {
-        this.user.vendor.country = result[0].description;
-      }, (error) => {
-        console.log(error);
-      });
-    }, 
     checkPhone(phone) {
       var regex = /^(?:0|00|\+)(?:\d ?){6,14}\d$/;
       return regex.test(phone);

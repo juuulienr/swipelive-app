@@ -5,10 +5,12 @@
 node_modules
 /dist
 
-# Cordova specific folders
-/cordova_app/platforms
-/cordova_app/plugins
-/cordova_app/www
+# Capacitor specific folders
+/android
+/ios
+# Capacitor specific configuration and build folders
+/android/app/build/
+/ios/App/build/
 
 # Vite cache
 /.vite

@@ -31,26 +31,10 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-x-toast": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-x-toast@^2.7.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-battery-status": {
     "source": {
       "type": "registry",
       "id": "cordova-plugin-battery-status@^2.0.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-actionsheet": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-actionsheet@^2.3.3"
     },
     "is_top_level": true,
     "variables": {}
@@ -63,26 +47,10 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-wheel-selector-plugin": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-wheel-selector-plugin@^1.1.7"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-dialogs": {
     "source": {
       "type": "registry",
       "id": "cordova-plugin-dialogs@^2.0.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-taptic-engine": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-taptic-engine@^2.2.0"
     },
     "is_top_level": true,
     "variables": {}
@@ -137,39 +105,12 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-x-socialsharing": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-x-socialsharing@^6.0.4"
-    },
-    "is_top_level": true,
-    "variables": {
-      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
-      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
-    }
-  },
   "es6-promise-plugin": {
     "source": {
       "type": "registry",
       "id": "es6-promise-plugin@^4.1.0"
     },
     "is_top_level": false,
-    "variables": {}
-  },
-  "cordova-plugin-network-information": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-network-information@^3.0.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-android-permissions": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-android-permissions@^1.1.5"
-    },
-    "is_top_level": true,
     "variables": {}
   },
   "cordova-plugin-advanced-http": {
@@ -191,22 +132,6 @@
     "variables": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO"
     }
-  },
-  "cordova-plugin-statusbar": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-statusbar@^4.0.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-device": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-device@3.0.0"
-    },
-    "is_top_level": true,
-    "variables": {}
   },
   "cordova-plugin-stripe": {
     "source": {
@@ -232,14 +157,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-insomnia": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-insomnia"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-firebasex": {
     "source": {
       "type": "registry",
@@ -260,10 +177,10 @@
       "CLIENT_TOKEN": "fae44754104510584e04cdf0e8c617b7"
     }
   },
-  "cordova-plugin-camera": {
+  "cordova-plugin-taptic-engine": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-camera@8.0.0"
+      "id": "cordova-plugin-taptic-engine"
     },
     "is_top_level": true,
     "variables": {}

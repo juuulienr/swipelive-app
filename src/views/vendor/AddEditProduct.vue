@@ -870,34 +870,6 @@ export default {
         this.quantity = 0;
       }
     },
-    selectWeightUnit(type) {
-    	var data = {
-    		numbers: [
-    			{description: "kg"},
-    			{description: "g"},
-    		],
-    	};
-
-	    var config = {
-	    	title: "",
-	    	items:[
-	    		[data.numbers]
-	    	],
-	    	positiveButtonText: "Choisir",
-	    	negativeButtonText: "Annuler"
-	    };
-
-	    window.SelectorCordovaPlugin.showSelector(config, (result) => {
-	    	console.log(result);
-	    	if (type == 'product') {
-	    		this.product.weightUnit = result[0].description;
-	    	} else {
-	    		this.variant.weightUnit = result[0].description;
-	    	}
-	    }, (error) => {
-	    	console.log(error);
-	    });
-    },
   }
 };
 

@@ -1,0 +1,6 @@
+framework module Pods_Swipe_Live {
+  umbrella header "Pods-Swipe Live-umbrella.h"
+
+  export *
+  module * { export * }
+}

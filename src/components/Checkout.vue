@@ -253,7 +253,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorCountry }">
           <fieldset>
             <legend>Pays</legend>
-            <input @click="selectCountry()" type="text" v-model="country" readonly>
+            <input type="text" v-model="country">
           </fieldset>
         </div>
 
@@ -1010,31 +1010,6 @@ export default {
         if (types.includes("route")) addressComponents.route = component.long_name;
       });
       return addressComponents;
-    },
-    selectCountry() {
-    	var data = {
-    		numbers: [
-    			{description: "France"},
-    			{description: "Belgique"},
-    			{description: "Suisse"},
-    			{description: "Luxembourg"},
-    		],
-    	};
-
-	    var config = {
-	    	title: "",
-	    	items:[
-	    		[data.numbers]
-	    	],
-	    	positiveButtonText: "Choisir",
-	    	negativeButtonText: "Annuler"
-	    };
-
-	    window.SelectorCordovaPlugin.showSelector(config, (result) => {
-	    	this.country = result[0].description;
-	    }, (error) => {
-	    	console.log(error);
-	    });
     },
     checkPhone(phone) {
       var regex = /^(?:0|00|\+)(?:\d ?){6,14}\d$/;

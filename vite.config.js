@@ -13,7 +13,7 @@ export default defineConfig({
     port: 8200,
   },
   build: {
-    outDir: 'cordova_app/www',
+    outDir: 'dist',
     chunkSizeWarningLimit: 2000,
     rollupOptions: {
       output: {

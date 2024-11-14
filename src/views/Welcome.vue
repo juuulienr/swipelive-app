@@ -30,7 +30,7 @@
           <div class="tv-signin-dialog__separator-text">ou</div>
         </div>
 
-        <div class="social-container-NE2xk">
+        <!-- <div class="social-container-NE2xk">
           <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/apple.png" style="width: 24px; height: 24px; margin-bottom: 3px;"/>
@@ -49,7 +49,7 @@
             </div>
             <div class="channel-name-2qzLW">Continuer avec Google</div>
           </div>
-        </div>
+        </div> -->
 
         <p style="text-align: center;margin: 10px 30px 15px;font-weight: 400;color: #a7a8a9;">Avez-vous déjà un compte ?</p>
         <p @click="userLogin()" style="text-align: center;color: #ff2f80;">SE CONNECTER</p>
@@ -99,7 +99,7 @@
           <div class="tv-signin-dialog__separator-text">ou</div>
         </div>
 
-        <div class="social-container-NE2xk">
+        <!-- <div class="social-container-NE2xk">
           <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/apple.png" style="width: 24px; height: 24px;"/>
@@ -118,7 +118,7 @@
             </div>
             <div class="channel-name-2qzLW">Continuer avec Google</div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -133,7 +133,7 @@
       </div>
       <div class="checkout__body" style="overflow: scroll; padding: 15px;">
         <div class="general--profile">
-          <span>
+          <!-- <span>
             <span v-if="loadingImg">
               <svg viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
                 <circle cx="50" cy="50" r="20" style="stroke: #ff2f80;"></circle>
@@ -150,7 +150,7 @@
               </svg>
               <span style="font-weight: 400; margin: 0px 20px; text-align: center;">Ajoute une photo de profil</span>
             </div>
-          </span>
+          </span> -->
         </div>
         
       	<div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
@@ -231,6 +231,15 @@
 import AuthAPI from "../utils/auth.js";
 import LottieJSON from '../assets/lottie/forgot-password.json';
 import { useMainStore } from '../stores/useMainStore';
+import { Camera } from '@capacitor/camera';
+import { Haptics } from '@capacitor/haptics';
+import { Toast } from '@capacitor/toast';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Network } from '@capacitor/network';
+import { Capacitor } from '@capacitor/core';
+import { Device } from '@capacitor/device';
+import { CapacitorHttp } from '@capacitor/core';
+
 
 export default {
   name: 'Welcome',
@@ -276,55 +285,34 @@ export default {
     }
   },
   created() {
-    window.StatusBar.overlaysWebView(true);
-    window.StatusBar.styleDefault();
+    // StatusBar.setOverlaysWebView(true);
+    StatusBar.setStyle({ style: Style.Default });
     
-    var isAuthenticated = AuthAPI.isAuthenticated();
+    const isAuthenticated = AuthAPI.isAuthenticated();
     if (isAuthenticated) {
       this.$router.push({ name: 'Feed' });
     }
 
-    if (window.cordova && (window.cordova.platformId === "ios")) {
+    if (Capacitor.getPlatform() === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 40px)';
     }
 
-    if (window.cordova && (window.cordova.platformId === "android")) {
+    if (Capacitor.getPlatform() === "android") {
       this.isAndroid = true;
     }
 
-    if (window.device) {
-      this.device = window.device;
-      console.log(this.device);
-    }
+    this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    this.locale = Intl.DateTimeFormat().resolvedOptions().locale;
 
-    try {
-      this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      this.locale = Intl.DateTimeFormat().resolvedOptions().locale;
-    } catch (error) {
-      console.log(error);
-    }
+    Network.getStatus().then(status => {
+      this.connection = status.connectionType;
+    });
 
-    if (navigator.connection && navigator.connection.type) {
-      this.connection = navigator.connection.type;
-    }
+    Network.addListener("networkStatusChange", status => {
+      this.connection = status.connected ? status.connectionType : 'none';
+    });
 
-    if (window.networkinterface) {
-      window.networkinterface.getWiFiIPAddress((ipInformation) => {
-        if (ipInformation.ip) {
-          this.wifiIPAddress = ipInformation.ip;
-        }
-      }, (error) => {
-        console.log(error);
-      });
-
-      window.networkinterface.getCarrierIPAddress((ipInformation) => {
-        if (ipInformation.ip) {
-          this.carrierIPAddress = ipInformation.ip;
-        }
-      }, (error) => {
-        console.log(error);
-      });
-    }
+    this.getDeviceInfo();
   },
   mounted() {
     this.$refs.welcomeVideo.addEventListener('loadeddata', this.onVideoLoaded);
@@ -333,195 +321,152 @@ export default {
     this.$refs.welcomeVideo.removeEventListener('loadeddata', this.onVideoLoaded);
   },
   methods: {
+    async getDeviceInfo() {
+      try {
+        this.device = await Device.getInfo();
+        console.log(this.device);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des informations de l'appareil :", error);
+      }
+    },
     onVideoLoaded() {
-      if (navigator.splashscreen) {
-        navigator.splashscreen.hide();
-      }
+      // StatusBar.setOverlaysWebView(false); 
     },
-    async login() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      this.errorLoginEmail = false;
-      this.errorLoginPassword = false;
+    // async facebook() {
+    //   if (window.TapticEngine) {
+    //     TapticEngine.impact({ style: 'medium' });
+    //   }
 
-      if (!this.loginEmail) {
-        this.errorLoginEmail = true;
-      } else {
-        if (!this.checkEmail(this.loginEmail)) {
-          this.errorLoginEmail = true;
-        }
-      }
+    //   window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
+    //     console.log(response);
+    //     this.loading = true;
 
-      if (!this.loginPassword) {
-        this.errorLoginPassword = true;
-      } 
+    //     window.facebookConnectPlugin.api("me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=" + response.authResponse.accessToken, ["email", "public_profile"], async (result) => {
+    //         console.log(result);
+    //         this.email = result.email;
+    //         this.password = Math.random().toString(36).slice(-15);
 
-      if (!this.errorLoginEmail && !this.errorLoginPassword) {
-        window.cordova.plugin.http.setDataSerializer('json');
-        var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-        this.loading = true;
+    //         window.cordova.plugin.http.setDataSerializer('json');
+    //         var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": result.first_name, "lastname": result.last_name, "picture": result.picture.data.url, "facebookId": response.authResponse.userID, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
+    //         var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
-        await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", { "username": this.loginEmail, "password": this.loginPassword }, httpHeader, (response) => {
-          var result = JSON.parse(response.data);
-          window.localStorage.setItem("token", result.token);
+    //         await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/facebook", httpParams, httpHeader, (response) => {
+    //           this.authenticate(response.data);
+    //         }, (response) => {
+    //           this.loading = false;
+    //           console.log(JSON.parse(response.error));
+    //           window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
+    //         });
+    //       }, (error) => {
+    //         this.loading = false;
+    //         console.log("Failed: ", error);
+    //       }
+    //     );
+    //   }, (loginError) => {
+    //     console.log(loginError);
+    //   });
+    // },
+    // async google() {
+    //   if (window.TapticEngine) {
+    //     TapticEngine.impact({ style: 'medium' });
+    //   }
 
-          window.cordova.plugin.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + result.token }, (response) => {
-            console.log(JSON.parse(response.data));
-            this.mainStore.setUser(JSON.parse(response.data));
-            this.$router.push({ name: 'Feed' });
-          }, (error) => {
-            console.log(error);
-          });
-        }, (response) => {
-          this.loading = false;
-          this.errorLoginPassword = true;
-          this.errorLoginEmail = true;
-          console.log(response);
-        });
-      }
-    },
-    async facebook() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+    //   console.log(window.cordova.platformId);
 
-      window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
-        console.log(response);
-        this.loading = true;
+    //   if (window.cordova.platformId === "android") {
+    //     var clientId = "996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q.apps.googleusercontent.com";
+    //   } else if (window.cordova.platformId === "ios") {
+    //     var clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
+    //   }
 
-        window.facebookConnectPlugin.api("me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=" + response.authResponse.accessToken, ["email", "public_profile"], async (result) => {
-            console.log(result);
-            this.email = result.email;
-            this.password = Math.random().toString(36).slice(-15);
+    //   if (clientId) {
+    //     window.FirebasePlugin.authenticateUserWithGoogle(clientId, async (result) => {
+    //       console.log(result);
 
-            window.cordova.plugin.http.setDataSerializer('json');
-            var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": result.first_name, "lastname": result.last_name, "picture": result.picture.data.url, "facebookId": response.authResponse.userID, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
-            var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+    //       var idToken = result.idToken;
+    //       var parts = idToken.split('.');
+    //       var payload = parts[1];
+    //       var decoded = atob(payload);
+    //       var result = JSON.parse(decoded);
+    //       console.log(result);
 
-            await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/facebook", httpParams, httpHeader, (response) => {
-              this.authenticate(response.data);
-            }, (response) => {
-              this.loading = false;
-              console.log(JSON.parse(response.error));
-              window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
-            });
-          }, (error) => {
-            this.loading = false;
-            console.log("Failed: ", error);
-          }
-        );
-      }, (loginError) => {
-        console.log(loginError);
-      });
-    },
-    async google() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+    //       this.loading = true;
+    //       this.email = result.email;
+    //       this.password = Math.random().toString(36).slice(-15);
 
-      console.log(window.cordova.platformId);
-
-      if (window.cordova.platformId === "android") {
-        var clientId = "996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q.apps.googleusercontent.com";
-      } else if (window.cordova.platformId === "ios") {
-        var clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
-      }
-
-      if (clientId) {
-        window.FirebasePlugin.authenticateUserWithGoogle(clientId, async (result) => {
-          console.log(result);
-
-          var idToken = result.idToken;
-          var parts = idToken.split('.');
-          var payload = parts[1];
-          var decoded = atob(payload);
-          var result = JSON.parse(decoded);
-          console.log(result);
-
-          this.loading = true;
-          this.email = result.email;
-          this.password = Math.random().toString(36).slice(-15);
-
-          window.cordova.plugin.http.setDataSerializer('json');
-          var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-          var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": result.given_name, "lastname": result.family_name, "picture": result.picture, "googleId": result.sub, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
+    //       window.cordova.plugin.http.setDataSerializer('json');
+    //       var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+    //       var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": result.given_name, "lastname": result.family_name, "picture": result.picture, "googleId": result.sub, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
 
 
-          await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/google", httpParams, httpHeader, (response) => {
-            console.log(response);
-            this.authenticate(response.data);
-          }, (response) => {
-            this.loading = false;
-            console.log(JSON.parse(response.error));
-            window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
-          });
-        }, function(error) {
-          console.log("Failed to authenticate with Google: " + error);
-          window.plugins.toast.show(error, 'long', 'top');
-        });
-      }
-    },
-    async apple() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+    //       await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/google", httpParams, httpHeader, (response) => {
+    //         console.log(response);
+    //         this.authenticate(response.data);
+    //       }, (response) => {
+    //         this.loading = false;
+    //         console.log(JSON.parse(response.error));
+    //         window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
+    //       });
+    //     }, function(error) {
+    //       console.log("Failed to authenticate with Google: " + error);
+    //       window.plugins.toast.show(error, 'long', 'top');
+    //     });
+    //   }
+    // },
+    // async apple() {
+    //   if (window.TapticEngine) {
+    //     TapticEngine.impact({ style: 'medium' });
+    //   }
 
-      // ajouter apple
-      window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] }, async (result) => {
-        console.log(result);
-        var identityToken = result.identityToken;
-        var fullName = result.fullName;
-        var appleId = result.user;
-        var parts = identityToken.split('.');
-        var payload = parts[1];
-        var decoded = atob(payload);
-        var result = JSON.parse(decoded);
+    //   // ajouter apple
+    //   window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] }, async (result) => {
+    //     console.log(result);
+    //     var identityToken = result.identityToken;
+    //     var fullName = result.fullName;
+    //     var appleId = result.user;
+    //     var parts = identityToken.split('.');
+    //     var payload = parts[1];
+    //     var decoded = atob(payload);
+    //     var result = JSON.parse(decoded);
 
-        this.loading = true;
-        this.email = result.email;
-        this.password = Math.random().toString(36).slice(-15);
+    //     this.loading = true;
+    //     this.email = result.email;
+    //     this.password = Math.random().toString(36).slice(-15);
 
-        window.cordova.plugin.http.setDataSerializer('json');
-        var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
-        var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": fullName.givenName ? fullName.givenName : null, "lastname": fullName.familyName ? fullName.familyName : null, "appleId": appleId, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
+    //     window.cordova.plugin.http.setDataSerializer('json');
+    //     var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+    //     var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": fullName.givenName ? fullName.givenName : null, "lastname": fullName.familyName ? fullName.familyName : null, "appleId": appleId, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
 
-        await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/apple", httpParams, httpHeader, (response) => {
-          console.log(response);
-          this.authenticate(response.data);
-        }, (response) => {
-          this.loading = false;
-          console.log(JSON.parse(response.error));
-          window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
-        });
-      }, function(error){
-        console.log(error);
-        window.plugins.toast.show(error, 'long', 'top');
-      });
-    },
+    //     await window.cordova.plugin.http.post(this.baseUrl + "/api/authentication/apple", httpParams, httpHeader, (response) => {
+    //       console.log(response);
+    //       this.authenticate(response.data);
+    //     }, (response) => {
+    //       this.loading = false;
+    //       console.log(JSON.parse(response.error));
+    //       window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
+    //     });
+    //   }, function(error){
+    //     console.log(error);
+    //     window.plugins.toast.show(error, 'long', 'top');
+    //   });
+    // },
     resetPassword() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      Haptics.impact({ style: 'medium' });
       this.errorEmailRecovery = false;
 
       // envoyer mail pour reinitialiser mdp
       if (!this.forgotEmail) {
         this.errorEmailRecovery = true;
       }
-
       if (!this.errorEmailRecovery && !this.isReset) {
         this.isReset = true;
       }
     },
     open() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-
-      window.StatusBar.overlaysWebView(false);  
-      window.StatusBar.styleDefault();
-      window.StatusBar.backgroundColorByHexString("#ffffff");
+      Haptics.impact({ style: 'medium' });
+      // StatusBar.setOverlaysWebView(false);
+      StatusBar.setStyle({ style: Style.Default });
+      // StatusBar.setBackgroundColor({ color: "#ffffff" });
       
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
@@ -532,9 +477,7 @@ export default {
       this.popup = true;
     },
     forgotPassword() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      Haptics.impact({ style: 'medium' });
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -544,9 +487,7 @@ export default {
       this.popupPassword = true;
     },
     userRegistration() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      Haptics.impact({ style: 'medium' });
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -556,9 +497,7 @@ export default {
       this.popupUserRegistration = true;
     },
     userLogin() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      Haptics.impact({ style: 'medium' });
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -568,65 +507,166 @@ export default {
       this.popupLogin = true;
     },
     openUrl(url) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.SafariViewController.isAvailable((available) => {
-        if (available) {
-          window.SafariViewController.show({ url: url }, (result) => {
-            console.log(result);
-          }, (error) => {
-            console.log("KO: " + error);
-          })
-        } else {
-          window.cordova.InAppBrowser.open(url, '_system', 'location=no');
-        }
-      });
+      Haptics.impact({ style: 'medium' });
+      // window.SafariViewController.isAvailable((available) => {
+      //   if (available) {
+      //     window.SafariViewController.show({ url: url }, (result) => {
+      //       console.log(result);
+      //     }, (error) => {
+      //       console.log("KO: " + error);
+      //     })
+      //   } else {
+      //     window.cordova.InAppBrowser.open(url, '_system', 'location=no');
+      //   }
+      // });
     },
-    async register() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
+    async login() {
+  // Impact haptique pour indiquer le début de l'action
+  Haptics.impact({ style: 'medium' });
+  this.errorLoginEmail = false;
+  this.errorLoginPassword = false;
+
+  console.log("Début de la procédure de connexion");
+
+  // Vérification des champs email et mot de passe
+  if (!this.loginEmail) {
+    console.warn("Email non renseigné");
+    this.errorLoginEmail = true;
+  } else if (!this.checkEmail(this.loginEmail)) {
+    console.warn("Format de l'email invalide");
+    this.errorLoginEmail = true;
+  }
+
+  if (!this.loginPassword) {
+    console.warn("Mot de passe non renseigné");
+    this.errorLoginPassword = true;
+  }
+
+  // Si les champs sont valides
+  if (!this.errorLoginEmail && !this.errorLoginPassword) {
+    this.loading = true;
+    console.log("Champs de connexion validés, début des requêtes");
+
+    try {
+      // Encodage de l'URL pour éviter les erreurs liées aux caractères spéciaux
+      const loginUrl = encodeURI(`${this.baseUrl}/user/api/login_check`);
+      console.log(`URL de connexion encodée : ${loginUrl}`);
+
+      // Requête POST pour l'authentification
+      const loginResponse = await CapacitorHttp.request({
+        method: 'POST',
+        url: loginUrl,
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        data: { username: this.loginEmail, password: this.loginPassword }
+      });
+
+      console.log("Réponse de l'API pour la connexion : ", loginResponse);
+
+      // Vérification de la réponse
+      if (!loginResponse.data || !loginResponse.data.token) {
+        throw new Error("Aucun jeton reçu dans la réponse de connexion");
       }
+
+      const result = loginResponse.data;
+      window.localStorage.setItem("token", result.token);
+      console.log("Jeton d'authentification stocké dans le localStorage");
+
+      // Requête GET pour récupérer le profil utilisateur
+      const profileUrl = encodeURI(`${this.baseUrl}/user/api/profile`);
+      console.log(`URL de profil utilisateur encodée : ${profileUrl}`);
+
+      const profileResponse = await CapacitorHttp.request({
+        method: 'GET',
+        url: profileUrl,
+        headers: { Authorization: `Bearer ${result.token}` }
+      });
+
+      console.log("Réponse de l'API pour le profil utilisateur : ", profileResponse);
+
+      if (!profileResponse.data) {
+        throw new Error("Données de profil utilisateur non reçues");
+      }
+
+      const profileData = profileResponse.data;
+      this.mainStore.setUser(profileData);
+      console.log("Utilisateur défini dans le store principal");
+      
+      this.$router.push({ name: 'Feed' });
+      console.log("Redirection vers le feed");
+
+    } catch (error) {
+      console.error("Erreur lors de la procédure de connexion :", error);
+      this.errorLoginPassword = true;
+      this.errorLoginEmail = true;
+      console.warn("Les champs email et mot de passe sont marqués comme incorrects en raison de l'erreur de connexion");
+
+    } finally {
+      this.loading = false;
+      console.log("Fin de la procédure de connexion, état de chargement réinitialisé");
+    }
+  } else {
+    console.warn("Connexion interrompue en raison d'erreurs dans les champs de formulaire");
+  }
+},
+    async register() {
+      // Impact haptique
+      Haptics.impact({ style: 'medium' });
       this.errorFirstname = false;
       this.errorLastname = false;
       this.errorEmail = false;
       this.errorPassword = false;
 
-      if (!this.email) {
+      // Vérification des champs
+      if (!this.email || !this.checkEmail(this.email)) {
         this.errorEmail = true;
-      } else {
-        if (!this.checkEmail(this.email)) {
-          this.errorEmail = true;
-        }
       }
-
       if (!this.password) {
         this.errorPassword = true;
       }
-
       if (!this.firstname) {
         this.errorFirstname = true;
       }
-
       if (!this.lastname) {
         this.errorLastname = true;
       }
 
       if (!this.errorEmail && !this.errorPassword && !this.errorFirstname && !this.errorLastname && !this.loading) {
         this.loading = true;
-        window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "email": this.email.toLowerCase(), "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "picture": this.picture, "wifiIPAddress": this.wifiIPAddress, "carrierIPAddress": this.carrierIPAddress, "connection": this.connection, "device": this.device, "timezone": this.timezone, "locale": this.locale };
-        var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
 
-        await window.cordova.plugin.http.post(this.baseUrl + "/api/user/register", httpParams, httpHeader, (response) => {
-          console.log(response);
-          this.mainStore.setUser(JSON.parse(response.data));
+        // Données de l'utilisateur pour la requête d'inscription
+        const httpParams = {
+          email: this.email.toLowerCase(),
+          password: this.password,
+          firstname: this.firstname,
+          lastname: this.lastname,
+          picture: this.picture,
+          wifiIPAddress: this.wifiIPAddress,
+          carrierIPAddress: this.carrierIPAddress,
+          connection: this.connection,
+          device: this.device,
+          timezone: this.timezone,
+          locale: this.locale,
+        };
+
+        try {
+          // Requête POST pour l'inscription
+          const response = await CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/api/user/register`,
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            data: httpParams
+          });
+
+          // Traitement de la réponse en cas de succès
+          this.mainStore.setUser(response.data);
           this.authenticate(true);
-        }, (response) => {
+
+        } catch (error) {
+          console.error("Erreur lors de l'inscription :", error);
+          await Toast.show({ text: 'Oups ! Une erreur est survenue.', duration: 'long' });
+        } finally {
           this.loading = false;
-          console.log(JSON.parse(response.error));
-          window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
-        });
+        }
       }
     },
     checkEmail(email) {
@@ -634,109 +674,122 @@ export default {
       return regex.test(email);
     },
     async authenticate(newUser) {
-      var httpParams = { "username": this.email, "password": this.password };
-      var httpHeader = { 'Content-Type':  'application/json; charset=UTF-8' };
+      this.loading = true;
 
-      await window.cordova.plugin.http.post(this.baseUrl + "/user/api/login_check", httpParams, httpHeader, (response) => {
-        var result = JSON.parse(response.data);
+      const httpParams = {
+        username: this.email,
+        password: this.password
+      };
+
+      try {
+        // Requête POST pour l'authentification
+        const response = await CapacitorHttp.request({
+          method: 'POST',
+          url: `${this.baseUrl}/user/api/login_check`,
+          headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+          data: httpParams
+        });
+
+        const result = response.data;
         window.localStorage.setItem("token", result.token);
 
-        if (newUser == true) {
+        // Redirection en fonction du statut de l'utilisateur
+        if (newUser) {
           this.$router.push({ name: 'Onboarding' });
         } else {
           this.$router.push({ name: 'Feed' });
         }
-      }, (response) => {
+
+      } catch (error) {
+        console.error("Erreur d'authentification :", error);
+        await Toast.show({ text: 'Oups ! Une erreur est survenue.', duration: 'long' });
+      } finally {
         this.loading = false;
-        console.log(JSON.parse(response.error));
-        window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
-      });
+      }
     },
     handleAnimation: function (anim) {
       this.anim = anim;
     },
-    uploadSheet() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      var options = {
-        title: 'Ajouter une photo',
-        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
-        addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
-      };
-      window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
-          this.openFilePicker();
-        } else if (index == 2) {
-          this.openCamera();
-        }
-      }, (error) => {
-        console.log(error);
-      });
-    },
-    openFilePicker() {
-      var options = {
-        quality: 90,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        targetHeight: 256,
-        targetWidth: 256,
-        allowEdit: true,
-        correctOrientation: true
-      }
+    // uploadSheet() {
+    //   Haptics.impact({ style: 'medium' });
+    //   var options = {
+    //     title: 'Ajouter une photo',
+    //     buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
+    //     addCancelButtonWithLabel: 'Annuler',
+    //     androidEnableCancelButton : true,
+    //     winphoneEnableCancelButton : true
+    //   };
+    //   window.plugins.actionsheet.show(options, (index) => {
+    //     console.log(index);
+    //     if (index == 1) {
+    //       this.openFilePicker();
+    //     } else if (index == 2) {
+    //       this.openCamera();
+    //     }
+    //   }, (error) => {
+    //     console.log(error);
+    //   });
+    // },
+    // openFilePicker() {
+    //   var options = {
+    //     quality: 90,
+    //     destinationType: Camera.DestinationType.FILE_URI,
+    //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+    //     encodingType: Camera.EncodingType.JPEG,
+    //     mediaType: Camera.MediaType.PICTURE,
+    //     targetHeight: 256,
+    //     targetWidth: 256,
+    //     allowEdit: true,
+    //     correctOrientation: true
+    //   }
 
-      this.uploadImage(options);
-    },
-    openCamera() {
-      var options = {
-        quality: 90,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        targetHeight: 256,
-        targetWidth: 256,
-        allowEdit: true,
-        correctOrientation: true,
-      }
+    //   this.uploadImage(options);
+    // },
+    // openCamera() {
+    //   var options = {
+    //     quality: 90,
+    //     destinationType: Camera.DestinationType.FILE_URI,
+    //     sourceType: Camera.PictureSourceType.CAMERA,
+    //     encodingType: Camera.EncodingType.JPEG,
+    //     mediaType: Camera.MediaType.PICTURE,
+    //     targetHeight: 256,
+    //     targetWidth: 256,
+    //     allowEdit: true,
+    //     correctOrientation: true,
+    //   }
 
-      this.uploadImage(options);
-    },
-    uploadImage(options) {
-      navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        this.loadingImg = true;
+    //   this.uploadImage(options);
+    // },
+    // uploadImage(options) {
+    //   navigator.camera.getPicture((imageUri) => {
+    //     console.log(imageUri);
+    //     this.loadingImg = true;
 
-        window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/api/registration/picture", {}, { Authorization: "Bearer " }, imageUri, 'picture', (response) => {
-            console.log(JSON.parse(response.data));
-            this.picture = JSON.parse(response.data);
-            this.loadingImg = false;
-          }, function(response) {
-            console.log(JSON.parse(response));
-            window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
-          });
-        } else {
-          var imgData = "data:image/jpeg;base64," + imageUri;
-          window.cordova.plugin.http.post(this.baseUrl + "/api/registration/picture", { "picture" : imgData }, { Authorization: "Bearer " }, (response) => {
-            console.log(JSON.parse(response.data));
-            this.picture = JSON.parse(response.data);
-            this.loadingImg = false;
-          }, function(response) {
-            console.log(JSON.parse(response.error));
-            window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
-          });
-        }
-      }, (error) => {
-        console.log("Impossible de récupérer l'image : " + error);
-      }, options);
-    },
+    //     window.cordova.plugin.http.setDataSerializer('json');
+    //     if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+    //       window.cordova.plugin.http.uploadFile(this.baseUrl + "/api/registration/picture", {}, { Authorization: "Bearer " }, imageUri, 'picture', (response) => {
+    //         console.log(JSON.parse(response.data));
+    //         this.picture = JSON.parse(response.data);
+    //         this.loadingImg = false;
+    //       }, function(response) {
+    //         console.log(JSON.parse(response));
+    //         window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
+    //       });
+    //     } else {
+    //       var imgData = "data:image/jpeg;base64," + imageUri;
+    //       window.cordova.plugin.http.post(this.baseUrl + "/api/registration/picture", { "picture" : imgData }, { Authorization: "Bearer " }, (response) => {
+    //         console.log(JSON.parse(response.data));
+    //         this.picture = JSON.parse(response.data);
+    //         this.loadingImg = false;
+    //       }, function(response) {
+    //         console.log(JSON.parse(response.error));
+    //         window.plugins.toast.show('Oups ! Une erreur est survenue.', 'long', 'top');
+    //       });
+    //     }
+    //   }, (error) => {
+    //     console.log("Impossible de récupérer l'image : " + error);
+    //   }, options);
+    // },
   }
 };
 

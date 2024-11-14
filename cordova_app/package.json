@@ -13,13 +13,9 @@
       "cordova-plugin-networkinterface": {},
       "cordova-plugin-safariviewcontroller": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-x-toast": {},
       "cordova-plugin-battery-status": {},
-      "cordova-plugin-actionsheet": {},
       "cordova-plugin-add-swift-support": {},
-      "cordova-wheel-selector-plugin": {},
       "cordova-plugin-dialogs": {},
-      "cordova-plugin-taptic-engine": {},
       "cordova-plugin-enable-cleartext-traffic": {},
       "cordova-plugin-nativepagetransitions": {},
       "cordova-plugin-sign-in-with-apple": {},
@@ -28,33 +24,22 @@
         "ANDROID_PLAY_REVIEW_VERSION": "2.0.+"
       },
       "cordova-plugin-app-version": {},
-      "cordova-plugin-x-socialsharing": {
-        "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
-        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
-      },
-      "cordova-plugin-network-information": {},
-      "cordova-plugin-android-permissions": {},
       "cordova-plugin-advanced-http": {
         "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1"
       },
       "cordova-plugin-media": {
         "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO"
       },
-      "cordova-plugin-statusbar": {},
-      "cordova-plugin-device": {},
       "cordova-plugin-stripe": {},
       "cordova-plugin-keyboard": {},
       "cordova-plugin-agora": {},
-      "cordova-plugin-insomnia": {},
       "cordova-plugin-firebasex": {},
       "cordova-plugin-fbsdk": {
         "APP_ID": "936988141017522",
         "APP_NAME": "SWIPE LIVE",
         "CLIENT_TOKEN": "fae44754104510584e04cdf0e8c617b7"
       },
-      "cordova-plugin-camera": {
-        "ANDROIDX_CORE_VERSION": "1.6.+"
-      }
+      "cordova-plugin-taptic-engine": {}
     },
     "platforms": [
       "browser",
@@ -67,37 +52,26 @@
     "cordova-android": "^13.0.0",
     "cordova-browser": "^7.0.0",
     "cordova-ios": "^7.1.1",
-    "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-agora": "github:juuulienr/cordova-plugin-agora",
-    "cordova-plugin-android-permissions": "^1.1.5",
     "cordova-plugin-app-review": "^3.1.0",
     "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-battery-status": "^2.0.3",
-    "cordova-plugin-camera": "^8.0.0",
-    "cordova-plugin-device": "^3.0.0",
     "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-enable-cleartext-traffic": "^2.1.0",
     "cordova-plugin-file": "^8.1.0",
     "cordova-plugin-firebasex": "^17.0.0",
     "cordova-plugin-inappbrowser": "^6.0.0",
-    "cordova-plugin-insomnia": "^4.3.0",
     "cordova-plugin-keyboard": "github:juuulienr/cordova-plugin-keyboard",
     "cordova-plugin-media": "^7.0.0",
     "cordova-plugin-nativepagetransitions": "^0.6.6",
-    "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-networkinterface": "^2.2.0",
     "cordova-plugin-safariviewcontroller": "^2.0.0",
     "cordova-plugin-sign-in-with-apple": "^0.1.2",
-    "cordova-plugin-statusbar": "^4.0.0",
     "cordova-plugin-stripe": "github:juuulienr/cordova-plugin-stripe",
     "cordova-plugin-taptic-engine": "^2.2.0",
-    "cordova-plugin-x-socialsharing": "^6.0.4",
-    "cordova-plugin-x-toast": "^2.7.3",
-    "cordova-support-android-plugin": "^2.0.4",
-    "cordova-wheel-selector-plugin": "^1.1.7",
-    "es6-promise-plugin": "^4.2.2"
+    "cordova-support-android-plugin": "^2.0.4"
   },
   "dependencies": {
     "cordova-plugin-fbsdk": "4.1.1"
