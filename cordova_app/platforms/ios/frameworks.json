@@ -1,8 +1,0 @@
-{
-    "SafariServices.framework": 1,
-    "AudioToolbox.framework": 2,
-    "AuthenticationServices.framework": 2,
-    "StoreKit.framework": 1,
-    "SystemConfiguration.framework": 1,
-    "Security.framework": 1
-}

@@ -1,9 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="fb_app_id">936988141017522</string>
-    <string name="fb_client_token">fae44754104510584e04cdf0e8c617b7</string>
-    <string name="fb_app_name">SWIPE LIVE</string>
-    <bool name="fb_auto_log_app_events_enabled">true</bool>
-    <bool name="fb_hybrid_app_events">false</bool>
-    <bool name="fb_advertiser_id_collection_enabled">true</bool>
-</resources>
