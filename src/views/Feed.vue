@@ -538,6 +538,11 @@ import Cart from '../components/Cart.vue';
 import LottieJSON from '../assets/lottie/live.json';
 import LottieJSON2 from '../assets/lottie/arrow.json';
 
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Network } from '@capacitor/network';
+import { Device } from '@capacitor/device';
+import { PushNotifications } from '@capacitor/push-notifications';
+import { CapacitorHttp } from '@capacitor/core';
 
 
 export default {
@@ -547,19 +552,17 @@ export default {
     Cart,
     Checkout,
   },
-  setup() {
-    const mainStore = useMainStore();
+  data() {
     const route = useRoute();
-
+    const router = useRouter();
+    const mainStore = useMainStore();
+    
     return {
       mainStore,
+      router,
       anchor: route.params.index,
       type: route.params.type,
       profileId: route.params.profileId,
-    };
-  },
-  data() {
-    return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
       banned: window.localStorage.getItem("banned") ? JSON.parse(window.localStorage.getItem("banned")) : [],
@@ -638,32 +641,17 @@ export default {
     }
   },
   created() {
-    window.StatusBar.styleLightContent();
-    window.StatusBar.overlaysWebView(true);
+    // this.$StatusBar.setStyle({ style: this.$Style.Light });
 
     if (!this.token) {
       this.$router.push({ name: 'Welcome' });
     }
 
-    if (window.cordova && window.cordova.platformId !== "android") {
-      this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
-      this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
-      this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
-      this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 7px)';
-      this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
-      this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 12px)';
-      this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 7px)';
-      this.throttle = 500;
-    }
+    this.fetchSafeAreaInsets();
 
-    if (window.cordova.plugin && window.cordova.plugin.http) {
-      this.http = window.cordova.plugin.http;
-      this.http.setDataSerializer('json');
-    }
-
-    if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-      fcm.onDeviceReady();
-    }
+    // if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+    //   fcm.onDeviceReady();
+    // }
 
     if (this.mainStore.user.length === 0) {
       this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
@@ -735,6 +723,19 @@ export default {
     }
   },
   methods: {
+    async fetchSafeAreaInsets() {
+      const deviceInfo = await Device.getInfo();
+      if (deviceInfo.platform === 'ios') {
+        this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
+        this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
+        this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
+        this.safeareaBottom4 = 'calc(env(safe-area-inset-bottom) + 7px)';
+        this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
+        this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 12px)';
+        this.safeareaTop3 = 'calc(env(safe-area-inset-top) + 7px)';
+        this.throttle = 500;
+      }
+    },
     async initializeAgora(id, index) {
       console.log(id);
       console.log("client initialized");

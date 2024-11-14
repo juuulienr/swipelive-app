@@ -14,8 +14,12 @@ import { createPinia } from 'pinia';
 import { App as CapacitorApp } from '@capacitor/app';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Network } from '@capacitor/network';
+import { Device } from '@capacitor/device';
+import { PushNotifications } from '@capacitor/push-notifications';
+import { Capacitor, CapacitorHttp } from '@capacitor/core';
+import { Camera } from '@capacitor/camera';
 import { Haptics } from '@capacitor/haptics';
-import { Capacitor } from '@capacitor/core';
+import { Toast } from '@capacitor/toast';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -38,6 +42,10 @@ if (isProd) {
 } else {
   app.config.devtools = true;
 
+  import('@vue/devtools').then((devtools) => {
+    devtools.connect();
+  });
+
   window.localStorage.setItem("baseUrl", "https://127.0.0.1:8000");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 }
@@ -53,6 +61,16 @@ app.config.globalProperties.$cloudinary = 'https://res.cloudinary.com/dxlsenc2r/
 app.config.globalProperties.$cloudinary256x256 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/';
 app.config.globalProperties.$amazonS3 = 'https://swipe-live-app-storage-eu-west-3.s3.eu-west-3.amazonaws.com/';
 app.config.globalProperties.$googleAPIKey = 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w';
+app.config.globalProperties.$StatusBar = StatusBar;
+app.config.globalProperties.$Style = Style;
+app.config.globalProperties.$Network = Network;
+app.config.globalProperties.$Device = Device;
+app.config.globalProperties.$PushNotifications = PushNotifications;
+app.config.globalProperties.$CapacitorHttp = CapacitorHttp;
+app.config.globalProperties.$Capacitor = Capacitor;
+app.config.globalProperties.$Camera = Camera;
+app.config.globalProperties.$Haptics = Haptics;
+app.config.globalProperties.$Toast = Toast;
 
 app.config.globalProperties.$formatDate = (datetime) => {
   const today = new Date();
@@ -117,7 +135,6 @@ const init = () => {
   app.mount('#app');
   if (isNative) {
     StatusBar.setStyle({ style: Style.Light });
-    Haptics.vibrate();
   }
 };
 

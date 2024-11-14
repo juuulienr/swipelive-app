@@ -46,6 +46,7 @@
     "vue3-touch-events": "^4.2.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.1.5"
+    "@vitejs/plugin-vue": "^5.1.5",
+    "@vue/devtools": "^7.6.4"
   }
 }

@@ -231,15 +231,6 @@
 import AuthAPI from "../utils/auth.js";
 import LottieJSON from '../assets/lottie/forgot-password.json';
 import { useMainStore } from '../stores/useMainStore';
-import { Camera } from '@capacitor/camera';
-import { Haptics } from '@capacitor/haptics';
-import { Toast } from '@capacitor/toast';
-import { StatusBar, Style } from '@capacitor/status-bar';
-import { Network } from '@capacitor/network';
-import { Capacitor } from '@capacitor/core';
-import { Device } from '@capacitor/device';
-import { CapacitorHttp } from '@capacitor/core';
-
 
 export default {
   name: 'Welcome',
@@ -285,30 +276,29 @@ export default {
     }
   },
   created() {
-    // StatusBar.setOverlaysWebView(true);
-    StatusBar.setStyle({ style: Style.Default });
+    this.$StatusBar.setStyle({ style: this.$Style.Default });
     
     const isAuthenticated = AuthAPI.isAuthenticated();
     if (isAuthenticated) {
       this.$router.push({ name: 'Feed' });
     }
 
-    if (Capacitor.getPlatform() === "ios") {
+    if (this.$Capacitor.getPlatform() === "ios") {
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 40px)';
     }
 
-    if (Capacitor.getPlatform() === "android") {
+    if (this.$Capacitor.getPlatform() === "android") {
       this.isAndroid = true;
     }
 
     this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     this.locale = Intl.DateTimeFormat().resolvedOptions().locale;
 
-    Network.getStatus().then(status => {
+    this.$Network.getStatus().then(status => {
       this.connection = status.connectionType;
     });
 
-    Network.addListener("networkStatusChange", status => {
+    this.$Network.addListener("networkStatusChange", status => {
       this.connection = status.connected ? status.connectionType : 'none';
     });
 
@@ -323,14 +313,11 @@ export default {
   methods: {
     async getDeviceInfo() {
       try {
-        this.device = await Device.getInfo();
+        this.device = await this.$Device.getInfo();
         console.log(this.device);
       } catch (error) {
         console.error("Erreur lors de la récupération des informations de l'appareil :", error);
       }
-    },
-    onVideoLoaded() {
-      // StatusBar.setOverlaysWebView(false); 
     },
     // async facebook() {
     //   if (window.TapticEngine) {
@@ -451,7 +438,7 @@ export default {
     //   });
     // },
     resetPassword() {
-      Haptics.impact({ style: 'medium' });
+      this.$Haptics.impact({ style: 'medium' });
       this.errorEmailRecovery = false;
 
       // envoyer mail pour reinitialiser mdp
@@ -463,10 +450,8 @@ export default {
       }
     },
     open() {
-      Haptics.impact({ style: 'medium' });
-      // StatusBar.setOverlaysWebView(false);
-      StatusBar.setStyle({ style: Style.Default });
-      // StatusBar.setBackgroundColor({ color: "#ffffff" });
+      this.$Haptics.impact({ style: 'medium' });
+      this.$StatusBar.setStyle({ style: this.$Style.Default });
       
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
@@ -477,7 +462,7 @@ export default {
       this.popup = true;
     },
     forgotPassword() {
-      Haptics.impact({ style: 'medium' });
+      this.$Haptics.impact({ style: 'medium' });
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -487,7 +472,7 @@ export default {
       this.popupPassword = true;
     },
     userRegistration() {
-      Haptics.impact({ style: 'medium' });
+      this.$Haptics.impact({ style: 'medium' });
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -497,7 +482,7 @@ export default {
       this.popupUserRegistration = true;
     },
     userLogin() {
-      Haptics.impact({ style: 'medium' });
+      this.$Haptics.impact({ style: 'medium' });
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;
@@ -507,7 +492,7 @@ export default {
       this.popupLogin = true;
     },
     openUrl(url) {
-      Haptics.impact({ style: 'medium' });
+      this.$Haptics.impact({ style: 'medium' });
       // window.SafariViewController.isAvailable((available) => {
       //   if (available) {
       //     window.SafariViewController.show({ url: url }, (result) => {
@@ -521,96 +506,66 @@ export default {
       // });
     },
     async login() {
-  // Impact haptique pour indiquer le début de l'action
-  Haptics.impact({ style: 'medium' });
-  this.errorLoginEmail = false;
-  this.errorLoginPassword = false;
+      this.$Haptics.impact({ style: 'medium' });
+      this.errorLoginEmail = false;
+      this.errorLoginPassword = false;
 
-  console.log("Début de la procédure de connexion");
-
-  // Vérification des champs email et mot de passe
-  if (!this.loginEmail) {
-    console.warn("Email non renseigné");
-    this.errorLoginEmail = true;
-  } else if (!this.checkEmail(this.loginEmail)) {
-    console.warn("Format de l'email invalide");
-    this.errorLoginEmail = true;
-  }
-
-  if (!this.loginPassword) {
-    console.warn("Mot de passe non renseigné");
-    this.errorLoginPassword = true;
-  }
-
-  // Si les champs sont valides
-  if (!this.errorLoginEmail && !this.errorLoginPassword) {
-    this.loading = true;
-    console.log("Champs de connexion validés, début des requêtes");
-
-    try {
-      // Encodage de l'URL pour éviter les erreurs liées aux caractères spéciaux
-      const loginUrl = encodeURI(`${this.baseUrl}/user/api/login_check`);
-      console.log(`URL de connexion encodée : ${loginUrl}`);
-
-      // Requête POST pour l'authentification
-      const loginResponse = await CapacitorHttp.request({
-        method: 'POST',
-        url: loginUrl,
-        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-        data: { username: this.loginEmail, password: this.loginPassword }
-      });
-
-      console.log("Réponse de l'API pour la connexion : ", loginResponse);
-
-      // Vérification de la réponse
-      if (!loginResponse.data || !loginResponse.data.token) {
-        throw new Error("Aucun jeton reçu dans la réponse de connexion");
+      if (!this.loginEmail) {
+        this.errorLoginEmail = true;
+      } else if (!this.checkEmail(this.loginEmail)) {
+        this.errorLoginEmail = true;
       }
 
-      const result = loginResponse.data;
-      window.localStorage.setItem("token", result.token);
-      console.log("Jeton d'authentification stocké dans le localStorage");
-
-      // Requête GET pour récupérer le profil utilisateur
-      const profileUrl = encodeURI(`${this.baseUrl}/user/api/profile`);
-      console.log(`URL de profil utilisateur encodée : ${profileUrl}`);
-
-      const profileResponse = await CapacitorHttp.request({
-        method: 'GET',
-        url: profileUrl,
-        headers: { Authorization: `Bearer ${result.token}` }
-      });
-
-      console.log("Réponse de l'API pour le profil utilisateur : ", profileResponse);
-
-      if (!profileResponse.data) {
-        throw new Error("Données de profil utilisateur non reçues");
+      if (!this.loginPassword) {
+        this.errorLoginPassword = true;
       }
 
-      const profileData = profileResponse.data;
-      this.mainStore.setUser(profileData);
-      console.log("Utilisateur défini dans le store principal");
-      
-      this.$router.push({ name: 'Feed' });
-      console.log("Redirection vers le feed");
+      if (!this.errorLoginEmail && !this.errorLoginPassword) {
+        this.loading = true;
 
-    } catch (error) {
-      console.error("Erreur lors de la procédure de connexion :", error);
-      this.errorLoginPassword = true;
-      this.errorLoginEmail = true;
-      console.warn("Les champs email et mot de passe sont marqués comme incorrects en raison de l'erreur de connexion");
+        try {
+          const loginUrl = encodeURI(`${this.baseUrl}/user/api/login_check`);
+          const loginResponse = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: loginUrl,
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            data: { username: this.loginEmail, password: this.loginPassword }
+          });
 
-    } finally {
-      this.loading = false;
-      console.log("Fin de la procédure de connexion, état de chargement réinitialisé");
-    }
-  } else {
-    console.warn("Connexion interrompue en raison d'erreurs dans les champs de formulaire");
-  }
-},
+          if (!loginResponse.data || !loginResponse.data.token) {
+            throw new Error("Aucun jeton reçu dans la réponse de connexion");
+          }
+
+          const result = loginResponse.data;
+          window.localStorage.setItem("token", result.token);
+          const profileUrl = encodeURI(`${this.baseUrl}/user/api/profile`);
+
+          const profileResponse = await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: profileUrl,
+            headers: { Authorization: `Bearer ${result.token}` }
+          });
+
+          if (!profileResponse.data) {
+            throw new Error("Données de profil utilisateur non reçues");
+          }
+
+          const profileData = profileResponse.data;
+          this.mainStore.setUser(profileData);
+          
+          this.$router.push({ name: 'Feed' });
+        } catch (error) {
+          console.error("Erreur lors de la procédure de connexion :", error);
+          this.errorLoginPassword = true;
+          this.errorLoginEmail = true;
+        } finally {
+          this.loading = false;
+        }
+      }
+    },
     async register() {
       // Impact haptique
-      Haptics.impact({ style: 'medium' });
+      this.$Haptics.impact({ style: 'medium' });
       this.errorFirstname = false;
       this.errorLastname = false;
       this.errorEmail = false;
@@ -650,7 +605,7 @@ export default {
 
         try {
           // Requête POST pour l'inscription
-          const response = await CapacitorHttp.request({
+          const response = await this.$CapacitorHttp.request({
             method: 'POST',
             url: `${this.baseUrl}/api/user/register`,
             headers: { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -663,7 +618,7 @@ export default {
 
         } catch (error) {
           console.error("Erreur lors de l'inscription :", error);
-          await Toast.show({ text: 'Oups ! Une erreur est survenue.', duration: 'long' });
+          await this.$Toast.show({ text: 'Oups ! Une erreur est survenue.', duration: 'long' });
         } finally {
           this.loading = false;
         }
@@ -683,7 +638,7 @@ export default {
 
       try {
         // Requête POST pour l'authentification
-        const response = await CapacitorHttp.request({
+        const response = await this.$CapacitorHttp.request({
           method: 'POST',
           url: `${this.baseUrl}/user/api/login_check`,
           headers: { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -702,7 +657,7 @@ export default {
 
       } catch (error) {
         console.error("Erreur d'authentification :", error);
-        await Toast.show({ text: 'Oups ! Une erreur est survenue.', duration: 'long' });
+        await this.$Toast.show({ text: 'Oups ! Une erreur est survenue.', duration: 'long' });
       } finally {
         this.loading = false;
       }
@@ -711,7 +666,7 @@ export default {
       this.anim = anim;
     },
     // uploadSheet() {
-    //   Haptics.impact({ style: 'medium' });
+    //   this.$Haptics.impact({ style: 'medium' });
     //   var options = {
     //     title: 'Ajouter une photo',
     //     buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
