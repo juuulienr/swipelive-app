@@ -30,7 +30,7 @@ export default {
     lineItems() {
       const mainStore = useMainStore();
       return mainStore.lineItems;
-    }
+    } 
   },
   watch: {
     $route(to) {
