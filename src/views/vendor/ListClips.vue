@@ -71,45 +71,64 @@ export default {
     };
   },
   created() {    
-      
-    
-    
-    
     this.loadClips();
   },
   methods: {
-    loadClips() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/clips`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.clips = JSON.parse(response.data);
-        this.loading = false;
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    actionSheet(id, clipIndex) {
-      const options = {
-        buttonLabels: ['Partager'],
-        addCancelButtonWithLabel: 'Annuler',
-        addDestructiveButtonWithLabel: 'Supprimer',
-        destructiveButtonLast: true,
-        androidEnableCancelButton: true,
-        winphoneEnableCancelButton: true,
-      };
+    async loadClips() {
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/clips`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
 
-      window.plugins.actionsheet.show(options, (index) => {
-        if (index === 1) {
-          window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
-        } else if (index === 2) {
-          this.clips.splice(clipIndex, 1);
-          window.cordova.plugin.http.get(`${this.baseUrl}/user/api/clips/${id}/delete`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-            console.log(response);
-          }, (response) => {
-            console.log(response.error);
+        this.clips = response.data;
+        this.loading = false;
+      } catch (error) {
+        console.error('Erreur lors du chargement des clips :', error);
+      }
+    },
+    async actionSheet(id, clipIndex) {
+      try {
+        // Affiche le menu d'action
+        const result = await this.$ActionSheet.showActions({
+          title: 'Que souhaitez-vous faire ?',
+          options: [
+            { title: 'Partager', icon: 'share-outline' },
+            { title: 'Supprimer', style: 'destructive' },
+            { title: 'Annuler', style: 'cancel' },
+          ],
+        });
+
+        if (result.index === 0) {
+          // Partage via Capacitor Share
+          await this.$Share.share({
+            title: '#1 Application de Live Shopping',
+            text: 'Découvrez Swipe Live !',
+            url: 'https://swipelive.app',
+            dialogTitle: 'Partager',
           });
+        } else if (result.index === 1) {
+          // Supprime l'élément du tableau
+          this.clips.splice(clipIndex, 1);
+
+          // Requête HTTP pour supprimer le clip
+          try {
+            const response = await this.$CapacitorHttp.get({
+              url: `${this.baseUrl}/user/api/clips/${id}/delete`,
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+              },
+            });
+            console.log('Clip supprimé avec succès :', response);
+          } catch (error) {
+            console.error('Erreur lors de la suppression du clip :', error);
+          }
         }
-      }, (error) => {
-        console.log(error);
-      });
+      } catch (error) {
+        console.error('Erreur lors de l\'action sheet :', error);
+      }
     },
     goBack() {
       this.$router.push({ name: 'Account' });

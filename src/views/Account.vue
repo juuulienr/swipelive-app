@@ -287,17 +287,13 @@ export default {
   created() {
     const mainStore = useMainStore();
 
-    
-    
-    
-
     window.cordova.plugin.http.get(
       `${this.baseUrl}/user/api/profile`, 
       {}, 
       { Authorization: `Bearer ${this.token}` }, 
       (response) => {
         const userData = JSON.parse(response.data);
-        mainStore.setUser(userData); // Utilisation de l'action Pinia pour mettre à jour l'utilisateur
+        mainStore.setUser(userData); 
         this.user = userData;
       }, 
       (error) => {
@@ -311,7 +307,7 @@ export default {
 
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('banned');
-      mainStore.resetState(); // Réinitialisation de l'état avec Pinia
+      mainStore.resetState();
       this.$router.push({ name: 'Welcome' });
     },
     about() {
@@ -360,7 +356,7 @@ export default {
     },
     addReview() {
       this.$Haptics.impact({ style: 'medium' });
-      // window.cordova.plugins.AppReview.openStoreScreen(null, true);
+      // ajouter plugin app review
     },
     goEditProfile() {
       this.addTapticAndSlide();

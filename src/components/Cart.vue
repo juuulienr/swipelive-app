@@ -150,17 +150,28 @@ export default {
 
       this.getShippingPrice();
     },
-    getShippingPrice() {
+    async getShippingPrice() {
       const mainStore = useMainStore();
+
       if (this.user.shippingAddresses.length) {
         this.loading = true;
         mainStore.setShippingProducts([]);
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems }, { Authorization: "Bearer " + this.token }, (response) => {
-          mainStore.setShippingProducts(JSON.parse(response.data));
+
+        try {
+          const response = await this.$CapacitorHttp.post({
+            url: `${this.baseUrl}/user/api/shipping/price`,
+            data: { lineItems: this.lineItems },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          });
+
+          mainStore.setShippingProducts(response.data);
           this.goCheckout();
-        }, (response) => {
+        } catch (error) {
+          console.error('Erreur lors de la récupération des prix de livraison :', error);
           this.goCheckout();
-        });
+        }
       } else {
         this.goCheckout();
       }

@@ -20,6 +20,8 @@ import { Haptics } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import { Browser } from '@capacitor/browser';
 import { Dialog } from '@capacitor/dialog';
+import { ActionSheet } from '@capacitor/action-sheet';
+import { Share } from '@capacitor/share';
 
 
 const app = createApp(App);
@@ -69,6 +71,8 @@ app.config.globalProperties.$Haptics = Haptics;
 app.config.globalProperties.$Toast = Toast;
 app.config.globalProperties.$Browser = Browser;
 app.config.globalProperties.$Dialog = Dialog;
+app.config.globalProperties.$ActionSheet = ActionSheet;
+app.config.globalProperties.$Share = Share;
 
 app.config.globalProperties.$formatDate = (datetime) => {
   const today = new Date();
