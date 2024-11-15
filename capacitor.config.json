@@ -2,6 +2,7 @@
   "appId": "com.swipelive.app",
   "appName": "Swipe Live",
   "webDir": "dist",
+  "bundledWebRuntime": false,
   "plugins": {
     "CapacitorHttp": {
       "enabled": true

@@ -10,7 +10,6 @@ import VueClickAway from 'vue3-click-away';
 import Vue3Lottie from 'vue3-lottie';
 import { createPinia } from 'pinia';
 
-// Capacitor plugins
 import { App as CapacitorApp } from '@capacitor/app';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Network } from '@capacitor/network';
@@ -130,7 +129,6 @@ app.config.globalProperties.$formatLikes = (value) => {
   }
 };
 
-// Initialisation de l'application
 const init = () => {
   app.mount('#app');
   if (isNative) {
@@ -151,5 +149,4 @@ Network.addListener("networkStatusChange", (status) => {
   }
 });
 
-// Démarre l'application
 init();
