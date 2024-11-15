@@ -2,7 +2,7 @@
   <div v-if="product" class="product">
     <div v-if="product.uploads.length > 0" style="width: 100%;">
       <div class="vue-slick" v-for="upload in product.uploads" :key="upload.id">
-        <img :src="cloudinary750x750 + upload.filename">
+        <img :src="$cloudinary750x750 + upload.filename">
       </div>
     </div>
     <div v-else style="width: 100vw;">
@@ -97,22 +97,13 @@ export default {
       selected2: "",
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      cloudinary750x750: 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_750,w_750/',
-      safeareaBottom: '30px',
+      safeareaBottom: '50px',
       settings: {
         dots: true,
       }
     }
   },
-  created() {
-    if (window.cordova && window.cordova.platformId === "android") {
-      this.safeareaBottom = "50px";
-    }
-
-    if (window.cordova && window.cordova.platformId === "ios") {
-      this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 30px)';
-    }
-    
+  async created() {
     if (this.product.description) {
       this.product.description = this.product.description.replace(/\n/g, '<br>');
     }
@@ -120,11 +111,18 @@ export default {
     this.loadOptions();
 
     if (this.product.id) {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotions/active/${this.product.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.promotion = JSON.parse(response.data);
-      }, (response) => {
-        console.error(response.error);
-      });
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/promotions/active/${this.product.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.promotion = response.data;
+      } catch (error) {
+        console.error('Erreur lors de la récupération des promotions actives :', error);
+      }
     }
   },
   methods: {

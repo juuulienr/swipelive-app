@@ -376,12 +376,10 @@ export default {
   },
   data() {
     const route = useRoute();
-    const router = useRouter();
     const mainStore = useMainStore();
     
     return {
       mainStore,
-      router,
       anchor: route.params.index,
       type: route.params.type,
       profileId: route.params.profileId,
@@ -430,7 +428,6 @@ export default {
       throttle: 1000,
       myPlayer: null,
       http: null,
-      num: 0,
       client: null,
       remoteTracks: {},
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
@@ -451,45 +448,69 @@ export default {
     //   fcm.onDeviceReady();
     // }
 
+    // Récupération du profil utilisateur
     if (this.mainStore.user.length === 0) {
-      this.http.get(this.baseUrl + "/user/api/profile", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.mainStore.setUser(JSON.parse(response.data));
-      }, (error) => {
-        console.log(error);
-      });
+      this.$CapacitorHttp.get({
+        url: `${this.baseUrl}/user/api/profile`,
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
+        .then((response) => {
+          const userData = response.data;
+          console.log(userData);
+          this.mainStore.setUser(userData);
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération du profil utilisateur :', error);
+        });
     }
 
-    if (this.type === "profile") {
-      this.http.get(this.baseUrl + "/api/profile/" + this.profileId + "/clips", {}, null, (response) => {
-       this.refresh(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    } else if (this.type === "trending") {
-      this.http.get(this.baseUrl + "/user/api/clips/trending", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.mainStore.setClipsTrending(JSON.parse(response.data));
-        this.refresh(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+    // Gestion des types de requêtes
+    if (this.type === 'profile') {
+      this.$CapacitorHttp.get({
+        url: `${this.baseUrl}/api/profile/${this.profileId}/clips`,
+      })
+        .then((response) => {
+          this.refresh(response.data);
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération des clips du profil :', error);
+        });
+    } else if (this.type === 'trending') {
+      this.$CapacitorHttp.get({
+        url: `${this.baseUrl}/user/api/clips/trending`,
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
+        .then((response) => {
+          this.mainStore.setClipsTrending(response.data);
+          this.refresh(response.data);
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération des clips tendance :', error);
+        });
     } else {
-      this.http.get(this.baseUrl + "/user/api/feed", {}, { Authorization: "Bearer " + this.token }, (response) => {
-       this.refresh(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+      this.$CapacitorHttp.get({
+        url: `${this.baseUrl}/user/api/feed`,
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
+        .then((response) => {
+          this.refresh(response.data);
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération du feed :', error);
+        });
     }
 
     if (this.mainStore.following.length === 0) {
       this.loadFollowing();
     }
   },
-  mounted() {
-    window.addEventListener('keyboardWillShow', this.keyboardWillShow);
-  },
   beforeDestroy() {
-    window.removeEventListener('keyboardWillShow', this.keyboardWillShow);
     this.leaveChannel();
 
     this.players.forEach((player, index) => {
@@ -522,7 +543,7 @@ export default {
   },
   methods: {
     async fetchSafeAreaInsets() {
-      const deviceInfo = await Device.getInfo();
+      const deviceInfo = await this.$Device.getInfo();
       if (deviceInfo.platform === 'ios') {
         this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
         this.safeareaBottom2 = 'calc(env(safe-area-inset-bottom) + 57px)';
@@ -543,16 +564,20 @@ export default {
     },
     async getAgoraToken(id, index) {
       try {
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/agora/token/audience/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(JSON.parse(response.data));
-          var result = JSON.parse(response.data);
-          this.agoraToken = result.token;
-          this.joinChannel(index);
-        }, (response) => {
-          console.log(response.error);
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/agora/token/audience/${id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
         });
+
+        const result = JSON.parse(response.data);
+        console.log(result);
+
+        this.agoraToken = result.token;
+        this.joinChannel(index);
       } catch (error) {
-        console.log("Error getting Agora token:", error);
+        console.error("Error getting Agora token:", error);
       }
     },
     async joinChannel(index) {
@@ -754,14 +779,6 @@ export default {
         console.log('Le flux pour cet utilisateur n\'existe pas.');
       }
     },
-    keyboardWillShow(event) {
-      console.log("feed height");
-      console.log(event.keyboardHeight);
-      var height = event.keyboardHeight.toString() + "px";
-      setTimeout(() => {
-        this.writeInput = height.toString();
-      }, 200);
-    },
     visibilityChanged(isVisible, entry, index) {
       if (isVisible) {
         if (index != this.visible) {
@@ -775,10 +792,6 @@ export default {
           this.product = null;
           this.variant = null;
 
-          // if (window.TapticEngine) {
-          //   TapticEngine.impact({ style: 'light' });
-          // }
-
           if (this.data[this.visible].type == "live") {
             this.stopLive();
           } else {
@@ -788,14 +801,12 @@ export default {
           var iframes = document.getElementsByTagName("iframe");
           console.log(iframes);
 
-
           if (iframes.length) {
             for (let i = 0; i < iframes.length; i++) {
               iframes[i].remove();
             }
           }
 
-          console.log(iframes);
           this.videos[this.visible].value = "";
           this.comments[this.visible].value = [];
           this.loading[this.visible].value = true;
@@ -830,18 +841,10 @@ export default {
     },
     initializePlayer(index) {
       this.$nextTick(() => {
-        const videoElement = this.$refs[`videoPlayer${index}`][0]; // Vue utilise un tableau pour les références multiples
+        const videoElement = this.$refs[`videoPlayer${index}`][0];
 
         if (videoElement) {
           var videoSrc = this.$amazonS3 + this.videos[index].value;
-
-          // const player = new Player({
-          //   id: videoElement,
-          //   url: videoSrc, // ou un flux HLS
-          //   autoplay: true,
-          //   fluid: true // Pour rendre le lecteur adaptatif
-          // });
-
           const player = videojs(videoElement, {
             controls: false,
             autoplay: true,
@@ -877,18 +880,23 @@ export default {
         this.initializePlayer(index);
       }
     },
-    loadFollowing() {
-      this.http.get(this.baseUrl + "/user/api/following", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.mainStore.setFollowing(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+    async loadFollowing() {
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/following`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        console.log(response.data);
+        this.mainStore.setFollowing(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des utilisateurs suivis :", error);
+      }
     },
     showProduct(product) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.product = product;
       this.variant = null;
       this.popupShop = false;
@@ -907,9 +915,7 @@ export default {
       //   this.myPlayer.pause();
       // }
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
 
       this.loadingShipping = true;
       await this.addToCart();
@@ -972,23 +978,7 @@ export default {
           });
         } else {
           exist = true;
-          navigator.notification.confirm(
-            'Ce article va remplacer votre ancien panier',
-            (buttonIndex) => {
-              if (window.cordova.platformId === "browser") {
-                var id = 1;
-              } else {
-                var id = 2;
-              }
-              if (buttonIndex === id) {
-                this.lineItems = [];
-                this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
-                this.mainStore.setLineItems(this.lineItems);
-              }
-            },   
-            'Nouveau panier ?', 
-            ['Conserver','Nouveau'] 
-          );
+          this.confirmReplaceCart(vendor);
         }
 
         if (!exist) {
@@ -1000,10 +990,33 @@ export default {
         this.mainStore.setLineItems(this.lineItems);
       }
     },
-    showCart() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
+    async confirmReplaceCart(vendor) {
+      try {
+        const { value } = await this.$Dialog.confirm({
+          title: 'Nouveau panier ?',
+          message: 'Cet article va remplacer votre ancien panier.',
+          okButtonTitle: 'Nouveau',
+          cancelButtonTitle: 'Conserver',
+        });
+
+        if (value) {
+          this.lineItems = [];
+          this.lineItems.push({
+            product: this.product,
+            variant: this.variant,
+            quantity: 1,
+            vendor,
+          });
+          this.mainStore.setLineItems(this.lineItems);
+        } else {
+          console.log('L\'utilisateur a choisi de conserver le panier existant.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la confirmation de remplacement du panier :', error);
       }
+    },
+    showCart() {
+      this.$Haptics.impact({ style: 'medium' });
       this.popupCart = true;
       this.popupProduct = false;
       this.popupShop = false;
@@ -1014,9 +1027,7 @@ export default {
       this.popupProduct = false;
     },
     showShop(vendor) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupShop = true;
       this.popupCart = false;
       this.popupProduct = false;
@@ -1038,23 +1049,9 @@ export default {
       this.shop = [];
     },
     async goToProfile(vendor) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       await this.stopLive();
-
-      window.StatusBar.overlaysWebView(false);  
-      window.StatusBar.styleDefault();
-      window.StatusBar.backgroundColorByHexString("#ffffff");
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-      this.$router.push({ name: 'Profile', params: { id: vendor.user.id, overlaysWebView: false } });
+      this.$router.push({ name: 'Profile', params: { id: vendor.user.id } });
     },
     openPopup() {
       this.popup = true;
@@ -1229,36 +1226,11 @@ export default {
           }
         });
       } else {
-        window.StatusBar.overlaysWebView(false);  
-        window.StatusBar.styleDefault();
-        window.StatusBar.backgroundColorByHexString("#ffffff");
-        window.plugins.nativepagetransitions.slide({
-          direction: 'left',
-          duration: 400,
-          iosdelay: 0,
-          androiddelay: 0,
-          winphonedelay: 0,
-          slowdownfactor: 1,
-        });
-
         this.$router.push({ name: 'Account' });
       }
     },
     async goHome() {
       await this.stopLive();
-      
-      window.StatusBar.overlaysWebView(false);  
-      window.StatusBar.styleDefault();
-      window.StatusBar.backgroundColorByHexString("#ffffff");
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-
       this.$router.push({ name: 'Home' });
     },
     stopLive() {
@@ -1342,9 +1314,7 @@ export default {
         if ('order' in data) {
           setTimeout(() => {
             this.purchase = true;
-            if (window.TapticEngine) {
-              TapticEngine.impact({ style: 'heavy' });
-            }
+            this.$Haptics.impact({ style: 'heavy' });
             setTimeout(() => {
               this.purchase = false;
             }, 3000);
@@ -1375,9 +1345,7 @@ export default {
       });
     },
     share() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
     },
     selectVariantChild(variant) {
@@ -1401,9 +1369,7 @@ export default {
       //   this.myPlayer.pause();
       // }
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
     },
     paymentSuccessChild(order) {
       console.log(order);
@@ -1430,9 +1396,6 @@ export default {
           }, 3000);
         }, 1000);
       }
-
-      window.StatusBar.styleLightContent();
-      window.StatusBar.overlaysWebView(true);
     },
     hideCheckoutChild() {
       this.popupCart = false;
@@ -1445,14 +1408,9 @@ export default {
       // } else {
       //   this.myPlayer.play();
       // }
-
-      window.StatusBar.styleLightContent();
-      window.StatusBar.overlaysWebView(true);
     },
     addAnimation() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       // this.showAnimation();
       this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;
 

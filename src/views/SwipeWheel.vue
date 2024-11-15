@@ -37,26 +37,6 @@
             <span class="css-4ioo3c" style="color: #272c30; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
           </div>
         </div>
-
-        <div class="top-author--container" style="margin: 0px 15px !important;">
-          <div class="top-author--item">
-            <img src="/img/anonyme.jpg"/>
-            <div>
-              <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
-            </div>
-            <span class="css-4ioo3c" style="color: #272c30; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
-          </div>
-        </div>
-
-        <div class="top-author--container" style="margin: 0px 15px !important;">
-          <div class="top-author--item">
-            <img src="/img/anonyme.jpg"/>
-            <div>
-              <span style="font-weight: 500; font-size: 15px;">Julien REIGNIER</span>
-            </div>
-            <span class="css-4ioo3c" style="color: #272c30; font-weight: 500; font-size: 17px; background: white;">10,52€</span>
-          </div>
-        </div>
       </div>
     </div>   
     <div v-else>
@@ -115,49 +95,32 @@
 </template>
 
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script>
 import LottieJSON from '../assets/lottie/gift.json';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
-const baseUrl = ref(localStorage.getItem("baseUrl"));
-const winners = ref([]);
-const popupInfos = ref(false);
-const LottieData = LottieJSON;
-
-// Appelle lors de la création pour configurer la barre d'état
-onMounted(() => {
-  window.StatusBar.overlaysWebView(false);
-  window.StatusBar.styleDefault();
-  window.StatusBar.backgroundColorByHexString("#ffffff");
-});
-
-function showInfos() {
-  if (window.TapticEngine) {
-    TapticEngine.impact({ style: 'medium' });
+export default {
+  data() {
+    return {
+      baseUrl: localStorage.getItem("baseUrl"),
+      winners: [],
+      popupInfos: false,
+      LottieData: LottieJSON
+    };
+  },
+  methods: {
+    showInfos() {
+      this.$Haptics.impact({ style: 'medium' });
+      this.popupInfos = true;
+    },
+    hideInfos() {
+      this.popupInfos = false;
+    },
+    goBack() {
+      this.$Haptics.impact({ style: 'medium' });
+      this.$router.back();
+    }
   }
-  popupInfos.value = true;
-}
-
-function hideInfos() {
-  popupInfos.value = false;
-}
-
-function goBack() {
-  if (window.TapticEngine) {
-    TapticEngine.impact({ style: 'medium' });
-  }
-  window.plugins.nativepagetransitions.slide({
-    direction: 'right',
-    duration: 400,
-    iosdelay: 0,
-    androiddelay: 0,
-    winphonedelay: 0,
-    slowdownfactor: 1,
-  });
-  router.back();
-}
+};
 </script>
 
 <style scoped>

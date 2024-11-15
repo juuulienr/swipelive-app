@@ -101,20 +101,23 @@ export default {
     },
   },
   created() {    
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-    
     this.loadProducts();
   },
   methods: {
-    loadProducts() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/products`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.products = JSON.parse(response.data);
+    async loadProducts() {
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/products`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.products = response.data; 
         this.loading = false;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.error('Erreur lors de la récupération des produits :', error);
+      }
     },
     totalVariantQuantity(variants) {
       return variants.reduce((total, variant) => total + variant.quantity, 0);
@@ -139,45 +142,15 @@ export default {
       return product.quantity === 0 || (product.variants.length > 0 && this.totalVariantQuantity(product.variants) === 0);
     },
     addProduct() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'AddEditProduct' });
     },
     editProduct(product) {
       const mainStore = useMainStore();
-
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-      mainStore.setProduct(product); // Mise à jour du produit sélectionné dans le store
+      mainStore.setProduct(product);
       this.$router.push({ name: 'AddEditProduct', params: { productId: product.id } });
     },
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
       this.$router.push({ name: 'Account' });
     },
   }

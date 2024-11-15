@@ -166,9 +166,9 @@ export default {
     }
   },
   created() {    
-    window.StatusBar.overlaysWebView(false);  
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+      
+    
+    
   },  
   mounted() {
     if (this.user.vendor) {
@@ -183,9 +183,7 @@ export default {
   },
   methods: {
     async submit() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       event.preventDefault();
 
       const mainStore = useMainStore(); // Utilisation de Pinia pour le store principal
@@ -379,14 +377,6 @@ export default {
       }, options);
     },
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
       this.$router.push({ name: 'Account' });
     },    
     loadGoogleMapsScript() {

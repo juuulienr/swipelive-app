@@ -37,7 +37,7 @@ const routes = [
   { path: '/search', name: 'Search', component: Search },
   { path: '/cart/:fullscreen?', name: 'Cart', component: Cart },
   { path: '/checkout/:fullscreen?', name: 'Checkout', component: Checkout },
-  { path: '/profile/:id/:overlaysWebView?', name: 'Profile', component: Profile },
+  { path: '/profile/:id', name: 'Profile', component: Profile },
   { path: '/account', name: 'Account', component: Account },
   { path: '/category/:id', name: 'Category', component: Category },
   { path: '/following', name: 'ListFollowing', component: ListFollowing },

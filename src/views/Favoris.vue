@@ -197,9 +197,9 @@ export default {
     };
   },
   created() {    
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
     
     this.loadFavoris();
   },  
@@ -214,9 +214,7 @@ export default {
     },
     removeFavoris(product) {
       const mainStore = useMainStore();
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.favoris = this.favoris.filter(favoris => favoris.product.id !== product.id);
 
       window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
@@ -226,9 +224,7 @@ export default {
       });
     },
     showProduct(product) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.product = product;
       this.popupProduct = true;
     },
@@ -241,9 +237,7 @@ export default {
     },
     addToCart() {
       const mainStore = useMainStore();
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupProduct = false;
 
       const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
@@ -265,15 +259,7 @@ export default {
         });
       } else {
         exist = true;
-        navigator.notification.confirm(
-          'Ce article va remplacer votre ancien panier',
-          (buttonIndex) => {
-            if (buttonIndex === 2 || window.cordova.platformId === "browser") {
-              mainStore.setLineItems([{ product: this.product, variant: this.variant, quantity: 1, vendor }]);
-            }
-          },
-          'Nouveau panier ?', ['Conserver', 'Nouveau']
-        );
+        this.confirmReplaceCart(vendor);
       }
 
       if (!exist) {
@@ -282,18 +268,35 @@ export default {
       }
     },
     goBack() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.back();
+    },
+    async confirmReplaceCart(vendor) {
+      const mainStore = useMainStore();
+
+      try {
+        const { value } = await this.$Dialog.confirm({
+          title: 'Nouveau panier ?',
+          message: 'Cet article va remplacer votre ancien panier.',
+          okButtonTitle: 'Nouveau',
+          cancelButtonTitle: 'Conserver',
+        });
+
+        if (value) {
+          mainStore.setLineItems([
+            {
+              product: this.product,
+              variant: this.variant,
+              quantity: 1,
+              vendor,
+            },
+          ]);
+        } else {
+          console.log('L\'utilisateur a choisi de conserver le panier existant.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la confirmation de remplacement du panier :', error);
+      }
     },
   }
 };

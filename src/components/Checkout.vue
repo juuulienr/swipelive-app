@@ -552,9 +552,9 @@ export default {
     }
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
     console.log(this.lineItems);
 
     if (this.lineItems.length) {
@@ -881,17 +881,7 @@ export default {
                 mainStore.setLineItems(this.lineItems);
 
                 if (this.fullscreen) {
-                  if (window.TapticEngine) {
-                    TapticEngine.impact({ style: 'medium' });
-                  }
-                  window.plugins.nativepagetransitions.slide({
-                    direction: 'left',
-                    duration: 400,
-                    iosdelay: 0,
-                    androiddelay: 0,
-                    winphonedelay: 0,
-                    slowdownfactor: 1,
-                  });
+                  this.$Haptics.impact({ style: 'medium' });
 
                   this.$router.push({ name: 'Home' });
                 } else {

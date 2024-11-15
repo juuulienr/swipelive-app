@@ -146,9 +146,7 @@ export default {
       mainStore.setLineItems(this.lineItems);
     },
     showCheckout() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
 
       this.getShippingPrice();
     },

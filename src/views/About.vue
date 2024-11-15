@@ -78,48 +78,51 @@ export default {
       version: "0",
     };
   },
-  created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-    
-    if (window.cordova) {
-      window.cordova.getAppVersion.getVersionNumber((version) => {
-        this.version = version;
-      });
-    }
-  },
   methods: {
-    openUrl(url) {
-      window.SafariViewController.isAvailable((available) => {
-        if (available) {
-          window.SafariViewController.show({ url: url }, (result) => {
-            console.log(result);
-          }, (error) => {
-            console.log("KO: " + error);
-          });
-        } else {
-          window.cordova.InAppBrowser.open(url, '_system', 'location=no');
-        }
-      });
+    async getAppVersion() {
+      try {
+        const info = await this.$Device.getInfo();
+        this.version = info.appVersion || 'Version inconnue';
+        console.log(`Version de l'application : ${this.version}`);
+      } catch (error) {
+        console.error('Erreur lors de la récupération de la version de l\'application :', error);
+      }
+    },
+    async openUrl(url) {
+      try {
+        this.$Haptics.impact({ style: 'medium' });
+        await this.$Browser.open({ url });
+      } catch (error) {
+        console.error('Erreur lors de l\'ouverture de l\'URL :', error);
+      }
     },
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
       this.$router.push({ name: 'Account' });
     },
-    deleteAccount() {
-      navigator.notification.confirm('Voulez-vous vraiment supprimer ce compte ?', this.onConfirm, 'Êtes-vous sûr ?', ['Annuler','Supprimer']);
+    async deleteAccount() {
+      try {
+        const { value } = await this.$Dialog.confirm({
+          title: 'Êtes-vous sûr ?',
+          message: 'Voulez-vous vraiment supprimer ce compte ?',
+          okButtonTitle: 'Supprimer',
+          cancelButtonTitle: 'Annuler',
+        });
+
+        if (value) {
+          const mainStore = useMainStore();
+          window.localStorage.removeItem('token');
+          window.localStorage.removeItem('banned');
+          mainStore.resetState();
+          this.$router.push({ name: 'Welcome' });
+        } else {
+          console.log('Suppression annulée par l\'utilisateur.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la confirmation de suppression :', error);
+      }
     },
     onConfirm(index) {
       if (index == 2) {
-        // Utilisation de Pinia pour réinitialiser l'état
         const mainStore = useMainStore();
         
         window.localStorage.removeItem('token');

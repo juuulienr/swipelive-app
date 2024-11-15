@@ -460,9 +460,9 @@ export default {
     };
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
 
     this.loadOrders();
     this.loadPurchases();
@@ -506,9 +506,7 @@ export default {
       });
     },
     showOrder(order, type) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupOrder = true;
       this.order = order;
       this.type = type;
@@ -521,14 +519,6 @@ export default {
       this.type = null;
     },
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
       this.$router.push({ name: 'Account' });
     },
     showLabel() {
@@ -536,9 +526,7 @@ export default {
       this.openUrl(url);
     },
     generateLabel() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.loadingPdf = true;
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/shipping/create/${this.order.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         this.order = JSON.parse(response.data);
@@ -559,18 +547,13 @@ export default {
         this.openUrl(url);
       }
     },
-    openUrl(url) {
-      window.SafariViewController.isAvailable((available) => {
-        if (available) {
-          window.SafariViewController.show({ url }, (result) => {
-            console.log(result);
-          }, (error) => {
-            console.log("KO: " + error);
-          });
-        } else {
-          window.cordova.InAppBrowser.open(url, '_system', 'location=no');
-        }
-      });
+    async openUrl(url) {
+      try {
+        this.$Haptics.impact({ style: 'medium' });
+        await this.$Browser.open({ url });
+      } catch (error) {
+        console.error('Erreur lors de l\'ouverture de l\'URL :', error);
+      }
     },
     closeOrder() {
       this.popupConfirmation = false;
@@ -585,15 +568,11 @@ export default {
       this.popupConfirmation = true;
     },
     sendMessageToBuyer(buyer) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'ListMessages', params: { userId: buyer.id, picture: buyer.picture, firstname: buyer.firstname, lastname: buyer.lastname } });
     },
     sendMessageToVendor(vendor) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, pseudo: vendor.pseudo } });
     },
     cancelOrder() {
@@ -633,9 +612,7 @@ export default {
       });
     },
     showNumber1() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.shippingStatus = "ready-to-send";
       this.show1 = true;
       this.show2 = false;
@@ -643,9 +620,7 @@ export default {
       this.show4 = false;
     },
     showNumber2() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.shippingStatus = "open";
       this.show1 = false;
       this.show2 = true;
@@ -653,9 +628,7 @@ export default {
       this.show4 = false;
     },
     showNumber3() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.shippingStatus = "litige";
       this.show1 = false;
       this.show2 = false;
@@ -663,9 +636,7 @@ export default {
       this.show4 = false;
     }, 
     showNumber4() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.shippingStatus = "cancelled";
       this.show1 = false;
       this.show2 = false;

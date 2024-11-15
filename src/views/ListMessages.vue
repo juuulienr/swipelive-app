@@ -101,9 +101,9 @@ export default {
     };
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
     
     this.loadDiscussions();
   },
@@ -172,10 +172,6 @@ export default {
       });
     },
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-      });
       this.$router.push({ name: 'Account' });
     },
     isUserOnline(discussion) {

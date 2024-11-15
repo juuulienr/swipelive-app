@@ -398,9 +398,9 @@ export default {
     }
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
   },
   mounted() {
     this.loadGoogleMapsScript()
@@ -568,25 +568,11 @@ export default {
       }
     }, 
     submitStep3() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'Account' });
     }, 
     async submit() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
 
       const stripe = Stripe(this.stripe_pk);
       const mainStore = useMainStore();
@@ -760,15 +746,6 @@ export default {
     },
     goBack() {
       if (this.type) {
-        window.plugins.nativepagetransitions.slide({
-          direction: 'right',
-          duration: 400,
-          iosdelay: 0,
-          androiddelay: 0,
-          winphonedelay: 0,
-          slowdownfactor: 1,
-        });
-
         this.$router.push({ name: 'Account' });
       } else if (this.step1) {
         this.type = true;
@@ -780,9 +757,7 @@ export default {
       }
     },
     goStep1(businessType) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.businessType = businessType;
       this.type = false;
       this.step1 = true;

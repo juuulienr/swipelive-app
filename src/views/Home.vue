@@ -118,164 +118,105 @@ export default {
   created() {
     const mainStore = useMainStore();
 
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-
-    if (this.user.length === 0) {
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/profile`, 
-        {}, 
-        { Authorization: `Bearer ${this.token}` }, 
-        (response) => {
-          const userData = JSON.parse(response.data);
-          this.user = userData;
-          mainStore.setUser(userData);
-        }, 
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
-
-    if (this.categories.length === 0) {
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/api/categories`, 
-        {}, 
-        { 'Content-Type': 'application/json; charset=UTF-8' }, 
-        (response) => {
-          const categoriesData = JSON.parse(response.data);
-          mainStore.setCategories(categoriesData);
-          this.categories = categoriesData;
-        }, 
-        (response) => {
-          console.log(response.error);
-        }
-      );
-    }
-
+    this.loadProfile();
     this.loadClipsTrending();
     this.loadProductsTrending();
   },
   methods: {
-    loadClipsTrending() {
+    async loadProfile() {
       const mainStore = useMainStore();
 
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/clips/trending`, 
-        {}, 
-        { Authorization: `Bearer ${this.token}` }, 
-        (response) => {
-          const clipsData = JSON.parse(response.data);
-          this.clipsTrending = clipsData;
-          mainStore.setClipsTrending(clipsData);
-        }, 
-        (response) => {
-          console.log(response.error);
+      if (this.user.length === 0) {
+        try {
+          const response = await this.$CapacitorHttp.get({
+            url: `${this.baseUrl}/user/api/profile`,
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          });
+          this.user = response.data;
+          mainStore.setUser(userData);
+        } catch (error) {
+          console.error('Erreur lors de la récupération du profil utilisateur :', error);
         }
-      );
+      }
     },
-    loadProductsTrending() {
+    async loadClipsTrending() {
       const mainStore = useMainStore();
 
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/products/trending`, 
-        {}, 
-        { Authorization: `Bearer ${this.token}` }, 
-        (response) => {
-          const productsData = JSON.parse(response.data);
-          this.productsTrending = productsData;
-          mainStore.setProductsTrending(productsData);
-        }, 
-        (response) => {
-          console.log(response.error);
-        }
-      );
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/clips/trending`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+        this.clipsTrending = response.data;
+        mainStore.setClipsTrending(response.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des clips tendance :', error);
+      }
+    },
+    async loadProductsTrending() {
+      const mainStore = useMainStore();
+
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/products/trending`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+        this.productsTrending = response.data;
+        mainStore.setProductsTrending(response.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des produits tendance :', error);
+      }
     },
     goToProfile(user) {
       const mainStore = useMainStore();
-
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
+      this.$Haptics.impact({ style: 'medium' });
       mainStore.setProfile(user);
-      this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: true } });
+      this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
     goToCategory(category) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'Category', params: { id: category.id } });
     },
     showProduct(product) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.product = product;
       this.popupProduct = true;
     },
     showLatestClip(index) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'Feed', params: { type: 'latest', index } });
     },
     showTrendingClip(index) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-
+      this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'Feed', params: { type: 'trending', index } });
     },
     hideProduct() {
       this.popupProduct = false;
       this.product = null;
     },
-    favoris() {
+    async favoris() {
       const mainStore = useMainStore();
+      this.$Haptics.impact({ style: 'medium' });
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/favoris/${this.product.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.user = response.data;
+        mainStore.setUser(response.data);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour des favoris :', error);
       }
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/favoris/${this.product.id}`, 
-        {}, 
-        { Authorization: `Bearer ${this.token}` }, 
-        (response) => {
-          const updatedUser = JSON.parse(response.data);
-          this.user = updatedUser;
-          mainStore.setUser(updatedUser);
-        }, 
-        (response) => {
-          console.log(response.error);
-        }
-      );
     },
     selectVariantChild(variant) {
       this.variant = variant;
@@ -283,9 +224,7 @@ export default {
     addToCart() {
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupProduct = false;
 
       const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
@@ -310,18 +249,7 @@ export default {
           });
         } else {
           exist = true;
-          navigator.notification.confirm(
-            'Cet article va remplacer votre ancien panier',
-            (buttonIndex) => {
-              const confirmButtonIndex = window.cordova.platformId === "browser" ? 1 : 2;
-              if (buttonIndex === confirmButtonIndex) {
-                this.lineItems = [{ product: this.product, variant: this.variant, quantity: 1, vendor }];
-                mainStore.setLineItems(this.lineItems);
-              }
-            },
-            'Nouveau panier ?',
-            ['Conserver', 'Nouveau']
-          );
+          this.confirmReplaceCart(vendor);
         }
 
         if (!exist) {
@@ -331,6 +259,34 @@ export default {
       } else {
         this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
         mainStore.setLineItems(this.lineItems);
+      }
+    },
+    async confirmReplaceCart() {
+      const mainStore = useMainStore();
+
+      try {
+        const { value } = await this.$Dialog.confirm({
+          title: 'Nouveau panier ?',
+          message: 'Cet article va remplacer votre ancien panier.',
+          okButtonTitle: 'Nouveau',
+          cancelButtonTitle: 'Conserver',
+        });
+
+        if (value) {
+          this.lineItems = [
+            {
+              product: this.product,
+              variant: this.variant,
+              quantity: 1,
+              vendor,
+            },
+          ];
+          mainStore.setLineItems(this.lineItems);
+        } else {
+          console.log('L\'utilisateur a choisi de conserver le panier existant.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la confirmation de remplacement du panier :', error);
       }
     },
   }

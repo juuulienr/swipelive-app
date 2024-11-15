@@ -116,10 +116,6 @@ export default {
     }
   },
   created() {    
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-
     this.loadAllProducts();
 
     if (this.id) {
@@ -136,44 +132,53 @@ export default {
     goBack() {
       this.$router.back();
     },
-    loadAllProducts() {
+    async loadAllProducts() {
       const mainStore = useMainStore();
 
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/products/all`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        const allProducts = JSON.parse(response.data);
-        this.products = allProducts;
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/products/all`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.products = response.data;
         this.loadingProducts = false;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.error('Erreur lors de la récupération de tous les produits :', error);
+      }
+    },
+    async favoris(product) {
+      const mainStore = useMainStore();
+
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/favoris/${product.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const updatedUser = response.data;
+        mainStore.setUser(updatedUser);
+        this.user = updatedUser;
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour des favoris :', error);
+      }
     },
     selectCategory(category) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.selectedCategory = category;
     },
     showProduct(product) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.product = product;
       this.popupProduct = true;
     },
     hideProduct() {
       this.popupProduct = false;
       this.product = null;
-    },
-    favoris(product) { 
-      const mainStore = useMainStore();
-
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/favoris/${product.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        const updatedUser = JSON.parse(response.data);
-        mainStore.setUser(updatedUser); // Mise à jour de l'utilisateur dans le store
-        this.user = updatedUser;
-      }, (response) => {
-        console.log(response.error);
-      });
     },
     selectVariantChild(variant) {
       console.log(variant);
@@ -182,9 +187,7 @@ export default {
     addToCart() {
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupProduct = false;
 
       const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
@@ -211,29 +214,38 @@ export default {
           });
         } else {
           exist = true;
-          navigator.notification.confirm(
-            'Cet article va remplacer votre ancien panier',
-            (buttonIndex) => {
-              const confirmButtonIndex = window.cordova.platformId === "browser" ? 1 : 2;
-              if (buttonIndex === confirmButtonIndex) {
-                this.lineItems = [{ product: this.product, variant: this.variant, quantity: 1, vendor }];
-                mainStore.setLineItems(this.lineItems); // Mise à jour du panier dans le store
-              }
-            },
-            'Nouveau panier ?',
-            ['Conserver', 'Nouveau']
-          );
+          this.confirmReplaceCart(vendor);
         }
 
         if (!exist) {
           this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
-          mainStore.setLineItems(this.lineItems); // Mise à jour du panier dans le store
+          mainStore.setLineItems(this.lineItems);
         }
       } else {
         this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
-        mainStore.setLineItems(this.lineItems); // Mise à jour du panier dans le store
+        mainStore.setLineItems(this.lineItems);
       }
-    }
+    }, 
+    async confirmReplaceCart(vendor) {
+      try {
+        const { value } = await this.$Dialog.confirm({
+          title: 'Nouveau panier ?',
+          message: 'Cet article va remplacer votre ancien panier.',
+          okButtonTitle: 'Nouveau',
+          cancelButtonTitle: 'Conserver',
+        });
+
+        if (value) {
+          this.lineItems = [{ product: this.product, variant: this.variant, quantity: 1, vendor }];
+          const mainStore = useMainStore();
+          mainStore.setLineItems(this.lineItems);
+        } else {
+          console.log('L\'utilisateur a choisi de conserver le panier existant.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la confirmation :', error);
+      }
+    },
   }
 };
 </script>

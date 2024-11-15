@@ -22,42 +22,36 @@
   </main>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+
+<script>
 import fcm from '../utils/fcm.js';
 import LottieJSON from '../assets/lottie/swipe-up.json';
 
-const router = useRouter();
-const notif = ref(true);
-const step1 = ref(false);
-const LottieData = LottieJSON;
+export default {
+  data() {
+    return {
+      notif: true,
+      step1: false,
+      LottieData: LottieJSON
+    };
+  },
+  methods: {
+    allowNotif() {
+      this.$Haptics.impact({ style: 'medium' });
 
-onMounted(() => {
-  window.StatusBar.overlaysWebView(false);
-  window.StatusBar.styleDefault();
-  window.StatusBar.backgroundColorByHexString("#ffffff");
-});
-
-function allowNotif() {
-  if (window.TapticEngine) {
-    TapticEngine.impact({ style: 'medium' });
+      // if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
+        // fcm.onDeviceReady();
+      // }
+      
+      this.notif = false;
+      this.step1 = true;
+    },
+    goFeed() {
+      this.$Haptics.impact({ style: 'medium' });
+      this.$router.push({ name: 'Feed' });
+    }
   }
-
-  if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-    fcm.onDeviceReady();
-  }
-  notif.value = false;
-  step1.value = true;
-}
-
-function goFeed() {
-  if (window.TapticEngine) {
-    TapticEngine.impact({ style: 'medium' });
-  }
-
-  router.push({ name: 'Feed' });
-}
+};
 </script>
 
 <style scoped>
@@ -102,3 +96,8 @@ main .container {
   font-size: 15px;
 }
 </style>
+
+
+
+
+

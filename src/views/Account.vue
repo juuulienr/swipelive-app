@@ -287,9 +287,9 @@ export default {
   created() {
     const mainStore = useMainStore();
 
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
 
     window.cordova.plugin.http.get(
       `${this.baseUrl}/user/api/profile`, 
@@ -359,9 +359,7 @@ export default {
       this.$router.push({ name: 'Shop' });
     },
     addReview() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       // window.cordova.plugins.AppReview.openStoreScreen(null, true);
     },
     goEditProfile() {
@@ -381,33 +379,15 @@ export default {
       this.$router.push({ name: 'VendorRegistration' });
     },
     addTapticAndSlide() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
+      this.$Haptics.impact({ style: 'medium' });
     },
-    openUrl(url) {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
+    async openUrl(url) {
+      try {
+        this.$Haptics.impact({ style: 'medium' });
+        await this.$Browser.open({ url });
+      } catch (error) {
+        console.error('Erreur lors de l\'ouverture de l\'URL :', error);
       }
-      window.SafariViewController.isAvailable((available) => {
-        if (available) {
-          window.SafariViewController.show({ url }, (result) => {
-            console.log(result);
-          }, (error) => {
-            console.log("KO: " + error);
-          });
-        } else {
-          window.cordova.InAppBrowser.open(url, '_system', 'location=no');
-        }
-      });
     },
   }
 };

@@ -11,7 +11,6 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import { useMainStore } from '@/stores/useMainStore';
-import { CapacitorHttp } from '@capacitor/core';
 
 export default {
   name: 'app',
@@ -56,11 +55,10 @@ export default {
     async ping() {
       if (this.user && this.token) {
         try {
-          const response = await CapacitorHttp.get({
+          const response = await this.$CapacitorHttp.get({
             url: `${this.baseUrl}/user/api/ping`,
             headers: { Authorization: `Bearer ${this.token}` }
           });
-          console.log(response);
         } catch (error) {
           console.error("Ping error:", error);
         }
@@ -70,12 +68,12 @@ export default {
       const mainStore = useMainStore();
       if (mainStore.categories.length === 0) {
         try {
-          const response = await CapacitorHttp.get({
+          const response = await this.$CapacitorHttp.get({
             url: `${this.baseUrl}/api/categories`,
             headers: { 'Content-Type': 'application/json; charset=UTF-8' }
-          });
-          mainStore.setCategories(JSON.parse(response.data));
-          console.log(response);
+          }); 
+          console.log(response.data);
+          mainStore.setCategories(response.data);
         } catch (error) {
           console.error("Load categories error:", error);
         }

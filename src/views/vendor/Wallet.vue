@@ -246,9 +246,9 @@ export default {
     };
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
 
     this.loadOrders();
   },
@@ -304,9 +304,7 @@ export default {
       this.bank = false;
     },
     showWithdraw() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupWithdraw = true;
       this.withdraw = true;
       this.$nextTick(() => this.$refs.withdrawAmount.focus());
@@ -366,14 +364,6 @@ export default {
       }
     },
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
       this.$router.push({ name: 'Account' });
     },
     formatMonth(dateString) {

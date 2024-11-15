@@ -160,9 +160,9 @@ export default {
     };
   },
   created() {    
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
 
     this.loadProducts();
   },
@@ -182,9 +182,7 @@ export default {
       });
     },
     goStep1() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       const mainStore = useMainStore();
       mainStore.setRules(false); // Mise à jour du store Pinia
       this.rules = false;
@@ -192,9 +190,7 @@ export default {
       this.step2 = false;
     },
     goStep2() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
 
       if (this.selected.length > 0) {
         if (this.selected.length > 1) {
@@ -207,9 +203,7 @@ export default {
     },
     submit() {
       if (!this.loading) {
-        if (window.TapticEngine) {
-          TapticEngine.impact({ style: 'medium' });
-        }
+        this.$Haptics.impact({ style: 'medium' });
         this.loading = true;
         const liveProducts = this.selected.map((element, index) => ({
           product: element.product.id,
@@ -231,16 +225,6 @@ export default {
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/agora/token/host/${this.live.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         const result = JSON.parse(response.data);
         this.agoraToken = result.token;
-
-        window.plugins.nativepagetransitions.slide({
-          direction: 'left',
-          duration: 400,
-          iosdelay: 0,
-          androiddelay: 0,
-          winphonedelay: 0,
-          slowdownfactor: 1,
-        });
-
         this.$router.push({ name: 'Live', params: { id: this.live.id, token: this.agoraToken } });
       }, (response) => {
         console.log(response.error);
@@ -271,9 +255,7 @@ export default {
       console.log(event);
     },
     checkAll() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.isCheckAll = !this.isCheckAll;
       this.selected = [];
       this.checked = [];
@@ -296,14 +278,6 @@ export default {
     },
     goBack() {
       if (this.step1 || this.rules) {
-        window.plugins.nativepagetransitions.slide({
-          direction: 'right',
-          duration: 400,
-          iosdelay: 0,
-          androiddelay: 0,
-          winphonedelay: 0,
-          slowdownfactor: 1,
-        });
         this.$router.push({ name: 'Account' });
       } else {
         this.step2 = false;

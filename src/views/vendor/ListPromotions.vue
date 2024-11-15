@@ -143,20 +143,12 @@ export default {
     };
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
   },
   methods: {
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
       this.$router.push({ name: 'Account' });
     },
     hidePromo() {
@@ -165,9 +157,7 @@ export default {
     savePromo() {
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       if (this.promotion.value) {
         this.promotion.value = parseFloat(this.promotion.value);
       }
@@ -197,9 +187,7 @@ export default {
     deletePromo(promo, index) {
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.user.vendor.promotions.splice(index, 1);
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotion/delete/${promo.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         const updatedUser = JSON.parse(response.data);
@@ -210,9 +198,7 @@ export default {
       });
     },
     showPromo() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupPromo = true;
     },
     check(promo) {

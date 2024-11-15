@@ -320,9 +320,7 @@ export default {
       }
     },
     // async facebook() {
-    //   if (window.TapticEngine) {
-    //     TapticEngine.impact({ style: 'medium' });
-    //   }
+    //   this.$Haptics.impact({ style: 'medium' });
 
     //   window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
     //     console.log(response);
@@ -354,9 +352,7 @@ export default {
     //   });
     // },
     // async google() {
-    //   if (window.TapticEngine) {
-    //     TapticEngine.impact({ style: 'medium' });
-    //   }
+      // this.$Haptics.impact({ style: 'medium' });
 
     //   console.log(window.cordova.platformId);
 
@@ -401,9 +397,7 @@ export default {
     //   }
     // },
     // async apple() {
-    //   if (window.TapticEngine) {
-    //     TapticEngine.impact({ style: 'medium' });
-    //   }
+      // this.$Haptics.impact({ style: 'medium' });
 
     //   // ajouter apple
     //   window.cordova.plugins.SignInWithApple.signin({ requestedScopes: [0, 1] }, async (result) => {
@@ -491,19 +485,13 @@ export default {
       this.popupUserRegistration = false;
       this.popupLogin = true;
     },
-    openUrl(url) {
-      this.$Haptics.impact({ style: 'medium' });
-      // window.SafariViewController.isAvailable((available) => {
-      //   if (available) {
-      //     window.SafariViewController.show({ url: url }, (result) => {
-      //       console.log(result);
-      //     }, (error) => {
-      //       console.log("KO: " + error);
-      //     })
-      //   } else {
-      //     window.cordova.InAppBrowser.open(url, '_system', 'location=no');
-      //   }
-      // });
+    async openUrl(url) {
+      try {
+        this.$Haptics.impact({ style: 'medium' });
+        await this.$Browser.open({ url });
+      } catch (error) {
+        console.error('Erreur lors de l\'ouverture de l\'URL :', error);
+      }
     },
     async login() {
       this.$Haptics.impact({ style: 'medium' });

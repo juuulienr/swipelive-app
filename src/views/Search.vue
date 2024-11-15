@@ -69,10 +69,6 @@ export default {
   created() {
     const mainStore = useMainStore();
 
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
-
     if (this.user.length === 0) {
       window.cordova.plugin.http.get(
         `${this.baseUrl}/user/api/profile`,
@@ -193,21 +189,8 @@ export default {
     },
     goToProfile(user) {
       const mainStore = useMainStore();
-
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
-      window.plugins.nativepagetransitions.slide({
-        direction: 'left',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
-
       mainStore.setProfile(user); // Utilisation de l'action Pinia
-      this.$router.push({ name: 'Profile', params: { id: user.id, overlaysWebView: true } });
+      this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
   },
 };

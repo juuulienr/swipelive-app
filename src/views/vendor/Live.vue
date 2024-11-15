@@ -683,8 +683,6 @@ export default {
     }
   },
   created() {
-    window.StatusBar.styleLightContent();
-    window.StatusBar.overlaysWebView(true);
     document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
 
     if (window.cordova.plugin && window.cordova.plugin.http) {
@@ -823,9 +821,7 @@ export default {
       });
     },
     async startCountdown() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
 
       this.prelive = false;
       this.counter = true;
@@ -944,14 +940,12 @@ export default {
       });
     },   
     async stopLive() {
-      window.StatusBar.overlaysWebView(false);
-      window.StatusBar.styleDefault();
-      window.StatusBar.backgroundColorByHexString("#ffffff");
+      
+      
+      
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
 
       this.ready = false;
       this.performance = true;
@@ -986,9 +980,7 @@ export default {
     },
     changeProduct() {
       if (this.liveProducts.length > 1) {
-        if (window.TapticEngine) {
-          TapticEngine.impact({ style: 'medium' });
-        }
+        this.$Haptics.impact({ style: 'medium' });
         this.display = this.display + 1;
         this.liveProducts.shift();
         this.available = this.checkQuantity();
@@ -1036,9 +1028,7 @@ export default {
     },
  
     showFacebook() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupMultistream = false;
 
       window.facebookConnectPlugin.login(["public_profile", "publish_video"], (response) => {
@@ -1125,18 +1115,14 @@ export default {
       });
     },
     showViewers() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupViewers = true;
     },
     hideViewers() {
       this.popupViewers = false;
     },
     showMultistream() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupMultistream = true;
       this.popupPromo = false;
     },
@@ -1144,18 +1130,14 @@ export default {
       this.popupMultistream = false;
     },
     showPromo() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupPromo = true;
       this.popupMultistream = false;
     },
     savePromo() {
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       if (this.promotion.value) {
         this.promotion.value = parseFloat(this.promotion.value);
       }
@@ -1211,9 +1193,7 @@ export default {
       this.popupPromo = false;
     },
     showOrders() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.popupOrders = true;
     },
     hideOrders() {

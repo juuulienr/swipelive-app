@@ -162,9 +162,9 @@ export default {
     };
   },
   created() {
-    window.StatusBar.overlaysWebView(false);
-    window.StatusBar.styleDefault();
-    window.StatusBar.backgroundColorByHexString("#ffffff");
+    
+    
+    
 
     this.loadFollowers();
     this.loadFollowing();
@@ -187,25 +187,19 @@ export default {
       });
     },
     showFollowers() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.tabFollowers = true;
       this.tabFollowing = false;
     },
     showFollowing() {
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.tabFollowers = false;
       this.tabFollowing = true;
     },
     unfollow(follow, index) {
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.following.splice(index, 1);
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/follow/${follow.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         const updatedUser = JSON.parse(response.data);
@@ -216,22 +210,12 @@ export default {
       });
     },
     goBack() {
-      window.plugins.nativepagetransitions.slide({
-        direction: 'right',
-        duration: 400,
-        iosdelay: 0,
-        androiddelay: 0,
-        winphonedelay: 0,
-        slowdownfactor: 1,
-      });
       this.$router.push({ name: 'Account' });
     },
     removeFollower(user, index) {
       const mainStore = useMainStore();
 
-      if (window.TapticEngine) {
-        TapticEngine.impact({ style: 'medium' });
-      }
+      this.$Haptics.impact({ style: 'medium' });
       this.followers.splice(index, 1);
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/followers/remove/${user.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         const updatedUser = JSON.parse(response.data);
