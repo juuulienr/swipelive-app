@@ -276,8 +276,6 @@ export default {
     }
   },
   created() {
-    this.$StatusBar.setStyle({ style: this.$Style.Default });
-    
     const isAuthenticated = AuthAPI.isAuthenticated();
     if (isAuthenticated) {
       this.$router.push({ name: 'Feed' });
@@ -445,8 +443,6 @@ export default {
     },
     open() {
       this.$Haptics.impact({ style: 'medium' });
-      this.$StatusBar.setStyle({ style: this.$Style.Default });
-      
       this.errorLoginEmail = false;
       this.errorLoginPassword = false;
       this.errorEmailRecovery = false;

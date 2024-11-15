@@ -436,8 +436,6 @@ export default {
     }
   },
   created() {
-    // this.$StatusBar.setStyle({ style: this.$Style.Light });
-
     if (!this.token) {
       this.$router.push({ name: 'Welcome' });
     }

@@ -159,7 +159,6 @@
       </div>
 
 
-
       <div v-if="!user.vendor" class="account-box">
         <div class="account-band">
           <div @click="listMessages()" style="width: 100%">
@@ -285,23 +284,26 @@ export default {
     };
   },
   created() {
-    const mainStore = useMainStore();
-
-    window.cordova.plugin.http.get(
-      `${this.baseUrl}/user/api/profile`, 
-      {}, 
-      { Authorization: `Bearer ${this.token}` }, 
-      (response) => {
-        const userData = JSON.parse(response.data);
-        mainStore.setUser(userData); 
-        this.user = userData;
-      }, 
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.loadUserProfile();
   },
   methods: {
+    async loadUserProfile() {
+      try {
+        const response = await this.$CapacitorHttp.get({
+          url: `${this.baseUrl}/user/api/profile`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const userData = response.data;
+        const mainStore = useMainStore();
+        mainStore.setUser(userData);
+        this.user = userData;
+      } catch (error) {
+        console.error('Erreur lors du chargement du profil utilisateur :', error);
+      }
+    },
     logout() {
       const mainStore = useMainStore();
 
