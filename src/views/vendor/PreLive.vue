@@ -160,16 +160,21 @@ export default {
     };
   },
   created() {    
-    
-    
-    
-
     this.loadProducts();
   },
   methods: {
-    loadProducts() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/products`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.products = JSON.parse(response.data).filter((product) => this.getProductQuantity(product) !== "Épuisé");
+    async loadProducts() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/products`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const allProducts = response.data;
+        this.products = allProducts.filter(product => this.getProductQuantity(product) !== "Épuisé");
 
         this.products.forEach((product, index) => {
           this.selected.push({ product, priority: index + 1 });
@@ -177,14 +182,14 @@ export default {
         });
 
         this.loadingProducts = false;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.error(error);
+      }
     },
     goStep1() {
       this.$Haptics.impact({ style: 'medium' });
       const mainStore = useMainStore();
-      mainStore.setRules(false); // Mise à jour du store Pinia
+      mainStore.setRules(false);
       this.rules = false;
       this.step1 = true;
       this.step2 = false;
@@ -201,35 +206,56 @@ export default {
         }
       }
     },
-    submit() {
+    async submit() {
       if (!this.loading) {
         this.$Haptics.impact({ style: 'medium' });
         this.loading = true;
+
         const liveProducts = this.selected.map((element, index) => ({
           product: element.product.id,
-          priority: index + 1
+          priority: index + 1,
         }));
 
-        window.cordova.plugin.http.setDataSerializer('json');
         const httpParams = { views: 0, status: 0, liveProducts };
-        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/prelive`, httpParams, { Authorization: `Bearer ${this.token}` }, (response) => {
-          this.live = JSON.parse(response.data);
-          this.goToLive();
-        }, (response) => {
-          console.log(response.error);
+
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/user/api/prelive`,
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+            data: httpParams,
+          });
+
+          this.live = response.data;
+          await this.goToLive();
+        } catch (error) {
+          console.error(error);
           this.loading = false;
-        });
+        }
       }
     },
     async goToLive() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/agora/token/host/${this.live.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        const result = JSON.parse(response.data);
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/agora/token/host/${this.live.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const result = response.data;
         this.agoraToken = result.token;
-        this.$router.push({ name: 'Live', params: { id: this.live.id, token: this.agoraToken } });
-      }, (response) => {
-        console.log(response.error);
+        this.$router.push({
+          name: "Live",
+          params: { id: this.live.id, token: this.agoraToken },
+        });
+      } catch (error) {
+        console.error(error);
         this.loading = false;
-      });
+      }
     },
     totalVariantQuantity(variants) {
       return variants.reduce((total, variant) => total + variant.quantity, 0);

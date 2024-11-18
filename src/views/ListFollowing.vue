@@ -166,21 +166,79 @@ export default {
     this.loadFollowing();
   },
   methods: {
-    loadFollowers() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/followers`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.followers = JSON.parse(response.data);
+    async loadFollowers() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/followers`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.followers = response.data;
         this.loadingFollowers = false;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.error(error);
+      }
     },
-    loadFollowing() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/following`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.following = JSON.parse(response.data);
+    async loadFollowing() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/following`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.following = response.data;
         this.loadingFollowing = false;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async unfollow(follow, index) {
+      const mainStore = useMainStore();
+      this.$Haptics.impact({ style: 'medium' });
+      this.following.splice(index, 1);
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/follow/${follow.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const updatedUser = response.data;
+        mainStore.setUser(updatedUser);
+        this.user = updatedUser;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async removeFollower(user, index) {
+      const mainStore = useMainStore();
+      this.$Haptics.impact({ style: 'medium' });
+      this.followers.splice(index, 1);
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/followers/remove/${user.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const updatedUser = response.data;
+        mainStore.setUser(updatedUser);
+        this.user = updatedUser;
+      } catch (error) {
+        console.error(error);
+      }
     },
     showFollowers() {
       this.$Haptics.impact({ style: 'medium' });
@@ -192,34 +250,8 @@ export default {
       this.tabFollowers = false;
       this.tabFollowing = true;
     },
-    unfollow(follow, index) {
-      const mainStore = useMainStore();
-
-      this.$Haptics.impact({ style: 'medium' });
-      this.following.splice(index, 1);
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/follow/${follow.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        const updatedUser = JSON.parse(response.data);
-        mainStore.setUser(updatedUser);
-        this.user = updatedUser;
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
     goBack() {
       this.$router.push({ name: 'Account' });
-    },
-    removeFollower(user, index) {
-      const mainStore = useMainStore();
-
-      this.$Haptics.impact({ style: 'medium' });
-      this.followers.splice(index, 1);
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/followers/remove/${user.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        const updatedUser = JSON.parse(response.data);
-        mainStore.setUser(updatedUser); 
-        this.user = updatedUser;
-      }, (response) => {
-        console.log(response.error);
-      });
     },
     async actionSheet(user, index) {
       try {

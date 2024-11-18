@@ -481,9 +481,15 @@ export default {
     nbProducts(lineItems) {
       return lineItems.reduce((count, lineItem) => count + lineItem.quantity, 0);
     },
-    loadOrders() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/orders`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.sales = JSON.parse(response.data);
+    async loadOrders() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/orders`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        this.sales = response.data;
         this.loadingOrders = false;
 
         if (this.orderId && this.sales.length > 0) {
@@ -493,17 +499,57 @@ export default {
             }
           });
         }
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.log(error);
+      }
     },
-    loadPurchases() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/purchases`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.purchases = JSON.parse(response.data);
+    async loadPurchases() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/purchases`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        this.purchases = response.data;
         this.loadingPurchases = false;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async generateLabel() {
+      this.$Haptics.impact({ style: 'medium' });
+      this.loadingPdf = true;
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/shipping/create/${this.order.id}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        this.order = response.data;
+        this.loadingPdf = false;
+      } catch (error) {
+        console.log(error);
+        this.loadingPdf = false;
+      }
+    },
+    async closeOrder() {
+      this.popupConfirmation = false;
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/orders/${this.order.id}/closed`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        this.order = response.data;
+        this.hideOrder();
+      } catch (error) {
+        console.log(error);
+      }
     },
     showOrder(order, type) {
       this.$Haptics.impact({ style: 'medium' });
@@ -525,17 +571,6 @@ export default {
       const url = `${this.cloudinary}${this.order.pdf}`;
       this.openUrl(url);
     },
-    generateLabel() {
-      this.$Haptics.impact({ style: 'medium' });
-      this.loadingPdf = true;
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/shipping/create/${this.order.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.order = JSON.parse(response.data);
-        this.loadingPdf = false;
-      }, (response) => {
-        console.log(response.error);
-        this.loadingPdf = false;
-      });
-    },
     showTrackingWebsite() {
       let url;
       if (this.order.trackingNumber) {
@@ -555,15 +590,6 @@ export default {
         console.error('Erreur lors de l\'ouverture de l\'URL :', error);
       }
     },
-    closeOrder() {
-      this.popupConfirmation = false;
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/orders/${this.order.id}/closed`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.order = JSON.parse(response.data);
-        this.hideOrder();
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
     showPopupConfirmation() {
       this.popupConfirmation = true;
     },
@@ -577,33 +603,35 @@ export default {
     },
     async cancelOrder() {
       const orderId = this.order.id;
+
       this.sales = this.sales.map((sale) =>
         sale.id === orderId ? { ...sale, shippingStatus: "cancelled" } : sale
       );
       this.purchases = this.purchases.map((purchase) =>
         purchase.id === orderId ? { ...purchase, shippingStatus: "cancelled" } : purchase
       );
+
       this.hideOrder();
 
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/orders/${orderId}/cancel`,
-        {},
-        { Authorization: `Bearer ${this.token}` },
-        async (response) => {
-          await this.$Toast.show({
-            text: "La commande a été annulée",
-            duration: 'long',
-            position: 'top',
-          });
-        },
-        async (response) => {
-          await this.$Toast.show({
-            text: response.error,
-            duration: 'long',
-            position: 'top',
-          });
-        }
-      );
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/orders/${orderId}/cancel`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        await this.$Toast.show({
+          text: "La commande a été annulée",
+          duration: 'long',
+          position: 'top',
+        });
+      } catch (error) {
+        await this.$Toast.show({
+          text: error.message || "Une erreur est survenue",
+          duration: 'long',
+          position: 'top',
+        });
+      }
     },
     async actionSheet() {
       const options = this.order.shippingStatus === 'ready-to-send'

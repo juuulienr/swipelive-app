@@ -381,23 +381,25 @@ export default {
 	  	}
 	  }
 	},
-  created() {    
-    
-    
-    
-
-    if (window.cordova && (window.cordova.platformId === "android")) {
+  async created() {
+    if (this.$Capacitor.getPlatform() === "android") {
       this.isAndroid = true;
     }
 
     const mainStore = useMainStore();
     if (!mainStore.categories.length) {
-      window.cordova.plugin.http.get(this.baseUrl + "/api/categories", {}, { 'Content-Type': 'application/json; charset=UTF-8' }, (response) => {
-        this.categories = JSON.parse(response.data);
-        mainStore.setCategories(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/api/categories`,
+          headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        });
+
+        this.categories = response.data;
+        mainStore.setCategories(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   mounted() {
@@ -479,47 +481,58 @@ export default {
           });
         }
 
-        window.cordova.plugin.http.setDataSerializer('json');
-        var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight.replace(',','.'), "weightUnit": this.product.weightUnit, "online": true, "options" : this.product.options ? this.product.options : null, "variants" : this.product.options && this.product.variants ? this.product.variants : null, "uploads" : this.product.uploads ? this.product.uploads : null };
+        const httpParams = {
+          title: this.product.title,
+          description: this.product.description,
+          category: this.product.category.id,
+          price: this.product.price.replace(',', '.'),
+          compareAtPrice: this.product.compareAtPrice ? this.product.compareAtPrice.replace(',', '.') : null,
+          quantity: this.product.quantity ? parseFloat(this.product.quantity) : 0,
+          weight: this.product.weight.replace(',', '.'),
+          weightUnit: this.product.weightUnit,
+          online: true,
+          options: this.product.options || null,
+          variants: this.product.options && this.product.variants ? this.product.variants : null,
+          uploads: this.product.uploads || null,
+        };
 
-        if (this.productId) {
-          window.cordova.plugin.http.put(
-            `${this.baseUrl}/user/api/product/edit/${this.productId}`,
-            httpParams,
-            { Authorization: `Bearer ${this.token}` },
-            async (response) => {
-              mainStore.setUser(JSON.parse(response.data));
-              await this.$Toast.show({
-                text: "L'article a bien été modifié !",
-                duration: 'long',
-                position: 'top',
-              });
-              this.$router.push({ name: 'Shop' });
-            },
-            (response) => {
-              this.loading = false;
-              console.log(JSON.parse(response.error));
-            }
-          );
-        } else {
-          window.cordova.plugin.http.post(
-            `${this.baseUrl}/user/api/product/add`,
-            httpParams,
-            { Authorization: `Bearer ${this.token}` },
-            async (response) => {
-              mainStore.setUser(JSON.parse(response.data));
-              await this.$Toast.show({
-                text: "L'article a bien été ajouté !",
-                duration: 'long',
-                position: 'top',
-              });
-              this.$router.push({ name: 'Shop' });
-            },
-            (response) => {
-              this.loading = false;
-              console.log(JSON.parse(response.error));
-            }
-          );
+        try {
+          const mainStore = useMainStore();
+
+          if (this.productId) {
+            const response = await this.$CapacitorHttp.request({
+              method: 'PUT',
+              url: `${this.baseUrl}/user/api/product/edit/${this.productId}`,
+              headers: { Authorization: `Bearer ${this.token}` },
+              data: httpParams,
+            });
+
+            mainStore.setUser(response.data);
+            await this.$Toast.show({
+              text: "L'article a bien été modifié !",
+              duration: 'long',
+              position: 'top',
+            });
+            this.$router.push({ name: 'Shop' });
+          } else {
+            const response = await this.$CapacitorHttp.request({
+              method: 'POST',
+              url: `${this.baseUrl}/user/api/product/add`,
+              headers: { Authorization: `Bearer ${this.token}` },
+              data: httpParams,
+            });
+
+            mainStore.setUser(response.data);
+            await this.$Toast.show({
+              text: "L'article a bien été ajouté !",
+              duration: 'long',
+              position: 'top',
+            });
+            this.$router.push({ name: 'Shop' });
+          }
+        } catch (error) {
+          this.loading = false;
+          console.log(error);
         }
       }
     },
@@ -576,42 +589,65 @@ export default {
       }
       this.uploadImage(options);
     },
-    uploadImage(options) {
-      navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        window.cordova.plugin.http.setDataSerializer('json');
-        var url = this.baseUrl + "/user/api/product/upload";
-        this.loadingImg = true;
+    async uploadImage(options) {
+      navigator.camera.getPicture(
+        async (imageUri) => {
+          console.log(imageUri);
+          const url = `${this.baseUrl}/user/api/product/upload`;
+          this.loadingImg = true;
 
-        if (window.cordova && (window.cordova.platformId === "android" || window.cordova.platformId === "ios")) {
-          window.cordova.plugin.http.uploadFile(url, {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
+          try {
+            if (Capacitor.getPlatform() === "android" || Capacitor.getPlatform() === "ios") {
+              const formData = new FormData();
+              formData.append("picture", imageUri);
+
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: url,
+                headers: { Authorization: `Bearer ${this.token}` },
+                body: formData,
+              });
+
+              this.loadingImg = false;
+              this.product.uploads.push(response.data);
+            } else {
+              const imgData = `data:image/jpeg;base64,${imageUri}`;
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: url,
+                headers: { Authorization: `Bearer ${this.token}` },
+                data: { picture: imgData },
+              });
+
+              this.loadingImg = false;
+              this.product.uploads.push(response.data);
+            }
+          } catch (error) {
             this.loadingImg = false;
-            this.product.uploads.push(JSON.parse(response.data));
-          }, (response) => {
-            console.log(response.error);
-          });
-        } else {
-          var imgData = "data:image/jpeg;base64," + imageUri;
-          window.cordova.plugin.http.post(url, { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.loadingImg = false;
-            this.product.uploads.push(JSON.parse(response.data));
-          }, function(response) {
-            console.log(response.error);
-          });
-        }
-      }, (error) => {
-        console.log("Impossible de récupérer l'image : " + error);
-      }, options);
+            console.log(error);
+          }
+        },
+        (error) => {
+          console.log("Impossible de récupérer l'image : " + error);
+        },
+        options
+      );
     },
-    deleteImage(index, id) {
+    async deleteImage(index, id) {
       this.product.uploads.splice(index, 1);
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/upload/delete/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        var filtersList = this.product.uploads.filter(element => element !== id);
+      try {
+        await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/product/upload/delete/${id}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        const filtersList = this.product.uploads.filter(element => element.id !== id);
         this.product.uploads = filtersList;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.log(error);
+      }
     },
     async deleteProduct() {
       const mainStore = useMainStore();
@@ -619,24 +655,26 @@ export default {
       if (this.productId && !this.loadingDelete) {
         this.loadingDelete = true;
 
-        window.cordova.plugin.http.get(
-          `${this.baseUrl}/user/api/product/delete/${this.productId}`,
-          {},
-          { Authorization: `Bearer ${this.token}` },
-          async (response) => {
-            mainStore.setUser(JSON.parse(response.data));
-            await this.$Toast.show({
-              text: "L'article a bien été supprimé !",
-              duration: 'long',
-              position: 'top',
-            });
-            this.$router.push({ name: 'Shop' });
-          },
-          (response) => {
-            this.loadingDelete = false;
-            console.log(response.error);
-          }
-        );
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/product/delete/${this.productId}`,
+            headers: { Authorization: `Bearer ${this.token}` },
+          });
+
+          mainStore.setUser(response.data);
+
+          await this.$Toast.show({
+            text: "L'article a bien été supprimé !",
+            duration: 'long',
+            position: 'top',
+          });
+
+          this.$router.push({ name: 'Shop' });
+        } catch (error) {
+          this.loadingDelete = false;
+          console.log(error);
+        }
       }
     },
     addVariant() {
@@ -675,19 +713,24 @@ export default {
       this.popupVariant = false;
       this.visible = ""; 
     },
-    deleteVariant(index) {
-      var id = this.product.variants[index].id;
+    async deleteVariant(index) {
+      const id = this.product.variants[index].id;
       this.product.variants.splice(index, 1);
 
       if (this.product.options && id && this.productId) {
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/variant/delete/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
-        }, (response) => {
-          console.log(response);
-        });
+        try {
+          await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/variant/delete/${id}`,
+            headers: { Authorization: `Bearer ${this.token}` },
+          });
+          console.log("Variant deleted successfully.");
+        } catch (error) {
+          console.log(error);
+        }
       }
-      
-      if (this.product.variants.length == 0) {
+
+      if (this.product.variants.length === 0) {
         this.product.options = [];
         this.inputNameOption1 = "";
         this.inputOption1 = "";
@@ -696,37 +739,28 @@ export default {
         this.inputOption2 = "";
         this.valuesOption2 = [];
       } else {
-        this.valuesOption1.map((element, index) => {
-          var exist = false;
-          this.product.variants.map((variant, index) => {
-            if (element.toLowerCase() === variant.option1.toLowerCase()) {
-              exist = true;
-            }
-          });
-
-          if (!exist) {
-            this.valuesOption1.splice(index, 1);
-          }
+        this.valuesOption1 = this.valuesOption1.filter((element) => {
+          return this.product.variants.some(
+            (variant) => element.toLowerCase() === variant.option1.toLowerCase()
+          );
         });
 
-        this.product.options = [];
-        this.product.options.push({ "name": this.inputNameOption1, "data": this.valuesOption1, "position": 1 });
+        this.product.options = [
+          { name: this.inputNameOption1, data: this.valuesOption1, position: 1 },
+        ];
 
         if (this.valuesOption2.length > 0) {
-          this.valuesOption2.map((element, index) => {
-            var exist = false;
-            this.product.variants.map((variant, index) => {
-              if (element.toLowerCase() === variant.option2.toLowerCase()) {
-                exist = true;
-              }
-            });
-
-            if (!exist) {
-              this.valuesOption2.splice(index, 1);
-            }
+          this.valuesOption2 = this.valuesOption2.filter((element) => {
+            return this.product.variants.some(
+              (variant) => element.toLowerCase() === variant.option2.toLowerCase()
+            );
           });
 
-          this.product.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
+          this.product.options.push({
+            name: this.inputNameOption2,
+            data: this.valuesOption2,
+            position: 2,
+          });
         }
       }
 
@@ -738,9 +772,9 @@ export default {
       console.log(this.variant);
       this.errorVariantWeight = false;
 
-      if (this.variant.weight && this.variant.weight > 20 && this.variant.weightUnit == "kg") {
+      if (this.variant.weight && this.variant.weight > 20 && this.variant.weightUnit === "kg") {
         this.errorVariantWeight = true;
-      } else if (this.variant.weight && this.variant.weight > 20000 && this.variant.weightUnit == "g") {
+      } else if (this.variant.weight && this.variant.weight > 20000 && this.variant.weightUnit === "g") {
         this.errorVariantWeight = true;
       }
 
@@ -749,27 +783,36 @@ export default {
           this.variant.compareAtPrice = null;
         }
 
-        if (this.variant.quantity != "") {
-          this.variant.quantity = parseFloat(this.variant.quantity);
-        } else {
-          this.variant.quantity = 0;
-        }
+        this.variant.quantity = this.variant.quantity !== "" ? parseFloat(this.variant.quantity) : 0;
 
         if (this.variant.id) {
-          window.cordova.plugin.http.setDataSerializer('json');
-          var httpParams = { "title": this.variant.title, "price": this.variant.price.replace(",","."), "compareAtPrice": this.variant.compareAtPrice ? this.variant.compareAtPrice.replace(",",".") : null, "quantity": this.variant.quantity, "weight": this.variant.weight, "weightUnit": this.variant.weightUnit };
+          const httpParams = {
+            title: this.variant.title,
+            price: this.variant.price.replace(",", "."),
+            compareAtPrice: this.variant.compareAtPrice ? this.variant.compareAtPrice.replace(",", ".") : null,
+            quantity: this.variant.quantity,
+            weight: this.variant.weight,
+            weightUnit: this.variant.weightUnit,
+          };
 
-          await window.cordova.plugin.http.post(this.baseUrl + "/user/api/variant/edit/" + this.variant.id, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
+          try {
+            const response = await this.$CapacitorHttp.request({
+              method: 'POST',
+              url: `${this.baseUrl}/user/api/variant/edit/${this.variant.id}`,
+              headers: { Authorization: `Bearer ${this.token}` },
+              data: httpParams,
+            });
+
             console.log(response);
-          }, (response) => {
-            console.log(JSON.parse(response));
-          });
+          } catch (error) {
+            console.log(error);
+          }
         }
 
         this.product.variants[this.visible] = this.variant;
         this.popupEditVariant = false;
         this.variant = [];
-        this.visible = ""; 
+        this.visible = "";
       }
     },
     hideEditVariant() {

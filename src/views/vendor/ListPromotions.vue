@@ -168,49 +168,60 @@ export default {
         this.user.vendor.promotions.unshift(this.promotion);
         this.popupPromo = false;
 
-        window.cordova.plugin.http.setDataSerializer('json');
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/user/api/promotion/add`,
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+            data: this.promotion,
+          });
 
-        window.cordova.plugin.http.post(
-          `${this.baseUrl}/user/api/promotion/add`,
-          this.promotion,
-          { Authorization: `Bearer ${this.token}` },
-          (response) => {
-            const updatedUser = JSON.parse(response.data);
-            mainStore.setUser(updatedUser);
-            this.user = updatedUser;
-            this.promotion = { title: '', type: '', value: null, isActive: true };
-          },
-          async (response) => {
-            const errorMessage = JSON.parse(response.error);
-            console.log(errorMessage);
+          const updatedUser = response.data;
+          mainStore.setUser(updatedUser);
+          this.user = updatedUser;
 
-            await this.$Toast.show({
-              text: errorMessage,
-              duration: 'long',
-              position: 'top',
-            });
-          }
-        );
+          this.promotion = { title: '', type: '', value: null, isActive: true };
+        } catch (error) {
+          console.error(error);
+          const errorMessage = error.response?.data || 'An error occurred';
+
+          await this.$Toast.show({
+            text: errorMessage,
+            duration: 'long',
+            position: 'top',
+          });
+        }
       }
     },
-    deletePromo(promo, index) {
+    async deletePromo(promo, index) {
       const mainStore = useMainStore();
 
       this.$Haptics.impact({ style: 'medium' });
       this.user.vendor.promotions.splice(index, 1);
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotion/delete/${promo.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        const updatedUser = JSON.parse(response.data);
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/promotion/delete/${promo.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const updatedUser = response.data;
         mainStore.setUser(updatedUser);
         this.user = updatedUser;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.error(error);
+      }
     },
     showPromo() {
       this.$Haptics.impact({ style: 'medium' });
       this.popupPromo = true;
     },
-    check(promo) {
+    async check(promo) {
       const mainStore = useMainStore();
 
       if (promo.isActive) {
@@ -222,14 +233,22 @@ export default {
         promo.isActive = true;
       }
 
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotion/activate/${promo.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        const updatedUser = JSON.parse(response.data);
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/promotion/activate/${promo.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const updatedUser = response.data;
         mainStore.setUser(updatedUser);
         this.user = updatedUser;
-      }, (response) => {
-        console.log(response.error);
-      });
-    }
+      } catch (error) {
+        console.error(error);
+      }
+    },
   }
 };
 </script>

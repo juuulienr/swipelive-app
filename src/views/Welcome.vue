@@ -320,71 +320,73 @@ export default {
     async facebook() {
       this.$Haptics.impact({ style: 'medium' });
 
-      window.facebookConnectPlugin.login(['email', 'public_profile'], (response) => {
-        console.log(response);
-        this.loading = true;
+      window.facebookConnectPlugin.login(
+        ['email', 'public_profile'],
+        async (response) => {
+          console.log(response);
+          this.loading = true;
 
-        window.facebookConnectPlugin.api(
-          `me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=${response.authResponse.accessToken}`,
-          ["email", "public_profile"],
-          async (result) => {
-            console.log(result);
-            this.email = result.email;
-            this.password = Math.random().toString(36).slice(-15);
+          window.facebookConnectPlugin.api(
+            `me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=${response.authResponse.accessToken}`,
+            ["email", "public_profile"],
+            async (result) => {
+              console.log(result);
+              this.email = result.email;
+              this.password = Math.random().toString(36).slice(-15);
 
-            window.cordova.plugin.http.setDataSerializer('json');
-            const httpParams = {
-              email: this.email.toLowerCase(),
-              password: this.password,
-              firstname: result.first_name,
-              lastname: result.last_name,
-              picture: result.picture.data.url,
-              facebookId: response.authResponse.userID,
-              wifiIPAddress: this.wifiIPAddress,
-              carrierIPAddress: this.carrierIPAddress,
-              connection: this.connection,
-              device: this.device,
-              timezone: this.timezone,
-              locale: this.locale,
-            };
-            const httpHeader = { 'Content-Type': 'application/json; charset=UTF-8' };
+              const httpParams = {
+                email: this.email.toLowerCase(),
+                password: this.password,
+                firstname: result.first_name,
+                lastname: result.last_name,
+                picture: result.picture.data.url,
+                facebookId: response.authResponse.userID,
+                wifiIPAddress: this.wifiIPAddress,
+                carrierIPAddress: this.carrierIPAddress,
+                connection: this.connection,
+                device: this.device,
+                timezone: this.timezone,
+                locale: this.locale,
+              };
 
-            await window.cordova.plugin.http.post(
-              `${this.baseUrl}/api/authentication/facebook`,
-              httpParams,
-              httpHeader,
-              (response) => {
-                this.authenticate(response.data);
-              },
-              async (response) => {
+              try {
+                const apiResponse = await this.$CapacitorHttp.request({
+                  method: 'POST',
+                  url: `${this.baseUrl}/api/authentication/facebook`,
+                  headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                  data: httpParams,
+                });
+
+                this.authenticate(apiResponse.data);
+              } catch (error) {
                 this.loading = false;
-                console.log(JSON.parse(response.error));
+                console.log(error);
+
                 await this.$Toast.show({
                   text: 'Oups ! Une erreur est survenue.',
                   duration: 'long',
                   position: 'top',
                 });
               }
-            );
-          },
-          (error) => {
-            this.loading = false;
-            console.log("Failed: ", error);
-          }
-        );
-      }, (loginError) => {
-        console.log(loginError);
-      });
+            },
+            (error) => {
+              this.loading = false;
+              console.log("Failed: ", error);
+            }
+          );
+        },
+        (loginError) => {
+          console.log(loginError);
+        }
+      );
     },
     async google() {
       this.$Haptics.impact({ style: 'medium' });
 
-      console.log(window.cordova.platformId);
-
       let clientId;
-      if (window.cordova.platformId === "android") {
+      if (this.$Capacitor.getPlatform() === "android") {
         clientId = "996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q.apps.googleusercontent.com";
-      } else if (window.cordova.platformId === "ios") {
+      } else if (this.$Capacitor.getPlatform() === "ios") {
         clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
       }
 
@@ -403,8 +405,6 @@ export default {
           this.email = userDetails.email;
           this.password = Math.random().toString(36).slice(-15);
 
-          window.cordova.plugin.http.setDataSerializer('json');
-          const httpHeader = { 'Content-Type': 'application/json; charset=UTF-8' };
           const httpParams = {
             email: this.email.toLowerCase(),
             password: this.password,
@@ -420,24 +420,26 @@ export default {
             locale: this.locale,
           };
 
-          await window.cordova.plugin.http.post(
-            `${this.baseUrl}/api/authentication/google`,
-            httpParams,
-            httpHeader,
-            (response) => {
-              console.log(response);
-              this.authenticate(response.data);
-            },
-            async (response) => {
-              this.loading = false;
-              console.log(JSON.parse(response.error));
-              await this.$Toast.show({
-                text: 'Oups ! Une erreur est survenue.',
-                duration: 'long',
-                position: 'top',
-              });
-            }
-          );
+          try {
+            const response = await this.$CapacitorHttp.request({
+              method: 'POST',
+              url: `${this.baseUrl}/api/authentication/google`,
+              headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+              data: httpParams,
+            });
+
+            console.log(response);
+            this.authenticate(response.data);
+          } catch (error) {
+            this.loading = false;
+            console.log(error);
+
+            await this.$Toast.show({
+              text: 'Oups ! Une erreur est survenue.',
+              duration: 'long',
+              position: 'top',
+            });
+          }
         }, async (error) => {
           console.log("Failed to authenticate with Google: " + error);
           await this.$Toast.show({
@@ -451,67 +453,68 @@ export default {
     async apple() {
       this.$Haptics.impact({ style: 'medium' });
 
-      // ajouter apple
-      window.cordova.plugins.SignInWithApple.signin(
-        { requestedScopes: [0, 1] },
-        async (result) => {
-          console.log(result);
-          const identityToken = result.identityToken;
-          const fullName = result.fullName;
-          const appleId = result.user;
-          const parts = identityToken.split('.');
-          const payload = parts[1];
-          const decoded = atob(payload);
-          const decodedResult = JSON.parse(decoded);
+      try {
+        const result = await window.cordova.plugins.SignInWithApple.signin({
+          requestedScopes: [0, 1],
+        });
 
-          this.loading = true;
-          this.email = decodedResult.email;
-          this.password = Math.random().toString(36).slice(-15);
+        console.log(result);
 
-          window.cordova.plugin.http.setDataSerializer('json');
-          const httpHeader = { 'Content-Type': 'application/json; charset=UTF-8' };
-          const httpParams = {
-            email: this.email.toLowerCase(),
-            password: this.password,
-            firstname: fullName.givenName ? fullName.givenName : null,
-            lastname: fullName.familyName ? fullName.familyName : null,
-            appleId: appleId,
-            wifiIPAddress: this.wifiIPAddress,
-            carrierIPAddress: this.carrierIPAddress,
-            connection: this.connection,
-            device: this.device,
-            timezone: this.timezone,
-            locale: this.locale,
-          };
+        const identityToken = result.identityToken;
+        const fullName = result.fullName;
+        const appleId = result.user;
+        const parts = identityToken.split('.');
+        const payload = parts[1];
+        const decoded = atob(payload);
+        const decodedResult = JSON.parse(decoded);
 
-          await window.cordova.plugin.http.post(
-            `${this.baseUrl}/api/authentication/apple`,
-            httpParams,
-            httpHeader,
-            (response) => {
-              console.log(response);
-              this.authenticate(response.data);
-            },
-            async (response) => {
-              this.loading = false;
-              console.log(JSON.parse(response.error));
-              await this.$Toast.show({
-                text: 'Oups ! Une erreur est survenue.',
-                duration: 'long',
-                position: 'top',
-              });
-            }
-          );
-        },
-        async (error) => {
+        this.loading = true;
+        this.email = decodedResult.email;
+        this.password = Math.random().toString(36).slice(-15);
+
+        const httpParams = {
+          email: this.email.toLowerCase(),
+          password: this.password,
+          firstname: fullName.givenName || null,
+          lastname: fullName.familyName || null,
+          appleId: appleId,
+          wifiIPAddress: this.wifiIPAddress,
+          carrierIPAddress: this.carrierIPAddress,
+          connection: this.connection,
+          device: this.device,
+          timezone: this.timezone,
+          locale: this.locale,
+        };
+
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/api/authentication/apple`,
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            data: httpParams,
+          });
+
+          console.log(response);
+          this.authenticate(response.data);
+        } catch (error) {
+          this.loading = false;
           console.log(error);
+
           await this.$Toast.show({
-            text: error,
+            text: 'Oups ! Une erreur est survenue.',
             duration: 'long',
             position: 'top',
           });
         }
-      );
+      } catch (error) {
+        console.log(error);
+
+        await this.$Toast.show({
+          text: error,
+          duration: 'long',
+          position: 'top',
+        });
+      }
     },
     resetPassword() {
       this.$Haptics.impact({ style: 'medium' });
@@ -787,54 +790,50 @@ export default {
 
       this.uploadImage(options);
     },
-    uploadImage(options) {
+    async uploadImage(options) {
       navigator.camera.getPicture(
-        (imageUri) => {
+        async (imageUri) => {
           console.log(imageUri);
           this.loadingImg = true;
 
-          window.cordova.plugin.http.setDataSerializer('json');
-          if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-            window.cordova.plugin.http.uploadFile(
-              `${this.baseUrl}/api/registration/picture`,
-              {},
-              { Authorization: "Bearer " },
-              imageUri,
-              'picture',
-              async (response) => {
-                console.log(JSON.parse(response.data));
-                this.picture = JSON.parse(response.data);
-                this.loadingImg = false;
-              },
-              async (response) => {
-                console.log(JSON.parse(response));
-                await this.$Toast.show({
-                  text: 'Oups ! Une erreur est survenue.',
-                  duration: 'long',
-                  position: 'top',
-                });
-              }
-            );
-          } else {
-            const imgData = `data:image/jpeg;base64,${imageUri}`;
-            window.cordova.plugin.http.post(
-              `${this.baseUrl}/api/registration/picture`,
-              { picture: imgData },
-              { Authorization: "Bearer " },
-              async (response) => {
-                console.log(JSON.parse(response.data));
-                this.picture = JSON.parse(response.data);
-                this.loadingImg = false;
-              },
-              async (response) => {
-                console.log(JSON.parse(response.error));
-                await this.$Toast.show({
-                  text: 'Oups ! Une erreur est survenue.',
-                  duration: 'long',
-                  position: 'top',
-                });
-              }
-            );
+          try {
+            if (this.$Capacitor.getPlatform() === "android" || this.$Capacitor.getPlatform() === "ios") {
+              const formData = new FormData();
+              formData.append("picture", imageUri);
+
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/api/registration/picture`,
+                headers: { Authorization: "Bearer " },
+                body: formData,
+              });
+
+              console.log(response.data);
+              this.picture = response.data;
+              this.loadingImg = false;
+            } else {
+              const imgData = `data:image/jpeg;base64,${imageUri}`;
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/api/registration/picture`,
+                headers: { Authorization: "Bearer " },
+                data: { picture: imgData },
+              });
+
+              console.log(response.data);
+              this.picture = response.data;
+              this.loadingImg = false;
+            }
+          } catch (error) {
+            console.log(error);
+
+            await this.$Toast.show({
+              text: 'Oups ! Une erreur est survenue.',
+              duration: 'long',
+              position: 'top',
+            });
+
+            this.loadingImg = false;
           }
         },
         (error) => {

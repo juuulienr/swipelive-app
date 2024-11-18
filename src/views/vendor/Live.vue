@@ -682,19 +682,13 @@ export default {
       loading: true 
     }
   },
-  created() {
+  async created() {
     document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-
-    if (window.cordova.plugin && window.cordova.plugin.http) {
-      this.http = window.cordova.plugin.http;
-      this.http.setDataSerializer('json');
-    }
-
-    if (window.cordova && window.cordova.platformId === "browser") {
+    if (this.$Capacitor.getPlatform() === "web") {
       this.browser = true;
     }
 
-    if (window.cordova && window.cordova.platformId === "ios") {
+    if (this.$Capacitor.getPlatform() === "ios") {
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 7px)';
       this.safeareaBottom = 'calc(env(safe-area-inset-bottom) + 0px)';
@@ -702,7 +696,7 @@ export default {
       this.safeareaBottom3 = 'calc(env(safe-area-inset-bottom) + 185px)';
     }
 
-    if (window.cordova && window.cordova.platformId === "android") {
+    if (this.$Capacitor.getPlatform() === "android") {
       this.safeareaTop = '25px';
       this.safeareaTop2 = '32px';
       this.safeareaBottom = '25px';
@@ -1134,7 +1128,7 @@ export default {
       this.popupPromo = true;
       this.popupMultistream = false;
     },
-    savePromo() {
+    async savePromo() {
       const mainStore = useMainStore();
 
       this.$Haptics.impact({ style: 'medium' });
@@ -1142,52 +1136,70 @@ export default {
         this.promotion.value = parseFloat(this.promotion.value);
       }
 
-      if (this.promotion.type == 'fixe' || (this.promotion.type == 'percent' && this.promotion.value < 100)) {
+      if (this.promotion.type === 'fixe' || (this.promotion.type === 'percent' && this.promotion.value < 100)) {
         this.promotion.vendor = this.user.id;
         this.promotion.title = this.promotion.title.toUpperCase();
-        this.user.vendor.promotions.map((promo, index) => {
+        this.user.vendor.promotions.map((promo) => {
           promo.isActive = false;
         });
         this.user.vendor.promotions.unshift(this.promotion);
 
-        window.cordova.plugin.http.setDataSerializer('json');
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/promotion/add", this.promotion, { Authorization: "Bearer " + this.token }, (response) => {
-          mainStore.setUser(JSON.parse(response.data));
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/user/api/promotion/add`,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: this.promotion,
+          });
+
+          mainStore.setUser(response.data);
           this.user = mainStore.user;
-          this.promotion = { 'title': '', 'type': '', 'value': null, 'isActive': true };
-        }, (response) => {
-          console.log(JSON.parse(response.error));
-        });
+          this.promotion = { title: '', type: '', value: null, isActive: true };
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
-    deletePromo(promo, index) {
+    async deletePromo(promo, index) {
       const mainStore = useMainStore();
       this.user.vendor.promotions.splice(index, 1);
-      
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/delete/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        mainStore.setUser(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/promotion/delete/${promo.id}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        mainStore.setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    check(promo) {
+    async check(promo) {
       const mainStore = useMainStore();
 
-      if(promo.isActive) {
+      if (promo.isActive) {
         promo.isActive = false;
       } else {
-        this.user.vendor.promotions.map((promotion, index) => {
+        this.user.vendor.promotions.map((promotion) => {
           promotion.isActive = false;
         });
         promo.isActive = true;
       }
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotion/activate/" + promo.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        mainStore.setUser(JSON.parse(response.data));
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/promotion/activate/${promo.id}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        mainStore.setUser(response.data);
         this.user = mainStore.user;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.log(error);
+      }
     },
     hidePromo() {
       this.popupPromo = false;

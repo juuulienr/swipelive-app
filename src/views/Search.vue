@@ -66,24 +66,26 @@ export default {
       loadingSearch: false,
     };
   },
-  created() {
+  async created() {
     const mainStore = useMainStore();
 
     if (this.user.length === 0) {
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/profile`,
-        {},
-        { Authorization: `Bearer ${this.token}` },
-        (response) => {
-          const userData = JSON.parse(response.data);
-          this.user = userData;
-          mainStore.setUser(userData); // Utilisation de l'action Pinia
-          this.changed();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/profile`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const userData = response.data;
+        this.user = userData;
+        mainStore.setUser(userData);
+        this.changed();
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       this.changed();
     }
@@ -98,54 +100,66 @@ export default {
     addFollowing() {
       this.popupSearch = true;
     },
-    loadFollowing() {
+    async loadFollowing() {
       const mainStore = useMainStore();
 
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/following`,
-        {},
-        { Authorization: `Bearer ${this.token}` },
-        (response) => {
-          const followingData = JSON.parse(response.data);
-          this.following = followingData;
-          mainStore.setFollowing(followingData); // Utilisation de l'action Pinia
-        },
-        (response) => {
-          console.log(response.error);
-        }
-      );
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/following`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const followingData = response.data;
+        this.following = followingData;
+        mainStore.setFollowing(followingData);
+      } catch (error) {
+        console.error(error);
+      }
     },
-    changed() {
+    async changed() {
       if (this.searchValue.length > 0) {
         this.loadingSearch = true;
-        window.cordova.plugin.http.get(
-          `${this.baseUrl}/user/api/user/search`,
-          { search: this.searchValue },
-          { Authorization: `Bearer ${this.token}` },
-          (response) => {
-            this.results = JSON.parse(response.data);
-            this.updateSearchFollowing();
-            this.loadingSearch = false;
-          },
-          (response) => {
-            console.log(response.error);
-          }
-        );
+
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/user/search`,
+            params: { search: this.searchValue },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          });
+
+          this.results = response.data;
+          this.updateSearchFollowing();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.loadingSearch = false;
+        }
       } else {
         this.loadingSearch = true;
-        window.cordova.plugin.http.get(
-          `${this.baseUrl}/user/api/user/search`,
-          { search: this.searchValue },
-          { Authorization: `Bearer ${this.token}` },
-          (response) => {
-            this.results = JSON.parse(response.data);
-            this.updateSearchFollowing();
-            this.loadingSearch = false;
-          },
-          (response) => {
-            console.log(response.error);
-          }
-        );
+
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/user/search`,
+            params: { search: this.searchValue },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          });
+
+          this.results = response.data;
+          this.updateSearchFollowing();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.loadingSearch = false;
+        }
       }
     },
     updateSearchFollowing() {
@@ -166,30 +180,33 @@ export default {
         this.searchFollowing.push({ value: isFollower });
       });
     },
-    follow(id, index) {
+    async follow(id, index) {
       const mainStore = useMainStore();
-
       this.searchFollowing[index].value = !this.searchFollowing[index].value;
 
-      window.cordova.plugin.http.get(
-        `${this.baseUrl}/user/api/follow/${id}`,
-        {},
-        { Authorization: `Bearer ${this.token}` },
-        (response) => {
-          this.changed();
-          const updatedUser = JSON.parse(response.data);
-          this.user = updatedUser;
-          mainStore.setUser(updatedUser); // Utilisation de l'action Pinia
-          this.loadFollowing();
-        },
-        (response) => {
-          console.log(response.error);
-        }
-      );
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/follow/${id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.changed();
+
+        const updatedUser = response.data;
+        this.user = updatedUser;
+        mainStore.setUser(updatedUser);
+
+        await this.loadFollowing();
+      } catch (error) {
+        console.error(error);
+      }
     },
     goToProfile(user) {
       const mainStore = useMainStore();
-      mainStore.setProfile(user); // Utilisation de l'action Pinia
+      mainStore.setProfile(user);
       this.$router.push({ name: 'Profile', params: { id: user.id } });
     },
   },

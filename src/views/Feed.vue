@@ -441,10 +441,7 @@ export default {
     }
 
     this.fetchSafeAreaInsets();
-
-    // if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
     //   fcm.onDeviceReady();
-    // }
 
     // Récupération du profil utilisateur
     if (this.mainStore.user.length === 0) {
@@ -919,19 +916,28 @@ export default {
       await this.addToCart();
       this.getShippingPrice();
     },
-    getShippingPrice() {
+    async getShippingPrice() {
       if (this.user.shippingAddresses.length) {
         this.mainStore.setShippingProducts([]);
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", {"lineItems": this.lineItems}, { Authorization: "Bearer " + this.token }, (response) => {
-          this.mainStore.setShippingProducts(JSON.parse(response.data));
+
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/user/api/shipping/price`,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: { lineItems: this.lineItems },
+          });
+
+          this.mainStore.setShippingProducts(response.data);
           this.popupProduct = false;
           this.popupCheckout = true;
           this.loadingShipping = false;
-        }, (response) => {
+        } catch (error) {
+          console.log(error);
           this.popupProduct = false;
           this.popupCheckout = true;
           this.loadingShipping = false;
-        });
+        }
       } else {
         this.popupProduct = false;
         this.popupCheckout = true;
@@ -1031,14 +1037,22 @@ export default {
       this.popupProduct = false;
       this.loadShopVendor(vendor.id);
     },
-    loadShopVendor(id) {
+    async loadShopVendor(id) {
       this.loadingShop = true;
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/shop/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.shop = JSON.parse(response.data);
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/shop/${id}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        this.shop = response.data;
         this.loadingShop = false;
-      }, (response) => {
-        console.log(response.error);
-      });
+      } catch (error) {
+        console.log(error);
+        this.loadingShop = false;
+      }
     },
     hideShop() {    
       this.popupShop = false;
@@ -1320,7 +1334,7 @@ export default {
         }
       });
     },
-    follow(id) {
+    async follow(id) {
       this.data.map((element, index) => {
         if (element.value.vendor.user.id === id) {
           this.following[index].value = true;
@@ -1329,18 +1343,30 @@ export default {
         }
       });
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.mainStore.setUser(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/follow/${id}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        this.mainStore.setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    favoris(product) { 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.mainStore.setUser(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+    async favoris(product) {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/favoris/${product.id}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        this.mainStore.setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async share() {
       try {

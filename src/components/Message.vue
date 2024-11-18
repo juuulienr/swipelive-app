@@ -100,7 +100,7 @@ export default {
     };
   },
   created() {
-    if (window.cordova && window.cordova.platformId === "ios") {
+    if (this.$Capacitor.getPlatform() === "ios") {
       this.chatHeight = 'calc(100vh - 95px)';
       this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
     }
@@ -150,24 +150,37 @@ export default {
           };
         }
 
-        await window.cordova.plugin.http.post(url, httpParams, { Authorization: `Bearer ${this.token}` }, (response) => {
-          const updatedDiscussion = JSON.parse(response.data);
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: url,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: httpParams,
+          });
+
+          const updatedDiscussion = response.data;
           this.$emit('updateDiscussions', updatedDiscussion);
-        }, (response) => {
-          console.log(response.error);
-        });
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
-    seenDiscussion() {
+    async seenDiscussion() {
       if (this.discussion.id) {
         const unseen = this.user.id === this.discussion.user.id ? this.discussion.unseen : this.discussion.unseenVendor;
         if (unseen) {
-          window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/seen`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-            const updatedDiscussion = JSON.parse(response.data);
+          try {
+            const response = await this.$CapacitorHttp.request({
+              method: 'GET',
+              url: `${this.baseUrl}/user/api/discussions/${this.discussion.id}/seen`,
+              headers: { Authorization: `Bearer ${this.token}` },
+            });
+
+            const updatedDiscussion = response.data;
             this.$emit('updateDiscussions', updatedDiscussion);
-          }, (response) => {
-            console.log(response.error);
-          });
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     },
@@ -197,34 +210,84 @@ export default {
 
       return timeDifference > 20 * 60 * 1000;
     },
-    uploadImage(options) {
-      navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        window.cordova.plugin.http.setDataSerializer('json');
+    async uploadImage(options) {
+      navigator.camera.getPicture(
+        async (imageUri) => {
+          console.log(imageUri);
 
-        const httpParams = { fromUser: this.user.id, picture: imageUri, pictureType: null, loading: true, text: null };
-        this.discussion.messages.push(httpParams);
-        this.scrollToBottomWithTimeout();
+          const httpParams = {
+            fromUser: this.user.id,
+            picture: imageUri,
+            pictureType: null,
+            loading: true,
+            text: null,
+          };
+          this.discussion.messages.push(httpParams);
+          this.scrollToBottomWithTimeout();
 
-        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          window.cordova.plugin.http.uploadFile(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`, {}, { Authorization: `Bearer ${this.token}` }, imageUri, 'picture', (response) => {
-            const updatedDiscussion = JSON.parse(response.data);
-            this.$emit('updateDiscussions', updatedDiscussion);
-          }, (response) => {
-            console.log(response.error);
+          try {
+            if (this.$Capacitor.getPlatform() === "android" || this.$Capacitor.getPlatform() === "ios") {
+              const formData = new FormData();
+              formData.append("picture", imageUri);
+
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`,
+                headers: { Authorization: `Bearer ${this.token}` },
+                body: formData,
+              });
+
+              const updatedDiscussion = response.data;
+              this.$emit('updateDiscussions', updatedDiscussion);
+            } else {
+              const imgData = `data:image/jpeg;base64,${imageUri}`;
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`,
+                headers: { Authorization: `Bearer ${this.token}` },
+                data: { picture: imgData },
+              });
+
+              const updatedDiscussion = response.data;
+              this.$emit('updateDiscussions', updatedDiscussion);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        },
+        (error) => {
+          console.log("Impossible de récupérer l'image : " + error);
+        },
+        options
+      );
+    },
+    async stopWriting() {
+      if (this.writing) {
+        this.writing = false;
+
+        try {
+          await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/discussions/${this.discussion.id}/writing/stop`,
+            headers: { Authorization: `Bearer ${this.token}` },
           });
-        } else {
-          const imgData = `data:image/jpeg;base64,${imageUri}`;
-          window.cordova.plugin.http.post(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`, { picture: imgData }, { Authorization: `Bearer ${this.token}` }, (response) => {
-            const updatedDiscussion = JSON.parse(response.data);
-            this.$emit('updateDiscussions', updatedDiscussion);
-          }, (response) => {
-            console.log(response.error);
-          });
+        } catch (error) {
+          console.log(error);
         }
-      }, (error) => {
-        console.log("Impossible de récupérer l'image : " + error);
-      }, options);
+      }
+    },
+    async startWriting() {
+      this.writing = true;
+
+      try {
+        await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/discussions/${this.discussion.id}/writing`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     onInput() {
       if (this.discussion.id) {
@@ -246,20 +309,6 @@ export default {
       if (!["btnSend", "btnPicture"].includes(event.target.id)) {
         this.writeInput = 'calc(env(safe-area-inset-bottom) + 0px)';
       }
-    },
-    stopWriting() {
-      if (this.writing) {
-        this.writing = false;
-        window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/writing/stop`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {}, (response) => {
-          console.log(response.error);
-        });
-      }
-    },
-    startWriting() {
-      this.writing = true;
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions/${this.discussion.id}/writing`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {}, (response) => {
-        console.log(response.error);
-      });
     },
     async uploadPicture() {
       const result = await this.$ActionSheet.showActions({

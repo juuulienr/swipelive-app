@@ -551,10 +551,7 @@ export default {
       }
     }
   },
-  created() {
-    
-    
-    
+  async created() {
     console.log(this.lineItems);
 
     if (this.lineItems.length) {
@@ -570,22 +567,32 @@ export default {
       this.total = this.subTotal;
 
       if (this.lineItems[0].vendor) {
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/promotions/active/" + this.lineItems[0].product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          this.promotion = JSON.parse(response.data);
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/promotions/active/${this.lineItems[0].product.id}`,
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          });
+
+          this.promotion = response.data;
           console.log(this.promotion);
 
           if (this.promotion) {
-            if (this.promotion.type == "percent") {
+            if (this.promotion.type === "percent") {
               this.promotionAmount = this.subTotal * (this.promotion.value / 100);
             } else {
               this.promotionAmount = this.promotion.value;
             }
-            
-            this.total = (parseFloat(this.subTotal) - parseFloat(this.promotionAmount)).toFixed(2);
+
+            this.total = (
+              parseFloat(this.subTotal) - parseFloat(this.promotionAmount)
+            ).toFixed(2);
           }
-        }, (response) => {
-          console.log(response.error);
-        });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
 
@@ -649,7 +656,7 @@ export default {
     hideShippingAddress() {
       this.popupShippingAddress = false;
     },
-    saveShippingAddress() {
+    async saveShippingAddress() {
       const mainStore = useMainStore();
       this.errorName = false;
       this.errorAddress = false;
@@ -718,29 +725,43 @@ export default {
         	var url = this.baseUrl + "/user/api/shipping/address";
         }
 
-        window.cordova.plugin.http.post(url, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-          this.user = JSON.parse(response.data);
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: url,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: httpParams,
+          });
+
+          this.user = response.data;
           mainStore.setUser(mainStore.user);
           this.getShippingPrice();
           console.log(response);
-        }, (response) => {
-          console.log(response);
+        } catch (error) {
+          console.log(error);
           this.popupShippingAddress = false;
           this.loadingAddress = false;
-        });
+        }
       }
     },
-    getShippingPrice() {
-      window.cordova.plugin.http.post(this.baseUrl + "/user/api/shipping/price", { "lineItems": this.lineItems }, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(JSON.parse(response.data));
-        this.shippingProducts = JSON.parse(response.data);
+    async getShippingPrice() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'POST',
+          url: `${this.baseUrl}/user/api/shipping/price`,
+          headers: { Authorization: `Bearer ${this.token}` },
+          data: { lineItems: this.lineItems },
+        });
+
+        console.log(response.data);
+        this.shippingProducts = response.data;
         this.loadingShipping = false;
         this.popupShippingAddress = false;
         this.loadingAddress = false;
-      }, async (response) => {
-        console.log(response.error);
+      } catch (error) {
+        console.log(error);
         await this.$Toast.show({
-          text: response.error,
+          text: error.message || 'Une erreur est survenue',
           duration: 'long',
           position: 'top',
         });
@@ -748,54 +769,55 @@ export default {
         this.loadingShipping = false;
         this.popupShippingAddress = false;
         this.loadingAddress = false;
-      });
+      }
     },
-    showRelayPopup() {
+    async showRelayPopup() {
       if (this.countryShort && !this.loadingShipping && this.shippingProducts && this.shippingProducts.service_point) {
         this.popupRelay = true;
         this.shippingMethod = "service_point";
         this.tabMap = true;
         this.tabList = false;
-        this.locationMarkers = []; // Vide l'array actuel des marqueurs
+        this.locationMarkers = [];
         this.mapSelected = null;
 
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/dropoff-locations", { "service_point": this.shippingProducts.service_point }, { Authorization: "Bearer " + this.token }, (response) => {
-            this.points = JSON.parse(response.data);
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/user/api/dropoff-locations`,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: { service_point: this.shippingProducts.service_point },
+          });
 
-            // Création d'un tableau temporaire pour stocker les marqueurs
-            const markersTemp = [];
+          this.points = response.data;
+          const markersTemp = [];
 
-            this.points.forEach((point, index) => {
-              const latitude = parseFloat(point.latitude);
-              const longitude = parseFloat(point.longitude);
+          this.points.forEach((point, index) => {
+            const latitude = parseFloat(point.latitude);
+            const longitude = parseFloat(point.longitude);
 
-              if (!isNaN(latitude) && !isNaN(longitude)) {
-                const marker = {
-                  position: { lat: latitude, lng: longitude },
-                };
-                markersTemp.push(marker); // Ajoute le marqueur au tableau temporaire
-              } else {
-                console.warn(`Coordonnées non valides pour le point à l'index ${index}`);
-              }
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+              const marker = {
+                position: { lat: latitude, lng: longitude },
+              };
+              markersTemp.push(marker);
+            } else {
+              console.warn(`Coordonnées non valides pour le point à l'index ${index}`);
+            }
 
-              if (!this.mapSelected) {
-                this.mapSelected = point;
-              }
+            if (!this.mapSelected) {
+              this.mapSelected = point;
+            }
 
-              if (index === 0) {
-                this.center = { lat: latitude, lng: longitude };
-              }
-            });
+            if (index === 0) {
+              this.center = { lat: latitude, lng: longitude };
+            }
+          });
 
-            // Ajout de tous les marqueurs à `locationMarkers` en une fois
-            this.locationMarkers = markersTemp;
-            console.log("Tous les marqueurs ont été ajoutés :", this.locationMarkers);
-
-          },
-          (response) => {
-            console.error("Erreur lors de la récupération des points :", response);
-          }
-        );
+          this.locationMarkers = markersTemp;
+          console.log("Tous les marqueurs ont été ajoutés :", this.locationMarkers);
+        } catch (error) {
+          console.error("Erreur lors de la récupération des points :", error);
+        }
       }
     },
     hideRelay() {
@@ -860,82 +882,105 @@ export default {
       }
     },
     async payment() {
-      // check si montant inférieur à 5 ou 10€ ?
       const mainStore = useMainStore();
 
       if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
         this.loadingPayment = true;
-        window.cordova.plugin.http.post(this.baseUrl + "/user/api/orders/payment", { "lineItems": this.lineItems, "identifier": this.identifier, "promotionId": this.promotion ? this.promotion.id : null, "promotionAmount": this.promotionAmount, "shippingPrice": this.shippingPrice, "shippingCarrierId": this.shippingCarrierId, "shippingCarrierName": this.shippingCarrierName, "shippingServiceId": this.shippingServiceId, "shippingServiceName": this.shippingServiceName, "shippingServiceCode": this.shippingServiceCode, "expectedDelivery": this.expectedDelivery, "dropoffLocationId": this.pointSelected ? this.pointSelected.dropoff_location_id : null, "dropoffCountryCode": this.pointSelected ? this.pointSelected.country_code : null, "dropoffName": this.pointSelected ? this.pointSelected.name : null, "dropoffPostcode": this.pointSelected ? this.pointSelected.postcode : null }, { Authorization: "Bearer " + this.token }, (response) => {
-          var response = JSON.parse(response.data);
-          var billingConfig = { "billingEmail": "", "billingName": "", "billingPhone": "", "billingCity": "", "billingCountry": "", "billingLine1": "", "billingLine2": "", "billingPostalCode": "", "billingState": "" };
-          console.log(response);
-          console.log(JSON.parse(response.order));
 
-          if (window.cordova.platformId !== "browser") {
-            window.StripeUIPlugin.presentPaymentSheet(response.paymentConfig, billingConfig, async (result) => {
-              console.log(result);
-              this.loadingPayment = false;
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/user/api/orders/payment`,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: {
+              lineItems: this.lineItems,
+              identifier: this.identifier,
+              promotionId: this.promotion ? this.promotion.id : null,
+              promotionAmount: this.promotionAmount,
+              shippingPrice: this.shippingPrice,
+              shippingCarrierId: this.shippingCarrierId,
+              shippingCarrierName: this.shippingCarrierName,
+              shippingServiceId: this.shippingServiceId,
+              shippingServiceName: this.shippingServiceName,
+              shippingServiceCode: this.shippingServiceCode,
+              expectedDelivery: this.expectedDelivery,
+              dropoffLocationId: this.pointSelected ? this.pointSelected.dropoff_location_id : null,
+              dropoffCountryCode: this.pointSelected ? this.pointSelected.country_code : null,
+              dropoffName: this.pointSelected ? this.pointSelected.name : null,
+              dropoffPostcode: this.pointSelected ? this.pointSelected.postcode : null,
+            },
+          });
 
-              if (window.cordova.platformId === "android") {
-                var result = JSON.parse(result);
-              }
+          const paymentResponse = response.data;
+          const billingConfig = {
+            billingEmail: "",
+            billingName: "",
+            billingPhone: "",
+            billingCity: "",
+            billingCountry: "",
+            billingLine1: "",
+            billingLine2: "",
+            billingPostalCode: "",
+            billingState: "",
+          };
 
-              if (result.code === "0") {
-                // PAYMENT_COMPLETED
-                this.lineItems = [];
-                mainStore.setLineItems(this.lineItems);
+          console.log(paymentResponse);
+          console.log(paymentResponse.order);
 
-                if (this.fullscreen) {
-                  this.$Haptics.impact({ style: 'medium' });
+          if (this.$Capacitor.getPlatform() !== "web") {
+            window.StripeUIPlugin.presentPaymentSheet(
+              paymentResponse.paymentConfig,
+              billingConfig,
+              async (result) => {
+                console.log(result);
+                this.loadingPayment = false;
 
-                  this.$router.push({ name: 'Home' });
-                } else {
-                  this.$emit('paymentSuccess', JSON.parse(response.order));
+                if (Capacitor.getPlatform() === "android") {
+                  result = JSON.parse(result);
                 }
-              } else if (result.code === "1") {
-                // PAYMENT_CANCELED
-                await this.$Toast.show({
-                  text: result.message,
-                  duration: 'long',
-                  position: 'top',
-                });
-              } else if (result.code === "2") {
-                // PAYMENT_FAILED
-                await this.$Toast.show({
-                  text: result.message,
-                  duration: 'long',
-                  position: 'top',
-                });
-              } else {
-                await this.$Toast.show({
-                  text: result.message,
-                  duration: 'long',
-                  position: 'top',
-                });
+
+                if (result.code === "0") {
+                  // PAYMENT_COMPLETED
+                  this.lineItems = [];
+                  mainStore.setLineItems(this.lineItems);
+
+                  if (this.fullscreen) {
+                    this.$Haptics.impact({ style: 'medium' });
+                    this.$router.push({ name: 'Home' });
+                  } else {
+                    this.$emit('paymentSuccess', JSON.parse(paymentResponse.order));
+                  }
+                } else {
+                  await this.$Toast.show({
+                    text: result.message,
+                    duration: 'long',
+                    position: 'top',
+                  });
+                }
+              },
+              (error) => {
+                console.log(error);
               }
-            }, (error) => {
-              console.log(error);
-            });
+            );
           } else {
             this.lineItems = [];
             mainStore.setLineItems(this.lineItems);
 
-
             if (this.fullscreen) {
               this.$router.push({ name: 'Home' });
             } else {
-              this.$emit('paymentSuccess', response.order);
+              this.$emit('paymentSuccess', paymentResponse.order);
             }
           }
-        }, async (response) => {
-          console.log(response.error);
+        } catch (error) {
+          console.log(error);
           await this.$Toast.show({
-            text: response.error,
+            text: error.message || 'Une erreur est survenue',
             duration: 'long',
             position: 'top',
           });
           this.loadingPayment = false;
-        });
+        }
       }
     },
     changeToAddress() {

@@ -101,17 +101,13 @@ export default {
     };
   },
   created() {
-    
-    
-    
-    
     this.loadDiscussions();
   },
-  mounted() {
+  async mounted() {
     this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
     const channel = this.pusher.subscribe("discussion_channel");
 
-    channel.bind("new_message", (data) => {
+    channel.bind("new_message", async (data) => {
       if (data.message.fromUser != this.user.id && this.selectedDiscussion) {
         if (data.discussionId === this.selectedDiscussion.id) {
           this.selectedDiscussion.messages = this.selectedDiscussion.messages.filter(message => !message.writing);
@@ -123,11 +119,18 @@ export default {
           }
         }
         
-        window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-          this.discussions = JSON.parse(response.data);
-        }, (response) => {
-          console.error(response.error);
-        });
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/discussions`,
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          });
+          this.discussions = response.data;
+        } catch (error) {
+          console.error(error);
+        }
       }
     });
   },
@@ -148,9 +151,17 @@ export default {
     },
   },
   methods: {
-    loadDiscussions() {
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/discussions`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        this.discussions = JSON.parse(response.data);
+    async loadDiscussions() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/discussions`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        this.discussions = response.data;
         this.loading = false;
 
         this.discussions.forEach(discussion => {
@@ -167,9 +178,9 @@ export default {
             ? { id: null, user: { id: this.user.id }, vendor: { id: this.userId, picture: this.picture, vendor: { pseudo: this.pseudo }}, messages: [] }
             : { id: null, user: { id: this.userId, firstname: this.firstname, lastname: this.lastname, picture: this.picture }, vendor: { id: this.user.id }, messages: [] };
         }
-      }, (response) => {
-        console.error(response.error);
-      });
+      } catch (error) {
+        console.error(error);
+      }
     },
     goBack() {
       this.$router.push({ name: 'Account' });

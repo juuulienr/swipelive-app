@@ -119,8 +119,7 @@
           </fieldset>
         </div>
 
-
-        <div @click="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 25px 0px;">
+        <div @click.prevent="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 25px 0px;">
           <span v-if="loading">
             <svg viewBox="25 25 50 50" class="loading">
               <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -165,11 +164,6 @@ export default {
       vendor: null,
     }
   },
-  created() {    
-      
-    
-    
-  },  
   mounted() {
     if (this.user.vendor) {
       this.loadGoogleMapsScript()
@@ -184,11 +178,8 @@ export default {
   methods: {
     async submit() {
       this.$Haptics.impact({ style: 'medium' });
-      event.preventDefault();
+      const mainStore = useMainStore();
 
-      const mainStore = useMainStore(); // Utilisation de Pinia pour le store principal
-
-      // Initialisation des erreurs
       this.errorPhone = false;
       this.errorEmail = false;
       this.errorFirstname = false;
@@ -201,7 +192,6 @@ export default {
       this.errorZip = false;
       this.errorCity = false;
 
-      // Validation des champs
       if (!this.user.email || !this.validEmail(this.user.email)) {
         this.errorEmail = true;
       }
@@ -217,7 +207,6 @@ export default {
         this.user.phone = this.user.phone.replace(/\s/g, '');
       }
 
-      // Validation des champs pour le vendeur
       if (this.user.vendor) {
         if (!this.user.vendor.summary) this.errorSummary = true;
         if (!this.user.vendor.address) this.errorAddress = true;
@@ -245,10 +234,8 @@ export default {
         }
       }
 
-      // Envoi des données si pas d'erreur
       if (!this.errorEmail && !this.errorFirstname && !this.errorLastname && !this.errorSummary && !this.errorAddress && !this.errorZip && !this.errorCity && !this.errorCompany && !this.errorSiren && !this.errorPseudo && !this.errorCountry && !this.errorPhone) {
         this.loading = true;
-        window.cordova.plugin.http.setDataSerializer('json');
         let httpParams;
         if (this.user.vendor) {
           httpParams = {
@@ -277,19 +264,20 @@ export default {
           };
         }
 
-        await window.cordova.plugin.http.post(
-          `${this.baseUrl}/user/api/profile/edit`,
-          httpParams,
-          { Authorization: `Bearer ${this.token}` },
-          (response) => {
-            mainStore.setUser(JSON.parse(response.data)); // Mise à jour du store Pinia
-            this.$router.push({ name: 'Account' });
-          },
-          (response) => {
-            console.log(JSON.parse(response.error));
-            this.loading = false;
-          }
-        );
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/user/api/profile/edit`,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: httpParams,
+          });
+
+          mainStore.setUser(response.data);
+          this.$router.push({ name: 'Account' });
+        } catch (error) {
+          console.log(error);
+          this.loading = false;
+        }
       }
     },
     validEmail(email) {
@@ -348,35 +336,51 @@ export default {
 
       this.uploadImage(options);
     },
-    uploadImage(options) {
-      navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        this.loadingImg = true;
+    async uploadImage(options) {
+      navigator.camera.getPicture(
+        async (imageUri) => {
+          console.log(imageUri);
+          this.loadingImg = true;
 
-        window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            console.log(response.data);
-            console.log(JSON.parse(response.data));
-            var result = JSON.parse(response.data);
-            this.user.picture = result.picture;
+          try {
+            if (this.$Capacitor.getPlatform() === "android" || this.$Capacitor.getPlatform() === "ios") {
+              const formData = new FormData();
+              formData.append("picture", imageUri);
+
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/user/api/profile/picture`,
+                headers: { Authorization: `Bearer ${this.token}` },
+                body: formData,
+              });
+
+              const result = response.data;
+              console.log(result);
+              this.user.picture = result.picture;
+              this.loadingImg = false;
+            } else {
+              const imgData = `data:image/jpeg;base64,${imageUri}`;
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/user/api/profile/picture`,
+                headers: { Authorization: `Bearer ${this.token}` },
+                data: { picture: imgData },
+              });
+
+              const result = response.data;
+              this.user.picture = result.picture;
+              this.loadingImg = false;
+            }
+          } catch (error) {
+            console.log(error);
             this.loadingImg = false;
-          }, function(response) {
-            console.log(response.error);
-          });
-        } else {
-          var imgData = "data:image/jpeg;base64," + imageUri;
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            var result = JSON.parse(response.data);
-            this.user.picture = result.picture;
-            this.loadingImg = false;
-          }, function(response) {
-            console.log(response.error);
-          });
-        }
-      }, (error) => {
-        console.log("Impossible de récupérer l'image : " + error);
-      }, options);
+          }
+        },
+        (error) => {
+          console.log("Impossible de récupérer l'image : " + error);
+        },
+        options
+      );
     },
     goBack() {
       this.$router.push({ name: 'Account' });

@@ -38,10 +38,7 @@ export default {
   methods: {
     allowNotif() {
       this.$Haptics.impact({ style: 'medium' });
-
-      // if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-        // fcm.onDeviceReady();
-      // }
+      // fcm.onDeviceReady();
       
       this.notif = false;
       this.step1 = true;

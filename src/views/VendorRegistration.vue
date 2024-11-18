@@ -647,21 +647,49 @@ export default {
         }
       }
 
-      window.cordova.plugin.http.setDataSerializer('json');
-      var httpParams = { "firstname": this.user.firstname, "lastname": this.user.lastname, "email": this.user.email, "phone": this.user.phone, "picture": this.user.picture, "company": this.company, "summary": this.summary, "day": this.user.day, "month": this.user.month, "year": this.user.year, "businessType": this.businessType, "pseudo": this.pseudo, "company": this.company, "siren": this.siren, "address": this.address, "zip": this.zip, "city": this.city, "country": this.country, "countryShort": this.countryShort, "tokenAccount": this.tokenAccount, "tokenPerson": this.tokenPerson };
+      const httpParams = {
+        firstname: this.user.firstname,
+        lastname: this.user.lastname,
+        email: this.user.email,
+        phone: this.user.phone,
+        picture: this.user.picture,
+        company: this.company,
+        summary: this.summary,
+        day: this.user.day,
+        month: this.user.month,
+        year: this.user.year,
+        businessType: this.businessType,
+        pseudo: this.pseudo,
+        company: this.company,
+        siren: this.siren,
+        address: this.address,
+        zip: this.zip,
+        city: this.city,
+        country: this.country,
+        countryShort: this.countryShort,
+        tokenAccount: this.tokenAccount,
+        tokenPerson: this.tokenPerson,
+      };
 
-      await window.cordova.plugin.http.post(this.baseUrl + "/user/api/vendor", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-        mainStore.setUser(JSON.parse(response.data));
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'POST',
+          url: `${this.baseUrl}/user/api/vendor`,
+          headers: { Authorization: `Bearer ${this.token}` },
+          data: httpParams,
+        });
+
+        const mainStore = useMainStore();
+        mainStore.setUser(response.data);
         this.loading = false;
         this.step1 = false;
         this.step2 = false;
         this.step3 = true;
-      }, (response) => {
-        console.log(JSON.parse(response.error));
-        this.errorRegistration = JSON.parse(response.error);
+      } catch (error) {
+        console.log(error);
+        this.errorRegistration = error;
         this.loading = false;
-      });
+      }
     }, 
     validEmail(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -719,34 +747,51 @@ export default {
 
       this.uploadImage(options);
     },
-    uploadImage(options) {
-      navigator.camera.getPicture((imageUri) => {
-        console.log(imageUri);
-        this.loadingImg = true;
+    async uploadImage(options) {
+      navigator.camera.getPicture(
+        async (imageUri) => {
+          console.log(imageUri);
+          this.loadingImg = true;
 
-        window.cordova.plugin.http.setDataSerializer('json');
-        if (window.cordova.platformId === "android" || window.cordova.platformId === "ios") {
-          window.cordova.plugin.http.uploadFile(this.baseUrl + "/user/api/profile/picture", {}, { Authorization: "Bearer " + this.token }, imageUri, 'picture', (response) => {
-            var result = JSON.parse(response.data);
-            this.user.picture = result.picture;
+          try {
+            if (this.$Capacitor.getPlatform() === "android" || this.$Capacitor.getPlatform() === "ios") {
+              const formData = new FormData();
+              formData.append("picture", imageUri);
+
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/user/api/profile/picture`,
+                headers: { Authorization: `Bearer ${this.token}` },
+                body: formData,
+              });
+
+              const result = response.data;
+              this.user.picture = result.picture;
+              this.loadingImg = false;
+            } else {
+              const imgData = `data:image/jpeg;base64,${imageUri}`;
+              const response = await this.$CapacitorHttp.request({
+                method: 'POST',
+                url: `${this.baseUrl}/user/api/profile/picture`,
+                headers: { Authorization: `Bearer ${this.token}` },
+                data: { picture: imgData },
+              });
+
+              const result = response.data;
+              this.user.picture = result.picture;
+              this.loadingImg = false;
+            }
+          } catch (error) {
+            console.log(error);
             this.loadingImg = false;
-          }, function(response) {
-            console.log(response.error);
-          });
-        } else {
-          var imgData = "data:image/jpeg;base64," + imageUri;
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/profile/picture", { "picture" : imgData }, { Authorization: "Bearer " + this.token }, (response) => {
-            var result = JSON.parse(response.data);
-            this.user.picture = result.picture;
-            this.loadingImg = false;
-          }, function(response) {
-            console.log(response.error);
-          });
-        }
-      }, (error) => {
-        console.log("Impossible de récupérer l'image : " + error);
-      }, options);
-    },
+          }
+        },
+        (error) => {
+          console.log("Impossible de récupérer l'image : " + error);
+        },
+        options
+      );
+    },    
     goBack() {
       if (this.type) {
         this.$router.push({ name: 'Account' });
