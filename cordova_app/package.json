@@ -48,6 +48,7 @@
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-agora": "github:juuulienr/cordova-plugin-agora",
+    "cordova-plugin-stripe": "github:juuulienr/cordova-plugin-stripe",
     "cordova-plugin-app-review": "^3.1.0",
     "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-battery-status": "^2.0.3",
@@ -62,7 +63,6 @@
     "cordova-plugin-networkinterface": "^2.2.0",
     "cordova-plugin-safariviewcontroller": "^2.0.0",
     "cordova-plugin-sign-in-with-apple": "^0.1.2",
-    "cordova-plugin-stripe": "github:juuulienr/cordova-plugin-stripe",
     "cordova-plugin-taptic-engine": "^2.2.0",
     "cordova-support-android-plugin": "^2.0.4"
   },

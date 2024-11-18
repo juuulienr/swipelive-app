@@ -1245,34 +1245,46 @@ export default {
       await this.stopLive();
       this.$router.push({ name: 'Home' });
     },
-    stopLive() {
-      if (this.data[this.visible].type == "live") {
+    async stopLive() {
+      if (this.data[this.visible].type === "live") {
         this.pusher.unsubscribe(this.data[this.visible].value.channel);
         this.leaveChannel();
 
-        this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        }, (response) => { 
-          console.log("Stop live update views : " + response.error); 
-        });
+        try {
+          await this.$CapacitorHttp.request({
+            method: 'PUT',
+            url: `${this.baseUrl}/user/api/live/${this.data[this.visible].value.id}/update/viewers`,
+            headers: { Authorization: `Bearer ${this.token}` },
+          });
+        } catch (error) {
+          console.log("Stop live update views: " + error);
+        }
       }
     },
     startLive(value) {
-      var channel = this.pusher.subscribe(value.channel);
-      channel.bind("pusher:subscription_succeeded", (response) => {
-        this.http.put(this.baseUrl + "/user/api/live/" + value.id + "/update/viewers", {}, { Authorization: "Bearer " + this.token }, (response) => {}, (response) => { 
-          console.log("Start live update views : " + response.error); 
-        });
+      const channel = this.pusher.subscribe(value.channel);
+
+      channel.bind("pusher:subscription_succeeded", async () => {
+        try {
+          await this.$CapacitorHttp.request({
+            method: 'PUT',
+            url: `${this.baseUrl}/user/api/live/${value.id}/update/viewers`,
+            headers: { Authorization: `Bearer ${this.token}` },
+          });
+        } catch (error) {
+          console.log("Start live update views: " + error);
+        }
       });
 
       channel.bind("pusher:subscription_error", (response) => {
-        console.log("subscription_error : " + response);
+        console.log("Subscription error: " + response);
       });
 
       channel.bind(value.event, (data) => {
         console.log(data);
 
         if ('comment' in data) {
-          if (data.comment.user.firstname != this.user.firstname && data.comment.user.lastname != this.user.lastname) {
+          if (data.comment.user.firstname !== this.user.firstname && data.comment.user.lastname !== this.user.lastname) {
             this.comments[this.visible].value.push(data.comment);
             this.scrollToElement();
           }
@@ -1283,7 +1295,7 @@ export default {
         }
 
         if ('banned' in data) {
-          this.banned.push({ "id": this.data[this.visible].value.id });
+          this.banned.push({ id: this.data[this.visible].value.id });
           window.localStorage.setItem("banned", JSON.stringify(this.banned));
 
           this.stopLive();
@@ -1296,11 +1308,11 @@ export default {
           this.following.splice(this.visible, 1);
           this.finished.splice(this.visible, 1);
 
-          var value = this.data[this.visible].value;
+          const value = this.data[this.visible].value;
           this.videos[this.visible].value = value.fileList;
           this.comments[this.visible].value = value.comments;
 
-          if (this.data[this.visible].type == "live") {
+          if (this.data[this.visible].type === "live") {
             this.display = value.display;
             this.startLive(value);
           }
@@ -1317,9 +1329,8 @@ export default {
         }
 
         if ('likes' in data) {
-          if (data.likes != this.user.id) {
-            this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;
-            // this.showAnimation();
+          if (data.likes !== this.user.id) {
+            this.totalLikes[this.visible].value += 1;
           }
         }
 
@@ -1443,21 +1454,23 @@ export default {
       //   this.myPlayer.play();
       // }
     },
-    addAnimation() {
+    async addAnimation() {
       this.$Haptics.impact({ style: 'medium' });
-      // this.showAnimation();
       this.totalLikes[this.visible].value = this.totalLikes[this.visible].value + 1;
 
-      if (this.data[this.visible].type == "live") {
-        this.http.put(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        }, (response) => { 
-          console.log(response.error); 
+      const url =
+        this.data[this.visible].type === "live"
+          ? `${this.baseUrl}/user/api/live/${this.data[this.visible].value.id}/update/likes`
+          : `${this.baseUrl}/user/api/clips/${this.data[this.visible].value.id}/update/likes`;
+
+      try {
+        await this.$CapacitorHttp.request({
+          method: 'PUT',
+          url: url,
+          headers: { Authorization: `Bearer ${this.token}` },
         });
-      } else {
-        this.http.put(this.baseUrl + "/user/api/clips/" + this.data[this.visible].value.id + "/update/likes", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        }, (response) => { 
-          console.log(response.error); 
-        });
+      } catch (error) {
+        console.log(error);
       }
     },
     showAnimation() {
