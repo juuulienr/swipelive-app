@@ -422,7 +422,6 @@ export default {
   },
   methods: {
     async submit() {
-      window.cordova.plugin.http.setDataSerializer('json');
       const mainStore = useMainStore();
       this.errorTitle = false;
       this.errorDescription = false;
@@ -480,48 +479,72 @@ export default {
           });
         }
 
+        window.cordova.plugin.http.setDataSerializer('json');
         var httpParams = { "title": this.product.title, "description": this.product.description, "category": this.product.category.id, "price": this.product.price.replace(',','.'), "compareAtPrice": this.product.compareAtPrice ? this.product.compareAtPrice.replace(',','.') : null, "quantity": this.product.quantity ? parseFloat(this.product.quantity) : 0, "weight": this.product.weight.replace(',','.'), "weightUnit": this.product.weightUnit, "online": true, "options" : this.product.options ? this.product.options : null, "variants" : this.product.options && this.product.variants ? this.product.variants : null, "uploads" : this.product.uploads ? this.product.uploads : null };
 
         if (this.productId) {
-          window.cordova.plugin.http.put(this.baseUrl + "/user/api/product/edit/" + this.productId, httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-            mainStore.setUser(JSON.parse(response.data));
-            window.plugins.toast.show("L'article a bien été modifié !", 'long', 'top');
-            this.$router.push({ name: 'Shop' });
-          }, (response) => {
-            this.loading = false;
-            console.log(JSON.parse(response.error));
-          });
+          window.cordova.plugin.http.put(
+            `${this.baseUrl}/user/api/product/edit/${this.productId}`,
+            httpParams,
+            { Authorization: `Bearer ${this.token}` },
+            async (response) => {
+              mainStore.setUser(JSON.parse(response.data));
+              await this.$Toast.show({
+                text: "L'article a bien été modifié !",
+                duration: 'long',
+                position: 'top',
+              });
+              this.$router.push({ name: 'Shop' });
+            },
+            (response) => {
+              this.loading = false;
+              console.log(JSON.parse(response.error));
+            }
+          );
         } else {
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/product/add", httpParams, { Authorization: "Bearer " + this.token }, (response) => {
-            mainStore.setUser(JSON.parse(response.data));
-            window.plugins.toast.show("L'article a bien été ajouté !", 'long', 'top');
-            this.$router.push({ name: 'Shop' });
-          }, (response) => {
-            this.loading = false;
-            console.log(JSON.parse(response.error));
-          });
+          window.cordova.plugin.http.post(
+            `${this.baseUrl}/user/api/product/add`,
+            httpParams,
+            { Authorization: `Bearer ${this.token}` },
+            async (response) => {
+              mainStore.setUser(JSON.parse(response.data));
+              await this.$Toast.show({
+                text: "L'article a bien été ajouté !",
+                duration: 'long',
+                position: 'top',
+              });
+              this.$router.push({ name: 'Shop' });
+            },
+            (response) => {
+              this.loading = false;
+              console.log(JSON.parse(response.error));
+            }
+          );
         }
       }
     },
-    uploadSheet() {
+    async uploadSheet() {
       if (this.product.uploads.length < 9) {
-        var options = {
-          title: 'Ajouter des photos',
-          buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
-          addCancelButtonWithLabel: 'Annuler',
-          androidEnableCancelButton : true,
-          winphoneEnableCancelButton : true
-        };
-        window.plugins.actionsheet.show(options, (index) => { 
-          console.log(index);
-          if (index == 1) {
+        try {
+          const result = await this.$ActionSheet.showActions({
+            title: 'Ajouter des photos',
+            options: [
+              { title: 'À Partir de la bibliothèque', style: 'default' },
+              { title: 'Prendre une photo', style: 'default' },
+              { title: 'Annuler', style: 'cancel' },
+            ],
+          });
+
+          console.log(result.index);
+
+          if (result.index === 0) {
             this.openFilePicker();
-          } else if (index == 2) {
+          } else if (result.index === 1) {
             this.openCamera();
           }
-        }, function(error) {
+        } catch (error) {
           console.log(error);
-        });
+        }
       }
     },
     openFilePicker() {
@@ -590,19 +613,30 @@ export default {
         console.log(response.error);
       });
     },
-    deleteProduct() {
+    async deleteProduct() {
       const mainStore = useMainStore();
 
       if (this.productId && !this.loadingDelete) {
         this.loadingDelete = true;
-        window.cordova.plugin.http.get(this.baseUrl + "/user/api/product/delete/" + this.productId, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          mainStore.setUser(JSON.parse(response.data));
-          window.plugins.toast.show("L'article a bien été supprimé !", 'long', 'top');
-          this.$router.push({ name: 'Shop' });
-        }, (response) => {
-          this.loadingDelete = false;
-          console.log(response.error);
-        });
+
+        window.cordova.plugin.http.get(
+          `${this.baseUrl}/user/api/product/delete/${this.productId}`,
+          {},
+          { Authorization: `Bearer ${this.token}` },
+          async (response) => {
+            mainStore.setUser(JSON.parse(response.data));
+            await this.$Toast.show({
+              text: "L'article a bien été supprimé !",
+              duration: 'long',
+              position: 'top',
+            });
+            this.$router.push({ name: 'Shop' });
+          },
+          (response) => {
+            this.loadingDelete = false;
+            console.log(response.error);
+          }
+        );
       }
     },
     addVariant() {

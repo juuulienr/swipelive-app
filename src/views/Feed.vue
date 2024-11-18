@@ -1342,9 +1342,19 @@ export default {
         console.log(response.error);
       });
     },
-    share() {
-      this.$Haptics.impact({ style: 'medium' });
-      window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
+    async share() {
+      try {
+        this.$Haptics.impact({ style: 'medium' });
+
+        await this.$Share.share({
+          title: '#1 Application de Live Shopping',
+          text: '#1 Application de Live Shopping',
+          url: 'https://swipelive.app',
+          dialogTitle: 'Partager Swipe Live',
+        });
+      } catch (error) {
+        console.log('Erreur lors du partage :', error);
+      }
     },
     selectVariantChild(variant) {
       console.log(variant);

@@ -292,29 +292,31 @@ export default {
         );
       }
     },
-
     validEmail(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     },
-    uploadSheet() {
-      var options = {
-        title: 'Ajouter une photo',
-        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
-        addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton : true,
-        winphoneEnableCancelButton : true
-      };
-      window.plugins.actionsheet.show(options, (index) => {
-        console.log(index);
-        if (index == 1) {
+    async uploadSheet() {
+      try {
+        const result = await this.$ActionSheet.showActions({
+          title: 'Ajouter une photo',
+          options: [
+            { title: 'À Partir de la bibliothèque', icon: 'folder', style: 'default' },
+            { title: 'Prendre une photo', icon: 'camera', style: 'default' },
+            { title: 'Annuler', icon: 'close', style: 'cancel' },
+          ],
+        });
+
+        console.log(result.index);
+
+        if (result.index === 0) {
           this.openFilePicker();
-        } else if (index == 2) {
+        } else if (result.index === 1) {
           this.openCamera();
         }
-      }, (error) => {
+      } catch (error) {
         console.log(error);
-      });
+      }
     },
     openFilePicker() {
       var options = {

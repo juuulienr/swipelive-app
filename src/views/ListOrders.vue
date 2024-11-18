@@ -575,41 +575,66 @@ export default {
       this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, pseudo: vendor.pseudo } });
     },
-    cancelOrder() {
+    async cancelOrder() {
       const orderId = this.order.id;
-      this.sales = this.sales.map((sale) => (sale.id === orderId ? { ...sale, shippingStatus: "cancelled" } : sale));
-      this.purchases = this.purchases.map((purchase) => (purchase.id === orderId ? { ...purchase, shippingStatus: "cancelled" } : purchase));
+      this.sales = this.sales.map((sale) =>
+        sale.id === orderId ? { ...sale, shippingStatus: "cancelled" } : sale
+      );
+      this.purchases = this.purchases.map((purchase) =>
+        purchase.id === orderId ? { ...purchase, shippingStatus: "cancelled" } : purchase
+      );
       this.hideOrder();
-      window.cordova.plugin.http.get(`${this.baseUrl}/user/api/orders/${orderId}/cancel`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
-        window.plugins.toast.show("La commande a été annulée", 'long', 'top');
-      }, (response) => {
-        window.plugins.toast.show(response.error, 'long', 'top');
-      });
-    },
-    actionSheet() {
-      const options = this.order.shippingStatus === 'ready-to-send' ? {
-        buttonLabels: ['Signaler un problème'],
-        addCancelButtonWithLabel: 'Retour',
-        addDestructiveButtonWithLabel: 'Annuler la commande',
-        destructiveButtonLast: true,
-        androidEnableCancelButton: true,
-        winphoneEnableCancelButton: true,
-      } : {
-        buttonLabels: ['Signaler un problème'],
-        addCancelButtonWithLabel: 'Retour',
-        androidEnableCancelButton: true,
-        winphoneEnableCancelButton: true,
-      };
 
-      window.plugins.actionsheet.show(options, (index) => {
-        if (index === 1) {
-          window.plugins.toast.show("La commande a été signalée !", 'long', 'top');
-        } else if (index === 2 && this.order.shippingStatus === 'ready-to-send') {
+      window.cordova.plugin.http.get(
+        `${this.baseUrl}/user/api/orders/${orderId}/cancel`,
+        {},
+        { Authorization: `Bearer ${this.token}` },
+        async (response) => {
+          await this.$Toast.show({
+            text: "La commande a été annulée",
+            duration: 'long',
+            position: 'top',
+          });
+        },
+        async (response) => {
+          await this.$Toast.show({
+            text: response.error,
+            duration: 'long',
+            position: 'top',
+          });
+        }
+      );
+    },
+    async actionSheet() {
+      const options = this.order.shippingStatus === 'ready-to-send'
+        ? [
+            { title: 'Signaler un problème', style: 'default' },
+            { title: 'Annuler la commande', style: 'destructive' },
+            { title: 'Retour', style: 'cancel' },
+          ]
+        : [
+            { title: 'Signaler un problème', style: 'default' },
+            { title: 'Retour', style: 'cancel' },
+          ];
+
+      try {
+        const result = await this.$ActionSheet.showActions({
+          title: 'Options de commande',
+          options,
+        });
+
+        if (result.index === 0) {
+          await this.$Toast.show({
+            text: "La commande a été signalée !",
+            duration: 'long',
+            position: 'top',
+          });
+        } else if (result.index === 1 && this.order.shippingStatus === 'ready-to-send') {
           this.cancelOrder();
         }
-      }, (error) => {
+      } catch (error) {
         console.log(error);
-      });
+      }
     },
     showNumber1() {
       this.$Haptics.impact({ style: 'medium' });

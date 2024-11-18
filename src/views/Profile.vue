@@ -192,27 +192,9 @@ export default {
   },
   created() {
     this.getFollowers();
-    
-    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.profile = JSON.parse(response.data);
-      this.loadingProfile = false;
-    }, (response) => {
-      console.log(response.error);
-    });
-
-    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/clips", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.clips = JSON.parse(response.data);
-      this.loadingClips = false;
-    }, (response) => {
-      console.log(response.error);
-    });
-
-    window.cordova.plugin.http.get(this.baseUrl + "/api/profile/" + this.id + "/products", {}, { Authorization: "Bearer " + this.token }, (response) => {
-      this.products = JSON.parse(response.data);
-      this.loadingProducts = false;
-    }, (response) => {
-      console.log(response.error);
-    });
+    this.loadProfile();
+    this.loadClips();
+    this.loadProducts();
   },
   methods: {
     getFollowers() {
@@ -228,6 +210,51 @@ export default {
         });
       }
     },
+    async loadProfile() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/api/profile/" + this.id,
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        this.profile = response.data;
+        this.loadingProfile = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async loadClips() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/api/profile/" + this.id + "/clips",
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        this.clips = response.data;
+        this.loadingClips = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async loadProducts() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/api/profile/" + this.id + "/products",
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        this.products = response.data;
+        this.loadingProducts = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     showShop() {
       this.$Haptics.impact({ style: 'medium' });
       this.shop = true;
@@ -238,35 +265,53 @@ export default {
       this.shop = false;
       this.live = true;
     },
-    updateFollow() {
+    async updateFollow() {
       const mainStore = useMainStore();
       this.following = !this.following;
       this.followers += this.following ? 1 : -1;
 
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/follow/" + this.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        mainStore.setUser(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    actionSheet() {
-      const buttonLabels = ['Partager', 'Silencieux', 'Signaler'];
-      const options = {
-        buttonLabels,
-        addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton: true,
-        winphoneEnableCancelButton: true,
-      };
-
-      window.plugins.actionsheet.show(options, (index) => {
-        if (index === 1) {
-          window.plugins.socialsharing.share('#1 Application de Live Shopping', null, null, 'https://swipelive.app');
-        } else if (index === 3) {
-          window.plugins.toast.show("L'utilisateur a été signalé !", 'long', 'top');
-        }
-      }, (error) => {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/user/api/follow/" + this.id,
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        mainStore.setUser(response.data);
+      } catch (error) {
         console.log(error);
-      });
+      }
+    },
+    async actionSheet() {
+      try {
+        const result = await this.$ActionSheet.showActions({
+          title: 'Options',
+          options: [
+            { title: 'Partager', style: 'default' },
+            { title: 'Silencieux', style: 'default' },
+            { title: 'Signaler', style: 'destructive' },
+            { title: 'Annuler', style: 'cancel' },
+          ],
+        });
+
+        if (result.index === 0) {
+          await this.$Share.share({
+            title: '#1 Application de Live Shopping',
+            text: '#1 Application de Live Shopping',
+            url: 'https://swipelive.app',
+            dialogTitle: 'Partager Swipe Live',
+          });
+        } else if (result.index === 2) {
+          await this.$Toast.show({
+            text: "L'utilisateur a été signalé !",
+            duration: 'long',
+            position: 'top',
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
     goBack() {
       this.$router.back();
@@ -288,14 +333,22 @@ export default {
       this.popupProduct = false;
       this.product = null;
     },
-    favoris(product) {
+    async favoris(product) {
       const mainStore = useMainStore();
       this.$Haptics.impact({ style: 'medium' });
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        mainStore.setUser(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/user/api/favoris/" + product.id,
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        mainStore.setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
     selectVariantChild(variant) {
       this.variant = variant;

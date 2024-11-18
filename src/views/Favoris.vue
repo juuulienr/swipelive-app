@@ -15,10 +15,8 @@
           <div>
             <div @click="showProduct(heart.product)">
               <img v-if="heart.product.uploads.length" :src="$cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
-              <img v-else :src="noPreviewImage" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
-
-              <!-- Icône de cœur avec @click.stop pour éviter la propagation -->
-              <img @click.stop="removeFavoris(heart.product)" :src="heartFullImage" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
+              <img v-else src="/img/no-preview.png" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
+              <img @click.stop="removeFavoris(heart.product)" src="/img/circle-heart-full.svg" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
             </div>
           </div>
           <div @click="showProduct(heart.product)" class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
@@ -54,7 +52,7 @@
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
       <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
-        <img :src="closePopupImage" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
+        <img src="/img/close-popup.svg" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
@@ -66,6 +64,151 @@
     </div>
   </main>
 </template>
+
+
+<script>
+import { useMainStore } from '../stores/useMainStore';
+import Product from '../components/Product.vue';
+import LottieJSON from '../assets/lottie/favoris.json';
+
+export default {
+  name: 'Favoris',
+  components: {
+    Product,
+  },
+  data() {
+    const mainStore = useMainStore();
+
+    return {
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
+      user: mainStore.getUser,
+      lineItems: mainStore.getLineItems,
+      categories: mainStore.getCategories,
+      LottieJSON: LottieJSON,
+      favoris: [],
+      popupProduct: false,
+      loading: true,
+      product: null,
+      variant: null,
+    };
+  },
+  created() {    
+    this.loadFavoris();
+  },  
+  methods: {
+    async loadFavoris() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/user/api/favoris",
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        this.favoris = response.data;
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async removeFavoris(product) {
+      const mainStore = useMainStore();
+      this.$Haptics.impact({ style: 'medium' });
+      this.favoris = this.favoris.filter(favoris => favoris.product.id !== product.id);
+
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/user/api/favoris/" + product.id,
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        mainStore.setUser(response.data); 
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    showProduct(product) {
+      this.$Haptics.impact({ style: 'medium' });
+      this.product = product;
+      this.popupProduct = true;
+    },
+    hideProduct() {
+      this.popupProduct = false;
+      this.product = null;
+    },
+    selectVariantChild(variant) {
+      this.variant = variant;
+    },
+    addToCart() {
+      const mainStore = useMainStore();
+      this.$Haptics.impact({ style: 'medium' });
+      this.popupProduct = false;
+
+      const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
+      let exist = false;
+      let newVendor = false;
+
+      this.lineItems.forEach(lineItem => {
+        if (lineItem.vendor !== vendor) {
+          newVendor = true;
+        }
+      });
+
+      if (!newVendor) {
+        this.lineItems.forEach(lineItem => {
+          if (lineItem.variant?.id === this.variant?.id || lineItem.product.id === this.product.id && !this.variant) {
+            exist = true;
+            lineItem.quantity += 1;
+          }
+        });
+      } else {
+        exist = true;
+        this.confirmReplaceCart(vendor);
+      }
+
+      if (!exist) {
+        this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
+        mainStore.setLineItems(this.lineItems);
+      }
+    },
+    goBack() {
+      this.$Haptics.impact({ style: 'medium' });
+      this.$router.back();
+    },
+    async confirmReplaceCart(vendor) {
+      const mainStore = useMainStore();
+
+      try {
+        const { value } = await this.$Dialog.confirm({
+          title: 'Nouveau panier ?',
+          message: 'Cet article va remplacer votre ancien panier.',
+          okButtonTitle: 'Nouveau',
+          cancelButtonTitle: 'Conserver',
+        });
+
+        if (value) {
+          mainStore.setLineItems([
+            {
+              product: this.product,
+              variant: this.variant,
+              quantity: 1,
+              vendor,
+            },
+          ]);
+        } else {
+          console.log('L\'utilisateur a choisi de conserver le panier existant.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la confirmation de remplacement du panier :', error);
+      }
+    },
+  }
+};
+</script>
+
 
 
 <style>
@@ -164,140 +307,3 @@
 
 </style>
 
-
-
-<script>
-import { useMainStore } from '../stores/useMainStore';
-import Product from '../components/Product.vue';
-import LottieJSON from '../assets/lottie/favoris.json';
-import noPreviewImage from '@/assets/img/no-preview.png';
-import heartFullImage from '@/assets/img/circle-heart-full.svg';
-import closePopupImage from '@/assets/img/close-popup.svg';
-
-export default {
-  name: 'Favoris',
-  components: {
-    Product,
-  },
-  data() {
-    const mainStore = useMainStore();
-
-    return {
-      baseUrl: window.localStorage.getItem("baseUrl"),
-      token: window.localStorage.getItem("token"),
-      user: mainStore.getUser,
-      lineItems: mainStore.getLineItems,
-      categories: mainStore.getCategories,
-      LottieJSON: LottieJSON,
-      favoris: [],
-      popupProduct: false,
-      loading: true,
-      product: null,
-      variant: null,
-    };
-  },
-  created() {    
-    
-    
-    
-    
-    this.loadFavoris();
-  },  
-  methods: {
-    loadFavoris() {
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris", {}, { Authorization: "Bearer " + this.token }, (response) => {
-        this.favoris = JSON.parse(response.data);
-        this.loading = false;
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    removeFavoris(product) {
-      const mainStore = useMainStore();
-      this.$Haptics.impact({ style: 'medium' });
-      this.favoris = this.favoris.filter(favoris => favoris.product.id !== product.id);
-
-      window.cordova.plugin.http.get(this.baseUrl + "/user/api/favoris/" + product.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        mainStore.setUser(JSON.parse(response.data));
-      }, (response) => {
-        console.log(response.error);
-      });
-    },
-    showProduct(product) {
-      this.$Haptics.impact({ style: 'medium' });
-      this.product = product;
-      this.popupProduct = true;
-    },
-    hideProduct() {
-      this.popupProduct = false;
-      this.product = null;
-    },
-    selectVariantChild(variant) {
-      this.variant = variant;
-    },
-    addToCart() {
-      const mainStore = useMainStore();
-      this.$Haptics.impact({ style: 'medium' });
-      this.popupProduct = false;
-
-      const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
-      let exist = false;
-      let newVendor = false;
-
-      this.lineItems.forEach(lineItem => {
-        if (lineItem.vendor !== vendor) {
-          newVendor = true;
-        }
-      });
-
-      if (!newVendor) {
-        this.lineItems.forEach(lineItem => {
-          if (lineItem.variant?.id === this.variant?.id || lineItem.product.id === this.product.id && !this.variant) {
-            exist = true;
-            lineItem.quantity += 1;
-          }
-        });
-      } else {
-        exist = true;
-        this.confirmReplaceCart(vendor);
-      }
-
-      if (!exist) {
-        this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
-        mainStore.setLineItems(this.lineItems);
-      }
-    },
-    goBack() {
-      this.$Haptics.impact({ style: 'medium' });
-      this.$router.back();
-    },
-    async confirmReplaceCart(vendor) {
-      const mainStore = useMainStore();
-
-      try {
-        const { value } = await this.$Dialog.confirm({
-          title: 'Nouveau panier ?',
-          message: 'Cet article va remplacer votre ancien panier.',
-          okButtonTitle: 'Nouveau',
-          cancelButtonTitle: 'Conserver',
-        });
-
-        if (value) {
-          mainStore.setLineItems([
-            {
-              product: this.product,
-              variant: this.variant,
-              quantity: 1,
-              vendor,
-            },
-          ]);
-        } else {
-          console.log('L\'utilisateur a choisi de conserver le panier existant.');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la confirmation de remplacement du panier :', error);
-      }
-    },
-  }
-};
-</script>

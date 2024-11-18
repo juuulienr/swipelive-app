@@ -162,10 +162,6 @@ export default {
     };
   },
   created() {
-    
-    
-    
-
     this.loadFollowers();
     this.loadFollowing();
   },
@@ -203,7 +199,7 @@ export default {
       this.following.splice(index, 1);
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/follow/${follow.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         const updatedUser = JSON.parse(response.data);
-        mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
+        mainStore.setUser(updatedUser);
         this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
@@ -225,23 +221,22 @@ export default {
         console.log(response.error);
       });
     },
-    actionSheet(user, index) {
-      const options = {
-        buttonLabels: [],
-        addCancelButtonWithLabel: 'Annuler',
-        addDestructiveButtonWithLabel: 'Supprimer ce follower',
-        destructiveButtonLast: true,
-        androidEnableCancelButton: true,
-        winphoneEnableCancelButton: true,
-      };
+    async actionSheet(user, index) {
+      try {
+        const result = await this.$ActionSheet.showActions({
+          title: 'Options pour le follower',
+          options: [
+            { title: 'Supprimer ce follower', style: 'destructive' },
+            { title: 'Annuler', style: 'cancel' },
+          ],
+        });
 
-      window.plugins.actionsheet.show(options, (result) => {
-        if (result === 1) {
+        if (result.index === 0) {
           this.removeFollower(user, index);
         }
-      }, (error) => {
+      } catch (error) {
         console.log(error);
-      });
+      }
     },
   }
 };

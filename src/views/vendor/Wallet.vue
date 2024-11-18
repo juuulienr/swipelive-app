@@ -309,28 +309,39 @@ export default {
       this.withdraw = true;
       this.$nextTick(() => this.$refs.withdrawAmount.focus());
     },
-    saveBankAccount() {
+    async saveBankAccount() {
       const mainStore = useMainStore();
       this.loadingBank = true;
       this.errorBank = false;
+
       if (this.iban && this.iban.length === 27) {
         const last4 = this.iban.slice(-4);
         const countryCode = this.iban.slice(0, 2);
-        let number = this.iban.slice(2).replace(/\s/g, '');
+        const number = this.iban.slice(2).replace(/\s/g, '');
 
-        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/bank/add`, { number, last4, countryCode, businessName: this.businessName }, { Authorization: `Bearer ${this.token}` }, (response) => {
-          const updatedUser = JSON.parse(response.data);
-          mainStore.setUser(updatedUser); // Mise à jour du store
-          this.user = updatedUser;
-          this.loadingBank = false;
-          this.popupBankAccount = false;
-          this.withdraw = true;
-          this.bank = false;
-        }, (response) => {
-          console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top');
-          this.loadingBank = false;
-        });
+        window.cordova.plugin.http.post(
+          `${this.baseUrl}/user/api/bank/add`,
+          { number, last4, countryCode, businessName: this.businessName },
+          { Authorization: `Bearer ${this.token}` },
+          (response) => {
+            const updatedUser = JSON.parse(response.data);
+            mainStore.setUser(updatedUser);
+            this.user = updatedUser;
+            this.loadingBank = false;
+            this.popupBankAccount = false;
+            this.withdraw = true;
+            this.bank = false;
+          },
+          async (response) => {
+            console.log(response.error);
+            await this.$Toast.show({
+              text: response.error,
+              duration: 'long',
+              position: 'top',
+            });
+            this.loadingBank = false;
+          }
+        );
       } else {
         this.errorBank = true;
         this.loadingBank = false;
@@ -347,20 +358,31 @@ export default {
       this.history = data;
       this.popupHistory = true;
     },
-    saveWithdraw() {
+    async saveWithdraw() {
       const mainStore = useMainStore();
+
       if (this.withdrawAmount && this.user.vendor.bankAccounts.length > 0) {
-        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/withdraw`, { withdrawAmount: this.withdrawAmount.replace(",", ".") }, { Authorization: `Bearer ${this.token}` }, (response) => {
-          const updatedUser = JSON.parse(response.data);
-          mainStore.setUser(updatedUser); // Mise à jour du store
-          this.user = updatedUser;
-          this.withdrawAmount = null;
-          this.withdraw = false;
-          this.bank = false;
-        }, (response) => {
-          console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top');
-        });
+        window.cordova.plugin.http.post(
+          `${this.baseUrl}/user/api/withdraw`,
+          { withdrawAmount: this.withdrawAmount.replace(",", ".") },
+          { Authorization: `Bearer ${this.token}` },
+          (response) => {
+            const updatedUser = JSON.parse(response.data);
+            mainStore.setUser(updatedUser); // Mise à jour du store
+            this.user = updatedUser;
+            this.withdrawAmount = null;
+            this.withdraw = false;
+            this.bank = false;
+          },
+          async (response) => {
+            console.log(response.error);
+            await this.$Toast.show({
+              text: response.error,
+              duration: 'long',
+              position: 'top',
+            });
+          }
+        );
       }
     },
     goBack() {
@@ -443,30 +465,44 @@ export default {
 
         if (result && result.token.id) {
           window.cordova.plugin.http.setDataSerializer('json');
-          window.cordova.plugin.http.post(`${this.baseUrl}/user/api/verification/document/front`, { person_token: result.token.id }, { Authorization: `Bearer ${this.token}` }, (response) => {
-            console.log(JSON.parse(response.data));
-            window.plugins.toast.show('Le document recto a été envoyé !', 'long', 'top');
-          }, (response) => {
-            console.log(response.error);
-            window.plugins.toast.show(response.error, 'long', 'top');
-          });
+          window.cordova.plugin.http.post(
+            `${this.baseUrl}/user/api/verification/document/front`,
+            { person_token: result.token.id },
+            { Authorization: `Bearer ${this.token}` },
+            async (response) => {
+              console.log(JSON.parse(response.data));
+              await this.$Toast.show({
+                text: 'Le document recto a été envoyé !',
+                duration: 'long',
+                position: 'top',
+              });
+            },
+            async (response) => {
+              console.log(response.error);
+              await this.$Toast.show({
+                text: response.error,
+                duration: 'long',
+                position: 'top',
+              });
+            }
+          );
         }
       }
     },
-    async verifBack() {
+    async verifBack(base64String) {
       const stripe = Stripe(this.stripe_pk);
       const data = new FormData();
 
-      var mimeType = "image/jpeg";
-      var blob = this.base64ToBlob(base64String, mimeType);
+      const mimeType = "image/jpeg";
+      const blob = this.base64ToBlob(base64String, mimeType);
 
-      data.append('file', blob, 'front_document.jpg');
+      data.append('file', blob, 'back_document.jpg');
       data.append('purpose', 'identity_document');
-      const header = "Bearer " + this.stripe_pk;
+      const header = `Bearer ${this.stripe_pk}`;
       const response = await fetch('https://uploads.stripe.com/v1/files', {
         method: 'POST',
         headers: { 'Authorization': header },
-        body: data
+        body: data,
       });
       const fileData = await response.json();
       console.log(fileData);
@@ -484,13 +520,27 @@ export default {
 
         if (result && result.token.id) {
           window.cordova.plugin.http.setDataSerializer('json');
-          window.cordova.plugin.http.post(this.baseUrl + "/user/api/verification/document/back", { "person_token": result.token.id }, { Authorization: "Bearer " + this.token }, (response) => {
-            console.log(JSON.parse(response.data));
-            window.plugins.toast.show('Le document recto a été envoyé !', 'long', 'top');
-          }, (response) => {
-            console.log(response.error);
-            window.plugins.toast.show(response.error, 'long', 'top');
-          });
+          window.cordova.plugin.http.post(
+            `${this.baseUrl}/user/api/verification/document/back`,
+            { person_token: result.token.id },
+            { Authorization: `Bearer ${this.token}` },
+            async (response) => {
+              console.log(JSON.parse(response.data));
+              await this.$Toast.show({
+                text: 'Le document verso a été envoyé !',
+                duration: 'long',
+                position: 'top',
+              });
+            },
+            async (response) => {
+              console.log(response.error);
+              await this.$Toast.show({
+                text: response.error,
+                duration: 'long',
+                position: 'top',
+              });
+            }
+          );
         }
       }
     },

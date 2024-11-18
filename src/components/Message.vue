@@ -261,18 +261,26 @@ export default {
         console.log(response.error);
       });
     },
-    uploadPicture() {
-      const options = {
+    async uploadPicture() {
+      const result = await this.$ActionSheet.showActions({
         title: 'Envoyer une photo',
-        buttonLabels: ['À Partir de la bibliothèque', 'Prendre une photo'],
-        addCancelButtonWithLabel: 'Annuler',
-        androidEnableCancelButton: true,
-        winphoneEnableCancelButton: true,
-      };
-      window.plugins.actionsheet.show(options, (index) => {
-        if (index === 1) this.openFilePicker();
-        else if (index === 2) this.openCamera();
+        options: [
+          { title: 'À Partir de la bibliothèque', icon: 'folder', style: 'default' },
+          { title: 'Prendre une photo', icon: 'camera', style: 'default' },
+          { title: 'Annuler', icon: 'close', style: 'cancel' },
+        ],
       });
+
+      switch (result.index) {
+        case 0:
+          this.openFilePicker();
+          break;
+        case 1:
+          this.openCamera();
+          break;
+        default:
+          console.log('Action annulée');
+      }
     },
     openFilePicker() {
       const options = {

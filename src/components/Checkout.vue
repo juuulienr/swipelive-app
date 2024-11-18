@@ -737,9 +737,14 @@ export default {
         this.loadingShipping = false;
         this.popupShippingAddress = false;
         this.loadingAddress = false;
-      }, (response) => {
+      }, async (response) => {
         console.log(response.error);
-        window.plugins.toast.show(response.error, 'long', 'top');
+        await this.$Toast.show({
+          text: response.error,
+          duration: 'long',
+          position: 'top',
+        });
+
         this.loadingShipping = false;
         this.popupShippingAddress = false;
         this.loadingAddress = false;
@@ -854,7 +859,7 @@ export default {
         this.$emit('hideCheckout');
       }
     },
-    payment() {
+    async payment() {
       // check si montant inférieur à 5 ou 10€ ?
       const mainStore = useMainStore();
 
@@ -867,7 +872,7 @@ export default {
           console.log(JSON.parse(response.order));
 
           if (window.cordova.platformId !== "browser") {
-            window.StripeUIPlugin.presentPaymentSheet(response.paymentConfig, billingConfig, (result) => {
+            window.StripeUIPlugin.presentPaymentSheet(response.paymentConfig, billingConfig, async (result) => {
               console.log(result);
               this.loadingPayment = false;
 
@@ -889,11 +894,24 @@ export default {
                 }
               } else if (result.code === "1") {
                 // PAYMENT_CANCELED
+                await this.$Toast.show({
+                  text: result.message,
+                  duration: 'long',
+                  position: 'top',
+                });
               } else if (result.code === "2") {
                 // PAYMENT_FAILED
-                window.plugins.toast.show(result.message, 'long', 'top');
+                await this.$Toast.show({
+                  text: result.message,
+                  duration: 'long',
+                  position: 'top',
+                });
               } else {
-                window.plugins.toast.show(result.message, 'long', 'top');
+                await this.$Toast.show({
+                  text: result.message,
+                  duration: 'long',
+                  position: 'top',
+                });
               }
             }, (error) => {
               console.log(error);
@@ -909,9 +927,13 @@ export default {
               this.$emit('paymentSuccess', response.order);
             }
           }
-        }, (response) => {
+        }, async (response) => {
           console.log(response.error);
-          window.plugins.toast.show(response.error, 'long', 'top');
+          await this.$Toast.show({
+            text: response.error,
+            duration: 'long',
+            position: 'top',
+          });
           this.loadingPayment = false;
         });
       }

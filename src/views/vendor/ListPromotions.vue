@@ -142,11 +142,6 @@ export default {
       },
     };
   },
-  created() {
-    
-    
-    
-  },
   methods: {
     goBack() {
       this.$router.push({ name: 'Account' });
@@ -154,10 +149,11 @@ export default {
     hidePromo() {
       this.popupPromo = false;
     },
-    savePromo() {
+    async savePromo() {
       const mainStore = useMainStore();
 
       this.$Haptics.impact({ style: 'medium' });
+
       if (this.promotion.value) {
         this.promotion.value = parseFloat(this.promotion.value);
       }
@@ -173,15 +169,28 @@ export default {
         this.popupPromo = false;
 
         window.cordova.plugin.http.setDataSerializer('json');
-        window.cordova.plugin.http.post(`${this.baseUrl}/user/api/promotion/add`, this.promotion, { Authorization: `Bearer ${this.token}` }, (response) => {
-          const updatedUser = JSON.parse(response.data);
-          mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
-          this.user = updatedUser;
-          this.promotion = { title: '', type: '', value: null, isActive: true };
-        }, (response) => {
-          console.log(JSON.parse(response.error));
-          window.plugins.toast.show(JSON.parse(response.error), 'long', 'top');
-        });
+
+        window.cordova.plugin.http.post(
+          `${this.baseUrl}/user/api/promotion/add`,
+          this.promotion,
+          { Authorization: `Bearer ${this.token}` },
+          (response) => {
+            const updatedUser = JSON.parse(response.data);
+            mainStore.setUser(updatedUser);
+            this.user = updatedUser;
+            this.promotion = { title: '', type: '', value: null, isActive: true };
+          },
+          async (response) => {
+            const errorMessage = JSON.parse(response.error);
+            console.log(errorMessage);
+
+            await this.$Toast.show({
+              text: errorMessage,
+              duration: 'long',
+              position: 'top',
+            });
+          }
+        );
       }
     },
     deletePromo(promo, index) {
@@ -191,7 +200,7 @@ export default {
       this.user.vendor.promotions.splice(index, 1);
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotion/delete/${promo.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         const updatedUser = JSON.parse(response.data);
-        mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
+        mainStore.setUser(updatedUser);
         this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
@@ -215,7 +224,7 @@ export default {
 
       window.cordova.plugin.http.get(`${this.baseUrl}/user/api/promotion/activate/${promo.id}`, {}, { Authorization: `Bearer ${this.token}` }, (response) => {
         const updatedUser = JSON.parse(response.data);
-        mainStore.setUser(updatedUser); // Mise à jour du store avec les nouvelles données de l'utilisateur
+        mainStore.setUser(updatedUser);
         this.user = updatedUser;
       }, (response) => {
         console.log(response.error);
