@@ -451,14 +451,14 @@ export default {
           Authorization: `Bearer ${this.token}`,
         },
       })
-        .then((response) => {
-          const userData = response.data;
-          console.log(userData);
-          this.mainStore.setUser(userData);
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la récupération du profil utilisateur :', error);
-        });
+      .then((response) => {
+        const userData = response.data;
+        console.log(userData);
+        this.mainStore.setUser(userData);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération du profil utilisateur :', error);
+      });
     }
 
     // Gestion des types de requêtes
@@ -466,12 +466,12 @@ export default {
       this.$CapacitorHttp.get({
         url: `${this.baseUrl}/api/profile/${this.profileId}/clips`,
       })
-        .then((response) => {
-          this.refresh(response.data);
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la récupération des clips du profil :', error);
-        });
+      .then((response) => {
+        this.refresh(response.data);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des clips du profil :', error);
+      });
     } else if (this.type === 'trending') {
       this.$CapacitorHttp.get({
         url: `${this.baseUrl}/user/api/clips/trending`,
@@ -479,13 +479,13 @@ export default {
           Authorization: `Bearer ${this.token}`,
         },
       })
-        .then((response) => {
-          this.mainStore.setClipsTrending(response.data);
-          this.refresh(response.data);
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la récupération des clips tendance :', error);
-        });
+      .then((response) => {
+        this.mainStore.setClipsTrending(response.data);
+        this.refresh(response.data);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des clips tendance :', error);
+      });
     } else {
       this.$CapacitorHttp.get({
         url: `${this.baseUrl}/user/api/feed`,
@@ -493,12 +493,12 @@ export default {
           Authorization: `Bearer ${this.token}`,
         },
       })
-        .then((response) => {
-          this.refresh(response.data);
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la récupération du feed :', error);
-        });
+      .then((response) => {
+        this.refresh(response.data);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération du feed :', error);
+      });
     }
 
     if (this.mainStore.following.length === 0) {

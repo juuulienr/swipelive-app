@@ -12,15 +12,6 @@
 
     <div class="checkout__body">
       <div v-if="isOrder">
-  <!--       <div v-if="user.vendor">
-          <div class="chat--left--head--input">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
-              <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
-            </svg>
-            <input ref="search" type="text" v-model="searchTerm" placeholder="Rechercher" style="height: 1.75em"/>
-          </div>
-        </div> -->
-
         <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px; display: flex; flex-wrap: nowrap; overflow-x: auto; width: auto; padding: 15px 0;">
           <div class="images_filter" style="width: calc(100vw - 30px)">
             <ul>
@@ -42,7 +33,7 @@
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate3(order.createdAt) }}</span></div>
                 </div>
                 <span class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
               </div>
@@ -72,7 +63,7 @@
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate3(order.createdAt) }}</span></div>
                 </div>
                 <span class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
               </div>
@@ -102,7 +93,7 @@
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate3(order.createdAt) }}</span></div>
                 </div>
                 <span class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
               </div>
@@ -132,7 +123,7 @@
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate3(order.createdAt) }}</span></div>
                 </div>
                 <span v-if="order.status != 'cancelled'" class="css-4ioo3c">{{ $formatPrice(order.subTotal - order.promotionAmount) }}€</span>
                 <span v-else class="css-4ioo3c" style="color: #999; background-color: #f1f1f1;">0,00€</span>
@@ -167,7 +158,7 @@
                 <div>
                   <div><span>#{{ order.number }}</span></div>
                   <span>{{ order.vendor.pseudo }}</span>
-                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate(order.createdAt) }}</span></div>
+                  <div><span style="font-size: 11px; color: #999;">{{ $formatDate3(order.createdAt) }}</span></div>
                 </div>
                 <span class="css-4ioo3c" style="color: #272c30; background-color: transparent; font-weight: 400;">{{ $formatPrice(order.total) }}€</span>
               </div>
@@ -216,7 +207,7 @@
               <img v-else src="/img/anonyme.jpg" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
-                <div><span>{{ $formatDate(order.createdAt) }}</span></div>
+                <div><span>{{ $formatDate3(order.createdAt) }}</span></div>
               </div>
               <div @click="sendMessageToBuyer(order.buyer)" style="width: 28px; height: 28px;">
                 <img src="/img/comment-dots.svg"/>
@@ -227,7 +218,7 @@
               <img v-else src="/img/anonyme.jpg" style="border: 1px solid rgba(22, 24, 35, 0.12); border-radius: 30px;"/>
               <div>
                 <span>{{ order.vendor.pseudo }}</span>
-                <div><span>{{ $formatDate(order.createdAt) }}</span></div>
+                <div><span>{{ $formatDate3(order.createdAt) }}</span></div>
               </div>
               <div @click="sendMessageToVendor(order.vendor)" style="width: 28px; height: 28px;">
                 <img src="/img/comment-dots.svg"/>
@@ -317,7 +308,7 @@
         <div class="css-1h7d8f3" style="margin-top: 15px;border-radius: 15px;margin-bottom: 20px;margin: 5px;">
           <div v-if="type == 'sale' && order.shippingStatus == 'open'" class="css-6f545k" style="margin: 10px auto 10px;text-align: center;color: #ff2f80;font-weight: 600;font-size: 17px;">
             <img src="/img/location.svg" style="width: 20px; height: 20px; margin-right: 4px;"/> Livraison estimée : 
-            <span v-if="order.expectedDelivery">{{ $formatDate2(order.expectedDelivery) }}</span>
+            <span v-if="order.expectedDelivery">{{ $formatDate3(order.expectedDelivery) }}</span>
             <span v-else>-</span>
           </div>
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
@@ -350,7 +341,7 @@
                 </div>
                 <div class="css-hg5jyh">
                   <h6 class="css-yemnbq" style="font-weight: 500; font-size: 15px;">En préparation</h6>
-                  <span class="css-6f545k">{{ $formatDate(order.createdAt) }}</span>
+                  <span class="css-6f545k">{{ $formatDate3(order.createdAt) }}</span>
                 </div>
               </li>
               <li class="css-1rcbby2">

@@ -12,29 +12,7 @@
     <div class="checkout__body">
       <div @click="showPromo()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px;">Ajouter une promotion</div>
       <div v-if="user.vendor.promotions && user.vendor.promotions.length > 0">
- <!--        <div style="border: 1px solid #272c30; margin: 5px;padding: 18px 0px;border-radius: 10px;">
-          <p style="text-align: center;margin-bottom: 22Px;">Performances</p>
-          <div class="profile--follow">
-            <div>
-              <h4>{{ user.vendor.promotions.length }}</h4>
-              <p v-if="user.vendor.promotions.length > 1">Promotions</p>
-              <p v-else>Promotion</p>
-            </div>
-            <hr style="width: 1px;">
-            <div>
-              <h4>-</h4>
-              <p>Utilisés</p>
-            </div>
-            <hr style="width: 1px;">
-            <div>
-              <h4>-</h4>
-              <p>Total</p>
-            </div>
-          </div>
-        </div>
- -->
         <p style="text-align: left; font-size: 12px; line-height: 1.57143; font-size: 13px; font-weight: 400; color: #999; margin: 0; margin-top: 15px; padding: 10px;">La promotion activé sera appliqué automatiquement lors du passage en caisse de vos clients.</p>
-
         <div v-for="(promo, index) in user.vendor.promotions" style="border: 1px solid #ff2f80; margin: 5px;padding: 8px 0px;margin-top: 10px;border-radius: 10px; margin-bottom: 15px;">
           <div class="profile--follow">
             <div style="width: 40%; margin-top: 5px;">
@@ -151,7 +129,6 @@ export default {
     },
     async savePromo() {
       const mainStore = useMainStore();
-
       this.$Haptics.impact({ style: 'medium' });
 
       if (this.promotion.value) {
@@ -181,7 +158,6 @@ export default {
           const updatedUser = response.data;
           mainStore.setUser(updatedUser);
           this.user = updatedUser;
-
           this.promotion = { title: '', type: '', value: null, isActive: true };
         } catch (error) {
           console.error(error);
@@ -197,7 +173,6 @@ export default {
     },
     async deletePromo(promo, index) {
       const mainStore = useMainStore();
-
       this.$Haptics.impact({ style: 'medium' });
       this.user.vendor.promotions.splice(index, 1);
 
@@ -210,9 +185,11 @@ export default {
           },
         });
 
-        const updatedUser = response.data;
-        mainStore.setUser(updatedUser);
-        this.user = updatedUser;
+        if (response.status === 200) {
+          const updatedUser = response.data;
+          mainStore.setUser(updatedUser);
+          this.user = updatedUser;
+        }
       } catch (error) {
         console.error(error);
       }
@@ -242,9 +219,11 @@ export default {
           },
         });
 
-        const updatedUser = response.data;
-        mainStore.setUser(updatedUser);
-        this.user = updatedUser;
+        if (response.status === 200) {
+          const updatedUser = response.data;
+          mainStore.setUser(updatedUser);
+          this.user = updatedUser;
+        }
       } catch (error) {
         console.error(error);
       }

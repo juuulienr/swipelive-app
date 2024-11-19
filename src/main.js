@@ -87,6 +87,21 @@ app.config.globalProperties.$formatDate2 = (datetime) => {
   return date.toLocaleDateString(navigator.language);
 };
 
+app.config.globalProperties.$formatDate3 = (datetime) => {
+  const date = new Date(datetime);
+  const formattedDate = date.toLocaleDateString(navigator.language, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+  const formattedTime = date.toLocaleTimeString(navigator.language, {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  return `${formattedDate} ${formattedTime}`;
+};
+
+
 app.config.globalProperties.$truncate = (text, length) => {
   if (text.length > length) {
     let truncatedText = text.substring(0, length);
