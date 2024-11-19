@@ -44,7 +44,6 @@
       </div>
     </div>
 
-
     <div v-if="productsTrending && productsTrending.length > 0" class="favourite" style="padding-top: 15px; margin-bottom: 20px;">
       <h2 style="font-weight: 500; font-size: 16px; margin-left: 15px;">Top Produits 🛍</h2>
       <div class="list_persone" style="display:flex; padding: 0px 5px">
@@ -116,9 +115,13 @@ export default {
       variant: null,
     };
   },
-  created() {
-    const mainStore = useMainStore();
-
+  async created() {
+    if (this.$Capacitor.isNativePlatform()) {
+      await this.$StatusBar.setStyle({ style: this.$Style.Default });
+      await this.$StatusBar.setOverlaysWebView({ overlay: false });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+    }
+    
     this.loadProfile();
     this.loadClipsTrending();
     this.loadProductsTrending();

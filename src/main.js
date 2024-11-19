@@ -33,13 +33,11 @@ const isProd = window.location.protocol === 'https:' || (isNative && window.loca
 
 if (isProd) {
   Pusher.logToConsole = true;
-  
   Bugsnag.start({
     apiKey: 'b6f579675362830a12146a96a851e17a',
     plugins: [new BugsnagPluginVue()],
   });
   app.use(Bugsnag.getPlugin('vue'));
-
   window.localStorage.setItem("baseUrl", "https://swipelive.app");
   window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
 } else {
@@ -149,12 +147,8 @@ app.config.globalProperties.$formatLikes = (value) => {
 
 const init = () => {
   app.mount('#app');
-  if (isNative) {
-    StatusBar.setStyle({ style: Style.Light });
-  }
 };
 
-// Gestion des événements Capacitor
 CapacitorApp.addListener("appStateChange", (state) => {
   if (!state.isActive) {
     console.log("App is in background");

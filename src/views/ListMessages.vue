@@ -81,8 +81,6 @@ export default {
     Message
   },
   data() {
-    const mainStore = useMainStore();
-
     return {
       discussionId: this.$route.params.discussionId,
       userId: this.$route.params.userId,
@@ -92,7 +90,7 @@ export default {
       lastname: this.$route.params.lastname,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: mainStore.getUser,
+      user: useMainStore().getUser,
       LottieJSON: LottieJSON,
       discussions: [],
       selectedDiscussion: null,

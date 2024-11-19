@@ -435,7 +435,13 @@ export default {
       agoraToken: null,
     }
   },
-  created() {
+  async created() {
+    if (this.$Capacitor.isNativePlatform()) {
+      await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+      await this.$StatusBar.setOverlaysWebView({ overlay: true });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+    }
+
     if (!this.token) {
       this.$router.push({ name: 'Welcome' });
     }
@@ -505,7 +511,7 @@ export default {
       this.loadFollowing();
     }
   },
-  beforeDestroy() {
+  async beforeDestroy() {
     this.leaveChannel();
 
     this.players.forEach((player, index) => {

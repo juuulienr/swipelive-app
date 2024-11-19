@@ -79,3 +79,169 @@ Ajouter dans les balises <activity android:exported="true"> et <receiver android
 
 
 
+
+
+
+Fichier StatusBarPlugin pour Capacitor Status Bar
+
+import Foundation
+import Capacitor
+
+/**
+ * StatusBar plugin. Requires "View controller-based status bar appearance" to
+ * be "YES" in Info.plist
+ */
+@objc(StatusBarPlugin)
+public class StatusBarPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "StatusBarPlugin"
+    public let jsName = "StatusBar"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "setStyle", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setBackgroundColor", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "show", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "hide", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getInfo", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setOverlaysWebView", returnType: CAPPluginReturnPromise)
+    ]
+    private var observer: NSObjectProtocol?
+
+    override public func load() {
+        observer = NotificationCenter.default.addObserver(forName: Notification.Name.capacitorStatusBarTapped, object: .none, queue: .none) { [weak self] _ in
+            self?.bridge?.triggerJSEvent(eventName: "statusTap", target: "window")
+        }
+    }
+
+    deinit {
+        if let observer = observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+
+    @objc func setStyle(_ call: CAPPluginCall) {
+        let options = call.options!
+
+        if let style = options["style"] as? String {
+            if style == "DARK" {
+                bridge?.statusBarStyle = .lightContent
+            } else if style == "LIGHT" {
+                bridge?.statusBarStyle = .darkContent
+            } else if style == "DEFAULT" {
+                bridge?.statusBarStyle = .default
+            }
+        }
+
+        call.resolve([:])
+    }
+
+    @objc func setBackgroundColor(_ call: CAPPluginCall) {
+        guard let hexColor = call.getString("color") else {
+            call.reject("Color is required")
+            return
+        }
+
+        DispatchQueue.main.async {
+            guard let window = UIApplication.shared.windows.first else {
+                call.reject("Window not available")
+                return
+            }
+
+            if let statusBarManager = window.windowScene?.statusBarManager {
+                let statusBarFrame = statusBarManager.statusBarFrame
+                let statusBarView = UIView(frame: statusBarFrame)
+
+                if hexColor.lowercased() == "#ffffffff" {
+                    statusBarView.backgroundColor = UIColor.clear
+                    statusBarView.isOpaque = false
+                } else {
+                    statusBarView.backgroundColor = UIColor.white
+                    statusBarView.isOpaque = true
+                }
+
+                statusBarView.tag = 999
+                if let oldView = window.viewWithTag(999) {
+                    oldView.removeFromSuperview()
+                }
+                window.addSubview(statusBarView)
+                call.resolve()
+            } else {
+                call.reject("Status bar manager not available")
+            }
+        }
+    }
+
+
+    func setAnimation(_ call: CAPPluginCall) {
+        let animation = call.getString("animation", "FADE")
+        if animation == "SLIDE" {
+            bridge?.statusBarAnimation = .slide
+        } else if animation == "NONE" {
+            bridge?.statusBarAnimation = .none
+        } else {
+            bridge?.statusBarAnimation = .fade
+        }
+    }
+
+    @objc func hide(_ call: CAPPluginCall) {
+        setAnimation(call)
+        bridge?.statusBarVisible = false
+        call.resolve()
+    }
+
+    @objc func show(_ call: CAPPluginCall) {
+        setAnimation(call)
+        bridge?.statusBarVisible = true
+        call.resolve()
+    }
+
+    @objc func getInfo(_ call: CAPPluginCall) {
+        DispatchQueue.main.async { [weak self] in
+            guard let bridge = self?.bridge else {
+                return
+            }
+            let style: String
+            switch bridge.statusBarStyle {
+            case .default:
+                if bridge.userInterfaceStyle == UIUserInterfaceStyle.dark {
+                    style = "DARK"
+                } else {
+                    style = "LIGHT"
+                }
+            case .lightContent:
+                style = "DARK"
+            default:
+                style = "LIGHT"
+            }
+
+            call.resolve([
+                "visible": bridge.statusBarVisible,
+                "style": style
+            ])
+        }
+    }
+
+    @objc func setOverlaysWebView(_ call: CAPPluginCall) {
+        let overlay = call.getBool("overlay", true)
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self, let bridge = self.bridge, let window = UIApplication.shared.windows.first else {
+                call.reject("Bridge or window not available")
+                return
+            }
+
+            var statusBarHeight: CGFloat = 0
+            if let statusBarManager = window.windowScene?.statusBarManager {
+                statusBarHeight = statusBarManager.statusBarFrame.size.height
+            }
+
+            if overlay {
+                bridge.webView?.frame.origin.y = 0
+            } else {
+                bridge.webView?.frame.origin.y = statusBarHeight
+            }
+
+            call.resolve()
+        }
+    }
+
+
+}

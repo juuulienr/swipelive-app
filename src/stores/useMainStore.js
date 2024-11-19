@@ -2,9 +2,8 @@ import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 
 export const useMainStore = defineStore('main', {
-  // `state` correspond aux données du store
   state: () => ({
-    user: useStorage('user', []), // Synchronisé avec le stockage local
+    user: useStorage('user', []),
     lineItems: useStorage('lineItems', []),
     categories: useStorage('categories', []),
     shippingProducts: useStorage('shippingProducts', []),
@@ -15,8 +14,6 @@ export const useMainStore = defineStore('main', {
     following: useStorage('following', []),
     rules: useStorage('rules', true),
   }),
-
-  // `getters` pour les propriétés calculées
   getters: {
     getUser: (state) => state.user,
     getLineItems: (state) => state.lineItems,
@@ -29,11 +26,8 @@ export const useMainStore = defineStore('main', {
     getFollowing: (state) => state.following,
     getRules: (state) => state.rules,
   },
-
-  // `actions` pour des mutations et requêtes asynchrones
   actions: {
     resetState() {
-      // Pour éviter les références partagées, créer une nouvelle instance d'état vide
       this.$patch({
         user: [],
         lineItems: [],

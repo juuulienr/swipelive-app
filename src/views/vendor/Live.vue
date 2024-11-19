@@ -683,6 +683,12 @@ export default {
     }
   },
   async created() {
+    if (this.$Capacitor.isNativePlatform()) {
+      await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+      await this.$StatusBar.setOverlaysWebView({ overlay: true });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+    }
+
     document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
     if (this.$Capacitor.getPlatform() === "web") {
       this.browser = true;
@@ -707,7 +713,13 @@ export default {
   mounted() {
     this.initializeAgora();
   },
-  beforeDestroy() {
+  async beforeDestroy() {
+    if (this.$Capacitor.isNativePlatform()) {
+      await this.$StatusBar.setStyle({ style: this.$Style.Default });
+      await this.$StatusBar.setOverlaysWebView({ overlay: false });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+    }
+    
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
     this.stopLocalVideo();
     this.leaveChannel();
