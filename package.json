@@ -12,7 +12,8 @@
     "browser": "vite build && npx cap sync && npx cap serve",
     "android-build": "vite build && npx cap sync android && npx cap open android",
     "android-device": "vite build && npx cap sync android && npx cap run android --target=device",
-    "android": "vite build && npx cap sync android && npx cap open android"
+    "android": "vite build && npx cap sync android && npx cap open android",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@bugsnag/js": "^8.1.2",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.5",
-    "@vue/devtools": "^7.6.4"
+    "@vue/devtools": "^7.6.4",
+    "patch-package": "^8.0.0"
   }
 }
