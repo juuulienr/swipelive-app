@@ -597,6 +597,7 @@ import LottieJSON3 from '../../assets/lottie/no-order.json';
 import LottieJSON4 from '../../assets/lottie/trophy.json';
 import LottieJSON5 from '../../assets/lottie/discount.json';
 import { useMainStore } from '../../stores/useMainStore.js';
+import { AgoraPlugin } from 'capacitor-agora-plugin';
 
 export default {
   name: 'Feed',
@@ -734,7 +735,7 @@ export default {
   methods: {    
     async initializeAgora() {
       console.log("initializeAgora");
-      
+
       this.agoraChannel = "Live" + this.id;
       this.uid = this.user.id;
 
@@ -742,33 +743,27 @@ export default {
       console.log('Channel:', this.agoraChannel);
       console.log('UID:', this.uid);
 
-      window.cordova.plugins.Agora.initialize(this.agoraAppId, (response) => {
+      try {
+        await AgoraPlugin.initialize({ appId: this.agoraAppId });
         console.log('Agora initialized successfully');
-        console.log(response);
 
-        var options = {
+        const options = {
           frameRate: 30,
           bitrate: 2000,
           orientationMode: 0,
-          mirrorMode: 0 
+          mirrorMode: 0,
         };
 
-        window.cordova.plugins.Agora.createMicrophoneAndCameraTracks(options, (response) => {
-          console.log('Microphone and camera tracks created successfully');
-          console.log(response);
+        await AgoraPlugin.createMicrophoneAndCameraTracks(options);
+        console.log('Microphone and camera tracks created successfully');
 
-          this.addLocalVideoStream();
-          this.startPreview();
-
-        }, function(error) {
-          console.log('Failed to create microphone and camera tracks', error);
-        });
-
-      }, function(error) {
+        this.addLocalVideoStream();
+        this.startPreview();
+      } catch (error) {
         console.log('Agora initialization failed', error);
-      });
+      }
     },
-    addLocalVideoStream() {
+    async addLocalVideoStream() {
       const elementId = 'local-video';
       const videoElement = document.getElementById(elementId);
 
@@ -780,51 +775,51 @@ export default {
           left: rect.left,
           top: rect.top,
           width: rect.width,
-          height: rect.height
+          height: rect.height,
         };
 
-        window.cordova.plugins.Agora.setupLocalVideo(options, (response) => {
+        try {
+          await AgoraPlugin.setupLocalVideo(options);
           console.log('Local video setup successfully');
-          console.log(response);
-        }, (error) => {
+        } catch (error) {
           console.log('Failed to setup local video', error);
-        });
+        }
       } else {
         console.log('Video element not found');
       }
     },
-    startPreview() {
-      window.cordova.plugins.Agora.startPreview((response) => {
+    async startPreview() {
+      try {
+        await AgoraPlugin.startPreview();
         console.log('Preview started successfully');
-        console.log(response);
         this.loading = false;
-      }, (error) => {
+      } catch (error) {
         console.log('Failed to start preview', error);
-      });
+      }
     },
-    stopLocalVideo() {
-      window.cordova.plugins.Agora.stopLocalVideo((response) => {
+    async stopLocalVideo() {
+      try {
+        await AgoraPlugin.stopLocalVideo();
         console.log('Local video stopped successfully');
-        console.log(response);
-      }, (error) => {
+      } catch (error) {
         console.log('Failed to stop local video', error);
-      });
+      }
     },
-    leaveChannel() {
-      window.cordova.plugins.Agora.leaveChannel((response) => {
+    async leaveChannel() {
+      try {
+        await AgoraPlugin.leaveChannel();
         console.log('Left the channel successfully');
-        console.log(response);
-      }, (error) => {
+      } catch (error) {
         console.log('Failed to leave the channel', error);
-      });
+      }
     },
-    switchCamera() {
-      window.cordova.plugins.Agora.switchCamera((response) => {
+    async switchCamera() {
+      try {
+        await AgoraPlugin.switchCamera();
         console.log('Camera switched successfully');
-        console.log(response);
-      }, (error) => {
+      } catch (error) {
         console.log('Failed to switch camera', error);
-      });
+      }
     },
     async startCountdown() {
       this.$Haptics.impact({ style: 'medium' });
@@ -846,127 +841,125 @@ export default {
     async startLive() {
       console.log("start live");
 
-      window.cordova.plugins.Agora.joinChannel(
-        this.agoraToken,
-        this.agoraChannel,
-        this.uid,
-        async (response) => {
-          console.log('Joined channel successfully');
-          console.log(response);
+      try {
+        await AgoraPlugin.joinChannel({
+          token: this.agoraToken,
+          channelName: this.agoraChannel,
+          uid: this.uid,
+        });
+        console.log('Joined channel successfully');
 
-          try {
-            const liveUpdateResponse = await this.$CapacitorHttp.request({
-              method: 'PUT',
-              url: `${this.baseUrl}/user/api/live/update/${this.id}`,
-              headers: { Authorization: `Bearer ${this.token}` },
-              data: { fbIdentifier: this.fbIdentifier, fbToken: this.fbToken },
-            });
+        try {
+          const liveUpdateResponse = await this.$CapacitorHttp.request({
+            method: 'PUT',
+            url: `${this.baseUrl}/user/api/live/update/${this.id}`,
+            headers: { Authorization: `Bearer ${this.token}` },
+            data: { fbIdentifier: this.fbIdentifier, fbToken: this.fbToken },
+          });
 
-            const liveData = liveUpdateResponse.data;
-            console.log(liveData);
-            this.live = liveData;
-            this.liveProducts = this.live.liveProducts;
-            this.available = this.checkQuantity();
+          const liveData = liveUpdateResponse.data;
+          console.log(liveData);
+          this.live = liveData;
+          this.liveProducts = this.live.liveProducts;
+          this.available = this.checkQuantity();
 
-            this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
-            const channel = this.pusher.subscribe(this.live.channel);
+          this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
+          const channel = this.pusher.subscribe(this.live.channel);
 
-            channel.bind(this.live.event, (data) => {
-              console.log(data);
+          channel.bind(this.live.event, (data) => {
+            console.log(data);
 
-              if ('comment' in data) {
-                if (
-                  data.comment.user.firstname !== this.user.firstname &&
-                  data.comment.user.lastname !== this.user.lastname
-                ) {
-                  this.comments.push(data.comment);
-                  this.scrollToElement();
-                }
+            if ('comment' in data) {
+              if (
+                data.comment.user.firstname !== this.user.firstname &&
+                data.comment.user.lastname !== this.user.lastname
+              ) {
+                this.comments.push(data.comment);
+                this.scrollToElement();
               }
-
-              if ('viewers' in data) {
-                if (data.viewers.count > this.viewers) {
-                  this.countViews += 1;
-                }
-                this.viewers = data.viewers.count;
-
-                if (data.viewers.type === "add") {
-                  this.spectators.push(data.viewers.user);
-                } else {
-                  this.spectators = this.spectators.filter(
-                    (element) => element.id !== data.viewers.user.id
-                  );
-                }
-              }
-
-              if ('likes' in data) {
-                this.countLikes += 1;
-                if (data.likes !== this.user.id) {
-                  this.showAnimation();
-                }
-              }
-
-              if ('order' in data) {
-                this.countOrders += 1;
-                this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
-                this.amount = this.amount.toFixed(2);
-                data.order.createdAt = new Date();
-                this.orders.unshift(data.order);
-                this.available = data.order.available;
-              }
-            });
-
-            if (this.isShowPages) {
-              this.pages = this.pages.filter((page) => page.selected);
             }
 
-            if (this.isShowGroups) {
-              this.groups = this.groups.filter((group) => group.selected);
+            if ('viewers' in data) {
+              if (data.viewers.count > this.viewers) {
+                this.countViews += 1;
+              }
+              this.viewers = data.viewers.count;
+
+              if (data.viewers.type === "add") {
+                this.spectators.push(data.viewers.user);
+              } else {
+                this.spectators = this.spectators.filter(
+                  (element) => element.id !== data.viewers.user.id
+                );
+              }
             }
 
-            // stream on Facebook
-            if (this.fbToken) {
-              const streamUpdateResponse = await this.$CapacitorHttp.request({
-                method: 'PUT',
-                url: `${this.baseUrl}/user/api/live/update/stream/${this.id}`,
-                headers: { Authorization: `Bearer ${this.token}` },
-                data: {
-                  fbIdentifier: this.fbIdentifier,
-                  fbToken: this.fbToken,
-                  fbPageIdentifier: this.fbPageIdentifier,
-                  fbTokenPage: this.fbTokenPage,
-                  showGroupsPage: this.showGroupsPage,
-                  pages: this.pages,
-                  groups: this.groups,
-                },
-              });
-
-              const result = streamUpdateResponse.data;
-              this.fbStreamId = result.fbStreamId;
-              console.log(this.fbStreamId);
-
-              const url = `https://streaming-graph.facebook.com/${this.fbStreamId}/live_comments?access_token=${this.fbToken}&comment_rate=ten_per_second&fields=from{name,id},message`;
-              const source = new EventSource(url);
-
-              console.log(source);
-              source.onmessage = (event) => {
-                console.log(event);
-              };
-              source.onerror = (error) => {
-                console.log('error', error);
-              };
-              source.onopen = (open) => {
-                console.log(open);
-              };
+            if ('likes' in data) {
+              this.countLikes += 1;
+              if (data.likes !== this.user.id) {
+                this.showAnimation();
+              }
             }
-          } catch (error) {
-            console.log('Failed to start broadcast', error);
+
+            if ('order' in data) {
+              this.countOrders += 1;
+              this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
+              this.amount = this.amount.toFixed(2);
+              data.order.createdAt = new Date();
+              this.orders.unshift(data.order);
+              this.available = data.order.available;
+            }
+          });
+
+          if (this.isShowPages) {
+            this.pages = this.pages.filter((page) => page.selected);
           }
-        },
-        (error) => {
-          console.log('Failed to join channel', error);
+
+          if (this.isShowGroups) {
+            this.groups = this.groups.filter((group) => group.selected);
+          }
+
+          // stream on Facebook
+          if (this.fbToken) {
+            const streamUpdateResponse = await this.$CapacitorHttp.request({
+              method: 'PUT',
+              url: `${this.baseUrl}/user/api/live/update/stream/${this.id}`,
+              headers: { Authorization: `Bearer ${this.token}` },
+              data: {
+                fbIdentifier: this.fbIdentifier,
+                fbToken: this.fbToken,
+                fbPageIdentifier: this.fbPageIdentifier,
+                fbTokenPage: this.fbTokenPage,
+                showGroupsPage: this.showGroupsPage,
+                pages: this.pages,
+                groups: this.groups,
+              },
+            });
+
+            const result = streamUpdateResponse.data;
+            this.fbStreamId = result.fbStreamId;
+            console.log(this.fbStreamId);
+
+            const url = `https://streaming-graph.facebook.com/${this.fbStreamId}/live_comments?access_token=${this.fbToken}&comment_rate=ten_per_second&fields=from{name,id},message`;
+            const source = new EventSource(url);
+
+            console.log(source);
+            source.onmessage = (event) => {
+              console.log(event);
+            };
+            source.onerror = (error) => {
+              console.log('error', error);
+            };
+            source.onopen = (open) => {
+              console.log(open);
+            };
+          }
+        } catch (error) {
+          console.log('Failed to start broadcast', error);
         }
-      );
+      } catch (error) {
+        console.log('Failed to join channel', error);
+      }
     },
     async stopLive() {
       const mainStore = useMainStore();
