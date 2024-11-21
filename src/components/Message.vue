@@ -154,7 +154,10 @@ export default {
           const response = await this.$CapacitorHttp.request({
             method: 'POST',
             url: url,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            },
             data: httpParams,
           });
 
@@ -233,7 +236,10 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: `${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`,
-                headers: { Authorization: `Bearer ${this.token}` },
+                headers: {
+                  Authorization: `Bearer ${this.token}`,
+                  'Content-Type': 'application/json',
+                },
                 body: formData,
               });
 
@@ -244,7 +250,10 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: `${this.baseUrl}/user/api/discussions/${this.discussion.id}/picture`,
-                headers: { Authorization: `Bearer ${this.token}` },
+                headers: {
+                  Authorization: `Bearer ${this.token}`,
+                  'Content-Type': 'application/json',
+                },
                 data: { picture: imgData },
               });
 

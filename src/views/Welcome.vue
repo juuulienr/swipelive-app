@@ -804,7 +804,7 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: `${this.baseUrl}/api/registration/picture`,
-                headers: { Authorization: "Bearer " },
+                headers: { 'Content-Type': 'application/json; charset=UTF-8' },
                 body: formData,
               });
 
@@ -816,7 +816,7 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: `${this.baseUrl}/api/registration/picture`,
-                headers: { Authorization: "Bearer " },
+                headers: { 'Content-Type': 'application/json; charset=UTF-8' },
                 data: { picture: imgData },
               });
 

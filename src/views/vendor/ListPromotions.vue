@@ -151,6 +151,7 @@ export default {
             url: `${this.baseUrl}/user/api/promotion/add`,
             headers: {
               Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
             },
             data: this.promotion,
           });

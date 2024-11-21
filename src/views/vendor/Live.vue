@@ -1187,7 +1187,10 @@ export default {
           const response = await this.$CapacitorHttp.request({
             method: 'POST',
             url: `${this.baseUrl}/user/api/promotion/add`,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            },
             data: this.promotion,
           });
 

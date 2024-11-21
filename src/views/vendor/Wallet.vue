@@ -329,6 +329,7 @@ export default {
             url: `${this.baseUrl}/user/api/bank/add`,
             headers: {
               Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
             },
             data: { number, last4, countryCode, businessName: this.businessName },
           });
@@ -365,6 +366,7 @@ export default {
             url: `${this.baseUrl}/user/api/withdraw`,
             headers: {
               Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
             },
             data: { withdrawAmount: this.withdrawAmount.replace(",", ".") },
           });
@@ -483,7 +485,10 @@ export default {
             const apiResponse = await this.$CapacitorHttp.request({
               method: 'POST',
               url: `${this.baseUrl}/user/api/verification/document/front`,
-              headers: { Authorization: `Bearer ${this.token}` },
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+                'Content-Type': 'application/json',
+              },
               data: { person_token: result.token.id },
             });
 
@@ -536,7 +541,10 @@ export default {
           const apiResponse = await this.$CapacitorHttp.request({
             method: 'POST',
             url: `${this.baseUrl}/user/api/verification/document/back`,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            },
             data: { person_token: result.token.id },
           });
 

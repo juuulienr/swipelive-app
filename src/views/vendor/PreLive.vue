@@ -217,6 +217,7 @@ export default {
         }));
 
         const httpParams = { views: 0, status: 0, liveProducts };
+        console.log(httpParams);
 
         try {
           const response = await this.$CapacitorHttp.request({
@@ -224,9 +225,13 @@ export default {
             url: `${this.baseUrl}/user/api/prelive`,
             headers: {
               Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
             },
             data: httpParams,
           });
+
+          console.log(response);
+          console.log(response.data);
 
           this.live = response.data;
           await this.goToLive();

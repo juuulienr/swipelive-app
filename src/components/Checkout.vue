@@ -729,7 +729,10 @@ export default {
           const response = await this.$CapacitorHttp.request({
             method: 'POST',
             url: url,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            },
             data: httpParams,
           });
 
@@ -749,7 +752,10 @@ export default {
         const response = await this.$CapacitorHttp.request({
           method: 'POST',
           url: `${this.baseUrl}/user/api/shipping/price`,
-          headers: { Authorization: `Bearer ${this.token}` },
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
           data: { lineItems: this.lineItems },
         });
 
@@ -784,7 +790,10 @@ export default {
           const response = await this.$CapacitorHttp.request({
             method: 'POST',
             url: `${this.baseUrl}/user/api/dropoff-locations`,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            },
             data: { service_point: this.shippingProducts.service_point },
           });
 
@@ -891,7 +900,10 @@ export default {
           const response = await this.$CapacitorHttp.request({
             method: 'POST',
             url: `${this.baseUrl}/user/api/orders/payment`,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            },
             data: {
               lineItems: this.lineItems,
               identifier: this.identifier,

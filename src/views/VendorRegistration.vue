@@ -675,7 +675,10 @@ export default {
         const response = await this.$CapacitorHttp.request({
           method: 'POST',
           url: `${this.baseUrl}/user/api/vendor`,
-          headers: { Authorization: `Bearer ${this.token}` },
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
           data: httpParams,
         });
 
@@ -761,7 +764,10 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: `${this.baseUrl}/user/api/profile/picture`,
-                headers: { Authorization: `Bearer ${this.token}` },
+                headers: {
+                  Authorization: `Bearer ${this.token}`,
+                  'Content-Type': 'application/json',
+                },
                 body: formData,
               });
 
@@ -773,7 +779,10 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: `${this.baseUrl}/user/api/profile/picture`,
-                headers: { Authorization: `Bearer ${this.token}` },
+                headers: {
+                  Authorization: `Bearer ${this.token}`,
+                  'Content-Type': 'application/json',
+                },
                 data: { picture: imgData },
               });
 

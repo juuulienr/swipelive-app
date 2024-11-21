@@ -518,7 +518,10 @@ export default {
             const response = await this.$CapacitorHttp.request({
               method: 'POST',
               url: `${this.baseUrl}/user/api/product/add`,
-              headers: { Authorization: `Bearer ${this.token}` },
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+                'Content-Type': 'application/json',
+              },
               data: httpParams,
             });
 
@@ -604,7 +607,10 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: url,
-                headers: { Authorization: `Bearer ${this.token}` },
+                headers: {
+                  Authorization: `Bearer ${this.token}`,
+                  'Content-Type': 'application/json',
+                },
                 body: formData,
               });
 
@@ -615,7 +621,10 @@ export default {
               const response = await this.$CapacitorHttp.request({
                 method: 'POST',
                 url: url,
-                headers: { Authorization: `Bearer ${this.token}` },
+                headers: {
+                  Authorization: `Bearer ${this.token}`,
+                  'Content-Type': 'application/json',
+                },
                 data: { picture: imgData },
               });
 
@@ -799,7 +808,10 @@ export default {
             const response = await this.$CapacitorHttp.request({
               method: 'POST',
               url: `${this.baseUrl}/user/api/variant/edit/${this.variant.id}`,
-              headers: { Authorization: `Bearer ${this.token}` },
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+                'Content-Type': 'application/json',
+              },
               data: httpParams,
             });
 
