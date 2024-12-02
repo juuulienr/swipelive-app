@@ -5,11 +5,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && npx cap sync",
-    "serve": "vite preview",
     "ios": "vite build && npx cap sync ios && npx cap open ios",
     "ios-debug": "vite build && npx cap sync ios && npx cap run ios --target=00008110-001248360E33801E --livereload",
     "ios-emulator": "vite build && npx cap sync ios && npx cap run ios --target=emulator --livereload",
-    "browser": "vite build && npx cap sync && npx cap serve",
     "android-build": "vite build && npx cap sync android && npx cap open android",
     "android-device": "vite build && npx cap sync android && npx cap run android --target=device",
     "android": "vite build && npx cap sync android && npx cap open android",

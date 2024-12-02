@@ -698,9 +698,8 @@ export default {
   mounted() {
     this.initializeAgora();
   },
-  async beforeDestroy() {
+  beforeDestroy() {
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
-    this.stopLocalVideo();
     this.leaveChannel();
   },
   directives: {
@@ -723,16 +722,9 @@ export default {
         console.log('Agora initialization failed', error);
       }
     },
-    async stopLocalVideo() {
-      try {
-        await Agora.disableWebViewTransparency();
-        console.log('Local video stopped successfully');
-      } catch (error) {
-        console.log('Failed to stop local video', error);
-      }
-    },
     async leaveChannel() {
       try {
+        await Agora.disableWebViewTransparency();
         await Agora.leaveChannel();
         console.log('Left the channel successfully');
       } catch (error) {
@@ -782,6 +774,8 @@ export default {
             headers: { Authorization: `Bearer ${this.token}` },
             data: { fbIdentifier: this.fbIdentifier, fbToken: this.fbToken },
           });
+
+          console.log(liveUpdateResponse);
 
           const liveData = liveUpdateResponse.data;
           console.log(liveData);
@@ -898,7 +892,6 @@ export default {
         this.pusher.unsubscribe(this.live.channel);
       }
 
-      this.stopLocalVideo();
       this.leaveChannel();
 
       try {
@@ -938,6 +931,7 @@ export default {
       if (this.performance) {
         this.$router.push({ name: 'Account' });
       } else {
+        this.stopLive();
         this.$router.push({ name: 'PreLive' });
       }
     },
@@ -1053,7 +1047,6 @@ export default {
             group.selected = false;
             this.groups.push(group);
           });
-
 
           if ('cursors' in result.paging) {
             if ('after' in result.paging.cursors) {
