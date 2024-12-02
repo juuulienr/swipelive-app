@@ -1,9 +1,5 @@
 <template>  
-  <div :class="['livestream', { 'loading': loading }]">
-    <div id="player" style="position: relative; width: 100%; height: 100vh; overflow: hidden;">
-      <div id="local-video" style="width: 100%; height: 100%; position: absolute; z-index: 1;"></div>
-    </div>
-
+  <div class="livestream">
     <div v-if="prelive" class="prelive">
       <!-- filter top/bottom -->
       <div class="filter-bottom"></div>
@@ -573,19 +569,12 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  background: transparent !important;
 }
 
-.livestream.loading {
-  background: black;
+.body {
+  background: transparent !important;
 }
-
-#local-video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
 
 </style>
 
@@ -597,7 +586,7 @@ import LottieJSON3 from '../../assets/lottie/no-order.json';
 import LottieJSON4 from '../../assets/lottie/trophy.json';
 import LottieJSON5 from '../../assets/lottie/discount.json';
 import { useMainStore } from '../../stores/useMainStore.js';
-import { AgoraPlugin } from 'capacitor-agora-plugin';
+import { Agora } from '@swipelive/capacitor-agora';
 
 export default {
   name: 'Feed',
@@ -624,7 +613,6 @@ export default {
       http: null,
       viewers: 0,
       display: 1,
-      browser: false,
       video: false,
       prelive: true,
       ready: false,
@@ -679,8 +667,7 @@ export default {
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
       agoraToken: this.$route.params.token,
       agoraChannel: null,
-      uid: 0,
-      loading: true 
+      uid: 0
     }
   },
   async created() {
@@ -691,9 +678,6 @@ export default {
     }
 
     document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-    if (this.$Capacitor.getPlatform() === "web") {
-      this.browser = true;
-    }
 
     if (this.$Capacitor.getPlatform() === "ios") {
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
@@ -715,12 +699,6 @@ export default {
     this.initializeAgora();
   },
   async beforeDestroy() {
-    if (this.$Capacitor.isNativePlatform()) {
-      await this.$StatusBar.setStyle({ style: this.$Style.Default });
-      await this.$StatusBar.setOverlaysWebView({ overlay: false });
-      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
-    }
-    
     document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
     this.stopLocalVideo();
     this.leaveChannel();
@@ -734,72 +712,20 @@ export default {
   },
   methods: {    
     async initializeAgora() {
-      console.log("initializeAgora");
-
       this.agoraChannel = "Live" + this.id;
       this.uid = this.user.id;
 
-      console.log('Token:', this.agoraToken);
-      console.log('Channel:', this.agoraChannel);
-      console.log('UID:', this.uid);
-
       try {
-        await AgoraPlugin.initialize({ appId: this.agoraAppId });
-        console.log('Agora initialized successfully');
-
-        const options = {
-          frameRate: 30,
-          bitrate: 2000,
-          orientationMode: 0,
-          mirrorMode: 0,
-        };
-
-        await AgoraPlugin.createMicrophoneAndCameraTracks(options);
-        console.log('Microphone and camera tracks created successfully');
-
-        this.addLocalVideoStream();
-        this.startPreview();
+        await Agora.initialize({ appId: this.agoraAppId });
+        await Agora.setupLocalVideo();
+        await Agora.enableWebViewTransparency();
       } catch (error) {
         console.log('Agora initialization failed', error);
       }
     },
-    async addLocalVideoStream() {
-      const elementId = 'local-video';
-      const videoElement = document.getElementById(elementId);
-
-      if (videoElement) {
-        const rect = videoElement.getBoundingClientRect();
-
-        const options = {
-          uid: this.uid,
-          left: rect.left,
-          top: rect.top,
-          width: rect.width,
-          height: rect.height,
-        };
-
-        try {
-          await AgoraPlugin.setupLocalVideo(options);
-          console.log('Local video setup successfully');
-        } catch (error) {
-          console.log('Failed to setup local video', error);
-        }
-      } else {
-        console.log('Video element not found');
-      }
-    },
-    async startPreview() {
-      try {
-        await AgoraPlugin.startPreview();
-        console.log('Preview started successfully');
-        this.loading = false;
-      } catch (error) {
-        console.log('Failed to start preview', error);
-      }
-    },
     async stopLocalVideo() {
       try {
-        await AgoraPlugin.stopLocalVideo();
+        await Agora.disableWebViewTransparency();
         console.log('Local video stopped successfully');
       } catch (error) {
         console.log('Failed to stop local video', error);
@@ -807,7 +733,7 @@ export default {
     },
     async leaveChannel() {
       try {
-        await AgoraPlugin.leaveChannel();
+        await Agora.leaveChannel();
         console.log('Left the channel successfully');
       } catch (error) {
         console.log('Failed to leave the channel', error);
@@ -815,7 +741,7 @@ export default {
     },
     async switchCamera() {
       try {
-        await AgoraPlugin.switchCamera();
+        await Agora.switchCamera();
         console.log('Camera switched successfully');
       } catch (error) {
         console.log('Failed to switch camera', error);
@@ -842,7 +768,7 @@ export default {
       console.log("start live");
 
       try {
-        await AgoraPlugin.joinChannel({
+        await Agora.joinChannel({
           token: this.agoraToken,
           channelName: this.agoraChannel,
           uid: this.uid,
@@ -972,14 +898,6 @@ export default {
         this.pusher.unsubscribe(this.live.channel);
       }
 
-      if (this.browser) {
-        this.video = null;
-        const player = document.getElementById('player');
-        if (player) {
-          player.remove();
-        }
-      }
-
       this.stopLocalVideo();
       this.leaveChannel();
 
@@ -1051,7 +969,7 @@ export default {
         return 0;
       } else if (product.variants.length === 0) {
         return product.quantity;
-      } else {
+      } else {e
         var quantity = this.totalVariantQuantity(product.variants);
         return quantity;
       }

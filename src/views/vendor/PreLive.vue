@@ -159,7 +159,13 @@ export default {
       live: [],
     };
   },
-  created() {    
+  async created() {    
+    if (this.$Capacitor.isNativePlatform()) {
+      await this.$StatusBar.setStyle({ style: this.$Style.Default });
+      await this.$StatusBar.setOverlaysWebView({ overlay: false });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+    }
+    
     this.loadProducts();
   },
   methods: {
