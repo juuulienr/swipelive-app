@@ -259,6 +259,13 @@ export default {
 
         const result = response.data;
         this.agoraToken = result.token;
+
+        if (this.$Capacitor.isNativePlatform()) {
+          await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+          await this.$StatusBar.setOverlaysWebView({ overlay: true });
+          await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+        }
+
         this.$router.push({
           name: "Live",
           params: { id: this.live.id, token: this.agoraToken },

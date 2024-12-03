@@ -1093,7 +1093,7 @@ export default {
         this.content = "";
       }
     },
-    send() {
+    async send() {
       this.popup = false;
       var content = this.content;
       this.content = "";
@@ -1107,10 +1107,21 @@ export default {
       this.comments[this.visible].value.push({ "content": content, "user": { "vendor": vendor, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
       this.scrollToElement();
       
-      this.http.post(this.baseUrl + "/user/api/" + this.data[this.visible].type + "/" + this.data[this.visible].value.id + "/comment/add", { "content": content }, { Authorization: "Bearer " + this.token }, (response) => {
-      }, (response) => {
-        console.log(response.error);
-      });
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'POST',
+          url: `${this.baseUrl}/user/api/${this.data[this.visible].type}/${this.data[this.visible].value.id}/comment/add`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+          data: { content },
+        });
+
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
     scrollToElement() {
       setTimeout(() => {
@@ -1263,7 +1274,10 @@ export default {
           await this.$CapacitorHttp.request({
             method: 'PUT',
             url: `${this.baseUrl}/user/api/live/${this.data[this.visible].value.id}/update/viewers`,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            }
           });
         } catch (error) {
           console.log("Stop live update views: " + error);
@@ -1278,7 +1292,10 @@ export default {
           await this.$CapacitorHttp.request({
             method: 'PUT',
             url: `${this.baseUrl}/user/api/live/${value.id}/update/viewers`,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
+            }
           });
         } catch (error) {
           console.log("Start live update views: " + error);
@@ -1425,7 +1442,7 @@ export default {
 
       this.$Haptics.impact({ style: 'medium' });
     },
-    paymentSuccessChild(order) {
+    async paymentSuccessChild(order) {
       console.log(order);
       console.log(order.id);
       this.popupCart = false;
@@ -1436,11 +1453,17 @@ export default {
 
       if (this.data[this.visible].type == "live") {
         // this.myPlayer.muted = false;
-        this.http.get(this.baseUrl + "/user/api/live/" + this.data[this.visible].value.id + "/update/orders/" + order.id, {}, { Authorization: "Bearer " + this.token }, (response) => {
-          console.log(response);
-        }, (response) => { 
-          console.log(response.error); 
-        });
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
+            url: `${this.baseUrl}/user/api/live/${this.data[this.visible].value.id}/update/orders/${order.id}`,
+            headers: { Authorization: `Bearer ${this.token}` },
+          });
+
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         // this.myPlayer.play();
         setTimeout(() => {
@@ -1476,7 +1499,10 @@ export default {
         await this.$CapacitorHttp.request({
           method: 'PUT',
           url: url,
-          headers: { Authorization: `Bearer ${this.token}` },
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          }
         });
       } catch (error) {
         console.log(error);

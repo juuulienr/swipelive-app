@@ -1,5 +1,5 @@
 <template>  
-  <div class="livestream">
+  <div :class="{ livestream: true, 'livestream--transparent': isTransparent }">
     <div v-if="prelive" class="prelive">
       <!-- filter top/bottom -->
       <div class="filter-bottom"></div>
@@ -565,16 +565,7 @@
 <style scoped src="../../assets/css/live.css"></style>
 
 <style scoped>
-.livestream {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background: transparent !important;
-}
 
-.body {
-  background: transparent !important;
-}
 
 </style>
 
@@ -639,6 +630,7 @@ export default {
       popupMultistream: false,
       popupPromo: false,
       popupOrders: false,
+      isTransparent: false,
       groups: [],
       pages: [],
       profile: [],
@@ -670,15 +662,7 @@ export default {
       uid: 0
     }
   },
-  async created() {
-    if (this.$Capacitor.isNativePlatform()) {
-      await this.$StatusBar.setStyle({ style: this.$Style.Dark });
-      await this.$StatusBar.setOverlaysWebView({ overlay: true });
-      await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
-    }
-
-    document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
-
+  async created() { 
     if (this.$Capacitor.getPlatform() === "ios") {
       this.safeareaTop = 'calc(env(safe-area-inset-top) + 0px)';
       this.safeareaTop2 = 'calc(env(safe-area-inset-top) + 7px)';
@@ -699,7 +683,6 @@ export default {
     this.initializeAgora();
   },
   beforeDestroy() {
-    document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
     this.leaveChannel();
   },
   directives: {
@@ -717,14 +700,26 @@ export default {
       try {
         await Agora.initialize({ appId: this.agoraAppId });
         await Agora.setupLocalVideo();
-        await Agora.enableWebViewTransparency();
+
+        if (this.$Capacitor.isNativePlatform()) {
+          await Agora.enableWebViewTransparency();
+        }
+
+        this.isTransparent = true;
+        document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
       } catch (error) {
         console.log('Agora initialization failed', error);
       }
     },
     async leaveChannel() {
       try {
-        await Agora.disableWebViewTransparency();
+        this.isTransparent = false;
+        document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
+
+        if (this.$Capacitor.isNativePlatform()) {
+          await Agora.disableWebViewTransparency();
+        }
+
         await Agora.leaveChannel();
         console.log('Left the channel successfully');
       } catch (error) {
@@ -733,15 +728,16 @@ export default {
     },
     async switchCamera() {
       try {
-        await Agora.switchCamera();
-        console.log('Camera switched successfully');
+        if (this.$Capacitor.isNativePlatform()) {
+          await Agora.switchCamera();
+          console.log('Camera switched successfully');
+        }
       } catch (error) {
         console.log('Failed to switch camera', error);
       }
     },
     async startCountdown() {
       this.$Haptics.impact({ style: 'medium' });
-
       this.prelive = false;
       this.counter = true;
 
@@ -761,28 +757,26 @@ export default {
 
       try {
         await Agora.joinChannel({
-          token: this.agoraToken,
           channelName: this.agoraChannel,
+          token: this.agoraToken,
           uid: this.uid,
         });
         console.log('Joined channel successfully');
 
         try {
           const liveUpdateResponse = await this.$CapacitorHttp.request({
-            method: 'PUT',
+            method: 'GET',
             url: `${this.baseUrl}/user/api/live/update/${this.id}`,
-            headers: { Authorization: `Bearer ${this.token}` },
-            data: { fbIdentifier: this.fbIdentifier, fbToken: this.fbToken },
+            headers: { 
+              Authorization: `Bearer ${this.token}` 
+            }
           });
-
-          console.log(liveUpdateResponse);
 
           const liveData = liveUpdateResponse.data;
           console.log(liveData);
           this.live = liveData;
           this.liveProducts = this.live.liveProducts;
           this.available = this.checkQuantity();
-
           this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
           const channel = this.pusher.subscribe(this.live.channel);
 
@@ -844,7 +838,10 @@ export default {
             const streamUpdateResponse = await this.$CapacitorHttp.request({
               method: 'PUT',
               url: `${this.baseUrl}/user/api/live/update/stream/${this.id}`,
-              headers: { Authorization: `Bearer ${this.token}` },
+              headers: { 
+                Authorization: `Bearer ${this.token}`,
+                'Content-Type': 'application/json' 
+             },
               data: {
                 fbIdentifier: this.fbIdentifier,
                 fbToken: this.fbToken,
@@ -894,19 +891,28 @@ export default {
 
       this.leaveChannel();
 
-      try {
-        const response = await this.$CapacitorHttp.request({
-          method: 'PUT',
-          url: `${this.baseUrl}/user/api/live/stop/${this.id}`,
-          headers: { Authorization: `Bearer ${this.token}` },
-          data: { fbStreamId: this.fbStreamId, fbToken: this.fbToken },
-        });
+      if (this.$Capacitor.isNativePlatform()) {
+        await this.$StatusBar.setStyle({ style: this.$Style.Default });
+        await this.$StatusBar.setOverlaysWebView({ overlay: false });
+        await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+      }
 
+      this.$CapacitorHttp.request({
+        method: 'PUT',
+        url: `${this.baseUrl}/user/api/live/stop/${this.id}`,
+        headers: { 
+          Authorization: `Bearer ${this.token}`,
+          'Content-Type': 'application/json' 
+        },
+        data: { fbStreamId: this.fbStreamId, fbToken: this.fbToken },
+      })
+      .then((response) => {
         mainStore.setUser(response.data);
         this.user = response.data;
-      } catch (error) {
-        console.log(error);
-      }
+      })
+      .catch((error) => {
+        console.error('Erreur lors de l\'arrêt du live :', error);
+      });
     },
     async changeProduct() {
       if (this.liveProducts.length > 1) {
@@ -919,7 +925,10 @@ export default {
           await this.$CapacitorHttp.request({
             method: 'PUT',
             url: `${this.baseUrl}/user/api/live/${this.id}/update/display`,
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: { 
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json' 
+            },
             data: { display: this.display },
           });
         } catch (error) {
@@ -944,16 +953,22 @@ export default {
         }, 500)
       }
     },
-    bannedViewer(userId, index) {
+    async bannedViewer(userId, index) {
       console.log(userId, index);
       var filtersList = this.spectators.filter(element => element.id !== userId);
       this.spectators = filtersList;
 
-      this.http.get(this.baseUrl + "/user/api/live/" + this.id + "/update/banned/" + userId, {}, { Authorization: "Bearer " + this.token }, (response) => {
-        console.log(response);
-      }, (response) => { 
-        console.log(response.error); 
-      });
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/live/${this.id}/update/banned/${userId}`,
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
     checkQuantity() {
       var product = this.liveProducts[0].product;
@@ -963,7 +978,7 @@ export default {
         return 0;
       } else if (product.variants.length === 0) {
         return product.quantity;
-      } else {e
+      } else {
         var quantity = this.totalVariantQuantity(product.variants);
         return quantity;
       }
@@ -971,7 +986,6 @@ export default {
     totalVariantQuantity(variants) {
       return variants.reduce((total, variant) => total + variant.quantity, 0);
     },
- 
     showFacebook() {
       this.$Haptics.impact({ style: 'medium' });
       this.popupMultistream = false;

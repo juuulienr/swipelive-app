@@ -503,7 +503,10 @@ export default {
             const response = await this.$CapacitorHttp.request({
               method: 'PUT',
               url: `${this.baseUrl}/user/api/product/edit/${this.productId}`,
-              headers: { Authorization: `Bearer ${this.token}` },
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+                'Content-Type': 'application/json',
+              },
               data: httpParams,
             });
 

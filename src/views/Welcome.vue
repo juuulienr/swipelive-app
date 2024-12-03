@@ -275,7 +275,13 @@ export default {
       locale: null,
     }
   },
-  created() {
+  async created() {
+    if (this.$Capacitor.isNativePlatform()) {
+      await this.$StatusBar.setStyle({ style: this.$Style.Default });
+      await this.$StatusBar.setOverlaysWebView({ overlay: false });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+    }
+
     const isAuthenticated = AuthAPI.isAuthenticated();
     if (isAuthenticated) {
       this.$router.push({ name: 'Feed' });
@@ -295,7 +301,6 @@ export default {
     this.$Network.getStatus().then(status => {
       this.connection = status.connectionType;
     });
-
     this.$Network.addListener("networkStatusChange", status => {
       this.connection = status.connected ? status.connectionType : 'none';
     });
