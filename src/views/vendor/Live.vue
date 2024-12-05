@@ -657,7 +657,7 @@ export default {
         'isActive': true
       },
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
-      agoraToken: this.$route.params.token,
+      agoraToken: null,
       agoraChannel: null,
       uid: 0
     }
@@ -678,8 +678,7 @@ export default {
       this.safeareaBottom2 = '82px';
       this.safeareaBottom3 = '210px';
     }
-  },
-  mounted() {
+
     this.initializeAgora();
   },
   beforeDestroy() {
@@ -700,13 +699,25 @@ export default {
       try {
         await Agora.initialize({ appId: this.agoraAppId });
         await Agora.setupLocalVideo();
-
-        if (this.$Capacitor.isNativePlatform()) {
-          await Agora.enableWebViewTransparency();
-        }
-
         this.isTransparent = true;
         document.getElementsByTagName('body')[0].classList.add("show-viewfinder");
+        await this.getAgoraToken();
+      } catch (error) {
+        console.log('Agora initialization failed', error);
+      }
+    },
+    async getAgoraToken() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/agora/token/host/${this.id}`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+
+        const result = response.data;
+        this.agoraToken = result.token;
       } catch (error) {
         console.log('Agora initialization failed', error);
       }
@@ -715,11 +726,6 @@ export default {
       try {
         this.isTransparent = false;
         document.getElementsByTagName('body')[0].classList.remove("show-viewfinder");
-
-        if (this.$Capacitor.isNativePlatform()) {
-          await Agora.disableWebViewTransparency();
-        }
-
         await Agora.leaveChannel();
         console.log('Left the channel successfully');
       } catch (error) {
@@ -747,135 +753,144 @@ export default {
           this.ready = true;
           clearInterval(this.interval);
 
-          await this.startLive();
         }
         this.countdown -= 1;
-      }, 700);
+      }, 1000);
+
+      try {
+        await this.startLive();
+      } catch (error) {
+        console.log("Error starting live:", error);
+      }
     },
     async startLive() {
       console.log("start live");
 
       try {
-        await Agora.joinChannel({
-          channelName: this.agoraChannel,
-          token: this.agoraToken,
-          uid: this.uid,
-        });
-        console.log('Joined channel successfully');
-
+        if (!this.agoraToken) {
+          await this.getAgoraToken();
+        }
+        
         try {
-          const liveUpdateResponse = await this.$CapacitorHttp.request({
-            method: 'GET',
-            url: `${this.baseUrl}/user/api/live/update/${this.id}`,
-            headers: { 
-              Authorization: `Bearer ${this.token}` 
-            }
+          await Agora.joinChannel({
+            channelName: this.agoraChannel,
+            token: this.agoraToken,
+            uid: this.uid,
           });
-
-          const liveData = liveUpdateResponse.data;
-          console.log(liveData);
-          this.live = liveData;
-          this.liveProducts = this.live.liveProducts;
-          this.available = this.checkQuantity();
-          this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
-          const channel = this.pusher.subscribe(this.live.channel);
-
-          channel.bind(this.live.event, (data) => {
-            console.log(data);
-
-            if ('comment' in data) {
-              if (
-                data.comment.user.firstname !== this.user.firstname &&
-                data.comment.user.lastname !== this.user.lastname
-              ) {
-                this.comments.push(data.comment);
-                this.scrollToElement();
-              }
-            }
-
-            if ('viewers' in data) {
-              if (data.viewers.count > this.viewers) {
-                this.countViews += 1;
-              }
-              this.viewers = data.viewers.count;
-
-              if (data.viewers.type === "add") {
-                this.spectators.push(data.viewers.user);
-              } else {
-                this.spectators = this.spectators.filter(
-                  (element) => element.id !== data.viewers.user.id
-                );
-              }
-            }
-
-            if ('likes' in data) {
-              this.countLikes += 1;
-              if (data.likes !== this.user.id) {
-                this.showAnimation();
-              }
-            }
-
-            if ('order' in data) {
-              this.countOrders += 1;
-              this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
-              this.amount = this.amount.toFixed(2);
-              data.order.createdAt = new Date();
-              this.orders.unshift(data.order);
-              this.available = data.order.available;
-            }
-          });
-
-          if (this.isShowPages) {
-            this.pages = this.pages.filter((page) => page.selected);
-          }
-
-          if (this.isShowGroups) {
-            this.groups = this.groups.filter((group) => group.selected);
-          }
-
-          // stream on Facebook
-          if (this.fbToken) {
-            const streamUpdateResponse = await this.$CapacitorHttp.request({
-              method: 'PUT',
-              url: `${this.baseUrl}/user/api/live/update/stream/${this.id}`,
-              headers: { 
-                Authorization: `Bearer ${this.token}`,
-                'Content-Type': 'application/json' 
-             },
-              data: {
-                fbIdentifier: this.fbIdentifier,
-                fbToken: this.fbToken,
-                fbPageIdentifier: this.fbPageIdentifier,
-                fbTokenPage: this.fbTokenPage,
-                showGroupsPage: this.showGroupsPage,
-                pages: this.pages,
-                groups: this.groups,
-              },
-            });
-
-            const result = streamUpdateResponse.data;
-            this.fbStreamId = result.fbStreamId;
-            console.log(this.fbStreamId);
-
-            const url = `https://streaming-graph.facebook.com/${this.fbStreamId}/live_comments?access_token=${this.fbToken}&comment_rate=ten_per_second&fields=from{name,id},message`;
-            const source = new EventSource(url);
-
-            console.log(source);
-            source.onmessage = (event) => {
-              console.log(event);
-            };
-            source.onerror = (error) => {
-              console.log('error', error);
-            };
-            source.onopen = (open) => {
-              console.log(open);
-            };
-          }
+          console.log('Joined channel successfully');
         } catch (error) {
-          console.log('Failed to start broadcast', error);
+          console.log('Failed to join channel', error);
+        }
+
+        const liveUpdateResponse = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: `${this.baseUrl}/user/api/live/update/${this.id}`,
+          headers: { 
+            Authorization: `Bearer ${this.token}` 
+          }
+        });
+
+        const liveData = liveUpdateResponse.data;
+        console.log(liveData);
+        this.live = liveData;
+        this.liveProducts = this.live.liveProducts;
+        this.available = this.checkQuantity();
+        this.pusher = new Pusher('55da4c74c2db8041edd6', { cluster: 'eu' });
+        const channel = this.pusher.subscribe(this.live.channel);
+
+        channel.bind(this.live.event, (data) => {
+          console.log(data);
+
+          if ('comment' in data) {
+            if (
+              data.comment.user.firstname !== this.user.firstname &&
+              data.comment.user.lastname !== this.user.lastname
+            ) {
+              this.comments.push(data.comment);
+              this.scrollToElement();
+            }
+          }
+
+          if ('viewers' in data) {
+            if (data.viewers.count > this.viewers) {
+              this.countViews += 1;
+            }
+            this.viewers = data.viewers.count;
+
+            if (data.viewers.type === "add") {
+              this.spectators.push(data.viewers.user);
+            } else {
+              this.spectators = this.spectators.filter(
+                (element) => element.id !== data.viewers.user.id
+              );
+            }
+          }
+
+          if ('likes' in data) {
+            this.countLikes += 1;
+            if (data.likes !== this.user.id) {
+              this.showAnimation();
+            }
+          }
+
+          if ('order' in data) {
+            this.countOrders += 1;
+            this.amount = parseFloat(this.amount) + parseFloat(data.order.amount);
+            this.amount = this.amount.toFixed(2);
+            data.order.createdAt = new Date();
+            this.orders.unshift(data.order);
+            this.available = data.order.available;
+          }
+        });
+
+        if (this.isShowPages) {
+          this.pages = this.pages.filter((page) => page.selected);
+        }
+
+        if (this.isShowGroups) {
+          this.groups = this.groups.filter((group) => group.selected);
+        }
+
+        // stream on Facebook
+        if (this.fbToken) {
+          const streamUpdateResponse = await this.$CapacitorHttp.request({
+            method: 'PUT',
+            url: `${this.baseUrl}/user/api/live/update/stream/${this.id}`,
+            headers: { 
+              Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json' 
+            },
+            data: {
+              fbIdentifier: this.fbIdentifier,
+              fbToken: this.fbToken,
+              fbPageIdentifier: this.fbPageIdentifier,
+              fbTokenPage: this.fbTokenPage,
+              showGroupsPage: this.showGroupsPage,
+              pages: this.pages,
+              groups: this.groups,
+            },
+          });
+
+          const result = streamUpdateResponse.data;
+          this.fbStreamId = result.fbStreamId;
+          console.log(this.fbStreamId);
+
+          const url = `https://streaming-graph.facebook.com/${this.fbStreamId}/live_comments?access_token=${this.fbToken}&comment_rate=ten_per_second&fields=from{name,id},message`;
+          const source = new EventSource(url);
+
+          console.log(source);
+          source.onmessage = (event) => {
+            console.log(event);
+          };
+          source.onerror = (error) => {
+            console.log('error', error);
+          };
+          source.onopen = (open) => {
+            console.log(open);
+          };
         }
       } catch (error) {
-        console.log('Failed to join channel', error);
+        console.log('Failed to start broadcast', error);
       }
     },
     async stopLive() {

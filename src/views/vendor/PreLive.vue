@@ -126,12 +126,12 @@
 </template>
 
 
-
 <style scoped src="../../assets/css/prelive.css"></style>
 
 <script>
 import { useMainStore } from '../../stores/useMainStore.js';
 import { VueDraggableNext } from 'vue-draggable-next';
+import { Agora } from '@swipelive/capacitor-agora';
 
 export default {
   name: 'PreLive',
@@ -152,7 +152,6 @@ export default {
       loadingProducts: true,
       loading: false,
       dragging: false,
-      agoraToken: null,
       products: [],
       selected: [],
       checked: [],
@@ -249,16 +248,13 @@ export default {
     },
     async goToLive() {
       try {
-        const response = await this.$CapacitorHttp.request({
-          method: 'GET',
-          url: `${this.baseUrl}/user/api/agora/token/host/${this.live.id}`,
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        });
-
-        const result = response.data;
-        this.agoraToken = result.token;
+        // Demande d'accès à la caméra et au microphone avant de passer en Live
+        const permissions = await Agora.requestPermissions();
+    
+        if (!permissions.granted) {
+          console.warn("Permissions not granted. Redirecting to app settings.");
+          return;
+        }
 
         if (this.$Capacitor.isNativePlatform()) {
           await this.$StatusBar.setStyle({ style: this.$Style.Dark });
@@ -268,7 +264,7 @@ export default {
 
         this.$router.push({
           name: "Live",
-          params: { id: this.live.id, token: this.agoraToken },
+          params: { id: this.live.id },
         });
       } catch (error) {
         console.error(error);

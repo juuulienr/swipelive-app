@@ -45,7 +45,7 @@ const routes = [
   { path: '/wheel', name: 'SwipeWheel', component: SwipeWheel },
   { path: '/vendor/products/:productId?', name: 'AddEditProduct', component: AddEditProduct },
   { path: '/vendor/prelive', name: 'PreLive', component: PreLive },
-  { path: '/vendor/live/:id/:token', name: 'Live', component: Live },
+  { path: '/vendor/live/:id', name: 'Live', component: Live },
   { path: '/vendor/clips', name: 'ListClips', component: ListClips },
   { path: '/vendor/shop', name: 'Shop', component: Shop },
   { path: '/vendor/promotions', name: 'ListPromotions', component: ListPromotions },

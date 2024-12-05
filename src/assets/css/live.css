@@ -872,7 +872,7 @@
 }
 
 .livestream--transparent {
-  background: transparent;
+  background: transparent !important;
 }
 
 .cssanimation {
