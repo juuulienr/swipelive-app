@@ -248,15 +248,14 @@ export default {
     },
     async goToLive() {
       try {
-        // Demande d'accès à la caméra et au microphone avant de passer en Live
-        const permissions = await Agora.requestPermissions();
-    
-        if (!permissions.granted) {
-          console.warn("Permissions not granted. Redirecting to app settings.");
-          return;
-        }
-
         if (this.$Capacitor.isNativePlatform()) {
+          const permissions = await Agora.requestPermissions();
+      
+          if (!permissions.granted) {
+            console.warn("Permissions not granted. Redirecting to app settings.");
+            return;
+          }
+
           await this.$StatusBar.setStyle({ style: this.$Style.Dark });
           await this.$StatusBar.setOverlaysWebView({ overlay: true });
           await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
