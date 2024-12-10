@@ -436,10 +436,15 @@ export default {
     }
   },
   async created() {
-    if (this.$Capacitor.isNativePlatform()) {
+    if (this.$Capacitor.getPlatform() === "ios") {
       await this.$StatusBar.setStyle({ style: this.$Style.Dark });
       await this.$StatusBar.setOverlaysWebView({ overlay: true });
       await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+    }
+
+    if (this.$Capacitor.getPlatform() === "android") {
+      await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+      await this.$StatusBar.setOverlaysWebView({ overlay: true });
     }
 
     if (!this.token) {

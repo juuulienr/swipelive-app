@@ -159,12 +159,6 @@ export default {
     };
   },
   async created() {    
-    if (this.$Capacitor.isNativePlatform()) {
-      await this.$StatusBar.setStyle({ style: this.$Style.Default });
-      await this.$StatusBar.setOverlaysWebView({ overlay: false });
-      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
-    }
-    
     this.loadProducts();
   },
   methods: {
@@ -256,9 +250,16 @@ export default {
             return;
           }
 
-          await this.$StatusBar.setStyle({ style: this.$Style.Dark });
-          await this.$StatusBar.setOverlaysWebView({ overlay: true });
-          await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+          if (this.$Capacitor.getPlatform() === "ios") {
+            await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+            await this.$StatusBar.setOverlaysWebView({ overlay: true });
+            await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+          }
+
+          if (this.$Capacitor.getPlatform() === "android") {
+            await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+            await this.$StatusBar.setOverlaysWebView({ overlay: true });
+          }
         }
 
         this.$router.push({

@@ -783,10 +783,11 @@ export default {
         }
 
         const liveUpdateResponse = await this.$CapacitorHttp.request({
-          method: 'GET',
+          method: 'PUT',
           url: `${this.baseUrl}/user/api/live/update/${this.id}`,
           headers: { 
-            Authorization: `Bearer ${this.token}` 
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json' 
           }
         });
 
@@ -906,8 +907,14 @@ export default {
 
       this.leaveChannel();
 
-      if (this.$Capacitor.isNativePlatform()) {
+      if (this.$Capacitor.getPlatform() === "ios") {
         await this.$StatusBar.setStyle({ style: this.$Style.Default });
+        await this.$StatusBar.setOverlaysWebView({ overlay: false });
+        await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+      }
+
+      if (this.$Capacitor.getPlatform() === "android") {
+        await this.$StatusBar.setStyle({ style: this.$Style.Light });
         await this.$StatusBar.setOverlaysWebView({ overlay: false });
         await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
       }

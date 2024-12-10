@@ -116,8 +116,14 @@ export default {
     };
   },
   async created() {
-    if (this.$Capacitor.isNativePlatform()) {
+    if (this.$Capacitor.getPlatform() === "ios") {
       await this.$StatusBar.setStyle({ style: this.$Style.Default });
+      await this.$StatusBar.setOverlaysWebView({ overlay: false });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+    }
+
+    if (this.$Capacitor.getPlatform() === "android") {
+      await this.$StatusBar.setStyle({ style: this.$Style.Light });
       await this.$StatusBar.setOverlaysWebView({ overlay: false });
       await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
     }
