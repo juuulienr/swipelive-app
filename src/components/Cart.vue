@@ -153,18 +153,25 @@ export default {
     async getShippingPrice() {
       const mainStore = useMainStore();
 
+      console.log(this.lineItems);
+
       if (this.user.shippingAddresses.length) {
         this.loading = true;
         mainStore.setShippingProducts([]);
 
         try {
-          const response = await this.$CapacitorHttp.post({
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
             url: `${this.baseUrl}/user/api/shipping/price`,
-            data: { lineItems: this.lineItems },
             headers: {
               Authorization: `Bearer ${this.token}`,
+              'Content-Type': 'application/json',
             },
+            data: { lineItems: this.lineItems },
           });
+
+          console.log(response);
+          console.log(response.data);
 
           mainStore.setShippingProducts(response.data);
           this.goCheckout();

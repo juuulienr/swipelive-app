@@ -17,7 +17,6 @@
   "dependencies": {
     "@bugsnag/js": "^8.1.2",
     "@bugsnag/plugin-vue": "^8.1.1",
-    "@capacitor-community/stripe": "^6.4.2",
     "@capacitor/action-sheet": "^6.0.2",
     "@capacitor/android": "^6.1.2",
     "@capacitor/app": "^6.0.1",
@@ -33,6 +32,7 @@
     "@capacitor/share": "^6.0.2",
     "@capacitor/status-bar": "^6.0.1",
     "@capacitor/toast": "^6.0.2",
+    "@stripe/stripe-js": "^5.2.0",
     "@swipelive/capacitor-agora": "github:juuulienr/capacitor-agora",
     "@vueuse/core": "^12.0.0",
     "cordova-res": "^0.15.4",

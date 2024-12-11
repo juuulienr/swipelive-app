@@ -112,7 +112,8 @@ export default {
 
     if (this.product.id) {
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/promotions/active/${this.product.id}`,
           headers: {
             Authorization: `Bearer ${this.token}`,

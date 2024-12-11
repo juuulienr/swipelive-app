@@ -289,7 +289,8 @@ export default {
   methods: {
     async loadUserProfile() {
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/profile`,
           headers: {
             Authorization: `Bearer ${this.token}`,

@@ -55,7 +55,8 @@ export default {
     async ping() {
       if (this.user && this.token) {
         try {
-          const response = await this.$CapacitorHttp.get({
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
             url: `${this.baseUrl}/user/api/ping`,
             headers: { Authorization: `Bearer ${this.token}` }
           });
@@ -68,7 +69,8 @@ export default {
       const mainStore = useMainStore();
       if (mainStore.categories.length === 0) {
         try {
-          const response = await this.$CapacitorHttp.get({
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
             url: `${this.baseUrl}/api/categories`,
             headers: { 'Content-Type': 'application/json; charset=UTF-8' }
           }); 

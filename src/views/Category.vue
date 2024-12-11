@@ -136,7 +136,8 @@ export default {
       const mainStore = useMainStore();
 
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/products/all`,
           headers: {
             Authorization: `Bearer ${this.token}`,
@@ -153,7 +154,8 @@ export default {
       const mainStore = useMainStore();
 
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/favoris/${product.id}`,
           headers: {
             Authorization: `Bearer ${this.token}`,

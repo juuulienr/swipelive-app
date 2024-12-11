@@ -456,7 +456,8 @@ export default {
 
     // Récupération du profil utilisateur
     if (this.mainStore.user.length === 0) {
-      this.$CapacitorHttp.get({
+      this.$CapacitorHttp.request({
+        method: 'GET',
         url: `${this.baseUrl}/user/api/profile`,
         headers: {
           Authorization: `Bearer ${this.token}`,
@@ -474,7 +475,8 @@ export default {
 
     // Gestion des types de requêtes
     if (this.type === 'profile') {
-      this.$CapacitorHttp.get({
+      this.$CapacitorHttp.request({
+        method: 'GET',
         url: `${this.baseUrl}/api/profile/${this.profileId}/clips`,
       })
       .then((response) => {
@@ -484,7 +486,8 @@ export default {
         console.error('Erreur lors de la récupération des clips du profil :', error);
       });
     } else if (this.type === 'trending') {
-      this.$CapacitorHttp.get({
+      this.$CapacitorHttp.request({
+        method: 'GET',
         url: `${this.baseUrl}/user/api/clips/trending`,
         headers: {
           Authorization: `Bearer ${this.token}`,
@@ -498,7 +501,8 @@ export default {
         console.error('Erreur lors de la récupération des clips tendance :', error);
       });
     } else {
-      this.$CapacitorHttp.get({
+      this.$CapacitorHttp.request({
+        method: 'GET',
         url: `${this.baseUrl}/user/api/feed`,
         headers: {
           Authorization: `Bearer ${this.token}`,
@@ -570,7 +574,8 @@ export default {
     },
     async getAgoraToken(id, index) {
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/agora/token/audience/${id}`,
           headers: {
             Authorization: `Bearer ${this.token}`,
@@ -888,7 +893,8 @@ export default {
     },
     async loadFollowing() {
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/following`,
           headers: {
             Authorization: `Bearer ${this.token}`,

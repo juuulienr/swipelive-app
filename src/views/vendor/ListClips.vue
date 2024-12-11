@@ -76,7 +76,8 @@ export default {
   methods: {
     async loadClips() {
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/clips`,
           headers: {
             Authorization: `Bearer ${this.token}`,
@@ -115,7 +116,8 @@ export default {
 
           // Requête HTTP pour supprimer le clip
           try {
-            const response = await this.$CapacitorHttp.get({
+            const response = await this.$CapacitorHttp.request({
+              method: 'GET',
               url: `${this.baseUrl}/user/api/clips/${id}/delete`,
               headers: {
                 Authorization: `Bearer ${this.token}`,

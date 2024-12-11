@@ -476,7 +476,7 @@
 
 import { GoogleMap, AdvancedMarker } from "vue3-google-map";
 import { useMainStore } from '../stores/useMainStore.js';
-import { Stripe } from '@capacitor-community/stripe';
+// import { Stripe } from '@capacitor-community/stripe';
 import { loadStripe } from '@stripe/stripe-js';
 
 
@@ -750,7 +750,6 @@ export default {
       }
     },
     async getShippingPrice() {
-      console.log('get shipping price checkout');
       console.log(this.lineItems);
 
       try {
@@ -948,35 +947,34 @@ export default {
               });
             }
           } else {
-            Stripe.initialize({
-              publishableKey: paymentResponse.paymentConfig.publishableKey,
-            });
+            // Stripe.initialize({
+            //   publishableKey: paymentResponse.paymentConfig.publishableKey,
+            // });
 
-            await Stripe.createPaymentSheet({
-              paymentIntentClientSecret: paymentResponse.paymentConfig.paymentIntentClientSecret,
-              customerId: paymentResponse.paymentConfig.customerId,
-              customerEphemeralKeySecret: paymentResponse.paymentConfig.customerEphemeralKeySecret,
-            });
+            // await Stripe.createPaymentSheet({
+            //   paymentIntentClientSecret: paymentResponse.paymentConfig.paymentIntent
+            // });
 
-            const result = await Stripe.presentPaymentSheet();
+            // const result = await Stripe.presentPaymentSheet();
+            // console.log(result);
 
-            if (result.paymentResult === 'completed') {
-              this.lineItems = [];
-              mainStore.setLineItems(this.lineItems);
+            // if (result.paymentResult === 'completed') {
+            //   this.lineItems = [];
+            //   mainStore.setLineItems(this.lineItems);
 
-              if (this.fullscreen) {
-                this.$Haptics.impact({ style: 'medium' });
-                this.$router.push({ name: 'Home' });
-              } else {
-                this.$emit('paymentSuccess', paymentResponse.order);
-              }
-            } else {
-              await this.$Toast.show({
-                text: 'Le paiement a échoué',
-                duration: 'long',
-                position: 'top',
-              });
-            }
+            //   if (this.fullscreen) {
+            //     this.$Haptics.impact({ style: 'medium' });
+            //     this.$router.push({ name: 'Home' });
+            //   } else {
+            //     this.$emit('paymentSuccess', paymentResponse.order);
+            //   }
+            // } else {
+            //   await this.$Toast.show({
+            //     text: 'Le paiement a échoué',
+            //     duration: 'long',
+            //     position: 'top',
+            //   });
+            // }
           }
         } catch (error) {
           console.error(error);

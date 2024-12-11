@@ -138,7 +138,8 @@ export default {
 
       if (this.user.length === 0) {
         try {
-          const response = await this.$CapacitorHttp.get({
+          const response = await this.$CapacitorHttp.request({
+            method: 'GET',
             url: `${this.baseUrl}/user/api/profile`,
             headers: {
               Authorization: `Bearer ${this.token}`,
@@ -155,7 +156,8 @@ export default {
       const mainStore = useMainStore();
 
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/clips/trending`,
           headers: {
             Authorization: `Bearer ${this.token}`,
@@ -171,7 +173,8 @@ export default {
       const mainStore = useMainStore();
 
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/products/trending`,
           headers: {
             Authorization: `Bearer ${this.token}`,
@@ -215,7 +218,8 @@ export default {
       this.$Haptics.impact({ style: 'medium' });
 
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/favoris/${this.product.id}`,
           headers: {
             Authorization: `Bearer ${this.token}`,

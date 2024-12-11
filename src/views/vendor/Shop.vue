@@ -106,7 +106,8 @@ export default {
   methods: {
     async loadProducts() {
       try {
-        const response = await this.$CapacitorHttp.get({
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
           url: `${this.baseUrl}/user/api/products`,
           headers: {
             Authorization: `Bearer ${this.token}`,
