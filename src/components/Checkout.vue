@@ -476,7 +476,7 @@
 
 import { GoogleMap, AdvancedMarker } from "vue3-google-map";
 import { useMainStore } from '../stores/useMainStore.js';
-// import { Stripe } from '@capacitor-community/stripe';
+import { Stripe } from '@capacitor-community/stripe';
 import { loadStripe } from '@stripe/stripe-js';
 
 
@@ -897,96 +897,109 @@ export default {
       }
     },
     async payment() {
-      const mainStore = useMainStore();
-
-      if (this.shippingServiceId && this.shippingServiceName && this.shippingCarrierId && this.shippingCarrierName && this.shippingPrice && this.identifier) {
-        this.loadingPayment = true;
-
-        try {
-          const response = await this.$CapacitorHttp.request({
-            method: 'POST',
-            url: `${this.baseUrl}/user/api/orders/payment`,
-            headers: {
-              Authorization: `Bearer ${this.token}`,
-              'Content-Type': 'application/json',
-            },
-            data: {
-              lineItems: this.lineItems,
-              identifier: this.identifier,
-              promotionId: this.promotion ? this.promotion.id : null,
-              promotionAmount: this.promotionAmount,
-              shippingPrice: this.shippingPrice,
-              shippingCarrierId: this.shippingCarrierId,
-              shippingCarrierName: this.shippingCarrierName,
-              shippingServiceId: this.shippingServiceId,
-              shippingServiceName: this.shippingServiceName,
-              shippingServiceCode: this.shippingServiceCode,
-              expectedDelivery: this.expectedDelivery,
-              dropoffLocationId: this.pointSelected ? this.pointSelected.dropoff_location_id : null,
-              dropoffCountryCode: this.pointSelected ? this.pointSelected.country_code : null,
-              dropoffName: this.pointSelected ? this.pointSelected.name : null,
-              dropoffPostcode: this.pointSelected ? this.pointSelected.postcode : null,
-            },
-          });
-
-          const paymentResponse = response.data;
-          console.log(paymentResponse);
-
-          if (this.$Capacitor.getPlatform() === 'web') {
-            const stripe = await loadStripe(paymentResponse.paymentConfig.publishableKey);
-            const { error } = await stripe.redirectToCheckout({
-              sessionId: paymentResponse.paymentConfig.sessionId,
-            });
-
-            if (error) {
-              console.error(error.message);
-              await this.$Toast.show({
-                text: error.message || 'Une erreur est survenue lors du paiement',
-                duration: 'long',
-                position: 'top',
-              });
-            }
-          } else {
-            // Stripe.initialize({
-            //   publishableKey: paymentResponse.paymentConfig.publishableKey,
-            // });
-
-            // await Stripe.createPaymentSheet({
-            //   paymentIntentClientSecret: paymentResponse.paymentConfig.paymentIntent
-            // });
-
-            // const result = await Stripe.presentPaymentSheet();
-            // console.log(result);
-
-            // if (result.paymentResult === 'completed') {
-            //   this.lineItems = [];
-            //   mainStore.setLineItems(this.lineItems);
-
-            //   if (this.fullscreen) {
-            //     this.$Haptics.impact({ style: 'medium' });
-            //     this.$router.push({ name: 'Home' });
-            //   } else {
-            //     this.$emit('paymentSuccess', paymentResponse.order);
-            //   }
-            // } else {
-            //   await this.$Toast.show({
-            //     text: 'Le paiement a échoué',
-            //     duration: 'long',
-            //     position: 'top',
-            //   });
-            // }
-          }
-        } catch (error) {
-          console.error(error);
-          await this.$Toast.show({
-            text: error.message || 'Une erreur est survenue',
-            duration: 'long',
-            position: 'top',
-          });
-        } finally {
-          this.loadingPayment = false;
-        }
+      if (!this.shippingServiceId || !this.shippingServiceName || !this.shippingCarrierId || !this.shippingCarrierName || !this.shippingPrice || !this.identifier) {
+        await this.showErrorToast('Veuillez vérifier les informations de livraison et de paiement.');
+        return;
       }
+
+      if (this.loadingPayment) return;
+
+      this.loadingPayment = true;
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'POST',
+          url: `${this.baseUrl}/user/api/orders/payment`,
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+          data: {
+            lineItems: this.lineItems,
+            identifier: this.identifier,
+            promotionId: this.promotion?.id || null,
+            promotionAmount: this.promotionAmount,
+            shippingPrice: this.shippingPrice,
+            shippingCarrierId: this.shippingCarrierId,
+            shippingCarrierName: this.shippingCarrierName,
+            shippingServiceId: this.shippingServiceId,
+            shippingServiceName: this.shippingServiceName,
+            shippingServiceCode: this.shippingServiceCode,
+            expectedDelivery: this.expectedDelivery,
+            dropoffLocationId: this.pointSelected?.dropoff_location_id || null,
+            dropoffCountryCode: this.pointSelected?.country_code || null,
+            dropoffName: this.pointSelected?.name || null,
+            dropoffPostcode: this.pointSelected?.postcode || null,
+          },
+        });
+
+        const paymentResponse = response.data;
+        if (this.$Capacitor.getPlatform() === 'web') {
+          await this.handleWebPayment(paymentResponse);
+        } else {
+          await this.handleMobilePayment(paymentResponse);
+        }
+      } catch (error) {
+        console.error(error);
+        await this.showErrorToast(error.message);
+      } finally {
+        this.loadingPayment = false;
+      }
+    },
+    async handleWebPayment(paymentResponse) {
+      const stripe = await loadStripe(paymentResponse.paymentConfig.publishableKey);
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: paymentResponse.paymentConfig.sessionId,
+      });
+
+      if (error) {
+        console.error(error.message);
+        await this.showErrorToast(error.message || 'Une erreur est survenue lors du paiement.');
+      }
+    },
+    async handleMobilePayment(paymentResponse) {
+      try {
+        await Stripe.initialize({
+          publishableKey: paymentResponse.paymentConfig.publishableKey, // Clé publiable
+        });
+
+        await Stripe.createPaymentSheet({
+          paymentIntentClientSecret: paymentResponse.paymentConfig.paymentIntent,
+          merchantDisplayName: paymentResponse.paymentConfig.companyName,
+          customerId: paymentResponse.paymentConfig.customerId,
+          customerEphemeralKeySecret: paymentResponse.paymentConfig.ephemeralKey,
+        });
+
+        const result = await Stripe.presentPaymentSheet();
+
+        if (result.paymentResult === "paymentSheetCompleted") {
+          console.log('Paiement réussi');
+          this.lineItems = [];
+          useMainStore().setLineItems(this.lineItems);
+
+          if (this.fullscreen) {
+            this.$Haptics.impact({ style: 'medium' });
+            this.$router.push({ name: 'Home' });
+          } else {
+            this.$emit('paymentSuccess', paymentResponse.order);
+          }
+        } else if (result.paymentResult === "paymentSheetCanceled") {
+          console.log('Paiement annulé');
+          await this.showErrorToast('Le paiement a été annulé.');
+        } else {
+          console.log('Paiement échoué');
+          await this.showErrorToast('Le paiement a échoué.');
+        }
+      } catch (error) {
+        console.error('Erreur PaymentSheet:', error);
+        await this.showErrorToast('Une erreur est survenue lors du paiement.');
+      }
+    },
+    async showErrorToast(message) {
+      await this.$Toast.show({
+        text: message || 'Une erreur est survenue.',
+        duration: 'long',
+        position: 'top',
+      });
     },
     changeToAddress() {
     	this.shippingMethod = "domicile";

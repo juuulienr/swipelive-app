@@ -425,7 +425,6 @@ export default {
     const mainStore = useMainStore();
 
     return {
-      isOrder: this.$route.params.isOrder,
       orderId: this.$route.params.orderId,
       user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
@@ -440,6 +439,7 @@ export default {
       purchases: [],
       searchTerm: "",
       shippingStatus: "ready-to-send",
+      isOrder: false,
       show1: true,
       show2: false,
       show3: false,
@@ -451,12 +451,14 @@ export default {
     };
   },
   created() {
+    const isOrderParam = this.$route.params.isOrder;
+    this.isOrder = isOrderParam === 'true';
     
-    
-    
-
-    this.loadOrders();
-    this.loadPurchases();
+    if (this.isOrder) {
+      this.loadOrders();
+    } else {
+      this.loadPurchases();
+    }
   },
   computed: {
     filteredSales() {

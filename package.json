@@ -17,6 +17,7 @@
   "dependencies": {
     "@bugsnag/js": "^8.1.2",
     "@bugsnag/plugin-vue": "^8.1.1",
+    "@capacitor-community/stripe": "^6.4.2",
     "@capacitor/action-sheet": "^6.0.2",
     "@capacitor/android": "^6.1.2",
     "@capacitor/app": "^6.0.1",

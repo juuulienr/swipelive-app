@@ -323,7 +323,7 @@ export default {
     },
     listOrders(isOrder) {
       this.addTapticAndSlide();
-      this.$router.push({ name: 'ListOrders', params: { isOrder } });
+      this.$router.push({ name: 'ListOrders', params: { isOrder: isOrder } });
     },
     listFollowing() {
       this.addTapticAndSlide();
