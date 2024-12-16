@@ -476,9 +476,8 @@
 
 import { GoogleMap, AdvancedMarker } from "vue3-google-map";
 import { useMainStore } from '../stores/useMainStore.js';
-import { Stripe } from '@capacitor-community/stripe';
-import { loadStripe } from '@stripe/stripe-js';
-
+import { Stripe } from '@swipelive/capacitor-stripe';
+import { toRaw } from 'vue';
 
 export default {
   name: 'Checkout',
@@ -554,7 +553,7 @@ export default {
     }
   },
   async created() {
-    console.log(this.lineItems);
+    console.log(this.lineItems[0].vendor);
 
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
@@ -750,8 +749,6 @@ export default {
       }
     },
     async getShippingPrice() {
-      console.log(this.lineItems);
-
       try {
         const response = await this.$CapacitorHttp.request({
           method: 'POST',
@@ -760,11 +757,8 @@ export default {
             Authorization: `Bearer ${this.token}`,
             'Content-Type': 'application/json',
           },
-          data: { lineItems: this.lineItems },
+          data: { "lineItems": toRaw(this.lineItems) },
         });
-
-        console.log(response);
-        console.log(response.data);
           
         this.shippingProducts = response.data;
         this.loadingShipping = false;
@@ -800,7 +794,7 @@ export default {
               Authorization: `Bearer ${this.token}`,
               'Content-Type': 'application/json',
             },
-            data: { service_point: this.shippingProducts.service_point },
+            data: { service_point: toRaw(this.shippingProducts.service_point) },
           });
 
           this.points = response.data;
@@ -914,7 +908,7 @@ export default {
             'Content-Type': 'application/json',
           },
           data: {
-            lineItems: this.lineItems,
+            lineItems: toRaw(this.lineItems),
             identifier: this.identifier,
             promotionId: this.promotion?.id || null,
             promotionAmount: this.promotionAmount,
@@ -959,19 +953,20 @@ export default {
     async handleMobilePayment(paymentResponse) {
       try {
         await Stripe.initialize({
-          publishableKey: paymentResponse.paymentConfig.publishableKey, // Clé publiable
+          publishableKey: paymentResponse.paymentConfig.publishableKey,
         });
 
-        await Stripe.createPaymentSheet({
-          paymentIntentClientSecret: paymentResponse.paymentConfig.paymentIntent,
+        const result = await Stripe.createPaymentSheet({
+          clientSecret: paymentResponse.paymentConfig.paymentIntent,
           merchantDisplayName: paymentResponse.paymentConfig.companyName,
-          customerId: paymentResponse.paymentConfig.customerId,
           customerEphemeralKeySecret: paymentResponse.paymentConfig.ephemeralKey,
+          customerId: paymentResponse.paymentConfig.customerId,
+          countryCode: paymentResponse.paymentConfig.appleMerchantCountryCode,
+          applePayMerchantId: paymentResponse.paymentConfig.appleMerchantId,
+          paymentMethodLayout: 'horizontal',
         });
 
-        const result = await Stripe.presentPaymentSheet();
-
-        if (result.paymentResult === "paymentSheetCompleted") {
+        if (result.status === 'completed') {
           console.log('Paiement réussi');
           this.lineItems = [];
           useMainStore().setLineItems(this.lineItems);
@@ -982,7 +977,7 @@ export default {
           } else {
             this.$emit('paymentSuccess', paymentResponse.order);
           }
-        } else if (result.paymentResult === "paymentSheetCanceled") {
+        } else if (result.status === 'canceled') {
           console.log('Paiement annulé');
           await this.showErrorToast('Le paiement a été annulé.');
         } else {

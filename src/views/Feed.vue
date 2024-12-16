@@ -365,6 +365,7 @@ import Product from '../components/Product.vue';
 import Cart from '../components/Cart.vue';
 import LottieJSON from '../assets/lottie/live.json';
 import LottieJSON2 from '../assets/lottie/arrow.json';
+import { toRaw } from 'vue';
 
 
 export default {
@@ -601,11 +602,9 @@ export default {
           console.log(`L'utilisateur ${user.uid} a arrêté de publier ${mediaType}`);
 
           if (mediaType === 'video') {
-          // Gestion spécifique à l'arrêt de la vidéo
             console.log('video');
           }
           if (mediaType === 'audio') {
-          // Gestion spécifique à l'arrêt de l'audio
             console.log('audio');
           }
 
@@ -614,17 +613,12 @@ export default {
 
         // Lorsque l'utilisateur devient hors ligne (quitte le canal ou déconnexion)
         this.client.on("user-offline", (user, reason) => {
-          console.log(`Utilisateur ${user.uid} est hors ligne. Raison: ${reason}`);
-
           if (user.uid === this.data[index].value.vendor.user.id) {
            if (this.data[index].type == "live") {
               this.finished[index].value = true;
               this.leaveChannel();
             }
-          } else {
-            console.log("A spectator has left the channel");
           }
-
         });
 
         // Suivre les changements d'état de la connexion
@@ -632,14 +626,12 @@ export default {
           console.log(`État de la connexion changé de ${prevState} à ${curState}. Raison: ${reason}`);
           if (curState === "DISCONNECTED") {
             console.log("La connexion a été perdue");
-            // Affiche un message d'erreur et tente de reconnecter
           }
         });
 
         // En cas de perte de connexion
         this.client.on("connection-lost", () => {
           console.log("Connexion perdue avec le canal");
-          // Peut-être essayer une reconnexion ou afficher une notification
         });
 
         // Gestion des erreurs générales
@@ -671,8 +663,6 @@ export default {
               //     el.scrollTop += window.innerHeight;
               //   }
               // }
-          } else {
-            console.log("A spectator has left the channel");
           }
         });
 
@@ -721,18 +711,15 @@ export default {
 
         // Vérifier si des utilisateurs sont déjà dans le canal et ont publié des flux
         const remoteUsers = this.client.remoteUsers;
-
-        console.log("remote users");
         console.log(remoteUsers);
+
         if (remoteUsers.length > 0) {
-          console.log("Existing remote users found:", remoteUsers);
           for (let user of remoteUsers) {
             if (user.videoTrack) {
               console.log("Subscribing to existing user's video");
               
               await this.client.subscribe(user, 'video');
               const videoElement = this.$refs['live' + index];
-              console.log(videoElement);
               
               if (videoElement) {
                 console.log('Playing video on element:', videoElement[0]);
@@ -928,7 +915,6 @@ export default {
       // }
 
       this.$Haptics.impact({ style: 'medium' });
-
       this.loadingShipping = true;
       await this.addToCart();
       this.getShippingPrice();
@@ -936,6 +922,9 @@ export default {
     async getShippingPrice() {
       if (this.user.shippingAddresses.length) {
         this.mainStore.setShippingProducts([]);
+        console.log(this.lineItems);
+        this.lineItems = this.mainStore.lineItems;
+        console.log(this.lineItems);
 
         try {
           const response = await this.$CapacitorHttp.request({
@@ -945,13 +934,25 @@ export default {
               Authorization: `Bearer ${this.token}`,
               'Content-Type': 'application/json',
             },
-            data: { lineItems: this.lineItems },
+            data: { "lineItems": toRaw(this.lineItems) },
           });
 
           this.mainStore.setShippingProducts(response.data);
           this.popupProduct = false;
           this.popupCheckout = true;
           this.loadingShipping = false;
+
+          if (this.$Capacitor.getPlatform() === "ios") {
+            await this.$StatusBar.setStyle({ style: this.$Style.Default });
+            await this.$StatusBar.setOverlaysWebView({ overlay: false });
+            await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+          }
+
+          if (this.$Capacitor.getPlatform() === "android") {
+            await this.$StatusBar.setStyle({ style: this.$Style.Light });
+            await this.$StatusBar.setOverlaysWebView({ overlay: false });
+            await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+          }
         } catch (error) {
           console.log(error);
           this.popupProduct = false;
@@ -1438,12 +1439,24 @@ export default {
       console.log(lineItems);
       this.lineItems = lineItems;
     },
-    showCheckoutChild(lineItems) {
+    async showCheckoutChild(lineItems) {
       this.lineItems = lineItems;
       this.popupCart = false;
       this.popupProduct = false;
       this.popupShop = false;
       this.popupCheckout = true;
+          
+      if (this.$Capacitor.getPlatform() === "ios") {
+        await this.$StatusBar.setStyle({ style: this.$Style.Default });
+        await this.$StatusBar.setOverlaysWebView({ overlay: false });
+        await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+      }
+
+      if (this.$Capacitor.getPlatform() === "android") {
+        await this.$StatusBar.setStyle({ style: this.$Style.Light });
+        await this.$StatusBar.setOverlaysWebView({ overlay: false });
+        await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+      }
 
       // if (this.data[this.visible].type == "live") {
       //   this.myPlayer.muted = true;
@@ -1454,6 +1467,17 @@ export default {
       this.$Haptics.impact({ style: 'medium' });
     },
     async paymentSuccessChild(order) {
+      if (this.$Capacitor.getPlatform() === "ios") {
+        await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+        await this.$StatusBar.setOverlaysWebView({ overlay: true });
+        await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+      }
+
+      if (this.$Capacitor.getPlatform() === "android") {
+        await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+        await this.$StatusBar.setOverlaysWebView({ overlay: true });
+      }
+
       console.log(order);
       console.log(order.id);
       this.popupCart = false;
@@ -1485,7 +1509,18 @@ export default {
         }, 1000);
       }
     },
-    hideCheckoutChild() {
+    async hideCheckoutChild() {
+      if (this.$Capacitor.getPlatform() === "ios") {
+        await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+        await this.$StatusBar.setOverlaysWebView({ overlay: true });
+        await this.$StatusBar.setBackgroundColor({ color: '#ffffffff' });
+      }
+
+      if (this.$Capacitor.getPlatform() === "android") {
+        await this.$StatusBar.setStyle({ style: this.$Style.Dark });
+        await this.$StatusBar.setOverlaysWebView({ overlay: true });
+      }
+
       this.popupCart = false;
       this.popupProduct = false;
       this.popupShop = false;

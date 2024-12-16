@@ -45,7 +45,7 @@
           </div>
         </div>
         <div style="margin: 15px auto;">
-          <div @click="showCheckout()" style="text-align: center;">
+          <div @click="getShippingPrice()" style="text-align: center;">
             <div class="btn-swipe">
               <span v-if="loading">
                 <svg viewBox="25 25 50 50" class="loading">
@@ -79,6 +79,7 @@
 import Lottie from 'vue3-lottie';
 import LottieJSON from '../assets/lottie/order.json';
 import { useMainStore } from '@/stores/useMainStore.js';
+import { toRaw } from 'vue';
 
 export default {
   name: 'Cart',
@@ -145,15 +146,9 @@ export default {
       }
       mainStore.setLineItems(this.lineItems);
     },
-    showCheckout() {
-      this.$Haptics.impact({ style: 'medium' });
-
-      this.getShippingPrice();
-    },
     async getShippingPrice() {
+      this.$Haptics.impact({ style: 'medium' });
       const mainStore = useMainStore();
-
-      console.log(this.lineItems);
 
       if (this.user.shippingAddresses.length) {
         this.loading = true;
@@ -167,17 +162,13 @@ export default {
               Authorization: `Bearer ${this.token}`,
               'Content-Type': 'application/json',
             },
-            data: { lineItems: this.lineItems },
+            data: { "lineItems": toRaw(this.lineItems) },
           });
-
-          console.log(response);
-          console.log(response.data);
 
           mainStore.setShippingProducts(response.data);
           this.goCheckout();
         } catch (error) {
           console.error('Erreur lors de la récupération des prix de livraison :', error);
-          this.goCheckout();
         }
       } else {
         this.goCheckout();
