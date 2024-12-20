@@ -750,6 +750,16 @@ export default {
     },
     async getShippingPrice() {
       try {
+        const serializableLineItems = this.lineItems.map(item => {
+          const rawItem = toRaw(item);
+          return {
+            vendor: rawItem.vendor,
+            product: rawItem.product ? { id: rawItem.product.id, weight: rawItem.product.weight, weightUnit: rawItem.product.weightUnit } : null,
+            variant: rawItem.variant ? { id: rawItem.variant.id, weight: rawItem.variant.weight, weightUnit: rawItem.variant.weightUnit } : null,
+            quantity: rawItem.quantity,
+          };
+        });
+
         const response = await this.$CapacitorHttp.request({
           method: 'POST',
           url: `${this.baseUrl}/user/api/shipping/price`,
@@ -757,9 +767,9 @@ export default {
             Authorization: `Bearer ${this.token}`,
             'Content-Type': 'application/json',
           },
-          data: { "lineItems": toRaw(this.lineItems) },
+          data: { lineItems: serializableLineItems },
         });
-          
+
         this.shippingProducts = response.data;
         this.loadingShipping = false;
         this.popupShippingAddress = false;
@@ -970,6 +980,12 @@ export default {
           console.log('Paiement réussi');
           this.lineItems = [];
           useMainStore().setLineItems(this.lineItems);
+            
+          await this.$Toast.show({
+            text: 'Paiement réussi',
+            duration: 'long',
+            position: 'top',
+          });
 
           if (this.fullscreen) {
             this.$Haptics.impact({ style: 'medium' });
