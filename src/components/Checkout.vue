@@ -996,6 +996,8 @@ export default {
           paymentMethodLayout: 'horizontal',
         });
 
+        console.log(result.status);
+
         if (result.status === 'completed') {
           console.log('Paiement réussi');
           this.lineItems = [];
