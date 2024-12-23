@@ -553,7 +553,17 @@ export default {
     }
   },
   async created() {
-    console.log(this.lineItems[0].vendor);
+    if (this.$Capacitor.getPlatform() === "ios") {
+      await this.$StatusBar.setStyle({ style: this.$Style.Default });
+      await this.$StatusBar.setOverlaysWebView({ overlay: false });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+    }
+
+    if (this.$Capacitor.getPlatform() === "android") {
+      await this.$StatusBar.setStyle({ style: this.$Style.Light });
+      await this.$StatusBar.setOverlaysWebView({ overlay: false });
+      await this.$StatusBar.setBackgroundColor({ color: '#ffffff' });
+    }
 
     if (this.lineItems.length) {
       this.lineItems.map(lineItem => {
@@ -910,6 +920,16 @@ export default {
 
       this.loadingPayment = true;
       try {
+        const serializableLineItems = this.lineItems.map(item => {
+          const rawItem = toRaw(item);
+          return {
+            vendor: rawItem.vendor,
+            product: rawItem.product ? { id: rawItem.product.id, weight: rawItem.product.weight, weightUnit: rawItem.product.weightUnit } : null,
+            variant: rawItem.variant ? { id: rawItem.variant.id, weight: rawItem.variant.weight, weightUnit: rawItem.variant.weightUnit } : null,
+            quantity: rawItem.quantity,
+          };
+        });
+
         const response = await this.$CapacitorHttp.request({
           method: 'POST',
           url: `${this.baseUrl}/user/api/orders/payment`,
@@ -918,7 +938,7 @@ export default {
             'Content-Type': 'application/json',
           },
           data: {
-            lineItems: toRaw(this.lineItems),
+            lineItems: serializableLineItems,
             identifier: this.identifier,
             promotionId: this.promotion?.id || null,
             promotionAmount: this.promotionAmount,
@@ -980,12 +1000,6 @@ export default {
           console.log('Paiement réussi');
           this.lineItems = [];
           useMainStore().setLineItems(this.lineItems);
-            
-          await this.$Toast.show({
-            text: 'Paiement réussi',
-            duration: 'long',
-            position: 'top',
-          });
 
           if (this.fullscreen) {
             this.$Haptics.impact({ style: 'medium' });
