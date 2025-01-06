@@ -31,19 +31,19 @@
         </div>
 
         <div class="social-container-NE2xk">
-          <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
+          <div v-if="!isAndroid" @click="signInWithApple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/apple.png" style="width: 24px; height: 24px; margin-bottom: 3px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Apple</div>
           </div>
-          <div @click="facebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
+          <div @click="signInWithFacebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/facebook.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
-          <div @click="google()" class="channel-item-wrapper-2gBWB">
+          <div @click="signInWithGoogle()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/google.png" style="width: 24px; height: 24px;"/>
             </div>
@@ -100,19 +100,19 @@
         </div>
 
         <div class="social-container-NE2xk">
-          <div v-if="!isAndroid" @click="apple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
+          <div v-if="!isAndroid" @click="signInWithApple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/apple.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Apple</div>
           </div>
-          <div @click="facebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
+          <div @click="signInWithFacebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/facebook.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
-          <div @click="google()" class="channel-item-wrapper-2gBWB">
+          <div @click="signInWithGoogle()" class="channel-item-wrapper-2gBWB">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/google.png" style="width: 24px; height: 24px;"/>
             </div>
@@ -231,6 +231,8 @@
 import AuthAPI from "../utils/auth.js";
 import LottieJSON from '../assets/lottie/forgot-password.json';
 import { useMainStore } from '../stores/useMainStore';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import { initializeApp } from 'firebase/app';
 
 export default {
   name: 'Welcome',
@@ -239,6 +241,16 @@ export default {
     return { mainStore };
   },
   data() {
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtejKIZ7ptFeda8sFe44eG-OW2O7FBLH8",
+      authDomain: "swipe-live.firebaseapp.com",
+      projectId: "swipe-live",
+      storageBucket: "swipe-live.appspot.com",
+      appId: this.$Capacitor.getPlatform() === 'ios' ? "1:996587333677:ios:f22b03997d9ba03e9630a4" : "1:996587333677:android:f6d6b66c254a97379630a4"
+    };
+
+    initializeApp(firebaseConfig);
+
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       LottieJSON: LottieJSON,
@@ -246,8 +258,8 @@ export default {
       popupPassword: false,
       popupUserRegistration: false,
       popupLogin: false,
-      loginEmail: null,
-      loginPassword: null,
+      loginEmail: '',
+      loginPassword: '',
       forgotEmail: null,
       errorLoginPassword: false,
       errorLoginEmail: false,
@@ -326,6 +338,22 @@ export default {
         console.log(this.device);
       } catch (error) {
         console.error("Erreur lors de la récupération des informations de l'appareil :", error);
+      }
+    },
+    async signInWithGoogle() {
+      try {
+        const result = await FirebaseAuthentication.signInWithGoogle();
+        console.log('Google sign-in success:', result);
+      } catch (error) {
+        console.error('Error with Google sign-in:', error);
+      }
+    },
+    async signInWithFacebook() {
+      try {
+        const result = await FirebaseAuthentication.signInWithFacebook();
+        console.log('Facebook sign-in success:', result);
+      } catch (error) {
+        console.error('Error with Facebook sign-in:', error);
       }
     },
     async facebook() {
@@ -461,34 +489,27 @@ export default {
         });
       }
     },
-    async apple() {
+    async signInWithApple() {
       this.$Haptics.impact({ style: 'medium' });
 
       try {
-        const result = await window.cordova.plugins.SignInWithApple.signin({
-          requestedScopes: [0, 1],
-        });
+        const result = await FirebaseAuthentication.signInWithApple();
+        console.log('Apple sign-in success:', result);
 
-        console.log(result);
+        const email = result.user.email || this.generateRandomEmail();
+        const uid = result.user.uid || null;
+        const displayName = result.user.displayName || null;
 
-        const identityToken = result.identityToken;
-        const fullName = result.fullName;
-        const appleId = result.user;
-        const parts = identityToken.split('.');
-        const payload = parts[1];
-        const decoded = atob(payload);
-        const decodedResult = JSON.parse(decoded);
-
-        this.loading = true;
-        this.email = decodedResult.email;
+        this.email = result.user.email || this.generateRandomEmail();
         this.password = Math.random().toString(36).slice(-15);
+        this.loading = true;
 
         const httpParams = {
-          email: this.email.toLowerCase(),
+          email: email.toLowerCase(),
           password: this.password,
-          firstname: fullName.givenName || null,
-          lastname: fullName.familyName || null,
-          appleId: appleId,
+          firstname: displayName?.givenName || null,
+          lastname: displayName?.familyName || null,
+          appleId: uid || null,
           wifiIPAddress: this.wifiIPAddress,
           carrierIPAddress: this.carrierIPAddress,
           connection: this.connection,
@@ -509,7 +530,7 @@ export default {
           this.authenticate(response.data);
         } catch (error) {
           this.loading = false;
-          console.log(error);
+          console.error('Error sending request:', error);
 
           await this.$Toast.show({
             text: 'Oups ! Une erreur est survenue.',
@@ -518,14 +539,17 @@ export default {
           });
         }
       } catch (error) {
-        console.log(error);
+        console.error('Error with Apple sign-in:', error);
 
         await this.$Toast.show({
-          text: error,
+          text: 'Erreur lors de la connexion avec Apple.',
           duration: 'long',
           position: 'top',
         });
       }
+    },
+    generateRandomEmail() {
+      return `user_${Math.random().toString(36).substr(2, 9)}@example.com`;
     },
     resetPassword() {
       this.$Haptics.impact({ style: 'medium' });

@@ -6,6 +6,10 @@
   "plugins": {
     "CapacitorHttp": {
       "enabled": true
+    },
+    "FirebaseAuthentication": {
+      "skipNativeAuth": false,
+      "providers": ["apple.com", "facebook.com"]
     }
   }
 }

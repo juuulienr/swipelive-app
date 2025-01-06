@@ -17,6 +17,7 @@
   "dependencies": {
     "@bugsnag/js": "^8.1.2",
     "@bugsnag/plugin-vue": "^8.1.1",
+    "@capacitor-firebase/authentication": "^6.3.1",
     "@capacitor/action-sheet": "^6.0.2",
     "@capacitor/android": "^6.1.2",
     "@capacitor/app": "^6.0.1",
@@ -36,6 +37,7 @@
     "@swipelive/capacitor-agora": "github:juuulienr/capacitor-agora",
     "@swipelive/capacitor-stripe": "github:juuulienr/capacitor-stripe",
     "@vueuse/core": "^12.0.0",
+    "firebase": "^11.1.0",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.2.6",
     "pusher-js": "^8.4.0-rc2",
