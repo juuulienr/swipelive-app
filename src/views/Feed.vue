@@ -457,7 +457,7 @@ export default {
 
     // Récupération du profil utilisateur
     if (this.mainStore.user.length === 0) {
-      this.$CapacitorHttp.request({
+      await this.$CapacitorHttp.request({
         method: 'GET',
         url: `${this.baseUrl}/user/api/profile`,
         headers: {
@@ -476,7 +476,7 @@ export default {
 
     // Gestion des types de requêtes
     if (this.type === 'profile') {
-      this.$CapacitorHttp.request({
+      await this.$CapacitorHttp.request({
         method: 'GET',
         url: `${this.baseUrl}/api/profile/${this.profileId}/clips`,
       })
@@ -487,7 +487,7 @@ export default {
         console.error('Erreur lors de la récupération des clips du profil :', error);
       });
     } else if (this.type === 'trending') {
-      this.$CapacitorHttp.request({
+      await this.$CapacitorHttp.request({
         method: 'GET',
         url: `${this.baseUrl}/user/api/clips/trending`,
         headers: {
@@ -502,7 +502,7 @@ export default {
         console.error('Erreur lors de la récupération des clips tendance :', error);
       });
     } else {
-      this.$CapacitorHttp.request({
+      await this.$CapacitorHttp.request({
         method: 'GET',
         url: `${this.baseUrl}/user/api/feed`,
         headers: {

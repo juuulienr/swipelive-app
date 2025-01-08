@@ -8,8 +8,8 @@
       "enabled": true
     },
     "FirebaseAuthentication": {
-      "skipNativeAuth": false,
-      "providers": ["apple.com", "facebook.com"]
+      "skipNativeAuth": true,
+      "providers": ["apple.com", "google.com", "facebook.com"]
     }
   }
 }

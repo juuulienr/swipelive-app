@@ -32,7 +32,7 @@ export default {
     return {
       notif: true,
       step1: false,
-      LottieData: LottieJSON
+      LottieJSON: LottieJSON
     };
   },
   methods: {

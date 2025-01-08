@@ -233,6 +233,7 @@ import LottieJSON from '../assets/lottie/forgot-password.json';
 import { useMainStore } from '../stores/useMainStore';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { initializeApp } from 'firebase/app';
+import { toRaw } from 'vue';
 
 export default {
   name: 'Welcome',
@@ -340,15 +341,8 @@ export default {
         console.error("Erreur lors de la récupération des informations de l'appareil :", error);
       }
     },
-    async signInWithGoogle() {
-      try {
-        const result = await FirebaseAuthentication.signInWithGoogle();
-        console.log('Google sign-in success:', result);
-      } catch (error) {
-        console.error('Error with Google sign-in:', error);
-      }
-    },
     async signInWithFacebook() {
+      this.$Haptics.impact({ style: 'medium' });
       try {
         const result = await FirebaseAuthentication.signInWithFacebook();
         console.log('Facebook sign-in success:', result);
@@ -383,7 +377,7 @@ export default {
                 wifiIPAddress: this.wifiIPAddress,
                 carrierIPAddress: this.carrierIPAddress,
                 connection: this.connection,
-                device: this.device,
+                device: toRaw(this.device),
                 timezone: this.timezone,
                 locale: this.locale,
               };
@@ -419,73 +413,72 @@ export default {
         }
       );
     },
-    async google() {
+    async signInWithGoogle() {
       this.$Haptics.impact({ style: 'medium' });
 
-      let clientId;
-      if (this.$Capacitor.getPlatform() === "android") {
-        clientId = "996587333677-akfb6s0k9se0kjtnosp1ce8udr2ju64q.apps.googleusercontent.com";
-      } else if (this.$Capacitor.getPlatform() === "ios") {
-        clientId = "996587333677-13mbeasei03gq72q8m91tm9l2fh01mr3.apps.googleusercontent.com";
-      }
+      try {
+        const result = await FirebaseAuthentication.signInWithGoogle();
+        console.log('Google sign-in success:', result);
 
-      if (clientId) {
-        window.FirebasePlugin.authenticateUserWithGoogle(clientId, async (result) => {
-          console.log(result);
+        const user = result.user;
+        const credential = result.credential;
+        const additionalUserInfo = result.additionalUserInfo;
+        const displayName = user.displayName || null;
+        const photoUrl = user.photoUrl || null;
+        const idToken = credential?.idToken || null;
+        const givenName = additionalUserInfo?.profile?.given_name || displayName?.split(' ')[0] || null;
+        const familyName = additionalUserInfo?.profile?.family_name || displayName?.split(' ')[1] || null;
+        const googleId = additionalUserInfo?.profile?.id || uid;
 
-          const idToken = result.idToken;
-          const parts = idToken.split('.');
-          const payload = parts[1];
-          const decoded = atob(payload);
-          const userDetails = JSON.parse(decoded);
-          console.log(userDetails);
+        this.loading = true;
+        this.email = user.email || null;
+        this.password = Math.random().toString(36).slice(-15);
 
-          this.loading = true;
-          this.email = userDetails.email;
-          this.password = Math.random().toString(36).slice(-15);
+        const httpParams = {
+          email: this.email.toLowerCase(),
+          password: this.password,
+          googleId: googleId,
+          firstname: givenName,
+          lastname: familyName,
+          picture: photoUrl,
+          idToken: idToken,
+          wifiIPAddress: this.wifiIPAddress,
+          carrierIPAddress: this.carrierIPAddress,
+          connection: this.connection,
+          device: toRaw(this.device),
+          timezone: this.timezone,
+          locale: this.locale,
+        };
 
-          const httpParams = {
-            email: this.email.toLowerCase(),
-            password: this.password,
-            firstname: userDetails.given_name,
-            lastname: userDetails.family_name,
-            picture: userDetails.picture,
-            googleId: userDetails.sub,
-            wifiIPAddress: this.wifiIPAddress,
-            carrierIPAddress: this.carrierIPAddress,
-            connection: this.connection,
-            device: this.device,
-            timezone: this.timezone,
-            locale: this.locale,
-          };
+        console.log(httpParams);
 
-          try {
-            const response = await this.$CapacitorHttp.request({
-              method: 'POST',
-              url: `${this.baseUrl}/api/authentication/google`,
-              headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-              data: httpParams,
-            });
+        try {
+          const response = await this.$CapacitorHttp.request({
+            method: 'POST',
+            url: `${this.baseUrl}/api/authentication/google`,
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            data: httpParams,
+          });
 
-            console.log(response);
-            this.authenticate(response.data);
-          } catch (error) {
-            this.loading = false;
-            console.log(error);
+          console.log(response);
+          this.authenticate(true);
+        } catch (error) {
+          this.loading = false;
+          console.error('Error sending request:', error);
 
-            await this.$Toast.show({
-              text: 'Oups ! Une erreur est survenue.',
-              duration: 'long',
-              position: 'top',
-            });
-          }
-        }, async (error) => {
-          console.log("Failed to authenticate with Google: " + error);
           await this.$Toast.show({
-            text: error,
+            text: 'Oups ! Une erreur est survenue.',
             duration: 'long',
             position: 'top',
           });
+        }
+      } catch (error) {
+        console.error('Error with Google sign-in:', error);
+
+        await this.$Toast.show({
+          text: 'Erreur lors de la connexion avec Google.',
+          duration: 'long',
+          position: 'top',
         });
       }
     },
@@ -496,7 +489,6 @@ export default {
         const result = await FirebaseAuthentication.signInWithApple();
         console.log('Apple sign-in success:', result);
 
-        const email = result.user.email || this.generateRandomEmail();
         const uid = result.user.uid || null;
         const displayName = result.user.displayName || null;
 
@@ -505,7 +497,7 @@ export default {
         this.loading = true;
 
         const httpParams = {
-          email: email.toLowerCase(),
+          email: this.email.toLowerCase(),
           password: this.password,
           firstname: displayName?.givenName || null,
           lastname: displayName?.familyName || null,
@@ -513,10 +505,12 @@ export default {
           wifiIPAddress: this.wifiIPAddress,
           carrierIPAddress: this.carrierIPAddress,
           connection: this.connection,
-          device: this.device,
+          device: toRaw(this.device),
           timezone: this.timezone,
           locale: this.locale,
         };
+
+        console.log(httpParams);
 
         try {
           const response = await this.$CapacitorHttp.request({
@@ -704,7 +698,7 @@ export default {
           wifiIPAddress: this.wifiIPAddress,
           carrierIPAddress: this.carrierIPAddress,
           connection: this.connection,
-          device: this.device,
+          device: toRaw(this.device),
           timezone: this.timezone,
           locale: this.locale,
         };
