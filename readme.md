@@ -1,43 +1,68 @@
-# Installation & Configuration
+# Swipe Live App
 
-## Pour iOS
+Application mobile de live shopping, permettant aux utilisateurs de diffuser du contenu en direct et de vendre des produits en temps réel.
 
-1) Chercher cette ligne :
-WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
+## 🚀 Fonctionnalités
 
+- Streaming vidéo en direct avec Agora
+- Authentification via Firebase (Google, Apple, Facebook)
+- Paiements intégrés avec Stripe
+- Communication en temps réel avec Pusher
+- Interface utilisateur native iOS et Android
+- Géolocalisation avec Google Maps
+- Système de likes et de commentaires
+- Gestion de panier d'achat
+- Notifications push
+- Mode hors ligne
+- Support multilingue
 
-2) Ajouter les lignes suivantes en dessous : 
-[configuration.preferences setValue:@TRUE forKey:@"allowFileAccessFromFileURLs"];
-[configuration setValue:@"TRUE" forKey:@"allowUniversalAccessFromFileURLs"];
+## 📱 Technologies
 
+- Vue.js 3
+- Capacitor 6
+- Firebase Authentication
+- Agora SDK
+- Stripe SDK
+- Pusher
+- Google Maps API
+- Vite
+- Pinia (State Management)
 
-3) Find (void) styleDefault:(CDVInvokedUrlCommand in CDVStatusBar.m
+## 🛠 Prérequis
 
-- (void) styleDefault:(CDVInvokedUrlCommand*)command
-{
-  if (@available(iOS 13.0, *)) {
-    [self setStyleForStatusBar:UIStatusBarStyleDarkContent];
-  } else {
-    [self setStyleForStatusBar:UIStatusBarStyleDefault];
-  }
-}
-- (void) styleLightContent:(CDVInvokedUrlCommand*)command
-{
-  [self setStyleForStatusBar:UIStatusBarStyleLightContent];
-}
-- (void) styleBlackTranslucent:(CDVInvokedUrlCommand*)command
-{
-  [self setStyleForStatusBar:UIStatusBarStyleDarkContent];
-}
-- (void) styleBlackOpaque:(CDVInvokedUrlCommand*)command
-{
-  [self setStyleForStatusBar:UIStatusBarStyleDarkContent];
-}
+- Node.js (version LTS recommandée)
+- Xcode (pour iOS)
+- Android Studio (pour Android)
+- JDK 17 (pour Android)
+- CocoaPods (pour iOS)
 
+## ⚙️ Installation
 
-4) Ajouter dans Podfile + Pod update dans platforms/ios 
+1. Cloner le repository
+```bash
+git clone [url-du-repo]
+cd swipelive-app
+```
 
+2. Installer les dépendances
+```bash
+npm install
+```
 
+3. Configuration des variables d'environnement
+Créer un fichier `.env` à la racine du projet avec les variables suivantes :
+```env
+VITE_FIREBASE_API_KEY=votre_clé
+VITE_AGORA_APP_ID=votre_clé
+VITE_STRIPE_PUBLIC_KEY=votre_clé
+VITE_GOOGLE_MAPS_API_KEY=votre_clé
+VITE_PUSHER_KEY=votre_clé
+```
+
+## 📱 Configuration iOS
+
+1. Mettre à jour le Podfile :
+```ruby
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
@@ -47,33 +72,60 @@ post_install do |installer|
                 config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
             end
         end
-        if target.name == 'BoringSSL-GRPC'
-          target.source_build_phase.files.each do |file|
-            if file.settings && file.settings['COMPILER_FLAGS']
-              flags = file.settings['COMPILER_FLAGS'].split
-              flags.reject! { |flag| flag == '-GCC_WARN_INHIBIT_ALL_WARNINGS' }
-              file.settings['COMPILER_FLAGS'] = flags.join(' ')
-            end
-          end
-        end
     end
 end
-                
+```
 
+## 🤖 Configuration Android
 
-
-
-## Pour Android
-
-
-1) Ajouter propriétés dans gradle.properties 
+1. Configurer gradle.properties :
+```properties
 org.gradle.jvmargs=-Xmx2048m
 android.useAndroidX=true
 android.enableJetifier=true
 kotlin.code.style=official
-org.gradle.java.home=/Users/julien/Library/Java/JavaVirtualMachines/corretto-17.0.7/Contents/Home
+```
 
+2. Mettre à jour AndroidManifest.xml :
+- Ajouter `android:exported="true"` aux balises `<activity>` et `<receiver>` appropriées
 
-2) AndroidManifest.xml 
-Ajouter dans les balises <activity android:exported="true"> et <receiver android:exported="true">
+## 🚀 Scripts disponibles
+
+- `npm run dev` : Démarre le serveur de développement
+- `npm run build` : Build le projet et synchronise avec Capacitor
+- `npm run ios` : Build et ouvre le projet dans Xcode
+- `npm run ios-debug` : Build et lance sur un appareil iOS connecté
+- `npm run ios-emulator` : Build et lance dans le simulateur iOS
+- `npm run android` : Build et ouvre le projet dans Android Studio
+- `npm run android-device` : Build et lance sur un appareil Android connecté
+
+## 📦 Structure du projet
+
+```
+swipelive-app/
+├── src/                # Code source Vue.js
+│   ├── assets/        # Ressources statiques
+│   ├── components/    # Composants Vue
+│   ├── views/         # Pages de l'application
+│   ├── stores/        # State management (Pinia)
+│   ├── router/        # Configuration des routes
+│   └── utils/         # Utilitaires
+├── public/            # Fichiers publics
+├── ios/               # Configuration iOS native
+├── android/           # Configuration Android native
+└── capacitor.config.json  # Configuration Capacitor
+```
+
+## 🔐 Sécurité
+
+- Authentification sécurisée via Firebase
+- Paiements sécurisés via Stripe
+- Chiffrement des données sensibles
+- Protection contre les attaques XSS
+- Validation des entrées utilisateur
+
+## 📄 Licence
+
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
 
