@@ -6,7 +6,7 @@
       
 
       <!-- go back -->
-      <div @click="goBack()" class="video-page__influencer-badge4 badge-goback" :style="{'top': safeareaTop }">
+      <div class="video-page__influencer-badge4 badge-goback" :style="{'top': safeareaTop }" @click="goBack()">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -18,7 +18,7 @@
 
 
       <!-- facebook -->
-      <div v-if="facebook" @click="showFacebook()" :style="{'top': safeareaTop }" class="video-page__influencer-badge4 badge-facebook">
+      <div v-if="facebook" :style="{'top': safeareaTop }" class="video-page__influencer-badge4 badge-facebook" @click="showFacebook()">
         <div class="video-page__influencer-username-holder">
           <span class="video-page__influencer-video-count">
             <img src="/img/facebook.svg" style="width: 36px; height: 36px;"/>
@@ -29,21 +29,21 @@
 
       <!-- rotate camera -->
       <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(0, 0, 0, 0.25);">
-        <div @click="switchCamera()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
+        <div class="video-page__influencer-username-holder" style="padding-left: 5px;" @click="switchCamera()">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
               <path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM384 256c0 8.8-7.2 16-16 16H291.3c-6.2 0-11.3-5.1-11.3-11.3c0-3 1.2-5.9 3.3-8L307 229c-13.6-13.4-31.9-21-51-21c-19.2 0-37.7 7.6-51.3 21.3L185 249c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l19.7-19.7C193.4 172.7 224 160 256 160c31.8 0 62.4 12.6 85 35l23.7-23.7c2.1-2.1 5-3.3 8-3.3c6.2 0 11.3 5.1 11.3 11.3V256zM128 320c0-8.8 7.2-16 16-16h76.7c6.2 0 11.3 5.1 11.3 11.3c0 3-1.2 5.9-3.3 8L205 347c13.6 13.4 31.9 21 51 21c19.2 0 37.7-7.6 51.3-21.3L327 327c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-19.7 19.7C318.6 403.3 288 416 256 416c-31.8 0-62.4-12.6-85-35l-23.7 23.7c-2.1 2.1-5 3.3-8 3.3c-6.2 0-11.3-5.1-11.3-11.3V320z"/>
             </svg>
           </span>
         </div>
-        <div @click="showPromo()" class="video-page__influencer-username-holder">
+        <div class="video-page__influencer-username-holder" @click="showPromo()">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
               <path d="M536.5 170.7l-135.7-131.9c-9.453-9.219-24.67-9-33.94 .5c-9.234 9.5-9.016 24.69 .5 33.94l135.5 131.7C519 221.1 528 242.8 528 265.8s-8.969 44.63-25.3 60.95l-111.7 112.4c-9.344 9.406-9.312 24.59 .0938 33.94C395.8 477.7 401.9 480 408 480c6.172 0 12.33-2.359 17.02-7.078l111.7-112.3C562 335.3 576 301.6 576 265.8S562 196.2 536.5 170.7zM463.6 225.6L286.4 48.4C277.4 39.38 259.6 32 246.8 32H60C44.54 32 32 44.54 32 60v186.8c0 12.76 7.381 30.58 16.4 39.6l177.2 177.2c21.87 21.87 57.32 21.87 79.2 .002l158.8-158.8C485.5 282.9 485.5 247.5 463.6 225.6zM144 176c-17.67 0-32-14.32-32-32c0-17.68 14.33-32 32-32s32 14.32 32 32C176 161.7 161.7 176 144 176z"></path>
             </svg>
           </span>
         </div>
-        <div @click="showMultistream()" class="video-page__influencer-username-holder" style="padding-right: 5px;">
+        <div class="video-page__influencer-username-holder" style="padding-right: 5px;" @click="showMultistream()">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 10px; fill: #ff2f80;">
               <path class="fa-primary" d="M288 200C257.1 200 232 225.1 232 256S257.1 312 288 312S344 286.9 344 256S318.9 200 288 200z"/>
@@ -56,7 +56,7 @@
     
       <!-- promo popup -->
       <div v-if="popupPromo" class="store-products-item__login-popup store-products-item__login-popup--active promotion">
-        <div @click="hidePromo()" style="display: flex;">
+        <div style="display: flex;" @click="hidePromo()">
           <div class="scroll-indicator"></div>
         </div>
         <div style="text-align: center; margin-bottom: 20px; font-weight: 600; color: rgb(51, 51, 51);">
@@ -68,7 +68,7 @@
             <div class="form--input--item">
               <fieldset>
                 <legend>Titre de la promotion</legend>
-                <input type="text" v-model="promotion.title" placeholder="Ex: PROMO20" style="text-transform: uppercase;">
+                <input v-model="promotion.title" type="text" placeholder="Ex: PROMO20" style="text-transform: uppercase;">
               </fieldset>
             </div>
             
@@ -76,14 +76,14 @@
               <div class="form--input--item" :class="{'form--input--item--error': promotion.type == 'percent' && promotion.value > 99 }">
                 <fieldset>
                   <legend>Valeur de la remise</legend>
-                  <input type="number" step="1" v-model="promotion.value" placeholder="Ex: 20">
+                  <input v-model="promotion.value" type="number" step="1" placeholder="Ex: 20">
                 </fieldset>
               </div>
               
               <div class="form--input--item">
                 <fieldset>
                   <legend>Type de remise</legend>
-                  <select required v-model="promotion.type" :style="{'color': promotion.type ? '#525c66': 'rgba(145,158,171,.8)'}">
+                  <select v-model="promotion.type" required :style="{'color': promotion.type ? '#525c66': 'rgba(145,158,171,.8)'}">
                     <option value="" selected>Choisir un type</option>
                     <option value="percent">Pourcentage</option>
                     <option value="fixe">Fixe</option>
@@ -91,7 +91,7 @@
                 </fieldset>
               </div>
             </div>
-            <div @click="savePromo()" class="btn-swipe" style="color: white; text-align: center;">Enregistrer</div>
+            <div class="btn-swipe" style="color: white; text-align: center;" @click="savePromo()">Enregistrer</div>
           </div>
           <hr> 
 
@@ -104,7 +104,7 @@
                 <div style="width: 40%; margin-top: 5px;">
                   <img src="/img/discount.svg" class="user" style="margin: 7px 25px;width: 64px;height: 64px;border-radius: 100%;">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
-                    <span @click="check(promo)" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
+                    <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq" @click="check(promo)">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': promo.isActive }">
                         <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" :checked="promo.isActive">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
@@ -115,7 +115,7 @@
                 </div>
                 <hr style="margin: 0px;border-width: 0 2px 0 0;border-style: dashed;border-color: rgba(145,158,171,.24); width: 1px;">
                 <div>
-                  <svg @click="deletePromo(promo, index)" style="width: 24Px; height: 24px; right: 8px; position: absolute;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path fill="#999999" d="M13.4,12l4.3-4.3c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L12,10.6L7.7,6.3c-0.4-0.4-1-0.4-1.4,0c-0.4,0.4-0.4,1,0,1.4l4.3,4.3l-4.3,4.3C6.1,16.5,6,16.7,6,17c0,0.6,0.4,1,1,1c0.3,0,0.5-0.1,0.7-0.3l4.3-4.3l4.3,4.3c0.2,0.2,0.4,0.3,0.7,0.3s0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L13.4,12z"/></svg>
+                  <svg style="width: 24Px; height: 24px; right: 8px; position: absolute;" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" @click="deletePromo(promo, index)"><path fill="#999999" d="M13.4,12l4.3-4.3c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L12,10.6L7.7,6.3c-0.4-0.4-1-0.4-1.4,0c-0.4,0.4-0.4,1,0,1.4l4.3,4.3l-4.3,4.3C6.1,16.5,6,16.7,6,17c0,0.6,0.4,1,1,1c0.3,0,0.5-0.1,0.7-0.3l4.3-4.3l4.3,4.3c0.2,0.2,0.4,0.3,0.7,0.3s0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L13.4,12z"/></svg>
                   <h4 v-if="promo.type == 'percent'" style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: #ff2f80;">-{{ promo.value }}%</h4>
                   <h4 v-else style="font-size: 30px; font-weight: 600; margin-top: 3px; margin-bottom: 0px;color: #ff2f80;">-{{ promo.value }}€</h4>
                   <p>Valable sur toute la boutique </p>
@@ -140,7 +140,7 @@
     
       <!-- multistream popup -->
       <div v-if="popupMultistream" class="store-products-item__login-popup store-products-item__login-popup--active multistream">
-        <div @click="hideMultistream()" style="display: flex;">
+        <div style="display: flex;" @click="hideMultistream()">
           <div class="scroll-indicator"></div>
         </div>
         <div class="multistream-box">
@@ -149,7 +149,7 @@
 
         <div class="items" style="overflow: scroll; padding: 15px 15px 40px;">
           <div class="multistream-div" style="margin-bottom: 15px;">
-            <div @click="showFacebook()" class="multistream-card">
+            <div class="multistream-card" @click="showFacebook()">
               <img src="/img/facebook.svg"/>
               <div class="subtitle">Facebook</div>
               <div class="available" style="">Disponible</div>
@@ -178,7 +178,7 @@
 
       <!-- facebook popup -->
       <div v-if="popupFacebook" class="store-products-item__login-popup store-products-item__login-popup--active facebook">
-        <div @click="hideFacebook()" style="display: flex;">
+        <div style="display: flex;" @click="hideFacebook()">
           <div class="scroll-indicator"></div>
         </div>
         <div class="header">
@@ -197,9 +197,9 @@
                 <div><span>{{ user.firstname }} {{ user.lastname }}</span></div>
                 <span class="filter--choice">
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
-                    <span @click="checkProfile()" class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
+                    <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq" @click="checkProfile()">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': isProfileChecked }">
-                        <input class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" :checked="isProfileChecked" id="profile" v-model="isProfileChecked">
+                        <input id="profile" v-model="isProfileChecked" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" :checked="isProfileChecked">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -212,7 +212,7 @@
               <hr class="facebook-hr"/>
               <div class="facebook-title">
                 <div class="video-page__influencer-username2">Pages</div>
-                <div v-if="!isShowPages" @click="showPages()" style="margin-right: 12px; color: #ff2f80;">Activer</div>
+                <div v-if="!isShowPages" style="margin-right: 12px; color: #ff2f80;" @click="showPages()">Activer</div>
               </div>
               <template v-if="pages.length > 0">
                 <div v-for="(page, index) in pages" :key="page.id" class="top-author--item" style="box-shadow: none; padding: 0px">
@@ -227,11 +227,11 @@
                         >
                           <input
                             :id="'page-' + page.id"
-                            :checked="page.selected"
                             v-model="page.selected"
-                            @change="onPageSelectionChanged(page, index)"
+                            :checked="page.selected"
                             class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
                             type="checkbox"
+                            @change="onPageSelectionChanged(page, index)"
                           >
                           <span class="MuiSwitch-thumb css-byglaq"></span>
                           <span class="MuiTouchRipple-root css-w0pj6f"></span>
@@ -247,7 +247,7 @@
               <hr class="facebook-hr"/>
               <div class="facebook-title">
                 <div class="video-page__influencer-username2">Groupes</div>
-                <div v-if="!isShowGroups" @click="showGroups()" style="margin-right: 12px; color: #ff2f80;">Activer</div>
+                <div v-if="!isShowGroups" style="margin-right: 12px; color: #ff2f80;" @click="showGroups()">Activer</div>
               </div>
               <template v-if="groups.length > 0">
                 <div v-for="(group, index) in groups" :key="group.id" class="top-author--item" style="box-shadow: none; padding: 0px">
@@ -280,12 +280,12 @@
           </div>
         </div>
         <div class="footer">
-          <div @click="saveFacebook()" class="btn-swipe btn-facebook">Enregistrer</div>
+          <div class="btn-swipe btn-facebook" @click="saveFacebook()">Enregistrer</div>
         </div>
       </div>
 
 
-      <div :style="{'bottom': safeareaBottom }" @click="startCountdown()" style="left: calc(50vw - 75px); position: absolute; z-index: 20;">
+      <div :style="{'bottom': safeareaBottom }" style="left: calc(50vw - 75px); position: absolute; z-index: 20;" @click="startCountdown()">
         <div style="margin: 0px auto;">
           <Vue3Lottie :animationData="LottieJSON" :width="150" v-on:animCreated="handleAnimation"/>
         </div>
@@ -327,14 +327,14 @@
 
       <!-- rotate camera + close -->
       <div :style="{'top': safeareaTop }" class="video-page__influencer-badge4" style="position: absolute; right: 15px; background: rgba(0, 0, 0, 0.25); z-index: 20;">
-        <div @click="switchCamera()" class="video-page__influencer-username-holder" style="padding-left: 5px;">
+        <div class="video-page__influencer-username-holder" style="padding-left: 5px;" @click="switchCamera()">
           <span class="video-page__influencer-video-count">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; height: 40px; padding: 10px; fill: white;">
               <path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM384 256c0 8.8-7.2 16-16 16H291.3c-6.2 0-11.3-5.1-11.3-11.3c0-3 1.2-5.9 3.3-8L307 229c-13.6-13.4-31.9-21-51-21c-19.2 0-37.7 7.6-51.3 21.3L185 249c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l19.7-19.7C193.4 172.7 224 160 256 160c31.8 0 62.4 12.6 85 35l23.7-23.7c2.1-2.1 5-3.3 8-3.3c6.2 0 11.3 5.1 11.3 11.3V256zM128 320c0-8.8 7.2-16 16-16h76.7c6.2 0 11.3 5.1 11.3 11.3c0 3-1.2 5.9-3.3 8L205 347c13.6 13.4 31.9 21 51 21c19.2 0 37.7-7.6 51.3-21.3L327 327c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-19.7 19.7C318.6 403.3 288 416 256 416c-31.8 0-62.4-12.6-85-35l-23.7 23.7c-2.1 2.1-5 3.3-8 3.3c-6.2 0-11.3-5.1-11.3-11.3V320z"/>
             </svg>
           </span>
         </div>
-        <div @click="stopLive()" class="video-page__influencer-username-holder">
+        <div class="video-page__influencer-username-holder" @click="stopLive()">
           <span class="video-page__influencer-video-count" style="margin-left: 5px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 40px; height: 40px; padding: 8px; fill: white;">
               <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/>
@@ -345,7 +345,7 @@
 
 
       <!-- comments -->
-      <div v-if="comments.length" class="scrollToMe" ref="scrollToMe" :style="[ comments.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
+      <div v-if="comments.length" ref="scrollToMe" class="scrollToMe" :style="[ comments.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
         <div v-for="comment in comments" style="display: flex;">
           <div class="video-page__influencer-img" style="padding-right: 6px;">
             <img v-if="comment.user.picture" :src="$cloudinary256x256 + comment.user.picture">
@@ -385,13 +385,13 @@
                       <img v-if="user.vendor.promotions.find(promo => promo.isActive === true)" src="/img/discount.svg" style="width: 22px; height: 22px; transform: rotate(-30deg); margin-bottom: 5px; margin-left: 9px;"/>
                     </span>
                   </div>
-                  <div class="price stock-available" v-if="available">{{ available }} en stock</div>
-                  <div class="price stock-unavailable" v-else-if="available == 0">Épuisé</div>
+                  <div v-if="available" class="price stock-available">{{ available }} en stock</div>
+                  <div v-else-if="available == 0" class="price stock-unavailable">Épuisé</div>
                 </div>
               </div>
             </div>
           </div>  
-          <div v-if="liveProducts.length > 1" @click="changeProduct()" class="video-page__influencer-username-holder">
+          <div v-if="liveProducts.length > 1" class="video-page__influencer-username-holder" @click="changeProduct()">
             <span class="video-page__influencer-video-count" style="padding: 20px 10px;">
               <img src="/img/next-product.svg" style="width: 40px; height: 40px; margin-right: 7px;"/>
             </span>
@@ -411,14 +411,14 @@
       <div :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: rgba(0, 0, 0, 0.25); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
 
         <!-- orders -->
-        <div @click="showOrders()" class="video-page__influencer-username-holder" style="padding-left: 5px;padding-right: 5px;">
+        <div class="video-page__influencer-username-holder" style="padding-left: 5px;padding-right: 5px;" @click="showOrders()">
           <span class="video-page__influencer-video-count">
             <img src="/img/bag.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
           </span>
         </div>
 
         <!-- viewer -->
-        <div @click="showViewers" class="video-page__influencer-username-holder" style="padding-right: 5px;">
+        <div class="video-page__influencer-username-holder" style="padding-right: 5px;" @click="showViewers">
           <span class="video-page__influencer-video-count">
            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 38px;height: 40px;padding: 10px 0px;fill: white;">
             <path d="M572.5 238.1C518.3 115.5 410.9 32 288 32S57.69 115.6 3.469 238.1C1.563 243.4 0 251 0 256c0 4.977 1.562 12.6 3.469 17.03C57.72 396.5 165.1 480 288 480s230.3-83.58 284.5-206.1C574.4 268.6 576 260.1 576 256C576 251 574.4 243.4 572.5 238.1zM432 256c0 79.45-64.47 144-143.9 144C208.6 400 144 335.5 144 256S208.5 112 288 112S432 176.5 432 256zM288 160C285.7 160 282.4 160.4 279.5 160.8C284.8 170 288 180.6 288 192c0 35.35-28.65 64-64 64C212.6 256 201.1 252.7 192.7 247.5C192.4 250.5 192 253.6 192 256c0 52.1 43 96 96 96s96-42.99 96-95.99S340.1 160 288 160z"></path>
@@ -431,7 +431,7 @@
 
       <!-- popup orders -->
       <div v-if="popupOrders" class="store-products-item__login-popup store-products-item__login-popup--active popup-orders">
-        <div @click="hideOrders()" style="display: flex;">
+        <div style="display: flex;" @click="hideOrders()">
           <div class="scroll-indicator"></div>
         </div>
         <div class="orders-box">
@@ -469,7 +469,7 @@
 
       <!-- popup view users -->
       <div v-if="popupViewers" class="store-products-item__login-popup store-products-item__login-popup--active popup-viewers">
-        <div @click="hideViewers()" style="display: flex;">
+        <div style="display: flex;" @click="hideViewers()">
           <div class="scroll-indicator"></div>
         </div>
         <div class="viewers-box">
@@ -553,21 +553,14 @@
               <div class="performance-text">Montant</div>
             </div>
           </div>
-          <div v-if="countOrders > 0" @click="goOrders()" class="btn-swipe btn-orders">Voir les commandes</div>
-          <div v-else @click="goBack()" class="btn-swipe btn-orders">Terminer</div>
+          <div v-if="countOrders > 0" class="btn-swipe btn-orders" @click="goOrders()">Voir les commandes</div>
+          <div v-else class="btn-swipe btn-orders" @click="goBack()">Terminer</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
-<style scoped src="../../assets/css/live.css"></style>
-
-<style scoped>
-
-
-</style>
 
 <script>
 import Pusher from 'pusher-js';
@@ -581,6 +574,13 @@ import { Agora } from '@swipelive/capacitor-agora';
 
 export default {
   name: 'Feed',
+  directives: {
+    focus: {
+      inserted: function (el) {
+        el.focus()
+      }
+    }
+  },
   data() {
     const mainStore = useMainStore();
 
@@ -683,13 +683,6 @@ export default {
   },
   beforeDestroy() {
     this.leaveChannel();
-  },
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus()
-      }
-    }
   },
   methods: {    
     async initializeAgora() {
@@ -1243,4 +1236,11 @@ export default {
 };
 
 </script>
+
+<style scoped src="../../assets/css/live.css"></style>
+
+<style scoped>
+
+
+</style>
 

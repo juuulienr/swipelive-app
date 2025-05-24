@@ -1,7 +1,7 @@
 <template>
   <main class="products" style="padding: 0px 15px;">
     <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -21,11 +21,11 @@
         </div>
       </div>
 
-      <div @click="addProduct()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px;">Ajouter un article</div>
+      <div class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 10px 0px 25px;" @click="addProduct()">Ajouter un article</div>
 
       <div v-if="products.length" class="items">
         <div class="lasted--product" style="margin-top: 20px;">
-          <div v-for="(product, index) in sortedProducts" @click="editProduct(product)" class="product--item">
+          <div v-for="(product, index) in sortedProducts" class="product--item" @click="editProduct(product)">
             <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style=" background: #eeeeee">
             <img v-else src="/img/no-preview.png">
             <div class="details">
@@ -57,8 +57,6 @@
   </main>
 </template>
 
-
-<style scoped src="../../assets/css/shop.css"></style>
 
 <script>
 import { useMainStore } from '../../stores/useMainStore.js';
@@ -157,3 +155,5 @@ export default {
   }
 };
 </script>
+
+<style scoped src="../../assets/css/shop.css"></style>

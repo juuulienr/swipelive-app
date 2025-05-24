@@ -1,7 +1,7 @@
 <template>
   <main class="products" style="padding: 0px 15px">
     <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -22,7 +22,7 @@
             <p style="margin-bottom: 0px;color: #999; font-weight: 400; font-size: 14px;">{{ $formatPrice(user.vendor.pending) }}€</p>
           </div>
           <div class="current--balance--btn" style="margin-top: 10px; margin-bottom: 5px;">
-            <div v-if="user.vendor.available > 0" @click="showWithdraw()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">ENCAISSER</div>
+            <div v-if="user.vendor.available > 0" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;" @click="showWithdraw()">ENCAISSER</div>
             <div v-else class="btn-swipe" style="color: rgb(170, 170, 170); background: rgb(239, 241, 246); text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">ENCAISSER</div>
           </div>
         </div>
@@ -30,7 +30,7 @@
         <hr style="width: 100%;margin: 15px 0px;">
         <div v-if="orderedMonthData.length > 0" class="current--balance" style="border-radius: 11px; margin: 25px 5px;">
           <div class="bloc--title" style="font-size: 1.0625rem; font-weight: 600; line-height: 1.55556; display: block; flex: 1 1 auto; margin-bottom: 0px;">Historique</div>
-          <div v-for="(data, index) in orderedMonthData" @click="showHistory(data)" class="current--balance--two" style="padding: 5px 0px;">
+          <div v-for="(data, index) in orderedMonthData" class="current--balance--two" style="padding: 5px 0px;" @click="showHistory(data)">
             <div style="margin-bottom: 0px; font-size: 15px; font-weight: 400;">
               <div style="text-transform: capitalize;">{{ formatMonth(data.month) }}</div>
               <div v-if="data.orders.length > 1" style="font-size: 12px;color: #999;">{{ data.orders.length }} commandes</div>
@@ -75,7 +75,7 @@
       <!-- withdraw -->
       <div v-if="popupWithdraw" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);">
         <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-          <div v-if="withdraw || bank" @click="hideWithdraw()" class="checkout__close-btn">
+          <div v-if="withdraw || bank" class="checkout__close-btn" @click="hideWithdraw()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
               <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
             </svg>
@@ -86,14 +86,14 @@
         </div>
         <div class="checkout__body" style="overflow: scroll; padding: 15px 0px;">
           <div v-if="withdraw">
-            <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 16px; text-align: center; display: block; flex: 1 1 auto; color: #272c30;"> Montant disponible : <span @click="addAmount()" style="color: #1890ff; text-decoration: underline;">{{ $formatPrice(user.vendor.available) }}€</span>
+            <div class="bloc--title" style="font-weight: 500; line-height: 1.55556; font-size: 16px; text-align: center; display: block; flex: 1 1 auto; color: #272c30;"> Montant disponible : <span style="color: #1890ff; text-decoration: underline;" @click="addAmount()">{{ $formatPrice(user.vendor.available) }}€</span>
             </div>
             <div class="form--input--item" style="margin: 0px 0px 60px;">
               <fieldset style="border: none; text-align: center;">
-                <input v-model="withdrawAmount" @input="limitDecimals" ref="withdrawAmount" type="text" placeholder="0€" inputmode="decimal" style="font-weight: 600; text-align: center; font-size: 45px; width: calc(100vw - 45px); margin-top: 50px; color: black;"/>
+                <input ref="withdrawAmount" v-model="withdrawAmount" type="text" placeholder="0€" inputmode="decimal" style="font-weight: 600; text-align: center; font-size: 45px; width: calc(100vw - 45px); margin-top: 50px; color: black;" @input="limitDecimals"/>
               </fieldset>
             </div>
-            <div v-if="checkAvailability" @click="saveWithdraw()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;">
+            <div v-if="checkAvailability" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 45px);font-size: 14px;font-weight: 600; margin-top: 30px;margin: 30px auto 0px;" @click="saveWithdraw()">
               <span>Envoyer</span>
             </div>
             <div v-else-if="loadingWithdraw" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 40px); font-size: 14px; font-weight: 600;">
@@ -107,7 +107,7 @@
               <span>Envoyer</span>
             </div>
 
-            <div @click="showBank()" class="current--balance" style="padding: 15px; border-radius: 11px; margin: 40px 10px 10px; border: 1px solid #ddd !important; ">
+            <div class="current--balance" style="padding: 15px; border-radius: 11px; margin: 40px 10px 10px; border: 1px solid #ddd !important; " @click="showBank()">
               <div class="current--balance--two" style="padding: 5px 0px;">
                 <div style="margin-bottom: 0px;display: flex;font-size: 15px;font-weight: 400;">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 15px; width: 32px; height: 32px; margin-top: 3px;">
@@ -145,7 +145,7 @@
                 <input v-model="businessName" type="text"/>
               </fieldset>
             </div>
-            <div @click="saveBankAccount()" class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600;">
+            <div class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600;" @click="saveBankAccount()">
               <span v-if="loadingBank">
                 <svg viewBox="25 25 50 50" class="loading">
                   <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -156,13 +156,13 @@
           </div>
           <div v-else>
             <div style="margin: 60px auto 0px;">
-              <Vue3Lottie :animationData="LottieJSON" v-on:animCreated="handleAnimation" :width="150"/>
+              <Vue3Lottie :animationData="LottieJSON" :width="150" v-on:animCreated="handleAnimation"/>
             </div>
             <p style="margin-bottom: 0px;color: black;font-weight: 500;font-size: 14px;padding: 0px 10px;margin-top: 35px;text-align: center;">
               Votre demande de retrait a bien été prise en compte, <br>
               votre argent arrivera sur votre compte sous 1 à 5 jours ouvrés.
             </p>
-            <div @click="hideWithdraw()" class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600; bottom: 40px; position: absolute; width: 100%">Fermer</div>
+            <div class="btn-swipe" style="color: white;text-align: center;font-size: 14px;font-weight: 600; bottom: 40px; position: absolute; width: 100%" @click="hideWithdraw()">Fermer</div>
           </div>
         </div>
       </div>
@@ -172,7 +172,7 @@
       <!-- history -->
       <div v-if="popupHistory" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);">
         <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-          <div @click="hideHistory()" class="checkout__close-btn">
+          <div class="checkout__close-btn" @click="hideHistory()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
               <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625-9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
             </svg>
@@ -209,9 +209,6 @@
 
 
 
-<style scoped src="../../assets/css/wallet.css"></style>
-
-
 <script>
 import { useMainStore } from '../../stores/useMainStore.js';
 import LottieJSON from '../../assets/lottie/success.json';
@@ -244,9 +241,6 @@ export default {
       bank: false,
       sales: [],
     };
-  },
-  created() {
-    this.loadOrders();
   },
   computed: {
     orderedMonthData() {
@@ -284,6 +278,9 @@ export default {
       }
       return false;
     },
+  },
+  created() {
+    this.loadOrders();
   },
   methods: {
     hideWithdraw() {
@@ -561,4 +558,7 @@ export default {
 };
 
 </script>
+
+
+<style scoped src="../../assets/css/wallet.css"></style>
 

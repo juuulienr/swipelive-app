@@ -1,12 +1,7 @@
 <template>
   <router-view />
-  <NavBar :lineItems="lineItems" v-if="showNavbar" />
+  <NavBar v-if="showNavbar" :lineItems="lineItems" />
 </template>
-
-<style>
-@import './assets/css/bootstrap.css';
-@import './assets/css/main.css';
-</style>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
@@ -84,3 +79,8 @@ export default {
   }
 };
 </script>
+
+<style>
+@import './assets/css/bootstrap.css';
+@import './assets/css/main.css';
+</style>

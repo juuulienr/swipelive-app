@@ -1,7 +1,7 @@
 <template>
   <main class="products shop_3" style="padding: 0px;">
     <div class="checkout__header" style="padding: 5px 20px 15px;">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -16,10 +16,10 @@
             <div @click="showProduct(heart.product)">
               <img v-if="heart.product.uploads.length" :src="$cloudinary256x256 + heart.product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
               <img v-else src="/img/no-preview.png" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
-              <img @click.stop="removeFavoris(heart.product)" src="/img/circle-heart-full.svg" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;"/>
+              <img src="/img/circle-heart-full.svg" style="width: 30px; height: 30px; position: absolute; top: 7px; right: 7px; z-index: 10000; filter: drop-shadow(rgb(34, 34, 34) 0px 0px 1px); pointer-events: auto;" @click.stop="removeFavoris(heart.product)"/>
             </div>
           </div>
-          <div @click="showProduct(heart.product)" class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;">
+          <div class="shop--item--details" style="width: 100%; padding: 0px; margin-top: 6px; padding-left: 5px;" @click="showProduct(heart.product)">
             <div class="shop--item--name" style="font-size: 13px; text-align: left;">{{ heart.product.title }}</div>
             <div class="shop--item--price">
               <div class="price" style="font-size: 12px; margin: 0px; font-weight: 500;" :style="[heart.product.compareAtPrice ? {'color': '#18cea0'} : {'color': '#272c30'}]">
@@ -51,14 +51,14 @@
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
-      <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
+      <div style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;" @click="hideProduct()">
         <img src="/img/close-popup.svg" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
       <div class="groups">
-        <div v-if="product.quantity > 0" @click="addToCart()" class="btn-swipe btn-checkout">Ajouter</div>
+        <div v-if="product.quantity > 0" class="btn-swipe btn-checkout" @click="addToCart()">Ajouter</div>
         <div v-else class="btn-swipe btn-checkout" style="color: rgb(170, 170, 170); background: #eff1f6;">Épuisé</div>
       </div>
     </div>

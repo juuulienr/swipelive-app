@@ -1,7 +1,7 @@
 <template>
   <main class="my_profile1" style="padding: 0px 15px;">
     <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -13,7 +13,7 @@
       <div>
         <div class="general--profile" style="padding-top: 10px; padding-bottom: 30px;">
           <div>
-            <span @click="uploadSheet()" style="border: 2px solid #ff2f80;">
+            <span style="border: 2px solid #ff2f80;" @click="uploadSheet()">
               <span>
                 <svg v-if="loadingImg" viewBox="25 25 50 50" class="loading" style="width: 24px; height: 24px; top: calc(50% - 13px); left: calc(50% - 13px);">
                   <circle cx="50" cy="50" r="20" style="stroke: #ff2f80;"></circle>
@@ -31,28 +31,28 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
             <legend>Prénom</legend>
-            <input type="text" required v-model="user.firstname">
+            <input v-model="user.firstname" type="text" required>
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
           <fieldset>
             <legend>Nom</legend>
-            <input type="text" required v-model="user.lastname">
+            <input v-model="user.lastname" type="text" required>
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" disabled v-model="user.email" style="text-transform: lowercase;">
+            <input v-model="user.email" type="text" disabled style="text-transform: lowercase;">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
           <fieldset>
             <legend>Téléphone</legend>
-            <input type="text" v-model="user.phone" inputmode="decimal">
+            <input v-model="user.phone" type="text" inputmode="decimal">
           </fieldset>
         </div>
         <div v-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
@@ -62,7 +62,7 @@
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorPseudo }">
           <fieldset>
             <legend>Pseudo (visible par les clients)</legend>
-            <input type="text" v-model="user.vendor.pseudo">
+            <input v-model="user.vendor.pseudo" type="text">
           </fieldset>
         </div>
 
@@ -76,14 +76,14 @@
         <div v-if="user.vendor && user.vendor.businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorCompany }">
           <fieldset>
             <legend>Nom de société</legend>
-            <input type="text" v-model="user.vendor.company" disabled>
+            <input v-model="user.vendor.company" type="text" disabled>
           </fieldset>
         </div>
 
         <div v-if="user.vendor && user.vendor.businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorSiren }">
           <fieldset>
             <legend>SIREN</legend>
-            <input type="text" v-model="user.vendor.siren" minlength="9" maxlength="9" disabled>
+            <input v-model="user.vendor.siren" type="text" minlength="9" maxlength="9" disabled>
           </fieldset>
         </div>
         <div v-if="errorSiren" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">SIREN (9 chiffres)</div>
@@ -91,7 +91,7 @@
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>  
-            <input id="address-input" type="text" v-model="user.vendor.address" placeholder="Saisissez une adresse" @focus="initAutocomplete">
+            <input id="address-input" v-model="user.vendor.address" type="text" placeholder="Saisissez une adresse" @focus="initAutocomplete">
           </fieldset>
         </div>
 
@@ -100,14 +100,14 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
             <fieldset>
               <legend>Code postal</legend>
-              <input type="text" v-model="user.vendor.zip">
+              <input v-model="user.vendor.zip" type="text">
             </fieldset>
           </div>
 
           <div class="form--input--item" :class="{'form--input--item--error': errorCity }">
             <fieldset>
               <legend>Ville</legend>
-              <input type="text" v-model="user.vendor.city">
+              <input v-model="user.vendor.city" type="text">
             </fieldset>
           </div>
         </div>
@@ -115,11 +115,11 @@
         <div v-if="user.vendor" class="form--input--item" :class="{'form--input--item--error': errorCountry }">
           <fieldset>
             <legend>Pays</legend>
-            <input type="text" v-model="user.vendor.country">
+            <input v-model="user.vendor.country" type="text">
           </fieldset>
         </div>
 
-        <div @click.prevent="submit()" class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 25px 0px;">
+        <div class="btn-swipe" style="color: white;text-align: center;width: calc(100vw - 30px);margin: 25px 0px;" @click.prevent="submit()">
           <span v-if="loading">
             <svg viewBox="25 25 50 50" class="loading">
               <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>

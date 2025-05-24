@@ -5,7 +5,7 @@
         <img src="/img/notif.png" style="width: 100%; margin-top: 30px;" />
         <h5 class="title" style="margin-top: 30px;">Soyez informé !</h5>
         <div class="subtitle">Swipe Live fonctionne mieux avec les notifications. Activez les pour profiter pleinement de l'application.</div>
-        <div @click="allowNotif" class="btn-step">Activer les notifications</div>
+        <div class="btn-step" @click="allowNotif">Activer les notifications</div>
       </div>
 
       <div v-if="step1" class="step1 onboarding">
@@ -16,7 +16,7 @@
             <Vue3Lottie :animationData="LottieJSON" style="width: 300px"/>
           </div>
         </div>
-        <div @click="goFeed" class="btn-step">Commencer à regarder</div>
+        <div class="btn-step" @click="goFeed">Commencer à regarder</div>
       </div>
     </div>
   </main>

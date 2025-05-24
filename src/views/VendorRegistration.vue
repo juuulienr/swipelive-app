@@ -1,7 +1,7 @@
 <template>
   <main style="padding: 0px 15px">
     <div v-if="!step3" class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -16,10 +16,10 @@
       <div v-if="type" class="step1">
         <div style="font-weight: 500; margin-bottom: 20px; text-align: center; font-size: 16px;">Quel vendeur êtes-vous ?</div>
         <div style="display: flex; justify-content: space-evenly;">
-          <div @click="goStep1('company')" style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid #ff2f80; align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border-radius: 50% !important;">
+          <div style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid #ff2f80; align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border-radius: 50% !important;" @click="goStep1('company')">
             <div style="font-size: 15px; color: #ff2f80; margin-top: 35px; font-weight: 500;">Professionnel</div>
           </div>
-          <div @click="goStep1('individual')" style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid #ff2f80; align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border: 2px solid #272c30 !important; border-radius: 100% !important;">
+          <div style="width: 135px; height: 135px; text-align: center; padding: 20px; border-radius: 16px; border: 2px solid #ff2f80; align-items: center; box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 1px !important; border: 2px solid #272c30 !important; border-radius: 100% !important;" @click="goStep1('individual')">
             <div style="font-size: 15px; color: rgb(82, 92, 102); margin-top: 35px; font-weight: 500;">Particulier</div>
           </div>
         </div>
@@ -92,14 +92,14 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
           <fieldset>
             <legend>Prénom</legend>
-            <input type="text" required v-model="user.firstname" style="text-transform: capitalize;">
+            <input v-model="user.firstname" type="text" required style="text-transform: capitalize;">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
           <fieldset>
             <legend>Nom</legend>
-            <input type="text" required v-model="user.lastname" style="text-transform: capitalize;">
+            <input v-model="user.lastname" type="text" required style="text-transform: capitalize;">
           </fieldset>
         </div>
 
@@ -107,19 +107,19 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorDay }">
             <fieldset>
               <legend>Jour</legend>
-              <input type="text" required v-model="user.day" inputmode="decimal" maxlength="2" style="width: 80%">
+              <input v-model="user.day" type="text" required inputmode="decimal" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorMonth }">
             <fieldset>
               <legend>Mois</legend>
-              <input type="text" required v-model="user.month" inputmode="decimal" maxlength="2" style="width: 80%">
+              <input v-model="user.month" type="text" required inputmode="decimal" maxlength="2" style="width: 80%">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorYear }">
             <fieldset>
               <legend>Année</legend>
-              <input type="text" required v-model="user.year" inputmode="decimal" maxlength="4" style="width: 80%">
+              <input v-model="user.year" type="text" required inputmode="decimal" maxlength="4" style="width: 80%">
             </fieldset>
           </div>
         </div>
@@ -128,20 +128,20 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" v-model="user.email" style="text-transform: lowercase;">
+            <input v-model="user.email" type="text" style="text-transform: lowercase;">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
           <fieldset>
             <legend>Téléphone</legend>
-            <input type="text" v-model="user.phone" inputmode="decimal">
+            <input v-model="user.phone" type="text" inputmode="decimal">
           </fieldset>
         </div>
         <div v-if="errorPhone && user.phone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
         <div v-else-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le téléphone est obligatoire</div>
 
-        <div @click="submitStep1()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">Suivant</div>
+        <div class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;" @click="submitStep1()">Suivant</div>
       </div>
 
 
@@ -152,14 +152,14 @@
         <div v-if="businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorCompany }">
           <fieldset>
             <legend>Nom de société</legend>
-            <input type="text" v-model="company">
+            <input v-model="company" type="text">
           </fieldset>
         </div>
 
         <div v-if="businessType == 'company'" class="form--input--item" :class="{'form--input--item--error': errorSiren }">
           <fieldset>
             <legend>SIREN</legend>
-            <input type="text" v-model="siren" maxlength="9" inputmode="decimal">
+            <input v-model="siren" type="text" maxlength="9" inputmode="decimal">
           </fieldset>
         </div>
         <div v-if="errorSiren" style="font-size: 13px; color: rgb(255, 0, 0); margin-bottom: 20px; margin-top: -10px;">SIREN (9 chiffres)</div>
@@ -167,7 +167,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>
-            <input id="address-input" type="text" v-model="address" placeholder="Saisissez une adresse" @focus="initAutocomplete">
+            <input id="address-input" v-model="address" type="text" placeholder="Saisissez une adresse" @focus="initAutocomplete">
           </fieldset>
         </div>
 
@@ -175,13 +175,13 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
             <fieldset>
               <legend>Code postal</legend>
-              <input type="text" v-model="zip" inputmode="decimal">
+              <input v-model="zip" type="text" inputmode="decimal">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorCity }">
             <fieldset>
               <legend>Ville</legend>
-              <input type="text" v-model="city">
+              <input v-model="city" type="text">
             </fieldset>
           </div>
         </div>
@@ -189,14 +189,14 @@
         <div class="form--input--item">
           <fieldset>
             <legend>Pays</legend>
-            <input type="text" v-model="country">
+            <input v-model="country" type="text">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorPseudo }">
           <fieldset>
             <legend>Pseudo (visible par les clients)</legend>
-            <input type="text" v-model="pseudo" maxlength="30" style="text-transform: capitalize;">
+            <input v-model="pseudo" type="text" maxlength="30" style="text-transform: capitalize;">
           </fieldset>
         </div>
 
@@ -208,7 +208,7 @@
         </div>
 
 
-        <div @click="submitStep2()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
+        <div class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;" @click="submitStep2()">
           <span v-if="loading">
             <svg viewBox="25 25 50 50" class="loading">
               <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -227,124 +227,13 @@
         <br />
         <div style="font-weight: 400; font-size: 15px; margin-top: 10px; padding: 0px 10px; text-align: justify; line-height: 27px;">Vous pouvez dès à présent créer votre communauté et exploiter la vidéo en direct pour offrir des expériences d'achat fun et unique avec des taux de conversion 10 fois supérieurs à ceux des sites de commerce électronique traditionnels.</div>
 
-        <div @click="submitStep3()" class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;">
+        <div class="btn-swipe" style="color: white; position: absolute; bottom: calc(env(safe-area-inset-bottom) + 30px); text-align: center; width: calc(100vw - 30px); line-height: 1.41176; letter-spacing: -0.025em;" @click="submitStep3()">
           <span>Bonnes ventes 🚀</span>
         </div>
       </div>
     </div>
   </main>
 </template>
-
-<style scoped>
-  .general--profile {
-    padding-bottom: 45px;
-  }
-
-  .general--profile > span {
-    width: 144px;
-    height: 144px;
-    margin: auto;
-    border-radius: 50%;
-    display: block;
-    padding: 8px;
-    border: 1px dashed rgba(145, 158, 171, 0.32);
-    position: relative;
-  }
-
-  .general--profile > span > span {
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    outline: none;
-    display: flex;
-    overflow: hidden;
-    border-radius: 50%;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .general--profile > span > span > span {
-    line-height: 0;
-    display: block;
-    overflow: hidden;
-    z-index: 8;
-    width: 100%;
-    height: 100%;
-    background-size: cover !important;
-  }
-
-  .general--profile > span > span > span img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .general--profile > span div {
-    display: flex;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    width: calc(100% - 16px);
-    height: calc(100% - 16px);
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    color: #525c66;
-    background-color: rgb(244, 246, 248);
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  .general--profile > span div span {
-    line-height: 1.5;
-    font-size: 0.75rem;
-  }
-
-  .general--profile > span div svg {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 8px;
-  }
-
-</style>
-
-<style>
-  
-  .display-mode {
-    display: initial !important;
-    z-index: 100000000000;
-  }
-
-  .hdpi.pac-logo:after {
-    background: none !important;
-    height: 0px !important;
-  }
-
-  .pac-item {
-    padding: 3px 12px !important;
-    border: none !important;
-    font-size: 14px !important;
-  }
-
-  .hdpi .pac-icon {
-    display: none !important;
-  }
-
-  .pac-item-query {
-    font-size: 14px !important;
-  }
-
-  .pac-container {
-    box-shadow: 0 6px 19px 0 #d9d9d9 !important;
-    border-top: none !important;
-    border-radius: 7px !important;
-    padding: 7px 3px !important;
-  }
-
-
-</style>
 
 <script>
 import { useMainStore } from '../stores/useMainStore.js';
@@ -397,6 +286,16 @@ export default {
       loading: false,
     }
   },
+  watch: {
+    step2(newVal) {
+      if (newVal) {
+        // Attendre que le DOM soit mis à jour avant d'initialiser l'autocomplete
+        this.$nextTick(() => {
+          this.initAutocomplete();
+        });
+      }
+    },
+  },
   created() {
     
     
@@ -410,16 +309,6 @@ export default {
     .catch((error) => {
       console.error("Erreur de chargement de Google Maps : ", error);
     });
-  },
-  watch: {
-    step2(newVal) {
-      if (newVal) {
-        // Attendre que le DOM soit mis à jour avant d'initialiser l'autocomplete
-        this.$nextTick(() => {
-          this.initAutocomplete();
-        });
-      }
-    },
   },
   methods: {
     submitStep1() {
@@ -877,3 +766,114 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .general--profile {
+    padding-bottom: 45px;
+  }
+
+  .general--profile > span {
+    width: 144px;
+    height: 144px;
+    margin: auto;
+    border-radius: 50%;
+    display: block;
+    padding: 8px;
+    border: 1px dashed rgba(145, 158, 171, 0.32);
+    position: relative;
+  }
+
+  .general--profile > span > span {
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    display: flex;
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .general--profile > span > span > span {
+    line-height: 0;
+    display: block;
+    overflow: hidden;
+    z-index: 8;
+    width: 100%;
+    height: 100%;
+    background-size: cover !important;
+  }
+
+  .general--profile > span > span > span img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .general--profile > span div {
+    display: flex;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: #525c66;
+    background-color: rgb(244, 246, 248);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .general--profile > span div span {
+    line-height: 1.5;
+    font-size: 0.75rem;
+  }
+
+  .general--profile > span div svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 8px;
+  }
+
+</style>
+
+<style>
+  
+  .display-mode {
+    display: initial !important;
+    z-index: 100000000000;
+  }
+
+  .hdpi.pac-logo:after {
+    background: none !important;
+    height: 0px !important;
+  }
+
+  .pac-item {
+    padding: 3px 12px !important;
+    border: none !important;
+    font-size: 14px !important;
+  }
+
+  .hdpi .pac-icon {
+    display: none !important;
+  }
+
+  .pac-item-query {
+    font-size: 14px !important;
+  }
+
+  .pac-container {
+    box-shadow: 0 6px 19px 0 #d9d9d9 !important;
+    border-top: none !important;
+    border-radius: 7px !important;
+    padding: 7px 3px !important;
+  }
+
+
+</style>

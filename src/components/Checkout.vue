@@ -1,7 +1,7 @@
 <template>
   <main class="cart">
     <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -59,7 +59,7 @@
 
       <!-- domicile -->
       <div v-if="shippingAddress && shippingMethod != 'service_point'" class="card panel-item card-address">
-        <div @click="showShippingAddress()" class="card-body parcelshop-card-body">
+        <div class="card-body parcelshop-card-body" @click="showShippingAddress()">
           <div class="card-title">
             <img src="/img/domicile.png"/>
             {{ name }}
@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="top-author">
-          <div @click="showShippingAddress()" class="top-author--container">
+          <div class="top-author--container" @click="showShippingAddress()">
             <div class="top-author--item">
               <img src="/img/domicile.png"/>
               <div style="margin-left: 7px;">
@@ -133,7 +133,7 @@
           </div>
         </div>
         <div class="top-author--container" style="">
-          <div @click="showRelayPopup()" class="top-author--item">
+          <div class="top-author--item" @click="showRelayPopup()">
             <img v-if="pointSelected && pointSelected.carrier == 'chronopost'" src="/img/shop2shop.png" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <img v-else-if="pointSelected && pointSelected.carrier" :src="`/img/${pointSelected.carrier}.png`" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <img v-else src="/img/mondial_relay.png" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
@@ -160,7 +160,7 @@
             </div>
           </div>
           <hr class="css-ss6lby" style="margin-bottom: 10px; margin-top: 10px;"/>
-          <div @click="changeToAddress()" class="top-author--item">
+          <div class="top-author--item" @click="changeToAddress()">
             <img src="/img/domicile.png" style="border-radius: 0px; height: 45px; width: 45px; margin-left: 5px;"/>
             <div>
               <span style="text-transform: capitalize;">Domicile</span>
@@ -190,7 +190,7 @@
 
 
     <div class="div-payment">
-      <div @click="payment()" class="btn-swipe" style="text-align: center;">
+      <div class="btn-swipe" style="text-align: center;" @click="payment()">
         <span v-if="loadingPayment">
           <svg viewBox="25 25 50 50" class="loading">
             <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -204,7 +204,7 @@
     <!-- shipping to home -->
     <div v-if="popupShippingAddress" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
       <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
-        <div @click="hideShippingAddress()" class="checkout__close-btn">
+        <div class="checkout__close-btn" @click="hideShippingAddress()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
@@ -215,14 +215,14 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorName }">
           <fieldset>
             <legend>Nom et prénom</legend>
-            <input type="text" v-model="name">
+            <input v-model="name" type="text">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorPhone }">
           <fieldset>
             <legend>Téléphone</legend>
-            <input type="text" v-model="phone" inputmode="decimal">
+            <input v-model="phone" type="text" inputmode="decimal">
           </fieldset>
         </div>
         <div v-if="errorPhone" style="font-size: 13px;color: rgb(255, 0, 0);margin-bottom: 20px;margin-top: -15px;">Le format est incorrect</div>
@@ -230,7 +230,7 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorAddress }">
           <fieldset>
             <legend>Adresse</legend>
-            <input id="address-input" type="text" v-model="address" placeholder="Saisissez une adresse" @focus="initAutocomplete">
+            <input id="address-input" v-model="address" type="text" placeholder="Saisissez une adresse" @focus="initAutocomplete">
           </fieldset>
         </div>
 
@@ -238,14 +238,14 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorZip }">
             <fieldset>
               <legend>Code postal</legend>
-              <input type="text" v-model="zip" inputmode="numeric">
+              <input v-model="zip" type="text" inputmode="numeric">
             </fieldset>
           </div>
 
           <div class="form--input--item" :class="{'form--input--item--error': errorCity }">
             <fieldset>
               <legend>Ville</legend>
-              <input type="text" v-model="city">
+              <input v-model="city" type="text">
             </fieldset>
           </div>
         </div>
@@ -253,12 +253,12 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorCountry }">
           <fieldset>
             <legend>Pays</legend>
-            <input type="text" v-model="country">
+            <input v-model="country" type="text">
           </fieldset>
         </div>
 
 
-        <div @click="saveShippingAddress()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); margin: 0 auto; background: #ff2f80">
+        <div class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); margin: 0 auto; background: #ff2f80" @click="saveShippingAddress()">
           <span v-if="loadingAddress">
             <svg viewBox="25 25 50 50" class="loading">
               <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -273,7 +273,7 @@
     <!-- show relais -->
     <div v-if="popupRelay" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
       <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
-        <div @click="hideRelay()" class="checkout__close-btn">
+        <div class="checkout__close-btn" @click="hideRelay()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
@@ -283,8 +283,8 @@
       <div class="checkout__body" style="padding: 18px 0px;">
 		    <div class="images_filter">
 		      <ul>
-		        <li @click="showMap()" v-bind:class="{active: tabMap}"  :style="[tabMap ? {'color': '#ff2f80'} : {'color': '#525c66'}]">Carte </li>
-		        <li @click="showList()" v-bind:class="{active: tabList}"  :style="[tabList ? {'color': '#ff2f80'} : {'color': '#525c66'}]">Liste des relais </li>
+		        <li v-bind:class="{active: tabMap}" :style="[tabMap ? {'color': '#ff2f80'} : {'color': '#525c66'}]"  @click="showMap()">Carte </li>
+		        <li v-bind:class="{active: tabList}" :style="[tabList ? {'color': '#ff2f80'} : {'color': '#525c66'}]"  @click="showList()">Liste des relais </li>
 		      </ul>
 		    </div>
 		    <div v-if="tabMap">
@@ -318,7 +318,7 @@
           </div>
 
 	    		<div v-if="mapSelected">
-            <div @click="showRelayInfoPopup(mapSelected)" class="card panel-item" style="border-radius: 10px; margin: 35px 5px 22px; border: none; border: 1px solid rgb(221, 221, 221) !important;">
+            <div class="card panel-item" style="border-radius: 10px; margin: 35px 5px 22px; border: none; border: 1px solid rgb(221, 221, 221) !important;" @click="showRelayInfoPopup(mapSelected)">
               <div class="card-body parcelshop-card-body">
                 <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
                   <div class="map-badge">Le plus proche</div>
@@ -339,7 +339,7 @@
                 </template>
               </div>
             </div>
-		    		<div @click="saveRelay(mapSelected)" style="text-align: center;">
+		    		<div style="text-align: center;" @click="saveRelay(mapSelected)">
 		    			<div class="btn-swipe">Selectionner</div>
 		    		</div>
 	    		</div>
@@ -347,7 +347,7 @@
 		    <div v-if="tabList">
           <template v-if="points">
             <div v-for="(point, index) in points" :key="point.id" class="card panel-item" style="border-radius: 10px; margin: 15px 5px; border: 1px solid #ddd!important;">
-              <div @click="showRelayInfoPopup(point)" class="card-body parcelshop-card-body">
+              <div class="card-body parcelshop-card-body" @click="showRelayInfoPopup(point)">
                 <div class="card-title" style="font-weight: 500; margin-bottom: 4px; text-transform: uppercase;">
                   <img v-if="point.carrier_id == 'd8585c1d-eb67-4dae-be3e-8ffd8c54d7f3'" src="/img/shop2shop.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
                   <img v-else src="/img/mondial_relay.png" style="border-radius: 0px; height: 24px; width: 24px; margin-right: 5px;">
@@ -384,7 +384,7 @@
     <!-- select relais -->
     <div v-if="popupRelayInfo" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 20px);">  
       <div class="checkout__header" style="padding: 5px 5px 15px; background: white; width: 100%;">
-        <div @click="hideRelayInfo()" class="checkout__close-btn">
+        <div class="checkout__close-btn" @click="hideRelayInfo()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
@@ -427,50 +427,13 @@
             <div style="font-weight: 400;padding: 5px;text-align: center;">Les horaires d'ouverture peuvent différer.</div>
           </div>
       	</div>
-        <div @click="saveRelay(point)" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); position: absolute; bottom: 45px; margin: 0 auto; background: #ff2f80">Selectionner</div>
+        <div class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 20px); position: absolute; bottom: 45px; margin: 0 auto; background: #ff2f80" @click="saveRelay(point)">Selectionner</div>
       </div>
     </div>
   </main>
 </template>
 
 
-
-<style scoped src="../assets/css/checkout.css"></style>
-<style>
-	
-.display-mode {
-  display: initial !important;
-  z-index: 100000000000;
-}
-
-.pac-container {
-	box-shadow: 0 6px 19px 0 #d9d9d9 !important;
-	border-top: none !important;
-	border-radius: 7px !important;
-	padding: 7px 3px !important;
-  z-index: 1000000000000000;
-}
-
-.hdpi.pac-logo:after {
-  background: none !important;
-  height: 0px !important;
-}
-
-.pac-item {
-  padding: 3px 12px !important;
-  border: none !important;
-  font-size: 14px !important;
-}
-
-.hdpi .pac-icon {
-  display: none !important;
-}
-
-.pac-item-query {
-  font-size: 14px !important;
-}
-
-</style>
 
 <script>
 
@@ -549,6 +512,25 @@ export default {
         fullscreenControl: false,
         disableDefaultUi: false,
         clickableIcons: false
+      }
+    }
+  },
+	computed: {
+		isServicePoints() {
+			return this.shippingMethod == "service_point" ? 'fill: #18cea0' : '';
+		},
+		isDomicile() {
+			return this.shippingMethod == "domicile" ? 'fill: #18cea0' : '';
+    },
+	},
+  watch: {
+    popupShippingAddress(newVal) {
+      if (newVal) {
+        this.loadGoogleMapsScript().then(() => {
+          this.initAutocomplete();
+        }).catch((error) => {
+          console.error("Erreur de chargement de Google Maps : ", error);
+        });
       }
     }
   },
@@ -635,25 +617,6 @@ export default {
         this.getShippingPrice();
       } else {
         this.loadingShipping = false;
-      }
-    }
-  },
-	computed: {
-		isServicePoints() {
-			return this.shippingMethod == "service_point" ? 'fill: #18cea0' : '';
-		},
-		isDomicile() {
-			return this.shippingMethod == "domicile" ? 'fill: #18cea0' : '';
-    },
-	},
-  watch: {
-    popupShippingAddress(newVal) {
-      if (newVal) {
-        this.loadGoogleMapsScript().then(() => {
-          this.initAutocomplete();
-        }).catch((error) => {
-          console.error("Erreur de chargement de Google Maps : ", error);
-        });
       }
     }
   },
@@ -1121,4 +1084,41 @@ export default {
 };
 
 </script>
+<style scoped src="../assets/css/checkout.css"></style>
+
+<style>
+	
+.display-mode {
+  display: initial !important;
+  z-index: 100000000000;
+}
+
+.pac-container {
+	box-shadow: 0 6px 19px 0 #d9d9d9 !important;
+	border-top: none !important;
+	border-radius: 7px !important;
+	padding: 7px 3px !important;
+  z-index: 1000000000000000;
+}
+
+.hdpi.pac-logo:after {
+  background: none !important;
+  height: 0px !important;
+}
+
+.pac-item {
+  padding: 3px 12px !important;
+  border: none !important;
+  font-size: 14px !important;
+}
+
+.hdpi .pac-icon {
+  display: none !important;
+}
+
+.pac-item-query {
+  font-size: 14px !important;
+}
+
+</style>
 

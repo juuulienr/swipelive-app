@@ -3,11 +3,11 @@
     <!-- velcome video -->
     <div class="video-player">
       <div playsinline="true" webkit-playsinline="true">
-        <video v-if="isAndroid" ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay src="/video/welcome.mp4" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-        <video v-else ref="welcomeVideo" @loadeddata="onVideoLoaded" style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" src="/video/welcome.mp4" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>'></video>
+        <video v-if="isAndroid" ref="welcomeVideo" style="height: 100vh; object-fit: cover; position: fixed; width: 100%; background: white;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop muted="muted" autoplay src="/video/welcome.mp4" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" @loadeddata="onVideoLoaded"></video>
+        <video v-else ref="welcomeVideo" style="height: 99vh; object-fit: cover; width: 100%;" webkit-playsinline="true" playsinline="playsinline" class="vjs-tech" loop="" muted="muted" autoplay="" src="/video/welcome.mp4" preview='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>' @loadeddata="onVideoLoaded"></video>
       </div>
     </div>
-    <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" @click="open()" class="btn-open" :style="{'bottom': safeareaBottom }">
+    <div v-if="!popup && !popupLogin && !popupPassword && !popupUserRegistration" class="btn-open" :style="{'bottom': safeareaBottom }" @click="open()">
       Accéder
     </div>
 
@@ -18,7 +18,7 @@
         <p style="text-align: center;margin: 0px 30px;font-weight: 400;margin-bottom: 30px;">Créez un compte pour commencer à acheter, vendre et profiter de plein de réductions en live !</p>
 
         <div class="social-container-NE2xk" style="padding: 0px;">
-          <div @click="userRegistration()" class="channel-item-wrapper-2gBWB" style="background: #ff2f80; border: none; margin-bottom: 0px;">
+          <div class="channel-item-wrapper-2gBWB" style="background: #ff2f80; border: none; margin-bottom: 0px;" @click="userRegistration()">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/mail.png" style="width: 24px; height: 24px; margin-bottom: 7px;"/>
             </div>
@@ -31,19 +31,19 @@
         </div>
 
         <div class="social-container-NE2xk">
-          <div v-if="!isAndroid" @click="signInWithApple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
+          <div v-if="!isAndroid" class="channel-item-wrapper-2gBWB" style="background: black; border: none;" @click="signInWithApple()">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/apple.png" style="width: 24px; height: 24px; margin-bottom: 3px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Apple</div>
           </div>
-          <div @click="signInWithFacebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
+          <div class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;" @click="signInWithFacebook()">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/facebook.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
-          <div @click="signInWithGoogle()" class="channel-item-wrapper-2gBWB">
+          <div class="channel-item-wrapper-2gBWB" @click="signInWithGoogle()">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/google.png" style="width: 24px; height: 24px;"/>
             </div>
@@ -52,7 +52,7 @@
         </div>
 
         <p style="text-align: center;margin: 10px 30px 15px;font-weight: 400;color: #a7a8a9;">Avez-vous déjà un compte ?</p>
-        <p @click="userLogin()" style="text-align: center;color: #ff2f80;">SE CONNECTER</p>
+        <p style="text-align: center;color: #ff2f80;" @click="userLogin()">SE CONNECTER</p>
       </div>
     </div>
 
@@ -60,7 +60,7 @@
     <!-- login popup -->
     <div v-if="popupLogin" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
-        <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
+        <div class="checkout__close-btn" style="padding: 10px 0px" @click="open()">
            <img src="/img/arrow-left.svg" style="width: 28px; height: 28px;"/>
         </div>
       </div>
@@ -71,19 +71,19 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginEmail }" style="margin-top: 15px">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" id="email" v-model="loginEmail" style="text-transform: lowercase;">
+            <input id="email" v-model="loginEmail" type="text" style="text-transform: lowercase;">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorLoginPassword }" style="margin-bottom: 15px;">
           <fieldset>
             <legend>Mot de passe</legend>
-            <input type="password" id="password" v-model="loginPassword">
+            <input id="password" v-model="loginPassword" type="password">
           </fieldset>
         </div>
 
         <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 15px 0px 10px; ">
-          <div @click="login()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; width: 275px; margin: 0 auto; padding: 13px 48px; border-radius: 30px;">
+          <div class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; width: 275px; margin: 0 auto; padding: 13px 48px; border-radius: 30px;" @click="login()">
             <span v-if="loading">
               <svg viewBox="25 25 50 50" class="loading">
                 <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -93,26 +93,26 @@
           </div>
         </div>
 
-        <div @click="forgotPassword()" class="small-1UkQD grey-rBkrL link-2j8GS" style="color: rgb(82, 92, 102) !important; font-size: 12px; font-weight: 400; text-align: center;"> Mot de passe oublié ?</div>
+        <div class="small-1UkQD grey-rBkrL link-2j8GS" style="color: rgb(82, 92, 102) !important; font-size: 12px; font-weight: 400; text-align: center;" @click="forgotPassword()"> Mot de passe oublié ?</div>
 
         <div class="tv-signin-dialog__separator" style="margin-top: 15px; margin-bottom: 15px;">
           <div class="tv-signin-dialog__separator-text">ou</div>
         </div>
 
         <div class="social-container-NE2xk">
-          <div v-if="!isAndroid" @click="signInWithApple()" class="channel-item-wrapper-2gBWB" style="background: black; border: none;">
+          <div v-if="!isAndroid" class="channel-item-wrapper-2gBWB" style="background: black; border: none;" @click="signInWithApple()">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/apple.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Apple</div>
           </div>
-          <div @click="signInWithFacebook()" class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;">
+          <div class="channel-item-wrapper-2gBWB" style="background: #1e74e4; border: none;" @click="signInWithFacebook()">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/facebook.png" style="width: 24px; height: 24px;"/>
             </div>
             <div class="channel-name-2qzLW" style="color: white;">Continuer avec Facebook</div>
           </div>
-          <div @click="signInWithGoogle()" class="channel-item-wrapper-2gBWB">
+          <div class="channel-item-wrapper-2gBWB" @click="signInWithGoogle()">
             <div class="channel-icon-wrapper-2eYxZ">
               <img src="/img/google.png" style="width: 24px; height: 24px;"/>
             </div>
@@ -126,7 +126,7 @@
     <!-- registration popup -->
     <div v-if="popupUserRegistration" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
-        <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
+        <div class="checkout__close-btn" style="padding: 10px 0px" @click="open()">
            <img src="/img/arrow-left.svg" style="width: 28px; height: 28px;"/>
         </div>
         <div class="checkout__title">S'inscrire</div>
@@ -156,32 +156,32 @@
       	<div class="form--input--item" :class="{'form--input--item--error': errorFirstname }">
       		<fieldset>
       			<legend>Prénom</legend>
-      			<input type="text" v-model="firstname" style="text-transform: capitalize;">
+      			<input v-model="firstname" type="text" style="text-transform: capitalize;">
       		</fieldset>
       	</div>
 
       	<div class="form--input--item" :class="{'form--input--item--error': errorLastname }">
       		<fieldset>
       			<legend>Nom</legend>
-      			<input type="text" v-model="lastname" style="text-transform: capitalize;">
+      			<input v-model="lastname" type="text" style="text-transform: capitalize;">
       		</fieldset>
       	</div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorEmail }">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" v-model="email" style="text-transform: lowercase;">
+            <input v-model="email" type="text" style="text-transform: lowercase;">
           </fieldset>
         </div>
         
         <div class="form--input--item" :class="{'form--input--item--error': errorPassword }">
           <fieldset>
             <legend>Mot de passe</legend>
-            <input type="password" v-model="password">
+            <input v-model="password" type="password">
           </fieldset>
         </div>
 
-        <div @click="register()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; margin-top: 20px;">
+        <div class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; margin-top: 20px;" @click="register()">
           <span v-if="loading">
             <svg viewBox="25 25 50 50" class="loading">
               <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -196,7 +196,7 @@
     <!-- forgot password popup -->
     <div v-if="popupPassword" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; animation: none;"> 
       <div class="checkout__header" style="padding: 13px 15px 13px;">
-        <div @click="open()" class="checkout__close-btn" style="padding: 10px 0px">
+        <div class="checkout__close-btn" style="padding: 10px 0px" @click="open()">
            <img src="/img/arrow-left.svg" style="width: 28px; height: 28px;"/>
         </div>
         <div class="checkout__title">Mot de passe oublié</div>
@@ -212,20 +212,17 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorEmailRecovery }">
           <fieldset>
             <legend>Email</legend>
-            <input type="text" v-model="forgotEmail">
+            <input v-model="forgotEmail" type="text">
           </fieldset>
         </div>
 
         <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 0px 0px 10px;">
-          <div @click="resetPassword()" class="btn-swipe" :disabled="isReset ? disabled : ''" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;">Réinitialiser</div>
+          <div class="btn-swipe" :disabled="isReset ? disabled : ''" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em;" @click="resetPassword()">Réinitialiser</div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped src="../assets/css/welcome.css"></style>
-
 
 <script>
 import AuthAPI from "../utils/auth.js";
@@ -875,3 +872,6 @@ export default {
 };
 
 </script>
+
+
+<style scoped src="../assets/css/welcome.css"></style>

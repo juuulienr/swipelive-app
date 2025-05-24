@@ -6,7 +6,7 @@
           <div class="awuxh4x dir dir-ltr">
             <div class="cw9aemg dir dir-ltr">
               <div class="c14whb16 dir dir-ltr">
-                <button @click="selectCategory(category)" v-for="category in categories" :key="category" :class="{ 'ccma3s': category === selectedCategory }" class="c1l3w0tx dir dir-ltr">
+                <button v-for="category in categories" :key="category" :class="{ 'ccma3s': category === selectedCategory }" class="c1l3w0tx dir dir-ltr" @click="selectCategory(category)">
                   <div class="c8gkmzg dir dir-ltr">
                     <span class="c1m2z0bj c1w8ohg7 dir dir-ltr">
                       <img v-if="category.picture" class="i1wps9q8 dir dir-ltr" :src="`/img/${category.picture}`" alt="" width="24" height="24" />
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div v-if="filteredProducts.length" class="shop--part" style="margin: 25px 15px 0px; gap: 20px 10px; padding-bottom: 120px;">
-      <div v-for="product in filteredProducts" @click="showProduct(product)" class="shop--box">
+      <div v-for="product in filteredProducts" class="shop--box" @click="showProduct(product)">
         <div>
           <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
           <img v-else src="/img/no-preview.png" style="width: 100%; border-radius: 10px; background: #eeeeee; height: calc(50vw - 20px);">
@@ -59,24 +59,22 @@
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
-      <div @click="hideProduct()" style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;">
+      <div style="width: 38px; height: 38px; position: absolute; top: 20px; left: 20px; z-index: 10000;" @click="hideProduct()">
         <img src="/img/close-popup.svg" style="width: 38px; height: 38px; filter: drop-shadow(0px 0px 1px #222);"/>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" src="/img/circle-heart-full.svg" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
-      <img v-else @click="favoris(product)" src="/img/circle-heart.svg" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" src="/img/circle-heart-full.svg" style="width: 35px; height: 35px; position: absolute; top: 40px; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;" @click="favoris(product)"/>
+      <img v-else src="/img/circle-heart.svg" style="width: 35px; height: 35px; position: absolute; top: 22px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;" @click="favoris(product)"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
       <div class="groups">
-        <div v-if="product.quantity > 0" @click="addToCart()" class="btn-swipe btn-checkout">Ajouter</div>
+        <div v-if="product.quantity > 0" class="btn-swipe btn-checkout" @click="addToCart()">Ajouter</div>
         <div v-else class="btn-swipe btn-checkout" style="color: rgb(170, 170, 170); background: #eff1f6;">Épuisé</div>
       </div>
     </div>
     
   </main>
 </template>
-
-<style scoped src="../assets/css/category.css"></style>
 
 <script>
 import { useMainStore } from '../stores/useMainStore.js';
@@ -251,3 +249,5 @@ export default {
   }
 };
 </script>
+
+<style scoped src="../assets/css/category.css"></style>

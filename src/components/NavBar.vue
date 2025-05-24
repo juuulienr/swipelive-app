@@ -1,7 +1,7 @@
 <template>
   <nav class="_1m294zs" aria-hidden="false">
     <div class="_h0klba">
-      <div @click="menuActive(0)" :class="active_el == 0 ? '_1e1aumhl' : '_45o9ez'">
+      <div :class="active_el == 0 ? '_1e1aumhl' : '_45o9ez'" @click="menuActive(0)">
         <router-link class="_469le2" :to="{ name: 'Home' }">
           <div class="_jro6t0">
             <div :class="active_el == 0 ? '_jgit7bg' : '_tbbnrnx'">
@@ -12,7 +12,7 @@
           </div>
         </router-link>
       </div>
-      <div @click="menuActive(1)" :class="active_el == 1 ? '_1e1aumhl' : '_45o9ez'">
+      <div :class="active_el == 1 ? '_1e1aumhl' : '_45o9ez'" @click="menuActive(1)">
         <router-link class="_469le2" :to="{ name: 'Search' }">
           <div class="_jro6t0" style="top: 2px;">
             <div :class="active_el == 1 ? '_jgit7bg' : '_tbbnrnx'">
@@ -23,7 +23,7 @@
           </div>
         </router-link>
       </div>
-      <div @click="menuActive(2)" :class="active_el == 2 ? '_1e1aumhl' : '_45o9ez'">
+      <div :class="active_el == 2 ? '_1e1aumhl' : '_45o9ez'" @click="menuActive(2)">
         <router-link class="_469le2" :to="{ name: 'Feed' }">
           <div class="_jro6t0" style="top: 2px;">
             <div class="_jgit7bg" :class="active_el == 2 ? '_jgit7bg' : '_tbbnrnx'">
@@ -35,7 +35,7 @@
           </div>
         </router-link>
       </div>
-      <div @click="menuActive(3)" :class="active_el == 3 ? '_1e1aumhl' : '_45o9ez'">
+      <div :class="active_el == 3 ? '_1e1aumhl' : '_45o9ez'" @click="menuActive(3)">
         <router-link class="_469le2" :to="{ name: 'Cart', params: { fullscreen: true }}">
           <div class="_jro6t0">
             <div :class="active_el == 3 ? '_jgit7bg' : '_tbbnrnx'">
@@ -47,7 +47,7 @@
           </div>
         </router-link>
       </div>
-      <div @click="menuActive(4)" :class="active_el == 4 ? '_1e1aumhl' : '_45o9ez'">
+      <div :class="active_el == 4 ? '_1e1aumhl' : '_45o9ez'" @click="menuActive(4)">
         <router-link class="_469le2" :to="{ name: 'Account' }">
           <div class="_jro6t0">
             <div :class="active_el == 4 ? '_jgit7bg' : '_tbbnrnx'">
@@ -64,6 +64,40 @@
 
 
 
+<script>
+export default {
+  name: "NavBar",
+  props: ["lineItems"],
+  data() {
+    return {
+      active_el: 0,
+    };
+  },
+  computed: {
+    updateCart() {
+      return this.lineItems.reduce((count, item) => count + item.quantity, 0);
+    }
+  },
+  watch: {
+    $route(to) {
+      if (to.name === "Home" || to.name === "Category") {
+        this.active_el = 0;
+      } else if (to.name === "Search") {
+        this.active_el = 1;
+      } else if (to.name === "Cart") {
+        this.active_el = 3;
+      } else {
+        this.active_el = 4;
+      }
+    }
+  },
+  methods: {
+    menuActive(el) {
+      this.active_el = el;
+    },
+  },
+};
+</script>
 <style type="text/css">
 
 ._jro6t0 svg {
@@ -241,37 +275,3 @@
 
 </style>
 
-<script>
-export default {
-  name: "NavBar",
-  props: ["lineItems"],
-  data() {
-    return {
-      active_el: 0,
-    };
-  },
-  computed: {
-    updateCart() {
-      return this.lineItems.reduce((count, item) => count + item.quantity, 0);
-    }
-  },
-  watch: {
-    $route(to) {
-      if (to.name === "Home" || to.name === "Category") {
-        this.active_el = 0;
-      } else if (to.name === "Search") {
-        this.active_el = 1;
-      } else if (to.name === "Cart") {
-        this.active_el = 3;
-      } else {
-        this.active_el = 4;
-      }
-    }
-  },
-  methods: {
-    menuActive(el) {
-      this.active_el = el;
-    },
-  },
-};
-</script>

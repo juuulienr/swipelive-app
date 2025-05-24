@@ -7,7 +7,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
-            <input @click="search()" ref="search" v-on:keyup="changed" v-model="searchValue" type="text" placeholder="Rechercher"/>
+            <input ref="search" v-model="searchValue" type="text" placeholder="Rechercher" @click="search()" v-on:keyup="changed"/>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
                 <p v-if="result.followers.length > 1" class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{result.followers.length }} abonnés</p>
                 <p v-else class="sous_name" :style="result.vendor.businessType != 'company' ? {'margin-top': '3px'} : ''" style="color: #999; font-weight: 400;">{{ result.followers.length }} abonné</p>
               </div>
-              <div v-if="searchFollowing.length && !searchFollowing[index].value" @click="follow(result.id, index)" style="position: absolute; right: 12px; top: 50px; width: 30px; height: 30px; ">
+              <div v-if="searchFollowing.length && !searchFollowing[index].value" style="position: absolute; right: 12px; top: 50px; width: 30px; height: 30px; " @click="follow(result.id, index)">
                 <img src="/img/plus-circle.svg" style="border: 1px solid white; background: white; border-radius: 100px;"/>
               </div>
             </div>
@@ -44,8 +44,6 @@
     </div>
   </main>
 </template>
-
-<style scoped src="../assets/css/home.css"></style>
 
 <script>
 import { useMainStore } from '../stores/useMainStore.js';
@@ -212,3 +210,5 @@ export default {
   },
 };
 </script>
+
+<style scoped src="../assets/css/home.css"></style>

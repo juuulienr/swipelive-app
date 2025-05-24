@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="chat--head">
-      <svg @click="hideDiscussion()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" @click="hideDiscussion()">
         <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
       </svg>
       <div v-if="discussion.user.id == user.id" class="chat--head--profil">
@@ -40,7 +40,7 @@
                     <img ref="image" :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)">
                   </div>
                   <div v-else-if="message.loading" class="chat--message--item--text" style="padding: 0px; background-color: white;">
-                    <img :src="message.picture" style="border-radius: 18px;" @load="getImageSize(message)" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
+                    <img :src="message.picture" style="border-radius: 18px;" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }" @load="getImageSize(message)">
                   </div>
                   <div v-else-if="message.picture" class="chat--message--item--text" style="padding: 0px; background-color: white;">
                     <img :src="$cloudinary + message.picture" style="border-radius: 18px;" :style="{'width': message.pictureType == 'landscape' ? '250px' : message.pictureType == 'rounded' ? '200px': '180px', 'height': message.pictureType == 'landscape' ? '180px' : message.pictureType == 'rounded' ? '200px': '300px' }">
@@ -63,20 +63,18 @@
       </div>
     </div>
     <div class="chat--foot" :style="{ 'bottom': writeInput }">    
-      <button id="btnPicture" @click="uploadPicture()" style="margin: 0px 5px; padding: 5px;">
+      <button id="btnPicture" style="margin: 0px 5px; padding: 5px;" @click="uploadPicture()">
         <img src="/img/plus-square.svg" style="height: 34px; width: 34px;"/>
       </button>
       <div class="divInput">
-        <input type="text" v-click-away="away" v-model="inputMessage" @keyup.enter="sendMessage()" @input="onInput" placeholder="Écrivez ici...">
+        <input v-model="inputMessage" v-click-away="away" type="text" placeholder="Écrivez ici..." @keyup.enter="sendMessage()" @input="onInput">
       </div>
-      <button id="btnSend" @click="sendMessage()" style="margin: 0px 5px; padding: 5px;">
+      <button id="btnSend" style="margin: 0px 5px; padding: 5px;" @click="sendMessage()">
         <img src="/img/send.svg" style="height: 36px; width: 36px;"/>
       </button>
     </div>
   </div>
 </template>
-
-<style scoped src="../assets/css/message.css"></style>
 
 <script>
 import { useMainStore } from '../stores/useMainStore.js';
@@ -371,3 +369,5 @@ export default {
   },
 };
 </script>
+
+<style scoped src="../assets/css/message.css"></style>

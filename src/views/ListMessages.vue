@@ -1,7 +1,7 @@
 <template>
   <main class="products" style="padding: 0px">
     <div v-if="!selectedDiscussion" class="checkout__header" style="padding-right: 20px; padding-left: 20px;">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -16,13 +16,13 @@
             <svg viewBox="0 0 24 24" class="css-1q8h0dm iconify iconify--eva">
               <path fill="currentColor" d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42zM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6z"></path>
             </svg>
-            <input type="text" v-model="searchTerm" placeholder="Rechercher"/>
+            <input v-model="searchTerm" type="text" placeholder="Rechercher"/>
           </div>
         </div>
 
         <div v-if="discussions.length" class="chat--left" style="overflow: hidden;">
           <div v-for="(discussion, index) in filteredDiscussions" :key="index" class="chat--left--messages">
-            <div @click="showDiscussion(discussion)" class="chat--left--message message--open">
+            <div class="chat--left--message message--open" @click="showDiscussion(discussion)">
               <div class="chat--left--head--profil">
                 <span v-if="discussion.user.id == user.id">
                   <img v-if="discussion.vendor.picture" :src="$cloudinary256x256 + discussion.vendor.picture">
@@ -63,12 +63,9 @@
       </div>
     </div>
 
-    <Message ref="message" v-if="selectedDiscussion" :discussion="selectedDiscussion" @hideDiscussion="hideDiscussionChild" @updateDiscussions="updateDiscussionsChild"></Message>
+    <Message v-if="selectedDiscussion" ref="message" :discussion="selectedDiscussion" @hideDiscussion="hideDiscussionChild" @updateDiscussions="updateDiscussionsChild"></Message>
   </main>
 </template>
-
-<style scoped src="../assets/css/listmessages.css"></style>
-
 
 <script>
 import { useMainStore } from '../stores/useMainStore.js';
@@ -97,6 +94,19 @@ export default {
       loading: true,
       searchTerm: "",
     };
+  },
+  computed: {
+    filteredDiscussions() {
+      return this.discussions.filter(discussion => {
+        const search = this.searchTerm.toLowerCase();
+
+        if (discussion.user.id === this.user.id) {
+          return discussion.vendor.vendor.pseudo.toLowerCase().includes(search);
+        } else {
+          return discussion.user.firstname.toLowerCase().includes(search) || discussion.user.lastname.toLowerCase().includes(search);
+        }
+      });
+    },
   },
   created() {
     this.loadDiscussions();
@@ -134,19 +144,6 @@ export default {
   },
   beforeDestroy() {
     this.pusher.unsubscribe("discussion_channel");
-  },
-  computed: {
-    filteredDiscussions() {
-      return this.discussions.filter(discussion => {
-        const search = this.searchTerm.toLowerCase();
-
-        if (discussion.user.id === this.user.id) {
-          return discussion.vendor.vendor.pseudo.toLowerCase().includes(search);
-        } else {
-          return discussion.user.firstname.toLowerCase().includes(search) || discussion.user.lastname.toLowerCase().includes(search);
-        }
-      });
-    },
   },
   methods: {
     async loadDiscussions() {
@@ -202,3 +199,6 @@ export default {
   }
 };
 </script>
+
+
+<style scoped src="../assets/css/listmessages.css"></style>

@@ -1,7 +1,7 @@
 <template>
   <div v-if="product" class="product">
     <div v-if="product.uploads.length > 0" style="width: 100%;">
-      <div class="vue-slick" v-for="upload in product.uploads" :key="upload.id">
+      <div v-for="upload in product.uploads" :key="upload.id" class="vue-slick">
         <img :src="$cloudinary750x750 + upload.filename">
       </div>
     </div>
@@ -36,9 +36,9 @@
             <template v-for="option1 in available" :key="option1.name">
               <div
                 v-if="option1.available"
-                @click="updateVariant(option1.name, option1.available)"
                 class="option"
                 :class="{'active': selected == option1.name}"
+                @click="updateVariant(option1.name, option1.available)"
               >
                 {{ option1.name }}
               </div>
@@ -52,9 +52,9 @@
             <template v-for="option2 in available2" :key="option2.name">
               <div
                 v-if="option2.available"
-                @click="updateVariant2(option2.name, option2.available)"
                 class="option"
                 :class="{'active': selected2 == option2.name}"
+                @click="updateVariant2(option2.name, option2.available)"
               >
                 {{ option2.name }}
               </div>
@@ -66,7 +66,7 @@
 
       <div style="margin-bottom: 20px;">
         <hr style="margin: 20px 0px;">
-        <div v-html="product.description" style="margin-top: 10px; font-size: 15px; color: rgb(82, 92, 102); font-weight: 400;"></div>
+        <div style="margin-top: 10px; font-size: 15px; color: rgb(82, 92, 102); font-weight: 400;" v-html="product.description"></div>
       </div>
       <hr>
       <div style="padding: 5px;">Échanges & Retours</div>
@@ -78,8 +78,6 @@
     </div>
   </div>
 </template>
-
-<style scoped src="../assets/css/product.css"></style>
 
 <script>
 export default {
@@ -230,3 +228,5 @@ export default {
   }
 };
 </script>
+
+<style scoped src="../assets/css/product.css"></style>

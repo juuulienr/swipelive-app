@@ -6,7 +6,7 @@
 
     <div class="checkout__body" style="padding-bottom: 95px; padding-top: 15px;">
       <div v-if="user" class="top-author--container" style="padding: 0px; align-items: center;">
-        <div @click="goEditProfile()" class="top-author--item">
+        <div class="top-author--item" @click="goEditProfile()">
           <img v-if="user.picture" :src="$cloudinary256x256 + user.picture" class="user" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
           <img v-else class="user" src="/img/anonyme.jpg" style="margin: 5px; width: 100px; border-radius: 50%; border: 7px solid white; box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 0px; height: 100px;">
           <img src="/img/cog.svg" style="width: 32px; padding: 3px; height: 32px; border: 1px solid rgb(221, 221, 221) !important; margin-left: -35px; margin-top: 58px; background: white;"/>
@@ -31,7 +31,7 @@
       </div>
       
       <div v-if="user.vendor" style="background: #ff2f80 !important; border-radius: 16px; margin-top: 25px; margin-bottom: 25px;">
-        <div @click="goToPrelive()" class="account-band" style="justify-content: center; padding: 14px 24px;">
+        <div class="account-band" style="justify-content: center; padding: 14px 24px;" @click="goToPrelive()">
           <span style="font-size: 16px; color: #fff;">
             <img style="width: 29px; height: 29px; margin-right: 10px;" class="img1" src="/img/video.svg"/>
           </span>
@@ -43,7 +43,7 @@
 
       <div v-if="user.vendor" class="account-box">
         <div class="account-band">
-          <div @click="shop()" style="width: 100%">
+          <div style="width: 100%" @click="shop()">
             <span class="left-side">
               <img class="img1"src="/img/shop.svg"/>
             </span>
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="listOrders(true)" style="width: 100%">
+          <div style="width: 100%" @click="listOrders(true)">
             <span class="left-side">
               <img class="img1" src="/img/orders.svg"/>
             </span>
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="wallet()" style="width: 100%">
+          <div style="width: 100%" @click="wallet()">
             <span class="left-side">
               <img class="img1"src="/img/wallet.svg"/>
             </span>
@@ -78,7 +78,7 @@
       </div>
       <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
-          <div @click="listMessages()" style="width: 100%">
+          <div style="width: 100%" @click="listMessages()">
             <span class="left-side">
               <img class="img1"src="/img/message.svg"/>
             </span>
@@ -89,7 +89,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="listOrders(false)" style="width: 100%">
+          <div style="width: 100%" @click="listOrders(false)">
             <span class="left-side">
               <img class="img1"src="/img/purchases.svg"/>
             </span>
@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="listClips()" style="width: 100%">
+          <div style="width: 100%" @click="listClips()">
             <span class="left-side">
               <img class="img1"src="/img/clips.svg"/>
             </span>
@@ -111,7 +111,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="listPromotions()" style="width: 100%">
+          <div style="width: 100%" @click="listPromotions()">
             <span class="left-side">
               <img class="img1"src="/img/promotion.svg"/>
             </span>
@@ -124,7 +124,7 @@
       </div>
       <div v-if="user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
-          <div @click="listFollowing()" style="width: 100%">
+          <div style="width: 100%" @click="listFollowing()">
             <span class="left-side">
               <img class="img1"src="/img/followers.svg"/>
             </span>
@@ -135,7 +135,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="listPartners()" style="width: 100%">
+          <div style="width: 100%" @click="listPartners()">
             <span class="left-side">
               <img class="img1"src="/img/partner.svg"/>
             </span>
@@ -146,7 +146,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="favoris()" style="width: 100%">
+          <div style="width: 100%" @click="favoris()">
             <span class="left-side">
               <img class="img1"src="/img/favoris.svg"/>
             </span>
@@ -161,7 +161,7 @@
 
       <div v-if="!user.vendor" class="account-box">
         <div class="account-band">
-          <div @click="listMessages()" style="width: 100%">
+          <div style="width: 100%" @click="listMessages()">
             <span class="left-side">
               <img class="img1"src="/img/message.svg"/>
             </span>
@@ -172,7 +172,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="listOrders(false)" style="width: 100%">
+          <div style="width: 100%" @click="listOrders(false)">
             <span class="left-side">
               <img class="img1"src="/img/purchases.svg"/>
             </span>
@@ -183,7 +183,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="listFollowing()" style="width: 100%">
+          <div style="width: 100%" @click="listFollowing()">
             <span class="left-side">
               <img class="img1"src="/img/followers.svg"/>
             </span>
@@ -194,7 +194,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="favoris()" style="width: 100%">
+          <div style="width: 100%" @click="favoris()">
             <span class="left-side">
               <img class="img1"src="/img/favoris.svg"/>
             </span>
@@ -209,7 +209,7 @@
 
       <div v-if="!user.vendor" class="account-box" style="margin-top: 25px;">
         <div class="account-band">
-          <div @click="swipeWheel()" style="width: 100%">
+          <div style="width: 100%" @click="swipeWheel()">
             <span class="left-side">
               <img class="img1"src="/img/trophy.svg"/>
             </span>
@@ -224,7 +224,7 @@
 
       <div class="account-box" style="margin-top: 25px;">
         <div class="account-band" style="justify-content: left;">
-          <div @click="addReview()" style="width: 100%">
+          <div style="width: 100%" @click="addReview()">
             <span class="left-side">
               <img class="img1"src="/img/star.svg"/>
             </span>
@@ -235,7 +235,7 @@
           </div>
         </div>
         <div class="account-band">
-          <div @click="about()" style="width: 100%">
+          <div style="width: 100%" @click="about()">
             <span class="left-side">
               <img class="img1"src="/img/info.svg"/>
             </span>
@@ -246,7 +246,7 @@
           </div>
         </div>
         <div class="account-band" style="justify-content: left;">
-          <div @click="logout()" style="width: 100%">
+          <div style="width: 100%" @click="logout()">
             <span class="left-side">
               <img class="img1"src="/img/power.svg"/>
             </span>
@@ -264,9 +264,6 @@
     </div>
   </main>
 </template>
-
-
-<style scoped src="../assets/css/account.css"></style>
 
 
 <script>
@@ -391,3 +388,6 @@ export default {
   }
 };
 </script>
+
+
+<style scoped src="../assets/css/account.css"></style>

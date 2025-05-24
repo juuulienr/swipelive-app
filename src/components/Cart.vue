@@ -49,7 +49,7 @@
           </div>
         </div>
         <div style="margin: 15px auto;">
-          <div @click="getShippingPrice()" style="text-align: center;">
+          <div style="text-align: center;" @click="getShippingPrice()">
             <div class="btn-swipe">
               <span v-if="loading">
                 <svg viewBox="25 25 50 50" class="loading">
@@ -75,8 +75,6 @@
     </div>
   </div>
 </template>
-
-<style scoped src="../assets/css/cart.css"></style>
 
 <script>
 import Lottie from 'vue3-lottie';
@@ -170,3 +168,5 @@ export default {
   },
 };
 </script>
+
+<style scoped src="../assets/css/cart.css"></style>

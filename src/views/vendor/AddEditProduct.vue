@@ -1,20 +1,20 @@
 <template>
   <main class="products" style="padding: 0px 15px">
     <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
       </div>
       <div v-if="productId" class="checkout__title">Modifier</div>
       <div v-else class="checkout__title">Ajouter</div>
-      <div v-if="productId" @click="deleteProduct()" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;">
+      <div v-if="productId" class="checkout__right-btn" style="right: 15px; position: fixed; top: 0px;" @click="deleteProduct()">
         <div style="color: #ff2f80;">Supprimer</div>
       </div>
     </div>
 
     <div class="checkout__body">
-      <div @click="uploadSheet()" class="drop--file">
+      <div class="drop--file" @click="uploadSheet()">
         <div class="drop--img">
           <div style="margin: 0px auto;">
             <Vue3Lottie :animationData="LottieJSON" :width="120"/>
@@ -55,14 +55,14 @@
         <div class="form--input--item" :class="{'form--input--item--error': errorTitle }">
           <fieldset>
             <legend>Titre</legend>
-            <input type="text" v-model="product.title" maxlength="38">
+            <input v-model="product.title" type="text" maxlength="38">
           </fieldset>
         </div>
 
         <div class="form--input--item" :class="{'form--input--item--error': errorCategory }">
           <fieldset>
             <legend>Catégorie</legend>
-            <select v-if="categories.length && product.category" required v-model="product.category.id" :style="{'color': product.category.id ? '#525c66': 'rgba(145,158,171,.8)'}">
+            <select v-if="categories.length && product.category" v-model="product.category.id" required :style="{'color': product.category.id ? '#525c66': 'rgba(145,158,171,.8)'}">
               <option value="">Choisir une catégorie</option>
               <option v-for="category in categories" :value="category.id" :selected="category.id === product.category.id">{{ category.name }}</option>
             </select>
@@ -82,13 +82,13 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorPrice }">
             <fieldset>
               <legend>Prix de vente</legend>
-              <input type="text" v-model="product.price" inputmode="decimal">
+              <input v-model="product.price" type="text" inputmode="decimal">
             </fieldset>
           </div>
           <div class="form--input--item" :class="{'form--input--item--error': errorCompareAtPrice }">
             <fieldset>
               <legend>Prix avant réduction</legend>
-              <input type="text" v-model="product.compareAtPrice" inputmode="decimal">
+              <input v-model="product.compareAtPrice" type="text" inputmode="decimal">
             </fieldset>
           </div>
         </div>
@@ -96,7 +96,7 @@
         <div v-if="!product.variants.length" class="form--input--item">
           <fieldset>
             <legend>Quantité</legend>
-            <input type="text" v-model="product.quantity" inputmode="decimal">
+            <input v-model="product.quantity" type="text" inputmode="decimal">
           </fieldset>
         </div>
          
@@ -104,12 +104,12 @@
           <div class="form--input--item" :class="{'form--input--item--error': errorWeight }">
           	<fieldset>
           		<legend>Poids</legend>
-          		<input type="text"  v-model="product.weight" inputmode="decimal">
+          		<input v-model="product.weight"  type="text" inputmode="decimal">
           	</fieldset>
           </div>
           <div class="form--input--item">
             <fieldset>
-              <input @click="selectWeightUnit('product')" type="text" v-model="product.weightUnit" readonly style="width: 75%;">
+              <input v-model="product.weightUnit" type="text" readonly style="width: 75%;" @click="selectWeightUnit('product')">
             </fieldset>
           </div>
         </div>
@@ -120,7 +120,7 @@
           <div style="margin-bottom: 20px;margin-top: 0px;">
             <div v-if="product.variants.length" style="font-size: 16px; margin-top: 10px;">Variantes</div>
             <div v-else style="font-size: 16px; margin-top: 10px;">Options</div>
-            <div v-if="product.variants.length" @click="addVariant()" style="color: #ff2f80; margin-top: 10px;">Modifier</div>
+            <div v-if="product.variants.length" style="color: #ff2f80; margin-top: 10px;" @click="addVariant()">Modifier</div>
           </div>
         </div>
         <div class="form-container-3hjAo" style="margin-bottom: 35px;">
@@ -128,30 +128,30 @@
           <div v-if="product.variants.length" class="items">
             <div class="lasted--product">
               <div v-for="(variant, index) in product.variants" class="product--item" style="align-items: center;">
-                <img @click="editVariant(index)" v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;">
-                <div @click="editVariant(index)" class="details">
+                <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="line-height: 0;display: block;border-radius: 10px;width: 64px;height: 64px;margin-right: 16px;" @click="editVariant(index)">
+                <div class="details" @click="editVariant(index)">
                   <div class="title">{{ variant.title }}</div>
                   <div v-if="variant.quantity" class="price stock-available">{{ variant.quantity }} en stock</div>
                   <div v-else class="price stock-unavailable">Épuisé</div>
                 </div>
-                <div @click="editVariant(index)" style="margin-right: 20px;">
+                <div style="margin-right: 20px;" @click="editVariant(index)">
                   <div class="price">{{ $formatPrice(variant.price) }}€</div>
                 </div>
-                <div @click="deleteVariant(index)" style="padding: 10px;">
+                <div style="padding: 10px;" @click="deleteVariant(index)">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style=" width: 16px; fill: red; margin-bottom: 3px;"><path d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"></path></svg>
                 </div>
               </div>
             </div>
           </div>
           <div v-else>
-            <div @click="addVariant()" class="btn-swipe" style="color: #ff2f80; background: white; border: 1px solid #ff2f80; text-align: center; width: calc(100vw - 110px); margin: 20px auto;">Ajouter des options</div>
+            <div class="btn-swipe" style="color: #ff2f80; background: white; border: 1px solid #ff2f80; text-align: center; width: calc(100vw - 110px); margin: 20px auto;" @click="addVariant()">Ajouter des options</div>
           </div>
         </div>
 
         <hr>
 
         <div style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; padding: 15px 0px 10px; ">
-          <div @click="submit()" class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; width: calc(100vw - 30px); margin: 0 auto;">
+          <div class="btn-swipe" style="color: white; text-align: center; line-height: 1.41176; letter-spacing: -0.025em; width: calc(100vw - 30px); margin: 0 auto;" @click="submit()">
             <span v-if="loading">
               <svg viewBox="25 25 50 50" class="loading">
                 <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -165,7 +165,7 @@
 
       <!-- popup options -->
       <div v-if="popupVariant" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);">  <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-          <div @click="hideVariant()" class="checkout__close-btn">
+          <div class="checkout__close-btn" @click="hideVariant()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
               <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
             </svg>
@@ -179,14 +179,14 @@
               <div class="form--input--item" :class="{'form--input--item--error': errorNameOption1 }" style="margin-bottom: 25px;">
                 <fieldset>
                   <legend>Titre de l'option</legend>
-                  <input type="text" placeholder="Taille, Couleur, Matière..." v-model="inputNameOption1" style="text-transform: capitalize;">
+                  <input v-model="inputNameOption1" type="text" placeholder="Taille, Couleur, Matière..." style="text-transform: capitalize;">
                 </fieldset>
               </div>
               <div style="display: grid; grid-template-columns: repeat(1, calc(100vw - 80px) 1fr);">
                 <div class="form--input--item" :class="{'form--input--item--error': errorInputOption1 }">
                   <fieldset>
                     <legend>Valeur de l'option</legend>
-                    <input type="text" placeholder="Bleu, Noir, M, L..." v-model="inputOption1" v-on:keyup.enter="addValueOption1()">
+                    <input v-model="inputOption1" type="text" placeholder="Bleu, Noir, M, L..." v-on:keyup.enter="addValueOption1()">
                   </fieldset>
                 </div>
                 <div @click="addValueOption1()">
@@ -199,7 +199,7 @@
             </div>
             <div>
               <span v-for="(value, index) in valuesOption1" class="tags-input__tag"> {{ value }}
-                <span @click="deleteValue1(index)" class="tags-input__tag-remove"> × </span>
+                <span class="tags-input__tag-remove" @click="deleteValue1(index)"> × </span>
               </span>
             </div>
           </div>
@@ -210,14 +210,14 @@
               <div class="form--input--item" :class="{'form--input--item--error': errorNameOption2 }" style="margin-bottom: 25px;">
                 <fieldset>
                   <legend>Nom de l'option 2</legend>
-                  <input type="text" placeholder="Taille, Couleur, Matière..." v-model="inputNameOption2" style="text-transform: capitalize;">
+                  <input v-model="inputNameOption2" type="text" placeholder="Taille, Couleur, Matière..." style="text-transform: capitalize;">
                 </fieldset>
               </div>
               <div style="display: grid; grid-template-columns: repeat(1, calc(100vw - 80px) 1fr);">
                 <div class="form--input--item" :class="{'form--input--item--error': errorInputOption1 }">
                   <fieldset>
                     <legend>Valeur de l'option 2</legend>
-                    <input type="text" placeholder="Bleu, Noir, M, L..." v-model="inputOption2" v-on:keyup.enter="addValueOption2()">
+                    <input v-model="inputOption2" type="text" placeholder="Bleu, Noir, M, L..." v-on:keyup.enter="addValueOption2()">
                   </fieldset>
                 </div>
                 <div @click="addValueOption2()">
@@ -230,16 +230,16 @@
             </div>
             <div>
               <span v-for="(value, index) in valuesOption2" class="tags-input__tag"> {{ value }}
-                <span @click="deleteValue2(index)" class="tags-input__tag-remove"> × </span>
+                <span class="tags-input__tag-remove" @click="deleteValue2(index)"> × </span>
               </span>
             </div>
           </div>
           <div v-else>
             <hr><br>
-            <div @click="addOption()" class="btn-swipe" style="color: #ff2f80; background: white; border: 1px solid #ff2f80; text-align: center; width: calc(100vw - 110px); margin: 0px auto;">Ajouter une 2ème option</div>
+            <div class="btn-swipe" style="color: #ff2f80; background: white; border: 1px solid #ff2f80; text-align: center; width: calc(100vw - 110px); margin: 0px auto;" @click="addOption()">Ajouter une 2ème option</div>
           </div>
 
-          <div @click="generate()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto; position: absolute; bottom: 45px;">Enregistrer</div>
+          <div class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto; position: absolute; bottom: 45px;" @click="generate()">Enregistrer</div>
         </div>
       </div>
 
@@ -247,7 +247,7 @@
       <!-- edit variant -->
       <div v-if="popupEditVariant" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);">  
         <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-          <div @click="hideEditVariant()" class="checkout__close-btn">
+          <div class="checkout__close-btn" @click="hideEditVariant()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
               <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
             </svg>
@@ -259,7 +259,7 @@
             <div class="form--input--item" :class="{'form--input--item--error': !variant.title }" style="margin-top: 10px;">
               <fieldset>
                 <legend>Nom du variant</legend>
-                <input type="text" v-model="variant.title">
+                <input v-model="variant.title" type="text">
               </fieldset>
             </div>
 
@@ -267,13 +267,13 @@
               <div class="form--input--item" :class="{'form--input--item--error': !variant.price }">
                 <fieldset>
                   <legend>Prix</legend>
-                  <input type="text" v-model="variant.price" inputmode="decimal">
+                  <input v-model="variant.price" type="text" inputmode="decimal">
                 </fieldset>
               </div>
               <div class="form--input--item" :class="{'form--input--item--error': checkCompareAtPrice }">
                 <fieldset>
                   <legend>Prix avant réduction</legend>
-                  <input type="text"  v-model="variant.compareAtPrice" inputmode="decimal">
+                  <input v-model="variant.compareAtPrice"  type="text" inputmode="decimal">
                 </fieldset>
               </div>
             </div>
@@ -282,12 +282,12 @@
 		          <div class="form--input--item" :class="{'form--input--item--error': !variant.weight }">
 		          	<fieldset>
 		          		<legend>Poids</legend>
-		          		<input type="text"  v-model="variant.weight" inputmode="decimal">
+		          		<input v-model="variant.weight"  type="text" inputmode="decimal">
 		          	</fieldset>
 		          </div>
 		          <div class="form--input--item">
 		            <fieldset>
-		              <input @click="selectWeightUnit('variant')" type="text" v-model="variant.weightUnit" readonly style="width: 75%;">
+		              <input v-model="variant.weightUnit" type="text" readonly style="width: 75%;" @click="selectWeightUnit('variant')">
 		            </fieldset>
 		          </div>
 		        </div>
@@ -296,11 +296,11 @@
             <div class="form--input--item" :class="{'form--input--item--error': variant.quantity == 0 }">
               <fieldset>
                 <legend>Quantité</legend>
-                <input type="text" v-model="variant.quantity" inputmode="decimal" @click="clearQuantity" @blur="resetQuantity">
+                <input v-model="variant.quantity" type="text" inputmode="decimal" @click="clearQuantity" @blur="resetQuantity">
               </fieldset>
             </div>
 
-            <div @click="saveEditVariant()" class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto;">Enregistrer</div>
+            <div class="btn-swipe" style="color: white; text-align: center; width: calc(100vw - 30px); margin: 0 auto;" @click="saveEditVariant()">Enregistrer</div>
           </div>
         </div>
       </div>
@@ -308,8 +308,6 @@
   </main>
 </template>
 
-
-<style scoped src="../../assets/css/addeditproduct.css"></style>
 
 <script>
 
@@ -958,4 +956,6 @@ export default {
 };
 
 </script>
+
+<style scoped src="../../assets/css/addeditproduct.css"></style>
 

@@ -23,7 +23,6 @@ import { Dialog } from '@capacitor/dialog';
 import { ActionSheet } from '@capacitor/action-sheet';
 import { Share } from '@capacitor/share';
 
-
 const app = createApp(App);
 const pinia = createPinia();
 
@@ -33,17 +32,19 @@ const isProd = window.location.protocol === 'https:' || (isNative && window.loca
 
 if (isProd) {
   Pusher.logToConsole = true;
-  Bugsnag.start({
-    apiKey: 'b6f579675362830a12146a96a851e17a',
-    plugins: [new BugsnagPluginVue()],
-  });
-  app.use(Bugsnag.getPlugin('vue'));
-  window.localStorage.setItem("baseUrl", "https://swipelive.app");
-  window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
+  if (import.meta.env.VITE_BUGSNAG_API_KEY) {
+    Bugsnag.start({
+      apiKey: import.meta.env.VITE_BUGSNAG_API_KEY,
+      plugins: [new BugsnagPluginVue()],
+    });
+    app.use(Bugsnag.getPlugin('vue'));
+  }
+  window.localStorage.setItem("baseUrl", import.meta.env.VITE_APP_URL || "https://swipelive.app");
+  window.localStorage.setItem("stripe_pk", import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 } else {
   app.config.devtools = true;
-  window.localStorage.setItem("baseUrl", "https://127.0.0.1:8000");
-  window.localStorage.setItem("stripe_pk", "pk_test_51NQoyJCOKsXVy6xIP72rXh2yvMCbdTClOBj02XCAyyX2rbo08W2KJKGZUnyfjLZAuasHCpLILPQ7i6plttHbXGF600jHHHqMK5");
+  window.localStorage.setItem("baseUrl", import.meta.env.VITE_DEV_APP_URL || "https://127.0.0.1:8000");
+  window.localStorage.setItem("stripe_pk", import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 }
 
 app.use(router);
@@ -53,11 +54,11 @@ app.use(Vue3TouchEvents);
 app.use(Vue3Lottie);
 app.use(VueClickAway);
 
-app.config.globalProperties.$cloudinary = 'https://res.cloudinary.com/dxlsenc2r/image/upload/';
-app.config.globalProperties.$cloudinary256x256 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_256,w_256/';
-app.config.globalProperties.$cloudinary750x750 = 'https://res.cloudinary.com/dxlsenc2r/image/upload/c_thumb,h_750,w_750/';
-app.config.globalProperties.$amazonS3 = 'https://swipe-live-app-storage-eu-west-3.s3.eu-west-3.amazonaws.com/';
-app.config.globalProperties.$googleAPIKey = 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w';
+app.config.globalProperties.$cloudinary = import.meta.env.VITE_CLOUDINARY_URL;
+app.config.globalProperties.$cloudinary256x256 = import.meta.env.VITE_CLOUDINARY_THUMB_256;
+app.config.globalProperties.$cloudinary750x750 = import.meta.env.VITE_CLOUDINARY_THUMB_750;
+app.config.globalProperties.$amazonS3 = import.meta.env.VITE_AMAZON_S3_URL;
+app.config.globalProperties.$googleAPIKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 app.config.globalProperties.$StatusBar = StatusBar;
 app.config.globalProperties.$Style = Style;
 app.config.globalProperties.$Network = Network;
@@ -98,7 +99,6 @@ app.config.globalProperties.$formatDate3 = (datetime) => {
   });
   return `${formattedDate} ${formattedTime}`;
 };
-
 
 app.config.globalProperties.$truncate = (text, length) => {
   if (text.length > length) {

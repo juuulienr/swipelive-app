@@ -1,7 +1,7 @@
 <template>
   <main class="products" style="padding: 0px 15px">
     <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -28,7 +28,7 @@
         <p><span>Envoyez vos articles dans les 3 jours ouvrés 📦</span><br>
         Ne faites pas attendre vos clients et emballez correctement vos articles pour qu'ils ne soient pas endommagés pendant le transport.</p>
 
-        <div @click="goStep1()" class="btn-swipe btn-prelive">
+        <div class="btn-swipe btn-prelive" @click="goStep1()">
           <div>BONNES VENTES ! 🚀</div>
         </div>
       </div>
@@ -38,7 +38,7 @@
           <label for="sliderAll" class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
             <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
               <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': isCheckAll }">
-                <input @click="checkAll()" id="sliderAll" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" checked>
+                <input id="sliderAll" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" type="checkbox" value="true" checked @click="checkAll()">
                 <span class="MuiSwitch-thumb css-byglaq"></span>
                 <span class="MuiTouchRipple-root css-w0pj6f"></span>
               </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -63,7 +63,7 @@
                   <label class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-g5gk3y">
                     <span class="MuiSwitch-root MuiSwitch-sizeMedium css-1nvvhq">
                       <span class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1hei3uy" :class="{'Mui-checked': checked[index].selected }">
-                        <input type="checkbox" :checked="checked[index].selected" :id="product.id" :value="{ 'product': product, 'priority': index + 1 }" v-model="selected" @change="updateCheckAll(index)" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3">
+                        <input :id="product.id" v-model="selected" type="checkbox" :checked="checked[index].selected" :value="{ 'product': product, 'priority': index + 1 }" class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3" @change="updateCheckAll(index)">
                         <span class="MuiSwitch-thumb css-byglaq"></span>
                         <span class="MuiTouchRipple-root css-w0pj6f"></span>
                       </span><span class="MuiSwitch-track css-1ju1kxc"></span>
@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <div @click="goStep2()" class="btn-swipe btn-prelive">
+        <div class="btn-swipe btn-prelive" @click="goStep2()">
           <span>Continuer</span>
         </div>
       </div>
@@ -111,7 +111,7 @@
             </div>
           </draggable>
 
-          <div @click="submit()" class="btn-swipe btn-prelive">
+          <div class="btn-swipe btn-prelive" @click="submit()">
             <span v-if="loading">
               <svg viewBox="25 25 50 50" class="loading">
                 <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -125,8 +125,6 @@
   </main>
 </template>
 
-
-<style scoped src="../../assets/css/prelive.css"></style>
 
 <script>
 import { useMainStore } from '../../stores/useMainStore.js';
@@ -327,3 +325,5 @@ export default {
   }
 };
 </script>
+
+<style scoped src="../../assets/css/prelive.css"></style>

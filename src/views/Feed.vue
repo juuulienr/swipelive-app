@@ -1,5 +1,5 @@
 <template>
-  <div ref="feed" id="feed" class="feed">
+  <div id="feed" ref="feed" class="feed">
     <template v-if="data.length > 0">
       <div v-for="(feed, index) in data" :key="index" class="feed-scroll">
         <div v-if="feed.value">
@@ -15,14 +15,14 @@
 
 
           <!-- video -->
-          <div v-if="!finished[index].value && feed.type == 'live'" :ref="'live' + index" :id="'live' + index" class="swipe-livestream" style="width: 100%; height: 100vh;"></div>
-          <div v-if="videos[index].value && !finished[index].value && feed.type !== 'live'" :ref="'player' + index" :id="'player' + index" class="swipe-player" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100%; height: 100vh;">
+          <div v-if="!finished[index].value && feed.type == 'live'" :id="'live' + index" :ref="'live' + index" class="swipe-livestream" style="width: 100%; height: 100vh;"></div>
+          <div v-if="videos[index].value && !finished[index].value && feed.type !== 'live'" :id="'player' + index" :ref="'player' + index" class="swipe-player" :style="{'visibility': loading[index].value ? 'hidden': 'visible'}" style="width: 100%; height: 100vh;">
             <video :ref="'videoPlayer' + index" class="video-js vjs-default-skin" preload="auto"></video>
           </div>
 
           
           <!-- visible -->
-          <div class="visible" v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}"></div>
+          <div v-observe-visibility="{ callback: (isVisible, entry) => visibilityChanged(isVisible, entry, index),intersection: { threshold: 1 }, throttle: throttle}" class="visible"></div>
 
 
           <!-- viewers -->
@@ -75,7 +75,7 @@
                 <img v-if="feed.value.vendor.user.picture" :src="$cloudinary256x256 + feed.value.vendor.user.picture" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
                 <img v-else src="/img/anonyme.jpg" style="width: 41px; height: 41px; border-radius: 30px; left: 12px; top: 12px; object-fit: cover; z-index: 10000; margin-right: 5px;"/>
               </div>
-              <div @click="goToProfile(feed.value.vendor)" class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;">
+              <div class="checkout__title" style="margin-bottom: 0px; color: white; font-size: 16px; line-height: 26px; text-transform: capitalize; font-weight: 500; text-align: left; margin-left: 5px; width: 100px;" @click="goToProfile(feed.value.vendor)">
                 <div style="font-size: 13px;line-height: 22px;width: 100px;text-overflow: ellipsis;overflow: hidden;">
                   {{ feed.value.vendor.pseudo }}
                 </div>
@@ -87,7 +87,7 @@
                 </div>
               </div>
               <div v-if="feed.value.vendor.user.id != user.id" style="margin-top: 4px;">
-                <div v-if="following[index].value == false" @click="follow(feed.value.vendor.user.id)" class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">Suivre</div>
+                <div v-if="following[index].value == false" class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;" @click="follow(feed.value.vendor.user.id)">Suivre</div>
                 <div v-else class="btn-swipe" style="padding: 6px 16px; color: white; font-size: 13px; text-align: center; width: 69px; border-radius: 30px;">
                    <img src="/img/check-white.svg" style="width: 18px; height: 18px; transform: none; margin-right: 0px;" />
                 </div>
@@ -98,7 +98,7 @@
 
 
           <!-- close feed -->
-          <div v-if="!finished[index].value" @click="goHome()" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge3" style="flex-direction: column;">
+          <div v-if="!finished[index].value" :style="{'top': safeareaTop3 }" class="video-page__influencer-badge3" style="flex-direction: column;" @click="goHome()">
             <div class="video-page__influencer-username-holder">
               <span class="video-page__influencer-video-count">
                 <img src="/img/times.svg" style="width: 35px; height: 35px; padding: 5px; fill: white;"/>
@@ -109,7 +109,7 @@
           
 
           <!-- comments -->
-          <div v-if="comments[index].value.length && !finished[index].value" class="scrollToMe" ref="scrollToMe" :style="[comments[index].value.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
+          <div v-if="comments[index].value.length && !finished[index].value" ref="scrollToMe" class="scrollToMe" :style="[comments[index].value.length > 3 ? {'-webkit-mask-image': '-webkit-gradient(linear, 0% 0%, 0% 20%, from(rgba(0, 0, 0, 0)), to(#272c30))', 'bottom': safeareaBottom3 } : { 'bottom': safeareaBottom3 } ]" style="margin-right: 50px;">
             <div v-for="comment in comments[index].value" style="display: flex;">
               <div style="padding-right: 6px;">
                 <img v-if="comment.user.picture" :src="$cloudinary256x256 + comment.user.picture" class="video-page__influencer-img">
@@ -130,7 +130,7 @@
 
           
           <!-- product -->
-          <div v-if="feed.type == 'live' && feed.value.liveProducts.length > 0 && !finished[index].value" @click="showProduct(feed.value.liveProducts[display - 1].product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
+          <div v-if="feed.type == 'live' && feed.value.liveProducts.length > 0 && !finished[index].value" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }" @click="showProduct(feed.value.liveProducts[display - 1].product)">
             <div class="video-page__product-top">
               <div class="video-page__image">
                 <img v-if="feed.value.liveProducts[display - 1].product.uploads.length" :src="$cloudinary256x256 + feed.value.liveProducts[display - 1].product.uploads[0].filename">
@@ -157,7 +157,7 @@
             </div>
           </div>
 
-          <div v-if="feed.type == 'clip' && feed.value.product && !finished[index].value" @click="showProduct(feed.value.product)" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }">
+          <div v-if="feed.type == 'clip' && feed.value.product && !finished[index].value" class="video-page__product-box" :style="{'bottom': safeareaBottom2 }" @click="showProduct(feed.value.product)">
             <div class="video-page__product-top">
               <div class="video-page__image">
                 <img v-if="feed.value.product.uploads.length" :src="$cloudinary256x256 + feed.value.product.uploads[0].filename">
@@ -187,7 +187,7 @@
           
 
           <!-- send comment -->
-          <div v-if="!finished[index].value" @click="openPopup()" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="left: 15px; right: 215px;">
+          <div v-if="!finished[index].value" class="video-page__influencer-badge-send" :style="{'bottom': safeareaBottom }" style="left: 15px; right: 215px;" @click="openPopup()">
             <div class="video-page__influencer-username-holder">
               <div class="video-page__influencer-username"> Commenter...</div>
               <span class="video-page__influencer-video-count">
@@ -198,7 +198,7 @@
 
           <div v-if="!finished[index].value" :style="{'bottom': safeareaBottom }" style="position: absolute; background-color: rgba(0, 0, 0, 0.25); right: 15px; display: flex; position: absolute; z-index: 20; border-radius: 25px; align-items: center;">
             <!-- cart -->
-            <div @click="showCart()" class="video-page__influencer-username-holder" style="padding-left: 10px;">
+            <div class="video-page__influencer-username-holder" style="padding-left: 10px;" @click="showCart()">
               <span class="video-page__influencer-video-count">
                 <img src="/img/bag.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
               </span>
@@ -208,21 +208,21 @@
             </div>
 
             <!-- likes -->
-            <div @click="addAnimation()" class="video-page__influencer-username-holder">
+            <div class="video-page__influencer-username-holder" @click="addAnimation()">
               <span class="video-page__influencer-video-count">
                 <img src="/img/heart-feed.svg" style="width: 40px; height: 40px; padding: 8px; margin: 0px 4px;" />
               </span>
             </div>
 
             <!-- share -->
-            <div @click="share()" class="video-page__influencer-username-holder">
+            <div class="video-page__influencer-username-holder" @click="share()">
               <span class="video-page__influencer-video-count">
                 <img src="/img/share.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 8px;" />
               </span>
             </div>
 
             <!-- shop -->
-            <div @click="showShop(feed.value.vendor)" class="video-page__influencer-username-holder" style="padding-right: 10px;">
+            <div class="video-page__influencer-username-holder" style="padding-right: 10px;" @click="showShop(feed.value.vendor)">
               <span class="video-page__influencer-video-count">
                 <img src="/img/all-products.svg" style="width: 23px; padding: 0px; height: 23px; width: 40px; height: 40px; padding: 6px;" />
               </span>
@@ -240,7 +240,7 @@
     <!-- input comment -->
     <div v-if="popup" class="css-1dko8fk" :style="{'bottom': writeInput }" style="height: 55px; border-radius: 0px;">
       <div class="css-miqn2j">
-        <input v-focus v-click-away="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" v-model="content" style="border: 2px solid #ff2f80; background: white"/>
+        <input v-model="content" v-focus v-click-away="away" placeholder="Écrivez ici..." type="text" class="css-9gu6qp" style="border: 2px solid #ff2f80; background: white"/>
       </div>
       <button id="btnSend" class="css-il3d4y" style="padding: 0px;">
         <img id="imgSend" src="/img/send.svg" style="height: 36px; height: 36px;"/>
@@ -250,17 +250,17 @@
 
     <!-- product popup -->
     <div v-if="popupProduct" class="store-products-item__login-popup store-products-item__login-popup--active product-popup">
-      <div @click="hideProduct()" style="display: flex;">
+      <div style="display: flex;" @click="hideProduct()">
         <div class="scroll-indicator" style="margin: 15px auto 0px;"></div>
       </div>
-      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" @click="favoris(product)" src="/img/circle-heart-full.svg" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
-      <img v-else @click="favoris(product)" src="/img/circle-heart.svg" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;"/>
+      <img v-if="user.favoris.find(favoris => favoris.product.id === product.id)" src="/img/circle-heart-full.svg" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;" @click="favoris(product)"/>
+      <img v-else src="/img/circle-heart.svg" style="width: 35px; height: 35px; position: absolute; top: 42px; right: 22px; z-index: 10000;filter: drop-shadow(0px 0px 1px #222); pointer-events: auto;" @click="favoris(product)"/>
       <Product :product="product" @selectVariant="selectVariantChild"></Product>
     </div>
     <div v-if="popupProduct" class="product-popup-btn">
       <div v-if="product.quantity > 0" class="groups">
-        <div @click="addToCart()" class="btn-swipe btn-addtoCart">Ajouter</div>
-        <div @click="goCheckout()" class="btn-swipe btn-checkout">
+        <div class="btn-swipe btn-addtoCart" @click="addToCart()">Ajouter</div>
+        <div class="btn-swipe btn-checkout" @click="goCheckout()">
           <span v-if="loadingShipping">
             <svg viewBox="25 25 50 50" class="loading">
               <circle style="stroke: white;" cx="50" cy="50" r="20"></circle>
@@ -281,13 +281,13 @@
       <img v-else src="/img/anonyme.jpg">
       <div style="margin-bottom: 5px; font-size: 16Px;">{{ data[visible].value.vendor.pseudo }}</div>
       <p class="follow-text">Abonne-toi au vendeur pour être prévenu quand il passera en LIVE.</p>
-      <div @click="follow(data[visible].value.vendor.user.id)" class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;">Suivre</div>
+      <div class="btn-swipe" style="color: white; text-align: center; margin: 10px 0px 25px;" @click="follow(data[visible].value.vendor.user.id)">Suivre</div>
     </div>
 
 
     <!-- cart popup -->
     <div v-if="popupCart" class="store-products-item__login-popup store-products-item__login-popup--active cart-popup">
-      <div @click="hideCart()" style="display: flex;">
+      <div style="display: flex;" @click="hideCart()">
         <div class="scroll-indicator"></div>
       </div>
       <div style="margin: 0px;">
@@ -306,7 +306,7 @@
 
     <!-- shop popup -->
     <div v-if="popupShop" class="store-products-item__login-popup store-products-item__login-popup--active shop-popup" style="padding-bottom: 0px;">
-      <div @click="hideShop()" style="display: flex;">
+      <div style="display: flex;" @click="hideShop()">
         <div class="scroll-indicator"></div>
       </div>
       <div class="checkout__header" style="padding-right: 20px; padding-left: 20px; padding-bottom: 15px;">
@@ -314,7 +314,7 @@
       </div>
       <div v-if="shop.length" class="checkout__body items">
         <div class="lasted--product">
-          <div v-for="product in shop" @click="showProduct(product)" class="product--item">
+          <div v-for="product in shop" class="product--item" @click="showProduct(product)">
             <img v-if="product.uploads.length" :src="$cloudinary256x256 + product.uploads[0].filename" style="width: 90px; height: 90px;">
             <img v-else src="/img/no-preview.png" style="width: 90px; height: 90px;">
             <div class="details">
@@ -341,18 +341,6 @@
   </div>
 </template>
 
-<style>
-.feed iframe {
-  height: 100vh !important;
-}
-.checkout__element iframe {
-  height: 20px !important;
-}
-
-</style>
-
-<style scoped src="../assets/css/feed.css"></style>
-
 <script>
 import { useMainStore } from '../stores/useMainStore';
 import { useRoute } from 'vue-router';
@@ -374,6 +362,13 @@ export default {
     Product,
     Cart,
     Checkout,
+  },
+  directives: {
+    focus: {
+      inserted: function (el) {
+        el.focus()
+      }
+    }
   },
   data() {
     const route = useRoute();
@@ -434,6 +429,23 @@ export default {
       agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
       agoraChannel: null,
       agoraToken: null,
+    }
+  },
+  computed: {
+    user() {
+      return this.mainStore.getUser;
+    },
+    lineItems() {
+      return this.mainStore.getLineItems;
+    },
+    updateCart() {
+      let count = 0;
+      if (this.lineItems.length) {
+        this.lineItems.map(lineItem => {
+          count += lineItem.quantity;
+        });
+      }
+      return count;
     }
   },
   async created() {
@@ -527,30 +539,6 @@ export default {
     this.players.forEach((player, index) => {
       this.destroyPlayer(index);
     });
-  },
-  computed: {
-    user() {
-      return this.mainStore.getUser;
-    },
-    lineItems() {
-      return this.mainStore.getLineItems;
-    },
-    updateCart() {
-      let count = 0;
-      if (this.lineItems.length) {
-        this.lineItems.map(lineItem => {
-          count += lineItem.quantity;
-        });
-      }
-      return count;
-    }
-  },
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus()
-      }
-    }
   },
   methods: {
     async fetchSafeAreaInsets() {
@@ -1556,4 +1544,16 @@ export default {
   }
 };
 </script>
+
+<style>
+.feed iframe {
+  height: 100vh !important;
+}
+.checkout__element iframe {
+  height: 20px !important;
+}
+
+</style>
+
+<style scoped src="../assets/css/feed.css"></style>
 

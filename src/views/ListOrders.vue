@@ -1,7 +1,7 @@
 <template>
   <main class="products" style="padding: 0px 15px">
     <div class="checkout__header">
-      <div @click="goBack()" class="checkout__close-btn">
+      <div class="checkout__close-btn" @click="goBack()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
           <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
         </svg>
@@ -15,10 +15,10 @@
         <div v-if="user.vendor" class="images_sec" style="padding: 20px 5px 15px; display: flex; flex-wrap: nowrap; overflow-x: auto; width: auto; padding: 15px 0;">
           <div class="images_filter" style="width: calc(100vw - 30px)">
             <ul>
-              <li @click="showNumber1()" v-bind:class="{active: show1}" :style="[show1 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;">Nouvelle</li>
-              <li @click="showNumber2()" v-bind:class="{active: show2}" :style="[show2 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">En cours</li>
-              <li @click="showNumber3()" v-bind:class="{active: show3}" :style="[show3 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Litige</li>
-              <li @click="showNumber4()" v-bind:class="{active: show4}"  :style="[show4 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]">Terminée</li>
+              <li v-bind:class="{active: show1}" :style="[show1 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" style="font-weight: 600;" @click="showNumber1()">Nouvelle</li>
+              <li v-bind:class="{active: show2}" :style="[show2 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" @click="showNumber2()">En cours</li>
+              <li v-bind:class="{active: show3}" :style="[show3 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]" @click="showNumber3()">Litige</li>
+              <li v-bind:class="{active: show4}" :style="[show4 ? {'color': '#ff2f80', 'font-weight': '600'} : {'color': '#aaaaaa', 'font-weight': '500'}]"  @click="showNumber4()">Terminée</li>
             </ul>
           </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="top-author">
           <div v-if="show1">
             <div v-if="filteredSales.length" class="top-author--container">
-              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+              <div v-for="order in filteredSales" class="top-author--item" style="position: relative" @click="showOrder(order, 'sale')">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
@@ -56,7 +56,7 @@
           
           <div v-if="show2">
             <div v-if="filteredSales.length" class="top-author--container">
-              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+              <div v-for="order in filteredSales" class="top-author--item" style="position: relative" @click="showOrder(order, 'sale')">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
@@ -86,7 +86,7 @@
           
           <div v-if="show3">
             <div v-if="filteredSales.length" class="top-author--container">
-              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+              <div v-for="order in filteredSales" class="top-author--item" style="position: relative" @click="showOrder(order, 'sale')">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
@@ -116,7 +116,7 @@
           
           <div v-if="show4">
             <div v-if="filteredSales.length" class="top-author--container">
-              <div v-for="order in filteredSales" @click="showOrder(order, 'sale')" class="top-author--item" style="position: relative">
+              <div v-for="order in filteredSales" class="top-author--item" style="position: relative" @click="showOrder(order, 'sale')">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
@@ -151,7 +151,7 @@
         <div class="top-author">
           <div>
             <div v-if="purchases && purchases.length > 0" class="top-author--container">
-              <div v-for="order in purchases" @click="showOrder(order, 'purchase')" class="top-author--item" style="position: relative">
+              <div v-for="order in purchases" class="top-author--item" style="position: relative" @click="showOrder(order, 'purchase')">
                 <img v-if="order.lineItems[0].product && order.lineItems[0].product.uploads.length" :src="$cloudinary256x256 + order.lineItems[0].product.uploads[0].filename" style="background: #eeeeee"/>
                 <img v-else src="/img/no-preview.png"/>
                 <span class="counter-badge" style="top: 4px; left: 62px;">{{ nbProducts(order.lineItems) }}</span>
@@ -187,13 +187,13 @@
     <!-- order popup -->
     <div v-if="popupOrder" class="store-products-item__login-popup store-products-item__login-popup--active" style="height: 100%; border-radius: 0px; width: calc(100vw - 30px);    overflow: scroll; padding-bottom: 80px;">
       <div class="checkout__header" style="padding: 5px 5px 15px; z-index: 10000000; background: white; width: 100%;">
-        <div @click="hideOrder()" class="checkout__close-btn">
+        <div class="checkout__close-btn" @click="hideOrder()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
             <path d="M206.7 464.6l-183.1-191.1C18.22 267.1 16 261.1 16 256s2.219-11.97 6.688-16.59l183.1-191.1c9.152-9.594 24.34-9.906 33.9-.7187c9.625 9.125 9.938 24.37 .7187 33.91L73.24 256l168 175.4c9.219 9.5 8.906 24.78-.7187 33.91C231 474.5 215.8 474.2 206.7 464.6z"></path>
           </svg>
         </div>
         <div class="checkout__title">Commande #{{ order.number }}</div>
-        <div @click="actionSheet()" class="checkout__right-btn">
+        <div class="checkout__right-btn" @click="actionSheet()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"></path>
           </svg>
@@ -209,7 +209,7 @@
                 <span>{{ order.buyer.firstname }} {{ order.buyer.lastname }}</span>
                 <div><span>{{ $formatDate3(order.createdAt) }}</span></div>
               </div>
-              <div @click="sendMessageToBuyer(order.buyer)" style="width: 28px; height: 28px;">
+              <div style="width: 28px; height: 28px;" @click="sendMessageToBuyer(order.buyer)">
                 <img src="/img/comment-dots.svg"/>
               </div>
             </div>
@@ -220,7 +220,7 @@
                 <span>{{ order.vendor.pseudo }}</span>
                 <div><span>{{ $formatDate3(order.createdAt) }}</span></div>
               </div>
-              <div @click="sendMessageToVendor(order.vendor)" style="width: 28px; height: 28px;">
+              <div style="width: 28px; height: 28px;" @click="sendMessageToVendor(order.vendor)">
                 <img src="/img/comment-dots.svg"/>
               </div>
             </div>
@@ -282,7 +282,7 @@
 
 
           <div v-if="type == 'sale'" style="margin-top: 10px;">
-            <div v-if="order.pdf && order.trackingNumber && order.shippingStatus == 'open'" @click="showLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+            <div v-if="order.pdf && order.trackingNumber && order.shippingStatus == 'open'" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;" @click="showLabel()"> 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
                 <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
               </svg> Imprimer le bon de livraison
@@ -294,7 +294,7 @@
                 </svg>
               </span>
             </div>
-            <div v-else-if="order.shippingStatus == 'ready-to-send'" @click="generateLabel()" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;"> 
+            <div v-else-if="order.shippingStatus == 'ready-to-send'" class="btn-swipe" style="color: white; text-align: center; width: 100%; background: #ff2f80; margin-left: 12px; padding: 13px 24px; border: 1px solid #ff2f80; border-radius: 8px; font-size: 16px; font-weight: 500; height: 52px; margin: 0px auto 20px;" @click="generateLabel()"> 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px; height: 16px; fill: white; margin-right: 7px; margin-bottom: 2px;">
                 <path d="M448 192H64C28.65 192 0 220.7 0 256v96c0 17.67 14.33 32 32 32h32v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h32c17.67 0 32-14.33 32-32V256C512 220.7 483.3 192 448 192zM384 448H128v-96h256V448zM432 296c-13.25 0-24-10.75-24-24c0-13.27 10.75-24 24-24s24 10.73 24 24C456 285.3 445.3 296 432 296zM128 64h229.5L384 90.51V160h64V77.25c0-8.484-3.375-16.62-9.375-22.62l-45.25-45.25C387.4 3.375 379.2 0 370.8 0H96C78.34 0 64 14.33 64 32v128h64V64z"/>
               </svg> Générer le bon de livraison
@@ -314,7 +314,7 @@
           <div v-if="type == 'sale' && order.shippingStatus != 'ready-to-send'" class="css-6f545k" style="margin: 20px auto; font-size: 15px; line-height: 28px; font-weight: 500;">
             <img src="/img/truck.svg" style="width: 20px; height: 20px; margin-right: 4px;"/> Transporteur : {{ order.shippingServiceName }} <br> 
             <img v-if="order.trackingNumber" src="/img/map-marker.svg" style="width: 20px; height: 20px; margin-right: 4px;"/> Numéro de suivi : 
-            <span v-if="order.trackingNumber" @click="showTrackingWebsite()" style="color: #007bff; text-decoration: underline;">{{ order.trackingNumber }}</span>
+            <span v-if="order.trackingNumber" style="color: #007bff; text-decoration: underline;" @click="showTrackingWebsite()">{{ order.trackingNumber }}</span>
             <span v-else>-</span>
           </div>
 
@@ -402,7 +402,7 @@
             <div style="font-weight: 400; margin-bottom: 30px; font-size: 14px; padding: 0px 10px;">
               Si ta commande correspond à la description, clique sur le bouton "Tout est correct" ou cette commande sera cloturé automatiquement dans 48 heures.
             </div>
-            <div @click="closeOrder()" class="btn-swipe"style="color: white; text-align: center; background: #ff2f80; padding: 12px 24px; border: 1px solid #ff2f80; border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 10px;height: 48px;justify-content: center;">Tout est correct</div>
+            <div class="btn-swipe" style="color: white; text-align: center; background: #ff2f80; padding: 12px 24px; border: 1px solid #ff2f80; border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 10px;height: 48px;justify-content: center;"@click="closeOrder()">Tout est correct</div>
             <div class="btn-swipe" style="color: rgb(82, 92, 102);text-align: center;width: 100%;background: white;padding: 10px 24px;border-radius: 8px;font-size: 14px;font-weight: 500;margin-top: 5px;height: 44px;margin-bottom: 18px;justify-content: center;">Signaler un problème
             </div>
           </div>
@@ -412,8 +412,6 @@
   </main>
 </template>
 
-
-<style scoped src="../assets/css/listorders.css"></style>
 
 <script>
 import { useMainStore } from '../stores/useMainStore.js';
@@ -450,16 +448,6 @@ export default {
       remaining: null,
     };
   },
-  created() {
-    const isOrderParam = this.$route.params.isOrder;
-    this.isOrder = isOrderParam === 'true';
-    
-    if (this.isOrder) {
-      this.loadOrders();
-    } else {
-      this.loadPurchases();
-    }
-  },
   computed: {
     filteredSales() {
       const search = this.searchTerm.toLowerCase();
@@ -469,6 +457,16 @@ export default {
         return this.searchTerm ? matchesSearch : matchesStatus;
       });
     },
+  },
+  created() {
+    const isOrderParam = this.$route.params.isOrder;
+    this.isOrder = isOrderParam === 'true';
+    
+    if (this.isOrder) {
+      this.loadOrders();
+    } else {
+      this.loadPurchases();
+    }
   },
   methods: {
     nbProducts(lineItems) {
@@ -693,4 +691,6 @@ export default {
 };
 
 </script>
+
+<style scoped src="../assets/css/listorders.css"></style>
 

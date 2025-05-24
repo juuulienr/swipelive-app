@@ -12,7 +12,9 @@
     "android-build": "vite build && npx cap sync android && npx cap open android",
     "android-device": "vite build && npx cap sync android && npx cap run android --target=device",
     "android": "vite build && npx cap sync android && npx cap open android",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "lint": "eslint --ext .js,.vue,.ts src/",
+    "lint:fix": "eslint --ext .js,.vue,.ts src/ --fix"
   },
   "dependencies": {
     "@bugsnag/js": "^8.1.2",
@@ -53,8 +55,13 @@
     "vue3-touch-events": "^4.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.27.0",
     "@vitejs/plugin-vue": "^5.1.5",
     "@vue/devtools": "^7.6.8",
-    "patch-package": "^8.0.0"
+    "eslint": "^9.27.0",
+    "eslint-plugin-vue": "^10.1.0",
+    "globals": "^16.1.0",
+    "patch-package": "^8.0.0",
+    "vue-eslint-parser": "^10.1.3"
   }
 }
