@@ -127,25 +127,3 @@ swipelive-app/
 ## 📄 Licence
 
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-## 🔐 Configuration des Variables d'Environnement
-
-1. Copiez le fichier `.env.example` en `.env` :
-```bash
-cp .env.example .env
-```
-
-2. Remplissez les variables dans le fichier `.env` avec vos propres clés API :
-- `VITE_STRIPE_PUBLIC_KEY` : Clé publique Stripe pour les paiements
-- `VITE_GOOGLE_MAPS_API_KEY` : Clé API Google Maps pour la géolocalisation
-- `VITE_BUGSNAG_API_KEY` : Clé API Bugsnag pour le tracking des erreurs
-- `VITE_CLOUDINARY_URL` : URL de base Cloudinary pour le stockage des images
-- `VITE_CLOUDINARY_THUMB_256` : URL Cloudinary pour les miniatures 256x256
-- `VITE_CLOUDINARY_THUMB_750` : URL Cloudinary pour les miniatures 750x750
-- `VITE_AMAZON_S3_URL` : URL du bucket Amazon S3
-- `VITE_APP_URL` : URL de production de l'application
-- `VITE_DEV_APP_URL` : URL de développement local
-
-⚠️ Ne jamais commiter le fichier `.env` contenant vos clés API.
-
-
