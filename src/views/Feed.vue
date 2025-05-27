@@ -479,7 +479,6 @@ export default {
       })
       .then((response) => {
         const userData = response.data;
-        console.log(userData);
         this.mainStore.setUser(userData);
       })
       .catch((error) => {
@@ -556,8 +555,6 @@ export default {
       }
     },
     async initializeAgora(id, index) {
-      console.log(id);
-      console.log("client initialized");
       this.client = AgoraRTC.createClient({ mode: 'live', codec: 'h264' });
       this.agoraChannel = "Live" + id;
       await this.getAgoraToken(id, index);
@@ -573,7 +570,6 @@ export default {
         });
 
         const result = JSON.parse(response.data);
-        console.log(result);
 
         this.agoraToken = result.token;
         this.joinChannel(index);
@@ -583,20 +579,8 @@ export default {
     },
     async joinChannel(index) {
       try {
-        console.log("Joining channel...");
-        console.log(index);
-
         // Lorsque l'hôte arrête de publier un flux
-        this.client.on("user-unpublished", (user, mediaType) => {
-          console.log(`L'utilisateur ${user.uid} a arrêté de publier ${mediaType}`);
-
-          if (mediaType === 'video') {
-            console.log('video');
-          }
-          if (mediaType === 'audio') {
-            console.log('audio');
-          }
-
+        this.client.on("user-unpublished", (user) => {
           this.handleUserUnpublished(user);
         });
 

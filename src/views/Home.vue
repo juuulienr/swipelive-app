@@ -302,8 +302,6 @@ export default {
             },
           ];
           mainStore.setLineItems(this.lineItems);
-        } else {
-          console.log('L\'utilisateur a choisi de conserver le panier existant.');
         }
       } catch (error) {
         console.error('Erreur lors de la confirmation de remplacement du panier :', error);

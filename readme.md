@@ -50,14 +50,6 @@ npm install
 ```
 
 3. Configuration des variables d'environnement
-Créer un fichier `.env` à la racine du projet avec les variables suivantes :
-```env
-VITE_FIREBASE_API_KEY=votre_clé
-VITE_AGORA_APP_ID=votre_clé
-VITE_STRIPE_PUBLIC_KEY=votre_clé
-VITE_GOOGLE_MAPS_API_KEY=votre_clé
-VITE_PUSHER_KEY=votre_clé
-```
 
 ## 📱 Configuration iOS
 

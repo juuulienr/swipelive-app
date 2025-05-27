@@ -301,8 +301,6 @@ export default {
           ],
         });
 
-        console.log(result.index);
-
         if (result.index === 0) {
           this.openFilePicker();
         } else if (result.index === 1) {
@@ -345,7 +343,6 @@ export default {
     async uploadImage(options) {
       navigator.camera.getPicture(
         async (imageUri) => {
-          console.log(imageUri);
           this.loadingImg = true;
 
           try {
@@ -428,7 +425,6 @@ export default {
       if (!place || !place.address_components) return;
 
       const addressData = this.extractAddressComponents(place.address_components);
-      console.log(addressData);
 
       this.user.vendor.address = addressData.street_number + ' ' + addressData.route;
       this.user.vendor.zip = addressData.postal_code;

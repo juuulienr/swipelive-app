@@ -70,7 +70,6 @@ export default {
             url: `${this.baseUrl}/api/categories`,
             headers: { 'Content-Type': 'application/json; charset=UTF-8' }
           }); 
-          console.log(response.data);
           mainStore.setCategories(response.data);
         } catch (error) {
           console.error("Load categories error:", error);

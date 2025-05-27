@@ -465,7 +465,6 @@ export default {
         this.loading = true;
         if (this.product.variants) {
           this.product.variants.map((element, index) => { 
-          	console.log(element, index);
           	if (this.product.variants[index].price.includes(',')) {
            	 	this.product.variants[index].price = this.product.variants[index].price.replace(',','.');
           	}
@@ -549,8 +548,6 @@ export default {
             ],
           });
 
-          console.log(result.index);
-
           if (result.index === 0) {
             this.openFilePicker();
           } else if (result.index === 1) {
@@ -590,7 +587,6 @@ export default {
     async uploadImage(options) {
       navigator.camera.getPicture(
         async (imageUri) => {
-          console.log(imageUri);
           const url = `${this.baseUrl}/user/api/product/upload`;
           this.loadingImg = true;
 
@@ -725,7 +721,6 @@ export default {
             url: `${this.baseUrl}/user/api/variant/delete/${id}`,
             headers: { Authorization: `Bearer ${this.token}` },
           });
-          console.log("Variant deleted successfully.");
         } catch (error) {
           console.log(error);
         }
@@ -770,7 +765,6 @@ export default {
       this.popupEditVariant = false;
     },
     async saveEditVariant() {
-      console.log(this.variant);
       this.errorVariantWeight = false;
 
       if (this.variant.weight && this.variant.weight > 20 && this.variant.weightUnit === "kg") {

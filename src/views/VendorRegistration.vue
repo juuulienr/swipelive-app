@@ -347,7 +347,6 @@ export default {
           this.errorPhone = true;
         } else {
           this.user.phone = this.user.phone.replace(/\s/g, '');
-          console.log(this.user.phone);
         }
       }
 
@@ -580,7 +579,6 @@ export default {
         this.step2 = false;
         this.step3 = true;
       } catch (error) {
-        console.log(error);
         this.errorRegistration = error;
         this.loading = false;
       }
@@ -644,7 +642,6 @@ export default {
     async uploadImage(options) {
       navigator.camera.getPicture(
         async (imageUri) => {
-          console.log(imageUri);
           this.loadingImg = true;
 
           try {
@@ -738,7 +735,6 @@ export default {
       if (!place || !place.address_components) return;
 
       const addressData = this.extractAddressComponents(place.address_components);
-      console.log(addressData);
 
       this.address = addressData.street_number + ' ' + addressData.route;
       this.zip = addressData.postal_code;

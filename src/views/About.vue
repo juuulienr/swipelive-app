@@ -73,7 +73,6 @@ export default {
       try {
         const info = await this.$Device.getInfo();
         this.version = info.appVersion || 'Version inconnue';
-        console.log(`Version de l'application : ${this.version}`);
       } catch (error) {
         console.error('Erreur lors de la récupération de la version de l\'application :', error);
       }
@@ -104,8 +103,6 @@ export default {
           window.localStorage.removeItem('banned');
           mainStore.resetState();
           this.$router.push({ name: 'Welcome' });
-        } else {
-          console.log('Suppression annulée par l\'utilisateur.');
         }
       } catch (error) {
         console.error('Erreur lors de la confirmation de suppression :', error);

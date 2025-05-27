@@ -6,7 +6,6 @@ function onDeviceReady() {
   FirebasePlugin = window.FirebasePlugin;
 
   FirebasePlugin.onMessageReceived(function(data) {
-    console.log("Notification reçue:", data);
 
     if (data.tap) {
         console.log(data.tap);
@@ -14,9 +13,7 @@ function onDeviceReady() {
       clearBadgeNumber();
 
       if (data.route) {
-        console.log(data.route);
         const resolvedRoute = router.resolve({ name: data.route });
-        console.log(resolvedRoute);
 
         // Vérifie si la route existe et est accessible
         if (resolvedRoute.route.name) {
@@ -89,7 +86,6 @@ var checkNotificationPermission = function(requested) {
 
 var getToken = function() {
   FirebasePlugin.getToken(function(pushToken) {
-    console.log("Got FCM token: " + pushToken);
     var baseUrl = window.localStorage.getItem("baseUrl");
     var token = window.localStorage.getItem("token");
 

@@ -443,7 +443,6 @@ export default {
       
       navigator.camera.getPicture((front_document) => {
         const base64String = `data:image/jpeg;base64,${front_document}`;
-        console.log(base64String);
         this.verifFront(base64String);
       }, (error) => {
         console.log(`Impossible de récupérer le document : ${error}`);
@@ -468,7 +467,6 @@ export default {
         });
 
         const fileData = uploadResponse.data;
-        console.log(fileData);
 
         if (fileData && fileData.id) {
           const result = await stripe.createToken('person', {
@@ -482,7 +480,7 @@ export default {
           });
 
           if (result && result.token.id) {
-            const apiResponse = await this.$CapacitorHttp.request({
+            await this.$CapacitorHttp.request({
               method: 'POST',
               url: `${this.baseUrl}/user/api/verification/document/front`,
               headers: {
@@ -492,7 +490,6 @@ export default {
               data: { person_token: result.token.id },
             });
 
-            console.log(apiResponse.data);
             await this.$Toast.show({
               text: 'Le document recto a été envoyé !',
               duration: 'long',
@@ -501,7 +498,6 @@ export default {
           }
         }
       } catch (error) {
-        console.log(error);
         await this.$Toast.show({
           text: error.message || 'Une erreur est survenue',
           duration: 'long',
@@ -524,7 +520,6 @@ export default {
         body: data,
       });
       const fileData = await response.json();
-      console.log(fileData);
 
       if (fileData && fileData.id) {
         const result = await stripe.createToken('person', {
@@ -538,7 +533,7 @@ export default {
         });
 
         if (result && result.token.id) {
-          const apiResponse = await this.$CapacitorHttp.request({
+          await this.$CapacitorHttp.request({
             method: 'POST',
             url: `${this.baseUrl}/user/api/verification/document/back`,
             headers: {
@@ -548,7 +543,6 @@ export default {
             data: { person_token: result.token.id },
           });
 
-          console.log(apiResponse.data);
           await this.$Toast.show({
             text: 'Le document verso a été envoyé !',
             duration: 'long',

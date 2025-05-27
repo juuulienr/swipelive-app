@@ -334,7 +334,6 @@ export default {
     async getDeviceInfo() {
       try {
         this.device = await this.$Device.getInfo();
-        console.log(this.device);
       } catch (error) {
         console.error("Erreur lors de la récupération des informations de l'appareil :", error);
       }
@@ -354,14 +353,12 @@ export default {
       window.facebookConnectPlugin.login(
         ['email', 'public_profile'],
         async (response) => {
-          console.log(response);
           this.loading = true;
 
           window.facebookConnectPlugin.api(
             `me/?fields=id,first_name,last_name,email,picture.type(large),birthday&access_token=${response.authResponse.accessToken}`,
             ["email", "public_profile"],
             async (result) => {
-              console.log(result);
               this.email = result.email;
               this.password = Math.random().toString(36).slice(-15);
 
@@ -448,8 +445,6 @@ export default {
           locale: this.locale,
         };
 
-        console.log(httpParams);
-
         try {
           const response = await this.$CapacitorHttp.request({
             method: 'POST',
@@ -485,8 +480,6 @@ export default {
 
       try {
         const result = await FirebaseAuthentication.signInWithApple();
-        console.log('Apple sign-in success:', result);
-
         const uid = result.user.uid || null;
         const displayName = result.user.displayName || null;
 
@@ -820,7 +813,6 @@ export default {
     async uploadImage(options) {
       navigator.camera.getPicture(
         async (imageUri) => {
-          console.log(imageUri);
           this.loadingImg = true;
 
           try {

@@ -571,7 +571,6 @@ export default {
           });
 
           this.promotion = response.data;
-          console.log(this.promotion);
 
           if (this.promotion) {
             if (this.promotion.type === "percent") {
@@ -613,7 +612,6 @@ export default {
       this.center = marker;
       this.shippingAddress = true;
 
-      console.log(this.shippingProducts);
       if (this.shippingProducts.length == 0) {
         this.getShippingPrice();
       } else {
@@ -808,7 +806,6 @@ export default {
           });
 
           this.locationMarkers = markersTemp;
-          console.log("Tous les marqueurs ont été ajoutés :", this.locationMarkers);
         } catch (error) {
           console.error("Erreur lors de la récupération des points :", error);
         }
@@ -961,10 +958,7 @@ export default {
           paymentMethodLayout: 'horizontal',
         });
 
-        console.log(result.status);
-
         if (result.status === 'completed') {
-          console.log('Paiement réussi');
           this.lineItems = [];
           useMainStore().setLineItems(this.lineItems);
 
@@ -975,10 +969,8 @@ export default {
             this.$emit('paymentSuccess', paymentResponse.order);
           }
         } else if (result.status === 'canceled') {
-          console.log('Paiement annulé');
           await this.showErrorToast('Le paiement a été annulé.');
         } else {
-          console.log('Paiement échoué');
           await this.showErrorToast('Le paiement a échoué.');
         }
       } catch (error) {

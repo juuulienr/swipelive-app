@@ -215,8 +215,6 @@ export default {
     async uploadImage(options) {
       navigator.camera.getPicture(
         async (imageUri) => {
-          console.log(imageUri);
-
           const httpParams = {
             fromUser: this.user.id,
             picture: imageUri,
