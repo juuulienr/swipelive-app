@@ -1,6 +1,15 @@
 # Swipe Live App
 
-Application mobile de live shopping, permettant aux utilisateurs de diffuser du contenu en direct et de vendre des produits en temps réel.
+SwipeLive était une application mobile innovante de live shopping, permettant aux vendeurs de présenter leurs produits en direct et aux acheteurs d'interagir et d'acheter en temps réel. 
+Le projet combinait l'expérience immersive du streaming en direct avec la simplicité du commerce électronique.
+
+**État du projet :** Application fonctionnelle, levée de fonds signée (250k €), projet arrêté stratégiquement avant l'utilisation des fonds suite à l'arrivée de TikTok Shop en France. 
+
+
+### Composants du projet :
+- **Backend :** API RESTful & WebSocket développée avec Symfony 6.4 ([github.com/juuulienr/swipelive](https://github.com/juuulienr/swipelive))
+- **Frontend mobile :** Application développée avec Capacitor et Vue.js 3 ([github.com/juuulienr/swipelive-app](https://github.com/juuulienr/swipelive-app))
+
 
 ## 🚀 Fonctionnalités
 
