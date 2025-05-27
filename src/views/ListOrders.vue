@@ -592,36 +592,18 @@ export default {
       this.$Haptics.impact({ style: 'medium' });
       this.$router.push({ name: 'ListMessages', params: { userId: vendor.user.id, picture: vendor.user.picture, pseudo: vendor.pseudo } });
     },
-    async cancelOrder() {
-      const orderId = this.order.id;
-
-      this.sales = this.sales.map((sale) =>
-        sale.id === orderId ? { ...sale, shippingStatus: "cancelled" } : sale
-      );
-      this.purchases = this.purchases.map((purchase) =>
-        purchase.id === orderId ? { ...purchase, shippingStatus: "cancelled" } : purchase
-      );
-
-      this.hideOrder();
-
+    async cancelOrder(order) {
       try {
-        const response = await this.$CapacitorHttp.request({
+        await this.$CapacitorHttp.request({
           method: 'GET',
-          url: `${this.baseUrl}/user/api/orders/${orderId}/cancel`,
-          headers: { Authorization: `Bearer ${this.token}` },
+          url: this.baseUrl + "/user/api/order/cancel/" + order.id,
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
         });
-
-        await this.$Toast.show({
-          text: "La commande a été annulée",
-          duration: 'long',
-          position: 'top',
-        });
+        this.loadOrders();
       } catch (error) {
-        await this.$Toast.show({
-          text: error.message || "Une erreur est survenue",
-          duration: 'long',
-          position: 'top',
-        });
+        console.log(error);
       }
     },
     async actionSheet() {
@@ -649,7 +631,7 @@ export default {
             position: 'top',
           });
         } else if (result.index === 1 && this.order.shippingStatus === 'ready-to-send') {
-          this.cancelOrder();
+          this.cancelOrder(this.order);
         }
       } catch (error) {
         console.log(error);

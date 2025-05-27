@@ -236,7 +236,11 @@
 </template>
 
 <script>
+/* global google */
 import { useMainStore } from '../stores/useMainStore.js';
+import { Camera } from '@capacitor/camera';
+import { loadStripe } from '@stripe/stripe-js';
+const Stripe = loadStripe;
 
 export default {
   name: 'VendorRegistration',
@@ -464,7 +468,6 @@ export default {
       this.$Haptics.impact({ style: 'medium' });
 
       const stripe = Stripe(this.stripe_pk);
-      const mainStore = useMainStore();
 
       if (this.businessType == 'company') {
         const accountResult = await stripe.createToken('account', {
@@ -542,7 +545,6 @@ export default {
         email: this.user.email,
         phone: this.user.phone,
         picture: this.user.picture,
-        company: this.company,
         summary: this.summary,
         day: this.user.day,
         month: this.user.month,
@@ -714,7 +716,7 @@ export default {
           resolve();
         } else {
           const script = document.createElement('script');
-          script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w&libraries=places`;
+          script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
           script.async = true;
           script.defer = true;
           script.onload = resolve;

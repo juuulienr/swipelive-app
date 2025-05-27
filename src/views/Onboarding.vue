@@ -24,12 +24,13 @@
 
 
 <script>
-import fcm from '../utils/fcm.js';
 import LottieJSON from '../assets/lottie/swipe-up.json';
 
 export default {
   data() {
     return {
+      baseUrl: window.localStorage.getItem("baseUrl"),
+      token: window.localStorage.getItem("token"),
       notif: true,
       step1: false,
       LottieJSON: LottieJSON
@@ -38,8 +39,6 @@ export default {
   methods: {
     allowNotif() {
       this.$Haptics.impact({ style: 'medium' });
-      // fcm.onDeviceReady();
-      
       this.notif = false;
       this.step1 = true;
     },

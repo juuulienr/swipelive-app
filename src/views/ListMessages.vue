@@ -71,6 +71,7 @@
 import { useMainStore } from '../stores/useMainStore.js';
 import LottieJSON from '../assets/lottie/message.json';
 import Message from '../components/Message.vue';
+import Pusher from 'pusher-js';
 
 export default {
   name: 'ListMessages',

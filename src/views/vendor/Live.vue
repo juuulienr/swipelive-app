@@ -656,7 +656,7 @@ export default {
         'value': null,
         'isActive': true
       },
-      agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
+      agoraAppId: import.meta.env.VITE_AGORA_APP_ID,
       agoraToken: null,
       agoraChannel: null,
       uid: 0
@@ -1027,26 +1027,22 @@ export default {
 
       window.facebookConnectPlugin.api(url, ["pages_manage_posts", "pages_show_list", "public_profile", "publish_video"], async (result) => {
         console.log(result);
-        result.data.map((page, index) => {
+        result.data.forEach(page => {
           page.selected = false;
           this.pages.push(page);
         });
-      }, (error) => {
-        console.log("Failed to retrieve pages : ", error);
       });
     },
     showGroups() {
       this.isShowGroups = true;
      
-      if (this.showGroupsPage) {
-        var url = this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage;
-      } else {
-        var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
-      }
+      const apiUrl = this.showGroupsPage
+        ? this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage
+        : this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
 
-      window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
+      window.facebookConnectPlugin.api(apiUrl, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
         console.log(result);
-        result.data.map((group, index) => {
+        result.data.forEach(group => {
           group.selected = false;
           this.groups.push(group);
         });
@@ -1056,23 +1052,19 @@ export default {
             this.getAllData(result.paging.cursors.after, this.showGroupsPage);
           }
         }
-      }, (error) => {
-        console.log("Failed to retrieve groups : ", error);
       });
     },
-    async getAllData(after, showGroupsPage) {
+    async getAllData(after) {
       console.log(this.groups);
 
-      if (this.showGroupsPage) {
-        var url = this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage + "&after=" + after;
-      } else {
-        var url = this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken + "&after=" + after;
-      }
+      const apiUrl = this.showGroupsPage
+        ? this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage + "&after=" + after
+        : this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken + "&after=" + after;
 
-      window.facebookConnectPlugin.api(url, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
+      window.facebookConnectPlugin.api(apiUrl, ["publish_to_groups", "public_profile", "publish_video"], async (result) => {
         console.log(result);
         if (result.data.length > 0) {
-          result.data.map((group, index) => { 
+          result.data.map(group => { 
             group.selected = false;
             this.groups.push(group);
           });
@@ -1204,17 +1196,17 @@ export default {
        this.isProfileChecked = false;
       } else {
         if (this.isShowPages && this.pages.length > 0) {
-          this.pages.map((page, index) => { 
+          this.pages.forEach(page => { 
             page.selected = false;
           });
         }
         this.isProfileChecked = true;
       }
     },
-    onPageSelectionChanged(page, index) {
+    onPageSelectionChanged(page) {
       console.log(page);
       if (page.selected == true) {
-        this.pages.map((item, indexPage) => { 
+        this.pages.forEach(item => { 
           if (item.id !== page.id) {
             item.selected = false;
           }
@@ -1231,6 +1223,91 @@ export default {
     }, 
     showAnimation() {
       // ajouter animation
+    },
+    async loadGroups() {
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/user/api/groups",
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        this.groups = response.data;
+      } catch (error) {
+        console.error('Erreur lors du chargement des groupes:', error);
+      }
+    },
+    async loadProducts() {
+      const apiUrl = this.baseUrl + "/user/api/products";
+      try {
+        const response = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: apiUrl,
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        this.products = response.data;
+      } catch (error) {
+        console.error('Erreur lors du chargement des produits:', error);
+      }
+    },
+    updateItems() {
+      // Utilisation sans index ni item
+      this.items.forEach(() => {
+        // ... existing code ...
+      });
+    },
+    async getGroups() {
+      let apiUrl = this.showGroupsPage
+        ? this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage
+        : this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken;
+
+      try {
+        const result = await window.facebookConnectPlugin.api(apiUrl, ["publish_to_groups", "public_profile", "publish_video"]);
+        console.log(result);
+        if (result.data) {
+          result.data.forEach(group => {
+            group.selected = false;
+            this.groups.push(group);
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+      }
+    },
+
+    async loadMoreGroups(after) {
+      console.log(this.groups);
+
+      let apiUrl = this.showGroupsPage
+        ? this.fbPageIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbTokenPage + "&after=" + after
+        : this.fbIdentifier + "/groups?fields=name,picture.type(large)&access_token=" + this.fbToken + "&after=" + after;
+
+      try {
+        const result = await window.facebookConnectPlugin.api(apiUrl, ["publish_to_groups", "public_profile", "publish_video"]);
+        console.log(result);
+        if (result.data && result.data.length > 0) {
+          result.data.forEach(group => {
+            group.selected = false;
+            this.groups.push(group);
+          });
+        }
+      } catch (error) {
+        console.error('Error loading more groups:', error);
+      }
+    },
+
+    handlePageSelection(page) {
+      console.log(page);
+      if (page.selected === true) {
+        this.pages.forEach(item => {
+          if (item.id !== page.id) {
+            item.selected = false;
+          }
+        });
+      }
     },
   }
 };

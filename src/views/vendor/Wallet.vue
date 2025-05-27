@@ -213,6 +213,9 @@
 import { useMainStore } from '../../stores/useMainStore.js';
 import LottieJSON from '../../assets/lottie/success.json';
 import LottieJSON2 from '../../assets/lottie/wallet.json';
+import { Camera } from '@capacitor/camera';
+import { loadStripe } from '@stripe/stripe-js';
+const Stripe = loadStripe;
 
 export default {
   name: 'Wallet',

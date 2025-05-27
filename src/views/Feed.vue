@@ -344,7 +344,6 @@
 <script>
 import { useMainStore } from '../stores/useMainStore';
 import { useRoute } from 'vue-router';
-import fcm from '../utils/fcm.js';
 import Pusher from 'pusher-js';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
@@ -354,6 +353,7 @@ import Cart from '../components/Cart.vue';
 import LottieJSON from '../assets/lottie/live.json';
 import LottieJSON2 from '../assets/lottie/arrow.json';
 import { toRaw } from 'vue';
+import AgoraRTC from 'agora-rtc-sdk-ng';
 
 
 export default {
@@ -426,9 +426,10 @@ export default {
       http: null,
       client: null,
       remoteTracks: {},
-      agoraAppId: '0c6b099813dc4470a5b91979edb55af0',
+      agoraAppId: import.meta.env.VITE_AGORA_APP_ID,
       agoraChannel: null,
       agoraToken: null,
+      fcmToken: null,
     }
   },
   computed: {
@@ -600,7 +601,7 @@ export default {
         });
 
         // Lorsque l'utilisateur devient hors ligne (quitte le canal ou déconnexion)
-        this.client.on("user-offline", (user, reason) => {
+        this.client.on("user-offline", (user) => {
           if (user.uid === this.data[index].value.vendor.user.id) {
            if (this.data[index].type == "live") {
               this.finished[index].value = true;
@@ -949,7 +950,7 @@ export default {
         this.loadingShipping = false;
       }
     },
-    addToCart() {
+    async addToCart() {
       this.popupCheckout = false;
       if (!this.loadingShipping) {
         this.popupProduct = false;
@@ -957,10 +958,11 @@ export default {
       this.popupCart = false;
       this.popupShop = false;
 
+      let vendor;
       if (typeof this.product.vendor === "object") {
-        var vendor = this.product.vendor.id;
+        vendor = this.product.vendor.id;
       } else {
-        var vendor = this.product.vendor;
+        vendor = this.product.vendor;
       } 
 
       if (this.lineItems.length) {
@@ -1091,16 +1093,15 @@ export default {
     },
     async send() {
       this.popup = false;
-      var content = this.content;
+      const content = this.content;
       this.content = "";
 
+      let vendorData = null;
       if (this.user.vendor && this.user.vendor.pseudo) {
-        var vendor = { "pseudo": this.user.vendor.pseudo };
-      } else {
-        var vendor = null;
+        vendorData = { "pseudo": this.user.vendor.pseudo };
       }
 
-      this.comments[this.visible].value.push({ "content": content, "user": { "vendor": vendor, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
+      this.comments[this.visible].value.push({ "content": content, "user": { "vendor": vendorData, "firstname": this.user.firstname, "lastname": this.user.lastname, "picture": this.user.picture } });
       this.scrollToElement();
       
       try {
@@ -1144,20 +1145,22 @@ export default {
         this.viewers = 0;
         this.visible = 0;
 
-        result.map((element, index) => {
+        result.forEach((element, index) => {
           console.log(element);
+          let value, type;
+          
           if ("value" in element) {
-            var value = JSON.parse(element.value);
-            var type = element.type;
+            value = JSON.parse(element.value);
+            type = element.type;
           } else {
-            var value = element;
-            var type = "clip";
+            value = element;
+            type = "clip";
           }
 
-          var showElement = true;
+          let showElement = true;
 
           if (this.banned.length > 0) {
-            this.banned.map((ban, index) => {
+            this.banned.forEach(ban => {
               if (ban.id == value.id) {
                 showElement = false;
               }
@@ -1166,12 +1169,12 @@ export default {
 
           if (showElement) {
             this.data.push({ "type": type, "value": value });
-            var followers = value.vendor.user.followers;
-            var isFollower = false;
+            const followers = value.vendor.user.followers;
+            let isFollower = false;
 
             if (followers.length && this.user.following.length) {
-              followers.map((follower, index) => {
-                this.user.following.map((following, index) => {
+              followers.forEach(follower => {
+                this.user.following.forEach(following => {
                   if (follower.id == following.id) {
                     isFollower = true;
                   }
@@ -1179,7 +1182,7 @@ export default {
               });
             }
 
-            this.followers.push({ "value": value.vendor.user.followers.length });
+            this.followers.push({ "value": followers.length });
             this.following.push({ "value": isFollower });
             this.totalLikes.push({ "value": value.totalLikes });
             this.loading.push({ "value": true });
@@ -1540,7 +1543,24 @@ export default {
     },
     showAnimation() {
       // ajouter animation
-    }
+    },
+    async handleStreamError() {
+      console.error('Stream error occurred');
+    },
+    async loadVendors() {
+      try {
+        const vendorResponse = await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/user/api/vendors",
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+        this.vendors = vendorResponse.data;
+      } catch (error) {
+        console.error('Erreur lors du chargement des vendeurs:', error);
+      }
+    },
   }
 };
 </script>

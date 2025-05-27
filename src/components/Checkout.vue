@@ -290,7 +290,7 @@
 		    <div v-if="tabMap">
           <GoogleMap 
             v-if="locationMarkers.length > 0"  
-            api-key="AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w"
+            :api-key="googleApiKey"
             map-id="5227ff347d2cffb0"
             :zoom="15"
             :center="center"
@@ -436,11 +436,12 @@
 
 
 <script>
-
+/* global google */
 import { GoogleMap, AdvancedMarker } from "vue3-google-map";
 import { useMainStore } from '../stores/useMainStore.js';
 import { Stripe } from '@swipelive/capacitor-stripe';
 import { toRaw } from 'vue';
+import { loadStripe } from '@stripe/stripe-js';
 
 export default {
   name: 'Checkout',
@@ -458,7 +459,7 @@ export default {
       user: mainStore.getUser,
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      googleApiKey: 'AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w',
+      googleApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
       carriers: [],
       promotion: null,
       promotionAmount: null,
@@ -689,15 +690,16 @@ export default {
         this.loadingAddress = true;
         this.shippingAddress = true;
 
+        let url;
+        if (this.user.shippingAddresses.length) {
+        	url = this.baseUrl + "/user/api/shipping/address/edit/" + this.user.shippingAddresses[0].id;
+        } else {
+        	url = this.baseUrl + "/user/api/shipping/address";
+        }
+
         var houseNumber = this.address.split(' ', 1)[0];
         var street = this.address.split(houseNumber)[1].trim();
         var httpParams = { "address": street, "houseNumber": houseNumber, "city": this.city, "zip": this.zip, "country": this.country, "countryCode": this.countryShort, "phone": this.phone, "name": this.name, "longitude": this.center.lng.toString(), "latitude": this.center.lat.toString() };
-
-        if (this.user.shippingAddresses.length > 0) {
-        	var url = this.baseUrl + "/user/api/shipping/address/edit/" + this.user.shippingAddresses[0].id;
-        } else {
-        	var url = this.baseUrl + "/user/api/shipping/address";
-        }
 
         try {
           const response = await this.$CapacitorHttp.request({
@@ -1027,7 +1029,7 @@ export default {
           resolve();
         } else {
           const script = document.createElement('script');
-          script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w&libraries=places`;
+          script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
           script.async = true;
           script.defer = true;
           script.onload = resolve;

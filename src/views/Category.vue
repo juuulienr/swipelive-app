@@ -87,16 +87,15 @@ export default {
     Product,
   },
   data() {
-    const mainStore = useMainStore();
-
     return {
       baseUrl: window.localStorage.getItem("baseUrl"),
       token: window.localStorage.getItem("token"),
-      user: mainStore.getUser,
-      lineItems: mainStore.getLineItems,
-      categories: mainStore.getCategories,
+      products: [],
+      loading: true,
+      user: useMainStore().getUser,
+      lineItems: useMainStore().getLineItems,
+      categories: useMainStore().getCategories,
       LottieJSON: LottieJSON,
-      products: mainStore.getProductsTrending,
       id: this.$route.params.id,
       selectedCategory: null,
       popupProduct: false,
@@ -131,8 +130,6 @@ export default {
       this.$router.back();
     },
     async loadAllProducts() {
-      const mainStore = useMainStore();
-
       try {
         const response = await this.$CapacitorHttp.request({
           method: 'GET',
@@ -149,8 +146,6 @@ export default {
       }
     },
     async favoris(product) {
-      const mainStore = useMainStore();
-
       try {
         const response = await this.$CapacitorHttp.request({
           method: 'GET',
@@ -161,7 +156,7 @@ export default {
         });
 
         const updatedUser = response.data;
-        mainStore.setUser(updatedUser);
+        useMainStore().setUser(updatedUser);
         this.user = updatedUser;
       } catch (error) {
         console.error('Erreur lors de la mise à jour des favoris :', error);
@@ -185,8 +180,6 @@ export default {
       this.variant = variant;
     },
     addToCart() {
-      const mainStore = useMainStore();
-
       this.$Haptics.impact({ style: 'medium' });
       this.popupProduct = false;
 
@@ -219,11 +212,11 @@ export default {
 
         if (!exist) {
           this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
-          mainStore.setLineItems(this.lineItems);
+          useMainStore().setLineItems(this.lineItems);
         }
       } else {
         this.lineItems.push({ product: this.product, variant: this.variant, quantity: 1, vendor });
-        mainStore.setLineItems(this.lineItems);
+        useMainStore().setLineItems(this.lineItems);
       }
     }, 
     async confirmReplaceCart(vendor) {
@@ -237,8 +230,7 @@ export default {
 
         if (value) {
           this.lineItems = [{ product: this.product, variant: this.variant, quantity: 1, vendor }];
-          const mainStore = useMainStore();
-          mainStore.setLineItems(this.lineItems);
+          useMainStore().setLineItems(this.lineItems);
         } else {
           console.log('L\'utilisateur a choisi de conserver le panier existant.');
         }

@@ -66,7 +66,7 @@
 
       <div style="margin-bottom: 20px;">
         <hr style="margin: 20px 0px;">
-        <div style="margin-top: 10px; font-size: 15px; color: rgb(82, 92, 102); font-weight: 400;" v-html="product.description"></div>
+        <div style="margin-top: 10px; font-size: 15px; color: rgb(82, 92, 102); font-weight: 400; white-space: pre-line;">{{ product.description }}</div>
       </div>
       <hr>
       <div style="padding: 5px;">Échanges & Retours</div>

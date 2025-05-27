@@ -231,6 +231,7 @@ import { useMainStore } from '../stores/useMainStore';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { initializeApp } from 'firebase/app';
 import { toRaw } from 'vue';
+import { Camera } from '@capacitor/camera';
 
 export default {
   name: 'Welcome',
@@ -240,11 +241,11 @@ export default {
   },
   data() {
     const firebaseConfig = {
-      apiKey: "AIzaSyBtejKIZ7ptFeda8sFe44eG-OW2O7FBLH8",
-      authDomain: "swipe-live.firebaseapp.com",
-      projectId: "swipe-live",
-      storageBucket: "swipe-live.appspot.com",
-      appId: this.$Capacitor.getPlatform() === 'ios' ? "1:996587333677:ios:f22b03997d9ba03e9630a4" : "1:996587333677:android:f6d6b66c254a97379630a4"
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+      appId: this.$Capacitor.getPlatform() === 'ios' ? import.meta.env.VITE_FIREBASE_IOS_APP_ID : import.meta.env.VITE_FIREBASE_ANDROID_APP_ID
     };
 
     initializeApp(firebaseConfig);
@@ -425,7 +426,7 @@ export default {
         const idToken = credential?.idToken || null;
         const givenName = additionalUserInfo?.profile?.given_name || displayName?.split(' ')[0] || null;
         const familyName = additionalUserInfo?.profile?.family_name || displayName?.split(' ')[1] || null;
-        const googleId = additionalUserInfo?.profile?.id || uid;
+        const googleId = additionalUserInfo?.profile?.id || user.uid;
 
         this.loading = true;
         this.email = user.email || null;

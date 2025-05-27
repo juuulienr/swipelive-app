@@ -1,3 +1,4 @@
+/* global google */
 <template>
   <main class="my_profile1" style="padding: 0px 15px;">
     <div class="checkout__header">
@@ -134,7 +135,9 @@
 
 
 <script>
+/* global google */
 import { useMainStore } from '../stores/useMainStore';
+import { Camera } from '@capacitor/camera';
 
 export default {
   name: 'EditUser',
@@ -400,7 +403,7 @@ export default {
           resolve();
         } else {
           const script = document.createElement('script');
-          script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBrLhSgilRrPKpGtAPbbzcaIp-5L5VgE_w&libraries=places`;
+          script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
           script.async = true;
           script.defer = true;
           script.onload = resolve;

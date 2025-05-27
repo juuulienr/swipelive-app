@@ -78,6 +78,7 @@
 
 <script>
 import { useMainStore } from '../stores/useMainStore.js';
+import { Camera } from '@capacitor/camera';
 
 export default {
   name: 'Message',

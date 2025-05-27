@@ -33,6 +33,7 @@ export default {
   },
   created() {
     this.loadCategories();
+    this.created();
   },
   mounted() {
     this.ping();
@@ -50,7 +51,7 @@ export default {
     async ping() {
       if (this.user && this.token) {
         try {
-          const response = await this.$CapacitorHttp.request({
+          await this.$CapacitorHttp.request({
             method: 'GET',
             url: `${this.baseUrl}/user/api/ping`,
             headers: { Authorization: `Bearer ${this.token}` }
@@ -74,6 +75,19 @@ export default {
         } catch (error) {
           console.error("Load categories error:", error);
         }
+      }
+    },
+    async created() {
+      try {
+        await this.$CapacitorHttp.request({
+          method: 'GET',
+          url: this.baseUrl + "/user/api/profile",
+          headers: {
+            Authorization: "Bearer " + this.token,
+          },
+        });
+      } catch (error) {
+        console.log(error);
       }
     }
   }

@@ -111,6 +111,7 @@ export default {
       popupProduct: false,
       product: null,
       variant: null,
+      stripeAccount: false,
     };
   },
   async created() {
@@ -143,7 +144,13 @@ export default {
               Authorization: `Bearer ${this.token}`,
             },
           });
-          this.user = response.data;
+          const userData = response.data;
+          const vendor = userData.vendor;
+          
+          if (vendor && vendor.stripe) {
+            this.stripeAccount = true;
+          }
+          this.user = userData;
           mainStore.setUser(userData);
         } catch (error) {
           console.error('Erreur lors de la récupération du profil utilisateur :', error);
@@ -285,6 +292,7 @@ export default {
         });
 
         if (value) {
+          const vendor = typeof this.product.vendor === "object" ? this.product.vendor.id : this.product.vendor;
           this.lineItems = [
             {
               product: this.product,

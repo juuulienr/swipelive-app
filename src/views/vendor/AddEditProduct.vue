@@ -310,9 +310,9 @@
 
 
 <script>
-
-import LottieJSON from '../../assets/lottie/upload.json';
 import { useMainStore } from '../../stores/useMainStore.js';
+import { Camera } from '@capacitor/camera';
+import LottieJSON from '../../assets/lottie/upload.json';
 
 export default {
   name: 'AddEditProduct',
@@ -405,7 +405,7 @@ export default {
     if (this.productId && this.productId == mainStore.product.id) {
       this.product = mainStore.product;
       if (this.product.options) {
-        this.product.options.map((element, index) => { 
+        this.product.options.map((element) => { 
           if (element.position == 1) {
             this.inputNameOption1 = element.name;
             this.valuesOption1 = element.data;
@@ -422,7 +422,6 @@ export default {
   },
   methods: {
     async submit() {
-      const mainStore = useMainStore();
       this.errorTitle = false;
       this.errorDescription = false;
       this.errorCategory = false;
@@ -495,8 +494,6 @@ export default {
         };
 
         try {
-          const mainStore = useMainStore();
-
           if (this.productId) {
             const response = await this.$CapacitorHttp.request({
               method: 'PUT',
@@ -508,7 +505,7 @@ export default {
               data: httpParams,
             });
 
-            mainStore.setUser(response.data);
+            this.$store.commit('setUser', response.data);
             await this.$Toast.show({
               text: "L'article a bien été modifié !",
               duration: 'long',
@@ -526,7 +523,7 @@ export default {
               data: httpParams,
             });
 
-            mainStore.setUser(response.data);
+            this.$store.commit('setUser', response.data);
             await this.$Toast.show({
               text: "L'article a bien été ajouté !",
               duration: 'long',
@@ -571,10 +568,8 @@ export default {
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         encodingType: Camera.EncodingType.JPEG,
         mediaType: Camera.MediaType.PICTURE,
-        allowEdit: false,
         targetHeight: 750,
         targetWidth: 750,
-        allowEdit: false,
         correctOrientation: true
       }
       this.uploadImage(options);
@@ -588,7 +583,6 @@ export default {
         mediaType: Camera.MediaType.PICTURE,
         targetHeight: 750,
         targetWidth: 750,
-        allowEdit: false,
         correctOrientation: true,
       }
       this.uploadImage(options);
@@ -601,7 +595,7 @@ export default {
           this.loadingImg = true;
 
           try {
-            if (Capacitor.getPlatform() === "android" || Capacitor.getPlatform() === "ios") {
+            if (this.$Capacitor.getPlatform() === "android" || this.$Capacitor.getPlatform() === "ios") {
               const formData = new FormData();
               formData.append("picture", imageUri);
 
@@ -660,8 +654,6 @@ export default {
       }
     },
     async deleteProduct() {
-      const mainStore = useMainStore();
-
       if (this.productId && !this.loadingDelete) {
         this.loadingDelete = true;
 
@@ -672,8 +664,7 @@ export default {
             headers: { Authorization: `Bearer ${this.token}` },
           });
 
-          mainStore.setUser(response.data);
-
+          this.$store.commit('setUser', response.data);
           await this.$Toast.show({
             text: "L'article a bien été supprimé !",
             duration: 'long',
@@ -907,8 +898,8 @@ export default {
 
         if (this.valuesOption2.length && !this.errorNameOption2 && !this.errorCompareAtPrice) {
           this.product.options.push({ "name": this.inputNameOption2, "data": this.valuesOption2, "position": 2 });
-          this.valuesOption1.map((element, index) => {
-            this.valuesOption2.map((element2, index2) => {
+          this.valuesOption1.forEach(element => {
+            this.valuesOption2.forEach(element2 => {
               array.push({ "title": element + " / " + element2, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": count, "option1": element, "option2": element2, "weight" : this.product.weight, "weightUnit" : this.product.weightUnit });
               count++;
             });
@@ -923,8 +914,9 @@ export default {
           });
 
         } else {
-          this.valuesOption1.map((element, index) => {
-            array.push({ "title": element, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": index + 1, "option1": element, "option2": "", "weight" : this.product.weight, "weightUnit" : this.product.weightUnit });
+          this.valuesOption1.forEach(element => {
+            array.push({ "title": element, "price": this.product.price, "compareAtPrice": this.product.compareAtPrice, "quantity": 0, "position": count, "option1": element, "option2": "", "weight" : this.product.weight, "weightUnit" : this.product.weightUnit });
+            count++;
           });
 
           array.map((element, index) => {
