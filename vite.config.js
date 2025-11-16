@@ -11,7 +11,22 @@ export default defineConfig({
   },
   server: {
     port: 8200,
-    sourcemap: true, 
+    sourcemap: true,
+    fs: {
+      strict: true,
+      allow: ['.'],
+      deny: [
+        '**/.env',
+        '**/.env.*',
+        '**/node_modules/**',
+        '**/.git/**',
+        '**/.DS_Store',
+        '**/package-lock.json',
+        '**/yarn.lock',
+        '**/pnpm-lock.yaml',
+      ],
+    },
+    host: false,
   },
   build: {
     outDir: 'dist',
