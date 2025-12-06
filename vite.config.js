@@ -13,12 +13,11 @@ export default defineConfig({
     port: 8200,
     sourcemap: true,
     fs: {
-      strict: true,
+      strict: false,
       allow: ['.'],
       deny: [
         '**/.env',
         '**/.env.*',
-        '**/node_modules/**',
         '**/.git/**',
         '**/.DS_Store',
         '**/package-lock.json',

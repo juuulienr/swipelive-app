@@ -346,7 +346,6 @@ import { useMainStore } from '../stores/useMainStore';
 import { useRoute } from 'vue-router';
 import Pusher from 'pusher-js';
 import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
 import Checkout from '../components/Checkout.vue';
 import Product from '../components/Product.vue';
 import Cart from '../components/Cart.vue';
@@ -1550,6 +1549,8 @@ export default {
 </script>
 
 <style>
+@import 'video.js/dist/video-js.css';
+
 .feed iframe {
   height: 100vh !important;
 }
