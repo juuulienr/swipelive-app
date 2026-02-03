@@ -55,7 +55,7 @@
     "vue3-touch-events": "^4.2.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.0.1",
+    "@capacitor/cli": "^8.0.2",
     "@eslint/js": "^9.27.0",
     "@vitejs/plugin-vue": "^5.1.5",
     "@vue/devtools": "^8.0.3",
@@ -63,10 +63,10 @@
     "eslint-plugin-vue": "^10.1.0",
     "globals": "^16.1.0",
     "patch-package": "^8.0.0",
-    "tar": "^7.5.4",
+    "tar": "^7.5.7",
     "vue-eslint-parser": "^10.2.0"
   },
   "overrides": {
-    "tar": "^7.5.4"
+    "tar": "^7.5.7"
   }
 }
